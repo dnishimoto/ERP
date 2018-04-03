@@ -119,6 +119,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AddressBookRepository.cs" />
+    <Compile Include="Services\UnitOfWork.cs" />
     <EmbeddedResource Include="AddressBookForm.resx">
       <DependentUpon>AddressBookForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AddressBook.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -19,26 +20,16 @@ namespace AddressBook
 
         private void cmdSearch_Click(object sender, EventArgs e)
         {
-            List<EntityFramework.AddressBook> resultList = new List<EntityFramework.AddressBook>();
-            //UDCRepository udcRepository = new UDCRepository();
-            //long xRefId = udcRepository.GetUdcByKeyCode(keyCode);
-            using (var db = new EntityFramework.listensoftwareDBEntities())
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            Task<List<EntityFramework.AddressBook>> resultListTask = Task.Run <List<EntityFramework.AddressBook>>(async() =>await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
+
+            foreach (var item in resultListTask.Result)
             {
-                var query = from b in db.AddressBooks
-                            //.Where(b => b.PeopleXrefId == xRefId)
-                            select b;
-
-                query = query.OrderBy(s => s.Name);
-
-
-                foreach (var item in query)
-                {
-                    resultList.Add(item);
-                }
-
-
+                Console.WriteLine($"{item.Name}");
             }
-            
+
+            MessageBox.Show("reached");
         }
     }
 }
