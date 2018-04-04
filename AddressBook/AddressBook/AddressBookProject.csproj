@@ -63,30 +63,6 @@
     <Compile Include="AddressBookForm.Designer.cs">
       <DependentUpon>AddressBookForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\AcctPay.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AcctRec.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AddressBook.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AddressTypeXRef.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ChartOfAcct.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Contract.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\GeneralLedger.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Inventory.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EntityFramework\LssModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -101,21 +77,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>LssModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\POQuote.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\PurchaseOrder.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ScheduleEvent.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ServiceInformation.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\UDC.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
