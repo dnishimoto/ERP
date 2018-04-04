@@ -22,7 +22,7 @@ namespace AddressBook
         {
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            Task<List<EntityFramework.AddressBook>> resultListTask = Task.Run <List<EntityFramework.AddressBook>>(async() =>await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
+            Task<List<Millennium.EntityFramework.AddressBook>> resultListTask = Task.Run <List<Millennium.EntityFramework.AddressBook>>(async() =>await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
 
             foreach (var item in resultListTask.Result)
             {

@@ -10,12 +10,12 @@ namespace AddressBook.Services
 {
     public class AddressBookRepository
     {
-        public async Task<List<EntityFramework.AddressBook>> GetAddressBooks(string keyCode)
+        public async Task<List<Millennium.EntityFramework.AddressBook>> GetAddressBooks(string keyCode)
         {
             //List<EntityFramework.AddressBook> resultList = new List<EntityFramework.AddressBook>();
             //UDCRepository udcRepository = new UDCRepository();
             //long xRefId = udcRepository.GetUdcByKeyCode(keyCode);
-            using (var db = new EntityFramework.listensoftwareDBEntities())
+            using (var db = new Millennium.EntityFramework.Entities())
             {
                 /*
                 var query = from a in db.AddressBooks
@@ -24,13 +24,13 @@ namespace AddressBook.Services
                             select a;
                             */
 
-                Task<List<EntityFramework.AddressBook>> resultList = (from a in db.AddressBooks
+                Task<List<Millennium.EntityFramework.AddressBook>> resultList = (from a in db.AddressBooks
                                                                       join b in db.UDCs on a.PeopleXrefId equals b.XRefId
                                                                       where b.KeyCode == keyCode
                                                                       orderby a.Name
                                                                       select a
 
-                    ).ToListAsync<EntityFramework.AddressBook>();
+                    ).ToListAsync<Millennium.EntityFramework.AddressBook>();
 
                 //query = query.OrderBy(a => a.Name);
 
