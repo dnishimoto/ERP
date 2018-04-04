@@ -1,4 +1,4 @@
-﻿using AddressBook.Services;
+﻿using Millennium.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Millennium.EntityFramework;
 
-namespace AddressBook
+namespace Millennium
 {
     public partial class AddressBookForm : Form
     {
@@ -22,7 +23,7 @@ namespace AddressBook
         {
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            Task<List<Millennium.EntityFramework.AddressBook>> resultListTask = Task.Run <List<Millennium.EntityFramework.AddressBook>>(async() =>await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
+            Task<List<AddressBook>> resultListTask = Task.Run <List<AddressBook>>(async() =>await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
 
             foreach (var item in resultListTask.Result)
             {
@@ -35,7 +36,9 @@ namespace AddressBook
                 }
                 */
             }
-
+      
+            Task<AddressBook> resultTask2 = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetAddressBook(1));
+            Console.WriteLine($"{resultTask2.Result.FirstName}");
             MessageBox.Show("reached");
         }
     }

@@ -4,45 +4,65 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Millennium.EntityFramework;
 
 
-namespace AddressBook.Services
+namespace Millennium.Services
 {
     public class AddressBookRepository
     {
-        public async Task<List<Millennium.EntityFramework.AddressBook>> GetAddressBooks(string keyCode)
+        public void UpdateAddressBook(Millennium.EntityFramework.AddressBook addressBook)
         {
-            //List<EntityFramework.AddressBook> resultList = new List<EntityFramework.AddressBook>();
-            //UDCRepository udcRepository = new UDCRepository();
-            //long xRefId = udcRepository.GetUdcByKeyCode(keyCode);
-            using (var db = new Millennium.EntityFramework.Entities())
+            using (var db = new Entities())
             {
-                /*
-                var query = from a in db.AddressBooks
-                            join b in db.UDCs on a.PeopleXrefId equals b.XRefId
-                            where b.KeyCode == keyCode
-                            select a;
-                            */
+                db.Entry(addressBook).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+        }
 
-                Task<List<Millennium.EntityFramework.AddressBook>> resultList = (from a in db.AddressBooks
+
+        public void DeleteAddressBook(long paramAddressId)
+        {
+            using (var db = new Entities())
+            {
+                var addressBookDelete = db.AddressBooks.Single(e => e.AddressId == paramAddressId);
+
+                db.AddressBooks.Remove(addressBookDelete);
+                db.SaveChanges();
+            }
+        }
+        
+        public void AddAddressBook(AddressBook addressBook)
+        {
+            using (var db = new Entities())
+            {
+                db.AddressBooks.Add(addressBook);
+                db.SaveChanges();
+            }
+        }
+        public async Task<AddressBook> GetAddressBook(int addressId)
+        {
+            using (var db = new Entities())
+            {
+                Task<Millennium.EntityFramework.AddressBook> result = db.AddressBooks.FindAsync(addressId);
+                return await result;
+            }
+            
+        }
+        public async Task<List<AddressBook>> GetAddressBooks(string keyCode)
+        {
+            using (var db = new Entities())
+            {
+
+                Task<List<AddressBook>> resultList = (from a in db.AddressBooks
                                                                       join b in db.UDCs on a.PeopleXrefId equals b.XRefId
                                                                       where b.KeyCode == keyCode
                                                                       orderby a.Name
                                                                       select a
 
-                    ).ToListAsync<Millennium.EntityFramework.AddressBook>();
+                    ).ToListAsync<AddressBook>();
 
-                //query = query.OrderBy(a => a.Name);
-
-
-                /*foreach (var item in query)
-                {
-                    resultList.Add(item);
-                }
-                */
-
-                return await resultList;
-
+                    return await resultList;
 
             }
         }
