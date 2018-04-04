@@ -27,6 +27,13 @@ namespace AddressBook
             foreach (var item in resultListTask.Result)
             {
                 Console.WriteLine($"{item.Name}");
+                /*
+                foreach (var item2 in item.ScheduleEvents)
+                {
+                    Console.WriteLine($"{item2.EventDateTime}");
+
+                }
+                */
             }
 
             MessageBox.Show("reached");
