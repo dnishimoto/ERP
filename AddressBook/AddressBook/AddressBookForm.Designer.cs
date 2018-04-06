@@ -1,4 +1,4 @@
-﻿namespace AddressBook
+﻿namespace Millennium
 {
     partial class AddressBookForm
     {

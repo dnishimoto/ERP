@@ -7,13 +7,20 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntityFramework
+namespace Millennium.EntityFramework
 {
     using System;
     using System.Collections.Generic;
     
     public partial class ChartOfAcct
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ChartOfAcct()
+        {
+            this.Budgets = new HashSet<Budget>();
+            this.GeneralLedgers = new HashSet<GeneralLedger>();
+        }
+    
         public long AccountId { get; set; }
         public string Location { get; set; }
         public string BusUnit { get; set; }
@@ -22,5 +29,12 @@ namespace EntityFramework
         public string Account { get; set; }
         public string Description { get; set; }
         public string CompanyNumber { get; set; }
+        public string GenCode { get; set; }
+        public string SubCode { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Budget> Budgets { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
     }
 }

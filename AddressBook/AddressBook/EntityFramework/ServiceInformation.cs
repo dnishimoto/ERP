@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntityFramework
+namespace Millennium.EntityFramework
 {
     using System;
     using System.Collections.Generic;

@@ -12,23 +12,26 @@ namespace Millennium.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class Contract
+    public partial class BudgetRange
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Contract()
+        public BudgetRange()
         {
-            this.ServiceInformations = new HashSet<ServiceInformation>();
+            this.Budgets = new HashSet<Budget>();
         }
     
-        public long ContractId { get; set; }
-        public Nullable<long> AddressId { get; set; }
-        public Nullable<long> ServiceTypeXRefId { get; set; }
+        public long RangeId { get; set; }
         public Nullable<System.DateTime> StartDate { get; set; }
         public Nullable<System.DateTime> EndDate { get; set; }
-        public Nullable<decimal> Cost { get; set; }
-        public Nullable<decimal> RemainingBalance { get; set; }
+        public string Location { get; set; }
+        public string GenCode { get; set; }
+        public string SubCode { get; set; }
+        public string SubsidiaryAcct { get; set; }
+        public string Company { get; set; }
+        public string BusinessUnit { get; set; }
+        public string Subsidiary { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
+        public virtual ICollection<Budget> Budgets { get; set; }
     }
 }

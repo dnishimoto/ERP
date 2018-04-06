@@ -12,19 +12,17 @@ namespace Millennium.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class GeneralLedger
+    public partial class Budget
     {
-        public long Id { get; set; }
-        public long DocNumber { get; set; }
-        public string DocType { get; set; }
-        public decimal Amount { get; set; }
-        public string LedgerType { get; set; }
-        public System.DateTime GLDate { get; set; }
-        public long AccountId { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-        public long AddressId { get; set; }
-        public string Comment { get; set; }
+        public long BudgetId { get; set; }
+        public Nullable<decimal> BudgetHours { get; set; }
+        public Nullable<decimal> BudgetAmount { get; set; }
+        public Nullable<decimal> ActualHours { get; set; }
+        public Nullable<decimal> ActualAmount { get; set; }
+        public Nullable<long> AccountId { get; set; }
+        public Nullable<long> RangeId { get; set; }
     
+        public virtual BudgetRange BudgetRange { get; set; }
         public virtual ChartOfAcct ChartOfAcct { get; set; }
     }
 }

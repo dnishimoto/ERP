@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntityFramework
+namespace Millennium.EntityFramework
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class listensoftwareDBEntities : DbContext
+    public partial class Entities : DbContext
     {
-        public listensoftwareDBEntities()
-            : base("name=listensoftwareDBEntities")
+        public Entities()
+            : base("name=Entities")
         {
         }
     
@@ -29,10 +29,13 @@ namespace EntityFramework
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
         public virtual DbSet<AddressTypeXRef> AddressTypeXRefs { get; set; }
+        public virtual DbSet<Budget> Budgets { get; set; }
+        public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
         public virtual DbSet<ChartOfAcct> ChartOfAccts { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
+        public virtual DbSet<ItemMaster> ItemMasters { get; set; }
         public virtual DbSet<POQuote> POQuotes { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<ScheduleEvent> ScheduleEvents { get; set; }

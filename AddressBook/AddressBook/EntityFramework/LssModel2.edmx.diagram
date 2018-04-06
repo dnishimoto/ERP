@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5c3bd382945d4465bff5a01048b63744" Name="Diagram1">
+        <EntityTypeShape EntityType="listensoftwareDBModel.AcctPay" Width="1.5" PointX="7.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.AcctRec" Width="1.5" PointX="5.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.AddressBook" Width="1.5" PointX="0.75" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.AddressTypeXRef" Width="1.5" PointX="9.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.Budget" Width="1.5" PointX="11" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.BudgetRange" Width="1.5" PointX="8.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.ChartOfAcct" Width="1.5" PointX="8.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.Contract" Width="1.5" PointX="0.75" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.GeneralLedger" Width="1.5" PointX="11" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.Inventory" Width="1.5" PointX="5" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.ItemMaster" Width="1.5" PointX="2.75" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.POQuote" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.PurchaseOrder" Width="1.5" PointX="11.75" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.ScheduleEvent" Width="1.5" PointX="6" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.ServiceInformation" Width="1.5" PointX="3" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.UDC" Width="1.5" PointX="0.75" PointY="13.75" IsExpanded="true" />
+        <AssociationConnector Association="listensoftwareDBModel.FK__ScheduleE__Custo__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK__ScheduleE__Emplo__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK__ServiceIn__Addre__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_Vendor" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_Budget_BudgetRange" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_Budget_ChartOfAccts" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_GeneralLedger_ChartOfAccts" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK__ServiceIn__Contr__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_Inventory_ItemMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK__ScheduleE__Servi__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK__ServiceIn__Servi__2A164134" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

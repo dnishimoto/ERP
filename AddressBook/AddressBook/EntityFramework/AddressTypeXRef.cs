@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntityFramework
+namespace Millennium.EntityFramework
 {
     using System;
     using System.Collections.Generic;
@@ -16,6 +16,6 @@ namespace EntityFramework
     {
         public long ID { get; set; }
         public string EntityType { get; set; }
-        public Nullable<int> AddressId { get; set; }
+        public Nullable<long> AddressId { get; set; }
     }
 }

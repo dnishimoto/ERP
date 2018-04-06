@@ -7,8 +7,8 @@
     <ProjectGuid>{CD55CFBB-18A8-4C6C-9161-39BD9B6E1868}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AddressBook</RootNamespace>
-    <AssemblyName>AddressBook</AssemblyName>
+    <RootNamespace>Millennium</RootNamespace>
+    <AssemblyName>Millennium</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -34,12 +34,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -64,61 +62,73 @@
       <DependentUpon>AddressBookForm.cs</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AcctPay.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AcctRec.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AddressBook.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AddressTypeXRef.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Budget.cs">
+      <DependentUpon>LssModel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\BudgetRange.cs">
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ChartOfAcct.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Contract.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\GeneralLedger.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Inventory.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\LssModel.Context.cs">
+    <Compile Include="EntityFramework\ItemMaster.cs">
+      <DependentUpon>LssModel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\LssModel2.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LssModel.Context.tt</DependentUpon>
+      <DependentUpon>LssModel2.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\LssModel.cs">
+    <Compile Include="EntityFramework\LssModel2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\LssModel.Designer.cs">
+    <Compile Include="EntityFramework\LssModel2.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LssModel.edmx</DependentUpon>
+      <DependentUpon>LssModel2.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\POQuote.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\PurchaseOrder.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ScheduleEvent.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ServiceInformation.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\UDC.cs">
-      <DependentUpon>LssModel.tt</DependentUpon>
+      <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AddressBookRepository.cs" />
+    <Compile Include="Services\Repository.cs" />
+    <Compile Include="Services\UnitOfWork.cs" />
     <EmbeddedResource Include="AddressBookForm.resx">
       <DependentUpon>AddressBookForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -130,13 +140,15 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <EntityDeploy Include="EntityFramework\LssModel.edmx">
+    <EntityDeploy Include="EntityFramework\LssModel2.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LssModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>LssModel2.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="EntityFramework\LssModel.edmx.diagram">
-      <DependentUpon>LssModel.edmx</DependentUpon>
+    <None Include="App.config" />
+    <None Include="EntityFramework\LssModel2.edmx.diagram">
+      <DependentUpon>LssModel2.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -150,18 +162,15 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="EntityFramework\LssModel.Context.tt">
+    <Content Include="EntityFramework\LssModel2.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LssModel.edmx</DependentUpon>
-      <LastGenOutput>LssModel.Context.cs</LastGenOutput>
+      <DependentUpon>LssModel2.edmx</DependentUpon>
+      <LastGenOutput>LssModel2.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="EntityFramework\LssModel.tt">
+    <Content Include="EntityFramework\LssModel2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LssModel.edmx</DependentUpon>
-      <LastGenOutput>LssModel.cs</LastGenOutput>
+      <DependentUpon>LssModel2.edmx</DependentUpon>
+      <LastGenOutput>LssModel2.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

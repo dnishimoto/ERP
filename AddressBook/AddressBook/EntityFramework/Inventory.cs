@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EntityFramework
+namespace Millennium.EntityFramework
 {
     using System;
     using System.Collections.Generic;
@@ -22,6 +22,9 @@ namespace EntityFramework
         public string SKU { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<decimal> ExtendedPrice { get; set; }
-        public Nullable<long> AccountId { get; set; }
+        public Nullable<long> DistributionAccountId { get; set; }
+        public Nullable<long> ReceivingAccountId { get; set; }
+    
+        public virtual ItemMaster ItemMaster { get; set; }
     }
 }

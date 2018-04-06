@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Millennium.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Millennium.EntityFramework;
 
-namespace AddressBook
+namespace Millennium
 {
     public partial class AddressBookForm : Form
     {
@@ -19,26 +21,25 @@ namespace AddressBook
 
         private void cmdSearch_Click(object sender, EventArgs e)
         {
-            List<EntityFramework.AddressBook> resultList = new List<EntityFramework.AddressBook>();
-            //UDCRepository udcRepository = new UDCRepository();
-            //long xRefId = udcRepository.GetUdcByKeyCode(keyCode);
-            using (var db = new EntityFramework.listensoftwareDBEntities())
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            Task<List<AddressBook>> resultListTask = Task.Run <List<AddressBook>>(async() =>await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
+
+            foreach (var item in resultListTask.Result)
             {
-                var query = from b in db.AddressBooks
-                            //.Where(b => b.PeopleXrefId == xRefId)
-                            select b;
-
-                query = query.OrderBy(s => s.Name);
-
-
-                foreach (var item in query)
+                Console.WriteLine($"{item.Name}");
+                /*
+                foreach (var item2 in item.ScheduleEvents)
                 {
-                    resultList.Add(item);
+                    Console.WriteLine($"{item2.EventDateTime}");
+
                 }
-
-
+                */
             }
-            
+      
+            Task<AddressBook> resultTask2 = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetObjectAsync(1));
+            Console.WriteLine($"{resultTask2.Result.FirstName}");
+            MessageBox.Show("reached");
         }
     }
 }
