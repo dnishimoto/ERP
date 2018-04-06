@@ -37,7 +37,7 @@ namespace Millennium
                 */
             }
       
-            Task<AddressBook> resultTask2 = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetAddressBook(1));
+            Task<AddressBook> resultTask2 = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetObjectAsync(1));
             Console.WriteLine($"{resultTask2.Result.FirstName}");
             MessageBox.Show("reached");
         }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Millennium.EntityFramework;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +10,16 @@ namespace Millennium.Services
 {
     public class UnitOfWork
     {
-        public AddressBookRepository addressBookRepository = new AddressBookRepository();
+        public AddressBookRepository addressBookRepository = null;
+        DbContext db = new Entities();
+        public UnitOfWork()
+        {
+            addressBookRepository=new AddressBookRepository(db);
+    
+        }
+        public void CommitChanges()
+        {
+            db.SaveChanges();
+        }
     }
 }

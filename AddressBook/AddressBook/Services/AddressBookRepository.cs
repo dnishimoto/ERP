@@ -9,53 +9,20 @@ using Millennium.EntityFramework;
 
 namespace Millennium.Services
 {
-    public class AddressBookRepository
+    public class AddressBookRepository: Repository<AddressBook>
     {
-        public void UpdateAddressBook(Millennium.EntityFramework.AddressBook addressBook)
+        Entities _dbContext;
+        public AddressBookRepository(DbContext db):base(db)
         {
-            using (var db = new Entities())
-            {
-                db.Entry(addressBook).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
-            }
-        }
-
-
-        public void DeleteAddressBook(long paramAddressId)
-        {
-            using (var db = new Entities())
-            {
-                var addressBookDelete = db.AddressBooks.Single(e => e.AddressId == paramAddressId);
-
-                db.AddressBooks.Remove(addressBookDelete);
-                db.SaveChanges();
-            }
+            _dbContext = (Entities) db;
         }
         
-        public void AddAddressBook(AddressBook addressBook)
-        {
-            using (var db = new Entities())
-            {
-                db.AddressBooks.Add(addressBook);
-                db.SaveChanges();
-            }
-        }
-        public async Task<AddressBook> GetAddressBook(int addressId)
-        {
-            using (var db = new Entities())
-            {
-                Task<Millennium.EntityFramework.AddressBook> result = db.AddressBooks.FindAsync(addressId);
-                return await result;
-            }
-            
-        }
         public async Task<List<AddressBook>> GetAddressBooks(string keyCode)
         {
-            using (var db = new Entities())
-            {
 
-                Task<List<AddressBook>> resultList = (from a in db.AddressBooks
-                                                                      join b in db.UDCs on a.PeopleXrefId equals b.XRefId
+
+                Task<List<AddressBook>> resultList = (from a in _dbContext.AddressBooks
+                                                                      join b in _dbContext.UDCs on a.PeopleXrefId equals b.XRefId
                                                                       where b.KeyCode == keyCode
                                                                       orderby a.Name
                                                                       select a
@@ -64,7 +31,7 @@ namespace Millennium.Services
 
                     return await resultList;
 
-            }
+
         }
     }
 }
