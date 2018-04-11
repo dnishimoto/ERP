@@ -95,6 +95,8 @@
           <Property Name="ActualAmount" Type="decimal" Precision="18" Scale="4" />
           <Property Name="AccountId" Type="bigint" />
           <Property Name="RangeId" Type="bigint" />
+          <Property Name="ProjectedHours" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="ProjectedAmount" Type="decimal" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="BudgetRange">
           <Key>
@@ -110,6 +112,7 @@
           <Property Name="Company" Type="varchar" MaxLength="10" />
           <Property Name="BusinessUnit" Type="varchar" MaxLength="10" />
           <Property Name="Subsidiary" Type="varchar" MaxLength="10" />
+          <Property Name="AccountId" Type="bigint" />
         </EntityType>
         <EntityType Name="ChartOfAccts">
           <Key>
@@ -125,6 +128,7 @@
           <Property Name="CompanyNumber" Type="varchar" MaxLength="10" />
           <Property Name="GenCode" Type="varchar" MaxLength="3" />
           <Property Name="SubCode" Type="varchar" MaxLength="3" />
+          <Property Name="ObjectNumber" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -167,6 +171,20 @@
           <Property Name="ExtendedPrice" Type="money" />
           <Property Name="DistributionAccountId" Type="bigint" />
           <Property Name="ReceivingAccountId" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InvoiceNumber" Type="varchar" MaxLength="20" />
+          <Property Name="InvoiceDate" Type="date" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BillToAddressBook" Type="bigint" />
+          <Property Name="InvoiceDescription" Type="varchar" MaxLength="2000" />
+          <Property Name="TaxAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="PaymentDueDate" Type="date" />
+          <Property Name="PaymentTerms" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="ItemMaster">
           <Key>
@@ -214,6 +232,31 @@
           <Property Name="PONumber" Type="varchar" MaxLength="50" />
           <Property Name="Quantity" Type="int" />
           <Property Name="Unit" Type="nchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SalesOrder">
+          <Key>
+            <PropertyRef Name="SaleOrderId" />
+          </Key>
+          <Property Name="SaleOrderId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="OrderNumber" Type="varchar" MaxLength="20" />
+          <Property Name="OrderType" Type="varchar" MaxLength="10" />
+          <Property Name="CustomerAddressBook" Type="bigint" />
+          <Property Name="BillToAddressBook" Type="bigint" />
+          <Property Name="DeliveredToAddressBook" Type="bigint" />
+          <Property Name="ShippedToAddressBook" Type="bigint" />
+          <Property Name="InvoiceId" Type="bigint" />
+          <Property Name="TakenBy" Type="nchar" MaxLength="10" />
+          <Property Name="UnitOfMeasure" Type="nchar" MaxLength="10" />
+          <Property Name="FreightAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CarrierAddressBook" Type="bigint" />
+          <Property Name="BuyerAddressBook" Type="bigint" />
+          <Property Name="PaymentInstrument" Type="nchar" MaxLength="10" />
+          <Property Name="PaymentTerms" Type="varchar" MaxLength="10" />
+          <Property Name="TransactionDate" Type="date" />
+          <Property Name="ScheduledPickupDate" Type="datetime" />
+          <Property Name="ActualPickupDate" Type="datetime" />
         </EntityType>
         <EntityType Name="ScheduleEvent">
           <Key>
@@ -349,6 +392,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_BudgetRange_ChartOfAccts">
+          <End Role="ChartOfAccts" Type="Self.ChartOfAccts" Multiplicity="0..1" />
+          <End Role="BudgetRange" Type="Self.BudgetRange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChartOfAccts">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="BudgetRange">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Customer">
           <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="1" />
           <End Role="POQuote" Type="Self.POQuote" Multiplicity="*" />
@@ -408,9 +463,11 @@
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeneralLedger" EntityType="Self.GeneralLedger" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemMaster" EntityType="Self.ItemMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POQuote" EntityType="Self.POQuote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SalesOrder" EntityType="Self.SalesOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScheduleEvent" EntityType="Self.ScheduleEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceInformation" EntityType="Self.ServiceInformation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UDC" EntityType="Self.UDC" Schema="dbo" store:Type="Tables" />
@@ -445,6 +502,10 @@
           <AssociationSet Name="FK_Budget_ChartOfAccts" Association="Self.FK_Budget_ChartOfAccts">
             <End Role="ChartOfAccts" EntitySet="ChartOfAccts" />
             <End Role="Budget" EntitySet="Budget" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetRange_ChartOfAccts" Association="Self.FK_BudgetRange_ChartOfAccts">
+            <End Role="ChartOfAccts" EntitySet="ChartOfAccts" />
+            <End Role="BudgetRange" EntitySet="BudgetRange" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer" Association="Self.FK_Customer">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -564,6 +625,8 @@
           <Property Name="RangeId" Type="Int64" />
           <NavigationProperty Name="BudgetRange" Relationship="Self.FK_Budget_BudgetRange" FromRole="Budget" ToRole="BudgetRange" />
           <NavigationProperty Name="ChartOfAcct" Relationship="Self.FK_Budget_ChartOfAccts" FromRole="Budget" ToRole="ChartOfAccts" />
+          <Property Name="ProjectedHours" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="ProjectedAmount" Type="Decimal" Precision="18" Scale="4" />
         </EntityType>
         <EntityType Name="BudgetRange">
           <Key>
@@ -580,6 +643,8 @@
           <Property Name="BusinessUnit" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Subsidiary" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Budgets" Relationship="Self.FK_Budget_BudgetRange" FromRole="BudgetRange" ToRole="Budget" />
+          <Property Name="AccountId" Type="Int64" />
+          <NavigationProperty Name="ChartOfAcct" Relationship="listensoftwareDBModel.FK_BudgetRange_ChartOfAccts" FromRole="BudgetRange" ToRole="ChartOfAcct" />
         </EntityType>
         <EntityType Name="ChartOfAcct">
           <Key>
@@ -597,6 +662,8 @@
           <Property Name="SubCode" Type="String" MaxLength="3" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Budgets" Relationship="Self.FK_Budget_ChartOfAccts" FromRole="ChartOfAccts" ToRole="Budget" />
           <NavigationProperty Name="GeneralLedgers" Relationship="Self.FK_GeneralLedger_ChartOfAccts" FromRole="ChartOfAccts" ToRole="GeneralLedger" />
+          <NavigationProperty Name="BudgetRanges" Relationship="listensoftwareDBModel.FK_BudgetRange_ChartOfAccts" FromRole="ChartOfAcct" ToRole="BudgetRange" />
+          <Property Name="ObjectNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -948,7 +1015,64 @@
             <End Role="UDC" EntitySet="UDCs" />
             <End Role="ServiceInformation" EntitySet="ServiceInformations" />
           </AssociationSet>
+          <AssociationSet Name="FK_BudgetRange_ChartOfAccts" Association="listensoftwareDBModel.FK_BudgetRange_ChartOfAccts">
+            <End Role="ChartOfAcct" EntitySet="ChartOfAccts" />
+            <End Role="BudgetRange" EntitySet="BudgetRanges" />
+          </AssociationSet>
+          <EntitySet Name="SalesOrders" EntityType="listensoftwareDBModel.SalesOrder" />
+          <EntitySet Name="Invoices" EntityType="listensoftwareDBModel.Invoice" />
         </EntityContainer>
+        <Association Name="FK_BudgetRange_ChartOfAccts">
+          <End Type="listensoftwareDBModel.ChartOfAcct" Role="ChartOfAcct" Multiplicity="0..1" />
+          <End Type="listensoftwareDBModel.BudgetRange" Role="BudgetRange" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChartOfAcct">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="BudgetRange">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SalesOrder">
+          <Key>
+            <PropertyRef Name="SaleOrderId" />
+          </Key>
+          <Property Name="SaleOrderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="OrderNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="OrderType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CustomerAddressBook" Type="Int64" />
+          <Property Name="BillToAddressBook" Type="Int64" />
+          <Property Name="DeliveredToAddressBook" Type="Int64" />
+          <Property Name="ShippedToAddressBook" Type="Int64" />
+          <Property Name="InvoiceId" Type="Int64" />
+          <Property Name="TakenBy" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="UnitOfMeasure" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FreightAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CarrierAddressBook" Type="Int64" />
+          <Property Name="BuyerAddressBook" Type="Int64" />
+          <Property Name="PaymentInstrument" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PaymentTerms" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="TransactionDate" Type="DateTime" Precision="0" />
+          <Property Name="ScheduledPickupDate" Type="DateTime" Precision="3" />
+          <Property Name="ActualPickupDate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="InvoiceId" />
+          </Key>
+          <Property Name="InvoiceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InvoiceNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="InvoiceDate" Type="DateTime" Precision="0" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BillToAddressBook" Type="Int64" />
+          <Property Name="InvoiceDescription" Type="String" MaxLength="2000" FixedLength="false" Unicode="false" />
+          <Property Name="TaxAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="PaymentDueDate" Type="DateTime" Precision="0" />
+          <Property Name="PaymentTerms" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1041,6 +1165,8 @@
           <EntitySetMapping Name="Budgets">
             <EntityTypeMapping TypeName="listensoftwareDBModel.Budget">
               <MappingFragment StoreEntitySet="Budget">
+                <ScalarProperty Name="ProjectedAmount" ColumnName="ProjectedAmount" />
+                <ScalarProperty Name="ProjectedHours" ColumnName="ProjectedHours" />
                 <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
                 <ScalarProperty Name="BudgetHours" ColumnName="BudgetHours" />
                 <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
@@ -1054,6 +1180,7 @@
           <EntitySetMapping Name="BudgetRanges">
             <EntityTypeMapping TypeName="listensoftwareDBModel.BudgetRange">
               <MappingFragment StoreEntitySet="BudgetRange">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="RangeId" ColumnName="RangeId" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
@@ -1070,6 +1197,7 @@
           <EntitySetMapping Name="ChartOfAccts">
             <EntityTypeMapping TypeName="listensoftwareDBModel.ChartOfAcct">
               <MappingFragment StoreEntitySet="ChartOfAccts">
+                <ScalarProperty Name="ObjectNumber" ColumnName="ObjectNumber" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="BusUnit" ColumnName="BusUnit" />
@@ -1216,6 +1344,47 @@
                 <ScalarProperty Name="ProductCode" ColumnName="ProductCode" />
                 <ScalarProperty Name="KeyCode" ColumnName="KeyCode" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SalesOrders">
+            <EntityTypeMapping TypeName="listensoftwareDBModel.SalesOrder">
+              <MappingFragment StoreEntitySet="SalesOrder">
+                <ScalarProperty Name="ActualPickupDate" ColumnName="ActualPickupDate" />
+                <ScalarProperty Name="ScheduledPickupDate" ColumnName="ScheduledPickupDate" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+                <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+                <ScalarProperty Name="PaymentInstrument" ColumnName="PaymentInstrument" />
+                <ScalarProperty Name="BuyerAddressBook" ColumnName="BuyerAddressBook" />
+                <ScalarProperty Name="CarrierAddressBook" ColumnName="CarrierAddressBook" />
+                <ScalarProperty Name="FreightAmount" ColumnName="FreightAmount" />
+                <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
+                <ScalarProperty Name="TakenBy" ColumnName="TakenBy" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
+                <ScalarProperty Name="ShippedToAddressBook" ColumnName="ShippedToAddressBook" />
+                <ScalarProperty Name="DeliveredToAddressBook" ColumnName="DeliveredToAddressBook" />
+                <ScalarProperty Name="BillToAddressBook" ColumnName="BillToAddressBook" />
+                <ScalarProperty Name="CustomerAddressBook" ColumnName="CustomerAddressBook" />
+                <ScalarProperty Name="OrderType" ColumnName="OrderType" />
+                <ScalarProperty Name="OrderNumber" ColumnName="OrderNumber" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="SaleOrderId" ColumnName="SaleOrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="listensoftwareDBModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="PaymentTerms" ColumnName="PaymentTerms" />
+                <ScalarProperty Name="PaymentDueDate" ColumnName="PaymentDueDate" />
+                <ScalarProperty Name="TaxAmount" ColumnName="TaxAmount" />
+                <ScalarProperty Name="InvoiceDescription" ColumnName="InvoiceDescription" />
+                <ScalarProperty Name="BillToAddressBook" ColumnName="BillToAddressBook" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="InvoiceDate" ColumnName="InvoiceDate" />
+                <ScalarProperty Name="InvoiceNumber" ColumnName="InvoiceNumber" />
+                <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

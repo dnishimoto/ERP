@@ -30,8 +30,10 @@ namespace MillenniumERP.EntityFramework
         public string Company { get; set; }
         public string BusinessUnit { get; set; }
         public string Subsidiary { get; set; }
+        public Nullable<long> AccountId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets { get; set; }
+        public virtual ChartOfAcct ChartOfAcct { get; set; }
     }
 }

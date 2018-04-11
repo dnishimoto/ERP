@@ -33,6 +33,9 @@
         <AssociationConnector Association="listensoftwareDBModel.FK_Inventory_ItemMaster" ManuallyRouted="false" />
         <AssociationConnector Association="listensoftwareDBModel.FK__ScheduleE__Servi__75A278F5" ManuallyRouted="false" />
         <AssociationConnector Association="listensoftwareDBModel.FK__ServiceIn__Servi__2A164134" ManuallyRouted="false" />
+        <AssociationConnector Association="listensoftwareDBModel.FK_BudgetRange_ChartOfAccts" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.SalesOrder" Width="1.5" PointX="13.375" PointY="0.75" />
+        <EntityTypeShape EntityType="listensoftwareDBModel.Invoice" Width="1.5" PointX="13.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
