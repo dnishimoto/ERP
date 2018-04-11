@@ -116,6 +116,9 @@
     <Compile Include="EntityFramework\Inventory.cs">
       <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Invoice.cs">
+      <DependentUpon>LssModel2.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\ItemMaster.cs">
       <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
@@ -138,6 +141,9 @@
       <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\PurchaseOrder.cs">
+      <DependentUpon>LssModel2.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SalesOrder.cs">
       <DependentUpon>LssModel2.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ScheduleEvent.cs">

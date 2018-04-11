@@ -21,6 +21,8 @@ namespace MillenniumERP.EntityFramework
         public Nullable<decimal> ActualAmount { get; set; }
         public Nullable<long> AccountId { get; set; }
         public Nullable<long> RangeId { get; set; }
+        public Nullable<decimal> ProjectedHours { get; set; }
+        public Nullable<decimal> ProjectedAmount { get; set; }
     
         public virtual BudgetRange BudgetRange { get; set; }
         public virtual ChartOfAcct ChartOfAcct { get; set; }
