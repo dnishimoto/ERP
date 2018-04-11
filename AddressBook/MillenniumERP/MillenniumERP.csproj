@@ -158,10 +158,10 @@
     <Compile Include="Interfaces\IERPModule.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resource1.Designer.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resource1.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\AddressBookRepository.cs" />
     <Compile Include="Services\Repository.cs" />
@@ -176,9 +176,9 @@
     <EmbeddedResource Include="frmERPMainForm.resx">
       <DependentUpon>frmERPMainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resource1.resx">
+    <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
     <EntityDeploy Include="EntityFramework\LssModel2.edmx">
@@ -203,9 +203,6 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\Budget button.png" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
@@ -228,6 +225,7 @@
       <DependentUpon>LssModel2.edmx</DependentUpon>
       <LastGenOutput>LssModel2.cs</LastGenOutput>
     </Content>
+    <None Include="Resources\newdocument32.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
