@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace AddressBookProject
+namespace MillenniumERP
 {
     static class Program
     {
@@ -16,7 +16,7 @@ namespace AddressBookProject
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new AddressBookForm());
+            Application.Run(new frmERPMainForm());
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AddressBookProject
+﻿namespace MillenniumERP
 {
     partial class AddressBookForm
     {
