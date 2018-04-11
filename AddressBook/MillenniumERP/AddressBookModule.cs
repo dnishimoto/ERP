@@ -22,6 +22,6 @@ namespace MillenniumERP
 
         public Type MainFormType => typeof(MillenniumERP.AddressBookForm);
 
-        public Image Image => Resource1.Budget_button;
+        public Image Image => Properties.Resources.newdocument32;
     }
 }
