@@ -4,14 +4,73 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProjectAddressBookProject
 {
-    using Millennium.Services;
-    using Millennium.EntityFramework;
+    using MillenniumERP.Services;
+    using MillenniumERP.EntityFramework;
     using System.Linq;
     using System.Collections.Generic;
+    using System.Threading;
 
     [TestClass]
     public class UnitTest1
     {
+        private void DoSomething1(int iterations)
+        {
+            for(int i=0; i<iterations;i++)
+            {
+                Console.WriteLine("Do Something one");
+                Thread.Sleep(1);
+            }
+         
+        }
+        private void DoSomething2(int iterations)
+        {
+            for (int i = 0; i < iterations; i++)
+            {
+                Console.WriteLine("Do Something two");
+                Thread.Sleep(2);
+            }
+        }
+        //The state.Break() exist out of the Parallel.ForEach loop when the 
+        //application sets the cancelForEach boolean flag.
+        private void ProcessUsingParallelForEach(List<string> intCollection)
+        {
+          
+            Parallel.ForEach(intCollection, (integer,state) =>
+            {
+                Console.WriteLine($"Parallel.Foreach={integer}");
+                if (cancelForEach==true) {
+                    Console.WriteLine($"Exit Parallel.ForEach {integer}");
+                    state.Break();
+                    
+                }
+          
+            });
+
+        }
+        private bool cancelForEach = false;
+        [TestMethod]
+        public void TestThreadPooling()
+        {
+            int numberOfProcessors = Environment.ProcessorCount;
+
+            Parallel.Invoke(() => DoSomething1(5)
+                        ,()=>DoSomething2(10));
+
+            List<string> intCollection = new List<string>();
+
+            for (int i = 0; i < 500; i++)
+            {
+                intCollection.Add(i.ToString());
+            }
+
+            var TaskForEach=Task.Run(()=> ProcessUsingParallelForEach(intCollection));
+
+            Thread.Sleep(500);
+            cancelForEach = true;
+
+            Task.WaitAll(TaskForEach);
+
+        }
         [TestMethod]
         public void TestGetAddressBooks()
         {
@@ -34,7 +93,7 @@ namespace UnitTestProjectAddressBookProject
 
             Console.WriteLine($"{resultTask.Result.FirstName}");
 
-            Assert.AreEqual(resultTask.Result.FirstName, "David");
+            Assert.AreEqual(resultTask.Result.FirstName, "David2");
         }
         [TestMethod]
         public void TestUpdateAddressBook()

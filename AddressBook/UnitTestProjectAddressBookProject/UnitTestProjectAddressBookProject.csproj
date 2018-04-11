@@ -60,13 +60,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AddressBook\AddressBookProject.csproj">
-      <Project>{cd55cfbb-18a8-4c6c-9161-39bd9b6e1868}</Project>
-      <Name>AddressBookProject</Name>
+    <ProjectReference Include="..\MillenniumERP\MillenniumERP.csproj">
+      <Project>{e6b00088-0490-40b7-95b4-fb2d7c53e1c8}</Project>
+      <Name>MillenniumERP</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
