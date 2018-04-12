@@ -14,25 +14,34 @@ namespace MillenniumERP.EntityFramework
     
     public partial class SalesOrder
     {
-        public long SaleOrderId { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SalesOrder()
+        {
+            this.SalesOrderDetails = new HashSet<SalesOrderDetail>();
+        }
+    
+        public long SalesOrderId { get; set; }
         public Nullable<int> Quantity { get; set; }
         public Nullable<decimal> Amount { get; set; }
         public string OrderNumber { get; set; }
         public string OrderType { get; set; }
-        public Nullable<long> CustomerAddressBook { get; set; }
-        public Nullable<long> BillToAddressBook { get; set; }
-        public Nullable<long> DeliveredToAddressBook { get; set; }
-        public Nullable<long> ShippedToAddressBook { get; set; }
+        public Nullable<long> CustomerAddressId { get; set; }
+        public Nullable<long> BillToAddressId { get; set; }
+        public Nullable<long> DeliveredToAddressId { get; set; }
+        public Nullable<long> ShippedToAddressId { get; set; }
         public Nullable<long> InvoiceId { get; set; }
         public string TakenBy { get; set; }
         public string UnitOfMeasure { get; set; }
         public Nullable<decimal> FreightAmount { get; set; }
-        public Nullable<long> CarrierAddressBook { get; set; }
-        public Nullable<long> BuyerAddressBook { get; set; }
+        public Nullable<long> CarrierAddressId { get; set; }
+        public Nullable<long> BuyerAddressId { get; set; }
         public string PaymentInstrument { get; set; }
         public string PaymentTerms { get; set; }
         public Nullable<System.DateTime> TransactionDate { get; set; }
         public Nullable<System.DateTime> ScheduledPickupDate { get; set; }
         public Nullable<System.DateTime> ActualPickupDate { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }
     }
 }
