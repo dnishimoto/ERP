@@ -148,6 +148,9 @@
     <Compile Include="EntityFramework\PurchaseOrder.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\PurchaseOrderDetail.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\SalesOrder.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>

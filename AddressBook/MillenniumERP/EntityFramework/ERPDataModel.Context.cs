@@ -45,5 +45,6 @@ namespace MillenniumERP.EntityFramework
         public virtual DbSet<ServiceInformation> ServiceInformations { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
         public virtual DbSet<InvoicesDetail> InvoicesDetails { get; set; }
+        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
     }
 }

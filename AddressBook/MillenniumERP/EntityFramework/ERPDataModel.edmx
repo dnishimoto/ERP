@@ -256,6 +256,24 @@
           <Property Name="Tax" Type="decimal" Precision="18" Scale="4" />
           <Property Name="TaxCode" Type="varchar" MaxLength="10" />
         </EntityType>
+        <EntityType Name="PurchaseOrderDetail">
+          <Key>
+            <PropertyRef Name="PurchaseOrderDetailId" />
+          </Key>
+          <Property Name="PurchaseOrderDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PurchaseOrderId" Type="bigint" Nullable="false" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="OrderedQuantity" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="UnitOfMeasure" Type="varchar" MaxLength="10" />
+          <Property Name="VendorAddressId" Type="bigint" />
+          <Property Name="ReceivedDate" Type="date" />
+          <Property Name="ExpectedDeliveryDate" Type="date" />
+          <Property Name="OrderDate" Type="date" />
+          <Property Name="ReceivedQuantity" Type="int" />
+          <Property Name="RemainingQuantity" Type="int" />
+        </EntityType>
         <EntityType Name="SalesOrder">
           <Key>
             <PropertyRef Name="SalesOrderId" />
@@ -517,6 +535,7 @@
           <EntitySet Name="ItemMaster" EntityType="Self.ItemMaster" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POQuote" EntityType="Self.POQuote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PurchaseOrderDetail" EntityType="Self.PurchaseOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOrder" EntityType="Self.SalesOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SalesOrderDetail" EntityType="Self.SalesOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScheduleEvent" EntityType="Self.ScheduleEvent" Schema="dbo" store:Type="Tables" />
@@ -1168,6 +1187,7 @@
             <End Role="ServiceInformation" EntitySet="ServiceInformations" />
           </AssociationSet>
           <EntitySet Name="InvoicesDetails" EntityType="ERPDBModel.InvoicesDetail" />
+          <EntitySet Name="PurchaseOrderDetails" EntityType="ERPDBModel.PurchaseOrderDetail" />
         </EntityContainer>
         <EntityType Name="InvoicesDetail">
           <Key>
@@ -1184,6 +1204,24 @@
           <Property Name="ItemId" Type="Int64" />
           <Property Name="DiscountPercent" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="DiscountAmount" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="PurchaseOrderDetail">
+          <Key>
+            <PropertyRef Name="PurchaseOrderDetailId" />
+          </Key>
+          <Property Name="PurchaseOrderDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PurchaseOrderId" Type="Int64" Nullable="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="OrderedQuantity" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="UnitOfMeasure" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="VendorAddressId" Type="Int64" />
+          <Property Name="ReceivedDate" Type="DateTime" Precision="0" />
+          <Property Name="ExpectedDeliveryDate" Type="DateTime" Precision="0" />
+          <Property Name="OrderDate" Type="DateTime" Precision="0" />
+          <Property Name="ReceivedQuantity" Type="Int32" />
+          <Property Name="RemainingQuantity" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1536,6 +1574,25 @@
                 <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
                 <ScalarProperty Name="InvoiceId" ColumnName="InvoiceId" />
                 <ScalarProperty Name="InvoiceDetailId" ColumnName="InvoiceDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PurchaseOrderDetails">
+            <EntityTypeMapping TypeName="ERPDBModel.PurchaseOrderDetail">
+              <MappingFragment StoreEntitySet="PurchaseOrderDetail">
+                <ScalarProperty Name="RemainingQuantity" ColumnName="RemainingQuantity" />
+                <ScalarProperty Name="ReceivedQuantity" ColumnName="ReceivedQuantity" />
+                <ScalarProperty Name="OrderDate" ColumnName="OrderDate" />
+                <ScalarProperty Name="ExpectedDeliveryDate" ColumnName="ExpectedDeliveryDate" />
+                <ScalarProperty Name="ReceivedDate" ColumnName="ReceivedDate" />
+                <ScalarProperty Name="VendorAddressId" ColumnName="VendorAddressId" />
+                <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="OrderedQuantity" ColumnName="OrderedQuantity" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+                <ScalarProperty Name="PurchaseOrderDetailId" ColumnName="PurchaseOrderDetailId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
