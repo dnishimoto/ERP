@@ -25,7 +25,6 @@ namespace MillenniumERP.EntityFramework
         public Nullable<long> ContractId { get; set; }
         public Nullable<long> POQuoteId { get; set; }
         public string Description { get; set; }
-        public Nullable<long> ItemNumber { get; set; }
         public string PONumber { get; set; }
         public Nullable<int> Quantity { get; set; }
         public long PurchaseOrderId { get; set; }
@@ -37,5 +36,6 @@ namespace MillenniumERP.EntityFramework
         public Nullable<System.DateTime> PromisedDeliveredDate { get; set; }
         public Nullable<decimal> Tax { get; set; }
         public string TaxCode { get; set; }
+        public Nullable<long> ItemId { get; set; }
     }
 }

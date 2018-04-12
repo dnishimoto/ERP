@@ -244,7 +244,7 @@
           <Property Name="ContractId" Type="bigint" />
           <Property Name="POQuoteId" Type="bigint" />
           <Property Name="Description" Type="varchar" MaxLength="1000" />
-          <Property Name="ItemNumber" Type="bigint" />
+          <Property Name="ItemId" Type="bigint" />
           <Property Name="PONumber" Type="varchar" MaxLength="50" />
           <Property Name="Quantity" Type="int" />
           <Property Name="UnitOfMeasure" Type="nchar" MaxLength="50" />
@@ -842,7 +842,6 @@
           <Property Name="ContractId" Type="Int64" />
           <Property Name="POQuoteId" Type="Int64" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
-          <Property Name="ItemNumber" Type="Int64" />
           <Property Name="PONumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Quantity" Type="Int32" />
           <Property Name="PurchaseOrderId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
@@ -854,6 +853,7 @@
           <Property Name="PromisedDeliveredDate" Type="DateTime" Precision="0" />
           <Property Name="Tax" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="TaxCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ItemId" Type="Int64" />
         </EntityType>
         <EntityType Name="SalesOrder">
           <Key>
@@ -1452,6 +1452,7 @@
           <EntitySetMapping Name="PurchaseOrders">
             <EntityTypeMapping TypeName="ERPDBModel.PurchaseOrder">
               <MappingFragment StoreEntitySet="PurchaseOrder">
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="TaxCode" ColumnName="TaxCode" />
                 <ScalarProperty Name="Tax" ColumnName="Tax" />
                 <ScalarProperty Name="PromisedDeliveredDate" ColumnName="PromisedDeliveredDate" />
@@ -1472,7 +1473,6 @@
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
                 <ScalarProperty Name="POQuoteId" ColumnName="POQuoteId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="ItemNumber" ColumnName="ItemNumber" />
                 <ScalarProperty Name="PONumber" ColumnName="PONumber" />
                 <ScalarProperty Name="Quantity" ColumnName="Quantity" />
               </MappingFragment>
