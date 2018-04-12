@@ -18,8 +18,8 @@ namespace MillenniumERP.EntityFramework
         public ChartOfAcct()
         {
             this.Budgets = new HashSet<Budget>();
-            this.GeneralLedgers = new HashSet<GeneralLedger>();
             this.BudgetRanges = new HashSet<BudgetRange>();
+            this.GeneralLedgers = new HashSet<GeneralLedger>();
         }
     
         public long AccountId { get; set; }
@@ -37,8 +37,8 @@ namespace MillenniumERP.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BudgetRange> BudgetRanges { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
     }
 }

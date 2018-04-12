@@ -60,6 +60,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms.Ribbon">
       <HintPath>lib\System.Windows.Forms.Ribbon.dll</HintPath>
     </Reference>
@@ -87,73 +89,82 @@
       <DependentUpon>BudgetButtonResource.resx</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AcctPay.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AcctRec.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AddressBook.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\AddressTypeXRef.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Budget.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\BudgetRange.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ChartOfAcct.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Contract.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ERPDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERPDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ERPDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ERPDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ERPDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\GeneralLedger.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Inventory.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\Invoice.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\InvoicesDetail.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ItemMaster.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\LssModel2.Context.cs">
-      <DependentUpon>LssModel2.Context.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="EntityFramework\LssModel2.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="EntityFramework\LssModel2.Designer.cs">
-      <DependentUpon>LssModel2.edmx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\POQuote.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\PurchaseOrder.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\PurchaseOrderDetail.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\SalesOrder.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\SalesOrderDetail.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ScheduleEvent.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ServiceInformation.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\UDC.cs">
-      <DependentUpon>LssModel2.tt</DependentUpon>
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="frmERPMainForm.cs">
       <SubType>Form</SubType>
@@ -187,12 +198,12 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
-    <EntityDeploy Include="EntityFramework\LssModel2.edmx">
+    <EntityDeploy Include="EntityFramework\ERPDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>LssModel2.Designer.cs</LastGenOutput>
+      <LastGenOutput>ERPDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="EntityFramework\LssModel2.edmx.diagram">
-      <DependentUpon>LssModel2.edmx</DependentUpon>
+    <None Include="EntityFramework\ERPDataModel.edmx.diagram">
+      <DependentUpon>ERPDataModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -221,17 +232,19 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EntityFramework\LssModel2.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LssModel2.edmx</DependentUpon>
-      <LastGenOutput>LssModel2.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EntityFramework\LssModel2.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>LssModel2.edmx</DependentUpon>
-      <LastGenOutput>LssModel2.cs</LastGenOutput>
-    </Content>
     <None Include="Resources\newdocument32.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="EntityFramework\ERPDataModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ERPDataModel.edmx</DependentUpon>
+      <LastGenOutput>ERPDataModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EntityFramework\ERPDataModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ERPDataModel.edmx</DependentUpon>
+      <LastGenOutput>ERPDataModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

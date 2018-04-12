@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="22f7db6cb0ca485a84eb68259a98fe4d" Name="Diagram1" ZoomLevel="71">
+        <EntityTypeShape EntityType="ERPDBModel.AcctPay" Width="1.5" PointX="7.75" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.AcctRec" Width="1.5" PointX="10.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.AddressBook" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.AddressTypeXRef" Width="1.5" PointX="12.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.Budget" Width="1.5" PointX="13.25" PointY="6.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.BudgetRange" Width="1.5" PointX="11" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.ChartOfAcct" Width="1.5" PointX="8.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.Contract" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.GeneralLedger" Width="1.5" PointX="11" PointY="12" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.Inventory" Width="1.5" PointX="8" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.Invoice" Width="1.5" PointX="13.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.ItemMaster" Width="1.5" PointX="5.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.POQuote" Width="1.5" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.PurchaseOrder" Width="1.5" PointX="14.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.SalesOrder" Width="1.5" PointX="2.75" PointY="11.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.SalesOrderDetail" Width="1.5" PointX="5" PointY="12.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.ScheduleEvent" Width="1.5" PointX="6" PointY="6.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.ServiceInformation" Width="1.5" PointX="3" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="ERPDBModel.UDC" Width="1.5" PointX="0.75" PointY="12.5" IsExpanded="true" />
+        <AssociationConnector Association="ERPDBModel.FK__ScheduleE__Custo__778AC167" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK__ScheduleE__Emplo__76969D2E" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK__ServiceIn__Addre__282DF8C2" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_Vendor" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_Budget_BudgetRange" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_Budget_ChartOfAccts" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_BudgetRange_ChartOfAccts" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_GeneralLedger_ChartOfAccts" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK__ServiceIn__Contr__29221CFB" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_Inventory_ItemMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK_SalesOrderDetail_SalesOrder" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK__ScheduleE__Servi__75A278F5" ManuallyRouted="false" />
+        <AssociationConnector Association="ERPDBModel.FK__ServiceIn__Servi__2A164134" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="ERPDBModel.InvoicesDetail" Width="1.5" PointX="13.375" PointY="14.75" />
+        <EntityTypeShape EntityType="ERPDBModel.PurchaseOrderDetail" Width="1.5" PointX="7.375" PointY="15.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

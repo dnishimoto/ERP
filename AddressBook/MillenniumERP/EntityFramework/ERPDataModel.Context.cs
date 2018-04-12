@@ -35,13 +35,16 @@ namespace MillenniumERP.EntityFramework
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
+        public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<ItemMaster> ItemMasters { get; set; }
         public virtual DbSet<POQuote> POQuotes { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
+        public virtual DbSet<SalesOrder> SalesOrders { get; set; }
+        public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual DbSet<ScheduleEvent> ScheduleEvents { get; set; }
         public virtual DbSet<ServiceInformation> ServiceInformations { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
-        public virtual DbSet<SalesOrder> SalesOrders { get; set; }
-        public virtual DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<InvoicesDetail> InvoicesDetails { get; set; }
+        public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
     }
 }
