@@ -47,6 +47,7 @@
         <EntityTypeShape EntityType="ERPDBModel.ShippedToAddress" Width="1.5" PointX="3" PointY="20.375" />
         <AssociationConnector Association="ERPDBModel.FK_Phones_AddressBook" />
         <AssociationConnector Association="ERPDBModel.FK_ShippedToAddresses_AddressBook" />
+        <AssociationConnector Association="ERPDBModel.FK_Emails_AddressBook" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

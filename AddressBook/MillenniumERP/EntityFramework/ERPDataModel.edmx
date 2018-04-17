@@ -538,6 +538,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Emails_AddressBook">
+          <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="1" />
+          <End Role="Emails" Type="Self.Emails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Emails">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GeneralLedger_ChartOfAccts">
           <End Role="ChartOfAccts" Type="Self.ChartOfAccts" Multiplicity="1" />
           <End Role="GeneralLedger" Type="Self.GeneralLedger" Multiplicity="*" />
@@ -677,6 +689,10 @@
             <End Role="AddressBook" EntitySet="AddressBook" />
             <End Role="POQuote" EntitySet="POQuote" />
           </AssociationSet>
+          <AssociationSet Name="FK_Emails_AddressBook" Association="Self.FK_Emails_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBook" />
+            <End Role="Emails" EntitySet="Emails" />
+          </AssociationSet>
           <AssociationSet Name="FK_GeneralLedger_ChartOfAccts" Association="Self.FK_GeneralLedger_ChartOfAccts">
             <End Role="ChartOfAccts" EntitySet="ChartOfAccts" />
             <End Role="GeneralLedger" EntitySet="GeneralLedger" />
@@ -780,6 +796,7 @@
           <Property Name="PrimaryShippedToAddressId" Type="Int64" />
           <NavigationProperty Name="Phones" Relationship="ERPDBModel.FK_Phones_AddressBook" FromRole="AddressBook" ToRole="Phone" />
           <NavigationProperty Name="ShippedToAddresses" Relationship="ERPDBModel.FK_ShippedToAddresses_AddressBook" FromRole="AddressBook" ToRole="ShippedToAddress" />
+          <NavigationProperty Name="Emails" Relationship="ERPDBModel.FK_Emails_AddressBook" FromRole="AddressBook" ToRole="Email" />
         </EntityType>
         <EntityType Name="AddressTypeXRef">
           <Key>
@@ -1307,6 +1324,10 @@
             <End Role="AddressBook" EntitySet="AddressBooks" />
             <End Role="ShippedToAddress" EntitySet="ShippedToAddresses" />
           </AssociationSet>
+          <AssociationSet Name="FK_Emails_AddressBook" Association="ERPDBModel.FK_Emails_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBooks" />
+            <End Role="Email" EntitySet="Emails" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvoicesDetail">
           <Key>
@@ -1352,6 +1373,7 @@
           <Property Name="LoginEmail" Type="Boolean" />
           <Property Name="Email1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
           <Property Name="AddressId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AddressBook" Relationship="ERPDBModel.FK_Emails_AddressBook" FromRole="Email" ToRole="AddressBook" />
         </EntityType>
         <EntityType Name="Phone">
           <Key>
@@ -1431,6 +1453,18 @@
               <PropertyRef Name="AddressId" />
             </Principal>
             <Dependent Role="ShippedToAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Emails_AddressBook">
+          <End Type="ERPDBModel.AddressBook" Role="AddressBook" Multiplicity="1" />
+          <End Type="ERPDBModel.Email" Role="Email" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Email">
               <PropertyRef Name="AddressId" />
             </Dependent>
           </ReferentialConstraint>

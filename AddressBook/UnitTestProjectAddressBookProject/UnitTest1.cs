@@ -13,6 +13,22 @@ namespace UnitTestProjectAddressBookProject
     [TestClass]
     public class UnitTest1
     {
+        [TestMethod]
+        public void TestAddressBookEmails()
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+            List<Email> resultTask = unitOfWork.addressBookRepository.GetAddressBookEmailsByAddressId(1);
+
+            List<string> intCollection = new List<string>();
+            foreach (var item in resultTask)
+            {
+                Console.WriteLine($"{item.Email1}");
+                intCollection.Add(item.Email1);
+       
+            }
+           Assert.IsTrue(intCollection.Contains("dnishimoto@listensoftware.com"));
+
+        }
         private void DoSomething1(int iterations)
         {
             for(int i=0; i<iterations;i++)
