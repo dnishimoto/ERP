@@ -112,6 +112,9 @@
     <Compile Include="EntityFramework\Contract.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Email.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\ERPDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -142,6 +145,9 @@
     <Compile Include="EntityFramework\ItemMaster.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\Phone.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\POQuote.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
@@ -161,6 +167,15 @@
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ServiceInformation.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\Shipment.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ShipmentsDetail.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\ShippedToAddress.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\UDC.cs">
@@ -245,6 +260,38 @@
       <DependentUpon>ERPDataModel.edmx</DependentUpon>
       <LastGenOutput>ERPDataModel.cs</LastGenOutput>
     </Content>
+    <Content Include="Sql_Server_Scripts\dbo.AcctPay.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.AcctRec.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.AddressBook.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.AddressTypeXRef.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Budget.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.BudgetRange.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.BudgetView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ChartOfAccts.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Contract.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.CustomerPrimaryShippedToView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Emails.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.GeneralLedger.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Inventory.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.InvoiceAndDetailView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Invoices.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.InvoicesDetail.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ItemMaster.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Phones.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.POQuote.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.PurchaseOrder.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.PurchaseOrderAndDetailView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.PurchaseOrderDetail.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.SalesOrder.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.SalesOrderAndInvoiceView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.SalesOrderDetail.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.SalesOrderDetailView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ScheduleEvent.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ServiceInformation.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Shipments.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ShipmentsDetail.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ShippedToAddresses.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.UDC.Table.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

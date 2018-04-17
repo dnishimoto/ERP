@@ -12,16 +12,16 @@ namespace MillenniumERP.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class ItemMaster
+    public partial class ShippedToAddress
     {
-        public long ItemId { get; set; }
-        public string Description { get; set; }
-        public string UnitOfMeasure { get; set; }
-        public string CommodityCode { get; set; }
-        public string ItemPriceGroup { get; set; }
-        public string Description2 { get; set; }
-        public string ItemNumber { get; set; }
+        public long ShippedToAddressId { get; set; }
+        public long AddressId { get; set; }
+        public string ShipToAddressLine1 { get; set; }
+        public string ShipToAddressLine2 { get; set; }
+        public string ShipToState { get; set; }
+        public string ShipToCity { get; set; }
+        public string ShipToZipcode { get; set; }
     
-        public virtual Inventory Inventory { get; set; }
+        public virtual AddressBook AddressBook { get; set; }
     }
 }

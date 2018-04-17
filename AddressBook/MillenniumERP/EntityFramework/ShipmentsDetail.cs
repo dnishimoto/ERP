@@ -12,19 +12,13 @@ namespace MillenniumERP.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class InvoicesDetail
+    public partial class ShipmentsDetail
     {
-        public long InvoiceDetailId { get; set; }
-        public long InvoiceId { get; set; }
-        public Nullable<decimal> UnitPrice { get; set; }
+        public long ShipmentDetailId { get; set; }
+        public long ShipmentId { get; set; }
+        public long ItemId { get; set; }
         public Nullable<int> Quantity { get; set; }
-        public string UnitOfMeasure { get; set; }
         public Nullable<decimal> Amount { get; set; }
-        public Nullable<long> PurchaseOrderLineId { get; set; }
-        public Nullable<long> SalesOrderDetailId { get; set; }
-        public Nullable<long> ItemId { get; set; }
-        public Nullable<decimal> DiscountPercent { get; set; }
-        public Nullable<decimal> DiscountAmount { get; set; }
-        public Nullable<long> ShipmentDetailId { get; set; }
+        public long SalesOrderDetailId { get; set; }
     }
 }

@@ -12,16 +12,12 @@ namespace MillenniumERP.EntityFramework
     using System;
     using System.Collections.Generic;
     
-    public partial class ItemMaster
+    public partial class Email
     {
-        public long ItemId { get; set; }
-        public string Description { get; set; }
-        public string UnitOfMeasure { get; set; }
-        public string CommodityCode { get; set; }
-        public string ItemPriceGroup { get; set; }
-        public string Description2 { get; set; }
-        public string ItemNumber { get; set; }
-    
-        public virtual Inventory Inventory { get; set; }
+        public long EmailId { get; set; }
+        public string Password { get; set; }
+        public Nullable<bool> LoginEmail { get; set; }
+        public string Email1 { get; set; }
+        public long AddressId { get; set; }
     }
 }

@@ -71,10 +71,7 @@
           <Property Name="ProductKey" Type="varchar" MaxLength="100" />
           <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="Fax" Type="varchar" MaxLength="50" />
-          <Property Name="ShippingAddress" Type="varchar" MaxLength="255" />
-          <Property Name="ShippingCity" Type="varchar" MaxLength="100" />
-          <Property Name="ShippingZipcode" Type="varchar" MaxLength="50" />
-          <Property Name="ShippingState" Type="varchar" MaxLength="50" />
+          <Property Name="PrimaryShippedToAddressId" Type="bigint" />
         </EntityType>
         <EntityType Name="AddressTypeXRef">
           <Key>
@@ -113,6 +110,8 @@
           <Property Name="BusinessUnit" Type="varchar" MaxLength="10" />
           <Property Name="Subsidiary" Type="varchar" MaxLength="10" />
           <Property Name="AccountId" Type="bigint" />
+          <Property Name="SupervisorCode" Type="varchar" MaxLength="50" />
+          <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
         <EntityType Name="ChartOfAccts">
           <Key>
@@ -141,6 +140,16 @@
           <Property Name="EndDate" Type="datetime" />
           <Property Name="Cost" Type="money" />
           <Property Name="RemainingBalance" Type="money" />
+        </EntityType>
+        <EntityType Name="Emails">
+          <Key>
+            <PropertyRef Name="EmailId" />
+          </Key>
+          <Property Name="EmailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" />
+          <Property Name="LoginEmail" Type="bit" />
+          <Property Name="Email" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="AddressId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="GeneralLedger">
           <Key>
@@ -201,6 +210,7 @@
           <Property Name="ItemId" Type="bigint" />
           <Property Name="DiscountPercent" Type="decimal" Precision="18" Scale="4" />
           <Property Name="DiscountAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ShipmentDetailId" Type="bigint" />
         </EntityType>
         <EntityType Name="ItemMaster">
           <Key>
@@ -212,6 +222,17 @@
           <Property Name="CommodityCode" Type="varchar" MaxLength="10" />
           <Property Name="ItemPriceGroup" Type="varchar" MaxLength="20" />
           <Property Name="Description2" Type="varchar" MaxLength="255" />
+          <Property Name="ItemNumber" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Phones">
+          <Key>
+            <PropertyRef Name="PhoneId" />
+          </Key>
+          <Property Name="PhoneId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
+          <Property Name="PhoneType" Type="varchar" MaxLength="10" />
+          <Property Name="Extension" Type="varchar" MaxLength="10" />
+          <Property Name="AddressId" Type="bigint" Nullable="false" />
         </EntityType>
         <EntityType Name="POQuote">
           <Key>
@@ -341,6 +362,52 @@
           <Property Name="LocationGPS" Type="varchar" MaxLength="255" />
           <Property Name="Comments" Type="varchar" MaxLength="1000" />
           <Property Name="Status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Shipments">
+          <Key>
+            <PropertyRef Name="ShipmentId" />
+          </Key>
+          <Property Name="ShipmentId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ShipmentDate" Type="datetime" />
+          <Property Name="BillToAddressId" Type="bigint" Nullable="false" />
+          <Property Name="CarrierId" Type="bigint" Nullable="false" />
+          <Property Name="TrackingNumber" Type="varchar" MaxLength="50" />
+          <Property Name="ActualWeight" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="BillableWeight" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Duty" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Tax" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ShippingCost" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="CodAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ShippedFromId" Type="bigint" Nullable="false" />
+          <Property Name="ShippedToAddressId" Type="bigint" />
+          <Property Name="PurchaseOrderId" Type="bigint" />
+          <Property Name="VendorInvoiceId" Type="bigint" />
+          <Property Name="VendorShippingCost" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="VendorHandlingCost" Type="decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="ShipmentsDetail">
+          <Key>
+            <PropertyRef Name="ShipmentDetailId" />
+          </Key>
+          <Property Name="ShipmentDetailId" Type="bigint" Nullable="false" />
+          <Property Name="ShipmentId" Type="bigint" Nullable="false" />
+          <Property Name="ItemId" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="SalesOrderDetailId" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShippedToAddresses">
+          <Key>
+            <PropertyRef Name="ShippedToAddressId" />
+          </Key>
+          <Property Name="ShippedToAddressId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AddressId" Type="bigint" Nullable="false" />
+          <Property Name="ShipToAddressLine1" Type="varchar" MaxLength="100" />
+          <Property Name="ShipToAddressLine2" Type="varchar" MaxLength="100" />
+          <Property Name="ShipToState" Type="varchar" MaxLength="50" />
+          <Property Name="ShipToCity" Type="varchar" MaxLength="50" />
+          <Property Name="ShipToZipcode" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="UDC">
           <Key>
@@ -495,6 +562,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Phones_AddressBook">
+          <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="1" />
+          <End Role="Phones" Type="Self.Phones" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Phones">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SalesOrderDetail_SalesOrder">
           <End Role="SalesOrder" Type="Self.SalesOrder" Multiplicity="1" />
           <End Role="SalesOrderDetail" Type="Self.SalesOrderDetail" Multiplicity="*" />
@@ -504,6 +583,18 @@
             </Principal>
             <Dependent Role="SalesOrderDetail">
               <PropertyRef Name="SalesOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShippedToAddresses_AddressBook">
+          <End Role="AddressBook" Type="Self.AddressBook" Multiplicity="1" />
+          <End Role="ShippedToAddresses" Type="Self.ShippedToAddresses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="ShippedToAddresses">
+              <PropertyRef Name="AddressId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -528,11 +619,13 @@
           <EntitySet Name="BudgetRange" EntityType="Self.BudgetRange" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccts" EntityType="Self.ChartOfAccts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emails" EntityType="Self.Emails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GeneralLedger" EntityType="Self.GeneralLedger" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Inventory" EntityType="Self.Inventory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoicesDetail" EntityType="Self.InvoicesDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ItemMaster" EntityType="Self.ItemMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Phones" EntityType="Self.Phones" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="POQuote" EntityType="Self.POQuote" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseOrder" EntityType="Self.PurchaseOrder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PurchaseOrderDetail" EntityType="Self.PurchaseOrderDetail" Schema="dbo" store:Type="Tables" />
@@ -540,6 +633,9 @@
           <EntitySet Name="SalesOrderDetail" EntityType="Self.SalesOrderDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ScheduleEvent" EntityType="Self.ScheduleEvent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ServiceInformation" EntityType="Self.ServiceInformation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Shipments" EntityType="Self.Shipments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShipmentsDetail" EntityType="Self.ShipmentsDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShippedToAddresses" EntityType="Self.ShippedToAddresses" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UDC" EntityType="Self.UDC" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK__ScheduleE__Custo__778AC167" Association="Self.FK__ScheduleE__Custo__778AC167">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -589,9 +685,17 @@
             <End Role="ItemMaster" EntitySet="ItemMaster" />
             <End Role="Inventory" EntitySet="Inventory" />
           </AssociationSet>
+          <AssociationSet Name="FK_Phones_AddressBook" Association="Self.FK_Phones_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBook" />
+            <End Role="Phones" EntitySet="Phones" />
+          </AssociationSet>
           <AssociationSet Name="FK_SalesOrderDetail_SalesOrder" Association="Self.FK_SalesOrderDetail_SalesOrder">
             <End Role="SalesOrder" EntitySet="SalesOrder" />
             <End Role="SalesOrderDetail" EntitySet="SalesOrderDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShippedToAddresses_AddressBook" Association="Self.FK_ShippedToAddresses_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBook" />
+            <End Role="ShippedToAddresses" EntitySet="ShippedToAddresses" />
           </AssociationSet>
           <AssociationSet Name="FK_Vendor" Association="Self.FK_Vendor">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -668,15 +772,14 @@
           <Property Name="ProductKey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ShippingAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="ShippingCity" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="ShippingZipcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ShippingState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ScheduleEvents" Relationship="Self.FK__ScheduleE__Custo__778AC167" FromRole="AddressBook" ToRole="ScheduleEvent" />
           <NavigationProperty Name="ScheduleEvents1" Relationship="Self.FK__ScheduleE__Emplo__76969D2E" FromRole="AddressBook" ToRole="ScheduleEvent" />
           <NavigationProperty Name="ServiceInformations" Relationship="Self.FK__ServiceIn__Addre__282DF8C2" FromRole="AddressBook" ToRole="ServiceInformation" />
           <NavigationProperty Name="POQuotes" Relationship="Self.FK_Customer" FromRole="AddressBook" ToRole="POQuote" />
           <NavigationProperty Name="POQuotes1" Relationship="Self.FK_Vendor" FromRole="AddressBook" ToRole="POQuote" />
+          <Property Name="PrimaryShippedToAddressId" Type="Int64" />
+          <NavigationProperty Name="Phones" Relationship="ERPDBModel.FK_Phones_AddressBook" FromRole="AddressBook" ToRole="Phone" />
+          <NavigationProperty Name="ShippedToAddresses" Relationship="ERPDBModel.FK_ShippedToAddresses_AddressBook" FromRole="AddressBook" ToRole="ShippedToAddress" />
         </EntityType>
         <EntityType Name="AddressTypeXRef">
           <Key>
@@ -719,6 +822,8 @@
           <Property Name="AccountId" Type="Int64" />
           <NavigationProperty Name="Budgets" Relationship="Self.FK_Budget_BudgetRange" FromRole="BudgetRange" ToRole="Budget" />
           <NavigationProperty Name="ChartOfAcct" Relationship="Self.FK_BudgetRange_ChartOfAccts" FromRole="BudgetRange" ToRole="ChartOfAccts" />
+          <Property Name="SupervisorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastUpdated" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="ChartOfAcct">
           <Key>
@@ -809,6 +914,7 @@
           <Property Name="ItemPriceGroup" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="Description2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Inventory" Relationship="Self.FK_Inventory_ItemMaster" FromRole="ItemMaster" ToRole="Inventory" />
+          <Property Name="ItemNumber" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="POQuote">
           <Key>
@@ -1188,6 +1294,19 @@
           </AssociationSet>
           <EntitySet Name="InvoicesDetails" EntityType="ERPDBModel.InvoicesDetail" />
           <EntitySet Name="PurchaseOrderDetails" EntityType="ERPDBModel.PurchaseOrderDetail" />
+          <EntitySet Name="Emails" EntityType="ERPDBModel.Email" />
+          <EntitySet Name="Phones" EntityType="ERPDBModel.Phone" />
+          <EntitySet Name="Shipments" EntityType="ERPDBModel.Shipment" />
+          <EntitySet Name="ShipmentsDetails" EntityType="ERPDBModel.ShipmentsDetail" />
+          <EntitySet Name="ShippedToAddresses" EntityType="ERPDBModel.ShippedToAddress" />
+          <AssociationSet Name="FK_Phones_AddressBook" Association="ERPDBModel.FK_Phones_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBooks" />
+            <End Role="Phone" EntitySet="Phones" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ShippedToAddresses_AddressBook" Association="ERPDBModel.FK_ShippedToAddresses_AddressBook">
+            <End Role="AddressBook" EntitySet="AddressBooks" />
+            <End Role="ShippedToAddress" EntitySet="ShippedToAddresses" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvoicesDetail">
           <Key>
@@ -1204,6 +1323,7 @@
           <Property Name="ItemId" Type="Int64" />
           <Property Name="DiscountPercent" Type="Decimal" Precision="18" Scale="4" />
           <Property Name="DiscountAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ShipmentDetailId" Type="Int64" />
         </EntityType>
         <EntityType Name="PurchaseOrderDetail">
           <Key>
@@ -1223,6 +1343,98 @@
           <Property Name="ReceivedQuantity" Type="Int32" />
           <Property Name="RemainingQuantity" Type="Int32" />
         </EntityType>
+        <EntityType Name="Email">
+          <Key>
+            <PropertyRef Name="EmailId" />
+          </Key>
+          <Property Name="EmailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="LoginEmail" Type="Boolean" />
+          <Property Name="Email1" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="AddressId" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Phone">
+          <Key>
+            <PropertyRef Name="PhoneId" />
+          </Key>
+          <Property Name="PhoneId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PhoneType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Extension" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="AddressId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AddressBook" Relationship="ERPDBModel.FK_Phones_AddressBook" FromRole="Phone" ToRole="AddressBook" />
+        </EntityType>
+        <EntityType Name="Shipment">
+          <Key>
+            <PropertyRef Name="ShipmentId" />
+          </Key>
+          <Property Name="ShipmentId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ShipmentDate" Type="DateTime" Precision="3" />
+          <Property Name="BillToAddressId" Type="Int64" Nullable="false" />
+          <Property Name="CarrierId" Type="Int64" Nullable="false" />
+          <Property Name="TrackingNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActualWeight" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="BillableWeight" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Duty" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Tax" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ShippingCost" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="CodAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ShippedFromId" Type="Int64" Nullable="false" />
+          <Property Name="ShippedToAddressId" Type="Int64" />
+          <Property Name="PurchaseOrderId" Type="Int64" />
+          <Property Name="VendorInvoiceId" Type="Int64" />
+          <Property Name="VendorShippingCost" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="VendorHandlingCost" Type="Decimal" Precision="18" Scale="4" />
+        </EntityType>
+        <EntityType Name="ShipmentsDetail">
+          <Key>
+            <PropertyRef Name="ShipmentDetailId" />
+          </Key>
+          <Property Name="ShipmentDetailId" Type="Int64" Nullable="false" />
+          <Property Name="ShipmentId" Type="Int64" Nullable="false" />
+          <Property Name="ItemId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="SalesOrderDetailId" Type="Int64" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ShippedToAddress">
+          <Key>
+            <PropertyRef Name="ShippedToAddressId" />
+          </Key>
+          <Property Name="ShippedToAddressId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressId" Type="Int64" Nullable="false" />
+          <Property Name="ShipToAddressLine1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShipToAddressLine2" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ShipToState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShipToCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ShipToZipcode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AddressBook" Relationship="ERPDBModel.FK_ShippedToAddresses_AddressBook" FromRole="ShippedToAddress" ToRole="AddressBook" />
+        </EntityType>
+        <Association Name="FK_Phones_AddressBook">
+          <End Type="ERPDBModel.AddressBook" Role="AddressBook" Multiplicity="1" />
+          <End Type="ERPDBModel.Phone" Role="Phone" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="Phone">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ShippedToAddresses_AddressBook">
+          <End Type="ERPDBModel.AddressBook" Role="AddressBook" Multiplicity="1" />
+          <End Type="ERPDBModel.ShippedToAddress" Role="ShippedToAddress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AddressBook">
+              <PropertyRef Name="AddressId" />
+            </Principal>
+            <Dependent Role="ShippedToAddress">
+              <PropertyRef Name="AddressId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1277,6 +1489,7 @@
           <EntitySetMapping Name="AddressBooks">
             <EntityTypeMapping TypeName="ERPDBModel.AddressBook">
               <MappingFragment StoreEntitySet="AddressBook">
+                <ScalarProperty Name="PrimaryShippedToAddressId" ColumnName="PrimaryShippedToAddressId" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -1296,11 +1509,7 @@
                 <ScalarProperty Name="ProductKey" ColumnName="ProductKey" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
-                <ScalarProperty Name="ShippingAddress" ColumnName="ShippingAddress" />
-                <ScalarProperty Name="ShippingCity" ColumnName="ShippingCity" />
-                <ScalarProperty Name="ShippingZipcode" ColumnName="ShippingZipcode" />
-                <ScalarProperty Name="ShippingState" ColumnName="ShippingState" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="AddressTypeXRefs">
@@ -1330,6 +1539,8 @@
           <EntitySetMapping Name="BudgetRanges">
             <EntityTypeMapping TypeName="ERPDBModel.BudgetRange">
               <MappingFragment StoreEntitySet="BudgetRange">
+                <ScalarProperty Name="LastUpdated" ColumnName="LastUpdated" />
+                <ScalarProperty Name="SupervisorCode" ColumnName="SupervisorCode" />
                 <ScalarProperty Name="RangeId" ColumnName="RangeId" />
                 <ScalarProperty Name="StartDate" ColumnName="StartDate" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />
@@ -1424,6 +1635,7 @@
           <EntitySetMapping Name="ItemMasters">
             <EntityTypeMapping TypeName="ERPDBModel.ItemMaster">
               <MappingFragment StoreEntitySet="ItemMaster">
+                <ScalarProperty Name="ItemNumber" ColumnName="ItemNumber" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="UnitOfMeasure" ColumnName="UnitOfMeasure" />
@@ -1563,6 +1775,7 @@
           <EntitySetMapping Name="InvoicesDetails">
             <EntityTypeMapping TypeName="ERPDBModel.InvoicesDetail">
               <MappingFragment StoreEntitySet="InvoicesDetail">
+                <ScalarProperty Name="ShipmentDetailId" ColumnName="ShipmentDetailId" />
                 <ScalarProperty Name="DiscountAmount" ColumnName="DiscountAmount" />
                 <ScalarProperty Name="DiscountPercent" ColumnName="DiscountPercent" />
                 <ScalarProperty Name="ItemId" ColumnName="ItemId" />
@@ -1593,6 +1806,77 @@
                 <ScalarProperty Name="Amount" ColumnName="Amount" />
                 <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
                 <ScalarProperty Name="PurchaseOrderDetailId" ColumnName="PurchaseOrderDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emails">
+            <EntityTypeMapping TypeName="ERPDBModel.Email">
+              <MappingFragment StoreEntitySet="Emails">
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Email1" ColumnName="Email" />
+                <ScalarProperty Name="LoginEmail" ColumnName="LoginEmail" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Phones">
+            <EntityTypeMapping TypeName="ERPDBModel.Phone">
+              <MappingFragment StoreEntitySet="Phones">
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="Extension" ColumnName="Extension" />
+                <ScalarProperty Name="PhoneType" ColumnName="PhoneType" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneId" ColumnName="PhoneId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Shipments">
+            <EntityTypeMapping TypeName="ERPDBModel.Shipment">
+              <MappingFragment StoreEntitySet="Shipments">
+                <ScalarProperty Name="VendorHandlingCost" ColumnName="VendorHandlingCost" />
+                <ScalarProperty Name="VendorShippingCost" ColumnName="VendorShippingCost" />
+                <ScalarProperty Name="VendorInvoiceId" ColumnName="VendorInvoiceId" />
+                <ScalarProperty Name="PurchaseOrderId" ColumnName="PurchaseOrderId" />
+                <ScalarProperty Name="ShippedToAddressId" ColumnName="ShippedToAddressId" />
+                <ScalarProperty Name="ShippedFromId" ColumnName="ShippedFromId" />
+                <ScalarProperty Name="CodAmount" ColumnName="CodAmount" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="ShippingCost" ColumnName="ShippingCost" />
+                <ScalarProperty Name="Tax" ColumnName="Tax" />
+                <ScalarProperty Name="Duty" ColumnName="Duty" />
+                <ScalarProperty Name="BillableWeight" ColumnName="BillableWeight" />
+                <ScalarProperty Name="ActualWeight" ColumnName="ActualWeight" />
+                <ScalarProperty Name="TrackingNumber" ColumnName="TrackingNumber" />
+                <ScalarProperty Name="CarrierId" ColumnName="CarrierId" />
+                <ScalarProperty Name="BillToAddressId" ColumnName="BillToAddressId" />
+                <ScalarProperty Name="ShipmentDate" ColumnName="ShipmentDate" />
+                <ScalarProperty Name="ShipmentId" ColumnName="ShipmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShipmentsDetails">
+            <EntityTypeMapping TypeName="ERPDBModel.ShipmentsDetail">
+              <MappingFragment StoreEntitySet="ShipmentsDetail">
+                <ScalarProperty Name="SalesOrderDetailId" ColumnName="SalesOrderDetailId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ItemId" ColumnName="ItemId" />
+                <ScalarProperty Name="ShipmentId" ColumnName="ShipmentId" />
+                <ScalarProperty Name="ShipmentDetailId" ColumnName="ShipmentDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShippedToAddresses">
+            <EntityTypeMapping TypeName="ERPDBModel.ShippedToAddress">
+              <MappingFragment StoreEntitySet="ShippedToAddresses">
+                <ScalarProperty Name="ShipToZipcode" ColumnName="ShipToZipcode" />
+                <ScalarProperty Name="ShipToCity" ColumnName="ShipToCity" />
+                <ScalarProperty Name="ShipToState" ColumnName="ShipToState" />
+                <ScalarProperty Name="ShipToAddressLine2" ColumnName="ShipToAddressLine2" />
+                <ScalarProperty Name="ShipToAddressLine1" ColumnName="ShipToAddressLine1" />
+                <ScalarProperty Name="AddressId" ColumnName="AddressId" />
+                <ScalarProperty Name="ShippedToAddressId" ColumnName="ShippedToAddressId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
