@@ -46,5 +46,10 @@ namespace MillenniumERP.EntityFramework
         public virtual DbSet<UDC> UDCs { get; set; }
         public virtual DbSet<InvoicesDetail> InvoicesDetails { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual DbSet<Email> Emails { get; set; }
+        public virtual DbSet<Phone> Phones { get; set; }
+        public virtual DbSet<Shipment> Shipments { get; set; }
+        public virtual DbSet<ShipmentsDetail> ShipmentsDetails { get; set; }
+        public virtual DbSet<ShippedToAddress> ShippedToAddresses { get; set; }
     }
 }

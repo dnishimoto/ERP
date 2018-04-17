@@ -22,6 +22,8 @@ namespace MillenniumERP.EntityFramework
             this.ServiceInformations = new HashSet<ServiceInformation>();
             this.POQuotes = new HashSet<POQuote>();
             this.POQuotes1 = new HashSet<POQuote>();
+            this.Phones = new HashSet<Phone>();
+            this.ShippedToAddresses = new HashSet<ShippedToAddress>();
         }
     
         public long AddressId { get; set; }
@@ -43,10 +45,7 @@ namespace MillenniumERP.EntityFramework
         public string ProductKey { get; set; }
         public string Email { get; set; }
         public string Fax { get; set; }
-        public string ShippingAddress { get; set; }
-        public string ShippingCity { get; set; }
-        public string ShippingZipcode { get; set; }
-        public string ShippingState { get; set; }
+        public Nullable<long> PrimaryShippedToAddressId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
@@ -58,5 +57,9 @@ namespace MillenniumERP.EntityFramework
         public virtual ICollection<POQuote> POQuotes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POQuote> POQuotes1 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Phone> Phones { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShippedToAddress> ShippedToAddresses { get; set; }
     }
 }
