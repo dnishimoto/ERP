@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MillenniumERP.EntityFramework;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -26,11 +27,18 @@ namespace MillenniumERP.Services
                 Task<T> result = _dbContext.Set<T>().FindAsync(id);
                 return await result;
         }
-        public IQueryable<T> GetObjectsAsync(Expression<Func<T, bool>> predicate)
+        public IQueryable<T> GetObjectsAsync(Expression<Func<T, bool>> predicate,string includeTable="")
         {
             IQueryable<T> result = _dbContext.Set<T>().Where(predicate);
-            return result;
+            if (includeTable != "")
+            {
+                result=result.Include(includeTable);
+            }
+                
+            
+                return result;
         }
+       
         public void DeleteObject(T dataObject)
         {
 

@@ -24,6 +24,7 @@ namespace MillenniumERP.EntityFramework
             this.POQuotes1 = new HashSet<POQuote>();
             this.Phones = new HashSet<Phone>();
             this.ShippedToAddresses = new HashSet<ShippedToAddress>();
+            this.Emails = new HashSet<Email>();
         }
     
         public long AddressId { get; set; }
@@ -61,5 +62,7 @@ namespace MillenniumERP.EntityFramework
         public virtual ICollection<Phone> Phones { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShippedToAddress> ShippedToAddresses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Email> Emails { get; set; }
     }
 }

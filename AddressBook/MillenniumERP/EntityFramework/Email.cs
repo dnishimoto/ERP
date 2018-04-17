@@ -19,5 +19,7 @@ namespace MillenniumERP.EntityFramework
         public Nullable<bool> LoginEmail { get; set; }
         public string Email1 { get; set; }
         public long AddressId { get; set; }
+    
+        public virtual AddressBook AddressBook { get; set; }
     }
 }
