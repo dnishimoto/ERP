@@ -21,8 +21,8 @@ namespace MillenniumERP.EntityFramework
         public Nullable<long> DurationMinutes { get; set; }
         public Nullable<long> CustomerAddressId { get; set; }
     
-        public virtual AddressBook AddressBook { get; set; }
-        public virtual AddressBook AddressBook1 { get; set; }
+        public virtual AddressBook CustomerAddressBook { get; set; }
+        public virtual AddressBook EmployeeAddressBook { get; set; }
         public virtual ServiceInformation ServiceInformation { get; set; }
     }
 }

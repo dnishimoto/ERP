@@ -20,6 +20,7 @@ namespace MillenniumERP.EntityFramework
             this.Budgets = new HashSet<Budget>();
             this.BudgetRanges = new HashSet<BudgetRange>();
             this.GeneralLedgers = new HashSet<GeneralLedger>();
+            this.AccountBalances = new HashSet<AccountBalance>();
         }
     
         public long AccountId { get; set; }
@@ -33,6 +34,12 @@ namespace MillenniumERP.EntityFramework
         public string GenCode { get; set; }
         public string SubCode { get; set; }
         public string ObjectNumber { get; set; }
+        public string SupCode { get; set; }
+        public string ThirdAccount { get; set; }
+        public string CategoryCode1 { get; set; }
+        public string CategoryCode2 { get; set; }
+        public string CategoryCode3 { get; set; }
+        public string PostEditCode { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets { get; set; }
@@ -40,5 +47,7 @@ namespace MillenniumERP.EntityFramework
         public virtual ICollection<BudgetRange> BudgetRanges { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AccountBalance> AccountBalances { get; set; }
     }
 }

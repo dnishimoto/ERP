@@ -88,6 +88,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BudgetButtonResource.resx</DependentUpon>
     </Compile>
+    <Compile Include="EntityFramework\AccountBalance.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="EntityFramework\AcctPay.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
@@ -104,6 +107,9 @@
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\BudgetRange.cs">
+      <DependentUpon>ERPDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EntityFramework\BudgetSnapShot.cs">
       <DependentUpon>ERPDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="EntityFramework\ChartOfAcct.cs">
@@ -196,7 +202,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Services\AddressBookRepository.cs" />
+    <Compile Include="Services\BudgetSnapShotRepository.cs" />
+    <Compile Include="Services\ChartOfAccountRepository.cs" />
     <Compile Include="Services\Repository.cs" />
+    <Compile Include="Services\ScheduleEventRepository.cs" />
     <Compile Include="Services\UnitOfWork.cs" />
     <EmbeddedResource Include="AddressBookForm.resx">
       <DependentUpon>AddressBookForm.cs</DependentUpon>

@@ -15,7 +15,18 @@ namespace MillenniumERP.Services
         {
             _dbContext = (Entities) db;
         }
-        public List<Email> GetAddressBookEmailsByAddressId(int addressId)
+        public List<Phone> GetPhonesByAddressId(int addressId)
+        {
+            var resultList = base.GetObjectsAsync(e => e.AddressId == addressId, "phones").FirstOrDefault();
+
+            List<Phone> phoneList = new List<Phone>();
+            foreach (var item in resultList.Phones)
+            {
+                phoneList.Add(item);
+            }
+            return phoneList;
+        }
+        public List<Email> GetEmailsByAddressId(int addressId)
         {
             var resultList = base.GetObjectsAsync(e => e.AddressId == addressId, "emails").FirstOrDefault();
 
