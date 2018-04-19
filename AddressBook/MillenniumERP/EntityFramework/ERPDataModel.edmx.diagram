@@ -48,6 +48,9 @@
         <AssociationConnector Association="ERPDBModel.FK_Phones_AddressBook" />
         <AssociationConnector Association="ERPDBModel.FK_ShippedToAddresses_AddressBook" />
         <AssociationConnector Association="ERPDBModel.FK_Emails_AddressBook" />
+        <EntityTypeShape EntityType="ERPDBModel.BudgetSnapShot" Width="1.5" PointX="16.375" PointY="10.75" />
+        <EntityTypeShape EntityType="ERPDBModel.AccountBalance" Width="1.5" PointX="11" PointY="20" />
+        <AssociationConnector Association="ERPDBModel.FK_AccountBalance_ChartOfAccts" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

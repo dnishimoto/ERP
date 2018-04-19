@@ -10,13 +10,19 @@ namespace MillenniumERP.Services
 {
     public class UnitOfWork
     {
-        public AddressBookRepository addressBookRepository = null;
         DbContext db = new Entities();
+        public AddressBookRepository addressBookRepository => new AddressBookRepository(db);
+        public ChartOfAccountRepository chartOfAccountRepository => new ChartOfAccountRepository(db);
+        public BudgetSnapShotRepository budgetSnapShotRepository => new BudgetSnapShotRepository(db);
+        public ScheduleEventRepository scheduleEventRepository => new ScheduleEventRepository(db);
+
+      
         public UnitOfWork()
         {
-            addressBookRepository=new AddressBookRepository(db);
-    
+            //addressBookRepository = new AddressBookRepository(db);
+            //chartOfAccountRepository = new ChartOfAccountRepository(db);
         }
+        
         public void CommitChanges()
         {
             db.SaveChanges();

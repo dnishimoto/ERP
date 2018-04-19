@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace UnitTestProjectAddressBookProject
+namespace UnitTestProject
 {
     using MillenniumERP.Services;
     using MillenniumERP.EntityFramework;
@@ -11,13 +11,29 @@ namespace UnitTestProjectAddressBookProject
     using System.Threading;
 
     [TestClass]
-    public class UnitTest1
+    public class UnitTestAddressBook
     {
+        [TestMethod]
+        public void TestAddressBookPhones()
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+            List<Phone> resultTask = unitOfWork.addressBookRepository.GetPhonesByAddressId(1);
+
+            List<string> intCollection = new List<string>();
+            foreach (var item in resultTask)
+            {
+                Console.WriteLine($"{item.PhoneNumber}");
+                intCollection.Add(item.PhoneNumber);
+
+            }
+            Assert.IsTrue(intCollection.Contains("2086066785"));
+
+        }
         [TestMethod]
         public void TestAddressBookEmails()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
-            List<Email> resultTask = unitOfWork.addressBookRepository.GetAddressBookEmailsByAddressId(1);
+            List<Email> resultTask = unitOfWork.addressBookRepository.GetEmailsByAddressId(1);
 
             List<string> intCollection = new List<string>();
             foreach (var item in resultTask)

@@ -5,6 +5,18 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="ERPDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountBalance">
+          <Key>
+            <PropertyRef Name="AccountBalanceId" />
+          </Key>
+          <Property Name="AccountBalanceId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountBalanceType" Type="varchar" MaxLength="10" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Hours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="FiscalYear" Type="int" Nullable="false" />
+          <Property Name="FiscalPeriod" Type="int" Nullable="false" />
+          <Property Name="AccountId" Type="bigint" Nullable="false" />
+        </EntityType>
         <EntityType Name="AcctPay">
           <Key>
             <PropertyRef Name="Id" />
@@ -113,6 +125,22 @@
           <Property Name="SupervisorCode" Type="varchar" MaxLength="50" />
           <Property Name="LastUpdated" Type="datetime" />
         </EntityType>
+        <EntityType Name="BudgetSnapShot">
+          <Key>
+            <PropertyRef Name="BudgetId" />
+          </Key>
+          <Property Name="BudgetId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BudgetHours" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="BudgetAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="ActualHours" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ActualAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="AccountId" Type="bigint" />
+          <Property Name="RangeId" Type="bigint" />
+          <Property Name="ProjectedHours" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="ProjectedAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="OpenPurchaseOrderAmount" Type="decimal" Precision="18" Scale="4" />
+          <Property Name="Comments" Type="varchar(max)" />
+        </EntityType>
         <EntityType Name="ChartOfAccts">
           <Key>
             <PropertyRef Name="AccountId" />
@@ -128,6 +156,12 @@
           <Property Name="GenCode" Type="varchar" MaxLength="3" />
           <Property Name="SubCode" Type="varchar" MaxLength="3" />
           <Property Name="ObjectNumber" Type="varchar" MaxLength="10" />
+          <Property Name="SupCode" Type="varchar" MaxLength="10" />
+          <Property Name="ThirdAccount" Type="varchar" MaxLength="20" />
+          <Property Name="CategoryCode1" Type="varchar" MaxLength="10" />
+          <Property Name="CategoryCode2" Type="varchar" MaxLength="10" />
+          <Property Name="CategoryCode3" Type="varchar" MaxLength="10" />
+          <Property Name="PostEditCode" Type="varchar" MaxLength="10" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -490,6 +524,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_AccountBalance_ChartOfAccts">
+          <End Role="ChartOfAccts" Type="Self.ChartOfAccts" Multiplicity="1" />
+          <End Role="AccountBalance" Type="Self.AccountBalance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChartOfAccts">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="AccountBalance">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Budget_BudgetRange">
           <End Role="BudgetRange" Type="Self.BudgetRange" Multiplicity="0..1" />
           <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
@@ -522,6 +568,30 @@
               <PropertyRef Name="AccountId" />
             </Principal>
             <Dependent Role="BudgetRange">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetSnapShot_BudgetRange">
+          <End Role="BudgetRange" Type="Self.BudgetRange" Multiplicity="0..1" />
+          <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BudgetRange">
+              <PropertyRef Name="RangeId" />
+            </Principal>
+            <Dependent Role="Budget">
+              <PropertyRef Name="RangeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BudgetSnapShot_ChartOfAccts">
+          <End Role="ChartOfAccts" Type="Self.ChartOfAccts" Multiplicity="0..1" />
+          <End Role="Budget" Type="Self.Budget" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChartOfAccts">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="Budget">
               <PropertyRef Name="AccountId" />
             </Dependent>
           </ReferentialConstraint>
@@ -623,12 +693,14 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ERPDBModelStoreContainer">
+          <EntitySet Name="AccountBalance" EntityType="Self.AccountBalance" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcctPay" EntityType="Self.AcctPay" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AcctRec" EntityType="Self.AcctRec" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddressBook" EntityType="Self.AddressBook" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AddressTypeXRef" EntityType="Self.AddressTypeXRef" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Budget" EntityType="Self.Budget" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BudgetRange" EntityType="Self.BudgetRange" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BudgetSnapShot" EntityType="Self.BudgetSnapShot" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ChartOfAccts" EntityType="Self.ChartOfAccts" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contract" EntityType="Self.Contract" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Emails" EntityType="Self.Emails" Schema="dbo" store:Type="Tables" />
@@ -673,6 +745,10 @@
             <End Role="UDC" EntitySet="UDC" />
             <End Role="ServiceInformation" EntitySet="ServiceInformation" />
           </AssociationSet>
+          <AssociationSet Name="FK_AccountBalance_ChartOfAccts" Association="Self.FK_AccountBalance_ChartOfAccts">
+            <End Role="ChartOfAccts" EntitySet="ChartOfAccts" />
+            <End Role="AccountBalance" EntitySet="AccountBalance" />
+          </AssociationSet>
           <AssociationSet Name="FK_Budget_BudgetRange" Association="Self.FK_Budget_BudgetRange">
             <End Role="BudgetRange" EntitySet="BudgetRange" />
             <End Role="Budget" EntitySet="Budget" />
@@ -684,6 +760,14 @@
           <AssociationSet Name="FK_BudgetRange_ChartOfAccts" Association="Self.FK_BudgetRange_ChartOfAccts">
             <End Role="ChartOfAccts" EntitySet="ChartOfAccts" />
             <End Role="BudgetRange" EntitySet="BudgetRange" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetSnapShot_BudgetRange" Association="Self.FK_BudgetSnapShot_BudgetRange">
+            <End Role="BudgetRange" EntitySet="BudgetRange" />
+            <End Role="Budget" EntitySet="Budget" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BudgetSnapShot_ChartOfAccts" Association="Self.FK_BudgetSnapShot_ChartOfAccts">
+            <End Role="ChartOfAccts" EntitySet="ChartOfAccts" />
+            <End Role="Budget" EntitySet="Budget" />
           </AssociationSet>
           <AssociationSet Name="FK_Customer" Association="Self.FK_Customer">
             <End Role="AddressBook" EntitySet="AddressBook" />
@@ -860,6 +944,13 @@
           <NavigationProperty Name="Budgets" Relationship="Self.FK_Budget_ChartOfAccts" FromRole="ChartOfAccts" ToRole="Budget" />
           <NavigationProperty Name="BudgetRanges" Relationship="Self.FK_BudgetRange_ChartOfAccts" FromRole="ChartOfAccts" ToRole="BudgetRange" />
           <NavigationProperty Name="GeneralLedgers" Relationship="Self.FK_GeneralLedger_ChartOfAccts" FromRole="ChartOfAccts" ToRole="GeneralLedger" />
+          <Property Name="SupCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ThirdAccount" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryCode1" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryCode2" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CategoryCode3" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="PostEditCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="AccountBalances" Relationship="ERPDBModel.FK_AccountBalance_ChartOfAccts" FromRole="ChartOfAcct" ToRole="AccountBalance" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -1029,8 +1120,8 @@
           <Property Name="ServiceId" Type="Int64" />
           <Property Name="DurationMinutes" Type="Int64" />
           <Property Name="CustomerAddressId" Type="Int64" />
-          <NavigationProperty Name="AddressBook" Relationship="Self.FK__ScheduleE__Custo__778AC167" FromRole="ScheduleEvent" ToRole="AddressBook" />
-          <NavigationProperty Name="AddressBook1" Relationship="Self.FK__ScheduleE__Emplo__76969D2E" FromRole="ScheduleEvent" ToRole="AddressBook" />
+          <NavigationProperty Name="CustomerAddressBook" Relationship="Self.FK__ScheduleE__Custo__778AC167" FromRole="ScheduleEvent" ToRole="AddressBook" />
+          <NavigationProperty Name="EmployeeAddressBook" Relationship="Self.FK__ScheduleE__Emplo__76969D2E" FromRole="ScheduleEvent" ToRole="AddressBook" />
           <NavigationProperty Name="ServiceInformation" Relationship="Self.FK__ScheduleE__Servi__75A278F5" FromRole="ScheduleEvent" ToRole="ServiceInformation" />
         </EntityType>
         <EntityType Name="ServiceInformation">
@@ -1328,6 +1419,12 @@
             <End Role="AddressBook" EntitySet="AddressBooks" />
             <End Role="Email" EntitySet="Emails" />
           </AssociationSet>
+          <EntitySet Name="BudgetSnapShots" EntityType="ERPDBModel.BudgetSnapShot" />
+          <EntitySet Name="AccountBalances" EntityType="ERPDBModel.AccountBalance" />
+          <AssociationSet Name="FK_AccountBalance_ChartOfAccts" Association="ERPDBModel.FK_AccountBalance_ChartOfAccts">
+            <End Role="ChartOfAcct" EntitySet="ChartOfAccts" />
+            <End Role="AccountBalance" EntitySet="AccountBalances" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="InvoicesDetail">
           <Key>
@@ -1469,6 +1566,47 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BudgetSnapShot">
+          <Key>
+            <PropertyRef Name="BudgetId" />
+          </Key>
+          <Property Name="BudgetId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="BudgetHours" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="BudgetAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="ActualHours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ActualAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="AccountId" Type="Int64" />
+          <Property Name="RangeId" Type="Int64" />
+          <Property Name="ProjectedHours" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="ProjectedAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="OpenPurchaseOrderAmount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="AccountBalance">
+          <Key>
+            <PropertyRef Name="AccountBalanceId" />
+          </Key>
+          <Property Name="AccountBalanceId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountBalanceType" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="4" />
+          <Property Name="Hours" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="FiscalYear" Type="Int32" Nullable="false" />
+          <Property Name="FiscalPeriod" Type="Int32" Nullable="false" />
+          <Property Name="AccountId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="ChartOfAcct" Relationship="ERPDBModel.FK_AccountBalance_ChartOfAccts" FromRole="AccountBalance" ToRole="ChartOfAcct" />
+        </EntityType>
+        <Association Name="FK_AccountBalance_ChartOfAccts">
+          <End Type="ERPDBModel.ChartOfAcct" Role="ChartOfAcct" Multiplicity="1" />
+          <End Type="ERPDBModel.AccountBalance" Role="AccountBalance" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ChartOfAcct">
+              <PropertyRef Name="AccountId" />
+            </Principal>
+            <Dependent Role="AccountBalance">
+              <PropertyRef Name="AccountId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1592,6 +1730,12 @@
           <EntitySetMapping Name="ChartOfAccts">
             <EntityTypeMapping TypeName="ERPDBModel.ChartOfAcct">
               <MappingFragment StoreEntitySet="ChartOfAccts">
+                <ScalarProperty Name="PostEditCode" ColumnName="PostEditCode" />
+                <ScalarProperty Name="CategoryCode3" ColumnName="CategoryCode3" />
+                <ScalarProperty Name="CategoryCode2" ColumnName="CategoryCode2" />
+                <ScalarProperty Name="CategoryCode1" ColumnName="CategoryCode1" />
+                <ScalarProperty Name="ThirdAccount" ColumnName="ThirdAccount" />
+                <ScalarProperty Name="SupCode" ColumnName="SupCode" />
                 <ScalarProperty Name="AccountId" ColumnName="AccountId" />
                 <ScalarProperty Name="Location" ColumnName="Location" />
                 <ScalarProperty Name="BusUnit" ColumnName="BusUnit" />
@@ -1911,6 +2055,36 @@
                 <ScalarProperty Name="ShipToAddressLine1" ColumnName="ShipToAddressLine1" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="ShippedToAddressId" ColumnName="ShippedToAddressId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BudgetSnapShots">
+            <EntityTypeMapping TypeName="ERPDBModel.BudgetSnapShot">
+              <MappingFragment StoreEntitySet="BudgetSnapShot">
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+                <ScalarProperty Name="OpenPurchaseOrderAmount" ColumnName="OpenPurchaseOrderAmount" />
+                <ScalarProperty Name="ProjectedAmount" ColumnName="ProjectedAmount" />
+                <ScalarProperty Name="ProjectedHours" ColumnName="ProjectedHours" />
+                <ScalarProperty Name="RangeId" ColumnName="RangeId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="ActualAmount" ColumnName="ActualAmount" />
+                <ScalarProperty Name="ActualHours" ColumnName="ActualHours" />
+                <ScalarProperty Name="BudgetAmount" ColumnName="BudgetAmount" />
+                <ScalarProperty Name="BudgetHours" ColumnName="BudgetHours" />
+                <ScalarProperty Name="BudgetId" ColumnName="BudgetId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountBalances">
+            <EntityTypeMapping TypeName="ERPDBModel.AccountBalance">
+              <MappingFragment StoreEntitySet="AccountBalance">
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="FiscalPeriod" ColumnName="FiscalPeriod" />
+                <ScalarProperty Name="FiscalYear" ColumnName="FiscalYear" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="AccountBalanceType" ColumnName="AccountBalanceType" />
+                <ScalarProperty Name="AccountBalanceId" ColumnName="AccountBalanceId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

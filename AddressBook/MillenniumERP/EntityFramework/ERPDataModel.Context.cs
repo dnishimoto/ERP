@@ -51,5 +51,7 @@ namespace MillenniumERP.EntityFramework
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<ShipmentsDetail> ShipmentsDetails { get; set; }
         public virtual DbSet<ShippedToAddress> ShippedToAddresses { get; set; }
+        public virtual DbSet<BudgetSnapShot> BudgetSnapShots { get; set; }
+        public virtual DbSet<AccountBalance> AccountBalances { get; set; }
     }
 }
