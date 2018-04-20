@@ -69,7 +69,6 @@
           <Property Name="FirstName" Type="varchar" MaxLength="50" />
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="Company" Type="varchar" MaxLength="255" />
-          <Property Name="CellPhone" Type="nchar" MaxLength="20" />
           <Property Name="MailingCity" Type="varchar" MaxLength="50" />
           <Property Name="MailingState" Type="varchar" MaxLength="50" />
           <Property Name="MailingAddress" Type="varchar" MaxLength="255" />
@@ -81,9 +80,10 @@
           <Property Name="Type" Type="varchar" MaxLength="20" />
           <Property Name="PeopleXrefId" Type="bigint" />
           <Property Name="ProductKey" Type="varchar" MaxLength="100" />
-          <Property Name="Email" Type="varchar" MaxLength="100" />
           <Property Name="Fax" Type="varchar" MaxLength="50" />
           <Property Name="PrimaryShippedToAddressId" Type="bigint" />
+          <Property Name="PrimaryEmailId" Type="bigint" />
+          <Property Name="PrimaryPhoneId" Type="bigint" />
         </EntityType>
         <EntityType Name="AddressTypeXRef">
           <Key>
@@ -858,7 +858,6 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Company" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="CellPhone" Type="String" MaxLength="20" FixedLength="true" Unicode="true" />
           <Property Name="MailingCity" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MailingState" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="MailingAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -870,7 +869,6 @@
           <Property Name="Type" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
           <Property Name="PeopleXrefId" Type="Int64" />
           <Property Name="ProductKey" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <Property Name="Email" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="Fax" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="ScheduleEvents" Relationship="Self.FK__ScheduleE__Custo__778AC167" FromRole="AddressBook" ToRole="ScheduleEvent" />
           <NavigationProperty Name="ScheduleEvents1" Relationship="Self.FK__ScheduleE__Emplo__76969D2E" FromRole="AddressBook" ToRole="ScheduleEvent" />
@@ -881,6 +879,8 @@
           <NavigationProperty Name="Phones" Relationship="ERPDBModel.FK_Phones_AddressBook" FromRole="AddressBook" ToRole="Phone" />
           <NavigationProperty Name="ShippedToAddresses" Relationship="ERPDBModel.FK_ShippedToAddresses_AddressBook" FromRole="AddressBook" ToRole="ShippedToAddress" />
           <NavigationProperty Name="Emails" Relationship="ERPDBModel.FK_Emails_AddressBook" FromRole="AddressBook" ToRole="Email" />
+          <Property Name="PrimaryEmailId" Type="Int64" />
+          <Property Name="PrimaryPhoneId" Type="Int64" />
         </EntityType>
         <EntityType Name="AddressTypeXRef">
           <Key>
@@ -1661,13 +1661,14 @@
           <EntitySetMapping Name="AddressBooks">
             <EntityTypeMapping TypeName="ERPDBModel.AddressBook">
               <MappingFragment StoreEntitySet="AddressBook">
+                <ScalarProperty Name="PrimaryPhoneId" ColumnName="PrimaryPhoneId" />
+                <ScalarProperty Name="PrimaryEmailId" ColumnName="PrimaryEmailId" />
                 <ScalarProperty Name="PrimaryShippedToAddressId" ColumnName="PrimaryShippedToAddressId" />
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="Company" ColumnName="Company" />
-                <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
                 <ScalarProperty Name="MailingCity" ColumnName="MailingCity" />
                 <ScalarProperty Name="MailingState" ColumnName="MailingState" />
                 <ScalarProperty Name="MailingAddress" ColumnName="MailingAddress" />
@@ -1679,7 +1680,6 @@
                 <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="PeopleXrefId" ColumnName="PeopleXrefId" />
                 <ScalarProperty Name="ProductKey" ColumnName="ProductKey" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Fax" ColumnName="Fax" />
                 </MappingFragment>
             </EntityTypeMapping>

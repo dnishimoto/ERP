@@ -32,7 +32,6 @@ namespace MillenniumERP.EntityFramework
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Company { get; set; }
-        public string CellPhone { get; set; }
         public string MailingCity { get; set; }
         public string MailingState { get; set; }
         public string MailingAddress { get; set; }
@@ -44,9 +43,10 @@ namespace MillenniumERP.EntityFramework
         public string Type { get; set; }
         public Nullable<long> PeopleXrefId { get; set; }
         public string ProductKey { get; set; }
-        public string Email { get; set; }
         public string Fax { get; set; }
         public Nullable<long> PrimaryShippedToAddressId { get; set; }
+        public Nullable<long> PrimaryEmailId { get; set; }
+        public Nullable<long> PrimaryPhoneId { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
