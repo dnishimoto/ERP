@@ -18,5 +18,6 @@ namespace MillenniumERP
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmERPMainForm());
         }
+        //test commit 
     }
 }
