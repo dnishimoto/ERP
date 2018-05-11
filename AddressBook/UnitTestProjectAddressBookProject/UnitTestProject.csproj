@@ -67,9 +67,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\MillenniumERP\MillenniumERP.csproj">
+    <ProjectReference Include="..\MillenniumERP\MillenniumERPWinForms.csproj">
       <Project>{e6b00088-0490-40b7-95b4-fb2d7c53e1c8}</Project>
-      <Name>MillenniumERP</Name>
+      <Name>MillenniumERPWinForms</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
