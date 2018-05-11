@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProjectAddressBookProject\UnitTestProject.csproj", "{3BBFC345-837B-4BAE-B0BE-1A227CF98FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillenniumERP", "MillenniumERP\MillenniumERP.csproj", "{E6B00088-0490-40B7-95B4-FB2D7C53E1C8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillenniumERPWinForms", "MillenniumERP\MillenniumERPWinForms.csproj", "{E6B00088-0490-40B7-95B4-FB2D7C53E1C8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
