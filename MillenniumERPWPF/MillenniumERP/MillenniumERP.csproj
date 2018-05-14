@@ -121,5 +121,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AddressBook\ERP_Core2\ERP_Core.csproj">
+      <Project>{b098dc27-9685-440d-9d4c-81d287595028}</Project>
+      <Name>ERP_Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

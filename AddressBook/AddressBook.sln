@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillenniumERPWinForms", "Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillenniumERP", "..\MillenniumERPWPF\MillenniumERP\MillenniumERP.csproj", "{FB262120-371A-47F0-A14A-DAD4189FE03B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP_Core", "ERP_Core2\ERP_Core.csproj", "{B098DC27-9685-440D-9D4C-81D287595028}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FB262120-371A-47F0-A14A-DAD4189FE03B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB262120-371A-47F0-A14A-DAD4189FE03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB262120-371A-47F0-A14A-DAD4189FE03B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B098DC27-9685-440D-9D4C-81D287595028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B098DC27-9685-440D-9D4C-81D287595028}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B098DC27-9685-440D-9D4C-81D287595028}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B098DC27-9685-440D-9D4C-81D287595028}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
