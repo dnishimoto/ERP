@@ -101,105 +101,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BudgetButtonResource.resx</DependentUpon>
     </Compile>
-    <Compile Include="EntityFramework\AccountBalance.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AcctPay.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AcctRec.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AddressBook.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\AddressTypeXRef.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Budget.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\BudgetRange.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\BudgetSnapShot.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ChartOfAcct.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Contract.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Email.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ERPDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ERPDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ERPDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ERPDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ERPDataModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\GeneralLedger.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Inventory.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Invoice.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\InvoicesDetail.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ItemMaster.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Phone.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\POQuote.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\PurchaseOrder.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\PurchaseOrderDetail.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\SalesOrder.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\SalesOrderDetail.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ScheduleEvent.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ServiceInformation.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\Shipment.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ShipmentsDetail.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\ShippedToAddress.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EntityFramework\UDC.cs">
-      <DependentUpon>ERPDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="frmERPMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -214,12 +115,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="AddressBook\Repository\AddressBookRepository.cs" />
-    <Compile Include="Budgets\Repository\BudgetSnapShotRepository.cs" />
-    <Compile Include="ChartOfAccounts\Repository\ChartOfAccountRepository.cs" />
-    <Compile Include="UnitOfWork\Repository.cs" />
-    <Compile Include="ScheduleEvents\Repository\ScheduleEventRepository.cs" />
-    <Compile Include="UnitOfWork\UnitOfWork.cs" />
     <EmbeddedResource Include="AddressBookForm.resx">
       <DependentUpon>AddressBookForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -235,13 +130,6 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="App.config" />
-    <EntityDeploy Include="EntityFramework\ERPDataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ERPDataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="EntityFramework\ERPDataModel.edmx.diagram">
-      <DependentUpon>ERPDataModel.edmx</DependentUpon>
-    </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -272,48 +160,10 @@
     <None Include="Resources\newdocument32.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="EntityFramework\ERPDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ERPDataModel.edmx</DependentUpon>
-      <LastGenOutput>ERPDataModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EntityFramework\ERPDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ERPDataModel.edmx</DependentUpon>
-      <LastGenOutput>ERPDataModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="Sql_Server_Scripts\dbo.AcctPay.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.AcctRec.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.AddressBook.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.AddressTypeXRef.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Budget.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.BudgetRange.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.BudgetView.View.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.ChartOfAccts.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Contract.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.CustomerPrimaryShippedToView.View.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Emails.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.GeneralLedger.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Inventory.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.InvoiceAndDetailView.View.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Invoices.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.InvoicesDetail.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.ItemMaster.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Phones.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.POQuote.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.PurchaseOrder.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.PurchaseOrderAndDetailView.View.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.PurchaseOrderDetail.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.SalesOrder.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.SalesOrderAndInvoiceView.View.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.SalesOrderDetail.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.SalesOrderDetailView.View.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.ScheduleEvent.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.ServiceInformation.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Shipments.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.ShipmentsDetail.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.ShippedToAddresses.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.UDC.Table.sql" />
+    <ProjectReference Include="..\ERP_Core2\ERP_Core.csproj">
+      <Project>{b098dc27-9685-440d-9d4c-81d287595028}</Project>
+      <Name>ERP_Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

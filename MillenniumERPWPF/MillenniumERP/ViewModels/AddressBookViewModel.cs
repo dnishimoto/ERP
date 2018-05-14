@@ -13,13 +13,15 @@ namespace MillenniumERP.ViewModels
     /// <seealso cref="Caliburn.Micro.Screen" />
     public class AddressBookViewModel : Screen
     {
-
+        //UnitOfWork unitOfWork = new UnitOfWork();
         /// <summary>
         /// Do the searching
         /// </summary>
         public void Search()
         {
+           
 
+            //IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains(txtSearchName.Text.ToString()));
 
         }
     }

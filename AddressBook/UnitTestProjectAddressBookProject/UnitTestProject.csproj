@@ -67,6 +67,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ERP_Core2\ERP_Core.csproj">
+      <Project>{b098dc27-9685-440d-9d4c-81d287595028}</Project>
+      <Name>ERP_Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MillenniumERP\MillenniumERPWinForms.csproj">
       <Project>{e6b00088-0490-40b7-95b4-fb2d7c53e1c8}</Project>
       <Name>MillenniumERPWinForms</Name>
