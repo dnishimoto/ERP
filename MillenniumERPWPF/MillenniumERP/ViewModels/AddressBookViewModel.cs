@@ -16,18 +16,25 @@ namespace MillenniumERP.ViewModels
     /// <seealso cref="Caliburn.Micro.Screen" />
     public class AddressBookViewModel : Screen
     {
+        private BindableCollection<AddressBook> _addressBooks = new BindableCollection<AddressBook>();
+
         UnitOfWork unitOfWork = new UnitOfWork();
-        IQueryable<AddressBook> dataContext=null;
-        /// <summary>
-        /// Do the searching
-        /// </summary>
+
         public void Search()
         {
 
+            IQueryable <AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains("David"));
+            foreach (var item in query)
+            {
+                AddressBooks.Add(item);
+            }
 
-            dataContext = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains("David"));
-
-           
         }
+        public BindableCollection<AddressBook> AddressBooks
+        {
+            get { return _addressBooks; }
+            set { _addressBooks = value; }
+        }
+
     }
 }

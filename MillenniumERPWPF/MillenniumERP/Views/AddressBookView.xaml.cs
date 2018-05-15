@@ -11,6 +11,7 @@ namespace MillenniumERP.Views
         {
             InitializeComponent();
 
+            /*
             System.Collections.ObjectModel.ObservableCollection<object> list = new System.Collections.ObjectModel.ObservableCollection<object>();
             dynamic data = null;
 
@@ -18,6 +19,8 @@ namespace MillenniumERP.Views
 
             dataGridAddressBook.AutoGenerateColumns = false;
             dataGridAddressBook.ItemsSource = list;
+            */
         }
+        
     }
 }
