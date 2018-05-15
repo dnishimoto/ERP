@@ -17,19 +17,29 @@ namespace MillenniumERP.ViewModels
     public class AddressBookViewModel : Screen
     {
         private BindableCollection<AddressBook> _addressBooks = new BindableCollection<AddressBook>();
-
+        private string _searchName = "";
         UnitOfWork unitOfWork = new UnitOfWork();
 
         public void Search()
         {
-
-            IQueryable <AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains("David"));
+            AddressBooks.Clear();
+            IQueryable <AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains(SearchName));
             foreach (var item in query)
             {
                 AddressBooks.Add(item);
             }
 
         }
+        public string SearchName
+        {
+            get { return _searchName; }
+            set
+            {
+                _searchName = value;
+       
+            }
+        }
+
         public BindableCollection<AddressBook> AddressBooks
         {
             get { return _addressBooks; }
