@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.EntityFramework;
+using ERP_Core2.EntityFramework;
 
 namespace MillenniumERP.Services
 {
@@ -15,6 +15,7 @@ namespace MillenniumERP.Services
         {
             _dbContext = (Entities) db;
         }
+        /*
         public List<Phone> GetPhonesByAddressId(int addressId)
         {
             var resultList = base.GetObjectsAsync(e => e.AddressId == addressId, "phones").FirstOrDefault();
@@ -37,7 +38,7 @@ namespace MillenniumERP.Services
             }
             return emailList;
         }
-
+        */
 
         public async Task<List<AddressBook>> GetAddressBooks(string keyCode)
         {

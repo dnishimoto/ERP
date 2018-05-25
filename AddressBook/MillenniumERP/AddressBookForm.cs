@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MillenniumERP.Services;
-using MillenniumERP.EntityFramework;
+using ERP_Core2.EntityFramework;
 
 namespace MillenniumERP
 {
@@ -57,20 +57,11 @@ namespace MillenniumERP
                    formData.Name = query.Result.Name;
                    formData.FirstName = query.Result.FirstName;
                    formData.LastName = query.Result.LastName;
-                   formData.Company = query.Result.Company;
+              
                    formData.PrimaryPhoneId = query.Result.PrimaryPhoneId;
-                   formData.MailingCity = query.Result.MailingCity;
-                   formData.MailingState = query.Result.MailingState;
-                   formData.MailingAddress = query.Result.MailingAddress;
-                   formData.MailingZipcode = query.Result.MailingZipcode;
-                   formData.BillingCity = query.Result.BillingCity;
-                   formData.BillingState = query.Result.BillingState;
-                   formData.BillingZipcode = query.Result.BillingZipcode;
-                   formData.BillingAddress = query.Result.BillingAddress;
-                   formData.Type = query.Result.Type;
+                    formData.Type = query.Result.Type;
                    formData.PeopleXrefId = query.Result.PeopleXrefId;
                    formData.ProductKey = query.Result.ProductKey;
-                   formData.Fax = query.Result.Fax;
                    formData.PrimaryShippedToAddressId = query.Result.PrimaryShippedToAddressId;
                    formData.PrimaryEmailId = query.Result.PrimaryEmailId;
                    MessageBox.Show(formData.Name);

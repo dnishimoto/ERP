@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace UnitTestProject
 {
     using MillenniumERP.Services;
-    using MillenniumERP.EntityFramework;
+    using ERP_Core2.EntityFramework;
     using System.Linq;
     using System.Collections.Generic;
     using System.Threading;
