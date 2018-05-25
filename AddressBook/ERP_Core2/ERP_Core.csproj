@@ -90,21 +90,17 @@
     <Compile Include="UnitOfWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sql_Server_Scripts\dbo.AccountBalance.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.AcctPay.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.AcctRec.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.AddressBook.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.AddressTypeXRef.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Budget.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.BudgetRange.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.BudgetSnapShot.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.BudgetView.View.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ChartOfAccts.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Contract.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Customer.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.CustomerPrimaryShippedToView.View.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Emails.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Employee.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.GeneralLedger.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Inventory.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.InvoiceAndDetailView.View.sql" />
@@ -125,7 +121,6 @@
     <Content Include="Sql_Server_Scripts\dbo.Shipments.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ShipmentsDetail.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ShippedToAddresses.Table.sql" />
-    <Content Include="Sql_Server_Scripts\dbo.Supplier.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.UDC.Table.sql" />
   </ItemGroup>
   <ItemGroup>
