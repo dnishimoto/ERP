@@ -1,6 +1,7 @@
-﻿using MillenniumERP.EntityFramework;
+﻿using ERP_Core2.EntityFramework;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,24 @@ namespace MillenniumERP.Services
       
         public UnitOfWork()
         {
+            /*
+            db.Database.Connection.Open();
+            if (db.Database.Connection.State == ConnectionState.Open)
+            {
+                Console.WriteLine(@"INFO: ConnectionString: " + db.Database.Connection.ConnectionString
+                    + "\n DataBase: " + db.Database.Connection.Database
+                    + "\n DataSource: " + db.Database.Connection.DataSource
+                    + "\n ServerVersion: " + db.Database.Connection.ServerVersion
+                    + "\n TimeOut: " + db.Database.Connection.ConnectionTimeout);
+                db.Database.Connection.Close();
+
+            }
+            */
+
             //addressBookRepository = new AddressBookRepository(db);
             //chartOfAccountRepository = new ChartOfAccountRepository(db);
         }
-        
+
         public void CommitChanges()
         {
             db.SaveChanges();

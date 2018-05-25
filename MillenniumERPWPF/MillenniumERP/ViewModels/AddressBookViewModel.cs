@@ -6,7 +6,7 @@
 namespace MillenniumERP.ViewModels
 {
     using Caliburn.Micro;
-    using MillenniumERP.EntityFramework;
+    using ERP_Core2.EntityFramework;
     using MillenniumERP.Services;
     using System.Linq;
 

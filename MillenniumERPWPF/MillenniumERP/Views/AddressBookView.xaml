@@ -29,7 +29,6 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Width="*" Header = "Key" Binding="{Binding AddressId}" />
                 <DataGridTextColumn Width="*" Header = "Name" Binding="{Binding Name}" />
-                <DataGridTextColumn Width="*" Header = "State" Binding="{Binding BillingState}" />
             </DataGrid.Columns>
         </DataGrid>
     
