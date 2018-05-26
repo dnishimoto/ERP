@@ -82,7 +82,12 @@
     <Compile Include="EntityFramework\Shipment.cs" />
     <Compile Include="EntityFramework\ShipmentsDetail.cs" />
     <Compile Include="EntityFramework\ShippedToAddress.cs" />
+    <Compile Include="EntityFramework\Supervisor.cs" />
     <Compile Include="EntityFramework\Supplier.cs" />
+    <Compile Include="EntityFramework\TimeAndAttendancePunchIn.cs" />
+    <Compile Include="EntityFramework\TimeAndAttendanceSchedule.cs" />
+    <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
+    <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleEvents\Repository\ScheduleEventRepository.cs" />
