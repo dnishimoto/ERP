@@ -43,9 +43,63 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ShippedToAddress> ShippedToAddresses { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
+        public virtual DbSet<Supervisor> Supervisors { get; set; }
+        public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
+        public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
+        public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
+        public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShifts { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Supervisor>()
+                .Property(e => e.SupervisorCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendancePunchIn>()
+                .Property(e => e.PunchinDateTime)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendancePunchIn>()
+                .Property(e => e.PunchoutDateTime)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendancePunchIn>()
+                .Property(e => e.Note)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendancePunchIn>()
+                .Property(e => e.mealPunchin)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendancePunchIn>()
+                .Property(e => e.mealPunchout)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceSchedule>()
+                .Property(e => e.ScheduleName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceSchedule>()
+                .HasMany(e => e.TimeAndAttendancePunchIns)
+                .WithOptional(e => e.TimeAndAttendanceSchedule)
+                .HasForeignKey(e => e.SupervisorId);
+
+            modelBuilder.Entity<TimeAndAttendanceShift>()
+                .Property(e => e.ShiftName)
+                .IsFixedLength()
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceShift>()
+                .Property(e => e.ShiftStartTime)
+                .IsFixedLength();
+
+            modelBuilder.Entity<TimeAndAttendanceShift>()
+                .Property(e => e.ShiftEndTime)
+                .IsFixedLength();
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.AccountBalanceType)
                 .IsUnicode(false);
