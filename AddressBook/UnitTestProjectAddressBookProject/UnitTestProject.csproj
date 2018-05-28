@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="UnitTestAddressBook.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTestScheduleEvent.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

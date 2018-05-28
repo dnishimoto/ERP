@@ -5,8 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.EntityFramework;
+using MillenniumERP.Services;
 
-namespace MillenniumERP.Services
+namespace MillenniumERP.AddressBookDomain
 {
     public class AddressBookRepository: Repository<AddressBook>
     {

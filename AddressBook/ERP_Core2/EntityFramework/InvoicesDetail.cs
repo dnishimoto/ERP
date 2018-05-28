@@ -24,11 +24,11 @@ namespace ERP_Core2.EntityFramework
 
         public decimal? Amount { get; set; }
 
-        public long? PurchaseOrderLineId { get; set; }
+        public long PurchaseOrderLineId { get; set; }
 
-        public long? SalesOrderDetailId { get; set; }
+        public long SalesOrderDetailId { get; set; }
 
-        public long? ItemId { get; set; }
+        public long ItemId { get; set; }
 
         public decimal? DiscountPercent { get; set; }
 

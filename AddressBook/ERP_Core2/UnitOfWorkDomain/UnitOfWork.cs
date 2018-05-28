@@ -6,6 +6,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MillenniumERP.AddressBookDomain;
+using MillenniumERP.ProjectManagementDomain;
+using MillenniumERP.ScheduleEventsDomain;
 
 namespace MillenniumERP.Services
 {
@@ -16,7 +19,7 @@ namespace MillenniumERP.Services
         public ChartOfAccountRepository chartOfAccountRepository => new ChartOfAccountRepository(db);
         public BudgetSnapShotRepository budgetSnapShotRepository => new BudgetSnapShotRepository(db);
         public ScheduleEventRepository scheduleEventRepository => new ScheduleEventRepository(db);
-
+        public ProjectManagementProjectRepository projectManagementProjectRepository => new ProjectManagementProjectRepository(db);
       
         public UnitOfWork()
         {
