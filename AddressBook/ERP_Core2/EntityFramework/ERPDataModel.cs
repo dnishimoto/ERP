@@ -48,17 +48,72 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShifts { get; set; }
+        public virtual DbSet<ProjectManagementMilestone> ProjectManagementMilestones { get; set; }
+        public virtual DbSet<ProjectManagementProject> ProjectManagementProjects { get; set; }
+        public virtual DbSet<ProjectManagementTask> ProjectManagementTasks { get; set; }
+        public virtual DbSet<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployees { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            /////////////////////Project Management///////////
+            modelBuilder.Entity<ProjectManagementMilestone>()
+                            .Property(e => e.MilestoneName)
+                            .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementMilestone>()
+                .Property(e => e.WBS)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementMilestone>()
+                .HasMany(e => e.ProjectManagementTasks)
+                .WithRequired(e => e.ProjectManagementMilestone)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ProjectManagementProject>()
+                .Property(e => e.ProjectName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementProject>()
+                .Property(e => e.Version)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementProject>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementProject>()
+                .HasMany(e => e.ProjectManagementTasks)
+                .WithRequired(e => e.ProjectManagementProject)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ProjectManagementTask>()
+                .Property(e => e.WBS)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementTask>()
+                .Property(e => e.TaskName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementTask>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ProjectManagementTask>()
+                .Property(e => e.AccountNumber)
+                .IsUnicode(false);
+
+            //////////////////////Supervisor/////////////////////
             modelBuilder.Entity<Supervisor>()
                 .Property(e => e.SupervisorCode)
                 .IsUnicode(false);
 
+
+            ///////////////////////Time and Attendance/////////
+
             modelBuilder.Entity<TimeAndAttendancePunchIn>()
-                .Property(e => e.PunchinDateTime)
-                .IsFixedLength()
-                .IsUnicode(false);
+                 .Property(e => e.PunchinDateTime)
+                 .IsFixedLength()
+                 .IsUnicode(false);
 
             modelBuilder.Entity<TimeAndAttendancePunchIn>()
                 .Property(e => e.PunchoutDateTime)
@@ -85,8 +140,14 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<TimeAndAttendanceSchedule>()
                 .HasMany(e => e.TimeAndAttendancePunchIns)
-                .WithOptional(e => e.TimeAndAttendanceSchedule)
-                .HasForeignKey(e => e.SupervisorId);
+                .WithRequired(e => e.TimeAndAttendanceSchedule)
+                .HasForeignKey(e => e.SupervisorId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TimeAndAttendanceSchedule>()
+                .HasMany(e => e.TimeAndAttendanceScheduledToWorks)
+                .WithRequired(e => e.TimeAndAttendanceSchedule)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<TimeAndAttendanceShift>()
                 .Property(e => e.ShiftName)
@@ -100,6 +161,8 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<TimeAndAttendanceShift>()
                 .Property(e => e.ShiftEndTime)
                 .IsFixedLength();
+
+            //////////////////Account Balance////////////////////
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.AccountBalanceType)
                 .IsUnicode(false);
@@ -107,7 +170,7 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.Amount)
                 .HasPrecision(18, 4);
-
+            /////////////////////Acct Pay////////////////////
             modelBuilder.Entity<AcctPay>()
                 .Property(e => e.DocType)
                 .IsUnicode(false);
@@ -144,6 +207,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.PONumber)
                 .IsUnicode(false);
 
+            /////////////////Account Receivable///////////////
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.DocType)
                 .IsUnicode(false);
@@ -172,6 +236,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.PONumber)
                 .IsUnicode(false);
 
+            //////////////////Address Book////////////////////
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.Name)
                 .IsUnicode(false);
@@ -248,6 +313,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.EntityType)
                 .IsUnicode(false);
 
+            //////////////////////Budget///////////////////////
             modelBuilder.Entity<Budget>()
                 .Property(e => e.BudgetHours)
                 .HasPrecision(18, 1);
@@ -268,6 +334,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.ProjectedAmount)
                 .HasPrecision(18, 4);
 
+            ////////////////////Budget Range////////////////////
             modelBuilder.Entity<BudgetRange>()
                 .Property(e => e.Location)
                 .IsUnicode(false);
@@ -310,6 +377,7 @@ namespace ERP_Core2.EntityFramework
                 .WithOptional(e => e.BudgetRange1)
                 .HasForeignKey(e => e.RangeId);
 
+            //////////////////////Budget Snapshot////////////////
             modelBuilder.Entity<BudgetSnapShot>()
                 .Property(e => e.BudgetHours)
                 .HasPrecision(18, 1);
@@ -338,6 +406,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.Comments)
                 .IsUnicode(false);
 
+            //////////////////Chart of Accounts//////////////////
             modelBuilder.Entity<ChartOfAcct>()
                 .Property(e => e.Location)
                 .IsUnicode(false);
@@ -426,14 +495,17 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.Cost)
                 .HasPrecision(19, 4);
 
+            ////////////////////////Contract/////////////////////
             modelBuilder.Entity<Contract>()
                 .Property(e => e.RemainingBalance)
                 .HasPrecision(19, 4);
 
+            ////////////////////////Customer//////////////////////
             modelBuilder.Entity<Customer>()
                 .Property(e => e.TaxIdentification)
                 .IsUnicode(false);
 
+            /////////////////////Email////////////////////////
             modelBuilder.Entity<Email>()
                 .Property(e => e.Password)
                 .IsUnicode(false);
@@ -442,10 +514,11 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.Email1)
                 .IsUnicode(false);
 
+            ///////////////////////Employee////////////////////////
             modelBuilder.Entity<Employee>()
                 .Property(e => e.TaxIdentification)
                 .IsUnicode(false);
-
+            //////////////////////General Ledger//////////////////
             modelBuilder.Entity<GeneralLedger>()
                 .Property(e => e.DocType)
                 .IsUnicode(false);
@@ -465,7 +538,7 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<Inventory>()
                 .Property(e => e.ShortDescription)
                 .IsUnicode(false);
-
+            //////////////////Inventory//////////////////////////
             modelBuilder.Entity<Inventory>()
                 .Property(e => e.LongDescription)
                 .IsUnicode(false);
@@ -485,10 +558,10 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<Inventory>()
                 .Property(e => e.ExtendedPrice)
                 .HasPrecision(19, 4);
-
+            ///////////////////Invoice///////////////////////////
             modelBuilder.Entity<Invoice>()
-                .Property(e => e.InvoiceNumber)
-                .IsUnicode(false);
+                           .Property(e => e.InvoiceNumber)
+                           .IsUnicode(false);
 
             modelBuilder.Entity<Invoice>()
                 .Property(e => e.Amount)
@@ -506,6 +579,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.PaymentTerms)
                 .IsUnicode(false);
 
+            ////////////////////////Invoice Detail////////////////
             modelBuilder.Entity<InvoicesDetail>()
                 .Property(e => e.UnitPrice)
                 .HasPrecision(18, 4);

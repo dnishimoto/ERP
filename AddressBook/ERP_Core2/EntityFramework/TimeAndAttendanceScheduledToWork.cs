@@ -12,9 +12,9 @@ namespace ERP_Core2.EntityFramework
         [Key]
         public long ScheduleToWorkId { get; set; }
 
-        public long? EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
 
-        public long? ScheduleId { get; set; }
+        public long ScheduleId { get; set; }
 
         public virtual TimeAndAttendanceSchedule TimeAndAttendanceSchedule { get; set; }
     }

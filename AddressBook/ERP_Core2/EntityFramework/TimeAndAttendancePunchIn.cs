@@ -21,13 +21,13 @@ namespace ERP_Core2.EntityFramework
         [StringLength(14)]
         public string PunchoutDateTime { get; set; }
 
-        public long? JobCodeXrefId { get; set; }
+        public long JobCodeXrefId { get; set; }
 
         public bool? Approved { get; set; }
 
-        public long? EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
 
-        public long? SupervisorId { get; set; }
+        public long SupervisorId { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? ProcessedDate { get; set; }
@@ -48,17 +48,15 @@ namespace ERP_Core2.EntityFramework
 
         public bool? ScheduledToWork { get; set; }
 
-        public long? TypeOfTimeUdcXrefId { get; set; }
+        public long TypeOfTimeUdcXrefId { get; set; }
 
-        public long? ApprovingAddressId { get; set; }
+        public long ApprovingAddressId { get; set; }
 
-        public long? PayCodeXrefId { get; set; }
+        public long PayCodeXrefId { get; set; }
 
         public long? ScheduleId { get; set; }
 
         public int? DurationInMinutes { get; set; }
-
-        public virtual Supervisor Supervisor { get; set; }
 
         public virtual TimeAndAttendanceSchedule TimeAndAttendanceSchedule { get; set; }
 
