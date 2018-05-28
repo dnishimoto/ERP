@@ -67,6 +67,7 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<ProjectManagementMilestone>()
                 .HasMany(e => e.ProjectManagementTasks)
                 .WithRequired(e => e.ProjectManagementMilestone)
+                .HasForeignKey(e=>e.ProjectId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ProjectManagementProject>()
@@ -86,6 +87,11 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.ProjectManagementProject)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<ProjectManagementProject>()
+             .HasMany(e => e.ProjectManagementMilestones)
+             .WithRequired(e => e.ProjectManagementProject)
+            .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<ProjectManagementTask>()
                 .Property(e => e.WBS)
                 .IsUnicode(false);
@@ -102,6 +108,7 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.AccountNumber)
                 .IsUnicode(false);
 
+          
             //////////////////////Supervisor/////////////////////
             modelBuilder.Entity<Supervisor>()
                 .Property(e => e.SupervisorCode)
