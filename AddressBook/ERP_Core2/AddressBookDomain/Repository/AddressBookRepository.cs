@@ -16,7 +16,7 @@ namespace MillenniumERP.AddressBookDomain
         {
             _dbContext = (Entities) db;
         }
-        /*
+   
         public List<Phone> GetPhonesByAddressId(int addressId)
         {
             var resultList = base.GetObjectsAsync(e => e.AddressId == addressId, "phones").FirstOrDefault();
@@ -39,7 +39,7 @@ namespace MillenniumERP.AddressBookDomain
             }
             return emailList;
         }
-        */
+     
 
         public async Task<List<AddressBook>> GetAddressBooks(string keyCode)
         {

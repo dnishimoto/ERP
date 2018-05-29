@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace ERP_Core2.ScheduleEventsDomain
 {
@@ -20,6 +21,12 @@ namespace ERP_Core2.ScheduleEventsDomain
     }
     public class UnitTestScheduleEvent
     {
+        private readonly ITestOutputHelper output;
+        public UnitTestScheduleEvent(ITestOutputHelper output)
+        {
+            this.output = output;
+
+        }
         [Fact]
         public void TestFindOnList()
         {
@@ -38,7 +45,7 @@ namespace ERP_Core2.ScheduleEventsDomain
 
             foreach (var item in matches)
             {
-                Console.WriteLine($"Name: {item.Name}\t Gender: {item.Gender}");
+                output.WriteLine($"Name: {item.Name}\t Gender: {item.Gender}");
             }
             Assert.True(matches.Count > 0);
 
@@ -70,7 +77,7 @@ namespace ERP_Core2.ScheduleEventsDomain
             int index = 0;
             foreach (var item in list)
             {
-                Console.WriteLine($"{index} pow 3 = {item}");
+                output.WriteLine($"{index} pow 3 = {item}");
                 index++;
             }
         }
@@ -87,7 +94,7 @@ namespace ERP_Core2.ScheduleEventsDomain
             int index = 0;
             foreach (var item in pow2ResultTask.Result)
             {
-                Console.WriteLine($"pow {index}^2={ item}");
+                output.WriteLine($"pow {index}^2={ item}");
                 index++;
             }
             Assert.True(true);
@@ -96,11 +103,11 @@ namespace ERP_Core2.ScheduleEventsDomain
 
         private void DoSomethingFnc1()
         {
-            Console.WriteLine("Fnc1");
+            output.WriteLine("Fnc1");
         }
         private void DoSomethingFnc2()
         {
-            Console.WriteLine("Fnc2");
+            output.WriteLine("Fnc2");
         }
         [Fact]
         public async Task TestAwaitAsync()
@@ -112,7 +119,7 @@ namespace ERP_Core2.ScheduleEventsDomain
             listTask.Add(secondTask);
             Task.WaitAll(listTask.ToArray());
 
-            Console.WriteLine("Done");
+            output.WriteLine("Done");
             Assert.True(true);
         }
 
@@ -128,10 +135,10 @@ namespace ERP_Core2.ScheduleEventsDomain
             IList<ScheduleEvent> list = new List<ScheduleEvent>();
             foreach (var item in resultTask.Result)
             {
-                Console.WriteLine($"{item.EmployeeAddressBook.Name} Date: {item.EventDateTime} Duration: {item.DurationMinutes}");
+                output.WriteLine($"{item.Employee.EmployeeId} Date: {item.EventDateTime} Duration: {item.DurationMinutes}");
                 list.Add(item);
             }
-            var Employee = list.Where(e => e.EmployeeAddressBook.Name == "dan brown").FirstOrDefault();
+            var Employee = list.Where(e => e.Employee.EmployeeId == 1).FirstOrDefault();
 
             Assert.True(Employee != null);
         }

@@ -48,10 +48,6 @@ namespace ERP_Core2.EntityFramework
 
         public bool Status { get; set; }
 
-        public virtual AddressBook AddressBook { get; set; }
-
-        public virtual Contract Contract { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
 

@@ -35,5 +35,9 @@ namespace ERP_Core2.EntityFramework
         public decimal? DiscountAmount { get; set; }
 
         public long? ShipmentDetailId { get; set; }
+
+        public virtual Invoice Invoice { get; set; }
+
+        public virtual ItemMaster ItemMaster { get; set; }
     }
 }

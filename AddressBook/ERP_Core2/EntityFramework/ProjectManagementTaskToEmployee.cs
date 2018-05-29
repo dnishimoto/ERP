@@ -16,6 +16,8 @@ namespace ERP_Core2.EntityFramework
 
         public long? TaskId { get; set; }
 
+        public virtual Employee Employee { get; set; }
+
         public virtual ProjectManagementTask ProjectManagementTask { get; set; }
     }
 }

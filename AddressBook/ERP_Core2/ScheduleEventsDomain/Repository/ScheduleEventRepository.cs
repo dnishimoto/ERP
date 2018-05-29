@@ -17,10 +17,10 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             _dbContext = (Entities)db;
         }
-        public async Task<IQueryable<ScheduleEvent>> GetScheduleEvents(int employeeAddressId)
+        public async Task<IQueryable<ScheduleEvent>> GetScheduleEvents(int employeeId)
         {
            
-            var list = await base.GetObjectsAsync(e => e.EmployeeAddressId == employeeAddressId, "EmployeeAddressBook").ToListAsync();
+            var list = await base.GetObjectsAsync(e => e.EmployeeId == employeeId, "Employee").ToListAsync();
            
             return list.AsQueryable<ScheduleEvent>();
            

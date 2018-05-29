@@ -58,8 +58,14 @@ namespace ERP_Core2.EntityFramework
 
         public int? DurationInMinutes { get; set; }
 
+        public virtual Employee Employee { get; set; }
+
+        public virtual Supervisor Supervisor { get; set; }
+
         public virtual TimeAndAttendanceSchedule TimeAndAttendanceSchedule { get; set; }
 
         public virtual TimeAndAttendanceShift TimeAndAttendanceShift { get; set; }
+
+        public virtual UDC UDC { get; set; }
     }
 }

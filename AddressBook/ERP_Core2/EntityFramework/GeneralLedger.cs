@@ -9,7 +9,7 @@ namespace ERP_Core2.EntityFramework
     [Table("GeneralLedger")]
     public partial class GeneralLedger
     {
-        public long Id { get; set; }
+        public long GeneralLedgerId { get; set; }
 
         public long DocNumber { get; set; }
 
@@ -36,5 +36,9 @@ namespace ERP_Core2.EntityFramework
         public string Comment { get; set; }
 
         public virtual ChartOfAcct ChartOfAcct { get; set; }
+
+        public virtual GeneralLedger GeneralLedger1 { get; set; }
+
+        public virtual GeneralLedger GeneralLedger2 { get; set; }
     }
 }

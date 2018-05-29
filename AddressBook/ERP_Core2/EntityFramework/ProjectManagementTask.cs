@@ -60,6 +60,8 @@ namespace ERP_Core2.EntityFramework
 
         public virtual ProjectManagementProject ProjectManagementProject { get; set; }
 
+        public virtual UDC UDC { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployees { get; set; }
     }

@@ -9,22 +9,22 @@ namespace ERP_Core2.EntityFramework
     [Table("ScheduleEvent")]
     public partial class ScheduleEvent
     {
-        public long Id { get; set; }
+        public long ScheduleEventId { get; set; }
 
-        public long? EmployeeAddressId { get; set; }
+        public long EmployeeId { get; set; }
 
         public DateTime? EventDateTime { get; set; }
 
-        public long? ServiceId { get; set; }
+        public long ServiceId { get; set; }
 
         public long? DurationMinutes { get; set; }
 
-        public long? CustomerAddressId { get; set; }
+        public long? CustomerId { get; set; }
 
-        public virtual AddressBook CustomerAddressBook { get; set; }
+        public virtual Customer Customer { get; set; }
 
-        public virtual AddressBook EmployeeAddressBook { get; set; }
-       
+        public virtual Employee Employee { get; set; }
+
         public virtual ServiceInformation ServiceInformation { get; set; }
     }
 }

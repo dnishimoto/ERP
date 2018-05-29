@@ -26,7 +26,5 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(50)]
         public string ShipToZipcode { get; set; }
-
-        public virtual AddressBook AddressBook { get; set; }
     }
 }

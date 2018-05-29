@@ -8,11 +8,17 @@ namespace ERP_Core2.EntityFramework
 
     public partial class Shipment
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Shipment()
+        {
+            ShipmentsDetails = new HashSet<ShipmentsDetail>();
+        }
+
         public long ShipmentId { get; set; }
 
         public DateTime? ShipmentDate { get; set; }
 
-        public long BillToAddressId { get; set; }
+        public long CustomerId { get; set; }
 
         public long CarrierId { get; set; }
 
@@ -33,9 +39,9 @@ namespace ERP_Core2.EntityFramework
 
         public decimal? CodAmount { get; set; }
 
-        public long ShippedFromId { get; set; }
+        public long ShippedFromLocationId { get; set; }
 
-        public long? ShippedToAddressId { get; set; }
+        public long? ShippedToLocationId { get; set; }
 
         public long? PurchaseOrderId { get; set; }
 
@@ -44,5 +50,10 @@ namespace ERP_Core2.EntityFramework
         public decimal? VendorShippingCost { get; set; }
 
         public decimal? VendorHandlingCost { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShipmentsDetail> ShipmentsDetails { get; set; }
     }
 }
