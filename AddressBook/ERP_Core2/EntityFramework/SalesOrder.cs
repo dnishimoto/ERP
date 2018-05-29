@@ -27,13 +27,11 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string OrderType { get; set; }
 
-        public long? CustomerAddressId { get; set; }
+        public long CustomerId { get; set; }
 
-        public long? BillToAddressId { get; set; }
+        public long? DeliveredToLocationId { get; set; }
 
-        public long? DeliveredToAddressId { get; set; }
-
-        public long? ShippedToAddressId { get; set; }
+        public long? ShippedToLocationId { get; set; }
 
         public long? InvoiceId { get; set; }
 
@@ -45,9 +43,9 @@ namespace ERP_Core2.EntityFramework
 
         public decimal? FreightAmount { get; set; }
 
-        public long? CarrierAddressId { get; set; }
+        public long? CarrierId { get; set; }
 
-        public long? BuyerAddressId { get; set; }
+        public long? BuyerId { get; set; }
 
         [StringLength(10)]
         public string PaymentInstrument { get; set; }
@@ -61,6 +59,8 @@ namespace ERP_Core2.EntityFramework
         public DateTime? ScheduledPickupDate { get; set; }
 
         public DateTime? ActualPickupDate { get; set; }
+
+        public virtual Customer Customer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }

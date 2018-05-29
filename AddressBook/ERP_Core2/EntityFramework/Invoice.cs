@@ -8,6 +8,13 @@ namespace ERP_Core2.EntityFramework
 
     public partial class Invoice
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Invoice()
+        {
+            AcctRecs = new HashSet<AcctRec>();
+            InvoicesDetails = new HashSet<InvoicesDetail>();
+        }
+
         public long InvoiceId { get; set; }
 
         [StringLength(20)]
@@ -18,7 +25,7 @@ namespace ERP_Core2.EntityFramework
 
         public decimal? Amount { get; set; }
 
-        public long? BillToAddressId { get; set; }
+        public long CustomerId { get; set; }
 
         [StringLength(2000)]
         public string Description { get; set; }
@@ -30,5 +37,13 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(10)]
         public string PaymentTerms { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctRec> AcctRecs { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<InvoicesDetail> InvoicesDetails { get; set; }
     }
 }

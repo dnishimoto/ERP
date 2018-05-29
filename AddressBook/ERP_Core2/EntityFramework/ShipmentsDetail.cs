@@ -22,5 +22,9 @@ namespace ERP_Core2.EntityFramework
         public decimal? Amount { get; set; }
 
         public long SalesOrderDetailId { get; set; }
+
+        public virtual ItemMaster ItemMaster { get; set; }
+
+        public virtual Shipment Shipment { get; set; }
     }
 }

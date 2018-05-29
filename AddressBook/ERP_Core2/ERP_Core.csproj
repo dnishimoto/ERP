@@ -78,9 +78,12 @@
     <Compile Include="EntityFramework\Budget.cs" />
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
+    <Compile Include="EntityFramework\Buyer.cs" />
+    <Compile Include="EntityFramework\Carier.cs" />
     <Compile Include="EntityFramework\ChartOfAcct.cs" />
     <Compile Include="EntityFramework\Contract.cs" />
     <Compile Include="EntityFramework\Customer.cs" />
+    <Compile Include="EntityFramework\C__MigrationHistory.cs" />
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
     <Compile Include="EntityFramework\ERPDataModel.cs" />
@@ -89,6 +92,7 @@
     <Compile Include="EntityFramework\Invoice.cs" />
     <Compile Include="EntityFramework\InvoicesDetail.cs" />
     <Compile Include="EntityFramework\ItemMaster.cs" />
+    <Compile Include="EntityFramework\LocationAddress.cs" />
     <Compile Include="EntityFramework\Phone.cs" />
     <Compile Include="EntityFramework\POQuote.cs" />
     <Compile Include="EntityFramework\ProjectManagementMilestone.cs" />
@@ -111,6 +115,8 @@
     <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
+    <Compile Include="ProjectManagementDomain\Repository\ProjectManagementTaskRepository.cs" />
+    <Compile Include="ProjectManagementDomain\Repository\ProjectManagementMilestoneRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementProjectRepository.cs" />
     <Compile Include="ProjectManagementDomain\UnitTestProjectManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,6 +135,8 @@
     <Content Include="Sql_Server_Scripts\dbo.BudgetRange.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.BudgetSnapShot.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.BudgetView.View.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Buyer.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Carier.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ChartOfAccts.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Contract.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Customer.Table.sql" />
@@ -141,8 +149,13 @@
     <Content Include="Sql_Server_Scripts\dbo.Invoices.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.InvoicesDetail.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ItemMaster.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.LocationAddress.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Phones.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.POQuote.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ProjectManagementMilestones.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ProjectManagementProject.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ProjectManagementTask.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.ProjectManagementTaskToEmployee.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.PurchaseOrder.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.PurchaseOrderAndDetailView.View.sql" />
     <Content Include="Sql_Server_Scripts\dbo.PurchaseOrderDetail.Table.sql" />
@@ -155,7 +168,12 @@
     <Content Include="Sql_Server_Scripts\dbo.Shipments.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ShipmentsDetail.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.ShippedToAddresses.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.Supervisor.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.Supplier.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.TimeAndAttendancePunchIn.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.TimeAndAttendanceSchedule.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.TimeAndAttendanceScheduledToWork.Table.sql" />
+    <Content Include="Sql_Server_Scripts\dbo.TimeAndAttendanceShift.Table.sql" />
     <Content Include="Sql_Server_Scripts\dbo.UDC.Table.sql" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +185,8 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="AccountPayableDomain\Repository\" />
+    <Folder Include="AccountReceivableDomain\Repository\" />
     <Folder Include="ContractsDomain\Repository\" />
     <Folder Include="InventoryDomain\Repository\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />

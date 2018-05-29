@@ -9,6 +9,12 @@ namespace ERP_Core2.EntityFramework
     [Table("PurchaseOrder")]
     public partial class PurchaseOrder
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public PurchaseOrder()
+        {
+            PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
+        }
+
         public long PurchaseOrderId { get; set; }
 
         [StringLength(10)]
@@ -24,12 +30,11 @@ namespace ERP_Core2.EntityFramework
 
         public DateTime? GLDate { get; set; }
 
-        [StringLength(100)]
-        public string AccountNumber { get; set; }
+        public long AccountId { get; set; }
 
-        public long? SupplierAddressId { get; set; }
+        public long SupplierId { get; set; }
 
-        public long? CustomerAddressId { get; set; }
+        public long CustomerId { get; set; }
 
         public long? ContractId { get; set; }
 
@@ -37,8 +42,6 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(1000)]
         public string Description { get; set; }
-
-        public long? ItemId { get; set; }
 
         [StringLength(50)]
         public string PONumber { get; set; }
@@ -51,9 +54,9 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string TakenBy { get; set; }
 
-        public long? ShippedToAddressId { get; set; }
+        public long? ShippedToLocationId { get; set; }
 
-        public long? BuyerAddressId { get; set; }
+        public long? BuyerId { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? RequestedDate { get; set; }
@@ -65,5 +68,14 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(10)]
         public string TaxCode { get; set; }
+
+        public virtual ChartOfAcct ChartOfAcct { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
     }
 }

@@ -12,12 +12,12 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Contract()
         {
-            ServiceInformations = new HashSet<ServiceInformation>();
+            AcctPays = new HashSet<AcctPay>();
         }
 
         public long ContractId { get; set; }
 
-        public long? AddressId { get; set; }
+        public long? CustomerId { get; set; }
 
         public long? ServiceTypeXRefId { get; set; }
 
@@ -32,6 +32,10 @@ namespace ERP_Core2.EntityFramework
         public decimal? RemainingBalance { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
+        public virtual ICollection<AcctPay> AcctPays { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        public virtual UDC UDC { get; set; }
     }
 }

@@ -38,5 +38,9 @@ namespace ERP_Core2.EntityFramework
         public int? ReceivedQuantity { get; set; }
 
         public int? RemainingQuantity { get; set; }
+
+        public virtual ItemMaster ItemMaster { get; set; }
+
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
     }
 }

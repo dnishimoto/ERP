@@ -9,7 +9,7 @@ namespace ERP_Core2.EntityFramework
     [Table("AcctRec")]
     public partial class AcctRec
     {
-        public long Id { get; set; }
+        public long AcctRecId { get; set; }
 
         [StringLength(10)]
         public string DocType { get; set; }
@@ -23,8 +23,7 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "date")]
         public DateTime? GLDate { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime? InvoiceDate { get; set; }
+        public long InvoiceId { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime? CreateDate { get; set; }
@@ -37,17 +36,19 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string NetTerms { get; set; }
 
-        public long AddressId { get; set; }
+        public long ItemId { get; set; }
 
-        public long? ItemId { get; set; }
+        public long CustomerId { get; set; }
 
-        [StringLength(50)]
-        public string SKU { get; set; }
+        public long? PurchaseOrderId { get; set; }
 
         [StringLength(255)]
         public string Description { get; set; }
 
-        [StringLength(255)]
-        public string PONumber { get; set; }
+        public virtual Customer Customer { get; set; }
+
+        public virtual Invoice Invoice { get; set; }
+
+        public virtual ItemMaster ItemMaster { get; set; }
     }
 }

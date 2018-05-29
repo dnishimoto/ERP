@@ -29,6 +29,8 @@ namespace ERP_Core2.EntityFramework
 
         public long? InvoiceDetailId { get; set; }
 
+        public virtual ItemMaster ItemMaster { get; set; }
+
         public virtual SalesOrder SalesOrder { get; set; }
     }
 }

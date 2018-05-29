@@ -12,17 +12,14 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AddressBook()
         {
-            ScheduleEvents = new HashSet<ScheduleEvent>();
-            ScheduleEvents1 = new HashSet<ScheduleEvent>();
-            ServiceInformations = new HashSet<ServiceInformation>();
-            POQuotes = new HashSet<POQuote>();
+            Buyers = new HashSet<Buyer>();
+            Cariers = new HashSet<Carier>();
             Customers = new HashSet<Customer>();
             Emails = new HashSet<Email>();
-            Employees = new HashSet<Employee>();
+            LocationAddresses = new HashSet<LocationAddress>();
             Phones = new HashSet<Phone>();
-            ShippedToAddresses = new HashSet<ShippedToAddress>();
+            Supervisors = new HashSet<Supervisor>();
             Suppliers = new HashSet<Supplier>();
-            POQuotes1 = new HashSet<POQuote>();
         }
 
         [Key]
@@ -37,35 +34,37 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string LastName { get; set; }
 
-        [StringLength(20)]
-        public string Type { get; set; }
-
         public long? PeopleXrefId { get; set; }
 
-        [StringLength(100)]
-        public string ProductKey { get; set; }
+        [StringLength(50)]
+        public string CategoryCodeChar1 { get; set; }
 
-        public long? PrimaryShippedToAddressId { get; set; }
+        [StringLength(50)]
+        public string CategoryCodeChar2 { get; set; }
 
-        public long? PrimaryEmailId { get; set; }
+        [StringLength(50)]
+        public string CategoryCodeChar3 { get; set; }
 
-        public long? PrimaryPhoneId { get; set; }
+        public int? CategoryCodeInt1 { get; set; }
 
-        public long? MailingAddressId { get; set; }
+        public int? CategoryCodeInt2 { get; set; }
 
-        public long? BillingAddressId { get; set; }
+        public int? CategoryCodeInt3 { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? CategoryCodeDate1 { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? CategoryCodeDate2 { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? CategoryCodeDate3 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
+        public virtual ICollection<Buyer> Buyers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ScheduleEvent> ScheduleEvents1 { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<POQuote> POQuotes { get; set; }
+        public virtual ICollection<Carier> Cariers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Customer> Customers { get; set; }
@@ -74,18 +73,15 @@ namespace ERP_Core2.EntityFramework
         public virtual ICollection<Email> Emails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Employee> Employees { get; set; }
+        public virtual ICollection<LocationAddress> LocationAddresses { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Phone> Phones { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ShippedToAddress> ShippedToAddresses { get; set; }
+        public virtual ICollection<Supervisor> Supervisors { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Supplier> Suppliers { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<POQuote> POQuotes1 { get; set; }
     }
 }

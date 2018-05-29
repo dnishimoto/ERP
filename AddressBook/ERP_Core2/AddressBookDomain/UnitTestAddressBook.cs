@@ -7,29 +7,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using ERP_Core2.EntityFramework;
+using Xunit.Abstractions;
 
 namespace ERP_Core2.AddressBookDomain
 {
     public class UnitTestAddressBook
     {
-        /*
-        [TestMethod]
+        private UnitOfWork unitOfWork = new UnitOfWork();
+        private readonly ITestOutputHelper output;
+
+        public UnitTestAddressBook(ITestOutputHelper output)
+        {
+            this.output = output;
+
+        }
+        [Fact]
         public void TestAddressBookPhones()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
+            
             List<Phone> resultTask = unitOfWork.addressBookRepository.GetPhonesByAddressId(1);
 
             List<string> intCollection = new List<string>();
             foreach (var item in resultTask)
             {
-                Console.WriteLine($"{item.PhoneNumber}");
+                output.WriteLine($"{item.PhoneNumber}");
                 intCollection.Add(item.PhoneNumber);
 
             }
-            Assert.IsTrue(intCollection.Contains("2086066785"));
+            Assert.True(intCollection.Contains("401-4333"));
 
         }
-        [TestMethod]
+        [Fact]
         public void TestAddressBookEmails()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
@@ -38,19 +46,19 @@ namespace ERP_Core2.AddressBookDomain
             List<string> intCollection = new List<string>();
             foreach (var item in resultTask)
             {
-                Console.WriteLine($"{item.Email1}");
+                output.WriteLine($"{item.Email1}");
                 intCollection.Add(item.Email1);
        
             }
-           Assert.IsTrue(intCollection.Contains("dnishimoto@listensoftware.com"));
+           Assert.True(intCollection.Contains("dnishimoto@listensoftware.com"));
 
         }
-        */
+        
         private void DoSomething1(int iterations)
         {
             for (int i = 0; i < iterations; i++)
             {
-                Console.WriteLine("Do Something one");
+                output.WriteLine("Do Something one");
                 Thread.Sleep(1);
             }
 
@@ -59,7 +67,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             for (int i = 0; i < iterations; i++)
             {
-                Console.WriteLine("Do Something two");
+                output.WriteLine("Do Something two");
                 Thread.Sleep(2);
             }
         }
@@ -70,10 +78,10 @@ namespace ERP_Core2.AddressBookDomain
 
             Parallel.ForEach(intCollection, (integer, state) =>
             {
-                Console.WriteLine($"Parallel.Foreach={integer}");
+                output.WriteLine($"Parallel.Foreach={integer}");
                 if (cancelForEach == true)
                 {
-                    Console.WriteLine($"Exit Parallel.ForEach {integer}");
+                    output.WriteLine($"Exit Parallel.ForEach {integer}");
                     state.Break();
 
                 }
@@ -114,7 +122,7 @@ namespace ERP_Core2.AddressBookDomain
             IList<string> list = new List<string>();
             foreach (var item in resultTask.Result)
             {
-                Console.WriteLine($"{item.Name}");
+                output.WriteLine($"{item.Name}");
                 list.Add(item.Name.ToUpper());
             }
             Assert.True(list.Contains("BOB SMITH") && list.Contains("PAM NISHIMOTO"));
@@ -125,9 +133,9 @@ namespace ERP_Core2.AddressBookDomain
             UnitOfWork unitOfWork = new UnitOfWork();
             Task<AddressBook> resultTask = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetObjectAsync(1));
 
-            Console.WriteLine($"{resultTask.Result.FirstName}");
+            output.WriteLine($"{resultTask.Result.FirstName}");
 
-            Assert.Equal(resultTask.Result.FirstName, "David2");
+            Assert.Equal(resultTask.Result.FirstName, "David");
         }
         [Fact]
         public void TestUpdateAddressBook()

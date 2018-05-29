@@ -37,20 +37,28 @@ namespace ERP_Core2.EntityFramework
         [StringLength(100)]
         public string AccountNumber { get; set; }
 
-        public long? SupplierAddressId { get; set; }
+        public long SupplierId { get; set; }
 
-        public long? CustomerAddressId { get; set; }
+        public long CustomerId { get; set; }
 
-        public long? ContractId { get; set; }
+        public long ContractId { get; set; }
 
-        public long? POQuoteId { get; set; }
+        public long POQuoteId { get; set; }
 
         [StringLength(1000)]
         public string Description { get; set; }
 
-        public long? ItemNumber { get; set; }
+        public long ItemId { get; set; }
 
         [StringLength(50)]
         public string PONumber { get; set; }
+
+        public virtual Contract Contract { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        public virtual POQuote POQuote { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
     }
 }

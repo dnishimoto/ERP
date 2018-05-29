@@ -9,7 +9,13 @@ namespace ERP_Core2.EntityFramework
     [Table("POQuote")]
     public partial class POQuote
     {
-        public long Id { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public POQuote()
+        {
+            AcctPays = new HashSet<AcctPay>();
+        }
+
+        public long POQuoteId { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? QuoteAmount { get; set; }
@@ -24,9 +30,9 @@ namespace ERP_Core2.EntityFramework
         [StringLength(255)]
         public string Remarks { get; set; }
 
-        public long CustomerAddressId { get; set; }
+        public long CustomerId { get; set; }
 
-        public long VendorAddressId { get; set; }
+        public long SupplierId { get; set; }
 
         [StringLength(50)]
         public string SKU { get; set; }
@@ -34,8 +40,11 @@ namespace ERP_Core2.EntityFramework
         [StringLength(255)]
         public string Description { get; set; }
 
-        public virtual AddressBook AddressBook { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctPay> AcctPays { get; set; }
 
-        public virtual AddressBook AddressBook1 { get; set; }
+        public virtual Customer Customer { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
     }
 }

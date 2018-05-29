@@ -58,12 +58,7 @@ namespace MillenniumERP
                    formData.FirstName = query.Result.FirstName;
                    formData.LastName = query.Result.LastName;
               
-                   formData.PrimaryPhoneId = query.Result.PrimaryPhoneId;
-                    formData.Type = query.Result.Type;
                    formData.PeopleXrefId = query.Result.PeopleXrefId;
-                   formData.ProductKey = query.Result.ProductKey;
-                   formData.PrimaryShippedToAddressId = query.Result.PrimaryShippedToAddressId;
-                   formData.PrimaryEmailId = query.Result.PrimaryEmailId;
                    MessageBox.Show(formData.Name);
                });
 
