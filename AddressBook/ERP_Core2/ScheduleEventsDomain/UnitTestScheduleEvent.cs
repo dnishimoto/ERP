@@ -129,8 +129,8 @@ namespace ERP_Core2.ScheduleEventsDomain
         public void TestGetScheduleEvents()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
-            int employeeAddressId = 3;
-            Task<IQueryable<ScheduleEvent>> resultTask = Task.Run<IQueryable<ScheduleEvent>>(async () => await unitOfWork.scheduleEventRepository.GetScheduleEvents(employeeAddressId));
+            int employeeId = 1;
+            Task<IQueryable<ScheduleEvent>> resultTask = Task.Run<IQueryable<ScheduleEvent>>(async () => await unitOfWork.scheduleEventRepository.GetScheduleEventsByEmployeeId(employeeId));
 
             IList<ScheduleEvent> list = new List<ScheduleEvent>();
             foreach (var item in resultTask.Result)
@@ -138,7 +138,7 @@ namespace ERP_Core2.ScheduleEventsDomain
                 output.WriteLine($"{item.Employee.EmployeeId} Date: {item.EventDateTime} Duration: {item.DurationMinutes}");
                 list.Add(item);
             }
-            var Employee = list.Where(e => e.Employee.EmployeeId == 1).FirstOrDefault();
+            var Employee = list.Where(e => e.Employee.EmployeeId == employeeId).FirstOrDefault();
 
             Assert.True(Employee != null);
         }

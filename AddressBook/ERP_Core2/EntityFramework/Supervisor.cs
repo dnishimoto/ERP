@@ -22,7 +22,13 @@ namespace ERP_Core2.EntityFramework
         [StringLength(20)]
         public string SupervisorCode { get; set; }
 
+        public long? JobTitleXrefId { get; set; }
+
+        public long? ParentSupervisorId { get; set; }
+
         public virtual AddressBook AddressBook { get; set; }
+
+        public virtual UDC UDC { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }

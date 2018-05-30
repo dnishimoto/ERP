@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using ERP_Core2.EntityFramework;
 using Xunit.Abstractions;
+using MillenniumERP.AddressBookDomain;
 
 namespace ERP_Core2.AddressBookDomain
 {
@@ -20,6 +21,14 @@ namespace ERP_Core2.AddressBookDomain
         {
             this.output = output;
 
+        }
+        [Fact]
+        public void TestGetSupervisor()
+        {
+            int supervisorId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            SupervisorView view = unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId);
+            Assert.Equal(view.ParentSupervisorName.ToUpper().ToString() , "PAM NISHIMOTO".ToString());
         }
         [Fact]
         public void TestAddressBookPhones()
@@ -116,8 +125,10 @@ namespace ERP_Core2.AddressBookDomain
         [Fact]
         public void TestGetAddressBooks()
         {
+            int addressId = 1;
+
             UnitOfWork unitOfWork = new UnitOfWork();
-            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
+            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId));
 
             IList<string> list = new List<string>();
             foreach (var item in resultTask.Result)
@@ -125,7 +136,7 @@ namespace ERP_Core2.AddressBookDomain
                 output.WriteLine($"{item.Name}");
                 list.Add(item.Name.ToUpper());
             }
-            Assert.True(list.Contains("BOB SMITH") && list.Contains("PAM NISHIMOTO"));
+            Assert.True(list.Contains("DAVID NISHIMOTO") );
         }
         [Fact]
         public void TestGetAddressBook()

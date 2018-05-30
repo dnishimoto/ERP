@@ -21,6 +21,7 @@ namespace MillenniumERP.Services
         public ScheduleEventRepository scheduleEventRepository => new ScheduleEventRepository(db);
         public ProjectManagementProjectRepository projectManagementProjectRepository => new ProjectManagementProjectRepository(db);
         public ProjectManagementMilestoneRepository projectManagementMilestoneRepository => new ProjectManagementMilestoneRepository(db);
+        public SupervisorRepository supervisorRepository => new SupervisorRepository(db);
         public UnitOfWork()
         {
             /*

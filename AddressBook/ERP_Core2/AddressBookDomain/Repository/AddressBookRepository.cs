@@ -41,13 +41,14 @@ namespace MillenniumERP.AddressBookDomain
         }
      
 
-        public async Task<List<AddressBook>> GetAddressBooks(string keyCode)
+        public async Task<List<AddressBook>> GetAddressBookByAddressId(int addressId)
         {
 
 
                 Task<List<AddressBook>> resultList = (from a in _dbContext.AddressBooks
-                                                                      join b in _dbContext.UDCs on a.PeopleXrefId equals b.XRefId
-                                                                      where b.KeyCode == keyCode
+                                                                      join b in _dbContext.Supervisors on
+                                                                      a.AddressId equals b.AddressId
+                                                        where b.AddressId==addressId
                                                                       orderby a.Name
                                                                       select a
 
