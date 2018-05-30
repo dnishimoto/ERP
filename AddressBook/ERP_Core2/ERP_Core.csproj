@@ -124,6 +124,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleEventsDomain\Repository\ScheduleEventRepository.cs" />
     <Compile Include="ScheduleEventsDomain\UnitTestScheduleEvent.cs" />
+    <Compile Include="UDCDomain\Repository\UDCRepository.cs" />
+    <Compile Include="UDCDomain\UnitTestUDC.cs" />
     <Compile Include="UnitOfWorkDomain\Repository.cs" />
     <Compile Include="UnitOfWorkDomain\UnitOfWork.cs" />
   </ItemGroup>
