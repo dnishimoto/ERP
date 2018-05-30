@@ -58,8 +58,8 @@ namespace ERP_Core2.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountBalance>()
-                  .Property(e => e.AccountBalanceType)
-                  .IsUnicode(false);
+     .Property(e => e.AccountBalanceType)
+     .IsUnicode(false);
 
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.Amount)
@@ -1019,11 +1019,15 @@ namespace ERP_Core2.EntityFramework
                 .HasForeignKey(e => e.ServiceTypeXRefId);
 
             modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Supervisors)
+                .WithOptional(e => e.UDC)
+                .HasForeignKey(e => e.JobTitleXrefId);
+
+            modelBuilder.Entity<UDC>()
                 .HasMany(e => e.TimeAndAttendancePunchIns)
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
-
 
         }
     }

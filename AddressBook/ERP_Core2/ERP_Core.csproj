@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="EntityFramework\AcctRec.cs" />
     <Compile Include="EntityFramework\AddressBook.cs" />
     <Compile Include="EntityFramework\AddressTypeXRef.cs" />
+    <Compile Include="EntityFramework\AspNetRole.cs" />
     <Compile Include="EntityFramework\Budget.cs" />
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
