@@ -48,18 +48,18 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ShipmentsDetail> ShipmentsDetails { get; set; }
         public virtual DbSet<ShippedToAddress> ShippedToAddresses { get; set; }
         public virtual DbSet<Supervisor> Supervisors { get; set; }
+        public virtual DbSet<SupervisorEmployee> SupervisorEmployees { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShifts { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountBalance>()
-     .Property(e => e.AccountBalanceType)
-     .IsUnicode(false);
+          .Property(e => e.AccountBalanceType)
+          .IsUnicode(false);
 
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.Amount)
@@ -144,6 +144,11 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.CategoryCodeChar3)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<AddressBook>()
+                .HasMany(e => e.Employees)
+                .WithRequired(e => e.AddressBook)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AddressBook>()
                 .HasMany(e => e.Buyers)
@@ -430,6 +435,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ScheduleEvents)
+                .WithRequired(e => e.Employee)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.SupervisorEmployees)
                 .WithRequired(e => e.Employee)
                 .WillCascadeOnDelete(false);
 
@@ -897,6 +907,11 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<Supervisor>()
+                .HasMany(e => e.SupervisorEmployees)
+                .WithRequired(e => e.Supervisor)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Supervisor>()
                 .HasMany(e => e.TimeAndAttendancePunchIns)
                 .WithRequired(e => e.Supervisor)
                 .WillCascadeOnDelete(false);
@@ -988,6 +1003,18 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.Contracts)
                 .WithOptional(e => e.UDC)
                 .HasForeignKey(e => e.ServiceTypeXRefId);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Employees)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.EmploymentStatusXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Employees1)
+                .WithRequired(e => e.UDC1)
+                .HasForeignKey(e => e.JobTitleXrefId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()
                 .HasMany(e => e.LocationAddresses)
