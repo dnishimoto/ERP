@@ -23,6 +23,20 @@ namespace ERP_Core2.AddressBookDomain
 
         }
         [Fact]
+        public void TestGetEmployeesBySupervisorId()
+        {
+            
+            int supervisorId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            List<EmployeeView>list = unitOfWork.supervisorRepository.GetEmployeesBySupervisorId(supervisorId);
+
+            foreach (var item in list)
+            {
+                output.WriteLine($"{item.EmployeeId} {item.EmployeeName}");
+            }
+            
+        }
+        [Fact]
         public void TestGetSupervisor()
         {
             int supervisorId = 1;

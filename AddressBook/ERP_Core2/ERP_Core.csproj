@@ -66,6 +66,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="EntityFramework\ShipmentsDetail.cs" />
     <Compile Include="EntityFramework\ShippedToAddress.cs" />
     <Compile Include="EntityFramework\Supervisor.cs" />
+    <Compile Include="EntityFramework\SupervisorEmployee.cs" />
     <Compile Include="EntityFramework\Supplier.cs" />
     <Compile Include="EntityFramework\TimeAndAttendancePunchIn.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceSchedule.cs" />

@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public AddressBook()
         {
+            Employees = new HashSet<Employee>();
             Buyers = new HashSet<Buyer>();
             Cariers = new HashSet<Carier>();
             Customers = new HashSet<Customer>();
@@ -59,6 +60,9 @@ namespace ERP_Core2.EntityFramework
 
         [Column(TypeName = "date")]
         public DateTime? CategoryCodeDate3 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Buyer> Buyers { get; set; }

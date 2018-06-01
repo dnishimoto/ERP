@@ -14,6 +14,7 @@ namespace ERP_Core2.EntityFramework
         {
             ProjectManagementTaskToEmployees = new HashSet<ProjectManagementTaskToEmployee>();
             ScheduleEvents = new HashSet<ScheduleEvent>();
+            SupervisorEmployees = new HashSet<SupervisorEmployee>();
             TimeAndAttendancePunchIns = new HashSet<TimeAndAttendancePunchIn>();
         }
 
@@ -21,22 +22,33 @@ namespace ERP_Core2.EntityFramework
 
         public long AddressId { get; set; }
 
-        public long? PrimaryLocationId { get; set; }
+        public long JobTitleXrefId { get; set; }
 
-        public long? PrimaryEmailId { get; set; }
+        public long EmploymentStatusXRefId { get; set; }
 
-        public long? PrimaryPhoneId { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? HiredDate { get; set; }
 
-        public long? MailingLocationId { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime? TerminationDate { get; set; }
 
         [StringLength(50)]
         public string TaxIdentification { get; set; }
+
+        public virtual AddressBook AddressBook { get; set; }
+
+        public virtual UDC UDC { get; set; }
+
+        public virtual UDC UDC1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployees { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupervisorEmployee> SupervisorEmployees { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
