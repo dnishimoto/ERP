@@ -23,6 +23,14 @@ namespace ERP_Core2.AddressBookDomain
 
         }
         [Fact]
+        public void TestGetEmployeeByEmployeeId()
+        {
+            int employeeId = 3;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            EmployeeView employeeView = unitOfWork.employeeRespository.GetEmployeeViewByEmployeeId(employeeId);
+
+        }
+        [Fact]
         public void TestGetEmployeesBySupervisorId()
         {
             
@@ -30,10 +38,13 @@ namespace ERP_Core2.AddressBookDomain
             UnitOfWork unitOfWork = new UnitOfWork();
             List<EmployeeView>list = unitOfWork.supervisorRepository.GetEmployeesBySupervisorId(supervisorId);
 
+            int count = 0;
             foreach (var item in list)
             {
                 output.WriteLine($"{item.EmployeeId} {item.EmployeeName}");
+                count++;
             }
+            Assert.True(count>0);
             
         }
         [Fact]

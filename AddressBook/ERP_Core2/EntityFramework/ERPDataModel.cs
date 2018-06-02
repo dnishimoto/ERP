@@ -58,8 +58,8 @@ namespace ERP_Core2.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountBalance>()
-          .Property(e => e.AccountBalanceType)
-          .IsUnicode(false);
+                 .Property(e => e.AccountBalanceType)
+                 .IsUnicode(false);
 
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.Amount)
@@ -143,6 +143,10 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.CategoryCodeChar3)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<AddressBook>()
+                .Property(e => e.CompanyName)
                 .IsUnicode(false);
 
             modelBuilder.Entity<AddressBook>()
