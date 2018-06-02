@@ -51,21 +51,7 @@ namespace MillenniumERP.AddressBookDomain
 
 
     }
-    public class EmployeeView
-    {
-        public EmployeeView() { }
-        public EmployeeView(Employee employee)
-        {
-            this.EmployeeId = employee.EmployeeId;
-            this.EmployeeName = employee.AddressBook.Name;
-            this.EmployeeTitle = employee.UDC.Value;
-        }
-
-        public long? EmployeeId { get; set; }
-        public string EmployeeName { get; set; }
-        public string EmployeeTitle { get; set; }
-    }
- 
+    
 
     public class SupervisorRepository : Repository<Supervisor>
     {

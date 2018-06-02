@@ -12,6 +12,8 @@ namespace ERP_Core2.AbstractFactory
     {
         public abstract SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor);
         public abstract EmployeeView MapEmployeeView(Employee employee);
+        public abstract SupplierView MapSupplierView(Supplier supplier);
+
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
@@ -25,6 +27,10 @@ namespace ERP_Core2.AbstractFactory
         public override EmployeeView MapEmployeeView(Employee employee)
         {
             return new EmployeeView(employee);
+        }
+        public override SupplierView MapSupplierView(Supplier supplier)
+        {
+            return new SupplierView(supplier);
         }
     }
 }

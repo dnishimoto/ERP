@@ -68,7 +68,9 @@
   <ItemGroup>
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\SupplierRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
