@@ -129,7 +129,7 @@ namespace ERP_Core2.ScheduleEventsDomain
         public void TestGetScheduleEvents()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
-            int employeeId = 1;
+            int employeeId = 3;
             Task<IQueryable<ScheduleEvent>> resultTask = Task.Run<IQueryable<ScheduleEvent>>(async () => await unitOfWork.scheduleEventRepository.GetScheduleEventsByEmployeeId(employeeId));
 
             IList<ScheduleEvent> list = new List<ScheduleEvent>();

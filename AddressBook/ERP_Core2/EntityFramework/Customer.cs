@@ -15,6 +15,7 @@ namespace ERP_Core2.EntityFramework
             AcctPays = new HashSet<AcctPay>();
             AcctRecs = new HashSet<AcctRec>();
             Contracts = new HashSet<Contract>();
+            CustomerClaims = new HashSet<CustomerClaim>();
             Invoices = new HashSet<Invoice>();
             POQuotes = new HashSet<POQuote>();
             PurchaseOrders = new HashSet<PurchaseOrder>();
@@ -50,6 +51,9 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contract> Contracts { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerClaim> CustomerClaims { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoice> Invoices { get; set; }
