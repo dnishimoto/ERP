@@ -23,8 +23,10 @@ namespace MillenniumERP.Services
         public ProjectManagementMilestoneRepository projectManagementMilestoneRepository => new ProjectManagementMilestoneRepository(db);
         public SupervisorRepository supervisorRepository => new SupervisorRepository(db);
         public UDCRepository udcRepository => new UDCRepository(db);
-        public EmployeeRepository employeeRespository => new EmployeeRepository(db);
-        public SupplierRepository supplierRespository => new SupplierRepository(db);
+        public EmployeeRepository employeeRepository => new EmployeeRepository(db);
+        public SupplierRepository supplierRepository => new SupplierRepository(db);
+        public CarrierRepository carrierRepository => new CarrierRepository(db);
+        public BuyerRepository buyerRepository => new BuyerRepository(db);
         public UnitOfWork()
         {
             /*

@@ -8,17 +8,22 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.AbstractFactory
 {
-    public abstract class AbstractFactory
+    public abstract partial class AbstractFactory
     {
         public abstract SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor);
         public abstract EmployeeView MapEmployeeView(Employee employee);
         public abstract SupplierView MapSupplierView(Supplier supplier);
-
+        public abstract CarrierView MapCarrierView(Carrier carrier);
+    }
+    public abstract partial class AbstractFactory
+    {
+        public abstract BuyerView MapBuyerView(Buyer buyer);
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
     }
-    public class ApplicationViewFactory : BusinessViewFactory
+    
+    public partial class ApplicationViewFactory : BusinessViewFactory
     {
         public override SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor)
         {
@@ -31,6 +36,17 @@ namespace ERP_Core2.AbstractFactory
         public override SupplierView MapSupplierView(Supplier supplier)
         {
             return new SupplierView(supplier);
+        }
+        public override CarrierView MapCarrierView(Carrier carrier)
+        {
+            return new CarrierView(carrier);
+        }
+    }
+    public partial class ApplicationViewFactory : BusinessViewFactory
+    {
+        public override BuyerView MapBuyerView(Buyer buyer)
+        {
+            return new BuyerView(buyer);
         }
     }
 }

@@ -6,16 +6,17 @@ namespace ERP_Core2.EntityFramework
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Buyer")]
-    public partial class Buyer
+    [Table("Carrier")]
+    public partial class Carrier
     {
-        public long BuyerId { get; set; }
+        public long CarrierId { get; set; }
 
         public long AddressId { get; set; }
 
-        [StringLength(100)]
-        public string Title { get; set; }
+        public long CarrierTypeXrefId { get; set; }
 
         public virtual AddressBook AddressBook { get; set; }
+
+        public virtual UDC UDC { get; set; }
     }
 }

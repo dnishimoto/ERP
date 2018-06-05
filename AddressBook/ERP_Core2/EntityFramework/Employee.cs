@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Employee()
         {
+            CustomerClaims = new HashSet<CustomerClaim>();
             ProjectManagementTaskToEmployees = new HashSet<ProjectManagementTaskToEmployee>();
             ScheduleEvents = new HashSet<ScheduleEvent>();
             SupervisorEmployees = new HashSet<SupervisorEmployee>();
@@ -36,6 +37,9 @@ namespace ERP_Core2.EntityFramework
         public string TaxIdentification { get; set; }
 
         public virtual AddressBook AddressBook { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerClaim> CustomerClaims { get; set; }
 
         public virtual UDC UDC { get; set; }
 

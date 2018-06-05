@@ -68,9 +68,11 @@
   <ItemGroup>
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
-    <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
-    <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\BuyerRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\CarrierRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\SupplierRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
@@ -85,9 +87,11 @@
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
     <Compile Include="EntityFramework\Buyer.cs" />
     <Compile Include="EntityFramework\Carier.cs" />
+    <Compile Include="EntityFramework\Carrier.cs" />
     <Compile Include="EntityFramework\ChartOfAcct.cs" />
     <Compile Include="EntityFramework\Contract.cs" />
     <Compile Include="EntityFramework\Customer.cs" />
+    <Compile Include="EntityFramework\CustomerClaim.cs" />
     <Compile Include="EntityFramework\C__MigrationHistory.cs" />
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />

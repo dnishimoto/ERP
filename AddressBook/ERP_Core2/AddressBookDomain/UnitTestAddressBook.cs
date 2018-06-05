@@ -22,11 +22,31 @@ namespace ERP_Core2.AddressBookDomain
             this.output = output;
 
         }
-        [Fact] void   TestGetSupplierBySupplierId()
+        [Fact]
+        void TestGetBuyerByBuyerId()
+        {
+            int buyerId = 1;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+            BuyerView buyerView = unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId);
+            Assert.Equal(buyerView.BuyerTitle, "Regional Purchasing Clerk");
+        }
+        [Fact]
+        void TestGetCarrierByCarrierId()
+        {
+            int carrierId = 1;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+            CarrierView carrierView = unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId);
+            Assert.Equal(carrierView.CarrierName.ToString(),"United Parcel Service");
+        }
+
+        [Fact]
+        void   TestGetSupplierBySupplierId()
         {
             int supplierId = 1;
             UnitOfWork unitOfWork = new UnitOfWork();
-            SupplierView supplierView = unitOfWork.supplierRespository.GetSupplierViewBySupplierId(supplierId);
+            SupplierView supplierView = unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
             Assert.True(supplierView.SupplierId != null);
 
         }
@@ -35,7 +55,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             int employeeId = 3;
             UnitOfWork unitOfWork = new UnitOfWork();
-            EmployeeView employeeView = unitOfWork.employeeRespository.GetEmployeeViewByEmployeeId(employeeId);
+            EmployeeView employeeView = unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId);
             Assert.True(employeeView.EmployeeId != null);
         }
         [Fact]
@@ -198,7 +218,16 @@ namespace ERP_Core2.AddressBookDomain
 
             Assert.Equal(name, "David2");
 
+            addressBook = resultTask.Result;
+            addressBook.FirstName = "David";
+            unitOfWork.addressBookRepository.UpdateObject(addressBook);
+            unitOfWork.CommitChanges();
 
+            query = unitOfWork.addressBookRepository.GetObjectAsync(1);
+
+            name = query.Result.FirstName;
+
+            Assert.Equal(name, "David");
         }
         [Fact]
         public void TestAddandDeleteAddressBook()
