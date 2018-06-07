@@ -21,6 +21,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract BuyerView MapBuyerView(Buyer buyer);
         public abstract InvoiceView MapInvoiceView(Invoice invoice);
         public abstract InvoiceDetailView MapInvoiceDetails(InvoiceDetail invoiceDetail);
+        public abstract CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim);
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
@@ -68,6 +69,11 @@ namespace ERP_Core2.AbstractFactory
         {
             return new InvoiceDetailView(invoiceDetail);
         }
+        public override CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim)
+        {
+            return new CustomerClaimView(customerClaim);
+        }
+
 
     }
 }

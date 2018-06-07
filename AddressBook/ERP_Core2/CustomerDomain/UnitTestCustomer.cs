@@ -23,6 +23,20 @@ namespace ERP_Core2.CustomerDomain
 
         }
         [Fact]
+        public void TestCustomerClaimsByCustomerId()
+        {
+            int customerId = 2;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            IList<CustomerClaimView> list = unitOfWork.customerRepository.GetCustomerClaimsByCustomerId(customerId);
+            List<string> collection = new List<string>();
+            foreach (CustomerClaimView customerClaimView in list)
+            {
+                output.WriteLine($"{customerClaimView.GroupId}");
+                collection.Add(customerClaimView.GroupId.ToUpper());
+            }
+            Assert.True(collection.Contains("IDAHO WEB DEVELOPMENT CUSTOMERS"));
+        }
+        [Fact]
         public void TestInvoicesByCustomerId()
         {
             int customerId = 3;
