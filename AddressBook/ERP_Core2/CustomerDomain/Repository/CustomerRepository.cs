@@ -74,7 +74,37 @@ namespace MillenniumERP.CustomerDomain
      
         public long? InvoiceDetailId { get; set; }
     }
-    public class PurchaseOrderView
+    public class CustomerClaimView
+    {
+        public CustomerClaimView() { }
+        public CustomerClaimView(CustomerClaim customerClaim)
+        {
+            this.ClaimId = customerClaim.ClaimId;
+            this.Classification = customerClaim.UDC.Value;
+            this.CustomerId = customerClaim.CustomerId;
+            this.CustomerName = customerClaim.Customer.AddressBook.Name;
+            this.Configuration = customerClaim.Configuration;
+            this.Note = customerClaim.Note;
+            this.EmployeeName = customerClaim.Employee.AddressBook.Name;
+            this.GroupId = customerClaim.UDC1.Value;
+            this.ProcessedDate = customerClaim.ProcessedDate;
+            this.CreatedDate = customerClaim.CreatedDate;
+    }
+
+        public long? ClaimId { get; set; }
+        public string Classification { get; set; }
+        public long? CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public string Configuration { get; set; }
+        public string Note { get; set; }
+        public string EmployeeName { get; set; }
+        public string GroupId { get; set; }
+        public DateTime? ProcessedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
+
+      
+    }
+        public class PurchaseOrderView
     {
         public long? PurchaseOrderId { get; set; }
     }
@@ -104,6 +134,18 @@ namespace MillenniumERP.CustomerDomain
             }
             return list;
 
+        }
+
+        public IList<CustomerClaimView> GetCustomerClaimsByCustomerId(int customerId)
+        {
+            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "customerclaims").FirstOrDefault();
+
+            IList<CustomerClaimView> list = new List<CustomerClaimView>();
+            foreach (var item in resultList.CustomerClaims)
+            {
+                list.Add(applicationViewFactory.MapCustomerClaimView(item));
+            }
+            return list;
         }
         /*
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)
