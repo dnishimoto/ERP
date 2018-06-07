@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
+
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -30,7 +31,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
-        public virtual DbSet<InvoicesDetail> InvoicesDetails { get; set; }
+        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<ItemMaster> ItemMasters { get; set; }
         public virtual DbSet<LocationAddress> LocationAddresses { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
@@ -68,23 +69,11 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(18, 4);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.DocType)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
-                .Property(e => e.InvoiceNumber)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
-                .Property(e => e.InvoiceAmount)
+                .Property(e => e.GrossAmount)
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.PaymentTerms)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
-                .Property(e => e.GrossAmount)
+                .Property(e => e.DiscountAmount)
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctPay>()
@@ -100,8 +89,8 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.PONumber)
-                .IsUnicode(false);
+                .Property(e => e.Tax)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.DocType)
@@ -387,19 +376,9 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.RemainingBalance)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<Contract>()
-                .HasMany(e => e.AcctPays)
-                .WithRequired(e => e.Contract)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Customer>()
                 .Property(e => e.TaxIdentification)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Customer>()
-                .HasMany(e => e.AcctPays)
-                .WithRequired(e => e.Customer)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Customer>()
                 .HasMany(e => e.AcctRecs)
@@ -546,27 +525,27 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Invoice>()
-                .HasMany(e => e.InvoicesDetails)
+                .HasMany(e => e.InvoiceDetails)
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.UnitPrice)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.UnitOfMeasure)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.Amount)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.DiscountPercent)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.DiscountAmount)
                 .HasPrecision(18, 4);
 
@@ -604,7 +583,7 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.ItemMaster);
 
             modelBuilder.Entity<ItemMaster>()
-                .HasMany(e => e.InvoicesDetails)
+                .HasMany(e => e.InvoiceDetails)
                 .WithRequired(e => e.ItemMaster)
                 .WillCascadeOnDelete(false);
 
@@ -666,11 +645,6 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<POQuote>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<POQuote>()
-                .HasMany(e => e.AcctPays)
-                .WithRequired(e => e.POQuote)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ProjectManagementMilestone>()
                 .Property(e => e.MilestoneName)
@@ -1028,6 +1002,18 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<UDC>()
+                .HasMany(e => e.AcctPays)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.DocTypeXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.AcctPays1)
+                .WithRequired(e => e.UDC1)
+                .HasForeignKey(e => e.PaymentTermsXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
                 .HasMany(e => e.Carriers)
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.CarrierTypeXrefId)
@@ -1101,7 +1087,6 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
-
         }
     }
 }

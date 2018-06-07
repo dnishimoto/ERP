@@ -9,26 +9,19 @@ namespace ERP_Core2.EntityFramework
     [Table("AcctPay")]
     public partial class AcctPay
     {
-        public long Id { get; set; }
+        public long AcctPayId { get; set; }
 
         public long? DocNumber { get; set; }
 
-        [StringLength(10)]
-        public string DocType { get; set; }
+        public long DocTypeXRefId { get; set; }
 
-        [StringLength(50)]
-        public string InvoiceNumber { get; set; }
-
-        [Column(TypeName = "money")]
-        public decimal? InvoiceAmount { get; set; }
-
-        public DateTime? InvoiceDate { get; set; }
-
-        [StringLength(10)]
-        public string PaymentTerms { get; set; }
+        public long PaymentTermsXRefId { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? GrossAmount { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? DiscountAmount { get; set; }
 
         public string Remark { get; set; }
 
@@ -39,23 +32,31 @@ namespace ERP_Core2.EntityFramework
 
         public long SupplierId { get; set; }
 
-        public long CustomerId { get; set; }
+        public long? ContractId { get; set; }
 
-        public long ContractId { get; set; }
-
-        public long POQuoteId { get; set; }
+        public long? POQuoteId { get; set; }
 
         [StringLength(1000)]
         public string Description { get; set; }
 
-        public long ItemId { get; set; }
+        public long? ItemId { get; set; }
 
-        [StringLength(50)]
-        public string PONumber { get; set; }
+        public long? PurchaseOrderId { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? Tax { get; set; }
+
+        public long? InvoiceId { get; set; }
+
+        public virtual UDC UDC { get; set; }
+
+        public virtual Invoice Invoice { get; set; }
+
+        public virtual UDC UDC1 { get; set; }
+
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
 
         public virtual Contract Contract { get; set; }
-
-        public virtual Customer Customer { get; set; }
 
         public virtual POQuote POQuote { get; set; }
 

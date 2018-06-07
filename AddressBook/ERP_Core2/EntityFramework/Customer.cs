@@ -12,7 +12,6 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Customer()
         {
-            AcctPays = new HashSet<AcctPay>();
             AcctRecs = new HashSet<AcctRec>();
             Contracts = new HashSet<Contract>();
             CustomerClaims = new HashSet<CustomerClaim>();
@@ -40,9 +39,6 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(50)]
         public string TaxIdentification { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AcctPay> AcctPays { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctRec> AcctRecs { get; set; }
