@@ -1,5 +1,6 @@
 ﻿using ERP_Core2.EntityFramework;
 using MillenniumERP.AddressBookDomain;
+using MillenniumERP.CustomerDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,8 @@ namespace ERP_Core2.AbstractFactory
     public abstract partial class AbstractFactory
     {
         public abstract BuyerView MapBuyerView(Buyer buyer);
+        public abstract InvoiceView MapInvoiceView(Invoice invoice);
+        public abstract InvoiceDetailView MapInvoiceDetails(InvoiceDetail invoiceDetail);
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
@@ -48,5 +51,23 @@ namespace ERP_Core2.AbstractFactory
         {
             return new BuyerView(buyer);
         }
+        public override InvoiceView MapInvoiceView(Invoice invoice)
+        {
+            InvoiceView invoiceView= new InvoiceView(invoice);
+            List<InvoiceDetailView> list = new List<InvoiceDetailView>();
+            
+
+            foreach (var item in invoice.InvoiceDetails)
+            {
+                list.Add(MapInvoiceDetails(item));
+            }
+            invoiceView.InvoiceViewDetails = list;
+            return invoiceView;
+        }
+        public override InvoiceDetailView MapInvoiceDetails(InvoiceDetail invoiceDetail)
+        {
+            return new InvoiceDetailView(invoiceDetail);
+        }
+
     }
 }

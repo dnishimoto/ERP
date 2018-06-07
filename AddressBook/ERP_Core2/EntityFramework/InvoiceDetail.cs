@@ -6,11 +6,9 @@ namespace ERP_Core2.EntityFramework
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("InvoicesDetail")]
-    public partial class InvoicesDetail
+    [Table("InvoiceDetail")]
+    public partial class InvoiceDetail
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long InvoiceDetailId { get; set; }
 
         public long InvoiceId { get; set; }
@@ -24,9 +22,9 @@ namespace ERP_Core2.EntityFramework
 
         public decimal? Amount { get; set; }
 
-        public long PurchaseOrderLineId { get; set; }
+        public long? PurchaseOrderLineId { get; set; }
 
-        public long SalesOrderDetailId { get; set; }
+        public long? SalesOrderDetailId { get; set; }
 
         public long ItemId { get; set; }
 

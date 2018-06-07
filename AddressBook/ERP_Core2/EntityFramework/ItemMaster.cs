@@ -13,7 +13,7 @@ namespace ERP_Core2.EntityFramework
         public ItemMaster()
         {
             AcctRecs = new HashSet<AcctRec>();
-            InvoicesDetails = new HashSet<InvoicesDetail>();
+            InvoiceDetails = new HashSet<InvoiceDetail>();
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
             ShipmentsDetails = new HashSet<ShipmentsDetail>();
@@ -46,7 +46,7 @@ namespace ERP_Core2.EntityFramework
         public virtual Inventory Inventory { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicesDetail> InvoicesDetails { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
