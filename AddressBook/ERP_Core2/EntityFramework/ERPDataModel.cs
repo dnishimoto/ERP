@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
+
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -139,11 +140,6 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.CompanyName)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<AddressBook>()
-                .HasMany(e => e.Employees)
-                .WithRequired(e => e.AddressBook)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AddressBook>()
                 .HasMany(e => e.Buyers)
@@ -1116,6 +1112,7 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
+
 
         }
     }

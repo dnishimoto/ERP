@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.ProjectManagementDomain;
 using MillenniumERP.ScheduleEventsDomain;
+using MillenniumERP.CustomerDomain;
 
 namespace MillenniumERP.Services
 {
@@ -21,6 +22,14 @@ namespace MillenniumERP.Services
         public ScheduleEventRepository scheduleEventRepository => new ScheduleEventRepository(db);
         public ProjectManagementProjectRepository projectManagementProjectRepository => new ProjectManagementProjectRepository(db);
         public ProjectManagementMilestoneRepository projectManagementMilestoneRepository => new ProjectManagementMilestoneRepository(db);
+        public SupervisorRepository supervisorRepository => new SupervisorRepository(db);
+        public UDCRepository udcRepository => new UDCRepository(db);
+        public EmployeeRepository employeeRepository => new EmployeeRepository(db);
+        public SupplierRepository supplierRepository => new SupplierRepository(db);
+        public CarrierRepository carrierRepository => new CarrierRepository(db);
+        public BuyerRepository buyerRepository => new BuyerRepository(db);
+        public CustomerRepository customerRepository => new CustomerRepository(db);
+
         public UnitOfWork()
         {
             /*

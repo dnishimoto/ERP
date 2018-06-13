@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using ERP_Core2.EntityFramework;
 using Xunit.Abstractions;
+using MillenniumERP.AddressBookDomain;
 
 namespace ERP_Core2.AddressBookDomain
 {
@@ -20,6 +21,67 @@ namespace ERP_Core2.AddressBookDomain
         {
             this.output = output;
 
+        }
+        [Fact]
+        void TestGetBuyerByBuyerId()
+        {
+            int buyerId = 1;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+            BuyerView buyerView = unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId);
+            Assert.Equal(buyerView.BuyerTitle, "Regional Purchasing Clerk");
+        }
+        [Fact]
+        void TestGetCarrierByCarrierId()
+        {
+            int carrierId = 1;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+            CarrierView carrierView = unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId);
+            Assert.Equal(carrierView.CarrierName.ToString(),"United Parcel Service");
+        }
+
+        [Fact]
+        void   TestGetSupplierBySupplierId()
+        {
+            int supplierId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            SupplierView supplierView = unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
+            Assert.True(supplierView.SupplierId != null);
+
+        }
+        [Fact]
+        public void TestGetEmployeeByEmployeeId()
+        {
+            int employeeId = 3;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            EmployeeView employeeView = unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId);
+            Assert.True(employeeView.EmployeeId != null);
+        }
+        [Fact]
+        public void TestGetEmployeesBySupervisorId()
+        {
+            
+            int supervisorId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            List<EmployeeView>list = unitOfWork.supervisorRepository.GetEmployeesBySupervisorId(supervisorId);
+
+            int count = 0;
+            foreach (var item in list)
+            {
+                output.WriteLine($"{item.EmployeeId} {item.EmployeeName}");
+                count++;
+            }
+            Assert.True(count>0);
+            
+        }
+        [Fact]
+        public void TestGetSupervisor()
+        {
+            int supervisorId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            SupervisorView view = unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId);
+            Assert.Equal(view.ParentSupervisorName.ToUpper().ToString() , "PAM NISHIMOTO".ToString());
         }
         [Fact]
         public void TestAddressBookPhones()
@@ -116,8 +178,10 @@ namespace ERP_Core2.AddressBookDomain
         [Fact]
         public void TestGetAddressBooks()
         {
+            int addressId = 1;
+
             UnitOfWork unitOfWork = new UnitOfWork();
-            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await unitOfWork.addressBookRepository.GetAddressBooks("customer"));
+            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId));
 
             IList<string> list = new List<string>();
             foreach (var item in resultTask.Result)
@@ -125,7 +189,7 @@ namespace ERP_Core2.AddressBookDomain
                 output.WriteLine($"{item.Name}");
                 list.Add(item.Name.ToUpper());
             }
-            Assert.True(list.Contains("BOB SMITH") && list.Contains("PAM NISHIMOTO"));
+            Assert.True(list.Contains("DAVID NISHIMOTO") );
         }
         [Fact]
         public void TestGetAddressBook()
@@ -154,7 +218,16 @@ namespace ERP_Core2.AddressBookDomain
 
             Assert.Equal(name, "David2");
 
+            addressBook = resultTask.Result;
+            addressBook.FirstName = "David";
+            unitOfWork.addressBookRepository.UpdateObject(addressBook);
+            unitOfWork.CommitChanges();
 
+            query = unitOfWork.addressBookRepository.GetObjectAsync(1);
+
+            name = query.Result.FirstName;
+
+            Assert.Equal(name, "David");
         }
         [Fact]
         public void TestAddandDeleteAddressBook()

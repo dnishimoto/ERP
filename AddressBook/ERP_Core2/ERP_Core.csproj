@@ -66,15 +66,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\BuyerRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\CarrierRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\SupplierRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
+    <Compile Include="CustomerDomain\Repository\CustomerRepository.cs" />
+    <Compile Include="CustomerDomain\UnitTestCustomer.cs" />
     <Compile Include="EntityFramework\AccountBalance.cs" />
     <Compile Include="EntityFramework\AcctPay.cs" />
     <Compile Include="EntityFramework\AcctRec.cs" />
     <Compile Include="EntityFramework\AddressBook.cs" />
     <Compile Include="EntityFramework\AddressTypeXRef.cs" />
+    <Compile Include="EntityFramework\AspNetRole.cs" />
     <Compile Include="EntityFramework\Budget.cs" />
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
@@ -93,7 +102,6 @@
     <Compile Include="EntityFramework\GeneralLedger.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
     <Compile Include="EntityFramework\Invoice.cs" />
-    <Compile Include="EntityFramework\InvoiceDetail.cs" />
     <Compile Include="EntityFramework\InvoicesDetail.cs" />
     <Compile Include="EntityFramework\ItemMaster.cs" />
     <Compile Include="EntityFramework\LocationAddress.cs" />
@@ -127,6 +135,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleEventsDomain\Repository\ScheduleEventRepository.cs" />
     <Compile Include="ScheduleEventsDomain\UnitTestScheduleEvent.cs" />
+    <Compile Include="UDCDomain\Repository\UDCRepository.cs" />
+    <Compile Include="UDCDomain\UnitTestUDC.cs" />
     <Compile Include="UnitOfWorkDomain\Repository.cs" />
     <Compile Include="UnitOfWorkDomain\UnitOfWork.cs" />
   </ItemGroup>
@@ -182,7 +192,9 @@
     <Content Include="Sql_Server_Scripts\dbo.UDC.Table.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
