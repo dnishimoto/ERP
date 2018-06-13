@@ -17,12 +17,14 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
         public virtual DbSet<BudgetSnapShot> BudgetSnapShots { get; set; }
         public virtual DbSet<Buyer> Buyers { get; set; }
         public virtual DbSet<Carrier> Carriers { get; set; }
         public virtual DbSet<ChartOfAcct> ChartOfAccts { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerClaim> CustomerClaims { get; set; }
@@ -368,6 +370,35 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyStreet)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyCity)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyState)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyZipcode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(e => e.Invoices)
+                .WithRequired(e => e.Company)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Contract>()
                 .Property(e => e.Cost)
                 .HasPrecision(19, 4);
@@ -548,6 +579,10 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.DiscountAmount)
                 .HasPrecision(18, 4);
+
+            modelBuilder.Entity<InvoiceDetail>()
+                .Property(e => e.ExtendedDescription)
+                .IsUnicode(false);
 
             modelBuilder.Entity<ItemMaster>()
                 .Property(e => e.Description)
@@ -1087,6 +1122,8 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
+
+
         }
     }
 }

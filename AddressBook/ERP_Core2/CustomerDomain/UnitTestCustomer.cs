@@ -39,11 +39,12 @@ namespace ERP_Core2.CustomerDomain
         [Fact]
         public void TestInvoicesByCustomerId()
         {
-            int customerId = 3;
+            int customerId = 2;
+            int? invoiceId = 5;
 
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            IList<InvoiceView> list = unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId);
+            IList<InvoiceView> list = unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId, e => e.CustomerId == customerId, invoiceId);
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
@@ -54,7 +55,7 @@ namespace ERP_Core2.CustomerDomain
                 }
             }
 
-            Assert.True(collection.Contains("GRASS"));
+            Assert.True(collection.Contains("EMPTY"));
         }
     }
 }

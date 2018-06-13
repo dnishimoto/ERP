@@ -40,11 +40,15 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string PaymentTerms { get; set; }
 
+        public long CompanyId { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctRec> AcctRecs { get; set; }
+
+        public virtual Company Company { get; set; }
 
         public virtual Customer Customer { get; set; }
 

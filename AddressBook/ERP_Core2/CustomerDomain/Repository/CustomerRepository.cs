@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,8 +26,17 @@ namespace MillenniumERP.CustomerDomain
             this.TaxAmount = invoice.TaxAmount;
             this.PaymentDueDate = invoice.PaymentDueDate;
             this.PaymentTerms = invoice.PaymentTerms;
+            this.CompanyName = invoice.Company.CompanyName;
+            this.CompanyStreet = invoice.Company.CompanyStreet;
+            this.CompanyCity = invoice.Company.CompanyCity;
+            this.CompanyZipcode = invoice.Company.CompanyZipcode;
 
         }
+        public string CompanyName { get; set; }
+        public string CompanyStreet { get; set; }
+        public string CompanyCity { get; set; }
+        public string CompanyState { get; set; }
+        public string CompanyZipcode { get; set; }
         public long? InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
         public DateTime? InvoiceDate { get; set; }
@@ -53,7 +63,8 @@ namespace MillenniumERP.CustomerDomain
             this.ItemNumber = invoiceDetail.ItemMaster.ItemNumber;
             this.ItemDescription = invoiceDetail.ItemMaster.Description;
             this.ItemDescription2 = invoiceDetail.ItemMaster.Description2;
-    }
+            this.ExtendedDescription = invoiceDetail.ExtendedDescription;
+        }
             public int? Quantity { get; set; }
             public string UnitOfMeasure { get; set; }
             public decimal? UnitPrice { get; set; }
@@ -73,6 +84,7 @@ namespace MillenniumERP.CustomerDomain
         public string ItemDescription2 { get; set; }
      
         public long? InvoiceDetailId { get; set; }
+        public string ExtendedDescription { get; set; }
     }
     public class CustomerClaimView
     {
@@ -123,12 +135,22 @@ namespace MillenniumERP.CustomerDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId)
+        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, Expression<Func<Customer, bool>> customerPredicate, int? invoiceId)
         {
-            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
+            IEnumerable<Invoice> invoiceList = null;
+            var resultList = base.GetObjectsAsync(customerPredicate, "invoices").FirstOrDefault();
 
             IList<InvoiceView> list = new List<InvoiceView>();
-            foreach (var item in resultList.Invoices)
+            if (invoiceId != null)
+            {
+                invoiceList = resultList.Invoices.Where(f => f.InvoiceId == invoiceId);
+            }
+            else
+            {
+                invoiceList = resultList.Invoices;
+            }
+            
+            foreach (var item in invoiceList)
             {
                 list.Add(applicationViewFactory.MapInvoiceView(item));
             }

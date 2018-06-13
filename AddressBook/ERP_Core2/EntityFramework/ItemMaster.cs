@@ -37,6 +37,7 @@ namespace ERP_Core2.EntityFramework
         [StringLength(255)]
         public string Description2 { get; set; }
 
+        [Required]
         [StringLength(20)]
         public string ItemNumber { get; set; }
 

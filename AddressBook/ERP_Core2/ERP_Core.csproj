@@ -84,6 +84,7 @@
     <Compile Include="EntityFramework\AddressBook.cs" />
     <Compile Include="EntityFramework\AddressTypeXRef.cs" />
     <Compile Include="EntityFramework\AspNetRole.cs" />
+    <Compile Include="EntityFramework\AspNetUser.cs" />
     <Compile Include="EntityFramework\Budget.cs" />
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
@@ -91,6 +92,7 @@
     <Compile Include="EntityFramework\Carier.cs" />
     <Compile Include="EntityFramework\Carrier.cs" />
     <Compile Include="EntityFramework\ChartOfAcct.cs" />
+    <Compile Include="EntityFramework\Company.cs" />
     <Compile Include="EntityFramework\Contract.cs" />
     <Compile Include="EntityFramework\Customer.cs" />
     <Compile Include="EntityFramework\CustomerClaim.cs" />
