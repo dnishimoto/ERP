@@ -6,13 +6,15 @@ namespace ERP_Core2.EntityFramework
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    [Table("Invoice")]
     public partial class Invoice
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Invoice()
         {
+            AcctPays = new HashSet<AcctPay>();
             AcctRecs = new HashSet<AcctRec>();
-            InvoicesDetails = new HashSet<InvoicesDetail>();
+            InvoiceDetails = new HashSet<InvoiceDetail>();
         }
 
         public long InvoiceId { get; set; }
@@ -38,12 +40,19 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string PaymentTerms { get; set; }
 
+        public long CompanyId { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctPay> AcctPays { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctRec> AcctRecs { get; set; }
+
+        public virtual Company Company { get; set; }
 
         public virtual Customer Customer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<InvoicesDetail> InvoicesDetails { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
     }
 }

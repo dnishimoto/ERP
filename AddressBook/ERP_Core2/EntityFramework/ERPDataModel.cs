@@ -20,16 +20,18 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
         public virtual DbSet<BudgetSnapShot> BudgetSnapShots { get; set; }
         public virtual DbSet<Buyer> Buyers { get; set; }
-        public virtual DbSet<Carier> Cariers { get; set; }
+        public virtual DbSet<Carrier> Carriers { get; set; }
         public virtual DbSet<ChartOfAcct> ChartOfAccts { get; set; }
+        public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
+        public virtual DbSet<CustomerClaim> CustomerClaims { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
-        public virtual DbSet<InvoicesDetail> InvoicesDetails { get; set; }
+        public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<ItemMaster> ItemMasters { get; set; }
         public virtual DbSet<LocationAddress> LocationAddresses { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
@@ -48,6 +50,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ShipmentsDetail> ShipmentsDetails { get; set; }
         public virtual DbSet<ShippedToAddress> ShippedToAddresses { get; set; }
         public virtual DbSet<Supervisor> Supervisors { get; set; }
+        public virtual DbSet<SupervisorEmployee> SupervisorEmployees { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
@@ -58,31 +61,19 @@ namespace ERP_Core2.EntityFramework
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountBalance>()
-                  .Property(e => e.AccountBalanceType)
-                  .IsUnicode(false);
+                .Property(e => e.AccountBalanceType)
+                .IsUnicode(false);
 
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.Amount)
                 .HasPrecision(18, 4);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.DocType)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
-                .Property(e => e.InvoiceNumber)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
-                .Property(e => e.InvoiceAmount)
+                .Property(e => e.GrossAmount)
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.PaymentTerms)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
-                .Property(e => e.GrossAmount)
+                .Property(e => e.DiscountAmount)
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctPay>()
@@ -98,8 +89,8 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.PONumber)
-                .IsUnicode(false);
+                .Property(e => e.Tax)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.DocType)
@@ -146,12 +137,21 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<AddressBook>()
+                .Property(e => e.CompanyName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<AddressBook>()
+                .HasMany(e => e.Employees)
+                .WithRequired(e => e.AddressBook)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AddressBook>()
                 .HasMany(e => e.Buyers)
                 .WithRequired(e => e.AddressBook)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AddressBook>()
-                .HasMany(e => e.Cariers)
+                .HasMany(e => e.Carriers)
                 .WithRequired(e => e.AddressBook)
                 .WillCascadeOnDelete(false);
 
@@ -275,6 +275,10 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.Comments)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<Buyer>()
+                .Property(e => e.Title)
+                .IsUnicode(false);
+
             modelBuilder.Entity<ChartOfAcct>()
                 .Property(e => e.Location)
                 .IsUnicode(false);
@@ -364,6 +368,35 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyStreet)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyCity)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyState)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.CompanyZipcode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(e => e.Invoices)
+                .WithRequired(e => e.Company)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Contract>()
                 .Property(e => e.Cost)
                 .HasPrecision(19, 4);
@@ -372,22 +405,17 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.RemainingBalance)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<Contract>()
-                .HasMany(e => e.AcctPays)
-                .WithRequired(e => e.Contract)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Customer>()
                 .Property(e => e.TaxIdentification)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Customer>()
-                .HasMany(e => e.AcctPays)
+                .HasMany(e => e.AcctRecs)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Customer>()
-                .HasMany(e => e.AcctRecs)
+                .HasMany(e => e.CustomerClaims)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
 
@@ -416,6 +444,14 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<CustomerClaim>()
+                .Property(e => e.Configuration)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CustomerClaim>()
+                .Property(e => e.Note)
+                .IsUnicode(false);
+
             modelBuilder.Entity<Email>()
                 .Property(e => e.Password)
                 .IsUnicode(false);
@@ -429,7 +465,17 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<Employee>()
+                .HasMany(e => e.CustomerClaims)
+                .WithRequired(e => e.Employee)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Employee>()
                 .HasMany(e => e.ScheduleEvents)
+                .WithRequired(e => e.Employee)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.SupervisorEmployees)
                 .WithRequired(e => e.Employee)
                 .WillCascadeOnDelete(false);
 
@@ -508,27 +554,27 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Invoice>()
-                .HasMany(e => e.InvoicesDetails)
+                .HasMany(e => e.InvoiceDetails)
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.UnitPrice)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.UnitOfMeasure)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.Amount)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.DiscountPercent)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<InvoicesDetail>()
+            modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.DiscountAmount)
                 .HasPrecision(18, 4);
 
@@ -566,7 +612,7 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.ItemMaster);
 
             modelBuilder.Entity<ItemMaster>()
-                .HasMany(e => e.InvoicesDetails)
+                .HasMany(e => e.InvoiceDetails)
                 .WithRequired(e => e.ItemMaster)
                 .WillCascadeOnDelete(false);
 
@@ -628,11 +674,6 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<POQuote>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<POQuote>()
-                .HasMany(e => e.AcctPays)
-                .WithRequired(e => e.POQuote)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ProjectManagementMilestone>()
                 .Property(e => e.MilestoneName)
@@ -897,6 +938,11 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<Supervisor>()
+                .HasMany(e => e.SupervisorEmployees)
+                .WithRequired(e => e.Supervisor)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Supervisor>()
                 .HasMany(e => e.TimeAndAttendancePunchIns)
                 .WithRequired(e => e.Supervisor)
                 .WillCascadeOnDelete(false);
@@ -985,9 +1031,51 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<UDC>()
+                .HasMany(e => e.AcctPays)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.DocTypeXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.AcctPays1)
+                .WithRequired(e => e.UDC1)
+                .HasForeignKey(e => e.PaymentTermsXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Carriers)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.CarrierTypeXrefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
                 .HasMany(e => e.Contracts)
                 .WithOptional(e => e.UDC)
                 .HasForeignKey(e => e.ServiceTypeXRefId);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.CustomerClaims)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.ClassificationXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.CustomerClaims1)
+                .WithRequired(e => e.UDC1)
+                .HasForeignKey(e => e.GroupIdXrefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Employees)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.EmploymentStatusXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Employees1)
+                .WithRequired(e => e.UDC1)
+                .HasForeignKey(e => e.JobTitleXrefId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()
                 .HasMany(e => e.LocationAddresses)
@@ -1019,11 +1107,15 @@ namespace ERP_Core2.EntityFramework
                 .HasForeignKey(e => e.ServiceTypeXRefId);
 
             modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Supervisors)
+                .WithOptional(e => e.UDC)
+                .HasForeignKey(e => e.JobTitleXrefId);
+
+            modelBuilder.Entity<UDC>()
                 .HasMany(e => e.TimeAndAttendancePunchIns)
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
-
 
         }
     }

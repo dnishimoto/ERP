@@ -12,12 +12,20 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UDC()
         {
+            AcctPays = new HashSet<AcctPay>();
+            AcctPays1 = new HashSet<AcctPay>();
+            Carriers = new HashSet<Carrier>();
             Contracts = new HashSet<Contract>();
+            CustomerClaims = new HashSet<CustomerClaim>();
+            CustomerClaims1 = new HashSet<CustomerClaim>();
+            Employees = new HashSet<Employee>();
+            Employees1 = new HashSet<Employee>();
             LocationAddresses = new HashSet<LocationAddress>();
             LocationAddresses1 = new HashSet<LocationAddress>();
             LocationAddresses2 = new HashSet<LocationAddress>();
             ProjectManagementTasks = new HashSet<ProjectManagementTask>();
             ServiceInformations = new HashSet<ServiceInformation>();
+            Supervisors = new HashSet<Supervisor>();
             TimeAndAttendancePunchIns = new HashSet<TimeAndAttendancePunchIn>();
         }
 
@@ -34,7 +42,28 @@ namespace ERP_Core2.EntityFramework
         public string Value { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctPay> AcctPays { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctPay> AcctPays1 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Carrier> Carriers { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contract> Contracts { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerClaim> CustomerClaims { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerClaim> CustomerClaims1 { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Employee> Employees1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationAddress> LocationAddresses { get; set; }
@@ -50,6 +79,9 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Supervisor> Supervisors { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
