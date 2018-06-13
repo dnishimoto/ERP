@@ -37,14 +37,35 @@ namespace ERP_Core2.CustomerDomain
             Assert.True(collection.Contains("IDAHO WEB DEVELOPMENT CUSTOMERS"));
         }
         [Fact]
+        public void TestScheduleEventsByCustomerId()
+        {
+            int customerId = 1;
+            int? serviceId = 2;
+            //int? invoiceId = null;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            IList<ScheduleEventView> list = unitOfWork.customerRepository.GetScheduleEventsByCustomerId(customerId, serviceId);
+            List<string> collection = new List<string>();
+            foreach (var item in list)
+            {
+                    output.WriteLine($"{item.CustomerName}");
+                    collection.Add(item.CustomerName.ToUpper());
+       
+            }
+
+            Assert.True(collection.Contains("PAM NISHIMOTO"));
+        }
+        [Fact]
         public void TestInvoicesByCustomerId()
         {
             int customerId = 2;
             int? invoiceId = 5;
+            //int? invoiceId = null;
 
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            IList<InvoiceView> list = unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId, e => e.CustomerId == customerId, invoiceId);
+            IList<InvoiceView> list = unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId, invoiceId);
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
