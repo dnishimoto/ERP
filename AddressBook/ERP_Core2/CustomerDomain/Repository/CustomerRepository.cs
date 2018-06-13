@@ -124,6 +124,66 @@ namespace MillenniumERP.CustomerDomain
     {
         
     }
+    public class ScheduleEventView
+    {
+        public ScheduleEventView() { }
+        public ScheduleEventView(ScheduleEvent scheduleEvent)
+        {
+            this.ScheduleEventId = scheduleEvent.ScheduleEventId;
+            this.EmployeeId=scheduleEvent.EmployeeId;
+            this.EmployeeName=  scheduleEvent.Employee.AddressBook.Name;
+            this.EventDateTime= scheduleEvent.EventDateTime ;
+            this.ServiceId=scheduleEvent.ServiceId;
+            this.DurationMinutes=scheduleEvent.DurationMinutes ;
+            this.CustomerId=scheduleEvent.CustomerId ;
+            this.CustomerName=scheduleEvent.Customer.AddressBook.Name;
+            this.ServiceDescription=scheduleEvent.ServiceInformation.ServiceDescription;
+            this.Price=scheduleEvent.ServiceInformation.Price;
+            this.AddOns=scheduleEvent.ServiceInformation.AddOns;
+            this.ServiceTypeXRefId = scheduleEvent.ServiceInformation.ServiceTypeXRefId;
+            this.ServiceType = scheduleEvent.ServiceInformation.UDC.Value;
+            this.CreatedDate = scheduleEvent.ServiceInformation.CreatedDate;
+
+            this.SquareFeetOfStructure= scheduleEvent.ServiceInformation.SquareFeetOfStructure;
+            this.LocationDescription= scheduleEvent.ServiceInformation.LocationDescription;
+            this.LocationGPS= scheduleEvent.ServiceInformation.LocationGPS;
+            this.Comments= scheduleEvent.ServiceInformation.Comments;
+    }
+        public long ScheduleEventId { get; set; }
+        public long EmployeeId { get; set; }
+        public string EmployeeName { get; set; }
+        public DateTime? EventDateTime { get; set; }
+        public long ServiceId { get; set; }
+        public long? DurationMinutes { get; set; }
+        public long? CustomerId { get; set; }
+        public string CustomerName { get; set; }
+
+
+        //Service Information
+        public string ServiceDescription { get; set; }
+        public decimal? Price { get; set; }
+        public string AddOns { get; set; }
+        public long? ServiceTypeXRefId { get; set; }
+        public string ServiceType { get; set; }
+        public DateTime? CreatedDate { get; set; }
+
+        public int? SquareFeetOfStructure { get; set; }
+        public string LocationDescription { get; set; }
+        public string LocationGPS { get; set; }
+        public string Comments { get; set; }
+
+        //To Do Service Address Information
+        public string StreetAddress { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string Zipcode { get; set; }
+
+        //To Do Contract
+        public long? ContractId { get; set; }
+  
+
+     
+    }
     public class CustomerRepository:Repository<Customer>
     {
         private ApplicationViewFactory applicationViewFactory;
@@ -135,10 +195,10 @@ namespace MillenniumERP.CustomerDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, Expression<Func<Customer, bool>> customerPredicate, int? invoiceId)
+        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId=null)
         {
             IEnumerable<Invoice> invoiceList = null;
-            var resultList = base.GetObjectsAsync(customerPredicate, "invoices").FirstOrDefault();
+            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
 
             IList<InvoiceView> list = new List<InvoiceView>();
             if (invoiceId != null)
@@ -169,6 +229,27 @@ namespace MillenniumERP.CustomerDomain
             }
             return list;
         }
+        public IList<ScheduleEventView> GetScheduleEventsByCustomerId(int customerId,int? serviceId=null)
+        {
+            IEnumerable<ScheduleEvent> scheduleEventList = null;
+            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
+
+            IList<ScheduleEventView> list = new List<ScheduleEventView>();
+            if (serviceId != null)
+            {
+                scheduleEventList = resultList.ScheduleEvents.Where(f => f.ServiceId== serviceId);
+            }
+            else
+            {
+                scheduleEventList = resultList.ScheduleEvents;
+            }
+
+            foreach (var item in scheduleEventList)
+            {
+                list.Add(applicationViewFactory.MapScheduleEventView(item));
+            }
+            return list;
+        }
         /*
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)
         { }
@@ -178,8 +259,7 @@ namespace MillenniumERP.CustomerDomain
         { }
         public IList<SalesOrderView> GetSalesOrdersByCustomerId(int customerId)
         { }
-        public IList<ScheduleEventView> GetScheduleEventsByCustomerId(int customerId)
-        { }
+        
         public IList<ShipmentView> GetShipmentsByCustomerId(int customerId)
         { }
         */
