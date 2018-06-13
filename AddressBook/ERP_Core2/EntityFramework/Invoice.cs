@@ -46,9 +46,6 @@ namespace ERP_Core2.EntityFramework
         public virtual ICollection<AcctPay> AcctPays { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AcctPay> AcctPays { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctRec> AcctRecs { get; set; }
 
         public virtual Company Company { get; set; }

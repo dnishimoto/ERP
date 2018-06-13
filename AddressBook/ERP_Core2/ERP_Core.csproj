@@ -84,6 +84,7 @@
     <Compile Include="EntityFramework\AddressBook.cs" />
     <Compile Include="EntityFramework\AddressTypeXRef.cs" />
     <Compile Include="EntityFramework\AspNetRole.cs" />
+    <Compile Include="EntityFramework\AspNetUser.cs" />
     <Compile Include="EntityFramework\Budget.cs" />
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
@@ -102,7 +103,7 @@
     <Compile Include="EntityFramework\GeneralLedger.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
     <Compile Include="EntityFramework\Invoice.cs" />
-    <Compile Include="EntityFramework\InvoicesDetail.cs" />
+    <Compile Include="EntityFramework\InvoiceDetail.cs" />
     <Compile Include="EntityFramework\ItemMaster.cs" />
     <Compile Include="EntityFramework\LocationAddress.cs" />
     <Compile Include="EntityFramework\Phone.cs" />

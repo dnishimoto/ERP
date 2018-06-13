@@ -34,6 +34,9 @@ namespace ERP_Core2.EntityFramework
 
         public long? ShipmentDetailId { get; set; }
 
+        [StringLength(255)]
+        public string ExtendedDescription { get; set; }
+
         public virtual Invoice Invoice { get; set; }
 
         public virtual ItemMaster ItemMaster { get; set; }

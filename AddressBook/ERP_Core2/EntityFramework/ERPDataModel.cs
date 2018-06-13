@@ -17,6 +17,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
+        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
         public virtual DbSet<BudgetSnapShot> BudgetSnapShots { get; set; }
@@ -140,6 +141,11 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.CompanyName)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<AddressBook>()
+                .HasMany(e => e.Employees)
+                .WithRequired(e => e.AddressBook)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AddressBook>()
                 .HasMany(e => e.Buyers)
@@ -573,6 +579,10 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<InvoiceDetail>()
                 .Property(e => e.DiscountAmount)
                 .HasPrecision(18, 4);
+
+            modelBuilder.Entity<InvoiceDetail>()
+                .Property(e => e.ExtendedDescription)
+                .IsUnicode(false);
 
             modelBuilder.Entity<ItemMaster>()
                 .Property(e => e.Description)
