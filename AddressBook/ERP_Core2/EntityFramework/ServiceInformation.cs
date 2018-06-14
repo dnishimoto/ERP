@@ -31,7 +31,9 @@ namespace ERP_Core2.EntityFramework
 
         public DateTime? CreatedDate { get; set; }
 
-        public long? AddressId { get; set; }
+        public long LocationId { get; set; }
+
+        public long CustomerId { get; set; }
 
         public long? ContractId { get; set; }
 
@@ -47,6 +49,8 @@ namespace ERP_Core2.EntityFramework
         public string Comments { get; set; }
 
         public bool Status { get; set; }
+
+        public virtual Customer Customer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }

@@ -17,7 +17,6 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
-        public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
         public virtual DbSet<BudgetSnapShot> BudgetSnapShots { get; set; }
@@ -413,6 +412,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<Customer>()
                 .HasMany(e => e.AcctRecs)
+                .WithRequired(e => e.Customer)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Customer>()
+                .HasMany(e => e.ServiceInformations)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
 
@@ -1122,8 +1126,6 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
-
-
         }
     }
 }
