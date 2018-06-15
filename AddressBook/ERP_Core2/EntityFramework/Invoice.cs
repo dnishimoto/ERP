@@ -15,6 +15,7 @@ namespace ERP_Core2.EntityFramework
             AcctPays = new HashSet<AcctPay>();
             AcctRecs = new HashSet<AcctRec>();
             InvoiceDetails = new HashSet<InvoiceDetail>();
+            ServiceInformationInvoices = new HashSet<ServiceInformationInvoice>();
         }
 
         public long InvoiceId { get; set; }
@@ -54,5 +55,8 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceInformationInvoice> ServiceInformationInvoices { get; set; }
     }
 }

@@ -69,22 +69,20 @@ namespace MillenniumERP.CustomerDomain
             public string UnitOfMeasure { get; set; }
             public decimal? UnitPrice { get; set; }
             public decimal? Amount { get; set; }
-               //todo public long? PurchaseOrderLineId { get; set; }
-       //todo public long? SalesOrderDetailId { get; set; }
+            //todo public long? PurchaseOrderLineId { get; set; }
+            //todo public long? SalesOrderDetailId { get; set; }
             public decimal? DiscountPercent { get; set; }
             public decimal? DiscountAmount { get; set; }
-
             //todo    public long? ShipmentDetailId { get; set; }
-
             //todo maybe public string InvoiceNumber { get; set; }
-        //public virtual Invoice Invoice { get; set; }
+            //public virtual Invoice Invoice { get; set; }
 
-        public string ItemNumber { get; set; }
-        public string ItemDescription { get; set; }
-        public string ItemDescription2 { get; set; }
+            public string ItemNumber { get; set; }
+            public string ItemDescription { get; set; }
+            public string ItemDescription2 { get; set; }
      
-        public long? InvoiceDetailId { get; set; }
-        public string ExtendedDescription { get; set; }
+            public long? InvoiceDetailId { get; set; }
+            public string ExtendedDescription { get; set; }
     }
     public class CustomerClaimView
     {
@@ -113,8 +111,7 @@ namespace MillenniumERP.CustomerDomain
         public string GroupId { get; set; }
         public DateTime? ProcessedDate { get; set; }
         public DateTime? CreatedDate { get; set; }
-
-      
+  
     }
         public class PurchaseOrderView
     {
@@ -130,25 +127,27 @@ namespace MillenniumERP.CustomerDomain
         public ScheduleEventView(ScheduleEvent scheduleEvent)
         {
             this.ScheduleEventId = scheduleEvent.ScheduleEventId;
-            this.EmployeeId=scheduleEvent.EmployeeId;
-            this.EmployeeName=  scheduleEvent.Employee.AddressBook.Name;
-            this.EventDateTime= scheduleEvent.EventDateTime ;
-            this.ServiceId=scheduleEvent.ServiceId;
-            this.DurationMinutes=scheduleEvent.DurationMinutes ;
-            this.CustomerId=scheduleEvent.CustomerId ;
-            this.CustomerName=scheduleEvent.Customer.AddressBook.Name;
-            this.ServiceDescription=scheduleEvent.ServiceInformation.ServiceDescription;
-            this.Price=scheduleEvent.ServiceInformation.Price;
-            this.AddOns=scheduleEvent.ServiceInformation.AddOns;
+            this.EmployeeId = scheduleEvent.EmployeeId;
+            this.EmployeeName = scheduleEvent.Employee.AddressBook.Name;
+            this.EventDateTime = scheduleEvent.EventDateTime;
+            this.ServiceId = scheduleEvent.ServiceId;
+            this.DurationMinutes = scheduleEvent.DurationMinutes;
+            this.CustomerId = scheduleEvent.CustomerId;
+            this.CustomerName = scheduleEvent.Customer.AddressBook.Name;
+            this.ServiceDescription = scheduleEvent.ServiceInformation.ServiceDescription;
+            this.Price = scheduleEvent.ServiceInformation.Price;
+            this.AddOns = scheduleEvent.ServiceInformation.AddOns;
             this.ServiceTypeXRefId = scheduleEvent.ServiceInformation.ServiceTypeXRefId;
             this.ServiceType = scheduleEvent.ServiceInformation.UDC.Value;
             this.CreatedDate = scheduleEvent.ServiceInformation.CreatedDate;
 
-            this.SquareFeetOfStructure= scheduleEvent.ServiceInformation.SquareFeetOfStructure;
-            this.LocationDescription= scheduleEvent.ServiceInformation.LocationDescription;
-            this.LocationGPS= scheduleEvent.ServiceInformation.LocationGPS;
-            this.Comments= scheduleEvent.ServiceInformation.Comments;
-    }
+            this.SquareFeetOfStructure = scheduleEvent.ServiceInformation.SquareFeetOfStructure;
+            this.LocationDescription = scheduleEvent.ServiceInformation.LocationDescription;
+            this.LocationGPS = scheduleEvent.ServiceInformation.LocationGPS;
+            this.Comments = scheduleEvent.ServiceInformation.Comments;
+
+           
+        }
         public long ScheduleEventId { get; set; }
         public long EmployeeId { get; set; }
         public string EmployeeName { get; set; }
@@ -171,18 +170,53 @@ namespace MillenniumERP.CustomerDomain
         public string LocationDescription { get; set; }
         public string LocationGPS { get; set; }
         public string Comments { get; set; }
-
-        //To Do Service Address Information
-        public string StreetAddress { get; set; }
+        public LocationAddressView LocationAddressView { get; set; }
+        public ContractView ContractView { get; set; }
+ 
+    }
+    public class LocationAddressView
+    {
+        public LocationAddressView() { }
+        public LocationAddressView(LocationAddress locationAddress)
+        {
+            this.Address_Line1 = locationAddress.Address_Line_1;
+            this.Address_Line2 = locationAddress.Address_Line_2;
+            this.City = locationAddress.City;
+            this.State = locationAddress.UDC.Value;
+            this.Zipcode = locationAddress.Zipcode;
+        }
+        public string Address_Line1 { get; set; }
+        public string Address_Line2 { get; set; }
         public string City { get; set; }
         public string State { get; set; }
         public string Zipcode { get; set; }
+}
+    public class ContractView
+    {
+        public ContractView() { }
+        public ContractView(Contract contract)
+        {
+             this.ContractId=contract.ContractId;
+            this.CustomerId = contract.CustomerId;
+            this.CustomerName = contract.Customer.AddressBook.Name;
+            this.ServiceTypeXRefId = contract.ServiceTypeXRefId;
+            this.ServiceType = contract.UDC.Value;
+            this.StartDate = contract.StartDate;
+            this.EndDate = contract.EndDate;
+            this.Cost = contract.Cost;
+            this.RemainingBalance = contract.RemainingBalance;
+    }
 
-        //To Do Contract
-        public long? ContractId { get; set; }
-  
-
-     
+        public long ContractId { get; set; }
+        public long? CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public long? ServiceTypeXRefId { get; set; }
+        public string ServiceType { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
+        public decimal? Cost { get; set; }
+        public decimal? RemainingBalance { get; set; }
+ 
     }
     public class CustomerRepository:Repository<Customer>
     {
@@ -246,11 +280,55 @@ namespace MillenniumERP.CustomerDomain
 
             foreach (var item in scheduleEventList)
             {
-                list.Add(applicationViewFactory.MapScheduleEventView(item));
+                Contract contract= item.ServiceInformation.Contract;
+
+                long? locationId = item.ServiceInformation.LocationId;
+
+                LocationAddress locationAddress=
+
+                    (from e in _dbContext.LocationAddresses
+                                    where e.LocationId == locationId
+                                    select e).FirstOrDefault<LocationAddress>();
+                
+
+                ScheduleEventView scheduleEventView = applicationViewFactory.MapScheduleEventView(item);
+                if (contract != null)
+                {
+                    scheduleEventView.ContractView = applicationViewFactory.MapContractView(contract);
+                }
+                if (locationAddress !=null)
+                {
+                    scheduleEventView.LocationAddressView = applicationViewFactory.MapLocationAddressView(locationAddress);
+                }
+                list.Add(scheduleEventView);
+            }
+            return list;
+        }
+        public IList<ContractView> GetContractsByCustomerId(int customerId, int? contractId = null)
+        {
+            IEnumerable<Contract> contractList = null;
+            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "contracts").FirstOrDefault();
+
+            IList<ContractView> list = new List<ContractView>();
+            if (contractId != null)
+            {
+                contractList = resultList.Contracts.Where(f => f.ContractId == contractId);
+            }
+            else
+            {
+                contractList = resultList.Contracts;
+            }
+
+            foreach (var item in contractList)
+            {
+                list.Add(applicationViewFactory.MapContractView(item));
             }
             return list;
         }
         /*
+            public IList<LocationAddressView> GetLocationAddressByCustomerId(int customerId)
+        { }
+     
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)
         { }
         public IList<AccountsReceiveableView> GetAccountsReceivablesByCustomerId(int customerId)

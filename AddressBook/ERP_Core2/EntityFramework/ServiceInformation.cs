@@ -13,6 +13,7 @@ namespace ERP_Core2.EntityFramework
         public ServiceInformation()
         {
             ScheduleEvents = new HashSet<ScheduleEvent>();
+            ServiceInformationInvoices = new HashSet<ServiceInformationInvoice>();
         }
 
         [Key]
@@ -35,7 +36,7 @@ namespace ERP_Core2.EntityFramework
 
         public long CustomerId { get; set; }
 
-        public long? ContractId { get; set; }
+        public long ContractId { get; set; }
 
         public int? SquareFeetOfStructure { get; set; }
 
@@ -50,11 +51,16 @@ namespace ERP_Core2.EntityFramework
 
         public bool Status { get; set; }
 
+        public virtual Contract Contract { get; set; }
+
         public virtual Customer Customer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
 
         public virtual UDC UDC { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceInformationInvoice> ServiceInformationInvoices { get; set; }
     }
 }

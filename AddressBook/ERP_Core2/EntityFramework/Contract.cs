@@ -13,6 +13,8 @@ namespace ERP_Core2.EntityFramework
         public Contract()
         {
             AcctPays = new HashSet<AcctPay>();
+            ServiceInformations = new HashSet<ServiceInformation>();
+            ContractContents = new HashSet<ContractContent>();
         }
 
         public long ContractId { get; set; }
@@ -34,8 +36,14 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
+
         public virtual Customer Customer { get; set; }
 
         public virtual UDC UDC { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ContractContent> ContractContents { get; set; }
     }
 }
