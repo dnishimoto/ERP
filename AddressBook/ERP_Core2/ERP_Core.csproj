@@ -94,6 +94,7 @@
     <Compile Include="EntityFramework\ChartOfAcct.cs" />
     <Compile Include="EntityFramework\Company.cs" />
     <Compile Include="EntityFramework\Contract.cs" />
+    <Compile Include="EntityFramework\ContractContent.cs" />
     <Compile Include="EntityFramework\Customer.cs" />
     <Compile Include="EntityFramework\CustomerClaim.cs" />
     <Compile Include="EntityFramework\C__MigrationHistory.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="EntityFramework\SalesOrderDetail.cs" />
     <Compile Include="EntityFramework\ScheduleEvent.cs" />
     <Compile Include="EntityFramework\ServiceInformation.cs" />
+    <Compile Include="EntityFramework\ServiceInformationInvoice.cs" />
     <Compile Include="EntityFramework\Shipment.cs" />
     <Compile Include="EntityFramework\ShipmentsDetail.cs" />
     <Compile Include="EntityFramework\ShippedToAddress.cs" />

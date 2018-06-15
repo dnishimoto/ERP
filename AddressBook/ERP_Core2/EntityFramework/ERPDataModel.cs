@@ -12,7 +12,6 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
-
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -25,6 +24,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ChartOfAcct> ChartOfAccts { get; set; }
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
+        public virtual DbSet<ContractContent> ContractContents { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerClaim> CustomerClaims { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
@@ -47,6 +47,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual DbSet<ScheduleEvent> ScheduleEvents { get; set; }
         public virtual DbSet<ServiceInformation> ServiceInformations { get; set; }
+        public virtual DbSet<ServiceInformationInvoice> ServiceInformationInvoices { get; set; }
         public virtual DbSet<Shipment> Shipments { get; set; }
         public virtual DbSet<ShipmentsDetail> ShipmentsDetails { get; set; }
         public virtual DbSet<ShippedToAddress> ShippedToAddresses { get; set; }
@@ -406,6 +407,24 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.RemainingBalance)
                 .HasPrecision(19, 4);
 
+            modelBuilder.Entity<Contract>()
+                .HasMany(e => e.ServiceInformations)
+                .WithRequired(e => e.Contract)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Contract>()
+                .HasMany(e => e.ContractContents)
+                .WithRequired(e => e.Contract)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ContractContent>()
+                .Property(e => e.WBS)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<ContractContent>()
+                .Property(e => e.TextMemo)
+                .IsUnicode(false);
+
             modelBuilder.Entity<Customer>()
                 .Property(e => e.TaxIdentification)
                 .IsUnicode(false);
@@ -561,6 +580,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<Invoice>()
                 .HasMany(e => e.InvoiceDetails)
+                .WithRequired(e => e.Invoice)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Invoice>()
+                .HasMany(e => e.ServiceInformationInvoices)
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
 
@@ -871,6 +895,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<ServiceInformation>()
                 .HasMany(e => e.ScheduleEvents)
+                .WithRequired(e => e.ServiceInformation)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ServiceInformation>()
+                .HasMany(e => e.ServiceInformationInvoices)
                 .WithRequired(e => e.ServiceInformation)
                 .WillCascadeOnDelete(false);
 

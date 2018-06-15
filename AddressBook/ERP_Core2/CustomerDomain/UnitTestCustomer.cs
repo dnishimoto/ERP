@@ -37,10 +37,28 @@ namespace ERP_Core2.CustomerDomain
             Assert.True(collection.Contains("IDAHO WEB DEVELOPMENT CUSTOMERS"));
         }
         [Fact]
+        public void TestContractsByCustomerId()
+        {
+            int customerId = 2;
+            int? contractId = 1;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            IList<ContractView> list = unitOfWork.customerRepository.GetContractsByCustomerId(customerId, contractId);
+            List<string> collection = new List<string>();
+            foreach (var item in list)
+            {
+                output.WriteLine($"{item.CustomerName}");
+                collection.Add(item.CustomerName.ToUpper());
+
+            }
+            Assert.True(collection.Contains("NED SCARISBRICK"));
+        }
+        [Fact]
         public void TestScheduleEventsByCustomerId()
         {
             int customerId = 1;
-            int? serviceId = 2;
+            int? serviceId = 3;
             //int? invoiceId = null;
 
             UnitOfWork unitOfWork = new UnitOfWork();

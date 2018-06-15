@@ -23,6 +23,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract InvoiceDetailView MapInvoiceDetails(InvoiceDetail invoiceDetail);
         public abstract CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim);
         public abstract ScheduleEventView MapScheduleEventView(ScheduleEvent scheduleEvent);
+        public abstract ContractView MapContractView(Contract contract);
+        public abstract LocationAddressView MapLocationAddressView(LocationAddress locationAddress);
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
@@ -77,6 +79,14 @@ namespace ERP_Core2.AbstractFactory
         public override ScheduleEventView MapScheduleEventView(ScheduleEvent scheduleEvent)
         {
             return new ScheduleEventView(scheduleEvent);
+        }
+        public override ContractView MapContractView(Contract contract)
+        {
+            return new ContractView(contract);
+        }
+        public override LocationAddressView MapLocationAddressView(LocationAddress locationAddress)
+        {
+            return new LocationAddressView(locationAddress);
         }
 
 
