@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "MillenniumReports", "MillenniumReports\MillenniumReports.rptproj", "{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Default = Debug|Default
+		DebugLocal|Default = DebugLocal|Default
+		Release|Default = Release|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.Debug|Default.ActiveCfg = Debug
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.Debug|Default.Build.0 = Debug
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.Debug|Default.Deploy.0 = Debug
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.DebugLocal|Default.ActiveCfg = DebugLocal
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.DebugLocal|Default.Build.0 = DebugLocal
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.Release|Default.ActiveCfg = Release
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.Release|Default.Build.0 = Release
+		{32177A5F-CD86-475B-B2F5-C8A35F13FD2C}.Release|Default.Deploy.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4A276737-5EA9-4CA6-AD61-0849DD8D4FE5}
+	EndGlobalSection
+EndGlobal

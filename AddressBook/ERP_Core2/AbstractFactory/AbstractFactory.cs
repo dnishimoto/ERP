@@ -25,6 +25,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract ScheduleEventView MapScheduleEventView(ScheduleEvent scheduleEvent);
         public abstract ContractView MapContractView(Contract contract);
         public abstract LocationAddressView MapLocationAddressView(LocationAddress locationAddress);
+        public abstract PhoneView MapPhoneView(Phone phone);
+        public abstract EmailView MapEmailView(Email email);
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
@@ -88,7 +90,14 @@ namespace ERP_Core2.AbstractFactory
         {
             return new LocationAddressView(locationAddress);
         }
-
+        public override PhoneView MapPhoneView(Phone phone)
+        {
+            return new PhoneView(phone);
+        }
+        public override EmailView MapEmailView(Email email)
+        {
+            return new EmailView(email);
+        }
 
     }
 }

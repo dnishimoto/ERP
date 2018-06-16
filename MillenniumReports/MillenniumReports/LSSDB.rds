@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RptDataSource xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Name="LSSDB">
+  <ConnectionProperties>
+    <Extension>SQL</Extension>
+    <ConnectString>Data Source=tcp:listensoftware.database.windows.net;Initial Catalog=listensoftwareDB</ConnectString>
+  </ConnectionProperties>
+  <DataSourceID>68fad574-3be5-45b9-b53e-99d019ea5471</DataSourceID>
+</RptDataSource>

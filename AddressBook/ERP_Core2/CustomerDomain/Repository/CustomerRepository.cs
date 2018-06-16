@@ -218,6 +218,32 @@ namespace MillenniumERP.CustomerDomain
         public decimal? RemainingBalance { get; set; }
  
     }
+    public class PhoneView
+    {
+        public PhoneView() { }
+        public PhoneView(Phone phone)
+        {
+            this.PhoneId = phone.PhoneId;
+            this.PhoneNumber = phone.PhoneNumber;
+            this.PhoneType = phone.PhoneType;
+            this.Extension = phone.Extension;
+        }
+        public long PhoneId { get; set; }
+        public string PhoneNumber { get; set; }
+        public string PhoneType { get; set; }
+        public string Extension { get; set; }
+    }
+        public class EmailView {
+        public EmailView() { }
+        public EmailView(Email email)
+        {
+            this.EmailId = email.EmailId;
+            this.EmailText = email.Email1;
+        }
+        public long EmailId { get; set; }
+ 
+        public string EmailText { get; set; }
+    }
     public class CustomerRepository:Repository<Customer>
     {
         private ApplicationViewFactory applicationViewFactory;
@@ -284,21 +310,21 @@ namespace MillenniumERP.CustomerDomain
 
                 long? locationId = item.ServiceInformation.LocationId;
 
-                LocationAddress locationAddress=
+                Task<LocationAddress> locationAddressTask=
 
-                    (from e in _dbContext.LocationAddresses
+                   (from e in _dbContext.LocationAddresses
                                     where e.LocationId == locationId
-                                    select e).FirstOrDefault<LocationAddress>();
-                
+                                    select e).FirstOrDefaultAsync<LocationAddress>();
 
+                Task.WaitAny(locationAddressTask);
                 ScheduleEventView scheduleEventView = applicationViewFactory.MapScheduleEventView(item);
                 if (contract != null)
                 {
                     scheduleEventView.ContractView = applicationViewFactory.MapContractView(contract);
                 }
-                if (locationAddress !=null)
+                if (locationAddressTask.Result !=null)
                 {
-                    scheduleEventView.LocationAddressView = applicationViewFactory.MapLocationAddressView(locationAddress);
+                    scheduleEventView.LocationAddressView = applicationViewFactory.MapLocationAddressView(locationAddressTask.Result);
                 }
                 list.Add(scheduleEventView);
             }
@@ -325,15 +351,77 @@ namespace MillenniumERP.CustomerDomain
             }
             return list;
         }
+   
+        public IList<LocationAddressView> GetLocationAddressByCustomerId(int customerId)
+        {
+            Task<Customer> customerTask = base.GetObjectAsync(customerId);
+
+            long addressId = customerTask.Result.AddressId;
+
+
+            Task<List<LocationAddress>> locationAddressTask = 
+
+               (from e in _dbContext.LocationAddresses
+                where e.AddressId==addressId
+                select e).ToListAsync<LocationAddress>();
+
+
+            IList<LocationAddressView> list = new List<LocationAddressView>();
+            foreach (var item in locationAddressTask.Result)
+            {
+                list.Add(applicationViewFactory.MapLocationAddressView(item));
+            }
+            return list;
+
+
+        }
+        
+     public IList<PhoneView> GetPhonesByCustomerId(int customerId)
+        {
+            Task<Customer> customerTask = base.GetObjectAsync(customerId);
+
+            long addressId = customerTask.Result.AddressId;
+
+            Task<List<Phone>> phoneTask =
+
+             (from e in _dbContext.Phones
+              where e.AddressId == addressId
+              select e).ToListAsync<Phone>();
+
+
+            IList<PhoneView> list = new List<PhoneView>();
+            foreach (var item in phoneTask.Result)
+            {
+                list.Add(applicationViewFactory.MapPhoneView(item));
+            }
+            return list;
+
+        }
+     public IList<EmailView> GetEmailsByCustomerId(int customerId)
+     {
+            Task<Customer> customerTask = base.GetObjectAsync(customerId);
+
+            long addressId = customerTask.Result.AddressId;
+            Task<List<Email>> emailTask =
+
+            (from e in _dbContext.Emails
+             where e.AddressId == addressId
+             select e).ToListAsync<Email>();
+
+
+            IList<EmailView> list = new List<EmailView>();
+            foreach (var item in emailTask.Result)
+            {
+                list.Add(applicationViewFactory.MapEmailView(item));
+            }
+            return list;
+
+        }
+ 
         /*
-            public IList<LocationAddressView> GetLocationAddressByCustomerId(int customerId)
-        { }
-     
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)
         { }
         public IList<AccountsReceiveableView> GetAccountsReceivablesByCustomerId(int customerId)
-        { }
-        public IList<ContractView> GetContractsByCustomerId(int customerId)
         { }
         public IList<SalesOrderView> GetSalesOrdersByCustomerId(int customerId)
         { }
