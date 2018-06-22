@@ -16,6 +16,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
+        public virtual DbSet<Asset> Assets { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
         public virtual DbSet<BudgetSnapShot> BudgetSnapShots { get; set; }
@@ -25,6 +26,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<Company> Companies { get; set; }
         public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<ContractContent> ContractContents { get; set; }
+        public virtual DbSet<ContractInvoice> ContractInvoices { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerClaim> CustomerClaims { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
@@ -186,6 +188,54 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.Suppliers)
                 .WithRequired(e => e.AddressBook)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.AssetCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.TagCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.ClassCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.Manufacturer)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.Model)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.SerialNumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.Location)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.SubLocation)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.GenericLocationLevel1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.GenericLocationLevel2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Asset>()
+                .Property(e => e.GenericLocationLevel3)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Budget>()
                 .Property(e => e.BudgetHours)
@@ -681,6 +731,11 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.Zipcode)
                 .IsUnicode(false);
 
+            modelBuilder.Entity<LocationAddress>()
+                .HasMany(e => e.ServiceInformations)
+                .WithRequired(e => e.LocationAddress)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Phone>()
                 .Property(e => e.PhoneNumber)
                 .IsUnicode(false);
@@ -1079,6 +1134,12 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.AcctPays1)
                 .WithRequired(e => e.UDC1)
                 .HasForeignKey(e => e.PaymentTermsXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Assets)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.EquipmentStatusXRefId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()

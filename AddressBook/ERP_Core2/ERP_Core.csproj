@@ -85,6 +85,7 @@
     <Compile Include="EntityFramework\AddressTypeXRef.cs" />
     <Compile Include="EntityFramework\AspNetRole.cs" />
     <Compile Include="EntityFramework\AspNetUser.cs" />
+    <Compile Include="EntityFramework\Asset.cs" />
     <Compile Include="EntityFramework\Budget.cs" />
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
@@ -95,11 +96,13 @@
     <Compile Include="EntityFramework\Company.cs" />
     <Compile Include="EntityFramework\Contract.cs" />
     <Compile Include="EntityFramework\ContractContent.cs" />
+    <Compile Include="EntityFramework\ContractInvoice.cs" />
     <Compile Include="EntityFramework\Customer.cs" />
     <Compile Include="EntityFramework\CustomerClaim.cs" />
     <Compile Include="EntityFramework\C__MigrationHistory.cs" />
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
+    <Compile Include="EntityFramework\Equation.cs" />
     <Compile Include="EntityFramework\ERPDataModel.cs" />
     <Compile Include="EntityFramework\GeneralLedger.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
