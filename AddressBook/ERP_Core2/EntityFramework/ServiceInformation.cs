@@ -55,6 +55,8 @@ namespace ERP_Core2.EntityFramework
 
         public virtual Customer Customer { get; set; }
 
+        public virtual LocationAddress LocationAddress { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ScheduleEvent> ScheduleEvents { get; set; }
 

@@ -9,6 +9,12 @@ namespace ERP_Core2.EntityFramework
     [Table("LocationAddress")]
     public partial class LocationAddress
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public LocationAddress()
+        {
+            ServiceInformations = new HashSet<ServiceInformation>();
+        }
+
         [Key]
         public long LocationId { get; set; }
 
@@ -35,6 +41,9 @@ namespace ERP_Core2.EntityFramework
         public long AddressId { get; set; }
 
         public virtual AddressBook AddressBook { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
 
         public virtual UDC UDC { get; set; }
 

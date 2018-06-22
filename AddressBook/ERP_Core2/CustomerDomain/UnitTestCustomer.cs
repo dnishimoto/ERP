@@ -12,6 +12,44 @@ using System.Collections.Generic;
 
 namespace ERP_Core2.CustomerDomain
 {
+    public interface IEntity { }
+    public class SquareNumber:IEntity {
+        public double Value { get; set; }
+    }
+    public class CubeNumber : IEntity {
+        public double Value { get; set; }
+    }
+    public class Quadraic : IEntity {
+
+        public Quadraic(double A, double B, double C)
+        {
+            this.A = A;
+            this.B = B;
+            this.C = C;
+
+            this.X1 = (
+                 (-1)*B + System.Math.Sqrt(
+                (B * B)-(4.0 * A * C)
+                )
+                ) 
+                / (2.0 * A);
+
+            this.X2 = (
+                (-1) * B - System.Math.Sqrt(
+                (B * B) - (4.0 * A * C)
+                )
+                )
+                / (2.0 * A);
+
+        }
+        public double A { get; set; }
+        public double B { get; set; }
+        public double C { get; set; }
+        public double X1 { get; set; }
+        public double X2 { get; set; }
+     
+    }
+
     public class UnitTestCustomer
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
@@ -20,6 +58,104 @@ namespace ERP_Core2.CustomerDomain
         public UnitTestCustomer(ITestOutputHelper output)
         {
             this.output = output;
+
+        }
+        CancellationTokenSource cancellationTokenSource = null;
+
+        private IList<IEntity> Task1()
+        {
+            IList<IEntity> entityCollection = new List<IEntity>();
+            for (int i = 0; i < 100; i++)
+            {
+                SquareNumber squareNumber = new SquareNumber();
+                squareNumber.Value = System.Math.Pow((double)i, 2.0);
+                entityCollection.Add(squareNumber);
+                Thread.Sleep(50);
+            }
+            return entityCollection;
+        }
+        private IList<IEntity> Task2()
+        {
+            IList<IEntity> entityCollection = new List<IEntity>();
+            for (int i = 0; i < 100; i++)
+            {
+                CubeNumber cubeNumber = new CubeNumber();
+                cubeNumber.Value = System.Math.Pow((double)i, 3.0);
+                entityCollection.Add(cubeNumber);
+                Thread.Sleep(50);
+            }
+            return entityCollection;
+        }
+        private IList<IEntity> Task3()
+        {
+            IList<IEntity> entityCollection = new List<IEntity>();
+
+            //2x2 – 4x – 3 = 0 baseline
+            Quadraic quadraic = new Quadraic(2.0,-4.0,-3.0);
+            entityCollection.Add(quadraic);
+
+            for (float i = 1.0f; i < 3.0f; i += 1.0f )
+            {
+                for (float j = -2.0f; j < 2.0f; j += 1.0f)
+                {
+                    for (float k = -2.0f; k < 2.0f; k += 1.0f)
+                    {
+                        quadraic = new Quadraic(i,j,k);
+                        entityCollection.Add(quadraic);
+                        Thread.Sleep(50);
+                    }
+                }
+
+            }
+
+            return entityCollection;
+        }
+        [Fact]
+        public void TestContinueWith()
+        {
+            cancellationTokenSource = new CancellationTokenSource();
+            cancellationTokenSource.Cancel();
+            Task<IList<IEntity>> listEntities1Task = Task.Run(async () => Task1(), cancellationTokenSource.Token);
+            Task<IList<IEntity>> listEntities2Task = Task.Run(async () => Task2(), cancellationTokenSource.Token);
+            Task<IList<IEntity>> listEntities3Task = Task.Run(async () => Task3(), cancellationTokenSource.Token);
+
+            Task continueTask = listEntities1Task.ContinueWith(
+                query => 
+                {
+                    if (query.IsCanceled == false)
+                    {
+                        foreach (SquareNumber item in query.Result)
+                        {
+                            output.WriteLine($"Task 1: {item.Value}");
+                        }
+                    }
+                });
+
+            Task continueTask2 = listEntities2Task.ContinueWith(
+                query =>
+                {
+                    if (query.IsCanceled == false)
+                    {
+                        foreach (CubeNumber item in query.Result)
+                        {
+                            output.WriteLine($"Task 2: {item.Value}");
+                        }
+                    }
+                });
+            Task continueTask3 = listEntities3Task.ContinueWith(
+                 query =>
+                 {
+                     if (query.IsCanceled == false)
+                     {
+                         foreach (Quadraic item in query.Result)
+                         {
+                             output.WriteLine($"Task 3: X1={item.X1} X2={item.X2}");
+                         }
+                     }
+                 });
+
+            if (listEntities1Task.IsCanceled==false && listEntities2Task.IsCanceled == false && listEntities3Task.IsCanceled == false)
+            Task.WaitAll(listEntities1Task, listEntities2Task, listEntities3Task);
 
         }
         [Fact]
