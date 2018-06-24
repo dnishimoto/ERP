@@ -30,6 +30,8 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "date")]
         public DateTime? CreatedDate { get; set; }
 
+        public long? ContractId { get; set; }
+
         public virtual Customer Customer { get; set; }
 
         public virtual Employee Employee { get; set; }

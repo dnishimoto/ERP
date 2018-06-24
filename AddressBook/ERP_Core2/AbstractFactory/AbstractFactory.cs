@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.EntityFramework;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
+using MillenniumERP.ScheduleEventsDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.AbstractFactory
 {
+    //Address Book Domain
     public abstract partial class AbstractFactory
     {
         public abstract SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor);
@@ -16,6 +18,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract SupplierView MapSupplierView(Supplier supplier);
         public abstract CarrierView MapCarrierView(Carrier carrier);
     }
+    //Customer Domain
     public abstract partial class AbstractFactory
     {
         public abstract BuyerView MapBuyerView(Buyer buyer);
@@ -27,6 +30,12 @@ namespace ERP_Core2.AbstractFactory
         public abstract LocationAddressView MapLocationAddressView(LocationAddress locationAddress);
         public abstract PhoneView MapPhoneView(Phone phone);
         public abstract EmailView MapEmailView(Email email);
+    }
+    //Time and Attendance Domain
+    public abstract partial class AbstractFactory
+    {
+        public abstract TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin);
+
     }
     public abstract class BusinessViewFactory : AbstractFactory
     {
@@ -97,6 +106,10 @@ namespace ERP_Core2.AbstractFactory
         public override EmailView MapEmailView(Email email)
         {
             return new EmailView(email);
+        }
+        public override TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin)
+        {
+            return new TimeAndAttendancePunchInView(taPunchin);
         }
 
     }

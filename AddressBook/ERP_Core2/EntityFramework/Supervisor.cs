@@ -27,6 +27,8 @@ namespace ERP_Core2.EntityFramework
 
         public long? ParentSupervisorId { get; set; }
 
+        public bool? IsActive { get; set; }
+
         public virtual AddressBook AddressBook { get; set; }
 
         public virtual UDC UDC { get; set; }

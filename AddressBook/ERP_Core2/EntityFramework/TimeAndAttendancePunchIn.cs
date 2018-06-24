@@ -58,6 +58,8 @@ namespace ERP_Core2.EntityFramework
 
         public int? DurationInMinutes { get; set; }
 
+        public int? MealDurationInMinutes { get; set; }
+
         public virtual Employee Employee { get; set; }
 
         public virtual Supervisor Supervisor { get; set; }

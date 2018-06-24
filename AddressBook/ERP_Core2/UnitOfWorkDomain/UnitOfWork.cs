@@ -29,6 +29,7 @@ namespace MillenniumERP.Services
         public CarrierRepository carrierRepository => new CarrierRepository(db);
         public BuyerRepository buyerRepository => new BuyerRepository(db);
         public CustomerRepository customerRepository => new CustomerRepository(db);
+        public TimeAndAttendanceRepository TARepository => new TimeAndAttendanceRepository(db);
 
         public UnitOfWork()
         {

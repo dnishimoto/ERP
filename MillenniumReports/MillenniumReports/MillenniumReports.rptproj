@@ -52,8 +52,10 @@
     <DataSource Include="LSSDB.rds" />
   </ItemGroup>
   <ItemGroup>
+    <Report Include="CustomerClaim.rdl" />
     <Report Include="Customers.rdl" />
     <Report Include="Invoice.rdl" />
+    <Report Include="TimeAndTimePunchin.rdl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Reporting Services\Microsoft.ReportingServices.MSBuilder.targets" />
 </Project>
