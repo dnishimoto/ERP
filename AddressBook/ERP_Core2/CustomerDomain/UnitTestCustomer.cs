@@ -111,6 +111,22 @@ namespace ERP_Core2.CustomerDomain
             return entityCollection;
         }
         [Fact]
+        public void TestGetAccountReceivables()
+        {
+            int customerId = 3;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            IList<AccountReceiveableView> list = unitOfWork.customerRepository.GetAccountReceivablesByCustomerId(customerId);
+            List<string> collection = new List<string>();
+            foreach (AccountReceiveableView accountReceiveableView in list)
+            {
+                output.WriteLine($"{accountReceiveableView.InvoiceNumber}");
+                collection.Add(accountReceiveableView.InvoiceNumber.ToUpper());
+            }
+            Assert.True(collection.Contains("INV-02"));
+
+        }
+
+        [Fact]
         public void TestContinueWith()
         {
             cancellationTokenSource = new CancellationTokenSource();
