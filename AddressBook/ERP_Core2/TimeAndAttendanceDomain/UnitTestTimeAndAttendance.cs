@@ -21,7 +21,39 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
 
+        [Fact]
+        public void TestAddTAPunchin()
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+            DateTime punchinDate = DateTime.Parse("6/24/2018 08:01:02");
+            int employeeId = 3;
+            int jobCodeXrefId = 31;
+            int supervisorId = 1;
+            int typeOfTimeUdcXrefId = 11;
+            int approvingAddressId = 1;
+            int payCodeXrefId = 16;
+            int scheduleId = 1;
 
+            TimeAndAttendancePunchIn taPunchin = new TimeAndAttendancePunchIn();
+            taPunchin.PunchinDate = punchinDate;
+
+            string punchinDateTime = unitOfWork.TARepository.GetPunchDateTime(taPunchin.PunchinDate);
+            taPunchin.PunchinDateTime = punchinDateTime;
+
+            taPunchin.EmployeeId = employeeId;
+            taPunchin.JobCodeXrefId = jobCodeXrefId;
+            taPunchin.SupervisorId = supervisorId;
+            taPunchin.TypeOfTimeUdcXrefId = typeOfTimeUdcXrefId;
+            taPunchin.ApprovingAddressId = approvingAddressId;
+            taPunchin.PayCodeXrefId = payCodeXrefId;
+            taPunchin.ScheduleId = scheduleId;
+ 
+            Task<bool> result = Task.Run(async () => await unitOfWork.TARepository.AddPunchin(taPunchin));
+
+            unitOfWork.CommitChanges();
+            Assert.True(result.Result);
+
+        }
         [Fact]
         public void TestUpdateTAPunchin()
         {
@@ -35,7 +67,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
           
             unitOfWork.CommitChanges();
-          
+            Assert.True(result.Result);
 
         }
         [Fact]

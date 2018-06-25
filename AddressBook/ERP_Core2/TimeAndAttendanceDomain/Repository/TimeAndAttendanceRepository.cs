@@ -67,7 +67,7 @@ namespace MillenniumERP.ScheduleEventsDomain
 
     public class TimeAndAttendanceRepository: Repository<TimeAndAttendancePunchIn>
     {
-        Entities _dbContext;
+        public Entities _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public TimeAndAttendanceRepository(DbContext db) : base(db)
         {
@@ -90,7 +90,23 @@ namespace MillenniumERP.ScheduleEventsDomain
             return listView;
            
         }
+        public async Task<bool> AddPunchin(TimeAndAttendancePunchIn taPunchin)
+        {
+            long? employeeId = taPunchin.EmployeeId;
+            string punchinDateTime = taPunchin.PunchinDateTime;
 
+            var query = (from a in _dbContext.TimeAndAttendancePunchIns
+                         where a.EmployeeId == employeeId
+                         && a.PunchinDateTime == punchinDateTime
+                         select a).FirstOrDefault<TimeAndAttendancePunchIn>();
+            if (query == null)
+            {
+                AddObject(taPunchin);
+            }
+
+            
+            return true;
+        }
         public async Task<bool> UpdateByTimePunchinId(long? timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
         {
             try
@@ -102,7 +118,7 @@ namespace MillenniumERP.ScheduleEventsDomain
                 taPunchin.MealDurationInMinutes = mealDurationInMinutes;
 
                 string punchoutDateTime = BuildPunchOut(taPunchin.PunchinDateTime, workDurationInMinutes);
-                DateTime punchoutDate = GetPunchoutDate(punchoutDateTime);
+                DateTime punchoutDate = GetPunchDateTime(punchoutDateTime);
 
                 taPunchin.PunchoutDateTime = punchoutDateTime;
                 taPunchin.PunchoutDate = punchoutDate;
@@ -116,7 +132,25 @@ namespace MillenniumERP.ScheduleEventsDomain
             }
             return false;
             }
-        DateTime GetPunchoutDate(string s24Hrs)
+        public string GetPunchDateTime(DateTime? myDate)
+        {
+            String year="", month="", day = "";
+            String longHours="", minutes="", seconds = "";
+
+            if (myDate != null)
+
+            {
+                year = myDate?.Year.ToString();
+                month = myDate?.Month.ToString().PadLeft(2, '0');
+                day = myDate?.Day.ToString().PadLeft(2, '0');
+
+                longHours = myDate?.Hour.ToString().PadLeft(2,'0');
+                minutes = myDate?.Minute.ToString().PadLeft(2, '0');
+                seconds = myDate?.Second.ToString().PadLeft(2, '0');
+            }
+            return year + month + day + longHours + minutes + seconds;
+        }
+        public DateTime GetPunchDateTime(string s24Hrs)
         {
             DateTime dDate;
             String year, month, day = "";
@@ -144,7 +178,7 @@ namespace MillenniumERP.ScheduleEventsDomain
             String longHours, minutes, seconds = "";
             DateTime myDate;
 
-            myDate = GetPunchoutDate(s24Hrs);
+            myDate = GetPunchDateTime(s24Hrs);
             myDate = myDate.AddMinutes(durationInMinutes);
 
 
@@ -152,7 +186,7 @@ namespace MillenniumERP.ScheduleEventsDomain
             month = myDate.Month.ToString().PadLeft(2, '0');
             day = myDate.Day.ToString().PadLeft(2, '0');
 
-            longHours = myDate.Hour.ToString();
+            longHours = myDate.Hour.ToString().PadLeft(2,'0');
             minutes = myDate.Minute.ToString().PadLeft(2, '0');
             seconds = myDate.Second.ToString().PadLeft(2, '0');
 
