@@ -97,10 +97,6 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctRec>()
-                .Property(e => e.DocType)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctRec>()
                 .Property(e => e.OpenAmount)
                 .HasPrecision(19, 4);
 
@@ -691,11 +687,6 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<ItemMaster>()
-                .HasMany(e => e.AcctRecs)
-                .WithRequired(e => e.ItemMaster)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ItemMaster>()
                 .HasOptional(e => e.Inventory)
                 .WithRequired(e => e.ItemMaster);
 
@@ -1138,6 +1129,12 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.AcctPays1)
                 .WithRequired(e => e.UDC1)
                 .HasForeignKey(e => e.PaymentTermsXRefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
+                .HasMany(e => e.AcctRecs)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.AcctRecDocTypeXRefId)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()

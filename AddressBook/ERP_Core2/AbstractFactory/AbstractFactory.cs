@@ -30,6 +30,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract LocationAddressView MapLocationAddressView(LocationAddress locationAddress);
         public abstract PhoneView MapPhoneView(Phone phone);
         public abstract EmailView MapEmailView(Email email);
+        public abstract AccountReceiveableView MapAccountReceivableView(AcctRec acctRec);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -40,7 +41,7 @@ namespace ERP_Core2.AbstractFactory
     public abstract class BusinessViewFactory : AbstractFactory
     {
     }
-    
+    //Address Book
     public partial class ApplicationViewFactory : BusinessViewFactory
     {
         public override SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor)
@@ -60,6 +61,15 @@ namespace ERP_Core2.AbstractFactory
             return new CarrierView(carrier);
         }
     }
+    //Time and Attendance
+    public partial class ApplicationViewFactory : BusinessViewFactory
+    {
+        public override TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin)
+        {
+            return new TimeAndAttendancePunchInView(taPunchin);
+        }
+    }
+    //Customer Domain
     public partial class ApplicationViewFactory : BusinessViewFactory
     {
         public override BuyerView MapBuyerView(Buyer buyer)
@@ -107,10 +117,12 @@ namespace ERP_Core2.AbstractFactory
         {
             return new EmailView(email);
         }
-        public override TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin)
+        public override AccountReceiveableView MapAccountReceivableView(AcctRec acctRec)
         {
-            return new TimeAndAttendancePunchInView(taPunchin);
+            return new AccountReceiveableView(acctRec);
         }
+
+      
 
     }
 }

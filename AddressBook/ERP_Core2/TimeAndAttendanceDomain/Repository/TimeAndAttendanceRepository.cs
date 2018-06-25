@@ -95,10 +95,10 @@ namespace MillenniumERP.ScheduleEventsDomain
             long? employeeId = taPunchin.EmployeeId;
             string punchinDateTime = taPunchin.PunchinDateTime;
 
-            var query = (from a in _dbContext.TimeAndAttendancePunchIns
+            var query = await (from a in _dbContext.TimeAndAttendancePunchIns
                          where a.EmployeeId == employeeId
                          && a.PunchinDateTime == punchinDateTime
-                         select a).FirstOrDefault<TimeAndAttendancePunchIn>();
+                         select a).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
             if (query == null)
             {
                 AddObject(taPunchin);

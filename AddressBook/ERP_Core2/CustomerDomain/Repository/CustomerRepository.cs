@@ -42,7 +42,7 @@ namespace MillenniumERP.CustomerDomain
         public DateTime? InvoiceDate { get; set; }
         public decimal? Amount { get; set; }
         public string CustomerName { get; set; }
-       public string Description { get; set; }
+        public string Description { get; set; }
         public decimal? TaxAmount { get; set; }
         public DateTime? PaymentDueDate { get; set; }
         public string PaymentTerms { get; set; }
@@ -65,24 +65,24 @@ namespace MillenniumERP.CustomerDomain
             this.ItemDescription2 = invoiceDetail.ItemMaster.Description2;
             this.ExtendedDescription = invoiceDetail.ExtendedDescription;
         }
-            public int? Quantity { get; set; }
-            public string UnitOfMeasure { get; set; }
-            public decimal? UnitPrice { get; set; }
-            public decimal? Amount { get; set; }
-            //todo public long? PurchaseOrderLineId { get; set; }
-            //todo public long? SalesOrderDetailId { get; set; }
-            public decimal? DiscountPercent { get; set; }
-            public decimal? DiscountAmount { get; set; }
-            //todo    public long? ShipmentDetailId { get; set; }
-            //todo maybe public string InvoiceNumber { get; set; }
-            //public virtual Invoice Invoice { get; set; }
+        public int? Quantity { get; set; }
+        public string UnitOfMeasure { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public decimal? Amount { get; set; }
+        //todo public long? PurchaseOrderLineId { get; set; }
+        //todo public long? SalesOrderDetailId { get; set; }
+        public decimal? DiscountPercent { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        //todo    public long? ShipmentDetailId { get; set; }
+        //todo maybe public string InvoiceNumber { get; set; }
+        //public virtual Invoice Invoice { get; set; }
 
-            public string ItemNumber { get; set; }
-            public string ItemDescription { get; set; }
-            public string ItemDescription2 { get; set; }
-     
-            public long? InvoiceDetailId { get; set; }
-            public string ExtendedDescription { get; set; }
+        public string ItemNumber { get; set; }
+        public string ItemDescription { get; set; }
+        public string ItemDescription2 { get; set; }
+
+        public long? InvoiceDetailId { get; set; }
+        public string ExtendedDescription { get; set; }
     }
     public class CustomerClaimView
     {
@@ -99,7 +99,7 @@ namespace MillenniumERP.CustomerDomain
             this.GroupId = customerClaim.UDC1.Value;
             this.ProcessedDate = customerClaim.ProcessedDate;
             this.CreatedDate = customerClaim.CreatedDate;
-    }
+        }
 
         public long? ClaimId { get; set; }
         public string Classification { get; set; }
@@ -111,15 +111,50 @@ namespace MillenniumERP.CustomerDomain
         public string GroupId { get; set; }
         public DateTime? ProcessedDate { get; set; }
         public DateTime? CreatedDate { get; set; }
-  
+
     }
-        public class PurchaseOrderView
+    public class PurchaseOrderView
     {
         public long? PurchaseOrderId { get; set; }
     }
-    public class AccountsReceiveableView
+    public class AccountReceiveableView
     {
-        
+        public AccountReceiveableView() { }
+        public AccountReceiveableView(AcctRec acctRec)
+        {
+            this.AcctRecId = acctRec.AcctRecId;
+            this.OpenAmount= acctRec.OpenAmount;
+            this.DiscountDueDate = acctRec.DiscountDueDate;
+            this.GLDate = acctRec.GLDate;
+            this.InvoiceId = acctRec.InvoiceId;
+            this.InvoiceNumber = acctRec.Invoice.InvoiceNumber;
+            this.CreateDate = acctRec.CreateDate;
+            this.DocNumber = acctRec.DocNumber;
+            this.Remarks = acctRec.Remarks;
+            this.NetTerms = acctRec.NetTerms;
+            this.CustomerId = acctRec.CustomerId;
+            this.CustomerName = acctRec.Customer.AddressBook.Name;
+            this.PurchaseOrderId = acctRec.PurchaseOrderId;
+            this.Description = acctRec.Description;
+            this.AcctRecDocTypeXRefId = acctRec.AcctRecDocTypeXRefId;
+            this.DocType = acctRec.UDC.Value;
+    }
+        public long? AcctRecId { get; set; }
+        public decimal? OpenAmount { get; set; }
+        public DateTime? DiscountDueDate { get; set; }
+        public DateTime? GLDate { get; set; }
+        public long? InvoiceId { get; set; }
+        public string InvoiceNumber { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public long? DocNumber { get; set; }
+        public string Remarks { get; set; }
+        public string NetTerms { get; set; }
+        public long? CustomerId { get; set; }
+        public string CustomerName { get; set; }
+        public long? PurchaseOrderId { get; set; }
+        public string Description { get; set; }
+        public long? AcctRecDocTypeXRefId { get; set; }
+        public string DocType { get; set; }
     }
     public class ScheduleEventView
     {
@@ -146,7 +181,7 @@ namespace MillenniumERP.CustomerDomain
             this.LocationGPS = scheduleEvent.ServiceInformation.LocationGPS;
             this.Comments = scheduleEvent.ServiceInformation.Comments;
 
-           
+
         }
         public long ScheduleEventId { get; set; }
         public long EmployeeId { get; set; }
@@ -172,7 +207,7 @@ namespace MillenniumERP.CustomerDomain
         public string Comments { get; set; }
         public LocationAddressView LocationAddressView { get; set; }
         public ContractView ContractView { get; set; }
- 
+
     }
     public class LocationAddressView
     {
@@ -190,13 +225,13 @@ namespace MillenniumERP.CustomerDomain
         public string City { get; set; }
         public string State { get; set; }
         public string Zipcode { get; set; }
-}
+    }
     public class ContractView
     {
         public ContractView() { }
         public ContractView(Contract contract)
         {
-             this.ContractId=contract.ContractId;
+            this.ContractId = contract.ContractId;
             this.CustomerId = contract.CustomerId;
             this.CustomerName = contract.Customer.AddressBook.Name;
             this.ServiceTypeXRefId = contract.ServiceTypeXRefId;
@@ -205,7 +240,7 @@ namespace MillenniumERP.CustomerDomain
             this.EndDate = contract.EndDate;
             this.Cost = contract.Cost;
             this.RemainingBalance = contract.RemainingBalance;
-    }
+        }
 
         public long ContractId { get; set; }
         public long? CustomerId { get; set; }
@@ -216,7 +251,7 @@ namespace MillenniumERP.CustomerDomain
         public DateTime? EndDate { get; set; }
         public decimal? Cost { get; set; }
         public decimal? RemainingBalance { get; set; }
- 
+
     }
     public class PhoneView
     {
@@ -233,7 +268,8 @@ namespace MillenniumERP.CustomerDomain
         public string PhoneType { get; set; }
         public string Extension { get; set; }
     }
-        public class EmailView {
+    public class EmailView
+    {
         public EmailView() { }
         public EmailView(Email email)
         {
@@ -241,10 +277,10 @@ namespace MillenniumERP.CustomerDomain
             this.EmailText = email.Email1;
         }
         public long EmailId { get; set; }
- 
+
         public string EmailText { get; set; }
     }
-    public class CustomerRepository:Repository<Customer>
+    public class CustomerRepository : Repository<Customer>
     {
         private ApplicationViewFactory applicationViewFactory;
 
@@ -255,7 +291,7 @@ namespace MillenniumERP.CustomerDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId=null)
+        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId = null)
         {
             IEnumerable<Invoice> invoiceList = null;
             var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
@@ -269,7 +305,7 @@ namespace MillenniumERP.CustomerDomain
             {
                 invoiceList = resultList.Invoices;
             }
-            
+
             foreach (var item in invoiceList)
             {
                 list.Add(applicationViewFactory.MapInvoiceView(item));
@@ -289,7 +325,7 @@ namespace MillenniumERP.CustomerDomain
             }
             return list;
         }
-        public IList<ScheduleEventView> GetScheduleEventsByCustomerId(int customerId,int? serviceId=null)
+        public IList<ScheduleEventView> GetScheduleEventsByCustomerId(int customerId, int? serviceId = null)
         {
             IEnumerable<ScheduleEvent> scheduleEventList = null;
             var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
@@ -297,7 +333,7 @@ namespace MillenniumERP.CustomerDomain
             IList<ScheduleEventView> list = new List<ScheduleEventView>();
             if (serviceId != null)
             {
-                scheduleEventList = resultList.ScheduleEvents.Where(f => f.ServiceId== serviceId);
+                scheduleEventList = resultList.ScheduleEvents.Where(f => f.ServiceId == serviceId);
             }
             else
             {
@@ -306,15 +342,15 @@ namespace MillenniumERP.CustomerDomain
 
             foreach (var item in scheduleEventList)
             {
-                Contract contract= item.ServiceInformation.Contract;
+                Contract contract = item.ServiceInformation.Contract;
 
                 long? locationId = item.ServiceInformation.LocationId;
 
-                Task<LocationAddress> locationAddressTask=
+                Task<LocationAddress> locationAddressTask =
 
                    (from e in _dbContext.LocationAddresses
-                                    where e.LocationId == locationId
-                                    select e).FirstOrDefaultAsync<LocationAddress>();
+                    where e.LocationId == locationId
+                    select e).FirstOrDefaultAsync<LocationAddress>();
 
                 Task.WaitAny(locationAddressTask);
                 ScheduleEventView scheduleEventView = applicationViewFactory.MapScheduleEventView(item);
@@ -322,7 +358,7 @@ namespace MillenniumERP.CustomerDomain
                 {
                     scheduleEventView.ContractView = applicationViewFactory.MapContractView(contract);
                 }
-                if (locationAddressTask.Result !=null)
+                if (locationAddressTask.Result != null)
                 {
                     scheduleEventView.LocationAddressView = applicationViewFactory.MapLocationAddressView(locationAddressTask.Result);
                 }
@@ -351,7 +387,7 @@ namespace MillenniumERP.CustomerDomain
             }
             return list;
         }
-   
+
         public IList<LocationAddressView> GetLocationAddressByCustomerId(int customerId)
         {
             Task<Customer> customerTask = base.GetObjectAsync(customerId);
@@ -359,10 +395,10 @@ namespace MillenniumERP.CustomerDomain
             long addressId = customerTask.Result.AddressId;
 
 
-            Task<List<LocationAddress>> locationAddressTask = 
+            Task<List<LocationAddress>> locationAddressTask =
 
                (from e in _dbContext.LocationAddresses
-                where e.AddressId==addressId
+                where e.AddressId == addressId
                 select e).ToListAsync<LocationAddress>();
 
 
@@ -375,8 +411,8 @@ namespace MillenniumERP.CustomerDomain
 
 
         }
-        
-     public IList<PhoneView> GetPhonesByCustomerId(int customerId)
+
+        public IList<PhoneView> GetPhonesByCustomerId(int customerId)
         {
             Task<Customer> customerTask = base.GetObjectAsync(customerId);
 
@@ -397,8 +433,8 @@ namespace MillenniumERP.CustomerDomain
             return list;
 
         }
-     public IList<EmailView> GetEmailsByCustomerId(int customerId)
-     {
+        public IList<EmailView> GetEmailsByCustomerId(int customerId)
+        {
             Task<Customer> customerTask = base.GetObjectAsync(customerId);
 
             long addressId = customerTask.Result.AddressId;
@@ -417,12 +453,32 @@ namespace MillenniumERP.CustomerDomain
             return list;
 
         }
- 
+        public IList<AccountReceiveableView> GetAccountReceivablesByCustomerId(int customerId)
+        {
+            //IEnumerable<AcctRec> acctRecList = null;
+             var query =
+                
+                           (from e in _dbContext.AcctRecs
+                            where e.CustomerId == customerId
+                            && e.OpenAmount>0
+                            select e);
+
+            //Task.WaitAny(acctRecTask);
+
+            //acctRecList = acctRecTask.;
+
+            IList<AccountReceiveableView> list = new List<AccountReceiveableView>();
+           
+            foreach (var item in query)
+            {
+                list.Add(applicationViewFactory.MapAccountReceivableView(item));
+            }
+            return list;
+        }
         /*
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)
         { }
-        public IList<AccountsReceiveableView> GetAccountsReceivablesByCustomerId(int customerId)
-        { }
+        
         public IList<SalesOrderView> GetSalesOrdersByCustomerId(int customerId)
         { }
         

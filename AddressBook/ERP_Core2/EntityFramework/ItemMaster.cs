@@ -12,7 +12,6 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ItemMaster()
         {
-            AcctRecs = new HashSet<AcctRec>();
             InvoiceDetails = new HashSet<InvoiceDetail>();
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
@@ -40,9 +39,6 @@ namespace ERP_Core2.EntityFramework
         [Required]
         [StringLength(20)]
         public string ItemNumber { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AcctRec> AcctRecs { get; set; }
 
         public virtual Inventory Inventory { get; set; }
 

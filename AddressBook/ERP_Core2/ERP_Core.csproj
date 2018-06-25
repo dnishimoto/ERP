@@ -103,7 +103,7 @@
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
     <Compile Include="EntityFramework\Equation.cs" />
-    <Compile Include="EntityFramework\ERPDataModel2.cs" />
+    <Compile Include="EntityFramework\ERPDataModel.cs" />
     <Compile Include="EntityFramework\GeneralLedger.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
     <Compile Include="EntityFramework\Invoice.cs" />
