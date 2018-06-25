@@ -1,0 +1,970 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily">
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="LSSDB_Share">
+      <DataSourceReference>LSSDB</DataSourceReference>
+      <rd:SecurityType>None</rd:SecurityType>
+      <rd:DataSourceID>44f71f6e-4331-48ef-86ae-9b3e2351cb57</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="punchin">
+      <Query>
+        <DataSourceName>LSSDB_Share</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@EmployeeId">
+            <Value>=Parameters!EmployeeId.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@PunchInDate">
+            <Value>=Parameters!PunchInDate.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT taPunchin.TimePunchinId, taPunchin.PunchinDate, taPunchin.PunchinDateTime, taPunchin.PunchoutDateTime, taPunchin.JobCodeXrefId, udcJobCode.Value AS JobCode, taPunchin.Approved, employee.EmployeeId, 
+                  employeeaddressbook.Name AS EmployeeName, supervisor.SupervisorId, supervisorAddressbook.Name AS SupervisorName, taPunchin.ProcessedDate, taPunchin.PunchoutDate, taPunchin.Note, taSchedule.ShiftId, 
+                  taPunchin.mealPunchin, taPunchin.mealPunchout, taPunchin.ScheduledToWork, taPunchin.TypeOfTimeUdcXrefId, udcTypeOfTime.Value AS TypeOfTime, taPunchin.ApprovingAddressId, taPunchin.PayCodeXrefId, 
+                  udcPayCode.Value AS PayCode, taSchedule.ScheduleId, taPunchin.DurationInMinutes, taPunchin.MealDurationInMinutes
+FROM     TimeAndAttendancePunchIn AS taPunchin INNER JOIN
+                  UDC AS udcTypeOfTime ON udcTypeOfTime.XRefId = taPunchin.TypeOfTimeUdcXrefId INNER JOIN
+                  UDC AS udcJobCode ON udcJobCode.XRefId = taPunchin.JobCodeXrefId LEFT OUTER JOIN
+                  UDC AS udcPayCode ON udcPayCode.XRefId = taPunchin.PayCodeXrefId INNER JOIN
+                  TimeAndAttendanceSchedule AS taSchedule ON taSchedule.ScheduleId = taPunchin.ScheduleId INNER JOIN
+                  Supervisor AS supervisor ON supervisor.SupervisorId = taPunchin.SupervisorId INNER JOIN
+                  AddressBook AS supervisorAddressbook ON supervisor.AddressId = supervisorAddressbook.AddressId INNER JOIN
+                  Employee AS employee ON employee.EmployeeId = taPunchin.EmployeeId INNER JOIN
+                  AddressBook AS employeeaddressbook ON employee.AddressId = employeeaddressbook.AddressId INNER JOIN
+                  AddressBook AS addressbookApproving ON addressbookApproving.AddressId = taPunchin.ApprovingAddressId
+WHERE  (taPunchin.EmployeeId = @EmployeeId) AND (taPunchin.PunchinDate = @PunchInDate)</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="TimePunchinId">
+          <DataField>TimePunchinId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="PunchinDate">
+          <DataField>PunchinDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PunchinDateTime">
+          <DataField>PunchinDateTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="PunchoutDateTime">
+          <DataField>PunchoutDateTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="JobCodeXrefId">
+          <DataField>JobCodeXrefId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="JobCode">
+          <DataField>JobCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="Approved">
+          <DataField>Approved</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="EmployeeId">
+          <DataField>EmployeeId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="EmployeeName">
+          <DataField>EmployeeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="SupervisorId">
+          <DataField>SupervisorId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="SupervisorName">
+          <DataField>SupervisorName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ProcessedDate">
+          <DataField>ProcessedDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="PunchoutDate">
+          <DataField>PunchoutDate</DataField>
+          <rd:TypeName>System.DateTime</rd:TypeName>
+        </Field>
+        <Field Name="Note">
+          <DataField>Note</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ShiftId">
+          <DataField>ShiftId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="mealPunchin">
+          <DataField>mealPunchin</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="mealPunchout">
+          <DataField>mealPunchout</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ScheduledToWork">
+          <DataField>ScheduledToWork</DataField>
+          <rd:TypeName>System.Boolean</rd:TypeName>
+        </Field>
+        <Field Name="TypeOfTimeUdcXrefId">
+          <DataField>TypeOfTimeUdcXrefId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="TypeOfTime">
+          <DataField>TypeOfTime</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ApprovingAddressId">
+          <DataField>ApprovingAddressId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="PayCodeXrefId">
+          <DataField>PayCodeXrefId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="PayCode">
+          <DataField>PayCode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="ScheduleId">
+          <DataField>ScheduleId</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="DurationInMinutes">
+          <DataField>DurationInMinutes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+        <Field Name="MealDurationInMinutes">
+          <DataField>MealDurationInMinutes</DataField>
+          <rd:TypeName>System.Int32</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+    <DataSet Name="Employee">
+      <Query>
+        <DataSourceName>LSSDB_Share</DataSourceName>
+        <CommandText>select
+employeeid,
+name employeeName
+from employee employee join
+addressbook addressbook on employee.addressid=addressbook.addressid  </CommandText>
+      </Query>
+      <Fields>
+        <Field Name="employeeid">
+          <DataField>employeeid</DataField>
+          <rd:TypeName>System.Int64</rd:TypeName>
+        </Field>
+        <Field Name="employeeName">
+          <DataField>employeeName</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix1">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>1.61667in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.67222in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>0.56667in</Width>
+                </TablixColumn>
+                <TablixColumn>
+                  <Width>1.91667in</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>0.39166in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox12">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Punchin Date Time</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox12</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox3">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Duration </Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>In </Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Minutes</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox3</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox14">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Meal </Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Duration</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value> In Minutes</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox14</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="Textbox1">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>Punchout Date Time</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>Textbox1</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <BackgroundColor>CornflowerBlue</BackgroundColor>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+                <TablixRow>
+                  <Height>0.23333in</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PunchinDateTime">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=
+mid(Fields!PunchinDateTime.Value,5,2) + "/" +
+mid(Fields!PunchinDateTime.Value,7,2) + "/" +
+Mid(Fields!PunchinDateTime.Value,1,4) + " " +
+formatdatetime(
+Mid(Fields!PunchinDateTime.Value,9,2) +":"+
+Mid(Fields!PunchinDateTime.Value,11,2) +":"+
+Mid(Fields!PunchinDateTime.Value,13,2) 
+,3)</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                    <Format>d</Format>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PunchinDateTime</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="DurationInMinutes">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!DurationInMinutes.Value</Value>
+                                  <Style>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>DurationInMinutes</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="MealDurationInMinutes">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=Fields!MealDurationInMinutes.Value</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>MealDurationInMinutes</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                    <TablixCell>
+                      <CellContents>
+                        <Textbox Name="PunchoutDateTime">
+                          <CanGrow>true</CanGrow>
+                          <KeepTogether>true</KeepTogether>
+                          <Paragraphs>
+                            <Paragraph>
+                              <TextRuns>
+                                <TextRun>
+                                  <Value>=
+mid(Fields!PunchoutDateTime.Value,5,2) + "/" +
+mid(Fields!PunchoutDateTime.Value,7,2) + "/" +
+Mid(Fields!PunchoutDateTime.Value,1,4) + " " +
+formatdatetime(
+Mid(Fields!PunchoutDateTime.Value,9,2) +":"+
+Mid(Fields!PunchoutDateTime.Value,11,2) +":"+
+Mid(Fields!PunchoutDateTime.Value,13,2) 
+,3)</Value>
+                                  <Style>
+                                    <FontFamily>Arial</FontFamily>
+                                    <FontSize>8pt</FontSize>
+                                  </Style>
+                                </TextRun>
+                              </TextRuns>
+                              <Style />
+                            </Paragraph>
+                          </Paragraphs>
+                          <rd:DefaultName>PunchoutDateTime</rd:DefaultName>
+                          <Style>
+                            <Border>
+                              <Color>LightGrey</Color>
+                              <Style>Solid</Style>
+                            </Border>
+                            <PaddingLeft>2pt</PaddingLeft>
+                            <PaddingRight>2pt</PaddingRight>
+                            <PaddingTop>2pt</PaddingTop>
+                            <PaddingBottom>2pt</PaddingBottom>
+                          </Style>
+                        </Textbox>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <TablixHeader>
+                    <Size>1.24167in</Size>
+                    <CellContents>
+                      <Textbox Name="Textbox7">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Supervisor </Value>
+                                <Style>
+                                  <FontFamily>Arial</FontFamily>
+                                  <FontSize>8pt</FontSize>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>Name</Value>
+                                <Style>
+                                  <FontFamily>Arial</FontFamily>
+                                  <FontSize>8pt</FontSize>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>Textbox7</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <BackgroundColor>CornflowerBlue</BackgroundColor>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <TablixHeader>
+                        <Size>1.44167in</Size>
+                        <CellContents>
+                          <Textbox Name="Textbox9">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>Employee </Value>
+                                    <Style>
+                                      <FontFamily>Arial</FontFamily>
+                                      <FontSize>8pt</FontSize>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>Name</Value>
+                                    <Style>
+                                      <FontFamily>Arial</FontFamily>
+                                      <FontSize>8pt</FontSize>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>Textbox9</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <BackgroundColor>CornflowerBlue</BackgroundColor>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <TablixHeader>
+                            <Size>0.625in</Size>
+                            <CellContents>
+                              <Textbox Name="Textbox18">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>Emp</Value>
+                                        <Style>
+                                          <FontFamily>Arial</FontFamily>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Center</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>Id</Value>
+                                        <Style>
+                                          <FontFamily>Arial</FontFamily>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Center</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>Textbox18</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>LightGrey</Color>
+                                    <Style>Solid</Style>
+                                  </Border>
+                                  <BackgroundColor>CornflowerBlue</BackgroundColor>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember />
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                  <KeepWithGroup>After</KeepWithGroup>
+                </TablixMember>
+                <TablixMember>
+                  <Group Name="SupervisorName">
+                    <GroupExpressions>
+                      <GroupExpression>=Fields!SupervisorName.Value</GroupExpression>
+                    </GroupExpressions>
+                  </Group>
+                  <SortExpressions>
+                    <SortExpression>
+                      <Value>=Fields!SupervisorName.Value</Value>
+                    </SortExpression>
+                  </SortExpressions>
+                  <TablixHeader>
+                    <Size>1.24167in</Size>
+                    <CellContents>
+                      <Textbox Name="SupervisorName">
+                        <CanGrow>true</CanGrow>
+                        <KeepTogether>true</KeepTogether>
+                        <Paragraphs>
+                          <Paragraph>
+                            <TextRuns>
+                              <TextRun>
+                                <Value>=Fields!SupervisorName.Value</Value>
+                                <Style>
+                                  <FontFamily>Arial</FontFamily>
+                                  <FontSize>8pt</FontSize>
+                                </Style>
+                              </TextRun>
+                            </TextRuns>
+                            <Style />
+                          </Paragraph>
+                        </Paragraphs>
+                        <rd:DefaultName>SupervisorName</rd:DefaultName>
+                        <Style>
+                          <Border>
+                            <Color>LightGrey</Color>
+                            <Style>Solid</Style>
+                          </Border>
+                          <PaddingLeft>2pt</PaddingLeft>
+                          <PaddingRight>2pt</PaddingRight>
+                          <PaddingTop>2pt</PaddingTop>
+                          <PaddingBottom>2pt</PaddingBottom>
+                        </Style>
+                      </Textbox>
+                    </CellContents>
+                  </TablixHeader>
+                  <TablixMembers>
+                    <TablixMember>
+                      <Group Name="EmployeeName">
+                        <GroupExpressions>
+                          <GroupExpression>=Fields!EmployeeName.Value</GroupExpression>
+                        </GroupExpressions>
+                      </Group>
+                      <SortExpressions>
+                        <SortExpression>
+                          <Value>=Fields!EmployeeName.Value</Value>
+                        </SortExpression>
+                      </SortExpressions>
+                      <TablixHeader>
+                        <Size>1.44167in</Size>
+                        <CellContents>
+                          <Textbox Name="EmployeeName">
+                            <CanGrow>true</CanGrow>
+                            <KeepTogether>true</KeepTogether>
+                            <Paragraphs>
+                              <Paragraph>
+                                <TextRuns>
+                                  <TextRun>
+                                    <Value>=Fields!EmployeeName.Value</Value>
+                                    <Style>
+                                      <FontFamily>Arial</FontFamily>
+                                      <FontSize>8pt</FontSize>
+                                    </Style>
+                                  </TextRun>
+                                </TextRuns>
+                                <Style />
+                              </Paragraph>
+                            </Paragraphs>
+                            <rd:DefaultName>EmployeeName</rd:DefaultName>
+                            <Style>
+                              <Border>
+                                <Color>LightGrey</Color>
+                                <Style>Solid</Style>
+                              </Border>
+                              <PaddingLeft>2pt</PaddingLeft>
+                              <PaddingRight>2pt</PaddingRight>
+                              <PaddingTop>2pt</PaddingTop>
+                              <PaddingBottom>2pt</PaddingBottom>
+                            </Style>
+                          </Textbox>
+                        </CellContents>
+                      </TablixHeader>
+                      <TablixMembers>
+                        <TablixMember>
+                          <Group Name="EmployeeId">
+                            <GroupExpressions>
+                              <GroupExpression>=Fields!EmployeeId.Value</GroupExpression>
+                            </GroupExpressions>
+                          </Group>
+                          <SortExpressions>
+                            <SortExpression>
+                              <Value>=Fields!EmployeeId.Value</Value>
+                            </SortExpression>
+                          </SortExpressions>
+                          <TablixHeader>
+                            <Size>0.625in</Size>
+                            <CellContents>
+                              <Textbox Name="EmployeeId">
+                                <CanGrow>true</CanGrow>
+                                <KeepTogether>true</KeepTogether>
+                                <Paragraphs>
+                                  <Paragraph>
+                                    <TextRuns>
+                                      <TextRun>
+                                        <Value>=Fields!EmployeeId.Value</Value>
+                                        <Style>
+                                          <FontFamily>Arial</FontFamily>
+                                          <FontSize>8pt</FontSize>
+                                        </Style>
+                                      </TextRun>
+                                    </TextRuns>
+                                    <Style>
+                                      <TextAlign>Center</TextAlign>
+                                    </Style>
+                                  </Paragraph>
+                                </Paragraphs>
+                                <rd:DefaultName>EmployeeId</rd:DefaultName>
+                                <Style>
+                                  <Border>
+                                    <Color>LightGrey</Color>
+                                    <Style>Solid</Style>
+                                  </Border>
+                                  <PaddingLeft>2pt</PaddingLeft>
+                                  <PaddingRight>2pt</PaddingRight>
+                                  <PaddingTop>2pt</PaddingTop>
+                                  <PaddingBottom>2pt</PaddingBottom>
+                                </Style>
+                              </Textbox>
+                            </CellContents>
+                          </TablixHeader>
+                          <TablixMembers>
+                            <TablixMember>
+                              <Group Name="Details" />
+                            </TablixMember>
+                          </TablixMembers>
+                        </TablixMember>
+                      </TablixMembers>
+                    </TablixMember>
+                  </TablixMembers>
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <RepeatRowHeaders>true</RepeatRowHeaders>
+            <FixedRowHeaders>true</FixedRowHeaders>
+            <KeepTogether>true</KeepTogether>
+            <DataSetName>punchin</DataSetName>
+            <Top>0.87167in</Top>
+            <Left>0.455in</Left>
+            <Height>0.62499in</Height>
+            <Width>8.08056in</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+          <Image Name="Image1">
+            <Source>Embedded</Source>
+            <Value>logo</Value>
+            <Sizing>FitProportional</Sizing>
+            <Top>0.16333in</Top>
+            <Left>0.455in</Left>
+            <Height>0.40833in</Height>
+            <Width>1.78333in</Width>
+            <ZIndex>1</ZIndex>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Image>
+        </ReportItems>
+        <Height>2in</Height>
+        <Style />
+      </Body>
+      <Width>8.62444in</Width>
+      <Page>
+        <LeftMargin>0.1in</LeftMargin>
+        <RightMargin>0.1in</RightMargin>
+        <TopMargin>1in</TopMargin>
+        <BottomMargin>1in</BottomMargin>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="PunchInDate">
+      <DataType>DateTime</DataType>
+      <DefaultValue>
+        <Values>
+          <Value>=Today</Value>
+        </Values>
+      </DefaultValue>
+      <Prompt>Punchin Date</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="EmployeeId">
+      <DataType>Integer</DataType>
+      <Prompt>Employee</Prompt>
+      <ValidValues>
+        <DataSetReference>
+          <DataSetName>Employee</DataSetName>
+          <ValueField>employeeid</ValueField>
+          <LabelField>employeeName</LabelField>
+        </DataSetReference>
+      </ValidValues>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>2</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>EmployeeId</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>PunchInDate</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+  <EmbeddedImages>
+    <EmbeddedImage Name="logo">
+      <MIMEType>image/png</MIMEType>
+      <ImageData>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</ImageData>
+    </EmbeddedImage>
+  </EmbeddedImages>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportID>6b15e9dc-8b20-43fd-ade6-6f7b64e750ba</rd:ReportID>
+</Report>

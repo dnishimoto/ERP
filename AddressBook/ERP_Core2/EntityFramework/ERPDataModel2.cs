@@ -458,6 +458,10 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<Contract>()
+                .Property(e => e.Title)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Contract>()
                 .HasMany(e => e.ServiceInformations)
                 .WithRequired(e => e.Contract)
                 .WillCascadeOnDelete(false);

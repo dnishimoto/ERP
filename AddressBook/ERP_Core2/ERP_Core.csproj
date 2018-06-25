@@ -103,7 +103,7 @@
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
     <Compile Include="EntityFramework\Equation.cs" />
-    <Compile Include="EntityFramework\ERPDataModel.cs" />
+    <Compile Include="EntityFramework\ERPDataModel2.cs" />
     <Compile Include="EntityFramework\GeneralLedger.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
     <Compile Include="EntityFramework\Invoice.cs" />
@@ -141,6 +141,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleEventsDomain\Repository\ScheduleEventRepository.cs" />
     <Compile Include="ScheduleEventsDomain\UnitTestScheduleEvent.cs" />
+    <Compile Include="TimeAndAttendanceDomain\Repository\TimeAndAttendanceRepository.cs" />
+    <Compile Include="TimeAndAttendanceDomain\UnitTestTimeAndAttendance.cs" />
     <Compile Include="UDCDomain\Repository\UDCRepository.cs" />
     <Compile Include="UDCDomain\UnitTestUDC.cs" />
     <Compile Include="UnitOfWorkDomain\Repository.cs" />
@@ -214,7 +216,6 @@
     <Folder Include="InventoryDomain\Repository\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />
-    <Folder Include="TimeAndAttendanceDomain\Repository\" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
