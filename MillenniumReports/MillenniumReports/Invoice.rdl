@@ -42,7 +42,14 @@ InvoiceHeader.CompanyStreet,
 InvoiceHeader.CompanyCity,
 InvoiceHeader.CompanyState,
 InvoiceHeader.CompanyZipcode,
-InvoiceHeader.CustomerName
+InvoiceHeader.CustomerName,
+
+InvoiceHeader.[Address Line 1] customerAddress1,
+InvoiceHeader.[Address Line 2] customerAddress2,
+InvoiceHeader.CustomerCity,
+InvoiceHeader.CustomerState,
+InvoiceHeader.CustomerZipcode,
+InvoiceHeader.CustomerLocationType
 
 from invoice invoices
 left join invoiceDetail invoicesDetail on invoices.invoiceId=invoicesDetail.invoiceId
@@ -50,12 +57,17 @@ inner join itemmaster itemmaster on invoicesdetail.itemid=itemmaster.itemid
 outer apply
 (
 SELECT addressBook.Name AS CustomerName, Company.CompanyName, Company.CompanyCode, Company.CompanyStreet, Company.CompanyCity, Company.CompanyState, Company.CompanyZipcode, Invoice.InvoiceId, 
-                  Invoice.InvoiceNumber
+                  Invoice.InvoiceNumber,customerLocationAddress.[Address Line 1],customerLocationAddress.[Address Line 2],customerLocationAddress.City CustomerCity,
+				  stateudc.Value CustomerState,customerLocationAddress.Zipcode CustomerZipcode, locationTypeudc.Value  CustomerLocationType
 FROM     Company INNER JOIN
                   Invoice ON Company.CompanyId = Invoice.CompanyId INNER JOIN
                   Customer AS customer ON customer.CustomerId = Invoice.CustomerId INNER JOIN
-                  AddressBook AS addressBook ON customer.AddressId = addressBook.AddressId
-	where invoice.invoiceid=@InvoiceId
+                  AddressBook AS addressBook ON customer.AddressId = addressBook.AddressId  left Join
+				  LocationAddress customerLocationAddress on customerLocationAddress.AddressId=customer.AddressId left join
+				  udc stateudc on stateudc.xrefid=customerLocationAddress.StateXRefId left join
+				  udc locationTypeUdc on locationTypeUdc.xrefid=customerLocationAddress.TypeXRefId
+	  
+	where invoice.invoiceid=invoices.InvoiceId
 ) InvoiceHeader
 where invoices.invoiceid=@InvoiceId</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
@@ -157,6 +169,30 @@ where invoices.invoiceid=@InvoiceId</CommandText>
           <DataField>CustomerName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
+        <Field Name="customerAddress1">
+          <DataField>customerAddress1</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="customerAddress2">
+          <DataField>customerAddress2</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerCity">
+          <DataField>CustomerCity</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerState">
+          <DataField>CustomerState</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerZipcode">
+          <DataField>CustomerZipcode</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
+        <Field Name="CustomerLocationType">
+          <DataField>CustomerLocationType</DataField>
+          <rd:TypeName>System.String</rd:TypeName>
+        </Field>
       </Fields>
     </DataSet>
   </DataSets>
@@ -173,7 +209,7 @@ where invoices.invoiceid=@InvoiceId</CommandText>
               </TablixColumns>
               <TablixRows>
                 <TablixRow>
-                  <Height>2.69722in</Height>
+                  <Height>2.94722in</Height>
                   <TablixCells>
                     <TablixCell>
                       <CellContents>
@@ -194,26 +230,6 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                                   </TextRuns>
                                   <Style />
                                 </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>CompanyStreet</rd:DefaultName>
-                              <Top>0.93611in</Top>
-                              <Left>0.01111in</Left>
-                              <Height>0.25in</Height>
-                              <Width>2.20278in</Width>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                            <Textbox Name="CompanyCity">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
                                 <Paragraph>
                                   <TextRuns>
                                     <TextRun>
@@ -222,64 +238,24 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                                         <FontSize>8pt</FontSize>
                                       </Style>
                                     </TextRun>
-                                  </TextRuns>
-                                  <Style />
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>CompanyCity</rd:DefaultName>
-                              <Top>1.21389in</Top>
-                              <Left>0.01111in</Left>
-                              <Height>0.25in</Height>
-                              <Width>0.66667in</Width>
-                              <ZIndex>1</ZIndex>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                            <Textbox Name="CompanyState">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
+                                    <TextRun>
+                                      <Value xml:space="preserve"> </Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
                                     <TextRun>
                                       <Value>=Fields!CompanyState.Value</Value>
                                       <Style>
                                         <FontSize>8pt</FontSize>
                                       </Style>
                                     </TextRun>
-                                  </TextRuns>
-                                  <Style />
-                                </Paragraph>
-                              </Paragraphs>
-                              <rd:DefaultName>CompanyState</rd:DefaultName>
-                              <Top>1.21389in</Top>
-                              <Left>0.74722in</Left>
-                              <Height>0.25in</Height>
-                              <Width>0.65in</Width>
-                              <ZIndex>2</ZIndex>
-                              <Style>
-                                <Border>
-                                  <Style>None</Style>
-                                </Border>
-                                <PaddingLeft>2pt</PaddingLeft>
-                                <PaddingRight>2pt</PaddingRight>
-                                <PaddingTop>2pt</PaddingTop>
-                                <PaddingBottom>2pt</PaddingBottom>
-                              </Style>
-                            </Textbox>
-                            <Textbox Name="CompanyZipcode">
-                              <CanGrow>true</CanGrow>
-                              <KeepTogether>true</KeepTogether>
-                              <Paragraphs>
-                                <Paragraph>
-                                  <TextRuns>
+                                    <TextRun>
+                                      <Value xml:space="preserve"> </Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
                                     <TextRun>
                                       <Value>=Fields!CompanyZipcode.Value</Value>
                                       <Style>
@@ -290,12 +266,11 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                                   <Style />
                                 </Paragraph>
                               </Paragraphs>
-                              <rd:DefaultName>CompanyZipcode</rd:DefaultName>
-                              <Top>1.22778in</Top>
-                              <Left>1.43889in</Left>
-                              <Height>0.25in</Height>
-                              <Width>0.6in</Width>
-                              <ZIndex>3</ZIndex>
+                              <rd:DefaultName>CompanyStreet</rd:DefaultName>
+                              <Top>0.88056in</Top>
+                              <Left>0.01111in</Left>
+                              <Height>0.34028in</Height>
+                              <Width>2.75278in</Width>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -325,9 +300,9 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                               <rd:DefaultName>CompanyName</rd:DefaultName>
                               <Top>0.68611in</Top>
                               <Left>0.01111in</Left>
-                              <Height>0.25in</Height>
+                              <Height>0.19445in</Height>
                               <Width>2.20278in</Width>
-                              <ZIndex>4</ZIndex>
+                              <ZIndex>1</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -356,10 +331,10 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                               </Paragraphs>
                               <rd:DefaultName>CustomerName</rd:DefaultName>
                               <Top>0.68611in</Top>
-                              <Left>3.38055in</Left>
-                              <Height>0.25in</Height>
-                              <Width>1.975in</Width>
-                              <ZIndex>5</ZIndex>
+                              <Left>2.92499in</Left>
+                              <Height>0.19445in</Height>
+                              <Width>2.35in</Width>
+                              <ZIndex>2</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -377,7 +352,7 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                               <Left>0.01111in</Left>
                               <Height>0.57778in</Height>
                               <Width>2.20278in</Width>
-                              <ZIndex>6</ZIndex>
+                              <ZIndex>3</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -932,11 +907,11 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                                 </TablixMembers>
                               </TablixRowHierarchy>
                               <DataSetName>Invoices</DataSetName>
-                              <Top>1.775in</Top>
+                              <Top>1.33194in</Top>
                               <Left>0.03889in</Left>
                               <Height>0.75in</Height>
                               <Width>6.74444in</Width>
-                              <ZIndex>7</ZIndex>
+                              <ZIndex>4</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -969,7 +944,75 @@ where invoices.invoiceid=@InvoiceId</CommandText>
                               <Left>5.01666in</Left>
                               <Height>0.25in</Height>
                               <Width>1.49167in</Width>
-                              <ZIndex>8</ZIndex>
+                              <ZIndex>5</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="CompanyStreet2">
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!customerAddress1.Value +
+iif(Fields!customerAddress2.Value &lt;&gt; nothing,"\n\r"+Fields!customerAddress2.Value,"")</Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!CustomerCity.Value</Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value xml:space="preserve"> </Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value>=Fields!CustomerState.Value</Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value xml:space="preserve"> </Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                    <TextRun>
+                                      <Value>=Fields!CustomerZipcode.Value</Value>
+                                      <Style>
+                                        <FontSize>8pt</FontSize>
+                                      </Style>
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <rd:DefaultName>CompanyStreet</rd:DefaultName>
+                              <Top>0.89445in</Top>
+                              <Left>2.92499in</Left>
+                              <Height>0.34028in</Height>
+                              <Width>2.57778in</Width>
+                              <ZIndex>6</ZIndex>
                               <Style>
                                 <Border>
                                   <Style>None</Style>
@@ -1051,7 +1094,7 @@ where invoices.invoiceid=@InvoiceId</CommandText>
             <DataSetName>Invoices</DataSetName>
             <Top>0.11333in</Top>
             <Left>0.67167in</Left>
-            <Height>2.94722in</Height>
+            <Height>3.19722in</Height>
             <Width>6.93333in</Width>
             <Style>
               <Border>

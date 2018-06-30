@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
+
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -439,6 +440,11 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<Company>()
                 .Property(e => e.CompanyZipcode)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(e => e.ChartOfAccts)
+                .WithRequired(e => e.Company)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Company>()
                 .HasMany(e => e.Invoices)

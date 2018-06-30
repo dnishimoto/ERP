@@ -32,10 +32,10 @@
             this.txtSearchName = new System.Windows.Forms.TextBox();
             this.cmdSearch = new System.Windows.Forms.Button();
             this.dataGridViewAddressBook = new System.Windows.Forms.DataGridView();
-            this.cmdSelect = new System.Windows.Forms.Button();
             this.AddressId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.txtBillState = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cmdSelect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewAddressBook)).BeginInit();
             this.SuspendLayout();
             // 
@@ -72,21 +72,11 @@
             this.AddressId,
             this.txtName,
             this.txtBillState});
-            this.dataGridViewAddressBook.Location = new System.Drawing.Point(32, 125);
+            this.dataGridViewAddressBook.Location = new System.Drawing.Point(22, 93);
             this.dataGridViewAddressBook.Name = "dataGridViewAddressBook";
             this.dataGridViewAddressBook.RowTemplate.Height = 24;
             this.dataGridViewAddressBook.Size = new System.Drawing.Size(679, 135);
             this.dataGridViewAddressBook.TabIndex = 3;
-            // 
-            // cmdSelect
-            // 
-            this.cmdSelect.Location = new System.Drawing.Point(182, 3);
-            this.cmdSelect.Name = "cmdSelect";
-            this.cmdSelect.Size = new System.Drawing.Size(75, 25);
-            this.cmdSelect.TabIndex = 4;
-            this.cmdSelect.Text = "Select";
-            this.cmdSelect.UseVisualStyleBackColor = true;
-            this.cmdSelect.Click += new System.EventHandler(this.cmdSelect_Click);
             // 
             // AddressId
             // 
@@ -107,6 +97,16 @@
             this.txtBillState.HeaderText = "State";
             this.txtBillState.Name = "txtBillState";
             this.txtBillState.ReadOnly = true;
+            // 
+            // cmdSelect
+            // 
+            this.cmdSelect.Location = new System.Drawing.Point(182, 3);
+            this.cmdSelect.Name = "cmdSelect";
+            this.cmdSelect.Size = new System.Drawing.Size(75, 25);
+            this.cmdSelect.TabIndex = 4;
+            this.cmdSelect.Text = "Select";
+            this.cmdSelect.UseVisualStyleBackColor = true;
+            this.cmdSelect.Click += new System.EventHandler(this.cmdSelect_Click);
             // 
             // AddressBookForm
             // 
