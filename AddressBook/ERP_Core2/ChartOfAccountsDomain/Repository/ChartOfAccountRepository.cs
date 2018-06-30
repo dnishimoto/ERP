@@ -410,5 +410,60 @@ namespace MillenniumERP.Services
             ProcessAccount(json);
             return true;
         }
+        public bool CreateIncome()
+        {
+            string json = "";
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.300""
+      ,""Description"":""Income (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""300""
+       ,""CompanyId"":1,""Level"":0,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+            return true;
+        }
+        public bool CreateRevenue()
+        {
+            string json = "";
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.310""
+      ,""Description"":""Revenue (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""310""
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+            return true;
+        }
+        public bool CreateEquityCapital()
+        {
+            string json = "";
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.200""
+      ,""Description"":""Equity Capital (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""200""
+       ,""CompanyId"":1,""Level"":0,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+            return true;
+        }
+        public bool CreateCapital()
+        {
+            string json = "";
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.250""
+      ,""Description"":""Capital (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""250""
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+            return true;
+        }
+        public bool CreateDrawing()
+        {
+            string json = "";
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.295""
+      ,""Description"":""Drawing (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""295""
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+            return true;
+        }
     }
 }

@@ -56,6 +56,11 @@ namespace ERP_Core2.ChartOfAccountsDomain
             status = unitOfWork.chartOfAccountRepository.CreateExpensesRent();
             status = unitOfWork.chartOfAccountRepository.CreateExpensesCommunication();
             status = unitOfWork.chartOfAccountRepository.CreateExpensesAdvertising();
+            status = unitOfWork.chartOfAccountRepository.CreateIncome();
+            status = unitOfWork.chartOfAccountRepository.CreateRevenue();
+            status = unitOfWork.chartOfAccountRepository.CreateEquityCapital();
+            status = unitOfWork.chartOfAccountRepository.CreateCapital();
+            status = unitOfWork.chartOfAccountRepository.CreateDrawing();
             unitOfWork.CommitChanges();
             Assert.True(true);
         }
