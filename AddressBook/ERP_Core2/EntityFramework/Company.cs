@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Company()
         {
+            ChartOfAccts = new HashSet<ChartOfAcct>();
             Invoices = new HashSet<Invoice>();
         }
 
@@ -34,6 +35,9 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(20)]
         public string CompanyZipcode { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ChartOfAcct> ChartOfAccts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Invoice> Invoices { get; set; }

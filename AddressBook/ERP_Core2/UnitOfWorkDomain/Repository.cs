@@ -20,7 +20,14 @@ namespace MillenniumERP.Services
         public void UpdateObject(T dataObject)
         {
 
-            _dbContext.Entry(dataObject).State = System.Data.Entity.EntityState.Modified;
+            //if (_dbContext.Entry(dataObject).State == EntityState.Detached || _dbContext.Entry(dataObject).State == EntityState.Modified)
+            //{
+                _dbContext.Entry(dataObject).State = System.Data.Entity.EntityState.Modified;
+                //_dbContext.Set<T>().Attach(dataObject);
+            //}
+
+         
+
          }
         public async Task<T> GetObjectAsync(int id)
         {

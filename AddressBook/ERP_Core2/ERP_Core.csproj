@@ -41,6 +41,9 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -76,6 +79,7 @@
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
+    <Compile Include="ChartOfAccountsDomain\UnitTestChartOfAccounts.cs" />
     <Compile Include="CustomerDomain\Repository\CustomerRepository.cs" />
     <Compile Include="CustomerDomain\UnitTestCustomer.cs" />
     <Compile Include="EntityFramework\AccountBalance.cs" />
@@ -213,6 +217,7 @@
     <Folder Include="AccountPayableDomain\Repository\" />
     <Folder Include="AccountReceivableDomain\Repository\" />
     <Folder Include="ContractsDomain\Repository\" />
+    <Folder Include="GeneralLedgerDomain\" />
     <Folder Include="InventoryDomain\Repository\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />

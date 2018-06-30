@@ -70,6 +70,10 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string PostEditCode { get; set; }
 
+        public long CompanyId { get; set; }
+
+        public int Level { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountBalance> AccountBalances { get; set; }
 
@@ -81,6 +85,8 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BudgetRange> BudgetRanges { get; set; }
+
+        public virtual Company Company { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }

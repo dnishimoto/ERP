@@ -2,6 +2,7 @@
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
 using MillenniumERP.ScheduleEventsDomain;
+using MillenniumERP.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,8 +39,11 @@ namespace ERP_Core2.AbstractFactory
         public abstract TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin);
 
     }
+    //Chart of Account Domain
     public abstract class BusinessViewFactory : AbstractFactory
     {
+        public abstract ChartOfAccountView MapChartOfAccountView(ChartOfAcct chartOfAcct);
+        public abstract void MapChartOfAccountEntity(ref ChartOfAcct item, ChartOfAccountView chartOfAccountView);
     }
     //Address Book
     public partial class ApplicationViewFactory : BusinessViewFactory
@@ -121,8 +125,20 @@ namespace ERP_Core2.AbstractFactory
         {
             return new AccountReceiveableView(acctRec);
         }
+        public override ChartOfAccountView MapChartOfAccountView(ChartOfAcct chartOfAcct)
+        {
+            return new ChartOfAccountView(chartOfAcct);
+        }
+        public override void MapChartOfAccountEntity(ref ChartOfAcct item, ChartOfAccountView view)
+        {
+            item.BusUnit = view.BusUnit;
+            item.Account = view.Account;
+            item.PostEditCode = view.PostEditCode;
+            item.CompanyId = view.CompanyId;
+            item.Level = view.Level;
+            item.Description = view.Description;
+        }
 
-      
 
     }
 }
