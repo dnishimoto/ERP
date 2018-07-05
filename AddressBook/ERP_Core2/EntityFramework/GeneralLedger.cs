@@ -35,6 +35,12 @@ namespace ERP_Core2.EntityFramework
         [StringLength(255)]
         public string Comment { get; set; }
 
+        [Column(TypeName = "money")]
+        public decimal? DebitAmount { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? CreditAmount { get; set; }
+
         public virtual ChartOfAcct ChartOfAcct { get; set; }
 
         public virtual GeneralLedger GeneralLedger1 { get; set; }

@@ -1,6 +1,8 @@
 ﻿using ERP_Core2.EntityFramework;
+using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
+using MillenniumERP.InvoicesDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
 using System;

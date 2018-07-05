@@ -10,6 +10,8 @@ using MillenniumERP.AddressBookDomain;
 using MillenniumERP.ProjectManagementDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.CustomerDomain;
+using MillenniumERP.InvoicesDomain;
+using MillenniumERP.AccountsReceivableDomain;
 
 namespace MillenniumERP.Services
 {
@@ -30,6 +32,8 @@ namespace MillenniumERP.Services
         public BuyerRepository buyerRepository => new BuyerRepository(db);
         public CustomerRepository customerRepository => new CustomerRepository(db);
         public TimeAndAttendanceRepository TARepository => new TimeAndAttendanceRepository(db);
+        public InvoiceRepository invoiceRepository => new InvoiceRepository(db);
+        public AccountReceivableRepository accountReceiveableRepository => new AccountReceivableRepository(db);
         public UnitOfWork()
         {
             /*
@@ -46,10 +50,9 @@ namespace MillenniumERP.Services
             }
             */
 
-            //addressBookRepository = new AddressBookRepository(db);
-            //chartOfAccountRepository = new ChartOfAccountRepository(db);
+           
         }
-
+        
         public void CommitChanges()
         {
             db.SaveChanges();

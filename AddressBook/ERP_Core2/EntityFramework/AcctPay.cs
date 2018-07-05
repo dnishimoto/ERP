@@ -27,9 +27,6 @@ namespace ERP_Core2.EntityFramework
 
         public DateTime? GLDate { get; set; }
 
-        [StringLength(100)]
-        public string AccountNumber { get; set; }
-
         public long SupplierId { get; set; }
 
         public long? ContractId { get; set; }
@@ -48,6 +45,8 @@ namespace ERP_Core2.EntityFramework
 
         public long? InvoiceId { get; set; }
 
+        public long AccountId { get; set; }
+
         public virtual UDC UDC { get; set; }
 
         public virtual Invoice Invoice { get; set; }
@@ -55,6 +54,8 @@ namespace ERP_Core2.EntityFramework
         public virtual UDC UDC1 { get; set; }
 
         public virtual PurchaseOrder PurchaseOrder { get; set; }
+
+        public virtual ChartOfAcct ChartOfAcct { get; set; }
 
         public virtual Contract Contract { get; set; }
 

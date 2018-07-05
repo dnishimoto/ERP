@@ -29,6 +29,32 @@ namespace MillenniumERP.Services
          
 
          }
+        public async Task<ChartOfAcct> GetChartofAccount(string company, string busUnit, string objectNumber, string subsidiary)
+        {
+            Entities _dbEntities = (Entities)_dbContext;
+
+            ChartOfAcct chartOfAcct= await (from e in _dbEntities.ChartOfAccts
+                             where e.CompanyNumber==company
+                             && e.BusUnit==busUnit
+                             && e.ObjectNumber==objectNumber
+                             && (e.Subsidiary??"")==subsidiary
+                             select e).FirstOrDefaultAsync<ChartOfAcct>();
+
+            return chartOfAcct;
+
+        }
+        public async Task<UDC> GetUdc(string productCode, string keyCode)
+        {
+            Entities _dbEntities = (Entities)_dbContext;
+
+            UDC udc = await (from e in _dbEntities.UDCs
+                                 where e.ProductCode == productCode
+                                 && e.KeyCode == keyCode
+                                 select e).FirstOrDefaultAsync<UDC>();
+
+            return udc;
+        }
+
         public async Task<T> GetObjectAsync(int id)
         {
                 Task<T> result = _dbContext.Set<T>().FindAsync(id);

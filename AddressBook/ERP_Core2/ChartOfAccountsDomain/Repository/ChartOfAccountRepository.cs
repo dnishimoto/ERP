@@ -100,7 +100,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.100""
       ,""Description"":""Assets (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""100""
-       ,""CompanyId"":1,""Level"":0,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
 
@@ -114,7 +114,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.101""
       ,""Description"":""Cash (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""101""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
 
@@ -294,7 +294,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.500""
       ,""Description"":""Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""500""
-       ,""CompanyId"":1,""Level"":0,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -306,7 +306,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.501""
       ,""Description"":""Salary Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""501""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -317,7 +317,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.510""
       ,""Description"":""Wage Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""510""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -328,7 +328,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.540""
       ,""Description"":""Supply Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""540""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -339,7 +339,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.560""
       ,""Description"":""Rent Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""560""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -350,7 +350,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.570""
       ,""Description"":""Utilities Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""570""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -361,7 +361,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.576""
       ,""Description"":""Communication Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""576""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -372,7 +372,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.610""
       ,""Description"":""Advertising Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""610""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -383,7 +383,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.750""
       ,""Description"":""Advertising Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""750""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -394,7 +394,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.810""
       ,""Description"":""Interest Revenue (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""810""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -405,7 +405,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.900""
       ,""Description"":""Gain On Sale of Asset (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""900""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -416,7 +416,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.300""
       ,""Description"":""Income (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""300""
-       ,""CompanyId"":1,""Level"":0,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -427,7 +427,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.310""
       ,""Description"":""Revenue (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""310""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -438,7 +438,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.200""
       ,""Description"":""Equity Capital (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""200""
-       ,""CompanyId"":1,""Level"":0,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -449,7 +449,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.250""
       ,""Description"":""Capital (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""250""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
@@ -460,7 +460,7 @@ namespace MillenniumERP.Services
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.295""
       ,""Description"":""Drawing (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""295""
-       ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
