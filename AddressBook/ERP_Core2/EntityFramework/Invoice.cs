@@ -38,10 +38,13 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "date")]
         public DateTime? PaymentDueDate { get; set; }
 
-        [StringLength(10)]
+        [StringLength(50)]
         public string PaymentTerms { get; set; }
 
         public long CompanyId { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? DiscountDueDate { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }

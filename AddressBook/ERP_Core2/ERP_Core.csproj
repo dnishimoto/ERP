@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
+    <Compile Include="AccountReceivableDomain\Repository\AccountReceivableRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\BuyerRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\CarrierRepository.cs" />
@@ -122,6 +123,8 @@
     <Compile Include="EntityFramework\ProjectManagementTaskToEmployee.cs" />
     <Compile Include="EntityFramework\PurchaseOrder.cs" />
     <Compile Include="EntityFramework\PurchaseOrderDetail.cs" />
+    <Compile Include="EntityFramework\Receipt.cs" />
+    <Compile Include="EntityFramework\ReceiptDetail.cs" />
     <Compile Include="EntityFramework\SalesOrder.cs" />
     <Compile Include="EntityFramework\SalesOrderDetail.cs" />
     <Compile Include="EntityFramework\ScheduleEvent.cs" />
@@ -138,6 +141,8 @@
     <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
+    <Compile Include="InvoiceDomain\Repository\InvoiceRepository.cs" />
+    <Compile Include="InvoiceDomain\UnitTestInvoice.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementTaskRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementMilestoneRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementProjectRepository.cs" />
@@ -215,7 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AccountPayableDomain\Repository\" />
-    <Folder Include="AccountReceivableDomain\Repository\" />
     <Folder Include="ContractsDomain\Repository\" />
     <Folder Include="GeneralLedgerDomain\" />
     <Folder Include="InventoryDomain\Repository\" />

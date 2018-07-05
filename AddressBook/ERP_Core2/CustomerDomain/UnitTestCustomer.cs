@@ -9,6 +9,8 @@ using MillenniumERP.AddressBookDomain;
 using MillenniumERP.Services;
 using MillenniumERP.CustomerDomain;
 using System.Collections.Generic;
+using MillenniumERP.InvoicesDomain;
+using MillenniumERP.AccountsReceivableDomain;
 
 namespace ERP_Core2.CustomerDomain
 {

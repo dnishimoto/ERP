@@ -12,7 +12,6 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
-
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -46,6 +45,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployees { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
+        public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual DbSet<ScheduleEvent> ScheduleEvents { get; set; }
@@ -62,6 +62,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShifts { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
+        public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -86,10 +87,6 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.AccountNumber)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<AcctPay>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
 
@@ -106,12 +103,24 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<AcctRec>()
-                .Property(e => e.NetTerms)
+                .Property(e => e.PaymentTerms)
                 .IsUnicode(false);
 
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<AcctRec>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctRec>()
+                .Property(e => e.DebitAmount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctRec>()
+                .Property(e => e.CreditAmount)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.Name)
@@ -398,6 +407,16 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ChartOfAcct>()
+                .HasMany(e => e.AcctPays)
+                .WithRequired(e => e.ChartOfAcct)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChartOfAcct>()
+                .HasMany(e => e.AcctRecs)
+                .WithRequired(e => e.ChartOfAcct)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.Budgets)
                 .WithOptional(e => e.ChartOfAcct)
                 .HasForeignKey(e => e.AccountId);
@@ -582,6 +601,14 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<GeneralLedger>()
+                .Property(e => e.DebitAmount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<GeneralLedger>()
+                .Property(e => e.CreditAmount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<GeneralLedger>()
                 .HasOptional(e => e.GeneralLedger1)
                 .WithRequired(e => e.GeneralLedger2);
 
@@ -703,6 +730,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<ItemMaster>()
                 .HasMany(e => e.PurchaseOrderDetails)
+                .WithRequired(e => e.ItemMaster)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ItemMaster>()
+                .HasMany(e => e.ReceiptDetails)
                 .WithRequired(e => e.ItemMaster)
                 .WillCascadeOnDelete(false);
 
@@ -871,6 +903,23 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<PurchaseOrderDetail>()
                 .Property(e => e.UnitOfMeasure)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.ReceiptDocument)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.OrderNumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Receipt>()
+                .Property(e => e.Remark)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Receipt>()
+                .HasMany(e => e.ReceiptDetails)
+                .WithRequired(e => e.Receipt)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SalesOrder>()
                 .Property(e => e.Amount)
@@ -1061,6 +1110,11 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Supplier>()
+                .HasMany(e => e.Receipts)
+                .WithRequired(e => e.Supplier)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<TimeAndAttendancePunchIn>()
                 .Property(e => e.PunchinDateTime)
                 .IsFixedLength()
@@ -1209,6 +1263,12 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()
+                .HasMany(e => e.Receipts)
+                .WithRequired(e => e.UDC)
+                .HasForeignKey(e => e.ReceiptTypeXrefId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<UDC>()
                 .HasMany(e => e.ServiceInformations)
                 .WithOptional(e => e.UDC)
                 .HasForeignKey(e => e.ServiceTypeXRefId);
@@ -1223,6 +1283,14 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ReceiptDetail>()
+                .Property(e => e.UnitCost)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<ReceiptDetail>()
+                .Property(e => e.ExtendedCost)
+                .HasPrecision(18, 4);
         }
     }
 }

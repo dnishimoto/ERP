@@ -12,6 +12,8 @@ namespace ERP_Core2.EntityFramework
         public ChartOfAcct()
         {
             AccountBalances = new HashSet<AccountBalance>();
+            AcctPays = new HashSet<AcctPay>();
+            AcctRecs = new HashSet<AcctRec>();
             Budgets = new HashSet<Budget>();
             Budgets1 = new HashSet<Budget>();
             BudgetRanges = new HashSet<BudgetRange>();
@@ -76,6 +78,12 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AccountBalance> AccountBalances { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctPay> AcctPays { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<AcctRec> AcctRecs { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets { get; set; }

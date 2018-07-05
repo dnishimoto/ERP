@@ -1,5 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.EntityFramework;
+using MillenniumERP.AccountsReceivableDomain;
+using MillenniumERP.InvoicesDomain;
 using MillenniumERP.Services;
 using System;
 using System.Collections;
@@ -12,78 +14,7 @@ using System.Threading.Tasks;
 
 namespace MillenniumERP.CustomerDomain
 {
-    public class InvoiceView
-    {
-        public InvoiceView() { }
-        public InvoiceView(Invoice invoice)
-        {
-            this.InvoiceId = invoice.InvoiceId;
-            this.InvoiceNumber = invoice.InvoiceNumber;
-            this.InvoiceDate = invoice.InvoiceDate;
-            this.Amount = invoice.Amount;
-            this.CustomerName = invoice.Customer.AddressBook.Name;
-            this.Description = invoice.Description;
-            this.TaxAmount = invoice.TaxAmount;
-            this.PaymentDueDate = invoice.PaymentDueDate;
-            this.PaymentTerms = invoice.PaymentTerms;
-            this.CompanyName = invoice.Company.CompanyName;
-            this.CompanyStreet = invoice.Company.CompanyStreet;
-            this.CompanyCity = invoice.Company.CompanyCity;
-            this.CompanyZipcode = invoice.Company.CompanyZipcode;
-
-        }
-        public string CompanyName { get; set; }
-        public string CompanyStreet { get; set; }
-        public string CompanyCity { get; set; }
-        public string CompanyState { get; set; }
-        public string CompanyZipcode { get; set; }
-        public long? InvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
-        public DateTime? InvoiceDate { get; set; }
-        public decimal? Amount { get; set; }
-        public string CustomerName { get; set; }
-        public string Description { get; set; }
-        public decimal? TaxAmount { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
-        public string PaymentTerms { get; set; }
-        public virtual ICollection InvoiceViewDetails { get; set; }
-    }
-    public class InvoiceDetailView
-    {
-        public InvoiceDetailView() { }
-        public InvoiceDetailView(InvoiceDetail invoiceDetail)
-        {
-            this.InvoiceDetailId = invoiceDetail.InvoiceDetailId;
-            this.UnitOfMeasure = invoiceDetail.UnitOfMeasure;
-            this.Quantity = invoiceDetail.Quantity;
-            this.UnitPrice = invoiceDetail.UnitPrice;
-            this.Amount = invoiceDetail.Amount;
-            this.DiscountPercent = invoiceDetail.DiscountPercent;
-            this.DiscountAmount = invoiceDetail.DiscountAmount;
-            this.ItemNumber = invoiceDetail.ItemMaster.ItemNumber;
-            this.ItemDescription = invoiceDetail.ItemMaster.Description;
-            this.ItemDescription2 = invoiceDetail.ItemMaster.Description2;
-            this.ExtendedDescription = invoiceDetail.ExtendedDescription;
-        }
-        public int? Quantity { get; set; }
-        public string UnitOfMeasure { get; set; }
-        public decimal? UnitPrice { get; set; }
-        public decimal? Amount { get; set; }
-        //todo public long? PurchaseOrderLineId { get; set; }
-        //todo public long? SalesOrderDetailId { get; set; }
-        public decimal? DiscountPercent { get; set; }
-        public decimal? DiscountAmount { get; set; }
-        //todo    public long? ShipmentDetailId { get; set; }
-        //todo maybe public string InvoiceNumber { get; set; }
-        //public virtual Invoice Invoice { get; set; }
-
-        public string ItemNumber { get; set; }
-        public string ItemDescription { get; set; }
-        public string ItemDescription2 { get; set; }
-
-        public long? InvoiceDetailId { get; set; }
-        public string ExtendedDescription { get; set; }
-    }
+   
     public class CustomerClaimView
     {
         public CustomerClaimView() { }
@@ -117,45 +48,7 @@ namespace MillenniumERP.CustomerDomain
     {
         public long? PurchaseOrderId { get; set; }
     }
-    public class AccountReceiveableView
-    {
-        public AccountReceiveableView() { }
-        public AccountReceiveableView(AcctRec acctRec)
-        {
-            this.AcctRecId = acctRec.AcctRecId;
-            this.OpenAmount= acctRec.OpenAmount;
-            this.DiscountDueDate = acctRec.DiscountDueDate;
-            this.GLDate = acctRec.GLDate;
-            this.InvoiceId = acctRec.InvoiceId;
-            this.InvoiceNumber = acctRec.Invoice.InvoiceNumber;
-            this.CreateDate = acctRec.CreateDate;
-            this.DocNumber = acctRec.DocNumber;
-            this.Remarks = acctRec.Remarks;
-            this.NetTerms = acctRec.NetTerms;
-            this.CustomerId = acctRec.CustomerId;
-            this.CustomerName = acctRec.Customer.AddressBook.Name;
-            this.PurchaseOrderId = acctRec.PurchaseOrderId;
-            this.Description = acctRec.Description;
-            this.AcctRecDocTypeXRefId = acctRec.AcctRecDocTypeXRefId;
-            this.DocType = acctRec.UDC.Value;
-    }
-        public long? AcctRecId { get; set; }
-        public decimal? OpenAmount { get; set; }
-        public DateTime? DiscountDueDate { get; set; }
-        public DateTime? GLDate { get; set; }
-        public long? InvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
-        public DateTime? CreateDate { get; set; }
-        public long? DocNumber { get; set; }
-        public string Remarks { get; set; }
-        public string NetTerms { get; set; }
-        public long? CustomerId { get; set; }
-        public string CustomerName { get; set; }
-        public long? PurchaseOrderId { get; set; }
-        public string Description { get; set; }
-        public long? AcctRecDocTypeXRefId { get; set; }
-        public string DocType { get; set; }
-    }
+  
     public class ScheduleEventView
     {
         public ScheduleEventView() { }
