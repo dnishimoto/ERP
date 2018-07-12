@@ -19,10 +19,14 @@ namespace MillenniumERP.ProjectManagementDomain
 
         public async Task<IQueryable<ProjectManagementTask>> GetEmployeeByTaskId(int taskId)
         {
+            try
+            {
+                var list = await base.GetObjectsAsync(e => e.TaskId == taskId, "").ToListAsync();
 
-            var list = await base.GetObjectsAsync(e => e.TaskId == taskId, "").ToListAsync();
-
-            return list.AsQueryable<ProjectManagementTask>();
+                return list.AsQueryable<ProjectManagementTask>();
+            }
+            catch(Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
 
         }
     }

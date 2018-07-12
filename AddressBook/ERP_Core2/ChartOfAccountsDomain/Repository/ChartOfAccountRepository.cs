@@ -66,33 +66,38 @@ namespace MillenniumERP.Services
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+      
         public void ProcessAccount(string json)
         {
-            ChartOfAcct chartOfAcct = JsonConvert.DeserializeObject<ChartOfAcct>(json);
-            Task<Company> companyTask = (from e in _dbContext.Companies
-                              where e.CompanyId == chartOfAcct.CompanyId
-                              select e).FirstOrDefaultAsync<Company>();
-            chartOfAcct.Company = companyTask.Result;
-            ChartOfAccountView view = applicationViewFactory.MapChartOfAccountView(chartOfAcct);
-            IQueryable<ChartOfAcct> query = GetObjectsAsync(e=>e.ObjectNumber == view.ObjectNumber, "");
-            List<ChartOfAcct> list = query.ToList<ChartOfAcct>();
-            if (list.Count==0)
+            try
             {
-                AddObject(chartOfAcct);
-            }
-            else
-            {
-                
-                //foreach (var item in query)
-                for (int i = 0; i < (int) list.Count; i++)
+                ChartOfAcct chartOfAcct = JsonConvert.DeserializeObject<ChartOfAcct>(json);
+                Task<Company> companyTask = (from e in _dbContext.Companies
+                                             where e.CompanyId == chartOfAcct.CompanyId
+                                             select e).FirstOrDefaultAsync<Company>();
+                chartOfAcct.Company = companyTask.Result;
+                ChartOfAccountView view = applicationViewFactory.MapChartOfAccountView(chartOfAcct);
+                IQueryable<ChartOfAcct> query = GetObjectsAsync(e => e.ObjectNumber == view.ObjectNumber, "");
+                List<ChartOfAcct> list = query.ToList<ChartOfAcct>();
+                if (list.Count == 0)
+                {
+                    AddObject(chartOfAcct);
+                }
+                else
                 {
 
-                    var item = list[i];
-                    applicationViewFactory.MapChartOfAccountEntity(ref item, view);
+                    //foreach (var item in query)
+                    for (int i = 0; i < (int)list.Count; i++)
+                    {
 
-                    UpdateObject(item);
+                        var item = list[i];
+                        applicationViewFactory.MapChartOfAccountEntity(ref item, view);
+
+                        UpdateObject(item);
+                    }
                 }
             }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateAssets()
         {

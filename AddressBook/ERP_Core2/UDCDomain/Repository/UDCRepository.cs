@@ -18,11 +18,17 @@ namespace MillenniumERP.ScheduleEventsDomain
             _dbContext = (Entities)db;
         }
         public async Task<IQueryable<UDC>> GetUDCValuesByProductCode(string productCode)
-        { 
-           
-            var list = await base.GetObjectsAsync(e => e.ProductCode ==productCode, "").ToListAsync();
-           
-            return list.AsQueryable<UDC>();
+        {
+            try
+            {
+                var list = await base.GetObjectsAsync(e => e.ProductCode == productCode, "").ToListAsync();
+
+                return list.AsQueryable<UDC>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
            
         }
     }

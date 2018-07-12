@@ -20,20 +20,29 @@ namespace MillenniumERP.ProjectManagementDomain
         }
         public async Task<IQueryable<ProjectManagementProject>> GetMilestones(int projectId)
         {
-    
-            var list = await base.GetObjectsAsync(e => e.ProjectId == projectId, "ProjectManagementMilestones").ToListAsync();
+            try
+            {
+                var list = await base.GetObjectsAsync(e => e.ProjectId == projectId, "ProjectManagementMilestones").ToListAsync();
 
-            return list.AsQueryable<ProjectManagementProject>();
+                return list.AsQueryable<ProjectManagementProject>();
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
 
         }
         public async Task<IQueryable<ProjectManagementTask>> GetTasksByProjectId(int projectId)
         {
-            var list = await (from milestones in _dbContext.ProjectManagementMilestones
-                              join tasks in _dbContext.ProjectManagementTasks on milestones.MilestoneId equals tasks.MileStoneId
-                              where (milestones.ProjectId == projectId)
-                              select tasks).ToListAsync<ProjectManagementTask>();
+            try
+            {
+                var list = await (from milestones in _dbContext.ProjectManagementMilestones
+                                  join tasks in _dbContext.ProjectManagementTasks on milestones.MilestoneId equals tasks.MileStoneId
+                                  where (milestones.ProjectId == projectId)
+                                  select tasks).ToListAsync<ProjectManagementTask>();
 
-            return list.AsQueryable<ProjectManagementTask>();
+                return list.AsQueryable<ProjectManagementTask>();
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
 
 
         }

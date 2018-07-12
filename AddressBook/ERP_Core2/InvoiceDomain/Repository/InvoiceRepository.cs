@@ -94,17 +94,21 @@ namespace MillenniumERP.InvoicesDomain
         }
         public async Task<bool> AddInvoice(Invoice invoice)
         {
-                    
-            var query = await (from a in _dbContext.Invoices
-                         where a.InvoiceNumber==invoice.InvoiceNumber
-                         select a).FirstOrDefaultAsync<Invoice>();
-            if (query == null)
+            try
             {
-                AddObject(invoice);
+                var query = await (from a in _dbContext.Invoices
+                                   where a.InvoiceNumber == invoice.InvoiceNumber
+                                   select a).FirstOrDefaultAsync<Invoice>();
+                if (query == null)
+                {
+                    AddObject(invoice);
+                }
+
+
+                return true;
             }
-           
-            
-            return true;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<bool> UpdateInvoice(Invoice invoice)
         {
@@ -129,9 +133,9 @@ namespace MillenniumERP.InvoicesDomain
             }
             catch (Exception ex)
             {
-                
+                throw new Exception(GetMyMethodName(), ex);
             }
-            return false;
+            
             }
         public async Task<bool> DeleteInvoice(Invoice invoice)
         {
@@ -142,9 +146,9 @@ namespace MillenniumERP.InvoicesDomain
             }
             catch (Exception ex)
             {
-
+                throw new Exception(GetMyMethodName(), ex);
             }
-            return false;
+          
         }
     }
 }

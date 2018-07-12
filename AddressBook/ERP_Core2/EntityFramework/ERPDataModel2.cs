@@ -32,11 +32,13 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
+        public virtual DbSet<GeneralLedgerBalance> GeneralLedgerBalances { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<ItemMaster> ItemMasters { get; set; }
         public virtual DbSet<LocationAddress> LocationAddresses { get; set; }
+        public virtual DbSet<NextNumber> NextNumbers { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<POQuote> POQuotes { get; set; }
         public virtual DbSet<ProjectManagementMilestone> ProjectManagementMilestones { get; set; }
@@ -172,6 +174,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<AddressBook>()
                 .HasMany(e => e.Emails)
+                .WithRequired(e => e.AddressBook)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<AddressBook>()
+                .HasMany(e => e.GeneralLedgers)
                 .WithRequired(e => e.AddressBook)
                 .WillCascadeOnDelete(false);
 
@@ -432,6 +439,11 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ChartOfAcct>()
+                .HasMany(e => e.GeneralLedgerBalances)
+                .WithRequired(e => e.ChartOfAcct)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.PurchaseOrders)
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
@@ -608,9 +620,13 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.CreditAmount)
                 .HasPrecision(19, 4);
 
-            modelBuilder.Entity<GeneralLedger>()
-                .HasOptional(e => e.GeneralLedger1)
-                .WithRequired(e => e.GeneralLedger2);
+            modelBuilder.Entity<GeneralLedgerBalance>()
+                .Property(e => e.LedgerType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<GeneralLedgerBalance>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<Inventory>()
                 .Property(e => e.ShortDescription)
@@ -768,6 +784,10 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.ServiceInformations)
                 .WithRequired(e => e.LocationAddress)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NextNumber>()
+                .Property(e => e.NextNumberName)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Phone>()
                 .Property(e => e.PhoneNumber)

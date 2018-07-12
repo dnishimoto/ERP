@@ -11,6 +11,8 @@ using MillenniumERP.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
+using MillenniumERP.AccountsReceivableDomain;
+using MillenniumERP.GeneralLedgerDomain;
 
 namespace ERP_Core2.InvoiceDomain
 {
@@ -60,7 +62,13 @@ namespace ERP_Core2.InvoiceDomain
                 //unitOfWork.invoiceRepository.DeleteInvoice(invoice);
                 unitOfWork.CommitChanges();
 
+                AccountReceiveableView acctRecView =await unitOfWork.accountReceiveableRepository.GetAccountReceivableViewByInvoiceId(invoice.InvoiceId);
+                bool result3 = await unitOfWork.generalLedgerRepository.CreateLedgerFromReceiveable(acctRecView);
 
+                unitOfWork.CommitChanges();
+
+                GeneralLedgerView ledger = await unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(acctRecView.DocNumber,"OV");
+                bool result4 = await unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledger.AccountId,ledger.FiscalYear,ledger.FiscalPeriod);
 
 
 

@@ -18,6 +18,7 @@ namespace ERP_Core2.EntityFramework
             Budgets1 = new HashSet<Budget>();
             BudgetRanges = new HashSet<BudgetRange>();
             GeneralLedgers = new HashSet<GeneralLedger>();
+            GeneralLedgerBalances = new HashSet<GeneralLedgerBalance>();
             PurchaseOrders = new HashSet<PurchaseOrder>();
         }
 
@@ -98,6 +99,9 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GeneralLedgerBalance> GeneralLedgerBalances { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }

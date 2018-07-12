@@ -186,187 +186,223 @@ namespace MillenniumERP.CustomerDomain
 
         public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId = null)
         {
-            IEnumerable<Invoice> invoiceList = null;
-            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
+            try
+            {
+                IEnumerable<Invoice> invoiceList = null;
+                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
 
-            IList<InvoiceView> list = new List<InvoiceView>();
-            if (invoiceId != null)
-            {
-                invoiceList = resultList.Invoices.Where(f => f.InvoiceId == invoiceId);
-            }
-            else
-            {
-                invoiceList = resultList.Invoices;
-            }
+                IList<InvoiceView> list = new List<InvoiceView>();
+                if (invoiceId != null)
+                {
+                    invoiceList = resultList.Invoices.Where(f => f.InvoiceId == invoiceId);
+                }
+                else
+                {
+                    invoiceList = resultList.Invoices;
+                }
 
-            foreach (var item in invoiceList)
-            {
-                list.Add(applicationViewFactory.MapInvoiceView(item));
+                foreach (var item in invoiceList)
+                {
+                    list.Add(applicationViewFactory.MapInvoiceView(item));
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
 
         }
 
         public IList<CustomerClaimView> GetCustomerClaimsByCustomerId(int customerId)
         {
-            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "customerclaims").FirstOrDefault();
-
-            IList<CustomerClaimView> list = new List<CustomerClaimView>();
-            foreach (var item in resultList.CustomerClaims)
+            try
             {
-                list.Add(applicationViewFactory.MapCustomerClaimView(item));
+                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "customerclaims").FirstOrDefault();
+
+                IList<CustomerClaimView> list = new List<CustomerClaimView>();
+                foreach (var item in resultList.CustomerClaims)
+                {
+                    list.Add(applicationViewFactory.MapCustomerClaimView(item));
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public IList<ScheduleEventView> GetScheduleEventsByCustomerId(int customerId, int? serviceId = null)
         {
-            IEnumerable<ScheduleEvent> scheduleEventList = null;
-            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
-
-            IList<ScheduleEventView> list = new List<ScheduleEventView>();
-            if (serviceId != null)
+            try
             {
-                scheduleEventList = resultList.ScheduleEvents.Where(f => f.ServiceId == serviceId);
-            }
-            else
-            {
-                scheduleEventList = resultList.ScheduleEvents;
-            }
+                IEnumerable<ScheduleEvent> scheduleEventList = null;
+                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
 
-            foreach (var item in scheduleEventList)
-            {
-                Contract contract = item.ServiceInformation.Contract;
-
-                long? locationId = item.ServiceInformation.LocationId;
-
-                Task<LocationAddress> locationAddressTask =
-
-                   (from e in _dbContext.LocationAddresses
-                    where e.LocationId == locationId
-                    select e).FirstOrDefaultAsync<LocationAddress>();
-
-                Task.WaitAny(locationAddressTask);
-                ScheduleEventView scheduleEventView = applicationViewFactory.MapScheduleEventView(item);
-                if (contract != null)
+                IList<ScheduleEventView> list = new List<ScheduleEventView>();
+                if (serviceId != null)
                 {
-                    scheduleEventView.ContractView = applicationViewFactory.MapContractView(contract);
+                    scheduleEventList = resultList.ScheduleEvents.Where(f => f.ServiceId == serviceId);
                 }
-                if (locationAddressTask.Result != null)
+                else
                 {
-                    scheduleEventView.LocationAddressView = applicationViewFactory.MapLocationAddressView(locationAddressTask.Result);
+                    scheduleEventList = resultList.ScheduleEvents;
                 }
-                list.Add(scheduleEventView);
+
+                foreach (var item in scheduleEventList)
+                {
+                    Contract contract = item.ServiceInformation.Contract;
+
+                    long? locationId = item.ServiceInformation.LocationId;
+
+                    Task<LocationAddress> locationAddressTask =
+
+                       (from e in _dbContext.LocationAddresses
+                        where e.LocationId == locationId
+                        select e).FirstOrDefaultAsync<LocationAddress>();
+
+                    Task.WaitAny(locationAddressTask);
+                    ScheduleEventView scheduleEventView = applicationViewFactory.MapScheduleEventView(item);
+                    if (contract != null)
+                    {
+                        scheduleEventView.ContractView = applicationViewFactory.MapContractView(contract);
+                    }
+                    if (locationAddressTask.Result != null)
+                    {
+                        scheduleEventView.LocationAddressView = applicationViewFactory.MapLocationAddressView(locationAddressTask.Result);
+                    }
+                    list.Add(scheduleEventView);
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public IList<ContractView> GetContractsByCustomerId(int customerId, int? contractId = null)
         {
-            IEnumerable<Contract> contractList = null;
-            var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "contracts").FirstOrDefault();
+            try
+            {
+                IEnumerable<Contract> contractList = null;
+                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "contracts").FirstOrDefault();
 
-            IList<ContractView> list = new List<ContractView>();
-            if (contractId != null)
-            {
-                contractList = resultList.Contracts.Where(f => f.ContractId == contractId);
-            }
-            else
-            {
-                contractList = resultList.Contracts;
-            }
+                IList<ContractView> list = new List<ContractView>();
+                if (contractId != null)
+                {
+                    contractList = resultList.Contracts.Where(f => f.ContractId == contractId);
+                }
+                else
+                {
+                    contractList = resultList.Contracts;
+                }
 
-            foreach (var item in contractList)
-            {
-                list.Add(applicationViewFactory.MapContractView(item));
+                foreach (var item in contractList)
+                {
+                    list.Add(applicationViewFactory.MapContractView(item));
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
 
         public IList<LocationAddressView> GetLocationAddressByCustomerId(int customerId)
         {
-            Task<Customer> customerTask = base.GetObjectAsync(customerId);
-
-            long addressId = customerTask.Result.AddressId;
-
-
-            Task<List<LocationAddress>> locationAddressTask =
-
-               (from e in _dbContext.LocationAddresses
-                where e.AddressId == addressId
-                select e).ToListAsync<LocationAddress>();
-
-
-            IList<LocationAddressView> list = new List<LocationAddressView>();
-            foreach (var item in locationAddressTask.Result)
+            try
             {
-                list.Add(applicationViewFactory.MapLocationAddressView(item));
-            }
-            return list;
+                Task<Customer> customerTask = base.GetObjectAsync(customerId);
 
+                long addressId = customerTask.Result.AddressId;
+
+
+                Task<List<LocationAddress>> locationAddressTask =
+
+                   (from e in _dbContext.LocationAddresses
+                    where e.AddressId == addressId
+                    select e).ToListAsync<LocationAddress>();
+
+
+                IList<LocationAddressView> list = new List<LocationAddressView>();
+                foreach (var item in locationAddressTask.Result)
+                {
+                    list.Add(applicationViewFactory.MapLocationAddressView(item));
+                }
+                return list;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
 
         }
 
         public IList<PhoneView> GetPhonesByCustomerId(int customerId)
         {
-            Task<Customer> customerTask = base.GetObjectAsync(customerId);
-
-            long addressId = customerTask.Result.AddressId;
-
-            Task<List<Phone>> phoneTask =
-
-             (from e in _dbContext.Phones
-              where e.AddressId == addressId
-              select e).ToListAsync<Phone>();
-
-
-            IList<PhoneView> list = new List<PhoneView>();
-            foreach (var item in phoneTask.Result)
+            try
             {
-                list.Add(applicationViewFactory.MapPhoneView(item));
+                Task<Customer> customerTask = base.GetObjectAsync(customerId);
+
+                long addressId = customerTask.Result.AddressId;
+
+                Task<List<Phone>> phoneTask =
+
+                 (from e in _dbContext.Phones
+                  where e.AddressId == addressId
+                  select e).ToListAsync<Phone>();
+
+
+                IList<PhoneView> list = new List<PhoneView>();
+                foreach (var item in phoneTask.Result)
+                {
+                    list.Add(applicationViewFactory.MapPhoneView(item));
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
         public IList<EmailView> GetEmailsByCustomerId(int customerId)
         {
-            Task<Customer> customerTask = base.GetObjectAsync(customerId);
-
-            long addressId = customerTask.Result.AddressId;
-            Task<List<Email>> emailTask =
-
-            (from e in _dbContext.Emails
-             where e.AddressId == addressId
-             select e).ToListAsync<Email>();
-
-
-            IList<EmailView> list = new List<EmailView>();
-            foreach (var item in emailTask.Result)
+            try
             {
-                list.Add(applicationViewFactory.MapEmailView(item));
+                Task<Customer> customerTask = base.GetObjectAsync(customerId);
+
+                long addressId = customerTask.Result.AddressId;
+                Task<List<Email>> emailTask =
+
+                (from e in _dbContext.Emails
+                 where e.AddressId == addressId
+                 select e).ToListAsync<Email>();
+
+
+                IList<EmailView> list = new List<EmailView>();
+                foreach (var item in emailTask.Result)
+                {
+                    list.Add(applicationViewFactory.MapEmailView(item));
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
         public IList<AccountReceiveableView> GetAccountReceivablesByCustomerId(int customerId)
         {
-            //IEnumerable<AcctRec> acctRecList = null;
-             var query =
-                
-                           (from e in _dbContext.AcctRecs
-                            where e.CustomerId == customerId
-                            && e.OpenAmount>0
-                            select e);
-
-            //Task.WaitAny(acctRecTask);
-
-            //acctRecList = acctRecTask.;
-
-            IList<AccountReceiveableView> list = new List<AccountReceiveableView>();
-           
-            foreach (var item in query)
+            try
             {
-                list.Add(applicationViewFactory.MapAccountReceivableView(item));
+                //IEnumerable<AcctRec> acctRecList = null;
+                var query =
+
+                              (from e in _dbContext.AcctRecs
+                               where e.CustomerId == customerId
+                               && e.OpenAmount > 0
+                               select e);
+
+                //Task.WaitAny(acctRecTask);
+
+                //acctRecList = acctRecTask.;
+
+                IList<AccountReceiveableView> list = new List<AccountReceiveableView>();
+
+                foreach (var item in query)
+                {
+                    list.Add(applicationViewFactory.MapAccountReceivableView(item));
+                }
+                return list;
             }
-            return list;
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         /*
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)

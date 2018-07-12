@@ -41,10 +41,12 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "money")]
         public decimal? CreditAmount { get; set; }
 
+        public int? FiscalYear { get; set; }
+
+        public int? FiscalPeriod { get; set; }
+
+        public virtual AddressBook AddressBook { get; set; }
+
         public virtual ChartOfAcct ChartOfAcct { get; set; }
-
-        public virtual GeneralLedger GeneralLedger1 { get; set; }
-
-        public virtual GeneralLedger GeneralLedger2 { get; set; }
     }
 }
