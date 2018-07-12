@@ -108,13 +108,15 @@
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
     <Compile Include="EntityFramework\Equation.cs" />
-    <Compile Include="EntityFramework\ERPDataModel.cs" />
+    <Compile Include="EntityFramework\ERPDataModel2.cs" />
     <Compile Include="EntityFramework\GeneralLedger.cs" />
+    <Compile Include="EntityFramework\GeneralLedgerBalance.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
     <Compile Include="EntityFramework\Invoice.cs" />
     <Compile Include="EntityFramework\InvoiceDetail.cs" />
     <Compile Include="EntityFramework\ItemMaster.cs" />
     <Compile Include="EntityFramework\LocationAddress.cs" />
+    <Compile Include="EntityFramework\NextNumber.cs" />
     <Compile Include="EntityFramework\Phone.cs" />
     <Compile Include="EntityFramework\POQuote.cs" />
     <Compile Include="EntityFramework\ProjectManagementMilestone.cs" />
@@ -141,6 +143,8 @@
     <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
+    <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
+    <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceRepository.cs" />
     <Compile Include="InvoiceDomain\UnitTestInvoice.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementTaskRepository.cs" />
@@ -221,8 +225,6 @@
   <ItemGroup>
     <Folder Include="AccountPayableDomain\Repository\" />
     <Folder Include="ContractsDomain\Repository\" />
-    <Folder Include="GeneralLedgerDomain\" />
-    <Folder Include="InventoryDomain\Repository\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />
   </ItemGroup>

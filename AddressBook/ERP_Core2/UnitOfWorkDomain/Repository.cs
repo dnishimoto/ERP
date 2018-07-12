@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -17,6 +19,11 @@ namespace MillenniumERP.Services
         {
              _dbContext=dbContext;  
         }
+        public string GetMyMethodName()
+        {
+            var st = new StackTrace(new StackFrame(1));
+            return st.GetFrame(0).GetMethod().Name;
+        }
         public void UpdateObject(T dataObject)
         {
 
@@ -29,30 +36,88 @@ namespace MillenniumERP.Services
          
 
          }
+        public async Task<NextNumber> GetNextNumber(string nextNumberName)
+        {
+            //Entities _dbEntities = (Entities)_dbContext;
+
+            SqlParameter param1 = new SqlParameter("@NextNumberName", nextNumberName);
+            NextNumber nextNumber = await _dbContext.Database.SqlQuery<NextNumber>("usp_GetNextNumber @NextNumberName", param1).SingleAsync();
+
+            //foreach (NextNumber item in query)
+            //{
+             //    nextNumber=item;
+           // }
+            /*
+            NextNumber nextNumber = null;
+            long? currentNextNumberValue = 0;
+            using (DbContextTransaction scope = _dbEntities.Database.BeginTransaction())
+            {
+                //Lock the table during this transaction
+                nextNumber = await (from e in _dbEntities.NextNumbers
+                                               where e.NextNumberName == nextNumberName
+                                               select e).FirstOrDefaultAsync<NextNumber>();
+
+                currentNextNumberValue = nextNumber.NextNumberValue;
+                nextNumber.NextNumberValue += 1;
+                _dbEntities.NextNumbers.Attach(nextNumber);
+                _dbEntities.Entry(nextNumber).State = EntityState.Modified;
+                _dbEntities.SaveChanges();
+                nextNumber.NextNumberValue = currentNextNumberValue??0;
+
+                scope.Commit();
+            }
+            */
+            return nextNumber;
+        }
         public async Task<ChartOfAcct> GetChartofAccount(string company, string busUnit, string objectNumber, string subsidiary)
         {
-            Entities _dbEntities = (Entities)_dbContext;
+            try
+            {
+                Entities _dbEntities = (Entities)_dbContext;
 
-            ChartOfAcct chartOfAcct= await (from e in _dbEntities.ChartOfAccts
-                             where e.CompanyNumber==company
-                             && e.BusUnit==busUnit
-                             && e.ObjectNumber==objectNumber
-                             && (e.Subsidiary??"")==subsidiary
-                             select e).FirstOrDefaultAsync<ChartOfAcct>();
 
-            return chartOfAcct;
+                ChartOfAcct chartOfAcct = await (from e in _dbEntities.ChartOfAccts
+                                                 where e.CompanyNumber == company
+                                                 && e.BusUnit == busUnit
+                                                 && e.ObjectNumber == objectNumber
+                                                 && (e.Subsidiary ?? "") == subsidiary
+                                                 select e).FirstOrDefaultAsync<ChartOfAcct>();
+
+                return chartOfAcct;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+
+        }
+        public async Task<long> GetAddressIdByCustomerId(long ? customerId)
+        {
+            try
+            {
+                Entities _dbEntities = (Entities)_dbContext;
+
+                Customer customer = await (from e in _dbEntities.Customers
+                                           where e.CustomerId == customerId
+                                           select e).FirstOrDefaultAsync<Customer>();
+
+                return customer.AddressId;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
         public async Task<UDC> GetUdc(string productCode, string keyCode)
         {
-            Entities _dbEntities = (Entities)_dbContext;
+            try
+            {
+                Entities _dbEntities = (Entities)_dbContext;
 
-            UDC udc = await (from e in _dbEntities.UDCs
+                UDC udc = await (from e in _dbEntities.UDCs
                                  where e.ProductCode == productCode
                                  && e.KeyCode == keyCode
                                  select e).FirstOrDefaultAsync<UDC>();
 
-            return udc;
+                return udc;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
         public async Task<T> GetObjectAsync(int id)

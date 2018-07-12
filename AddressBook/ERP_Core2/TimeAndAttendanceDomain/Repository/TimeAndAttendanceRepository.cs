@@ -76,36 +76,49 @@ namespace MillenniumERP.ScheduleEventsDomain
         }
         public async Task<List<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(int employeeId)
         {
-           
-            var list = await base.GetObjectsAsync(e => e.EmployeeId == employeeId, "").ToListAsync();
-
-            List<TimeAndAttendancePunchInView> listView=new List<TimeAndAttendancePunchInView>();
-
-            foreach (var item in list)
+            try
             {
-                listView.Add(applicationViewFactory.MapTAPunchinView(item));
+                var list = await base.GetObjectsAsync(e => e.EmployeeId == employeeId, "").ToListAsync();
+
+                List<TimeAndAttendancePunchInView> listView = new List<TimeAndAttendancePunchInView>();
+
+                foreach (var item in list)
+                {
+                    listView.Add(applicationViewFactory.MapTAPunchinView(item));
+                }
+
+
+                return listView;
             }
-
-
-            return listView;
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
            
         }
         public async Task<bool> AddPunchin(TimeAndAttendancePunchIn taPunchin)
         {
-            long? employeeId = taPunchin.EmployeeId;
-            string punchinDateTime = taPunchin.PunchinDateTime;
-
-            var query = await (from a in _dbContext.TimeAndAttendancePunchIns
-                         where a.EmployeeId == employeeId
-                         && a.PunchinDateTime == punchinDateTime
-                         select a).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
-            if (query == null)
+            try
             {
-                AddObject(taPunchin);
-            }
+                long? employeeId = taPunchin.EmployeeId;
+                string punchinDateTime = taPunchin.PunchinDateTime;
 
-            
-            return true;
+                var query = await (from a in _dbContext.TimeAndAttendancePunchIns
+                                   where a.EmployeeId == employeeId
+                                   && a.PunchinDateTime == punchinDateTime
+                                   select a).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
+                if (query == null)
+                {
+                    AddObject(taPunchin);
+                }
+
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
         public async Task<bool> UpdateByTimePunchinId(long? timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
         {
@@ -128,69 +141,84 @@ namespace MillenniumERP.ScheduleEventsDomain
             }
             catch (Exception ex)
             {
-                
+                throw new Exception(GetMyMethodName(), ex);
             }
-            return false;
+     
             }
         public string GetPunchDateTime(DateTime? myDate)
         {
-            String year="", month="", day = "";
-            String longHours="", minutes="", seconds = "";
-
-            if (myDate != null)
-
+            try
             {
-                year = myDate?.Year.ToString();
-                month = myDate?.Month.ToString().PadLeft(2, '0');
-                day = myDate?.Day.ToString().PadLeft(2, '0');
+                String year = "", month = "", day = "";
+                String longHours = "", minutes = "", seconds = "";
 
-                longHours = myDate?.Hour.ToString().PadLeft(2,'0');
-                minutes = myDate?.Minute.ToString().PadLeft(2, '0');
-                seconds = myDate?.Second.ToString().PadLeft(2, '0');
+                if (myDate != null)
+
+                {
+                    year = myDate?.Year.ToString();
+                    month = myDate?.Month.ToString().PadLeft(2, '0');
+                    day = myDate?.Day.ToString().PadLeft(2, '0');
+
+                    longHours = myDate?.Hour.ToString().PadLeft(2, '0');
+                    minutes = myDate?.Minute.ToString().PadLeft(2, '0');
+                    seconds = myDate?.Second.ToString().PadLeft(2, '0');
+                }
+                return year + month + day + longHours + minutes + seconds;
             }
-            return year + month + day + longHours + minutes + seconds;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public DateTime GetPunchDateTime(string s24Hrs)
         {
-            DateTime dDate;
-            String year, month, day = "";
-            String longHours, minutes, seconds = "";
-            DateTime myDate;
+            try
+            {
+                DateTime dDate;
+                String year, month, day = "";
+                String longHours, minutes, seconds = "";
+                DateTime myDate;
 
 
-            month = s24Hrs.Substring(4, 2);
-            day = s24Hrs.Substring(6, 2);
-            year = s24Hrs.Substring(0, 4);
+                month = s24Hrs.Substring(4, 2);
+                day = s24Hrs.Substring(6, 2);
+                year = s24Hrs.Substring(0, 4);
 
-            longHours = s24Hrs.Substring(8, 2);
-            minutes = s24Hrs.Substring(10, 2);
-            seconds = s24Hrs.Substring(12, 2);
+                longHours = s24Hrs.Substring(8, 2);
+                minutes = s24Hrs.Substring(10, 2);
+                seconds = s24Hrs.Substring(12, 2);
 
-            myDate = Convert.ToDateTime(month + "/" + day + "/" + year + " " + longHours + ":" + minutes + ":" + seconds);
+                myDate = Convert.ToDateTime(month + "/" + day + "/" + year + " " + longHours + ":" + minutes + ":" + seconds);
 
-            return myDate;
+                return myDate;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
 
         }
         String BuildPunchOut(string s24Hrs, int durationInMinutes)
         {
-            DateTime dDate;
-            String year, month, day = "";
-            String longHours, minutes, seconds = "";
-            DateTime myDate;
+            try
+            {
+                DateTime dDate;
+                String year, month, day = "";
+                String longHours, minutes, seconds = "";
+                DateTime myDate;
 
-            myDate = GetPunchDateTime(s24Hrs);
-            myDate = myDate.AddMinutes(durationInMinutes);
+                myDate = GetPunchDateTime(s24Hrs);
+                myDate = myDate.AddMinutes(durationInMinutes);
 
 
-            year = myDate.Year.ToString();
-            month = myDate.Month.ToString().PadLeft(2, '0');
-            day = myDate.Day.ToString().PadLeft(2, '0');
+                year = myDate.Year.ToString();
+                month = myDate.Month.ToString().PadLeft(2, '0');
+                day = myDate.Day.ToString().PadLeft(2, '0');
 
-            longHours = myDate.Hour.ToString().PadLeft(2,'0');
-            minutes = myDate.Minute.ToString().PadLeft(2, '0');
-            seconds = myDate.Second.ToString().PadLeft(2, '0');
+                longHours = myDate.Hour.ToString().PadLeft(2, '0');
+                minutes = myDate.Minute.ToString().PadLeft(2, '0');
+                seconds = myDate.Second.ToString().PadLeft(2, '0');
 
-            return year + month + day + longHours + minutes + seconds;
-        }
+                return year + month + day + longHours + minutes + seconds;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+            }
     }
 }

@@ -17,6 +17,7 @@ namespace ERP_Core2.EntityFramework
             Carriers = new HashSet<Carrier>();
             Customers = new HashSet<Customer>();
             Emails = new HashSet<Email>();
+            GeneralLedgers = new HashSet<GeneralLedger>();
             LocationAddresses = new HashSet<LocationAddress>();
             Phones = new HashSet<Phone>();
             Supervisors = new HashSet<Supervisor>();
@@ -78,6 +79,9 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Email> Emails { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationAddress> LocationAddresses { get; set; }

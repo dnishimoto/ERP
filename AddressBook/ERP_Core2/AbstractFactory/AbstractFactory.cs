@@ -2,6 +2,7 @@
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
+using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
@@ -42,11 +43,20 @@ namespace ERP_Core2.AbstractFactory
 
     }
     //Chart of Account Domain
-    public abstract class BusinessViewFactory : AbstractFactory
+    public abstract partial class BusinessViewFactory : AbstractFactory
     {
         public abstract ChartOfAccountView MapChartOfAccountView(ChartOfAcct chartOfAcct);
         public abstract void MapChartOfAccountEntity(ref ChartOfAcct item, ChartOfAccountView chartOfAccountView);
     }
+    //General Ledger Domain
+
+    public abstract partial class BusinessViewFactory : AbstractFactory
+    {
+        public abstract GeneralLedgerView MapGeneralLedgerView(GeneralLedger generalLedger);
+     }
+    
+
+
     //Address Book
     public partial class ApplicationViewFactory : BusinessViewFactory
     {
@@ -140,7 +150,11 @@ namespace ERP_Core2.AbstractFactory
             item.Level = view.Level;
             item.Description = view.Description;
         }
-
-
+    }
+    //General Ledger Domain
+    public partial class ApplicationViewFactory : BusinessViewFactory
+    {
+        public override GeneralLedgerView MapGeneralLedgerView(GeneralLedger ledger)
+        { return new GeneralLedgerView(ledger); }
     }
 }
