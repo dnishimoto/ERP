@@ -35,6 +35,10 @@ namespace ERP_Core2.AbstractFactory
         public abstract PhoneView MapPhoneView(Phone phone);
         public abstract EmailView MapEmailView(Email email);
         public abstract AccountReceiveableView MapAccountReceivableView(AcctRec acctRec);
+        public abstract void MapEmailEntity(ref Email email, EmailView emailView);
+        public abstract void MapAddressBookEntity(ref AddressBook addressBook, CustomerView customerView);
+
+
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -149,6 +153,20 @@ namespace ERP_Core2.AbstractFactory
             item.CompanyId = view.CompanyId;
             item.Level = view.Level;
             item.Description = view.Description;
+        }
+        public override void MapAddressBookEntity(ref AddressBook addressBook, CustomerView customerView)
+        {
+            addressBook.Name = customerView.CustomerName;
+            addressBook.FirstName = customerView.FirstName;
+            addressBook.LastName = customerView.LastName;
+            addressBook.CompanyName = customerView.CustomerName;
+        }
+        public override void MapEmailEntity(ref Email email, EmailView emailView)
+        {
+            email.Email1 = emailView.EmailText;
+            email.AddressId = emailView.AddressId;
+            email.LoginEmail = emailView.LoginEmail;
+            email.Password = emailView.Password;
         }
     }
     //General Ledger Domain
