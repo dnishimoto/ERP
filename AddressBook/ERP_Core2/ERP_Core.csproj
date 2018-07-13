@@ -72,6 +72,7 @@
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AccountReceivableDomain\Repository\AccountReceivableRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\EmailRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\BuyerRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\CarrierRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\SupplierRepository.cs" />

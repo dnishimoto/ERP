@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.EntityFramework;
 using MillenniumERP.AccountsReceivableDomain;
+using MillenniumERP.AddressBookDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.Services;
 using System;
@@ -161,17 +162,25 @@ namespace MillenniumERP.CustomerDomain
         public string PhoneType { get; set; }
         public string Extension { get; set; }
     }
-    public class EmailView
+   
+    public class CustomerView
     {
-        public EmailView() { }
-        public EmailView(Email email)
+        public CustomerView() {
+            //LocationAddress = new List<LocationAddressView>(); 
+                }
+        public CustomerView(Customer customer)
         {
-            this.EmailId = email.EmailId;
-            this.EmailText = email.Email1;
-        }
-        public long EmailId { get; set; }
+            this.CustomerName = customer.AddressBook.Name;
+            this.FirstName = customer.AddressBook.FirstName;
+            this.LastName = customer.AddressBook.LastName;
+         }
+        public string CustomerName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string CompanyName { get; set; }
 
-        public string EmailText { get; set; }
+        public IList<LocationAddressView> LocationAddress { get; set; }
+        public EmailView AccountEmail { get; set; }
     }
     public class CustomerRepository : Repository<Customer>
     {
@@ -404,6 +413,7 @@ namespace MillenniumERP.CustomerDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
+
         /*
         public IList<PurchaseOrderView> GetPurchaseOrdersByCustomerId(int customerId)
         { }

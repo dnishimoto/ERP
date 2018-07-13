@@ -1,4 +1,5 @@
 ﻿using ERP_Core2.EntityFramework;
+using MillenniumERP.CustomerDomain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -68,6 +69,21 @@ namespace MillenniumERP.Services
             }
             */
             return nextNumber;
+        }
+        public async Task<AddressBook> GetAddressBookByCustomerView(CustomerView customerView)
+        {
+            try
+            {
+                Entities _dbEntities = (Entities)_dbContext;
+                var query = await (from e in _dbEntities.AddressBooks
+                                   join f in _dbEntities.Emails on e.AddressId equals f.AddressId
+                                   where e.Name == customerView.CustomerName &&
+                                   f.Email1 == customerView.AccountEmail.EmailText
+                                   && f.LoginEmail == true
+                                   select e).FirstOrDefaultAsync<AddressBook>();
+                return query;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<ChartOfAcct> GetChartofAccount(string company, string busUnit, string objectNumber, string subsidiary)
         {

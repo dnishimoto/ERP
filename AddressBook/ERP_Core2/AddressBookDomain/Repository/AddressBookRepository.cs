@@ -4,17 +4,22 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ERP_Core2.AbstractFactory;
 using ERP_Core2.EntityFramework;
+using MillenniumERP.CustomerDomain;
 using MillenniumERP.Services;
 
 namespace MillenniumERP.AddressBookDomain
 {
+
     public class AddressBookRepository: Repository<AddressBook>
     {
         Entities _dbContext;
+        private ApplicationViewFactory applicationViewFactory;
         public AddressBookRepository(DbContext db):base(db)
         {
             _dbContext = (Entities) db;
+            applicationViewFactory = new ApplicationViewFactory();
         }
    
         public List<Phone> GetPhonesByAddressId(int addressId)
@@ -47,8 +52,33 @@ namespace MillenniumERP.AddressBookDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-     
 
+        public async Task<long> CreateAddressBook(CustomerView customerView)
+        {
+            long addressId = 0;
+            try
+            {
+
+                AddressBook lookupAddressBook = await base.GetAddressBookByCustomerView(customerView);
+
+
+                if (lookupAddressBook == null)
+                {
+                    AddressBook addressBook = new AddressBook();
+
+                    applicationViewFactory.MapAddressBookEntity(ref addressBook, customerView);
+                    AddObject(addressBook);
+                    _dbContext.SaveChanges();
+                    addressId = addressBook.AddressId;
+                    
+                }
+                return addressId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<List<AddressBook>> GetAddressBookByAddressId(int addressId)
         {
             try

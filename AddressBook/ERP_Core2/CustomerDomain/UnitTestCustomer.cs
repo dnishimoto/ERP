@@ -11,6 +11,8 @@ using MillenniumERP.CustomerDomain;
 using System.Collections.Generic;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.AccountsReceivableDomain;
+using Newtonsoft.Json;
+using System;
 
 namespace ERP_Core2.CustomerDomain
 {
@@ -111,6 +113,57 @@ namespace ERP_Core2.CustomerDomain
             }
 
             return entityCollection;
+        }
+        [Fact]
+        public async Task TestCreateCustomerAccount()
+        {
+            try
+            {
+                string json = "";
+                UnitOfWork unitOfWork = new UnitOfWork();
+
+                json = @"{ ""CustomerName"":""David Poston"" 
+                        ,""FirstName"":""David"",
+                        ""LastName"":""Poston"",
+                        ""CompanyName"":""DC Tech"",
+                        
+                        ""LocationAddress"":[{
+                        ""Address_Line1"" : ""2420 12th Ave"",
+                        ""City"" : ""Nampa"",
+                        ""State"" : ""ID"",
+                        ""Zipcode"" : ""83686""
+                        }],
+                        ""AccountEmail"":{
+                              ""EmailText"" : ""support@dc-tech.us"",
+                              ""LoginEmail"" : true,
+                              ""Password"" : ""12345""
+                            }
+                        }";
+              
+
+             CustomerView customerView = JsonConvert.DeserializeObject<CustomerView>(json);
+
+             long addressId = await unitOfWork.addressBookRepository.CreateAddressBook(customerView);
+
+                if (addressId > 0)
+                {
+                    EmailView emailView = new EmailView();
+                    emailView.AddressId = addressId;
+                    emailView.EmailText = customerView.AccountEmail.EmailText;
+                    emailView.LoginEmail = customerView.AccountEmail.LoginEmail;
+                    emailView.Password = customerView.AccountEmail.Password;
+
+                    bool result2 = await unitOfWork.emailRepository.CreateEmail(emailView);
+
+                    unitOfWork.CommitChanges();
+                }
+             AddressBook lookupAddressBook = await unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView);
+
+                Assert.True(true);
+
+            }
+            catch (Exception ex)
+            { }
         }
         [Fact]
         public void TestGetAccountReceivables()

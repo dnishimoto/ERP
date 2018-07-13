@@ -38,6 +38,7 @@ namespace MillenniumERP.Services
         public AccountReceivableRepository accountReceiveableRepository => new AccountReceivableRepository(db);
         public GeneralLedgerRepository generalLedgerRepository => new GeneralLedgerRepository(db);
         public ItemMasterRepository itemMasterRepository => new ItemMasterRepository(db);
+        public EmailRepository emailRepository => new EmailRepository(db);
         public UnitOfWork()
         {
             /*
