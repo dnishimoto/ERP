@@ -72,6 +72,7 @@
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AccountReceivableDomain\Repository\AccountReceivableRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
+    <Compile Include="AddressBookDomain\Repository\LocationAddressRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\EmailRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\BuyerRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\CarrierRepository.cs" />
@@ -109,7 +110,7 @@
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
     <Compile Include="EntityFramework\Equation.cs" />
-    <Compile Include="EntityFramework\ERPDataModel2.cs" />
+    <Compile Include="EntityFramework\ERPDataModel.cs" />
     <Compile Include="EntityFramework\GeneralLedger.cs" />
     <Compile Include="EntityFramework\GeneralLedgerBalance.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />

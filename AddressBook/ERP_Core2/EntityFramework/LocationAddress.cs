@@ -29,16 +29,18 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string City { get; set; }
 
-        public long StateXRefId { get; set; }
-
         [StringLength(20)]
         public string Zipcode { get; set; }
-
-        public long CountryXRefId { get; set; }
 
         public long TypeXRefId { get; set; }
 
         public long AddressId { get; set; }
+
+        [StringLength(2)]
+        public string State { get; set; }
+
+        [StringLength(50)]
+        public string Country { get; set; }
 
         public virtual AddressBook AddressBook { get; set; }
 
@@ -46,9 +48,5 @@ namespace ERP_Core2.EntityFramework
         public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }
 
         public virtual UDC UDC { get; set; }
-
-        public virtual UDC UDC1 { get; set; }
-
-        public virtual UDC UDC2 { get; set; }
     }
 }

@@ -103,23 +103,7 @@ namespace MillenniumERP.CustomerDomain
         public ContractView ContractView { get; set; }
 
     }
-    public class LocationAddressView
-    {
-        public LocationAddressView() { }
-        public LocationAddressView(LocationAddress locationAddress)
-        {
-            this.Address_Line1 = locationAddress.Address_Line_1;
-            this.Address_Line2 = locationAddress.Address_Line_2;
-            this.City = locationAddress.City;
-            this.State = locationAddress.UDC.Value;
-            this.Zipcode = locationAddress.Zipcode;
-        }
-        public string Address_Line1 { get; set; }
-        public string Address_Line2 { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Zipcode { get; set; }
-    }
+  
     public class ContractView
     {
         public ContractView() { }
@@ -170,10 +154,12 @@ namespace MillenniumERP.CustomerDomain
                 }
         public CustomerView(Customer customer)
         {
+            this.AddressId = customer.AddressId;
             this.CustomerName = customer.AddressBook.Name;
             this.FirstName = customer.AddressBook.FirstName;
             this.LastName = customer.AddressBook.LastName;
          }
+        public long AddressId { get; set; }
         public string CustomerName { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -192,7 +178,25 @@ namespace MillenniumERP.CustomerDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-
+        public async Task<bool> CreateCustomer(CustomerView customerView)
+        {
+            try
+            {
+                var query = await (from e in _dbContext.Customers
+                                   where e.AddressId == customerView.AddressId
+                                   select e).FirstOrDefaultAsync<Customer>();
+                if (query == null)
+                {
+                    Customer customer = new Customer();
+                    applicationViewFactory.MapCustomerEntity(ref customer, customerView);
+                    AddObject(customer);
+                    return true;
+                }
+                return false;
+                
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId = null)
         {
             try

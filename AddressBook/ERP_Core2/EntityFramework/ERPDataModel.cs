@@ -781,6 +781,14 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<LocationAddress>()
+                .Property(e => e.State)
+                .IsFixedLength();
+
+            modelBuilder.Entity<LocationAddress>()
+                .Property(e => e.Country)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<LocationAddress>()
                 .HasMany(e => e.ServiceInformations)
                 .WithRequired(e => e.LocationAddress)
                 .WillCascadeOnDelete(false);
@@ -1261,18 +1269,6 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<UDC>()
                 .HasMany(e => e.LocationAddresses)
                 .WithRequired(e => e.UDC)
-                .HasForeignKey(e => e.CountryXRefId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UDC>()
-                .HasMany(e => e.LocationAddresses1)
-                .WithRequired(e => e.UDC1)
-                .HasForeignKey(e => e.StateXRefId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UDC>()
-                .HasMany(e => e.LocationAddresses2)
-                .WithRequired(e => e.UDC2)
                 .HasForeignKey(e => e.TypeXRefId)
                 .WillCascadeOnDelete(false);
 
