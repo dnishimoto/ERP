@@ -23,8 +23,6 @@ namespace ERP_Core2.EntityFramework
             Employees = new HashSet<Employee>();
             Employees1 = new HashSet<Employee>();
             LocationAddresses = new HashSet<LocationAddress>();
-            LocationAddresses1 = new HashSet<LocationAddress>();
-            LocationAddresses2 = new HashSet<LocationAddress>();
             ProjectManagementTasks = new HashSet<ProjectManagementTask>();
             Receipts = new HashSet<Receipt>();
             ServiceInformations = new HashSet<ServiceInformation>();
@@ -76,12 +74,6 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<LocationAddress> LocationAddresses { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LocationAddress> LocationAddresses1 { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<LocationAddress> LocationAddresses2 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectManagementTask> ProjectManagementTasks { get; set; }

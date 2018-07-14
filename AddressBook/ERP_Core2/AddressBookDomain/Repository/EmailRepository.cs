@@ -41,16 +41,22 @@ namespace MillenniumERP.AddressBookDomain
         }
         public async Task<bool> CreateEmail(EmailView emailView)
         {
-            var query = await (from e in _dbContext.Emails
-                               where e.Email1 == emailView.EmailText
-                               select e).FirstOrDefaultAsync<Email>();
-            if (query == null)
+            try
             {
-                Email email = new Email(); 
-                applicationViewFactory.MapEmailEntity(ref email,emailView);
-                AddObject(email);
+                var query = await (from e in _dbContext.Emails
+                                   where e.Email1 == emailView.EmailText
+                                   select e).FirstOrDefaultAsync<Email>();
+                if (query == null)
+                {
+                    Email email = new Email();
+                    applicationViewFactory.MapEmailEntity(ref email, emailView);
+                    AddObject(email);
+                    return true;
+                }
+                return false;
             }
-            return true;
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
 
     }

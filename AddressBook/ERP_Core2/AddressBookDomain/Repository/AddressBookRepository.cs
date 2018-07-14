@@ -70,7 +70,11 @@ namespace MillenniumERP.AddressBookDomain
                     AddObject(addressBook);
                     _dbContext.SaveChanges();
                     addressId = addressBook.AddressId;
-                    
+
+                }
+                else
+                {
+                    addressId = lookupAddressBook.AddressId;
                 }
                 return addressId;
             }

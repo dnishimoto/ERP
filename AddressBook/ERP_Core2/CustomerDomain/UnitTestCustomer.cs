@@ -13,6 +13,8 @@ using MillenniumERP.InvoicesDomain;
 using MillenniumERP.AccountsReceivableDomain;
 using Newtonsoft.Json;
 using System;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace ERP_Core2.CustomerDomain
 {
@@ -115,6 +117,49 @@ namespace ERP_Core2.CustomerDomain
             return entityCollection;
         }
         [Fact]
+        public async Task TestTableViewParameter()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork();
+
+                Entities dbContext = unitOfWork.generalLedgerRepository._dbContext;
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("CustomerName", typeof(string));
+                dt.Columns.Add("FirstName", typeof(string));
+                dt.Columns.Add("LastName", typeof(string));
+                dt.Columns.Add("CompanyName", typeof(string));
+                dt.Columns.Add("Address_Line1", typeof(string));
+                dt.Columns.Add("Address_Line2", typeof(string));
+                dt.Columns.Add("City", typeof(string));
+                dt.Columns.Add("State", typeof(string));
+                dt.Columns.Add("Zipcode", typeof(string));
+                dt.Columns.Add("EmailText", typeof(string));
+                dt.Columns.Add("LoginEmail", typeof(bool));
+                dt.Columns.Add("Password", typeof(string));
+
+                dt.Rows.Add("customer name", "firstname", "lastname", "companyname"
+                    , "address_line1", "address_line2", "city", "state", "zipcode",
+                    "emailtext", true, "123");
+                SqlParameter param1 = new SqlParameter();
+                param1.ParameterName = "@ParamHashTable";
+                param1.SqlDbType = SqlDbType.Structured;
+                param1.TypeName = "dbo.AccountRegistrationTableType";
+                param1.Value = dt;
+                DataTable query = await dbContext.Database.SqlQuery<DataTable>("usp_CreateAccount @ParamHashTable", param1).SingleAsync();
+                //DataTable query = dbContext.Database.ExecuteSqlCommand("usp_createaccount @ParamHashTable");
+                //foreach (var item in query)
+                //{ }
+            }
+            catch (Exception ex)
+            {
+
+            }
+        
+
+        }
+        [Fact]
         public async Task TestCreateCustomerAccount()
         {
             try
@@ -131,7 +176,9 @@ namespace ERP_Core2.CustomerDomain
                         ""Address_Line1"" : ""2420 12th Ave"",
                         ""City"" : ""Nampa"",
                         ""State"" : ""ID"",
-                        ""Zipcode"" : ""83686""
+                        ""Zipcode"" : ""83686"",
+                        ""Country"" : ""USA"",
+                        ""Type"" : ""Primary""
                         }],
                         ""AccountEmail"":{
                               ""EmailText"" : ""support@dc-tech.us"",
@@ -143,24 +190,38 @@ namespace ERP_Core2.CustomerDomain
 
              CustomerView customerView = JsonConvert.DeserializeObject<CustomerView>(json);
 
-             long addressId = await unitOfWork.addressBookRepository.CreateAddressBook(customerView);
-
-                if (addressId > 0)
+              
+                customerView.AddressId = await unitOfWork.addressBookRepository.CreateAddressBook(customerView);
+        
+                if (customerView.AddressId > 0)
                 {
                     EmailView emailView = new EmailView();
-                    emailView.AddressId = addressId;
+                    emailView.AddressId = customerView.AddressId;
                     emailView.EmailText = customerView.AccountEmail.EmailText;
                     emailView.LoginEmail = customerView.AccountEmail.LoginEmail;
                     emailView.Password = customerView.AccountEmail.Password;
 
                     bool result2 = await unitOfWork.emailRepository.CreateEmail(emailView);
-
+                    if (result2) { unitOfWork.CommitChanges(); }
+                    
+                }
+                AddressBook lookupAddressBook = await unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView);
+               
+                bool result3 = await unitOfWork.customerRepository.CreateCustomer(customerView);
+                if (result3)
+                {
                     unitOfWork.CommitChanges();
                 }
-             AddressBook lookupAddressBook = await unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView);
 
+
+                customerView.AddressId = lookupAddressBook.AddressId;
+           
+                bool result4 = await unitOfWork.locationAddressRepository.CreateLocationUsingCustomer(customerView);
+                if (result4)
+                {
+                    unitOfWork.CommitChanges();
+                }
                 Assert.True(true);
-
             }
             catch (Exception ex)
             { }

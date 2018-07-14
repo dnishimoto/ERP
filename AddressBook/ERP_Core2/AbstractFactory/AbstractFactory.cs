@@ -37,8 +37,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract AccountReceiveableView MapAccountReceivableView(AcctRec acctRec);
         public abstract void MapEmailEntity(ref Email email, EmailView emailView);
         public abstract void MapAddressBookEntity(ref AddressBook addressBook, CustomerView customerView);
-
-
+        public abstract void MapCustomerEntity(ref Customer customer, CustomerView customerView);
+        public abstract void MapLocationAddressEntity(ref LocationAddress locationAddress, LocationAddressView view);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -80,6 +80,18 @@ namespace ERP_Core2.AbstractFactory
         {
             return new CarrierView(carrier);
         }
+        public override void MapLocationAddressEntity(ref LocationAddress locationAddress, LocationAddressView view)
+        {
+            locationAddress.AddressId = view.AddressId;
+            locationAddress.Address_Line_1 = view.Address_Line1;
+            locationAddress.City = view.City;
+            locationAddress.State = view.State;
+            locationAddress.Country = view.Country;
+            locationAddress.Zipcode = view.Zipcode;
+            locationAddress.TypeXRefId = view.TypeXRefId;
+        }
+
+
     }
     //Time and Attendance
     public partial class ApplicationViewFactory : BusinessViewFactory
@@ -89,6 +101,7 @@ namespace ERP_Core2.AbstractFactory
             return new TimeAndAttendancePunchInView(taPunchin);
         }
     }
+  
     //Customer Domain
     public partial class ApplicationViewFactory : BusinessViewFactory
     {
@@ -167,6 +180,11 @@ namespace ERP_Core2.AbstractFactory
             email.AddressId = emailView.AddressId;
             email.LoginEmail = emailView.LoginEmail;
             email.Password = emailView.Password;
+        }
+        public override void MapCustomerEntity(ref Customer customer, CustomerView customerView)
+        {
+            customer.AddressId = customerView.AddressId;
+           
         }
     }
     //General Ledger Domain
