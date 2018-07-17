@@ -147,6 +147,7 @@
     <Compile Include="EntityFramework\UDC.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
+    <Compile Include="InvoiceDomain\Repository\InvoiceDetailRepository.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceRepository.cs" />
     <Compile Include="InvoiceDomain\UnitTestInvoice.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementTaskRepository.cs" />

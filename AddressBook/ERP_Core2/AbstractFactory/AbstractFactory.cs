@@ -3,6 +3,7 @@ using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
 using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.InvoiceDetailsDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
@@ -39,6 +40,11 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapAddressBookEntity(ref AddressBook addressBook, CustomerView customerView);
         public abstract void MapCustomerEntity(ref Customer customer, CustomerView customerView);
         public abstract void MapLocationAddressEntity(ref LocationAddress locationAddress, LocationAddressView view);
+        public abstract ChartOfAccountView MapChartOfAccountView(ChartOfAcct chartOfAcct);
+        public abstract void MapChartOfAccountEntity(ref ChartOfAcct item, ChartOfAccountView chartOfAccountView);
+        public abstract GeneralLedgerView MapGeneralLedgerView(GeneralLedger generalLedger);
+        public abstract void MapInvoiceEntity(ref Invoice invoice, InvoiceView invoiceView);
+        public abstract void MapInvoiceDetailEntity(ref InvoiceDetail invoiceDetail, InvoiceDetailView invoiceDetailView);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -46,19 +52,11 @@ namespace ERP_Core2.AbstractFactory
         public abstract TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin);
 
     }
-    //Chart of Account Domain
-    public abstract partial class BusinessViewFactory : AbstractFactory
-    {
-        public abstract ChartOfAccountView MapChartOfAccountView(ChartOfAcct chartOfAcct);
-        public abstract void MapChartOfAccountEntity(ref ChartOfAcct item, ChartOfAccountView chartOfAccountView);
-    }
-    //General Ledger Domain
 
+    //Business View Factory
     public abstract partial class BusinessViewFactory : AbstractFactory
     {
-        public abstract GeneralLedgerView MapGeneralLedgerView(GeneralLedger generalLedger);
-     }
-    
+    }
 
 
     //Address Book
@@ -101,7 +99,7 @@ namespace ERP_Core2.AbstractFactory
             return new TimeAndAttendancePunchInView(taPunchin);
         }
     }
-  
+
     //Customer Domain
     public partial class ApplicationViewFactory : BusinessViewFactory
     {
@@ -111,9 +109,9 @@ namespace ERP_Core2.AbstractFactory
         }
         public override InvoiceView MapInvoiceView(Invoice invoice)
         {
-            InvoiceView invoiceView= new InvoiceView(invoice);
+            InvoiceView invoiceView = new InvoiceView(invoice);
             List<InvoiceDetailView> list = new List<InvoiceDetailView>();
-            
+
 
             foreach (var item in invoice.InvoiceDetails)
             {
@@ -126,6 +124,34 @@ namespace ERP_Core2.AbstractFactory
         {
             return new InvoiceDetailView(invoiceDetail);
         }
+        public override void MapInvoiceEntity(ref Invoice invoice, InvoiceView invoiceView)
+        {
+
+            invoice.InvoiceNumber = invoiceView.InvoiceNumber;
+            invoice.InvoiceDate = invoiceView.InvoiceDate;
+            invoice.Amount = invoiceView.Amount;
+            invoice.CustomerId = invoiceView.CustomerId ?? 0;
+            invoice.Description = invoiceView.Description;
+            invoice.TaxAmount = invoiceView.TaxAmount;
+            invoice.PaymentDueDate = invoiceView.PaymentDueDate;
+            invoice.PaymentTerms = invoiceView.PaymentTerms;
+            invoice.CompanyId = invoiceView.CompanyId ?? 0;
+            invoice.DiscountDueDate = invoiceView.DiscountDueDate;
+
+        }
+        public override void MapInvoiceDetailEntity(ref InvoiceDetail invoiceDetail, InvoiceDetailView invoiceDetailView)
+        {
+            invoiceDetail.InvoiceId = invoiceDetailView.InvoiceId??0;
+            invoiceDetail.UnitOfMeasure= invoiceDetailView.UnitOfMeasure = "Project";
+            invoiceDetail.Quantity=invoiceDetailView.Quantity;
+            invoiceDetail.UnitPrice=invoiceDetailView.UnitPrice;
+            invoiceDetail.Amount=invoiceDetailView.Amount;
+            invoiceDetail.DiscountPercent=invoiceDetailView.DiscountPercent;
+            invoiceDetail.DiscountAmount= invoiceDetailView.DiscountAmount;
+            invoiceDetail.ItemId= invoiceDetailView.ItemId??0;
+
+        }
+
         public override CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim)
         {
             return new CustomerClaimView(customerClaim);
@@ -184,7 +210,7 @@ namespace ERP_Core2.AbstractFactory
         public override void MapCustomerEntity(ref Customer customer, CustomerView customerView)
         {
             customer.AddressId = customerView.AddressId;
-           
+
         }
     }
     //General Ledger Domain

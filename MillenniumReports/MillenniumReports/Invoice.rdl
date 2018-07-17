@@ -57,14 +57,12 @@ inner join itemmaster itemmaster on invoicesdetail.itemid=itemmaster.itemid
 outer apply
 (
 SELECT addressBook.Name AS CustomerName, Company.CompanyName, Company.CompanyCode, Company.CompanyStreet, Company.CompanyCity, Company.CompanyState, Company.CompanyZipcode, Invoice.InvoiceId, 
-                  Invoice.InvoiceNumber,customerLocationAddress.[Address Line 1],customerLocationAddress.[Address Line 2],customerLocationAddress.City CustomerCity,
-				  stateudc.Value CustomerState,customerLocationAddress.Zipcode CustomerZipcode, locationTypeudc.Value  CustomerLocationType
+                  Invoice.InvoiceNumber,customerLocationAddress.[Address Line 1],customerLocationAddress.[Address Line 2],customerLocationAddress.City CustomerCity, customerLocationAddress.State CustomerState,customerLocationAddress.Zipcode CustomerZipcode, locationTypeudc.Value  CustomerLocationType
 FROM     Company INNER JOIN
                   Invoice ON Company.CompanyId = Invoice.CompanyId INNER JOIN
                   Customer AS customer ON customer.CustomerId = Invoice.CustomerId INNER JOIN
                   AddressBook AS addressBook ON customer.AddressId = addressBook.AddressId  left Join
-				  LocationAddress customerLocationAddress on customerLocationAddress.AddressId=customer.AddressId left join
-				  udc stateudc on stateudc.xrefid=customerLocationAddress.StateXRefId left join
+				  LocationAddress customerLocationAddress on customerLocationAddress.AddressId=customer.AddressId  left join
 				  udc locationTypeUdc on locationTypeUdc.xrefid=customerLocationAddress.TypeXRefId
 	  
 	where invoice.invoiceid=invoices.InvoiceId
