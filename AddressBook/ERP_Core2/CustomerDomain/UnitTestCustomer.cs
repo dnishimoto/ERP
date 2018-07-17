@@ -15,6 +15,7 @@ using Newtonsoft.Json;
 using System;
 using System.Data.SqlClient;
 using System.Data;
+using MillenniumERP.InvoiceDetailsDomain;
 
 namespace ERP_Core2.CustomerDomain
 {

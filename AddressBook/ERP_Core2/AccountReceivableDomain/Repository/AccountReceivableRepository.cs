@@ -29,7 +29,7 @@ namespace MillenniumERP.AccountsReceivableDomain
             this.PaymentTerms = acctRec.PaymentTerms;
             this.CustomerId = acctRec.CustomerId;
             this.CustomerName = acctRec.Customer.AddressBook.Name;
-            this.PurchaseOrderId = acctRec.PurchaseOrderId;
+            this.PurchaseOrderId = acctRec.PurchaseOrderId??0;
             this.Description = acctRec.Description;
             this.AcctRecDocTypeXRefId = acctRec.AcctRecDocTypeXRefId;
             this.DocType = acctRec.UDC.Value;
@@ -73,8 +73,12 @@ namespace MillenniumERP.AccountsReceivableDomain
                                    where a.InvoiceId == invoiceId
                                    select a).FirstOrDefaultAsync<AcctRec>();
 
-                AccountReceiveableView view = applicationViewFactory.MapAccountReceivableView(query);
-                return view;
+                if (query != null)
+                {
+                    AccountReceiveableView view = applicationViewFactory.MapAccountReceivableView(query);
+                    return view;
+                }
+                return null;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
@@ -112,11 +116,14 @@ namespace MillenniumERP.AccountsReceivableDomain
                     acctRec.AccountId = chartOfAcct.AccountId;
                     acctRec.Amount = invoice.Amount;
                     acctRec.OpenAmount = invoice.Amount;
+                    acctRec.DebitAmount = 0;
+                    acctRec.CreditAmount = invoice.Amount;
 
                     AddObject(acctRec);
+                    return true;
                 }
 
-                return true;
+                return false;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

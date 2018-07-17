@@ -13,21 +13,19 @@
     <DataSet Name="CustomerSet">
       <Query>
         <DataSourceName>lssDB_Shared</DataSourceName>
-        <CommandText>SELECT Customer.CustomerId, Customer.AddressId, AddressBook.Name, LocationAddress.LocationId, LocationAddress.[Address Line 1], LocationAddress.[Address Line 2], LocationAddress.City, LocationAddress.StateXRefId, 
-                  LocationAddress.Zipcode, LocationAddress.CountryXRefId, LocationAddress.TypeXRefId, 
+        <CommandText>SELECT Customer.CustomerId, Customer.AddressId, AddressBook.Name, LocationAddress.LocationId, LocationAddress.[Address Line 1], LocationAddress.[Address Line 2], LocationAddress.City,
+                  LocationAddress.Zipcode, LocationAddress.TypeXRefId, 
 phones.phonenumber,
 phones.phonetype,
 emails.email,
-state_udc.value state,
-country_udc.value country,
+LocationAddress.state,
+LocationAddress.country,
 locationType_udc.value locationType
 FROM     Customer INNER JOIN
                   LocationAddress ON Customer.AddressId = LocationAddress.AddressId LEFT OUTER JOIN
                   AddressBook ON Customer.AddressId = AddressBook.AddressId LEFT OUTER JOIN
                   phones ON phones.addressid = Customer.AddressId LEFT OUTER JOIN
                   emails ON emails.addressid = Customer.AddressId join
-		  udc state_udc on state_udc.xrefid=LocationAddress.StateXRefId join
-	          udc country_udc on country_udc.xrefid=LocationAddress.CountryXRefId join
 		  udc locationType_udc on locationType_udc.xrefid=LocationAddress.TypeXRefId</CommandText>
         <rd:UseGenericDesigner>true</rd:UseGenericDesigner>
       </Query>
@@ -60,17 +58,9 @@ FROM     Customer INNER JOIN
           <DataField>City</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="StateXRefId">
-          <DataField>StateXRefId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
-        </Field>
         <Field Name="Zipcode">
           <DataField>Zipcode</DataField>
           <rd:TypeName>System.String</rd:TypeName>
-        </Field>
-        <Field Name="CountryXRefId">
-          <DataField>CountryXRefId</DataField>
-          <rd:TypeName>System.Int64</rd:TypeName>
         </Field>
         <Field Name="TypeXRefId">
           <DataField>TypeXRefId</DataField>

@@ -11,6 +11,7 @@ using MillenniumERP.ProjectManagementDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.CustomerDomain;
 using MillenniumERP.InvoicesDomain;
+using MillenniumERP.InvoiceDetailsDomain;
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.ItemMasterDomain;
@@ -35,6 +36,7 @@ namespace MillenniumERP.Services
         public CustomerRepository customerRepository => new CustomerRepository(db);
         public TimeAndAttendanceRepository TARepository => new TimeAndAttendanceRepository(db);
         public InvoiceRepository invoiceRepository => new InvoiceRepository(db);
+        public InvoiceDetailRepository invoiceDetailRepository => new InvoiceDetailRepository(db);
         public AccountReceivableRepository accountReceiveableRepository => new AccountReceivableRepository(db);
         public GeneralLedgerRepository generalLedgerRepository => new GeneralLedgerRepository(db);
         public ItemMasterRepository itemMasterRepository => new ItemMasterRepository(db);

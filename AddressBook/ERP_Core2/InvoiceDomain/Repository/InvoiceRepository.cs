@@ -20,17 +20,21 @@ namespace MillenniumERP.InvoicesDomain
             this.InvoiceNumber = invoice.InvoiceNumber;
             this.InvoiceDate = invoice.InvoiceDate;
             this.Amount = invoice.Amount;
+            this.CustomerId = invoice.Customer.CustomerId;
             this.CustomerName = invoice.Customer.AddressBook.Name;
             this.Description = invoice.Description;
             this.TaxAmount = invoice.TaxAmount;
             this.PaymentDueDate = invoice.PaymentDueDate;
             this.PaymentTerms = invoice.PaymentTerms;
+            this.CompanyId = invoice.Company.CompanyId;
             this.CompanyName = invoice.Company.CompanyName;
             this.CompanyStreet = invoice.Company.CompanyStreet;
             this.CompanyCity = invoice.Company.CompanyCity;
             this.CompanyZipcode = invoice.Company.CompanyZipcode;
+            this.DiscountDueDate = invoice.DiscountDueDate;
 
         }
+        public long? CompanyId { get; set; }
         public string CompanyName { get; set; }
         public string CompanyStreet { get; set; }
         public string CompanyCity { get; set; }
@@ -40,53 +44,20 @@ namespace MillenniumERP.InvoicesDomain
         public string InvoiceNumber { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public decimal? Amount { get; set; }
+        public long? CustomerId { get; set; }
         public string CustomerName { get; set; }
         public string Description { get; set; }
         public decimal? TaxAmount { get; set; }
         public DateTime? PaymentDueDate { get; set; }
+        public DateTime? DiscountDueDate { get; set; }
         public string PaymentTerms { get; set; }
         public virtual ICollection InvoiceViewDetails { get; set; }
     }
-    public class InvoiceDetailView
-    {
-        public InvoiceDetailView() { }
-        public InvoiceDetailView(InvoiceDetail invoiceDetail)
-        {
-            this.InvoiceDetailId = invoiceDetail.InvoiceDetailId;
-            this.UnitOfMeasure = invoiceDetail.UnitOfMeasure;
-            this.Quantity = invoiceDetail.Quantity;
-            this.UnitPrice = invoiceDetail.UnitPrice;
-            this.Amount = invoiceDetail.Amount;
-            this.DiscountPercent = invoiceDetail.DiscountPercent;
-            this.DiscountAmount = invoiceDetail.DiscountAmount;
-            this.ItemNumber = invoiceDetail.ItemMaster.ItemNumber;
-            this.ItemDescription = invoiceDetail.ItemMaster.Description;
-            this.ItemDescription2 = invoiceDetail.ItemMaster.Description2;
-            this.ExtendedDescription = invoiceDetail.ExtendedDescription;
-        }
-        public int? Quantity { get; set; }
-        public string UnitOfMeasure { get; set; }
-        public decimal? UnitPrice { get; set; }
-        public decimal? Amount { get; set; }
-        //todo public long? PurchaseOrderLineId { get; set; }
-        //todo public long? SalesOrderDetailId { get; set; }
-        public decimal? DiscountPercent { get; set; }
-        public decimal? DiscountAmount { get; set; }
-        //todo    public long? ShipmentDetailId { get; set; }
-        //todo maybe public string InvoiceNumber { get; set; }
-        //public virtual Invoice Invoice { get; set; }
-
-        public string ItemNumber { get; set; }
-        public string ItemDescription { get; set; }
-        public string ItemDescription2 { get; set; }
-
-        public long? InvoiceDetailId { get; set; }
-        public string ExtendedDescription { get; set; }
-    }
+   
     public class InvoiceRepository: Repository<Invoice>
     {
         public Entities _dbContext;
-        private ApplicationViewFactory applicationViewFactory;
+        public ApplicationViewFactory applicationViewFactory;
         public InvoiceRepository(DbContext db) : base(db)
         {
             _dbContext = (Entities)db;
@@ -94,6 +65,7 @@ namespace MillenniumERP.InvoicesDomain
         }
         public async Task<bool> AddInvoice(Invoice invoice)
         {
+         
             try
             {
                 var query = await (from a in _dbContext.Invoices
@@ -102,9 +74,8 @@ namespace MillenniumERP.InvoicesDomain
                 if (query == null)
                 {
                     AddObject(invoice);
+
                 }
-
-
                 return true;
             }
             catch (Exception ex)

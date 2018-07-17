@@ -60,6 +60,7 @@ namespace MillenniumERP.GeneralLedgerDomain
         }
         public async Task<bool> UpdateBalanceByAccountId(long? accountId, int? fiscalYear, int? fiscalPeriod)
         {
+
             return true;
         }
         public async Task<GeneralLedgerView> GetLedgerByDocNumber(long ? docNumber, string docType)
@@ -106,9 +107,10 @@ namespace MillenniumERP.GeneralLedgerDomain
                     ledger.DebitAmount = 0.0M;
                     ledger.CreditAmount= accountReceivableView.Amount ?? 0;
                     AddObject(ledger);
+                    return true;
             
                 }
-                return true;
+                return false;
             }
             catch (Exception ex)
             {
