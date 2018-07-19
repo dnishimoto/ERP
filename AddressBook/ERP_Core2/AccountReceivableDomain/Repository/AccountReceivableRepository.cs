@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
+using MillenniumERP.GeneralLedgerDomain;
 
 namespace MillenniumERP.AccountsReceivableDomain
 {
@@ -64,6 +65,49 @@ namespace MillenniumERP.AccountsReceivableDomain
         {
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<bool> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
+        {
+            bool retVal = false;
+            try
+            {
+                List<AcctRec> list = GetObjectsAsync(e => e.DocNumber == ledgerView.DocNumber).ToList<AcctRec>();
+                AcctRec acctRec = list[0];
+
+
+                if (acctRec != null)
+                {
+
+                    //Find the General Ledger Cash Amount by Doc Number
+                    var query = await (from e in _dbContext.GeneralLedgers
+                                       where e.DocNumber == ledgerView.DocNumber
+                                       && e.DocType == "PV"
+                                       && e.LedgerType == "AA"
+                                       && e.AccountId== ledgerView.AccountId
+                                       group e by e.DocNumber
+                                       into g
+
+                                       select new { AmountPaid = g.Sum(e => e.Amount) }
+                                       ).FirstOrDefaultAsync();
+
+
+                    decimal? cash = query?.AmountPaid??0;
+                    acctRec.DebitAmount = cash;
+                    acctRec.OpenAmount = acctRec.Amount - acctRec.DebitAmount;
+                    decimal discountAmount = acctRec.Amount * acctRec.DiscountPercent ?? 0;
+                    //Check for Discount Dates
+                    if (acctRec.DiscountDueDate <= ledgerView.GLDate)
+                    {
+                        acctRec.OpenAmount = acctRec.Amount - acctRec.DebitAmount - discountAmount;
+
+                    }
+                    UpdateObject(acctRec);
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<AccountReceiveableView> GetAccountReceivableViewByInvoiceId(long ? invoiceId)
         {

@@ -106,6 +106,7 @@
     <Compile Include="EntityFramework\ContractInvoice.cs" />
     <Compile Include="EntityFramework\Customer.cs" />
     <Compile Include="EntityFramework\CustomerClaim.cs" />
+    <Compile Include="EntityFramework\CustomerLedger.cs" />
     <Compile Include="EntityFramework\C__MigrationHistory.cs" />
     <Compile Include="EntityFramework\Email.cs" />
     <Compile Include="EntityFramework\Employee.cs" />
@@ -118,6 +119,7 @@
     <Compile Include="EntityFramework\InvoiceDetail.cs" />
     <Compile Include="EntityFramework\ItemMaster.cs" />
     <Compile Include="EntityFramework\LocationAddress.cs" />
+    <Compile Include="EntityFramework\NetTerm.cs" />
     <Compile Include="EntityFramework\NextNumber.cs" />
     <Compile Include="EntityFramework\Phone.cs" />
     <Compile Include="EntityFramework\POQuote.cs" />

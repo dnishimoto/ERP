@@ -52,10 +52,17 @@ namespace ERP_Core2.AbstractFactory
         public abstract TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin);
 
     }
+    //General Ledger
+    public abstract partial class AbstractFactory
+    { 
+        public abstract void MapGeneralLedgerEntity(ref GeneralLedger ledger, GeneralLedgerView view);
+  
+    }
 
     //Business View Factory
     public abstract partial class BusinessViewFactory : AbstractFactory
     {
+        //pass through class
     }
 
 
@@ -141,14 +148,14 @@ namespace ERP_Core2.AbstractFactory
         }
         public override void MapInvoiceDetailEntity(ref InvoiceDetail invoiceDetail, InvoiceDetailView invoiceDetailView)
         {
-            invoiceDetail.InvoiceId = invoiceDetailView.InvoiceId??0;
-            invoiceDetail.UnitOfMeasure= invoiceDetailView.UnitOfMeasure = "Project";
-            invoiceDetail.Quantity=invoiceDetailView.Quantity;
-            invoiceDetail.UnitPrice=invoiceDetailView.UnitPrice;
-            invoiceDetail.Amount=invoiceDetailView.Amount;
-            invoiceDetail.DiscountPercent=invoiceDetailView.DiscountPercent;
-            invoiceDetail.DiscountAmount= invoiceDetailView.DiscountAmount;
-            invoiceDetail.ItemId= invoiceDetailView.ItemId??0;
+            invoiceDetail.InvoiceId = invoiceDetailView.InvoiceId ?? 0;
+            invoiceDetail.UnitOfMeasure = invoiceDetailView.UnitOfMeasure = "Project";
+            invoiceDetail.Quantity = invoiceDetailView.Quantity;
+            invoiceDetail.UnitPrice = invoiceDetailView.UnitPrice;
+            invoiceDetail.Amount = invoiceDetailView.Amount;
+            invoiceDetail.DiscountPercent = invoiceDetailView.DiscountPercent;
+            invoiceDetail.DiscountAmount = invoiceDetailView.DiscountAmount;
+            invoiceDetail.ItemId = invoiceDetailView.ItemId ?? 0;
 
         }
 
@@ -213,10 +220,27 @@ namespace ERP_Core2.AbstractFactory
 
         }
     }
+
     //General Ledger Domain
     public partial class ApplicationViewFactory : BusinessViewFactory
     {
         public override GeneralLedgerView MapGeneralLedgerView(GeneralLedger ledger)
         { return new GeneralLedgerView(ledger); }
+        public override void MapGeneralLedgerEntity(ref GeneralLedger ledger, GeneralLedgerView view)
+        {
+            ledger.DocNumber = view.DocNumber;
+            ledger.DocType = view.DocType;
+            ledger.Amount = view.Amount;
+            ledger.LedgerType = view.LedgerType;
+            ledger.GLDate = view.GLDate;
+            ledger.AccountId = view.AccountId;
+            ledger.CreatedDate = DateTime.Today.Date;
+            ledger.AddressId = view.AddressId;
+            ledger.Comment = view.Comment;
+            ledger.DebitAmount = view.DebitAmount;
+            ledger.CreditAmount = view.CreditAmount;
+            ledger.FiscalYear = view.FiscalYear;
+            ledger.FiscalPeriod = view.FiscalPeriod;
+        }
     }
 }

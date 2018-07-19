@@ -14,6 +14,7 @@ namespace ERP_Core2.EntityFramework
         {
             AcctPays = new HashSet<AcctPay>();
             AcctRecs = new HashSet<AcctRec>();
+            CustomerLedgers = new HashSet<CustomerLedger>();
             InvoiceDetails = new HashSet<InvoiceDetail>();
             ServiceInformationInvoices = new HashSet<ServiceInformationInvoice>();
         }
@@ -55,6 +56,9 @@ namespace ERP_Core2.EntityFramework
         public virtual Company Company { get; set; }
 
         public virtual Customer Customer { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<CustomerLedger> CustomerLedgers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }

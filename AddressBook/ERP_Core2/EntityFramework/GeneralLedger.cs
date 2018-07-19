@@ -48,5 +48,7 @@ namespace ERP_Core2.EntityFramework
         public virtual AddressBook AddressBook { get; set; }
 
         public virtual ChartOfAcct ChartOfAcct { get; set; }
+
+        public virtual CustomerLedger CustomerLedger { get; set; }
     }
 }
