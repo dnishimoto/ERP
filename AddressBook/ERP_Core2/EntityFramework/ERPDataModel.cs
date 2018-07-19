@@ -29,6 +29,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ContractInvoice> ContractInvoices { get; set; }
         public virtual DbSet<Customer> Customers { get; set; }
         public virtual DbSet<CustomerClaim> CustomerClaims { get; set; }
+        public virtual DbSet<CustomerLedger> CustomerLedgers { get; set; }
         public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
@@ -38,6 +39,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
         public virtual DbSet<ItemMaster> ItemMasters { get; set; }
         public virtual DbSet<LocationAddress> LocationAddresses { get; set; }
+        public virtual DbSet<NetTerm> NetTerms { get; set; }
         public virtual DbSet<NextNumber> NextNumbers { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<POQuote> POQuotes { get; set; }
@@ -123,6 +125,15 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.CreditAmount)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctRec>()
+                .Property(e => e.DiscountAmount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctRec>()
+                .HasMany(e => e.CustomerLedgers)
+                .WithRequired(e => e.AcctRec)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AddressBook>()
                 .Property(e => e.Name)
@@ -434,6 +445,11 @@ namespace ERP_Core2.EntityFramework
                 .HasForeignKey(e => e.AccountId);
 
             modelBuilder.Entity<ChartOfAcct>()
+                .HasMany(e => e.CustomerLedgers)
+                .WithRequired(e => e.ChartOfAcct)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.GeneralLedgers)
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
@@ -532,6 +548,11 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Customer>()
+                .HasMany(e => e.CustomerLedgers)
+                .WithRequired(e => e.Customer)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Customer>()
                 .HasMany(e => e.Invoices)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
@@ -563,6 +584,10 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<CustomerClaim>()
                 .Property(e => e.Note)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<CustomerLedger>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<Email>()
                 .Property(e => e.Password)
@@ -620,6 +645,10 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.CreditAmount)
                 .HasPrecision(19, 4);
 
+            modelBuilder.Entity<GeneralLedger>()
+                .HasOptional(e => e.CustomerLedger)
+                .WithRequired(e => e.GeneralLedger);
+
             modelBuilder.Entity<GeneralLedgerBalance>()
                 .Property(e => e.LedgerType)
                 .IsUnicode(false);
@@ -674,6 +703,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<Invoice>()
                 .HasMany(e => e.AcctRecs)
+                .WithRequired(e => e.Invoice)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Invoice>()
+                .HasMany(e => e.CustomerLedgers)
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
 
@@ -792,6 +826,10 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.ServiceInformations)
                 .WithRequired(e => e.LocationAddress)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<NetTerm>()
+                .Property(e => e.NetTerms)
+                .IsUnicode(false);
 
             modelBuilder.Entity<NextNumber>()
                 .Property(e => e.NextNumberName)

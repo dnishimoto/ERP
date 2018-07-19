@@ -9,6 +9,7 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.AccountsReceivableDomain;
+using System.Data.SqlClient;
 
 namespace MillenniumERP.GeneralLedgerDomain
 {
@@ -58,10 +59,55 @@ namespace MillenniumERP.GeneralLedgerDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<long> CreateLedgerFromView(GeneralLedgerView view)
+        {
+            try
+            {
+                GeneralLedger ledger = new GeneralLedger();
+
+                var query = await (from e in _dbContext.GeneralLedgers
+                             where e.AccountId == view.AccountId
+                             && e.Amount == view.Amount
+                             && e.GLDate == view.GLDate
+                             && e.DocNumber == view.DocNumber
+                             && e.Comment == view.Comment
+                             select e
+                             ).FirstOrDefaultAsync<GeneralLedger>();
+
+                if (query == null)
+                {
+
+                    applicationViewFactory.MapGeneralLedgerEntity(ref ledger, view);
+
+                    AddObject(ledger);
+
+                    _dbContext.SaveChanges();
+
+                    return ledger.AccountId;
+                }
+                return -1;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+
+        }
         public async Task<bool> UpdateBalanceByAccountId(long? accountId, int? fiscalYear, int? fiscalPeriod)
         {
 
-            return true;
+            try
+            {
+                SqlParameter param1 = new SqlParameter("@AccountId", accountId);
+                SqlParameter param2 = new SqlParameter("@FiscalPeriod", fiscalPeriod);
+                SqlParameter param3 = new SqlParameter("@FiscalYear", fiscalYear);
+                //params Object[] parameters;
+
+
+                var result = await _dbContext.Database.ExecuteSqlCommandAsync("usp_RollupGeneralLedgerBalance @AccountId, @FiscalPeriod, @FiscalYear", param1, param2, param3);
+
+
+                return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<GeneralLedgerView> GetLedgerByDocNumber(long ? docNumber, string docType)
         {

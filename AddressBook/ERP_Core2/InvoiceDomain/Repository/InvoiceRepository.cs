@@ -74,9 +74,9 @@ namespace MillenniumERP.InvoicesDomain
                 if (query == null)
                 {
                     AddObject(invoice);
-
+                    return true;
                 }
-                return true;
+                return false;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
