@@ -15,6 +15,7 @@ using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.InvoiceDetailsDomain;
+using MillenniumERP.CustomerLedgerDomain;
 
 namespace ERP_Core2.InvoiceDomain
 {
@@ -41,34 +42,53 @@ namespace ERP_Core2.InvoiceDomain
             int customerId = 9;
 
             UnitOfWork unitOfWork = new UnitOfWork();
-            GeneralLedgerView ledger = new GeneralLedgerView();
+            GeneralLedgerView ledgerView = new GeneralLedgerView();
 
             long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(9);
             ChartOfAcct coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "101", "");
 
-            ledger.GeneralLedgerId = -1;
-            ledger.DocNumber = 12;
-            ledger.DocType = "PV";
-            ledger.Amount = 189.5M;
-            ledger.LedgerType = "AA";
-            ledger.GLDate = DateTime.Today.Date;
-            ledger.AccountId = coa.AccountId;
-            ledger.CreatedDate = DateTime.Today.Date;
-            ledger.AddressId = addressId ?? 0;
-            ledger.Comment = "Payment in Part for 50% of 5% work";
-            ledger.DebitAmount = 189.5M;
-            ledger.CreditAmount = 0;
-            ledger.FiscalPeriod = DateTime.Today.Month;
-            ledger.FiscalYear = DateTime.Today.Year;
+            ledgerView.GeneralLedgerId = -1;
+            ledgerView.DocNumber = 12;
+            ledgerView.DocType = "PV";
+            ledgerView.Amount = 189.63M;
+            ledgerView.LedgerType = "AA";
+            ledgerView.GLDate = DateTime.Today.Date;
+            ledgerView.AccountId = coa.AccountId;
+            ledgerView.CreatedDate = DateTime.Today.Date;
+            ledgerView.AddressId = addressId ?? 0;
+            ledgerView.Comment = "Payment in Part for 50% sharing of project income";
+            ledgerView.DebitAmount = 189.63M;
+            ledgerView.CreditAmount = 0;
+            ledgerView.FiscalPeriod = DateTime.Today.Month;
+            ledgerView.FiscalYear = DateTime.Today.Year;
+            ledgerView.CheckNumber = "111";
+           
 
-            long generalLedgerId = await unitOfWork.generalLedgerRepository.CreateLedgerFromView(ledger);
+            long generalLedgerId = await unitOfWork.generalLedgerRepository.CreateLedgerFromView(ledgerView);
 
-            ledger.GeneralLedgerId = generalLedgerId;
+            ledgerView.GeneralLedgerId = generalLedgerId;
+
+            CustomerLedgerView customerLedgerView = new CustomerLedgerView(ledgerView);
+
+            //Get the AcctRecId
+            AcctRec acctRec = await unitOfWork.accountReceiveableRepository.GetAcctRecByDocNumber(ledgerView.DocNumber);
+            if (acctRec != null)
+            {
+       
+                customerLedgerView.AcctRecId = acctRec.AcctRecId;
+                customerLedgerView.InvoiceId = acctRec.InvoiceId;
+                customerLedgerView.CustomerId = acctRec.CustomerId;
+                customerLedgerView.GeneralLedgerId = ledgerView.GeneralLedgerId;
+
+                long customerLedgerId = await unitOfWork.customerLedgerRepository.CreateLedgerFromView(customerLedgerView);
+            }
 
             //Update receivable (today) (check for discount rules)
-            bool result = await unitOfWork.accountReceiveableRepository.UpdateReceivableByCashLedger(ledger);
-            if (result) { unitOfWork.CommitChanges(); }
-            bool result5 = await unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledger.AccountId, ledger.FiscalYear, ledger.FiscalPeriod);
+            bool result2 = await unitOfWork.accountReceiveableRepository.UpdateReceivableByCashLedger(ledgerView);
+            if (result2) { unitOfWork.CommitChanges(); }
+            bool result3 = await unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerView.AccountId, ledgerView.FiscalYear, ledgerView.FiscalPeriod);
+
+
             Assert.True(true);
         }
         [Fact]

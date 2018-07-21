@@ -16,6 +16,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
+        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<Asset> Assets { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
@@ -445,11 +446,6 @@ namespace ERP_Core2.EntityFramework
                 .HasForeignKey(e => e.AccountId);
 
             modelBuilder.Entity<ChartOfAcct>()
-                .HasMany(e => e.CustomerLedgers)
-                .WithRequired(e => e.ChartOfAcct)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.GeneralLedgers)
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
@@ -589,6 +585,22 @@ namespace ERP_Core2.EntityFramework
                 .Property(e => e.Amount)
                 .HasPrecision(19, 4);
 
+            modelBuilder.Entity<CustomerLedger>()
+                .Property(e => e.Comment)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CustomerLedger>()
+                .Property(e => e.DocType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<CustomerLedger>()
+                .Property(e => e.DebitAmount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<CustomerLedger>()
+                .Property(e => e.CreditAmount)
+                .HasPrecision(19, 4);
+
             modelBuilder.Entity<Email>()
                 .Property(e => e.Password)
                 .IsUnicode(false);
@@ -646,8 +658,13 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<GeneralLedger>()
-                .HasOptional(e => e.CustomerLedger)
-                .WithRequired(e => e.GeneralLedger);
+                .Property(e => e.CheckNumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<GeneralLedger>()
+                .HasMany(e => e.CustomerLedgers)
+                .WithRequired(e => e.GeneralLedger)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<GeneralLedgerBalance>()
                 .Property(e => e.LedgerType)

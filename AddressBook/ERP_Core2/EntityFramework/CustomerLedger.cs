@@ -27,9 +27,30 @@ namespace ERP_Core2.EntityFramework
 
         public long GeneralLedgerId { get; set; }
 
-        public virtual AcctRec AcctRec { get; set; }
+        public long DocNumber { get; set; }
 
-        public virtual ChartOfAcct ChartOfAcct { get; set; }
+        [StringLength(255)]
+        public string Comment { get; set; }
+
+        public long AddressId { get; set; }
+
+        public DateTime? CreatedDate { get; set; }
+
+        [Required]
+        [StringLength(50)]
+        public string DocType { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? DebitAmount { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? CreditAmount { get; set; }
+
+        public int FiscalYear { get; set; }
+
+        public int FiscalPeriod { get; set; }
+
+        public virtual AcctRec AcctRec { get; set; }
 
         public virtual Customer Customer { get; set; }
 

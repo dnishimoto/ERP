@@ -2,6 +2,7 @@
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
+using MillenniumERP.CustomerLedgerDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoiceDetailsDomain;
 using MillenniumERP.InvoicesDomain;
@@ -45,6 +46,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract GeneralLedgerView MapGeneralLedgerView(GeneralLedger generalLedger);
         public abstract void MapInvoiceEntity(ref Invoice invoice, InvoiceView invoiceView);
         public abstract void MapInvoiceDetailEntity(ref InvoiceDetail invoiceDetail, InvoiceDetailView invoiceDetailView);
+        public abstract void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView customerLedgerView);
+        public abstract CustomerLedgerView MapCustomerLedgerView(CustomerLedger customerLedger);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -226,6 +229,8 @@ namespace ERP_Core2.AbstractFactory
     {
         public override GeneralLedgerView MapGeneralLedgerView(GeneralLedger ledger)
         { return new GeneralLedgerView(ledger); }
+        public override CustomerLedgerView MapCustomerLedgerView(CustomerLedger customerLedger)
+        { return new CustomerLedgerView(customerLedger); }
         public override void MapGeneralLedgerEntity(ref GeneralLedger ledger, GeneralLedgerView view)
         {
             ledger.DocNumber = view.DocNumber;
@@ -241,6 +246,27 @@ namespace ERP_Core2.AbstractFactory
             ledger.CreditAmount = view.CreditAmount;
             ledger.FiscalYear = view.FiscalYear;
             ledger.FiscalPeriod = view.FiscalPeriod;
+            ledger.CheckNumber = view.CheckNumber;
+        }
+        public override void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView ledgerView)
+        {
+            customerLedger.AcctRecId = ledgerView.AcctRecId;
+            customerLedger.CustomerId = ledgerView.CustomerId;
+            customerLedger.InvoiceId = ledgerView.InvoiceId;
+            customerLedger.DocNumber = ledgerView.DocNumber;
+            customerLedger.DocType = ledgerView.DocType;
+            customerLedger.Amount = ledgerView.Amount;
+            customerLedger.GLDate = ledgerView.GLDate;
+            customerLedger.AccountId = ledgerView.AccountId;
+            customerLedger.CreatedDate = DateTime.Today.Date;
+            customerLedger.AddressId = ledgerView.AddressId;
+            customerLedger.Comment = ledgerView.Comment;
+            customerLedger.DebitAmount = ledgerView.DebitAmount;
+            customerLedger.CreditAmount = ledgerView.CreditAmount;
+            customerLedger.FiscalYear = ledgerView.FiscalYear;
+            customerLedger.FiscalPeriod = ledgerView.FiscalPeriod;
+            customerLedger.GeneralLedgerId = ledgerView.GeneralLedgerId;
+
         }
     }
 }
