@@ -35,7 +35,8 @@ namespace ERP_Core2.AddressBookDomain
                 output.WriteLine($"{item.Value}");
                 intCollection.Add(item.Value);
             }
-            Assert.True(intCollection.Contains("IT Manager"));
+            bool results = intCollection.Any(s => s.Contains("IT Manager"));
+            Assert.True(results);
         }
     
     }

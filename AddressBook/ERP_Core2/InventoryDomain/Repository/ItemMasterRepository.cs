@@ -48,9 +48,9 @@ namespace MillenniumERP.ItemMasterDomain
         {
             try
             {
-                var query = GetObjectAsync((int)itemMaster.ItemId);
+                var query = await GetObjectAsync((int)itemMaster.ItemId);
 
-                ItemMaster itemMasterBase = query.Result;
+                ItemMaster itemMasterBase = query;
 
                 
                 
@@ -63,7 +63,7 @@ namespace MillenniumERP.ItemMasterDomain
             }
      
             }
-        public async Task<bool> DeleteItemMaster(ItemMaster itemMaster)
+        public bool DeleteItemMaster(ItemMaster itemMaster)
         {
             try
             {

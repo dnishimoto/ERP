@@ -157,9 +157,9 @@ namespace MillenniumERP.CustomerLedgerDomain
         {
             try
             {
-                var query = GetObjectAsync((int)CustomerLedger.CustomerLedgerId);
+                var query = await GetObjectAsync((int)CustomerLedger.CustomerLedgerId);
 
-                CustomerLedger CustomerLedgerBase = query.Result;
+                CustomerLedger CustomerLedgerBase = query;
 
 
 
@@ -172,7 +172,7 @@ namespace MillenniumERP.CustomerLedgerDomain
             }
 
         }
-        public async Task<bool> DeleteCustomerLedger(CustomerLedger CustomerLedger)
+        public bool DeleteCustomerLedger(CustomerLedger CustomerLedger)
         {
             try
             {

@@ -124,9 +124,9 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-                var query = GetObjectAsync((int)timePunchinId);
+                var query = await GetObjectAsync((int)timePunchinId);
 
-                TimeAndAttendancePunchIn taPunchin = query.Result;
+                TimeAndAttendancePunchIn taPunchin = query;
                 taPunchin.DurationInMinutes = workDurationInMinutes;
                 taPunchin.MealDurationInMinutes = mealDurationInMinutes;
 
@@ -172,7 +172,7 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-                DateTime dDate;
+                
                 String year, month, day = "";
                 String longHours, minutes, seconds = "";
                 DateTime myDate;
@@ -198,7 +198,7 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-                DateTime dDate;
+              
                 String year, month, day = "";
                 String longHours, minutes, seconds = "";
                 DateTime myDate;

@@ -37,7 +37,7 @@ namespace ERP_Core2.ScheduleEventsDomain
                 new Person() {Id=4, Name="Jimmy Davis", Age=50,Gender=GenderType.Female }
             };
             Person person = list.Find((Person p) => p.Id == 1);
-            Assert.Equal(person.Name, "Bob Jones");
+            Assert.Equal("Bob Jones",person.Name);
 
             List<Person> matches = null;
 
@@ -110,7 +110,7 @@ namespace ERP_Core2.ScheduleEventsDomain
             output.WriteLine("Fnc2");
         }
         [Fact]
-        public async Task TestAwaitAsync()
+        public void TestAwaitAsync()
         {
             List<Task> listTask = new List<Task>();
             Task firstTask = Task.Run(() => { DoSomethingFnc1(); });

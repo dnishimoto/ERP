@@ -29,7 +29,7 @@ namespace ERP_Core2.AddressBookDomain
 
             UnitOfWork unitOfWork = new UnitOfWork();
             BuyerView buyerView = unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId);
-            Assert.Equal(buyerView.BuyerTitle, "Regional Purchasing Clerk");
+            Assert.Equal("Regional Purchasing Clerk",buyerView.BuyerTitle);
         }
         [Fact]
         void TestGetCarrierByCarrierId()
@@ -38,7 +38,7 @@ namespace ERP_Core2.AddressBookDomain
 
             UnitOfWork unitOfWork = new UnitOfWork();
             CarrierView carrierView = unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId);
-            Assert.Equal(carrierView.CarrierName.ToString(),"United Parcel Service");
+            Assert.Equal("United Parcel Service",carrierView.CarrierName.ToString());
         }
 
         [Fact]
@@ -96,7 +96,8 @@ namespace ERP_Core2.AddressBookDomain
                 intCollection.Add(item.PhoneNumber);
 
             }
-            Assert.True(intCollection.Contains("401-4333"));
+            bool results = intCollection.Any(s => s.Contains("401-4333"));
+            Assert.True(results);
 
         }
         [Fact]
@@ -112,7 +113,8 @@ namespace ERP_Core2.AddressBookDomain
                 intCollection.Add(item.Email1);
        
             }
-           Assert.True(intCollection.Contains("dnishimoto@listensoftware.com"));
+            bool results = intCollection.Any(s => s.Contains("dnishimoto@listensoftware.com"));
+            Assert.True(results);
 
         }
         
@@ -199,7 +201,7 @@ namespace ERP_Core2.AddressBookDomain
 
             output.WriteLine($"{resultTask.Result.FirstName}");
 
-            Assert.Equal(resultTask.Result.FirstName, "David");
+            Assert.Equal("David",resultTask.Result.FirstName);
         }
         [Fact]
         public void TestUpdateAddressBook()
@@ -216,7 +218,7 @@ namespace ERP_Core2.AddressBookDomain
 
             string name = query.Result.FirstName;
 
-            Assert.Equal(name, "David2");
+            Assert.Equal("David2",name );
 
             addressBook = resultTask.Result;
             addressBook.FirstName = "David";
@@ -227,7 +229,7 @@ namespace ERP_Core2.AddressBookDomain
 
             name = query.Result.FirstName;
 
-            Assert.Equal(name, "David");
+            Assert.Equal("David",name);
         }
         [Fact]
         public void TestAddandDeleteAddressBook()
@@ -244,7 +246,7 @@ namespace ERP_Core2.AddressBookDomain
 
             foreach (var item in query)
             {
-                Assert.Equal(item.Name, "James Dean");
+                Assert.Equal("James Dean",item.Name );
 
                 unitOfWork.addressBookRepository.DeleteObject(item);
             }

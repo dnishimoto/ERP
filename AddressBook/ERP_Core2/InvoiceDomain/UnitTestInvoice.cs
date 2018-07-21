@@ -31,12 +31,6 @@ namespace ERP_Core2.InvoiceDomain
 
         }
         [Fact]
-        public async Task TestPointInvoiceToCashPayment()
-        {
-          
-
-        }
-        [Fact]
         public async Task TestCustomerCashPayment()
         {
             int customerId = 9;
@@ -44,7 +38,7 @@ namespace ERP_Core2.InvoiceDomain
             UnitOfWork unitOfWork = new UnitOfWork();
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
-            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(9);
+            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
             ChartOfAcct coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "101", "");
 
             ledgerView.GeneralLedgerId = -1;
@@ -164,7 +158,7 @@ namespace ERP_Core2.InvoiceDomain
             }
             catch (Exception ex)
             {
-
+                throw new Exception("TestPostInvoiceAndDetailToAcctRec", ex);
             }
 
         }
@@ -215,7 +209,7 @@ namespace ERP_Core2.InvoiceDomain
             }
             catch (Exception ex)
             {
-
+                throw new Exception("TestPostInvoiceToAcctRec", ex);
             }
         }
             

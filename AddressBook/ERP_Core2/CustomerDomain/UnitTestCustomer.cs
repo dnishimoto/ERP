@@ -16,6 +16,7 @@ using System;
 using System.Data.SqlClient;
 using System.Data;
 using MillenniumERP.InvoiceDetailsDomain;
+using MillenniumERP.CustomerLedgerDomain;
 
 namespace ERP_Core2.CustomerDomain
 {
@@ -61,7 +62,7 @@ namespace ERP_Core2.CustomerDomain
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
-
+        private IList<string> listCheck = new List<string>();
         public UnitTestCustomer(ITestOutputHelper output)
         {
             this.output = output;
@@ -118,6 +119,19 @@ namespace ERP_Core2.CustomerDomain
             return entityCollection;
         }
         [Fact]
+        public async Task TestGetCustomerLedger()
+        {
+            long customerId = 9;
+            UnitOfWork unitOfWork = new UnitOfWork();
+            IList<CustomerLedgerView>list= unitOfWork.customerRepository.GetCustomerLedgersByCustomerId(customerId);
+            foreach (var item in list)
+            {
+                listCheck.Add(item.DocNumber.ToString());
+            }
+            bool results = listCheck.Any(e => e.Contains("12"));
+            Assert.True(results);
+        }
+        [Fact]
         public async Task TestTableViewParameter()
         {
             try
@@ -155,7 +169,7 @@ namespace ERP_Core2.CustomerDomain
             }
             catch (Exception ex)
             {
-
+                throw new Exception("TestTableViewParameter", ex);
             }
         
 
@@ -225,7 +239,7 @@ namespace ERP_Core2.CustomerDomain
                 Assert.True(true);
             }
             catch (Exception ex)
-            { }
+            { throw new Exception("TestCreateCustomerAccount", ex); }
         }
         [Fact]
         public void TestGetAccountReceivables()
@@ -239,7 +253,8 @@ namespace ERP_Core2.CustomerDomain
                 output.WriteLine($"{accountReceiveableView.InvoiceNumber}");
                 collection.Add(accountReceiveableView.InvoiceNumber.ToUpper());
             }
-            Assert.True(collection.Contains("INV-02"));
+            bool results = collection.Any(s => s.Contains("INV-02"));
+            Assert.True(results);
 
         }
 
@@ -303,7 +318,9 @@ namespace ERP_Core2.CustomerDomain
                 output.WriteLine($"{customerClaimView.GroupId}");
                 collection.Add(customerClaimView.GroupId.ToUpper());
             }
-            Assert.True(collection.Contains("IDAHO WEB DEVELOPMENT CUSTOMERS"));
+            bool results = collection.Any(s => s.Contains("IDAHO WEB DEVELOPMENT CUSTOMERS"));
+
+            Assert.True(results);
         }
         [Fact]
         public void TestGetContractsByCustomerId()
@@ -321,7 +338,9 @@ namespace ERP_Core2.CustomerDomain
                 collection.Add(item.CustomerName.ToUpper());
 
             }
-            Assert.True(collection.Contains("NED SCARISBRICK"));
+            bool results = collection.Any(s => s.Contains("NED SCARISBRICK"));
+
+            Assert.True(results);
         }
         [Fact]
         public void TestGetEmailByCustomerId()
@@ -338,7 +357,8 @@ namespace ERP_Core2.CustomerDomain
                 output.WriteLine($"{item.EmailText}");
                 collection.Add(item.EmailText.ToUpper());
             }
-            Assert.True(collection.Contains("DNISHIMOTO@LISTENSOFTWARE.COM"));
+            bool results = collection.Any(s => s.Contains("DNISHIMOTO@LISTENSOFTWARE.COM"));
+            Assert.True(results);
         }
         [Fact]
         public void TestGetPhoneByCustomerId()
@@ -355,7 +375,9 @@ namespace ERP_Core2.CustomerDomain
                 output.WriteLine($"{item.PhoneNumber}");
                 collection.Add(item.PhoneNumber.ToUpper());
             }
-            Assert.True(collection.Contains("401-4333"));
+            bool results = collection.Any(s => s.Contains("401-4333"));
+
+            Assert.True(results);
         }
         [Fact]
         public void TestGetLocationAddressByCustomerId()
@@ -372,7 +394,8 @@ namespace ERP_Core2.CustomerDomain
                 output.WriteLine($"{item.City}");
                 collection.Add(item.City.ToUpper());
             }
-            Assert.True(collection.Contains("BOISE"));
+            bool results = collection.Any(s => s.Contains("BOISE"));
+            Assert.True(results);
         }
         [Fact]
         public void TestGetScheduleEventsByCustomerId()
@@ -391,8 +414,8 @@ namespace ERP_Core2.CustomerDomain
                     collection.Add(item.CustomerName.ToUpper());
        
             }
-
-            Assert.True(collection.Contains("PAM NISHIMOTO"));
+            bool results = collection.Any(s => s.Contains("PAM NISHIMOTO"));
+            Assert.True(results);
         }
         [Fact]
         public void TestGetInvoicesByCustomerId()
@@ -413,8 +436,8 @@ namespace ERP_Core2.CustomerDomain
                     collection.Add(invoiceDetailView.ItemDescription.ToUpper());
                 }
             }
-
-            Assert.True(collection.Contains("EMPTY"));
+            bool results = collection.Any(s => s.Contains("EMPTY"));
+            Assert.True(results);
         }
     }
 }

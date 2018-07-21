@@ -85,9 +85,9 @@ namespace MillenniumERP.InvoicesDomain
         {
             try
             {
-                var query = GetObjectAsync((int)invoice.InvoiceId);
+                var query = await GetObjectAsync((int)invoice.InvoiceId);
 
-                Invoice invoiceBase = query.Result;
+                Invoice invoiceBase = query;
 
                 invoiceBase.Amount = invoice.Amount;
                 invoiceBase.CompanyId = invoice.CompanyId;
@@ -108,7 +108,7 @@ namespace MillenniumERP.InvoicesDomain
             }
             
             }
-        public async Task<bool> DeleteInvoice(Invoice invoice)
+        public bool DeleteInvoice(Invoice invoice)
         {
             try
             {

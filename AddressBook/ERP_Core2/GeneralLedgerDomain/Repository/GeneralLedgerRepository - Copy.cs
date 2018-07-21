@@ -172,9 +172,9 @@ namespace MillenniumERP.GeneralLedgerDomain
         {
             try
             {
-                var query = GetObjectAsync((int)generalLedger.GeneralLedgerId);
+                var query = await GetObjectAsync((int)generalLedger.GeneralLedgerId);
 
-                GeneralLedger generalLedgerBase = query.Result;
+                GeneralLedger generalLedgerBase = query;
 
 
 
@@ -187,7 +187,7 @@ namespace MillenniumERP.GeneralLedgerDomain
             }
 
         }
-        public async Task<bool> DeleteGeneralLedger(GeneralLedger generalLedger)
+        public bool DeleteGeneralLedger(GeneralLedger generalLedger)
         {
             try
             {
