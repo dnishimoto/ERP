@@ -70,7 +70,7 @@ namespace MillenniumERP.AccountsReceivableDomain
         {
             try
             {
-                List<AcctRec> list = GetObjectsAsync(e => e.DocNumber == docNumber).ToList<AcctRec>();
+                List<AcctRec> list = await GetObjectsAsync(e => e.DocNumber == docNumber).ToListAsync<AcctRec>();
                 AcctRec acctRec = list[0];
 
                 return acctRec;
@@ -81,10 +81,10 @@ namespace MillenniumERP.AccountsReceivableDomain
         }
         public async Task<bool> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
         {
-            bool retVal = false;
+           
             try
             {
-                List<AcctRec> list = GetObjectsAsync(e => e.DocNumber == ledgerView.DocNumber).ToList<AcctRec>();
+                List<AcctRec> list = await GetObjectsAsync(e => e.DocNumber == ledgerView.DocNumber).ToListAsync<AcctRec>();
                 AcctRec acctRec = list[0];
 
 
@@ -188,9 +188,9 @@ namespace MillenniumERP.AccountsReceivableDomain
         {
             try
             {
-                var query = GetObjectAsync((int)acctRec.InvoiceId);
+                var query = await GetObjectAsync((int)acctRec.InvoiceId);
 
-                AcctRec acctRecBase = query.Result;
+                AcctRec acctRecBase = query;
 
                 
                 
@@ -203,7 +203,7 @@ namespace MillenniumERP.AccountsReceivableDomain
             }
    
             }
-        public async Task<bool> DeleteAcctRec(AcctRec acctRec)
+        public bool DeleteAcctRec(AcctRec acctRec)
         {
             try
             {

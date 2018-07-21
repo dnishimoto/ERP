@@ -2,6 +2,7 @@
 using ERP_Core2.EntityFramework;
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
+using MillenniumERP.CustomerLedgerDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.Services;
 using System;
@@ -196,6 +197,25 @@ namespace MillenniumERP.CustomerDomain
                 
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public IList<CustomerLedgerView> GetCustomerLedgersByCustomerId(long customerId)
+        {
+            try
+            {
+                IEnumerable<CustomerLedger> ledgerList = null;
+                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "customerledgers").FirstOrDefault();
+                IList<CustomerLedgerView> list = new List<CustomerLedgerView>();
+
+                ledgerList = resultList.CustomerLedgers;
+
+                foreach (var item in ledgerList)
+                {
+                    list.Add(applicationViewFactory.MapCustomerLedgerView(item));
+                }
+                return list;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId = null)
         {
