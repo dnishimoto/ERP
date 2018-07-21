@@ -32,6 +32,7 @@ namespace MillenniumERP.GeneralLedgerDomain
             this.CreditAmount = generalLedger.CreditAmount;
             this.FiscalPeriod = generalLedger.FiscalPeriod??0;
             this.FiscalYear = generalLedger.FiscalYear??0;
+            this.CheckNumber = generalLedger.CheckNumber;
         }
 
         public long GeneralLedgerId { get; set; }
@@ -48,6 +49,7 @@ namespace MillenniumERP.GeneralLedgerDomain
         public decimal? CreditAmount { get; set; }
         public int FiscalPeriod { get; set; }
         public int FiscalYear { get; set; }
+        public string CheckNumber { get; set; }
     }
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>
@@ -71,6 +73,7 @@ namespace MillenniumERP.GeneralLedgerDomain
                              && e.GLDate == view.GLDate
                              && e.DocNumber == view.DocNumber
                              && e.Comment == view.Comment
+                             && e.CheckNumber==view.CheckNumber
                              select e
                              ).FirstOrDefaultAsync<GeneralLedger>();
 
@@ -85,7 +88,7 @@ namespace MillenniumERP.GeneralLedgerDomain
 
                     return ledger.AccountId;
                 }
-                return -1;
+                return query.GeneralLedgerId;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }

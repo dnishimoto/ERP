@@ -17,7 +17,6 @@ namespace ERP_Core2.EntityFramework
             Budgets = new HashSet<Budget>();
             Budgets1 = new HashSet<Budget>();
             BudgetRanges = new HashSet<BudgetRange>();
-            CustomerLedgers = new HashSet<CustomerLedger>();
             GeneralLedgers = new HashSet<GeneralLedger>();
             GeneralLedgerBalances = new HashSet<GeneralLedgerBalance>();
             PurchaseOrders = new HashSet<PurchaseOrder>();
@@ -97,9 +96,6 @@ namespace ERP_Core2.EntityFramework
         public virtual ICollection<BudgetRange> BudgetRanges { get; set; }
 
         public virtual Company Company { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<CustomerLedger> CustomerLedgers { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }

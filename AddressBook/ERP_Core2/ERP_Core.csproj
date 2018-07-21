@@ -147,7 +147,8 @@
     <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
-    <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
+    <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository - Copy.cs" />
+    <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceDetailRepository.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceRepository.cs" />

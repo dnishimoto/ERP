@@ -66,6 +66,19 @@ namespace MillenniumERP.AccountsReceivableDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<AcctRec> GetAcctRecByDocNumber(long docNumber)
+        {
+            try
+            {
+                List<AcctRec> list = GetObjectsAsync(e => e.DocNumber == docNumber).ToList<AcctRec>();
+                AcctRec acctRec = list[0];
+
+                return acctRec;
+
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<bool> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
         {
             bool retVal = false;
