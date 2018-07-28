@@ -51,7 +51,7 @@ namespace MillenniumERP.InvoicesDomain
         public DateTime? PaymentDueDate { get; set; }
         public DateTime? DiscountDueDate { get; set; }
         public string PaymentTerms { get; set; }
-        public virtual ICollection InvoiceViewDetails { get; set; }
+        public virtual ICollection InvoiceDetailViews { get; set; }
     }
    
     public class InvoiceRepository: Repository<Invoice>

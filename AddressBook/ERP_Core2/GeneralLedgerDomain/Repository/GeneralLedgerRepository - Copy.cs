@@ -33,6 +33,7 @@ namespace MillenniumERP.GeneralLedgerDomain
             this.FiscalPeriod = generalLedger.FiscalPeriod??0;
             this.FiscalYear = generalLedger.FiscalYear??0;
             this.CheckNumber = generalLedger.CheckNumber;
+            this.PurchaseOrderNumber = generalLedger.PurchaseOrderNumber;
         }
 
         public long GeneralLedgerId { get; set; }
@@ -50,6 +51,7 @@ namespace MillenniumERP.GeneralLedgerDomain
         public int FiscalPeriod { get; set; }
         public int FiscalYear { get; set; }
         public string CheckNumber { get; set; }
+        public string PurchaseOrderNumber { get; set; }
     }
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>

@@ -63,6 +63,7 @@ namespace MillenniumERP.AddressBookDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+    
         public List<EmployeeView> GetEmployeesBySupervisorId(int supervisorId)
         {
             var resultList = (from supervisoremployee in _dbContext.SupervisorEmployees

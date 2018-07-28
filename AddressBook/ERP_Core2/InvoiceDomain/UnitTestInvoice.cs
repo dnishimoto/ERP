@@ -46,15 +46,15 @@ namespace ERP_Core2.InvoiceDomain
             ledgerView.DocType = "PV";
             ledgerView.Amount = 189.63M;
             ledgerView.LedgerType = "AA";
-            ledgerView.GLDate = DateTime.Today.Date;
+            ledgerView.GLDate = DateTime.Parse("7/21/2018");
             ledgerView.AccountId = coa.AccountId;
-            ledgerView.CreatedDate = DateTime.Today.Date;
+            ledgerView.CreatedDate = DateTime.Parse("7/21/2018");
             ledgerView.AddressId = addressId ?? 0;
             ledgerView.Comment = "Payment in Part for 50% sharing of project income";
             ledgerView.DebitAmount = 189.63M;
             ledgerView.CreditAmount = 0;
-            ledgerView.FiscalPeriod = DateTime.Today.Month;
-            ledgerView.FiscalYear = DateTime.Today.Year;
+            ledgerView.FiscalPeriod = 7;
+            ledgerView.FiscalYear = 2018;
             ledgerView.CheckNumber = "111";
            
 

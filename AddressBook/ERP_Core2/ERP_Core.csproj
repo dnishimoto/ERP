@@ -70,6 +70,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
+    <Compile Include="AccountPayableDomain\Repository\PurchaseOrderRepository.cs" />
+    <Compile Include="AccountPayableDomain\Repository\AccountPayableRepository.cs" />
+    <Compile Include="AccountPayableDomain\UnitTestAccountPayable.cs" />
     <Compile Include="AccountReceivableDomain\Repository\AccountReceivableRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\LocationAddressRepository.cs" />
@@ -113,7 +116,6 @@
     <Compile Include="EntityFramework\Equation.cs" />
     <Compile Include="EntityFramework\ERPDataModel.cs" />
     <Compile Include="EntityFramework\GeneralLedger.cs" />
-    <Compile Include="EntityFramework\GeneralLedgerBalance.cs" />
     <Compile Include="EntityFramework\Inventory.cs" />
     <Compile Include="EntityFramework\Invoice.cs" />
     <Compile Include="EntityFramework\InvoiceDetail.cs" />
@@ -229,7 +231,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="AccountPayableDomain\Repository\" />
     <Folder Include="ContractsDomain\Repository\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />

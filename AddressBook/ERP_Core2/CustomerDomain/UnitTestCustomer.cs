@@ -430,7 +430,7 @@ namespace ERP_Core2.CustomerDomain
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
-                foreach (InvoiceDetailView invoiceDetailView in item.InvoiceViewDetails)
+                foreach (InvoiceDetailView invoiceDetailView in item.InvoiceDetailViews)
                 {
                     output.WriteLine($"{invoiceDetailView.ItemDescription}");
                     collection.Add(invoiceDetailView.ItemDescription.ToUpper());

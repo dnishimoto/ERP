@@ -16,7 +16,6 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
         public virtual DbSet<AddressBook> AddressBooks { get; set; }
-        public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<Asset> Assets { get; set; }
         public virtual DbSet<Budget> Budgets { get; set; }
         public virtual DbSet<BudgetRange> BudgetRanges { get; set; }
@@ -34,7 +33,6 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<Email> Emails { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedgers { get; set; }
-        public virtual DbSet<GeneralLedgerBalance> GeneralLedgerBalances { get; set; }
         public virtual DbSet<Inventory> Inventories { get; set; }
         public virtual DbSet<Invoice> Invoices { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetails { get; set; }
@@ -77,7 +75,7 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<AccountBalance>()
                 .Property(e => e.Amount)
-                .HasPrecision(18, 4);
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctPay>()
                 .Property(e => e.GrossAmount)
@@ -98,6 +96,30 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AcctPay>()
                 .Property(e => e.Tax)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.DocType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.PaymentTerms)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.DiscountPercent)
+                .HasPrecision(18, 3);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.AmountReceived)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.AmountOpen)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.OrderNumber)
+                .IsUnicode(false);
 
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.OpenAmount)
@@ -451,11 +473,6 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ChartOfAcct>()
-                .HasMany(e => e.GeneralLedgerBalances)
-                .WithRequired(e => e.ChartOfAcct)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.PurchaseOrders)
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
@@ -559,11 +576,6 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Customer>()
-                .HasMany(e => e.PurchaseOrders)
-                .WithRequired(e => e.Customer)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Customer>()
                 .HasMany(e => e.SalesOrders)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);
@@ -662,17 +674,13 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<GeneralLedger>()
+                .Property(e => e.PurchaseOrderNumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<GeneralLedger>()
                 .HasMany(e => e.CustomerLedgers)
                 .WithRequired(e => e.GeneralLedger)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<GeneralLedgerBalance>()
-                .Property(e => e.LedgerType)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<GeneralLedgerBalance>()
-                .Property(e => e.Amount)
-                .HasPrecision(19, 4);
 
             modelBuilder.Entity<Inventory>()
                 .Property(e => e.ShortDescription)
@@ -927,7 +935,7 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<PurchaseOrder>()
-                .Property(e => e.POType)
+                .Property(e => e.DocType)
                 .IsUnicode(false);
 
             modelBuilder.Entity<PurchaseOrder>()
@@ -960,11 +968,19 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.Tax)
-                .HasPrecision(18, 4);
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.TaxCode)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.AmountReceived)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.AmountPaid)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<PurchaseOrder>()
                 .HasMany(e => e.PurchaseOrderDetails)
@@ -1261,18 +1277,6 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<UDC>()
                 .Property(e => e.Value)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<UDC>()
-                .HasMany(e => e.AcctPays)
-                .WithRequired(e => e.UDC)
-                .HasForeignKey(e => e.DocTypeXRefId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UDC>()
-                .HasMany(e => e.AcctPays1)
-                .WithRequired(e => e.UDC1)
-                .HasForeignKey(e => e.PaymentTermsXRefId)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()
                 .HasMany(e => e.AcctRecs)

@@ -18,8 +18,8 @@ namespace ERP_Core2.EntityFramework
 
         public long PurchaseOrderId { get; set; }
 
-        [StringLength(10)]
-        public string POType { get; set; }
+        [StringLength(20)]
+        public string DocType { get; set; }
 
         [StringLength(10)]
         public string PaymentTerms { get; set; }
@@ -35,8 +35,6 @@ namespace ERP_Core2.EntityFramework
 
         public long SupplierId { get; set; }
 
-        public long CustomerId { get; set; }
-
         public long? ContractId { get; set; }
 
         public long? POQuoteId { get; set; }
@@ -47,7 +45,7 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string PONumber { get; set; }
 
-        public int? Quantity { get; set; }
+        public decimal? Quantity { get; set; }
 
         [StringLength(50)]
         public string UnitOfMeasure { get; set; }
@@ -65,17 +63,26 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "date")]
         public DateTime? PromisedDeliveredDate { get; set; }
 
+        [Column(TypeName = "money")]
         public decimal? Tax { get; set; }
 
         [StringLength(10)]
         public string TaxCode { get; set; }
 
+        public DateTime? TransactionDate { get; set; }
+
+        public decimal? QuantityReceived { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? AmountReceived { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? AmountPaid { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }
 
         public virtual ChartOfAcct ChartOfAcct { get; set; }
-
-        public virtual Customer Customer { get; set; }
 
         public virtual Supplier Supplier { get; set; }
 

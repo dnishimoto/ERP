@@ -46,10 +46,7 @@ namespace MillenniumERP.CustomerDomain
         public DateTime? CreatedDate { get; set; }
 
     }
-    public class PurchaseOrderView
-    {
-        public long? PurchaseOrderId { get; set; }
-    }
+   
   
     public class ScheduleEventView
     {

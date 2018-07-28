@@ -13,10 +13,6 @@ namespace ERP_Core2.EntityFramework
 
         public long? DocNumber { get; set; }
 
-        public long DocTypeXRefId { get; set; }
-
-        public long PaymentTermsXRefId { get; set; }
-
         [Column(TypeName = "money")]
         public decimal? GrossAmount { get; set; }
 
@@ -47,11 +43,28 @@ namespace ERP_Core2.EntityFramework
 
         public long AccountId { get; set; }
 
-        public virtual UDC UDC { get; set; }
+        [Required]
+        [StringLength(20)]
+        public string DocType { get; set; }
+
+        [StringLength(20)]
+        public string PaymentTerms { get; set; }
+
+        public decimal? DiscountPercent { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? AmountReceived { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? AmountOpen { get; set; }
+
+        [StringLength(50)]
+        public string OrderNumber { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? DiscountDueDate { get; set; }
 
         public virtual Invoice Invoice { get; set; }
-
-        public virtual UDC UDC1 { get; set; }
 
         public virtual PurchaseOrder PurchaseOrder { get; set; }
 
