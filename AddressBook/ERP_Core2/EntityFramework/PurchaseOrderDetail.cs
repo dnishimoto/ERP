@@ -24,8 +24,6 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string UnitOfMeasure { get; set; }
 
-        public long? VendorAddressId { get; set; }
-
         [Column(TypeName = "date")]
         public DateTime? ReceivedDate { get; set; }
 

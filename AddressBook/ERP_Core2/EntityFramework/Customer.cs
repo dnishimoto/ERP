@@ -19,7 +19,6 @@ namespace ERP_Core2.EntityFramework
             CustomerLedgers = new HashSet<CustomerLedger>();
             Invoices = new HashSet<Invoice>();
             POQuotes = new HashSet<POQuote>();
-            PurchaseOrders = new HashSet<PurchaseOrder>();
             SalesOrders = new HashSet<SalesOrder>();
             ScheduleEvents = new HashSet<ScheduleEvent>();
             Shipments = new HashSet<Shipment>();
@@ -64,9 +63,6 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<POQuote> POQuotes { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrder> SalesOrders { get; set; }

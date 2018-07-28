@@ -109,9 +109,13 @@ namespace MillenniumERP.AccountsReceivableDomain
                     acctRec.OpenAmount = acctRec.Amount - acctRec.DebitAmount;
                     decimal discountAmount = acctRec.Amount * acctRec.DiscountPercent ?? 0;
                     //Check for Discount Dates
-                    if (acctRec.DiscountDueDate <= ledgerView.GLDate)
+                    if (
+                        (acctRec.DiscountDueDate <= ledgerView.GLDate)
+                        &&
+((acctRec.DebitAmount + discountAmount)==acctRec.Amount)
+                        )
                     {
-                        acctRec.OpenAmount = acctRec.Amount - acctRec.DebitAmount - discountAmount;
+                        acctRec.OpenAmount = acctRec.Amount - (acctRec.DebitAmount + discountAmount);
 
                     }
                     UpdateObject(acctRec);
@@ -188,7 +192,7 @@ namespace MillenniumERP.AccountsReceivableDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)acctRec.InvoiceId);
+                var query = await GetObjectAsync((int)acctRec.AcctRecId);
 
                 AcctRec acctRecBase = query;
 

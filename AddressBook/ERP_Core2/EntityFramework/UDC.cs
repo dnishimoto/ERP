@@ -12,8 +12,6 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public UDC()
         {
-            AcctPays = new HashSet<AcctPay>();
-            AcctPays1 = new HashSet<AcctPay>();
             AcctRecs = new HashSet<AcctRec>();
             Assets = new HashSet<Asset>();
             Carriers = new HashSet<Carrier>();
@@ -41,12 +39,6 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(255)]
         public string Value { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AcctPay> AcctPays { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AcctPay> AcctPays1 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctRec> AcctRecs { get; set; }

@@ -112,7 +112,7 @@ namespace MillenniumERP.CustomerLedgerDomain
 
                     return customerLedger.AccountId;
                 }
-                return -1;
+                return query.CustomerLedgerId;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }

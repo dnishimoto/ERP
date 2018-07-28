@@ -14,6 +14,7 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string AccountBalanceType { get; set; }
 
+        [Column(TypeName = "money")]
         public decimal? Amount { get; set; }
 
         public decimal? Hours { get; set; }

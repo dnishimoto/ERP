@@ -16,6 +16,8 @@ using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.ItemMasterDomain;
 using MillenniumERP.CustomerLedgerDomain;
+using MillenniumERP.AccountsPayableDomain;
+using MillenniumERP.PurchaseOrderDomain;
 
 namespace MillenniumERP.Services
 {
@@ -44,6 +46,8 @@ namespace MillenniumERP.Services
         public EmailRepository emailRepository => new EmailRepository(db);
         public LocationAddressRepository locationAddressRepository => new LocationAddressRepository(db);
         public CustomerLedgerRepository customerLedgerRepository => new CustomerLedgerRepository(db);
+        public AccountPayableRepository accountPayableRepository => new AccountPayableRepository(db);
+        public PurchaseOrderRepository purchaseOrderRepository => new PurchaseOrderRepository(db);
         public UnitOfWork()
         {
             /*

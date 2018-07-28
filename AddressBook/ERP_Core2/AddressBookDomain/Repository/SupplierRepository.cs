@@ -47,7 +47,61 @@ namespace MillenniumERP.AddressBookDomain
             Task<Supplier> supplierTask = GetObjectAsync(supplierId);
             return applicationViewFactory.MapSupplierView(supplierTask.Result);
         }
+        public async Task<SupplierView> CreateSupplierByAddressBook(AddressBook addressBook, LocationAddress locationAddress, Email email)
+        {
+            SupplierView supplierView = null;
+            try
+            {
+                UDC udc = await base.GetUdc("AB_Type", "Supplier");
+                if (udc != null)
+                {
+                    addressBook.PeopleXrefId = udc.XRefId;
+                }
 
+                AddressBook query = await (from e in _dbContext.AddressBooks
+                                           join f in _dbContext.Emails
+                                               on e.AddressId equals f.AddressId
+                                           where f.Email1 == email.Email1
+                                           select e).FirstOrDefaultAsync<AddressBook>();
+
+                if (query == null)
+                {
+                    _dbContext.Set<AddressBook>().Add(addressBook);
+                    _dbContext.SaveChanges();
+                    locationAddress.AddressId = addressBook.AddressId;
+                    _dbContext.Set<LocationAddress>().Add(locationAddress);
+                    _dbContext.SaveChanges();
+                    email.AddressId = addressBook.AddressId;
+                    _dbContext.Set<Email>().Add(email);
+                    _dbContext.SaveChanges();
+
+
+                }
+                else
+                {
+                    addressBook.AddressId = query.AddressId;
+                }
+                Supplier supplier = await (from e in _dbContext.Suppliers
+                                           where e.AddressId == addressBook.AddressId
+                                           select e).FirstOrDefaultAsync<Supplier>();
+                if (supplier == null)
+                {
+                    Supplier newSupplier = new Supplier();
+                    newSupplier.AddressId = addressBook.AddressId;
+                    newSupplier.Identification = email.Email1;
+
+                    supplierView = applicationViewFactory.MapSupplierView(supplier);
+                }
+                else
+                {
+                    supplierView = applicationViewFactory.MapSupplierView(supplier);
+                }
+                return supplierView;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+
+        }
 
 
     }

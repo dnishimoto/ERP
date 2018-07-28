@@ -1,4 +1,5 @@
 ﻿using ERP_Core2.EntityFramework;
+using MillenniumERP.AccountsPayableDomain;
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.CustomerDomain;
@@ -48,6 +49,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapInvoiceDetailEntity(ref InvoiceDetail invoiceDetail, InvoiceDetailView invoiceDetailView);
         public abstract void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView customerLedgerView);
         public abstract CustomerLedgerView MapCustomerLedgerView(CustomerLedger customerLedger);
+        public abstract AccountPayableView MapAccountPayableView(AcctPay acctPay);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -127,7 +129,7 @@ namespace ERP_Core2.AbstractFactory
             {
                 list.Add(MapInvoiceDetails(item));
             }
-            invoiceView.InvoiceViewDetails = list;
+            invoiceView.InvoiceDetailViews = list;
             return invoiceView;
         }
         public override InvoiceDetailView MapInvoiceDetails(InvoiceDetail invoiceDetail)
@@ -222,6 +224,11 @@ namespace ERP_Core2.AbstractFactory
             customer.AddressId = customerView.AddressId;
 
         }
+        public override AccountPayableView MapAccountPayableView(AcctPay acctPay)
+        {
+            return new AccountPayableView(acctPay);
+
+        }
     }
 
     //General Ledger Domain
@@ -247,6 +254,7 @@ namespace ERP_Core2.AbstractFactory
             ledger.FiscalYear = view.FiscalYear;
             ledger.FiscalPeriod = view.FiscalPeriod;
             ledger.CheckNumber = view.CheckNumber;
+            ledger.PurchaseOrderNumber = view.PurchaseOrderNumber;
         }
         public override void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView ledgerView)
         {

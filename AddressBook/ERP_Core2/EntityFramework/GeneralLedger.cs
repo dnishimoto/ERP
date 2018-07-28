@@ -54,6 +54,9 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string CheckNumber { get; set; }
 
+        [StringLength(50)]
+        public string PurchaseOrderNumber { get; set; }
+
         public virtual AddressBook AddressBook { get; set; }
 
         public virtual ChartOfAcct ChartOfAcct { get; set; }
