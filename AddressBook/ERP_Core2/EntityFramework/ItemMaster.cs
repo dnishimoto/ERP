@@ -31,15 +31,15 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string CommodityCode { get; set; }
 
-        [StringLength(20)]
-        public string ItemPriceGroup { get; set; }
-
         [StringLength(255)]
         public string Description2 { get; set; }
 
         [Required]
         [StringLength(20)]
         public string ItemNumber { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? UnitPrice { get; set; }
 
         public virtual Inventory Inventory { get; set; }
 

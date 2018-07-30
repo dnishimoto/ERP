@@ -30,17 +30,19 @@ namespace MillenniumERP.PurchaseOrderDomain
             this.POQuoteId = po.POQuoteId;
             this.Description = po.Description;
             this.PONumber = po.PONumber;
-            this.Quantity = po.Quantity;
-            this.UnitOfMeasure = po.UnitOfMeasure;
             this.TakenBy = po.TakenBy;
-            this.ShippedToLocationId = po.ShippedToLocationId;
+            this.ShippedToName = po.ShippedToName;
+            this.ShippedToAddress1 = po.ShippedToAddress1;
+            this.ShippedToAddress2 = po.ShippedToAddress2;
+            this.ShippedToCity = po.ShippedToCity;
+            this.ShippedToState = po.ShippedToState;
+            this.ShippedToZipcode = po.ShippedToZipcode;
             this.BuyerId = po.BuyerId;
             this.RequestedDate = po.RequestedDate;
             this.PromisedDeliveredDate = po.PromisedDeliveredDate;
             this.Tax = po.Tax;
             this.TaxCode = po.TaxCode;
             this.TransactionDate = po.TransactionDate;
-            this.QuantityReceived = po.QuantityReceived;
             this.AmountReceived = po.AmountReceived;
             this.AmountPaid = po.AmountPaid;
         }
@@ -57,22 +59,19 @@ namespace MillenniumERP.PurchaseOrderDomain
         public long? POQuoteId { get; set; }
         public string Description { get; set; }
         public string PONumber { get; set; }
-        public decimal? Quantity { get; set; }
-        public string UnitOfMeasure { get; set; }
         public string TakenBy { get; set; }
-        public long? ShippedToLocationId { get; set; }
-        public string ShippedAddress1 { get; set; }
-        public string ShippedAddress2 { get; set; }
-        public string ShippedCity { get; set; }
-        public string ShippedState { get; set; }
-        public string ShippedZipcode { get; set; }
+        public string ShippedToName { get; set; }
+        public string ShippedToAddress1 { get; set; }
+        public string ShippedToAddress2 { get; set; }
+        public string ShippedToCity { get; set; }
+        public string ShippedToState { get; set; }
+        public string ShippedToZipcode { get; set; }
         public long? BuyerId { get; set; }
         public DateTime? RequestedDate { get; set; }
         public DateTime? PromisedDeliveredDate { get; set; }
         public decimal? Tax { get; set; }
         public string TaxCode { get; set; }
         public DateTime? TransactionDate { get; set; }
-        public decimal? QuantityReceived { get; set; }
         public decimal? AmountReceived { get; set; }
         public decimal? AmountPaid { get; set; }
 

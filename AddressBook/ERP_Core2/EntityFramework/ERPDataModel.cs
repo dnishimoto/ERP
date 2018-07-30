@@ -783,16 +783,16 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<ItemMaster>()
-                .Property(e => e.ItemPriceGroup)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<ItemMaster>()
                 .Property(e => e.Description2)
                 .IsUnicode(false);
 
             modelBuilder.Entity<ItemMaster>()
                 .Property(e => e.ItemNumber)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<ItemMaster>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<ItemMaster>()
                 .HasOptional(e => e.Inventory)
@@ -959,10 +959,6 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<PurchaseOrder>()
-                .Property(e => e.UnitOfMeasure)
-                .IsFixedLength();
-
-            modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.TakenBy)
                 .IsFixedLength();
 
@@ -981,6 +977,30 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.AmountPaid)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.ShippedToName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.ShippedToAddress1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.ShippedToAddress2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.ShippedToCity)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.ShippedToZipcode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.ShippedToState)
+                .IsUnicode(false);
 
             modelBuilder.Entity<PurchaseOrder>()
                 .HasMany(e => e.PurchaseOrderDetails)

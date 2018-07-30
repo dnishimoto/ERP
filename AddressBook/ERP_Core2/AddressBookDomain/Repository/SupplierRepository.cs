@@ -19,12 +19,14 @@ namespace MillenniumERP.AddressBookDomain
         {
             this.SupplierId = supplier.SupplierId;
             this.SupplierName = supplier.AddressBook.Name;
+            this.CompanyName = supplier.AddressBook.CompanyName;
             this.SupplierIdentification = supplier.Identification;
 
         }
 
         public long? SupplierId { get; set; }
         public string SupplierName { get; set; }
+        public string CompanyName { get; set; }
         public string SupplierIdentification { get; set; }
 
 
@@ -56,6 +58,12 @@ namespace MillenniumERP.AddressBookDomain
                 if (udc != null)
                 {
                     addressBook.PeopleXrefId = udc.XRefId;
+                }
+
+                UDC udcLocationAddressType = await base.GetUdc("LOCATIONADDRESS_TYPE", "BillTo");
+                if (udcLocationAddressType != null)
+                {
+                    locationAddress.TypeXRefId = udcLocationAddressType.XRefId;
                 }
 
                 AddressBook query = await (from e in _dbContext.AddressBooks
@@ -90,7 +98,10 @@ namespace MillenniumERP.AddressBookDomain
                     newSupplier.AddressId = addressBook.AddressId;
                     newSupplier.Identification = email.Email1;
 
-                    supplierView = applicationViewFactory.MapSupplierView(supplier);
+                    _dbContext.Set<Supplier>().Add(newSupplier);
+                    _dbContext.SaveChanges();
+
+                    supplierView = applicationViewFactory.MapSupplierView(newSupplier);
                 }
                 else
                 {
