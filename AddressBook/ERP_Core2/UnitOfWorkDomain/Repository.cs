@@ -85,6 +85,21 @@ namespace MillenniumERP.Services
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
+        public async Task<Company> GetCompany()
+        {
+            try
+            {
+                Entities _dbEntities = (Entities)_dbContext;
+
+
+                Company company = await (from e in _dbEntities.Companies
+                                         where e.CompanyId == 1
+                                         select e).FirstOrDefaultAsync<Company>();
+
+                return company;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<ChartOfAcct> GetChartofAccount(string company, string busUnit, string objectNumber, string subsidiary)
         {
             try

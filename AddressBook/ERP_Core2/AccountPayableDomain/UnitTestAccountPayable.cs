@@ -35,11 +35,18 @@ namespace ERP_Core2.AccountPayableDomain
         {
         }
         [Fact]
-        public void TestCreateAccountModel()
+        public async Task TestCreateAccountModel()
         {
-            bool status = false;
             UnitOfWork unitOfWork = new UnitOfWork();
 
+            ItemMaster itemMaster = new ItemMaster();
+            itemMaster.ItemNumber = "P2001Test";
+            itemMaster.Description = "Highlighter - 3 Color";
+            itemMaster.UnitOfMeasure = "Sets";
+            itemMaster.UnitPrice = 6M;
+
+            bool result=await unitOfWork.itemMasterRepository.CreateItemMaster(itemMaster);
+            if (result) { unitOfWork.CommitChanges(); }
             AddressBook addressBook = new AddressBook();
             addressBook.CompanyName = "Sample Company Part Ltd";
             addressBook.Name = "";
@@ -57,13 +64,45 @@ namespace ERP_Core2.AccountPayableDomain
             email.LoginEmail = true;
             email.Password = "123";
 
-            unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook,locationAddress,email);
+           
+            SupplierView supplierView=await unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook,locationAddress,email);
 
             PurchaseOrderView purchaseOrderView = new PurchaseOrderView();
 
+            ChartOfAcct coa = await unitOfWork.supplierRepository.GetChartofAccount("1000", "1200", "240", "");
 
-            
-          
+            Company company = await unitOfWork.supplierRepository.GetCompany();
+            purchaseOrderView.DocType = "OV";
+            purchaseOrderView.PaymentTerms = "Net 30";
+            purchaseOrderView.GLDate = DateTime.Parse("7/30/2018");
+            purchaseOrderView.AccountId = coa.AccountId;
+            purchaseOrderView.SupplierId = supplierView.SupplierId??0;
+            purchaseOrderView.SupplierName = supplierView.CompanyName;
+            purchaseOrderView.Description = "Back to School Inventory";
+            purchaseOrderView.PONumber = "PO-1";
+            purchaseOrderView.TakenBy = "David Nishimoto";
+
+            purchaseOrderView.BuyerId = company.CompanyId;
+            purchaseOrderView.ShippedToName= company.CompanyName;
+            purchaseOrderView.ShippedToAddress1 = company.CompanyStreet;
+
+            purchaseOrderView.ShippedToCity = company.CompanyCity;
+            purchaseOrderView.ShippedToState = company.CompanyState;
+            purchaseOrderView.ShippedToZipcode = company.CompanyZipcode;
+
+
+
+            purchaseOrderView.RequestedDate = DateTime.Parse("7/24/2018");
+
+            purchaseOrderView.PromisedDeliveredDate = DateTime.Parse("8/2/2018");
+
+            purchaseOrderView.TransactionDate = DateTime.Parse("7/30/2018"); 
+
+    
+
+
+
+
             Assert.True(true);
         }
      

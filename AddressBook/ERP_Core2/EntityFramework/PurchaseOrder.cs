@@ -45,15 +45,8 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string PONumber { get; set; }
 
-        public decimal? Quantity { get; set; }
-
-        [StringLength(50)]
-        public string UnitOfMeasure { get; set; }
-
         [StringLength(10)]
         public string TakenBy { get; set; }
-
-        public long? ShippedToLocationId { get; set; }
 
         public long? BuyerId { get; set; }
 
@@ -71,13 +64,29 @@ namespace ERP_Core2.EntityFramework
 
         public DateTime? TransactionDate { get; set; }
 
-        public decimal? QuantityReceived { get; set; }
-
         [Column(TypeName = "money")]
         public decimal? AmountReceived { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? AmountPaid { get; set; }
+
+        [StringLength(255)]
+        public string ShippedToName { get; set; }
+
+        [StringLength(100)]
+        public string ShippedToAddress1 { get; set; }
+
+        [StringLength(100)]
+        public string ShippedToAddress2 { get; set; }
+
+        [StringLength(50)]
+        public string ShippedToCity { get; set; }
+
+        [StringLength(20)]
+        public string ShippedToZipcode { get; set; }
+
+        [StringLength(20)]
+        public string ShippedToState { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }
