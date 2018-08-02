@@ -7,6 +7,7 @@ using MillenniumERP.CustomerLedgerDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoiceDetailsDomain;
 using MillenniumERP.InvoicesDomain;
+using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
 using System;
@@ -50,6 +51,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView customerLedgerView);
         public abstract CustomerLedgerView MapCustomerLedgerView(CustomerLedger customerLedger);
         public abstract AccountPayableView MapAccountPayableView(AcctPay acctPay);
+        public abstract void MapPurchaseOrderEntity(ref PurchaseOrder purchaseOrder, PurchaseOrderView purchaseOrderView);
+        public abstract void MapPurchaseOrderDetailEntity(ref PurchaseOrderDetail purchaseOrderDetail, PurchaseOrderDetailView purchaseOrderDetailView);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -163,6 +166,51 @@ namespace ERP_Core2.AbstractFactory
             invoiceDetail.ItemId = invoiceDetailView.ItemId ?? 0;
 
         }
+        public override void MapPurchaseOrderEntity(ref PurchaseOrder purchaseOrder, PurchaseOrderView purchaseOrderView)
+        {
+            purchaseOrder.PurchaseOrderId = purchaseOrderView.PurchaseOrderId??0;
+            purchaseOrder.DocType = purchaseOrderView.DocType;
+            purchaseOrder.PaymentTerms = purchaseOrderView.PaymentTerms;
+            purchaseOrder.GrossAmount = purchaseOrderView.GrossAmount;
+            purchaseOrder.Remark = purchaseOrderView.Remark;
+            purchaseOrder.GLDate = purchaseOrderView.GLDate;
+            purchaseOrder.AccountId = purchaseOrderView.AccountId;
+            purchaseOrder.SupplierId = purchaseOrderView.SupplierId;
+            purchaseOrder.ContractId = purchaseOrderView.ContractId;
+            purchaseOrder.POQuoteId = purchaseOrderView.POQuoteId;
+            purchaseOrder.Description = purchaseOrderView.Description;
+            purchaseOrder.PONumber = purchaseOrderView.PONumber;
+            purchaseOrder.TakenBy = purchaseOrderView.TakenBy;
+            purchaseOrder.BuyerId = purchaseOrderView.BuyerId;
+            purchaseOrder.RequestedDate = purchaseOrderView.RequestedDate;
+            purchaseOrder.PromisedDeliveredDate = purchaseOrderView.PromisedDeliveredDate;
+            purchaseOrder.Tax = purchaseOrderView.Tax;
+            purchaseOrder.TaxCode1 = purchaseOrderView.TaxCode1;
+            purchaseOrder.TaxCode2 = purchaseOrderView.TaxCode2;
+            purchaseOrder.TransactionDate = purchaseOrderView.TransactionDate;
+            purchaseOrder.AmountPaid = purchaseOrderView.AmountPaid;
+            purchaseOrder.ShippedToName = purchaseOrderView.ShippedToName;
+            purchaseOrder.ShippedToAddress1 = purchaseOrderView.ShippedToAddress1;
+            purchaseOrder.ShippedToAddress2 = purchaseOrderView.ShippedToAddress2;
+            purchaseOrder.ShippedToCity = purchaseOrderView.ShippedToCity;
+            purchaseOrder.ShippedToZipcode = purchaseOrderView.ShippedToZipcode;
+            purchaseOrder.ShippedToState = purchaseOrderView.ShippedToState;
+    }
+        public override void MapPurchaseOrderDetailEntity(ref PurchaseOrderDetail purchaseOrderDetail, PurchaseOrderDetailView purchaseOrderDetailView)
+        {
+            purchaseOrderDetail.PurchaseOrderDetailId = purchaseOrderDetailView.PurchaseOrderDetailId;
+            purchaseOrderDetail.PurchaseOrderId = purchaseOrderDetailView.PurchaseOrderId;
+            purchaseOrderDetail.Amount = purchaseOrderDetailView.Amount;
+            purchaseOrderDetail.OrderedQuantity = purchaseOrderDetailView.OrderedQuantity;
+            purchaseOrderDetail.ItemId = purchaseOrderDetailView.ItemId;
+            purchaseOrderDetail.UnitPrice = purchaseOrderDetailView.UnitPrice;
+            purchaseOrderDetail.UnitOfMeasure = purchaseOrderDetailView.UnitOfMeasure;
+            purchaseOrderDetail.ReceivedDate = purchaseOrderDetailView.ReceivedDate;
+            purchaseOrderDetail.ExpectedDeliveryDate = purchaseOrderDetailView.ExpectedDeliveryDate;
+            purchaseOrderDetail.OrderDate = purchaseOrderDetailView.OrderDate;
+            purchaseOrderDetail.ReceivedQuantity = purchaseOrderDetailView.ReceivedQuantity;
+            purchaseOrderDetail.RemainingQuantity = purchaseOrderDetailView.RemainingQuantity;
+    }
 
         public override CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim)
         {

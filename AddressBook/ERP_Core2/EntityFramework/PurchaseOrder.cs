@@ -45,7 +45,7 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string PONumber { get; set; }
 
-        [StringLength(10)]
+        [StringLength(100)]
         public string TakenBy { get; set; }
 
         public long? BuyerId { get; set; }
@@ -59,13 +59,7 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "money")]
         public decimal? Tax { get; set; }
 
-        [StringLength(10)]
-        public string TaxCode { get; set; }
-
         public DateTime? TransactionDate { get; set; }
-
-        [Column(TypeName = "money")]
-        public decimal? AmountReceived { get; set; }
 
         [Column(TypeName = "money")]
         public decimal? AmountPaid { get; set; }
@@ -87,6 +81,12 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(20)]
         public string ShippedToState { get; set; }
+
+        [StringLength(20)]
+        public string TaxCode1 { get; set; }
+
+        [StringLength(20)]
+        public string TaxCode2 { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }

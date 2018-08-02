@@ -41,10 +41,12 @@ namespace MillenniumERP.PurchaseOrderDomain
             this.RequestedDate = po.RequestedDate;
             this.PromisedDeliveredDate = po.PromisedDeliveredDate;
             this.Tax = po.Tax;
-            this.TaxCode = po.TaxCode;
+            this.TaxCode1 = po.TaxCode1;
+            this.TaxCode2 = po.TaxCode2;
             this.TransactionDate = po.TransactionDate;
-            this.AmountReceived = po.AmountReceived;
             this.AmountPaid = po.AmountPaid;
+            this.TaxCode1 = po.TaxCode1;
+            this.TaxCode2 = po.TaxCode2;
         }
         public long? PurchaseOrderId { get; set; }
         public string DocType { get; set; }
@@ -70,12 +72,11 @@ namespace MillenniumERP.PurchaseOrderDomain
         public DateTime? RequestedDate { get; set; }
         public DateTime? PromisedDeliveredDate { get; set; }
         public decimal? Tax { get; set; }
-        public string TaxCode { get; set; }
         public DateTime? TransactionDate { get; set; }
-        public decimal? AmountReceived { get; set; }
-        public decimal? AmountPaid { get; set; }
-
-        public virtual ICollection PurchaseOrderDetailView { get; set; }
+         public decimal? AmountPaid { get; set; }
+        public string TaxCode1 { get; set; }
+        public string TaxCode2 { get; set; }
+        public IList<PurchaseOrderDetailView> PurchaseOrderDetailViews { get; set; }
     }
     public class PurchaseOrderDetailView
     {
@@ -94,7 +95,8 @@ namespace MillenniumERP.PurchaseOrderDomain
             this.ExpectedDeliveryDate = detail.ExpectedDeliveryDate;
             this.OrderDate = detail.OrderDate;
             this.ReceivedQuantity = detail.ReceivedQuantity;
-            this.RemainingQuantity = detail.RemainingQuantity; 
+            this.RemainingQuantity = detail.RemainingQuantity;
+            this.Description = detail.Description;
     }
     public long PurchaseOrderDetailId { get; set; }
         public long PurchaseOrderId { get; set; }
@@ -108,6 +110,7 @@ namespace MillenniumERP.PurchaseOrderDomain
         public DateTime? OrderDate { get; set; }
         public int? ReceivedQuantity { get; set; }
         public int? RemainingQuantity { get; set; }
+        public string Description { get; set; }
     }
 
 
@@ -121,6 +124,52 @@ namespace MillenniumERP.PurchaseOrderDomain
         {
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<bool> CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView)
+        {
+            decimal grossAmount = 0;
+            try
+            {
+                foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
+                {
+                    grossAmount += detail.Amount ?? 0;
+                }
+                purchaseOrderView.GrossAmount = grossAmount;
+                purchaseOrderView.AmountPaid = 0;
+
+                TaxRatesByCode tax = await base.GetTaxRateByCode(purchaseOrderView.TaxCode1);
+                purchaseOrderView.Tax = grossAmount * tax.TaxRate;
+
+                PurchaseOrder po = new PurchaseOrder();
+                applicationViewFactory.MapPurchaseOrderEntity(ref po, purchaseOrderView);
+
+                base.AddObject(po);
+
+                _dbContext.SaveChanges();
+
+                long purchaseOrderId = po.PurchaseOrderId;
+
+                foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
+                {
+                    detail.PurchaseOrderId = purchaseOrderId;
+
+                    PurchaseOrderDetail poDetail = new PurchaseOrderDetail();
+                    applicationViewFactory.MapPurchaseOrderDetailEntity(ref poDetail, detail);
+
+                    var query = await (from e in _dbContext.PurchaseOrderDetails
+                                       where e.ItemId == detail.ItemId
+                                       && e.PurchaseOrderId == purchaseOrderId
+                                       select e).FirstOrDefaultAsync<PurchaseOrderDetail>();
+                    if (query == null)
+                    {
+                        _dbContext.Set<PurchaseOrderDetail>().Add(poDetail);
+                        _dbContext.SaveChanges();
+                    }
+                    
+                }
+                return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<PurchaseOrder> GetPurchaseOrderByDocNumber(string PONumber)
         {

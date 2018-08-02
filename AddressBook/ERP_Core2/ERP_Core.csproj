@@ -100,7 +100,6 @@
     <Compile Include="EntityFramework\BudgetRange.cs" />
     <Compile Include="EntityFramework\BudgetSnapShot.cs" />
     <Compile Include="EntityFramework\Buyer.cs" />
-    <Compile Include="EntityFramework\Carier.cs" />
     <Compile Include="EntityFramework\Carrier.cs" />
     <Compile Include="EntityFramework\ChartOfAcct.cs" />
     <Compile Include="EntityFramework\Company.cs" />
@@ -144,12 +143,13 @@
     <Compile Include="EntityFramework\Supervisor.cs" />
     <Compile Include="EntityFramework\SupervisorEmployee.cs" />
     <Compile Include="EntityFramework\Supplier.cs" />
+    <Compile Include="EntityFramework\TaxRatesByCode.cs" />
     <Compile Include="EntityFramework\TimeAndAttendancePunchIn.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceSchedule.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
-    <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository - Copy.cs" />
+    <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceDetailRepository.cs" />

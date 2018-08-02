@@ -53,9 +53,6 @@ namespace ERP_Core2.EntityFramework
         public decimal? DiscountPercent { get; set; }
 
         [Column(TypeName = "money")]
-        public decimal? AmountReceived { get; set; }
-
-        [Column(TypeName = "money")]
         public decimal? AmountOpen { get; set; }
 
         [StringLength(50)]
@@ -63,6 +60,9 @@ namespace ERP_Core2.EntityFramework
 
         [Column(TypeName = "date")]
         public DateTime? DiscountDueDate { get; set; }
+
+        [Column(TypeName = "money")]
+        public decimal? AmountPaid { get; set; }
 
         public virtual Invoice Invoice { get; set; }
 

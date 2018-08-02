@@ -9,6 +9,7 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.PurchaseOrderDomain;
 
 namespace MillenniumERP.AccountsPayableDomain
 {
@@ -36,7 +37,7 @@ namespace MillenniumERP.AccountsPayableDomain
             this.DocType = acctPay.DocType;
             this.PaymentTerms = acctPay.PaymentTerms;
             this.DiscountPercent = acctPay.DiscountPercent;
-            this.AmountReceived = acctPay.AmountReceived;
+            this.AmountPaid = acctPay.AmountPaid;
             this.AmountOpen = acctPay.AmountOpen;
             this.OrderNumber = acctPay.OrderNumber;
             this.DiscountDueDate = acctPay.DiscountDueDate;
@@ -60,7 +61,7 @@ namespace MillenniumERP.AccountsPayableDomain
         public string DocType { get; set; }
         public string PaymentTerms { get; set; }
         public decimal? DiscountPercent { get; set; }
-        public decimal? AmountReceived { get; set; }
+        public decimal? AmountPaid { get; set; }
         public decimal? AmountOpen { get; set; }
          public string OrderNumber { get; set; }
         public DateTime? DiscountDueDate { get; set; }
@@ -77,6 +78,11 @@ namespace MillenniumERP.AccountsPayableDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        //public async Task<bool> CreatePayable(PurchaseOrderView purchaseOrderView)
+        //{
+   
+ 
+        //}
         public async Task<AcctPay> GetAcctPayableByDocNumber(long docNumber)
         {
             try
@@ -116,16 +122,16 @@ namespace MillenniumERP.AccountsPayableDomain
 
 
                     decimal? cash = query?.AmountPaid??0;
-                    acctPay.AmountReceived = cash;
-                    acctPay.AmountOpen = acctPay.GrossAmount - acctPay.AmountReceived;
+                    acctPay.AmountPaid = cash;
+                    acctPay.AmountOpen = acctPay.GrossAmount - acctPay.AmountPaid;
                     decimal discountAmount = acctPay.GrossAmount * acctPay.DiscountPercent ?? 0;
                     //Check for Discount Dates
                     if (
                         (acctPay.DiscountDueDate <= ledgerView.GLDate)
-                    && ((acctPay.AmountReceived + discountAmount)==acctPay.AmountOpen)
+                    && ((acctPay.AmountPaid + discountAmount)==acctPay.AmountOpen)
                     )
                     {
-                        acctPay.AmountOpen = acctPay.GrossAmount - (acctPay.AmountReceived + discountAmount);
+                        acctPay.AmountOpen = acctPay.GrossAmount - (acctPay.AmountPaid + discountAmount);
 
                     }
                     UpdateObject(acctPay);

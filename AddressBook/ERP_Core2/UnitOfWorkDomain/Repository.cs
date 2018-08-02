@@ -135,6 +135,21 @@ namespace MillenniumERP.Services
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
+        public async Task<TaxRatesByCode> GetTaxRateByCode(string TaxCode)
+        {
+            try
+            {
+                Entities _dbEntities = (Entities)_dbContext;
+
+                TaxRatesByCode tax = await (from e in _dbEntities.TaxRatesByCodes
+                                            where e.TaxCode == TaxCode
+                                            select e).FirstOrDefaultAsync<TaxRatesByCode>();
+
+                return tax;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<UDC> GetUdc(string productCode, string keyCode)
         {
             try

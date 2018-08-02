@@ -36,6 +36,12 @@ namespace ERP_Core2.EntityFramework
         [StringLength(20)]
         public string CompanyZipcode { get; set; }
 
+        [StringLength(20)]
+        public string TaxCode1 { get; set; }
+
+        [StringLength(20)]
+        public string TaxCode2 { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ChartOfAcct> ChartOfAccts { get; set; }
 

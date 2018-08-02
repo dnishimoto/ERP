@@ -8,7 +8,7 @@ namespace ERP_Core2.EntityFramework
     public partial class Entities : DbContext
     {
         public Entities()
-            : base("name=Entities")
+             : base("name=Entities")
         {
         }
 
@@ -60,6 +60,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<Supervisor> Supervisors { get; set; }
         public virtual DbSet<SupervisorEmployee> SupervisorEmployees { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<TaxRatesByCode> TaxRatesByCodes { get; set; }
         public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
@@ -110,16 +111,16 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(18, 3);
 
             modelBuilder.Entity<AcctPay>()
-                .Property(e => e.AmountReceived)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<AcctPay>()
                 .Property(e => e.AmountOpen)
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctPay>()
                 .Property(e => e.OrderNumber)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<AcctPay>()
+                .Property(e => e.AmountPaid)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.OpenAmount)
@@ -499,6 +500,14 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<Company>()
                 .Property(e => e.CompanyZipcode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.TaxCode1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Company>()
+                .Property(e => e.TaxCode2)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Company>()
@@ -967,14 +976,6 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<PurchaseOrder>()
-                .Property(e => e.TaxCode)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<PurchaseOrder>()
-                .Property(e => e.AmountReceived)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<PurchaseOrder>()
                 .Property(e => e.AmountPaid)
                 .HasPrecision(19, 4);
 
@@ -1003,6 +1004,14 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.TaxCode1)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
+                .Property(e => e.TaxCode2)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrder>()
                 .HasMany(e => e.PurchaseOrderDetails)
                 .WithRequired(e => e.PurchaseOrder)
                 .WillCascadeOnDelete(false);
@@ -1021,6 +1030,10 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<PurchaseOrderDetail>()
                 .Property(e => e.UnitOfMeasure)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PurchaseOrderDetail>()
+                .Property(e => e.Description)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Receipt>()
@@ -1233,6 +1246,18 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.Receipts)
                 .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TaxRatesByCode>()
+                .Property(e => e.TaxCode)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TaxRatesByCode>()
+                .Property(e => e.TaxRate)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<TaxRatesByCode>()
+                .Property(e => e.State)
+                .IsUnicode(false);
 
             modelBuilder.Entity<TimeAndAttendancePunchIn>()
                 .Property(e => e.PunchinDateTime)
