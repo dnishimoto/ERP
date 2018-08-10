@@ -88,7 +88,7 @@ namespace MillenniumERP.GeneralLedgerDomain
 
                     _dbContext.SaveChanges();
 
-                    return ledger.AccountId;
+                    return ledger.GeneralLedgerId;
                 }
                 return query.GeneralLedgerId;
             }

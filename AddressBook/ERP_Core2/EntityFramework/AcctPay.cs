@@ -32,8 +32,6 @@ namespace ERP_Core2.EntityFramework
         [StringLength(1000)]
         public string Description { get; set; }
 
-        public long? ItemId { get; set; }
-
         public long? PurchaseOrderId { get; set; }
 
         [Column(TypeName = "money")]
