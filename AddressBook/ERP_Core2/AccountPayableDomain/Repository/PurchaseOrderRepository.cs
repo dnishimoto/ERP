@@ -14,7 +14,7 @@ namespace MillenniumERP.PurchaseOrderDomain
 {
     public class PurchaseOrderView
     {
-        public PurchaseOrderView() { }
+        public PurchaseOrderView() { this.PurchaseOrderDetailViews = new List<PurchaseOrderDetailView>(); }
         public PurchaseOrderView(PurchaseOrder po)
         {
             this.PurchaseOrderId = po.PurchaseOrderId;
@@ -47,6 +47,7 @@ namespace MillenniumERP.PurchaseOrderDomain
             this.AmountPaid = po.AmountPaid;
             this.TaxCode1 = po.TaxCode1;
             this.TaxCode2 = po.TaxCode2;
+            this.PurchaseOrderDetailViews = new List<PurchaseOrderDetailView>();
         }
         public long? PurchaseOrderId { get; set; }
         public string DocType { get; set; }
@@ -59,6 +60,7 @@ namespace MillenniumERP.PurchaseOrderDomain
         public string SupplierName { get; set; }
         public long? ContractId { get; set; }
         public long? POQuoteId { get; set; }
+        public long? InvoiceId { get; set; }
         public string Description { get; set; }
         public string PONumber { get; set; }
         public string TakenBy { get; set; }
@@ -125,11 +127,45 @@ namespace MillenniumERP.PurchaseOrderDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<bool> CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView)
+        public enum PurchaseOrderStatus
+        {
+            Created,
+            AlreadyExists
+        }
+        public async Task<PurchaseOrderView> GetPurchaseOrderViewByOrderNumber(string orderNumber)
+        {
+            try
+            {
+                List<PurchaseOrder> list = await GetObjectsAsync(e => e.PONumber == orderNumber).ToListAsync<PurchaseOrder>();
+
+                PurchaseOrderView view = applicationViewFactory.MapPurchaseOrderView(list[0]);
+
+                var query = await (from e in _dbContext.PurchaseOrderDetails
+                                   where e.PurchaseOrderId == view.PurchaseOrderId
+                                   select e).ToListAsync<PurchaseOrderDetail>();
+                foreach (var item in query)
+                {
+                    view.PurchaseOrderDetailViews.Add(applicationViewFactory.MapPurchaseOrderDetailView(item));
+
+                }
+                return view;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public async Task<PurchaseOrderStatus> CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView)
         {
             decimal grossAmount = 0;
             try
             {
+                //check if PO exists
+                var queryPO = await (from e in _dbContext.PurchaseOrders
+                                   where e.PONumber == purchaseOrderView.PONumber
+                              
+                                   select e).FirstOrDefaultAsync<PurchaseOrder>();
+                if (queryPO != null) { return PurchaseOrderStatus.AlreadyExists; }
+
+
                 foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
                 {
                     grossAmount += detail.Amount ?? 0;
@@ -156,18 +192,18 @@ namespace MillenniumERP.PurchaseOrderDomain
                     PurchaseOrderDetail poDetail = new PurchaseOrderDetail();
                     applicationViewFactory.MapPurchaseOrderDetailEntity(ref poDetail, detail);
 
-                    var query = await (from e in _dbContext.PurchaseOrderDetails
+                    var queryPODetail = await (from e in _dbContext.PurchaseOrderDetails
                                        where e.ItemId == detail.ItemId
                                        && e.PurchaseOrderId == purchaseOrderId
                                        select e).FirstOrDefaultAsync<PurchaseOrderDetail>();
-                    if (query == null)
+                    if (queryPODetail == null)
                     {
                         _dbContext.Set<PurchaseOrderDetail>().Add(poDetail);
                         _dbContext.SaveChanges();
                     }
                     
                 }
-                return true;
+                return PurchaseOrderStatus.Created;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

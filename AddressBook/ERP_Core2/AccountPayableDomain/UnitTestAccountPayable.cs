@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 using MillenniumERP.PurchaseOrderDomain;
+using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -35,7 +36,7 @@ namespace ERP_Core2.AccountPayableDomain
         {
         }
         [Fact]
-        public async Task TestCreateAccountModel()
+        public async Task TestCreatePurchaseOrder()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
 
@@ -66,7 +67,6 @@ namespace ERP_Core2.AccountPayableDomain
 
 
             SupplierView supplierView = await unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook, locationAddress, email);
-
          
             ChartOfAcct coa = await unitOfWork.supplierRepository.GetChartofAccount("1000", "1200", "240", "");
 
@@ -171,7 +171,17 @@ namespace ERP_Core2.AccountPayableDomain
         
             PurchaseOrderView purchaseOrderView = JsonConvert.DeserializeObject<PurchaseOrderView>(json);
 
-            bool result2 = await unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView);
+
+            PurchaseOrderStatus result2 = await unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView);
+
+            if (result2 == PurchaseOrderStatus.AlreadyExists || result2 == PurchaseOrderStatus.Created)
+            {
+                PurchaseOrderView lookupView = await unitOfWork.purchaseOrderRepository.GetPurchaseOrderViewByOrderNumber(purchaseOrderView.PONumber);
+                bool result3 = await unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(lookupView);
+                if (result3) {
+                    unitOfWork.CommitChanges();
+                }
+            }
             Assert.True(true);
         }
      

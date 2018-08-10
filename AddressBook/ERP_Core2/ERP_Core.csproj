@@ -70,10 +70,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
+    <Compile Include="AbstractFactory\AbstractModule.cs" />
+    <Compile Include="AccountPayableDomain\AccountsPayableModule.cs" />
     <Compile Include="AccountPayableDomain\Repository\PurchaseOrderRepository.cs" />
     <Compile Include="AccountPayableDomain\Repository\AccountPayableRepository.cs" />
     <Compile Include="AccountPayableDomain\UnitTestAccountPayable.cs" />
     <Compile Include="AccountReceivableDomain\Repository\AccountReceivableRepository.cs" />
+    <Compile Include="AccountReceivableDomain\UnitTestAccountsReceivable.cs" />
     <Compile Include="AddressBookDomain\Repository\AddressBookRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\LocationAddressRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\EmailRepository.cs" />
@@ -152,9 +155,11 @@
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
+    <Compile Include="InvoiceDomain\InvoiceModule.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceDetailRepository.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceRepository.cs" />
     <Compile Include="InvoiceDomain\UnitTestInvoice.cs" />
+    <Compile Include="AccountReceivableDomain\AccountsReceivableModule.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementTaskRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementMilestoneRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementProjectRepository.cs" />

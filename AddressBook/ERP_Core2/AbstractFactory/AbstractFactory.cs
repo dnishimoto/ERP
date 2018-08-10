@@ -51,6 +51,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView customerLedgerView);
         public abstract CustomerLedgerView MapCustomerLedgerView(CustomerLedger customerLedger);
         public abstract AccountPayableView MapAccountPayableView(AcctPay acctPay);
+        public abstract PurchaseOrderView MapPurchaseOrderView(PurchaseOrder purchaseOrder);
+        public abstract PurchaseOrderDetailView MapPurchaseOrderDetailView(PurchaseOrderDetail purchaseOrderDetail);
         public abstract void MapPurchaseOrderEntity(ref PurchaseOrder purchaseOrder, PurchaseOrderView purchaseOrderView);
         public abstract void MapPurchaseOrderDetailEntity(ref PurchaseOrderDetail purchaseOrderDetail, PurchaseOrderDetailView purchaseOrderDetailView);
     }
@@ -165,6 +167,14 @@ namespace ERP_Core2.AbstractFactory
             invoiceDetail.DiscountAmount = invoiceDetailView.DiscountAmount;
             invoiceDetail.ItemId = invoiceDetailView.ItemId ?? 0;
 
+        }
+        public override PurchaseOrderView MapPurchaseOrderView(PurchaseOrder purchaseOrder)
+        {
+            return new PurchaseOrderView(purchaseOrder);
+        }
+        public override PurchaseOrderDetailView MapPurchaseOrderDetailView(PurchaseOrderDetail purchaseOrderDetail)
+        {
+            return new PurchaseOrderDetailView(purchaseOrderDetail);
         }
         public override void MapPurchaseOrderEntity(ref PurchaseOrder purchaseOrder, PurchaseOrderView purchaseOrderView)
         {

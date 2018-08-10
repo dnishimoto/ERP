@@ -8,12 +8,15 @@ using System.Threading.Tasks;
 using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
+using MillenniumERP.InvoiceDetailsDomain;
 
 namespace MillenniumERP.InvoicesDomain
 {
     public class InvoiceView
     {
-        public InvoiceView() { }
+        public InvoiceView() {
+            InvoiceDetailViews=new List<InvoiceDetailView>();
+        }
         public InvoiceView(Invoice invoice)
         {
             this.InvoiceId = invoice.InvoiceId;
@@ -32,6 +35,7 @@ namespace MillenniumERP.InvoicesDomain
             this.CompanyCity = invoice.Company.CompanyCity;
             this.CompanyZipcode = invoice.Company.CompanyZipcode;
             this.DiscountDueDate = invoice.DiscountDueDate;
+            InvoiceDetailViews = new List<InvoiceDetailView>();
 
         }
         public long? CompanyId { get; set; }
@@ -51,7 +55,7 @@ namespace MillenniumERP.InvoicesDomain
         public DateTime? PaymentDueDate { get; set; }
         public DateTime? DiscountDueDate { get; set; }
         public string PaymentTerms { get; set; }
-        public virtual ICollection InvoiceDetailViews { get; set; }
+        public IList<InvoiceDetailView> InvoiceDetailViews { get; set; }
     }
    
     public class InvoiceRepository: Repository<Invoice>

@@ -29,7 +29,6 @@ namespace MillenniumERP.AccountsPayableDomain
             this.ContractId = acctPay.ContractId;
             this.POQuoteId = acctPay.POQuoteId;
             this.Description = acctPay.Description;
-            this.ItemId = acctPay.ItemId;
             this.PurchaseOrderId = acctPay.PurchaseOrderId;
             this.Tax = acctPay.Tax;
             this.InvoiceId = acctPay.InvoiceId;
@@ -53,7 +52,6 @@ namespace MillenniumERP.AccountsPayableDomain
         public long? ContractId { get; set; }
         public long? POQuoteId { get; set; }
         public string Description { get; set; }
-        public long? ItemId { get; set; }
         public long? PurchaseOrderId { get; set; }
         public decimal? Tax { get; set; }
         public long? InvoiceId { get; set; }
@@ -78,11 +76,40 @@ namespace MillenniumERP.AccountsPayableDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        //public async Task<bool> CreatePayable(PurchaseOrderView purchaseOrderView)
-        //{
-   
- 
-        //}
+      
+        public async Task<bool> CreateAcctPayByPurchaseOrderView(PurchaseOrderView poView)
+        {
+            //Check if exists
+            List<AcctPay> list = await GetObjectsAsync(e => e.OrderNumber == poView.PONumber).ToListAsync<AcctPay>();
+
+            if (list.Count == 0)
+            {
+               NextNumber nextNumber = await base.GetNextNumber("DocNumber");
+                AcctPay acctPay = new AcctPay();
+                acctPay.DocNumber = nextNumber.NextNumberValue;
+                acctPay.GrossAmount = poView.GrossAmount;
+                //acctPay.DiscountAmount = poView.
+                acctPay.Remark = "";
+                acctPay.GLDate = DateTime.Today.Date;
+                acctPay.SupplierId = poView.SupplierId;
+                acctPay.ContractId = poView.ContractId;
+                acctPay.POQuoteId = poView.POQuoteId;
+                acctPay.Description = poView.Description;
+                acctPay.PurchaseOrderId = poView.PurchaseOrderId;
+                acctPay.Tax = poView.Tax;
+                acctPay.AccountId = poView.AccountId;
+                acctPay.DocType = poView.DocType;
+                acctPay.PaymentTerms = poView.PaymentTerms;
+               // acctPay.DiscountPercent
+                acctPay.AmountOpen = poView.GrossAmount;
+                acctPay.OrderNumber = poView.PONumber;
+                // acctPay.DiscountDueDate
+                acctPay.AmountPaid = 0;
+                AddObject(acctPay);
+                return true;
+                    }
+            return false;
+        }
         public async Task<AcctPay> GetAcctPayableByDocNumber(long docNumber)
         {
             try
