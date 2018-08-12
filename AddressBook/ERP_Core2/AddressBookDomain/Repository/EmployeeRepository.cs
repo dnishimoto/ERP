@@ -40,7 +40,7 @@ namespace MillenniumERP.AddressBookDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public EmployeeView GetEmployeeViewByEmployeeId(int employeeId)
+        public EmployeeView GetEmployeeViewByEmployeeId(long employeeId)
         {
             Task<Employee> employeeTask = GetObjectAsync(employeeId);
             return applicationViewFactory.MapEmployeeView(employeeTask.Result);

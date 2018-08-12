@@ -36,7 +36,7 @@ namespace MillenniumERP.AddressBookDomain
                 _dbContext = (Entities)db;
                 applicationViewFactory = new ApplicationViewFactory();
             }
-        public CarrierView GetCarrierViewByCarrierId(int carrierId)
+        public CarrierView GetCarrierViewByCarrierId(long carrierId)
         {
             Task<Carrier> carrierTask = GetObjectAsync(carrierId);
             return applicationViewFactory.MapCarrierView(carrierTask.Result);

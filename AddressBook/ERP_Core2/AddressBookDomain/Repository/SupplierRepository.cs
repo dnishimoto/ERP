@@ -44,7 +44,7 @@ namespace MillenniumERP.AddressBookDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public SupplierView GetSupplierViewBySupplierId(int supplierId)
+        public SupplierView GetSupplierViewBySupplierId(long supplierId)
         {
             Task<Supplier> supplierTask = GetObjectAsync(supplierId);
             return applicationViewFactory.MapSupplierView(supplierTask.Result);

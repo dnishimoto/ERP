@@ -174,7 +174,7 @@ namespace MillenniumERP.GeneralLedgerDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)generalLedger.GeneralLedgerId);
+                var query = await GetObjectAsync(generalLedger.GeneralLedgerId);
 
                 GeneralLedger generalLedgerBase = query;
 

@@ -35,7 +35,7 @@ public class BuyerRepository : Repository<Buyer> {
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public BuyerView GetBuyerViewByBuyerId(int buyerId)
+        public BuyerView GetBuyerViewByBuyerId(long buyerId)
         {
             Task<Buyer> buyerTask = GetObjectAsync(buyerId);
             return applicationViewFactory.MapBuyerView(buyerTask.Result);

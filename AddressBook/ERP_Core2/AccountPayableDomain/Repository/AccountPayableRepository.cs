@@ -192,7 +192,7 @@ namespace MillenniumERP.AccountsPayableDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)acctPay.AcctPayId);
+                var query = await GetObjectAsync(acctPay.AcctPayId);
 
                 AcctPay acctRecBase = query;
 
