@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
@@ -22,7 +23,7 @@ namespace MillenniumERP.AddressBookDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
    
-        public List<Phone> GetPhonesByAddressId(int addressId)
+        public List<Phone> GetPhonesByAddressId(long addressId)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace MillenniumERP.AddressBookDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public List<Email> GetEmailsByAddressId(int addressId)
+        public List<Email> GetEmailsByAddressId(long addressId)
         {
             try
             {
@@ -83,7 +84,7 @@ namespace MillenniumERP.AddressBookDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<List<AddressBook>> GetAddressBookByAddressId(int addressId)
+        public async Task<List<AddressBook>> GetAddressBookByName(string name)
         {
             try
             {
@@ -91,7 +92,7 @@ namespace MillenniumERP.AddressBookDomain
                 Task<List<AddressBook>> resultList = (from a in _dbContext.AddressBooks
                                                       join b in _dbContext.Supervisors on
                                                       a.AddressId equals b.AddressId
-                                                      where b.AddressId == addressId
+                                                      where a.Name.Contains(name)
                                                       orderby a.Name
                                                       select a
 
@@ -102,5 +103,17 @@ namespace MillenniumERP.AddressBookDomain
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
+        public async Task<AddressBook> GetAddressBookByAddressId(long addressId)
+        {
+            try
+            {
+
+                AddressBook ab = await GetObjectAsync(addressId);
+
+                return ab;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+       
     }
 }

@@ -64,7 +64,7 @@ namespace MillenniumERP.AddressBookDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
     
-        public List<EmployeeView> GetEmployeesBySupervisorId(int supervisorId)
+        public List<EmployeeView> GetEmployeesBySupervisorId(long supervisorId)
         {
             var resultList = (from supervisoremployee in _dbContext.SupervisorEmployees
                                                   join employee in _dbContext.Employees on
@@ -83,13 +83,13 @@ namespace MillenniumERP.AddressBookDomain
             return  list;
 
         }
-        public SupervisorView GetSupervisorBySupervisorId(int supervisorId)
+        public SupervisorView GetSupervisorBySupervisorId(long supervisorId)
         {
             Task<Supervisor> supervisorTask = base.GetObjectAsync(supervisorId);
             Task<Supervisor> parentSupervisorTask = null;
-            long? parentSupervisorId = supervisorTask.Result.ParentSupervisorId;
+            long parentSupervisorId = supervisorTask.Result.ParentSupervisorId??0;
             if (parentSupervisorId != null)
-            { parentSupervisorTask = base.GetObjectAsync((int)parentSupervisorId); }
+            { parentSupervisorTask = base.GetObjectAsync(parentSupervisorId); }
 
             SupervisorView view = applicationViewFactory.MapSupervisorView(supervisorTask.Result, parentSupervisorTask.Result);
 

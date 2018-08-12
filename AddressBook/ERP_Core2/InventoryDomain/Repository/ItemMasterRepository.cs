@@ -63,7 +63,7 @@ namespace MillenniumERP.ItemMasterDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)itemMaster.ItemId);
+                var query = await GetObjectAsync(itemMaster.ItemId);
 
                 ItemMaster itemMasterBase = query;
 

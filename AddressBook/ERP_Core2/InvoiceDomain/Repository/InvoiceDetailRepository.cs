@@ -84,7 +84,7 @@ namespace MillenniumERP.InvoiceDetailsDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)invoiceDetail.InvoiceDetailId);
+                var query = await GetObjectAsync(invoiceDetail.InvoiceDetailId);
 
                 InvoiceDetail invoiceDetailBase = query;
 

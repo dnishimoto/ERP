@@ -89,7 +89,7 @@ namespace MillenniumERP.InvoicesDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)invoice.InvoiceId);
+                var query = await GetObjectAsync(invoice.InvoiceId);
 
                 Invoice invoiceBase = query;
 

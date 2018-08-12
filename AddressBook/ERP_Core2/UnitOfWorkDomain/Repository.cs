@@ -166,7 +166,7 @@ namespace MillenniumERP.Services
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public async Task<T> GetObjectAsync(int id)
+        public async Task<T> GetObjectAsync(long id)
         {
                 Task<T> result = _dbContext.Set<T>().FindAsync(id);
                 return await result;

@@ -23,74 +23,77 @@ namespace ERP_Core2.AddressBookDomain
 
         }
         [Fact]
-        void TestGetBuyerByBuyerId()
+        public async Task TestGetBuyerByBuyerId()
         {
             int buyerId = 1;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-            BuyerView buyerView = unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId);
+            AddressBookModule abMod = new AddressBookModule();
+
+            BuyerView buyerView = await abMod.GetBuyerByBuyerId(buyerId);
             Assert.Equal("Regional Purchasing Clerk",buyerView.BuyerTitle);
         }
         [Fact]
-        void TestGetCarrierByCarrierId()
+        public async Task TestGetCarrierByCarrierId()
         {
             int carrierId = 1;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-            CarrierView carrierView = unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId);
+            AddressBookModule abMod = new AddressBookModule();
+
+            CarrierView carrierView = await abMod.GetCarrierByCarrierId(carrierId);
+          
             Assert.Equal("United Parcel Service",carrierView.CarrierName.ToString());
         }
 
         [Fact]
-        void   TestGetSupplierBySupplierId()
+        public async Task   TestGetSupplierBySupplierId()
         {
             int supplierId = 1;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            SupplierView supplierView = unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
-            Assert.True(supplierView.SupplierId != null);
+            AddressBookModule abMod = new AddressBookModule();
+            SupplierView supplierView = await abMod.GetSupplierBySupplierId(supplierId);
+           Assert.True(supplierView.SupplierId != null);
 
         }
         [Fact]
-        public void TestGetEmployeeByEmployeeId()
+        public async Task TestGetEmployeeByEmployeeId()
         {
             int employeeId = 3;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            EmployeeView employeeView = unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId);
+            AddressBookModule abMod = new AddressBookModule();
+            EmployeeView employeeView =await abMod.GetEmployeeByEmployeeId(employeeId);
             Assert.True(employeeView.EmployeeId != null);
         }
         [Fact]
-        public void TestGetEmployeesBySupervisorId()
+        public async Task TestGetEmployeesBySupervisorId()
         {
             
             int supervisorId = 1;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            List<EmployeeView>list = unitOfWork.supervisorRepository.GetEmployeesBySupervisorId(supervisorId);
+            AddressBookModule abMod = new AddressBookModule();
 
-            int count = 0;
-            foreach (var item in list)
-            {
-                output.WriteLine($"{item.EmployeeId} {item.EmployeeName}");
-                count++;
-            }
-            Assert.True(count>0);
+            List<EmployeeView> list = await abMod.GetEmployeesBySupervisorId(supervisorId);
+
+         
+            Assert.True(list.Count>0);
             
         }
         [Fact]
-        public void TestGetSupervisor()
+        public async Task TestGetSupervisorBySupervisorId()
         {
             int supervisorId = 1;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            SupervisorView view = unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId);
+            AddressBookModule abMod = new AddressBookModule();
+            SupervisorView view = await abMod.GetSupervisorBySupervisorId(supervisorId);
+
             Assert.Equal(view.ParentSupervisorName.ToUpper().ToString() , "PAM NISHIMOTO".ToString());
         }
         [Fact]
-        public void TestAddressBookPhones()
+        public async Task TestGetPhonesByAddressId()
         {
-            
-            List<Phone> resultTask = unitOfWork.addressBookRepository.GetPhonesByAddressId(1);
+            long addressId = 1;
+            AddressBookModule abMod = new AddressBookModule();
+
+            List<Phone> list = await abMod.GetPhonesByAddressId(addressId);
+
 
             List<string> intCollection = new List<string>();
-            foreach (var item in resultTask)
+            foreach (var item in list)
             {
                 output.WriteLine($"{item.PhoneNumber}");
                 intCollection.Add(item.PhoneNumber);
@@ -101,13 +104,15 @@ namespace ERP_Core2.AddressBookDomain
 
         }
         [Fact]
-        public void TestAddressBookEmails()
+        public async Task TestGetEmailsByAddressId()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
-            List<Email> resultTask = unitOfWork.addressBookRepository.GetEmailsByAddressId(1);
+            long addressId = 1;
+            AddressBookModule abMod = new AddressBookModule();
+
+            List<Email> list = await abMod.GetEmailsByAddressId(addressId);
 
             List<string> intCollection = new List<string>();
-            foreach (var item in resultTask)
+            foreach (var item in list)
             {
                 output.WriteLine($"{item.Email1}");
                 intCollection.Add(item.Email1);
@@ -182,8 +187,10 @@ namespace ERP_Core2.AddressBookDomain
         {
             int addressId = 1;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId));
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            AddressBookModule abMod = new AddressBookModule();
+
+            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await abMod.GetAddressBookByName("David"));
 
             IList<string> list = new List<string>();
             foreach (var item in resultTask.Result)
@@ -204,61 +211,79 @@ namespace ERP_Core2.AddressBookDomain
             Assert.Equal("David",resultTask.Result.FirstName);
         }
         [Fact]
-        public void TestUpdateAddressBook()
+        public async Task TestUpdateAddressBook()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
-            Task<AddressBook> resultTask = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetObjectAsync(1));
+            long addressId = 1;
 
-            AddressBook addressBook = resultTask.Result;
+            AddressBookModule abMod = new AddressBookModule();
+
+            AddressBook addressBook = await abMod.GetAddressBookByAddressId(addressId);
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            //Task<AddressBook> resultTask = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetObjectAsync(1));
+
+            //AddressBook addressBook = resultTask.Result;
+
             addressBook.FirstName = "David2";
-            unitOfWork.addressBookRepository.UpdateObject(addressBook);
-            unitOfWork.CommitChanges();
+            bool results = await abMod.UpdateAddressBook(addressBook);
 
-            var query = unitOfWork.addressBookRepository.GetObjectAsync(1);
+           
+            //unitOfWork.addressBookRepository.UpdateObject(addressBook);
+            //unitOfWork.CommitChanges();
 
-            string name = query.Result.FirstName;
+            AddressBook addressBook2 = await abMod.GetAddressBookByAddressId(addressId);
+
+            string name = addressBook2.FirstName;
 
             Assert.Equal("David2",name );
 
-            addressBook = resultTask.Result;
-            addressBook.FirstName = "David";
-            unitOfWork.addressBookRepository.UpdateObject(addressBook);
-            unitOfWork.CommitChanges();
+            //addressBook = resultTask.Result;
+            addressBook2.FirstName = "David";
+            results = await abMod.UpdateAddressBook(addressBook);
+            //unitOfWork.addressBookRepository.UpdateObject(addressBook2);
+            //unitOfWork.CommitChanges();
 
-            query = unitOfWork.addressBookRepository.GetObjectAsync(1);
+            AddressBook addressBook3 = await abMod.GetAddressBookByAddressId(addressId);
 
-            name = query.Result.FirstName;
+
+            name = addressBook3.FirstName;
 
             Assert.Equal("David",name);
         }
         [Fact]
-        public void TestAddandDeleteAddressBook()
+        public async Task TestAddandDeleteAddressBook()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //UnitOfWork unitOfWork = new UnitOfWork();
             AddressBook addressBook = new AddressBook();
             addressBook.FirstName = "James";
             addressBook.LastName = "Dean";
             addressBook.Name = "James Dean";
-            unitOfWork.addressBookRepository.AddObject(addressBook);
-            unitOfWork.CommitChanges();
+    
 
-            IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name == "James Dean");
+            AddressBookModule abMod = new AddressBookModule();
+            bool result = await abMod.CreateAddressBook(addressBook);
+
+            IQueryable<AddressBook> query = await abMod.GetAddressBooksByExpression(a => a.Name == "James Dean");
+            //IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync();
 
             foreach (var item in query)
             {
                 Assert.Equal("James Dean",item.Name );
 
-                unitOfWork.addressBookRepository.DeleteObject(item);
+                //unitOfWork.addressBookRepository.DeleteObject(item);
+                result = await abMod.DeleteAddressBook(item);
             }
-            unitOfWork.CommitChanges();
+            //unitOfWork.CommitChanges();
+
+            Assert.True(result);
            
 
         }
         [Fact]
-        public void TestDeleteAddressBooks()
+        public async Task TestDeleteAddressBooks()
         {
             List<AddressBook> list = new List<AddressBook>();
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            AddressBookModule abMod = new AddressBookModule();
 
             for (int i = 1; i < 10; i++)
             {
@@ -267,10 +292,10 @@ namespace ERP_Core2.AddressBookDomain
                 list.Add(addressBook);
 
             }
-            unitOfWork.addressBookRepository.AddObjects(list);
-            unitOfWork.CommitChanges();
+            bool result = await abMod.CreateAddressBooks(list);
+  
 
-            IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains("Test"));
+            IQueryable<AddressBook> query = await abMod.GetAddressBooksByExpression(a => a.Name.Contains("Test"));
 
             list.Clear();
 
@@ -279,9 +304,10 @@ namespace ERP_Core2.AddressBookDomain
                 list.Add(item);
             }
 
-            unitOfWork.addressBookRepository.DeleteObjects(list);
-            unitOfWork.CommitChanges();
-            Assert.True(true);
+            result = await abMod.DeleteAddressBooks(list);
+
+
+            Assert.True(result);
 
         }
     }

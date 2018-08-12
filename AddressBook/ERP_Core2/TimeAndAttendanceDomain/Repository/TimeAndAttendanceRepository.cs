@@ -120,11 +120,11 @@ namespace MillenniumERP.ScheduleEventsDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<bool> UpdateByTimePunchinId(long? timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
+        public async Task<bool> UpdateByTimePunchinId(long timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
         {
             try
             {
-                var query = await GetObjectAsync((int)timePunchinId);
+                var query = await GetObjectAsync(timePunchinId);
 
                 TimeAndAttendancePunchIn taPunchin = query;
                 taPunchin.DurationInMinutes = workDurationInMinutes;

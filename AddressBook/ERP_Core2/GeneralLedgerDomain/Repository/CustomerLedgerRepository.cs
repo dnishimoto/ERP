@@ -157,7 +157,7 @@ namespace MillenniumERP.CustomerLedgerDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)CustomerLedger.CustomerLedgerId);
+                var query = await GetObjectAsync(CustomerLedger.CustomerLedgerId);
 
                 CustomerLedger CustomerLedgerBase = query;
 

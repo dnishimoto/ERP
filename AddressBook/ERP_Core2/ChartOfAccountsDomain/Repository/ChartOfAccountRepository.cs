@@ -87,7 +87,7 @@ namespace MillenniumERP.Services
                 {
 
                     //foreach (var item in query)
-                    for (int i = 0; i < (int)list.Count; i++)
+                    for (int i = 0; i < list.Count; i++)
                     {
 
                         var item = list[i];

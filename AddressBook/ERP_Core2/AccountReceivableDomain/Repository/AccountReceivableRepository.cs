@@ -192,7 +192,7 @@ namespace MillenniumERP.AccountsReceivableDomain
         {
             try
             {
-                var query = await GetObjectAsync((int)acctRec.AcctRecId);
+                var query = await GetObjectAsync(acctRec.AcctRecId);
 
                 AcctRec acctRecBase = query;
 
