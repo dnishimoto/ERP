@@ -169,6 +169,7 @@
     <Compile Include="ScheduleEventsDomain\Repository\ScheduleEventRepository.cs" />
     <Compile Include="ScheduleEventsDomain\UnitTestScheduleEvent.cs" />
     <Compile Include="TimeAndAttendanceDomain\Repository\TimeAndAttendanceRepository.cs" />
+    <Compile Include="TimeAndAttendanceDomain\TimeAndAttendanceModule.cs" />
     <Compile Include="TimeAndAttendanceDomain\UnitTestTimeAndAttendance.cs" />
     <Compile Include="UDCDomain\Repository\UDCRepository.cs" />
     <Compile Include="UDCDomain\UnitTestUDC.cs" />

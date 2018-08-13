@@ -74,7 +74,7 @@ namespace MillenniumERP.ScheduleEventsDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<List<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(int employeeId)
+        public async Task<List<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(long employeeId)
         {
             try
             {
@@ -96,10 +96,22 @@ namespace MillenniumERP.ScheduleEventsDomain
             }
            
         }
-        public async Task<bool> AddPunchin(TimeAndAttendancePunchIn taPunchin)
+        public async Task<bool> DeletePunchin(TimeAndAttendancePunchIn taPunchin)
+        {
+            try { 
+            DeleteObject(taPunchin);
+            return true;
+            }
+             catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
+        public async Task<long> AddPunchin(TimeAndAttendancePunchIn taPunchin)
         {
             try
             {
+                long timePunchinId = 0;
                 long? employeeId = taPunchin.EmployeeId;
                 string punchinDateTime = taPunchin.PunchinDateTime;
 
@@ -110,10 +122,16 @@ namespace MillenniumERP.ScheduleEventsDomain
                 if (query == null)
                 {
                     AddObject(taPunchin);
+                    _dbContext.SaveChanges();
+                    timePunchinId = taPunchin.TimePunchinId;
+                }
+                else
+                {
+                    timePunchinId = query.TimePunchinId;
                 }
 
 
-                return true;
+                return timePunchinId;
             }
             catch (Exception ex)
             {

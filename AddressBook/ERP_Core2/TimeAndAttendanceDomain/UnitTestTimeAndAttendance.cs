@@ -1,4 +1,5 @@
 ﻿using ERP_Core2.EntityFramework;
+using ERP_Core2.TimeAndAttendanceDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
 using System;
@@ -22,7 +23,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         }
 
         [Fact]
-        public void TestAddTAPunchin()
+        public async Task TestAddTAPunchin()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
             DateTime punchinDate = DateTime.Parse("6/24/2018 08:01:02");
@@ -47,38 +48,47 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             taPunchin.ApprovingAddressId = approvingAddressId;
             taPunchin.PayCodeXrefId = payCodeXrefId;
             taPunchin.ScheduleId = scheduleId;
- 
-            Task<bool> result = Task.Run(async () => await unitOfWork.TARepository.AddPunchin(taPunchin));
 
-            unitOfWork.CommitChanges();
-            Assert.True(result.Result);
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            long timePunchinId = await taMod.AddPunchIn(taPunchin);
+
+            TimeAndAttendancePunchIn taPunchinLookUp= await taMod.GetPunchInById(timePunchinId);
+
+            bool result = await taMod.DeletePunchIn(taPunchinLookUp);
+ 
+            Assert.True(result);
 
         }
         [Fact]
-        public void TestUpdateTAPunchin()
+        public async Task TestUpdateTAPunchin()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
-           
-            int timePunchinId = 3;
-            int WorkDurationInMinutes = 480;
-            int MealDurationInMinutes = 30;
+            long timePunchinId = 3;
+            //UnitOfWork unitOfWork = new UnitOfWork();
 
-            Task<bool>result = Task.Run(async () => await unitOfWork.TARepository.UpdateByTimePunchinId(timePunchinId, WorkDurationInMinutes, MealDurationInMinutes));
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-          
-            unitOfWork.CommitChanges();
-            Assert.True(result.Result);
+            TimeAndAttendancePunchIn taPunchinLookUp = await taMod.GetPunchInById(timePunchinId);
+
+            taPunchinLookUp.DurationInMinutes = 480;
+            taPunchinLookUp.MealDurationInMinutes = 30;
+
+            bool result = await taMod.UpdatePunchIn(taPunchinLookUp);
+       
+
+            Assert.True(result);
 
         }
         [Fact]
         public void TestGetTAPunchin()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
             int employeeId = 3;
-            Task<IList<TimeAndAttendancePunchInView>> resultTask = Task.Run<IList<TimeAndAttendancePunchInView>>(async () => await unitOfWork.TARepository.GetTAPunchinByEmployeeId(employeeId));
+
+            IList<TimeAndAttendancePunchInView> queryList = taMod.GetTAPunchinByEmployeeId(employeeId);
 
             IList<TimeAndAttendancePunchInView> list = new List<TimeAndAttendancePunchInView>();
-            foreach (var item in resultTask.Result)
+            foreach (var item in queryList)
             {
                 output.WriteLine($"{item.EmployeeId} Date: {item.PunchinDateTime} Duration: {item.DurationInMinutes}");
                 list.Add(item);
