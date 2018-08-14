@@ -214,7 +214,7 @@ namespace MillenniumERP.CustomerDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public IList<InvoiceView> GetInvoicesByCustomerId(int customerId, int? invoiceId = null)
+        public IList<InvoiceView> GetInvoicesByCustomerId(long customerId, long? invoiceId = null)
         {
             try
             {
@@ -242,7 +242,7 @@ namespace MillenniumERP.CustomerDomain
 
         }
 
-        public IList<CustomerClaimView> GetCustomerClaimsByCustomerId(int customerId)
+        public IList<CustomerClaimView> GetCustomerClaimsByCustomerId(long customerId)
         {
             try
             {
@@ -258,13 +258,14 @@ namespace MillenniumERP.CustomerDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public IList<ScheduleEventView> GetScheduleEventsByCustomerId(int customerId, int? serviceId = null)
+        public IList<ScheduleEventView> GetScheduleEventsByCustomerId(long customerId, long? serviceId = null)
         {
             try
             {
                 IEnumerable<ScheduleEvent> scheduleEventList = null;
                 var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
 
+            
                 IList<ScheduleEventView> list = new List<ScheduleEventView>();
                 if (serviceId != null)
                 {
@@ -304,7 +305,7 @@ namespace MillenniumERP.CustomerDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public IList<ContractView> GetContractsByCustomerId(int customerId, int? contractId = null)
+        public IList<ContractView> GetContractsByCustomerId(long customerId, long? contractId = null)
         {
             try
             {
@@ -331,7 +332,7 @@ namespace MillenniumERP.CustomerDomain
             { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public IList<LocationAddressView> GetLocationAddressByCustomerId(int customerId)
+        public IList<LocationAddressView> GetLocationAddressByCustomerId(long customerId)
         {
             try
             {
@@ -346,6 +347,7 @@ namespace MillenniumERP.CustomerDomain
                     where e.AddressId == addressId
                     select e).ToListAsync<LocationAddress>();
 
+                Task.WaitAll(customerTask, locationAddressTask);
 
                 IList<LocationAddressView> list = new List<LocationAddressView>();
                 foreach (var item in locationAddressTask.Result)
@@ -359,7 +361,7 @@ namespace MillenniumERP.CustomerDomain
 
         }
 
-        public IList<PhoneView> GetPhonesByCustomerId(int customerId)
+        public IList<PhoneView> GetPhonesByCustomerId(long customerId)
         {
             try
             {
@@ -373,6 +375,7 @@ namespace MillenniumERP.CustomerDomain
                   where e.AddressId == addressId
                   select e).ToListAsync<Phone>();
 
+                Task.WaitAll(customerTask, phoneTask);
 
                 IList<PhoneView> list = new List<PhoneView>();
                 foreach (var item in phoneTask.Result)
@@ -384,11 +387,12 @@ namespace MillenniumERP.CustomerDomain
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public IList<EmailView> GetEmailsByCustomerId(int customerId)
+        public IList<EmailView> GetEmailsByCustomerId(long customerId)
         {
             try
             {
                 Task<Customer> customerTask = base.GetObjectAsync(customerId);
+            
 
                 long addressId = customerTask.Result.AddressId;
                 Task<List<Email>> emailTask =
@@ -396,6 +400,8 @@ namespace MillenniumERP.CustomerDomain
                 (from e in _dbContext.Emails
                  where e.AddressId == addressId
                  select e).ToListAsync<Email>();
+
+                Task.WaitAll(emailTask, customerTask);
 
 
                 IList<EmailView> list = new List<EmailView>();
@@ -408,7 +414,7 @@ namespace MillenniumERP.CustomerDomain
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public IList<AccountReceiveableView> GetAccountReceivablesByCustomerId(int customerId)
+        public IList<AccountReceiveableView> GetAccountReceivablesByCustomerId(long customerId)
         {
             try
             {

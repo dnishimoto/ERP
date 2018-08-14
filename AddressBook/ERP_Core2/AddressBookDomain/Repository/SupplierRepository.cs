@@ -44,10 +44,10 @@ namespace MillenniumERP.AddressBookDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public SupplierView GetSupplierViewBySupplierId(long supplierId)
+        public async Task<SupplierView> GetSupplierViewBySupplierId(long supplierId)
         {
-            Task<Supplier> supplierTask = GetObjectAsync(supplierId);
-            return applicationViewFactory.MapSupplierView(supplierTask.Result);
+            Supplier supplier = await GetObjectAsync(supplierId);
+            return applicationViewFactory.MapSupplierView(supplier);
         }
         public async Task<SupplierView> CreateSupplierByAddressBook(AddressBook addressBook, LocationAddress locationAddress, Email email)
         {

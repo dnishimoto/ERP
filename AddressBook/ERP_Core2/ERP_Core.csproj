@@ -90,6 +90,7 @@
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\UnitTestChartOfAccounts.cs" />
+    <Compile Include="CustomerDomain\CustomerModule.cs" />
     <Compile Include="CustomerDomain\Repository\CustomerRepository.cs" />
     <Compile Include="CustomerDomain\UnitTestCustomer.cs" />
     <Compile Include="EntityFramework\AccountBalance.cs" />

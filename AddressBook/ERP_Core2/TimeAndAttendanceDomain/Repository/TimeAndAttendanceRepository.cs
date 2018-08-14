@@ -96,7 +96,7 @@ namespace MillenniumERP.ScheduleEventsDomain
             }
            
         }
-        public async Task<bool> DeletePunchin(TimeAndAttendancePunchIn taPunchin)
+        public bool DeletePunchin(TimeAndAttendancePunchIn taPunchin)
         {
             try { 
             DeleteObject(taPunchin);

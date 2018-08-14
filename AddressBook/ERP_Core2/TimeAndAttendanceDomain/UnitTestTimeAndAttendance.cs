@@ -55,7 +55,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             TimeAndAttendancePunchIn taPunchinLookUp= await taMod.GetPunchInById(timePunchinId);
 
-            bool result = await taMod.DeletePunchIn(taPunchinLookUp);
+            bool result = taMod.DeletePunchIn(taPunchinLookUp);
  
             Assert.True(result);
 
@@ -73,7 +73,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             taPunchinLookUp.DurationInMinutes = 480;
             taPunchinLookUp.MealDurationInMinutes = 30;
 
-            bool result = await taMod.UpdatePunchIn(taPunchinLookUp);
+            bool result = taMod.UpdatePunchIn(taPunchinLookUp);
        
 
             Assert.True(result);

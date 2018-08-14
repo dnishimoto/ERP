@@ -21,13 +21,16 @@ using MillenniumERP.CustomerLedgerDomain;
 namespace ERP_Core2.CustomerDomain
 {
     public interface IEntity { }
-    public class SquareNumber:IEntity {
+    public class SquareNumber : IEntity
+    {
         public double Value { get; set; }
     }
-    public class CubeNumber : IEntity {
+    public class CubeNumber : IEntity
+    {
         public double Value { get; set; }
     }
-    public class Quadraic : IEntity {
+    public class Quadraic : IEntity
+    {
 
         public Quadraic(double A, double B, double C)
         {
@@ -36,10 +39,10 @@ namespace ERP_Core2.CustomerDomain
             this.C = C;
 
             this.X1 = (
-                 (-1)*B + System.Math.Sqrt(
-                (B * B)-(4.0 * A * C)
+                 (-1) * B + System.Math.Sqrt(
+                (B * B) - (4.0 * A * C)
                 )
-                ) 
+                )
                 / (2.0 * A);
 
             this.X2 = (
@@ -55,7 +58,7 @@ namespace ERP_Core2.CustomerDomain
         public double C { get; set; }
         public double X1 { get; set; }
         public double X2 { get; set; }
-     
+
     }
 
     public class UnitTestCustomer
@@ -99,16 +102,16 @@ namespace ERP_Core2.CustomerDomain
             IList<IEntity> entityCollection = new List<IEntity>();
 
             //2x2 – 4x – 3 = 0 baseline
-            Quadraic quadraic = new Quadraic(2.0,-4.0,-3.0);
+            Quadraic quadraic = new Quadraic(2.0, -4.0, -3.0);
             entityCollection.Add(quadraic);
 
-            for (float i = 1.0f; i < 3.0f; i += 1.0f )
+            for (float i = 1.0f; i < 3.0f; i += 1.0f)
             {
                 for (float j = -2.0f; j < 2.0f; j += 1.0f)
                 {
                     for (float k = -2.0f; k < 2.0f; k += 1.0f)
                     {
-                        quadraic = new Quadraic(i,j,k);
+                        quadraic = new Quadraic(i, j, k);
                         entityCollection.Add(quadraic);
                         Thread.Sleep(50);
                     }
@@ -119,11 +122,12 @@ namespace ERP_Core2.CustomerDomain
             return entityCollection;
         }
         [Fact]
-        public async Task TestGetCustomerLedger()
+        public void TestGetCustomerLedgersByCustomerId()
         {
             long customerId = 9;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            IList<CustomerLedgerView>list= unitOfWork.customerRepository.GetCustomerLedgersByCustomerId(customerId);
+            CustomerModule custMod = new CustomerModule();
+
+            IList<CustomerLedgerView> list =  custMod.GetCustomerLedgersByCustomerId(customerId);
             foreach (var item in list)
             {
                 listCheck.Add(item.DocNumber.ToString());
@@ -171,7 +175,7 @@ namespace ERP_Core2.CustomerDomain
             {
                 throw new Exception("TestTableViewParameter", ex);
             }
-        
+
 
         }
         [Fact]
@@ -180,7 +184,7 @@ namespace ERP_Core2.CustomerDomain
             try
             {
                 string json = "";
-                UnitOfWork unitOfWork = new UnitOfWork();
+
 
                 json = @"{ ""CustomerName"":""David Poston"" 
                         ,""FirstName"":""David"",
@@ -201,52 +205,29 @@ namespace ERP_Core2.CustomerDomain
                               ""Password"" : ""12345""
                             }
                         }";
-              
-
-             CustomerView customerView = JsonConvert.DeserializeObject<CustomerView>(json);
-
-              
-                customerView.AddressId = await unitOfWork.addressBookRepository.CreateAddressBook(customerView);
-        
-                if (customerView.AddressId > 0)
-                {
-                    EmailView emailView = new EmailView();
-                    emailView.AddressId = customerView.AddressId;
-                    emailView.EmailText = customerView.AccountEmail.EmailText;
-                    emailView.LoginEmail = customerView.AccountEmail.LoginEmail;
-                    emailView.Password = customerView.AccountEmail.Password;
-
-                    bool result2 = await unitOfWork.emailRepository.CreateEmail(emailView);
-                    if (result2) { unitOfWork.CommitChanges(); }
-                    
-                }
-                AddressBook lookupAddressBook = await unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView);
-               
-                bool result3 = await unitOfWork.customerRepository.CreateCustomer(customerView);
-                if (result3)
-                {
-                    unitOfWork.CommitChanges();
-                }
 
 
-                customerView.AddressId = lookupAddressBook.AddressId;
-           
-                bool result4 = await unitOfWork.locationAddressRepository.CreateLocationUsingCustomer(customerView);
-                if (result4)
-                {
-                    unitOfWork.CommitChanges();
-                }
-                Assert.True(true);
+                CustomerView customerView = JsonConvert.DeserializeObject<CustomerView>(json);
+
+                CustomerModule custMod = new CustomerModule();
+
+                bool result = await custMod.CreateCustomerAccount(customerView);
+
+                Assert.True(result);
             }
             catch (Exception ex)
             { throw new Exception("TestCreateCustomerAccount", ex); }
         }
         [Fact]
-        public void TestGetAccountReceivables()
+        public void TestGetAccountReceivablesByCustomerId()
         {
             int customerId = 3;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            IList<AccountReceiveableView> list = unitOfWork.customerRepository.GetAccountReceivablesByCustomerId(customerId);
+            //UnitOfWork unitOfWork = new UnitOfWork();
+
+            CustomerModule custMod = new CustomerModule();
+
+            IList<AccountReceiveableView> list =  custMod.GetAccountReceivablesByCustomerId(customerId);
+
             List<string> collection = new List<string>();
             foreach (AccountReceiveableView accountReceiveableView in list)
             {
@@ -268,7 +249,7 @@ namespace ERP_Core2.CustomerDomain
             Task<IList<IEntity>> listEntities3Task = Task.Run(async () => Task3(), cancellationTokenSource.Token);
 
             Task continueTask = listEntities1Task.ContinueWith(
-                query => 
+                query =>
                 {
                     if (query.IsCanceled == false)
                     {
@@ -302,17 +283,18 @@ namespace ERP_Core2.CustomerDomain
                      }
                  });
 
-            if (listEntities1Task.IsCanceled==false && listEntities2Task.IsCanceled == false && listEntities3Task.IsCanceled == false)
-            Task.WaitAll(listEntities1Task, listEntities2Task, listEntities3Task);
+            if (listEntities1Task.IsCanceled == false && listEntities2Task.IsCanceled == false && listEntities3Task.IsCanceled == false)
+                Task.WaitAll(listEntities1Task, listEntities2Task, listEntities3Task);
 
         }
         [Fact]
         public void TestGetCustomerClaimsByCustomerId()
         {
             int customerId = 2;
-            UnitOfWork unitOfWork = new UnitOfWork();
-            IList<CustomerClaimView> list = unitOfWork.customerRepository.GetCustomerClaimsByCustomerId(customerId);
-            List<string> collection = new List<string>();
+
+            CustomerModule custMod = new CustomerModule();
+            IList<CustomerClaimView> list =  custMod.GetCustomerClaimsByCustomerId(customerId);
+           List<string> collection = new List<string>();
             foreach (CustomerClaimView customerClaimView in list)
             {
                 output.WriteLine($"{customerClaimView.GroupId}");
@@ -325,12 +307,15 @@ namespace ERP_Core2.CustomerDomain
         [Fact]
         public void TestGetContractsByCustomerId()
         {
-            int customerId = 2;
-            int? contractId = 1;
+            long customerId = 2;
+            long? contractId = 1;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //UnitOfWork unitOfWork = new UnitOfWork();
 
-            IList<ContractView> list = unitOfWork.customerRepository.GetContractsByCustomerId(customerId, contractId);
+            CustomerModule custMod = new CustomerModule();
+
+            IList<ContractView> list =custMod.GetContractsByCustomerId(customerId, contractId??0);
+
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
@@ -347,9 +332,12 @@ namespace ERP_Core2.CustomerDomain
         {
             int customerId = 3;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            CustomerModule custMod = new CustomerModule();
 
-            IList<EmailView> list = unitOfWork.customerRepository.GetEmailsByCustomerId(customerId);
+            IList<EmailView> list = custMod.GetEmailsByCustomerId(customerId);
+
+            
             List<string> collection = new List<string>();
 
             foreach (var item in list)
@@ -365,9 +353,9 @@ namespace ERP_Core2.CustomerDomain
         {
             int customerId = 3;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-
-            IList<PhoneView> list = unitOfWork.customerRepository.GetPhonesByCustomerId(customerId);
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            CustomerModule custModule = new CustomerModule();
+            IList<PhoneView> list = custModule.GetPhonesByCustomerId(customerId);
             List<string> collection = new List<string>();
 
             foreach (var item in list)
@@ -384,9 +372,9 @@ namespace ERP_Core2.CustomerDomain
         {
             int customerId = 3;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-
-            IList<LocationAddressView> list = unitOfWork.customerRepository.GetLocationAddressByCustomerId(customerId);
+            // UnitOfWork unitOfWork = new UnitOfWork();
+            CustomerModule custMod = new CustomerModule();
+            IList<LocationAddressView> list = custMod.GetLocationAddressByCustomerId(customerId);
             List<string> collection = new List<string>();
 
             foreach (var item in list)
@@ -400,19 +388,20 @@ namespace ERP_Core2.CustomerDomain
         [Fact]
         public void TestGetScheduleEventsByCustomerId()
         {
-            int customerId = 1;
-            int? serviceId = 3;
+            long customerId = 1;
+            long? serviceId = 3;
             //int? invoiceId = null;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            CustomerModule custMod = new CustomerModule();
 
-            IList<ScheduleEventView> list = unitOfWork.customerRepository.GetScheduleEventsByCustomerId(customerId, serviceId);
+            IList<ScheduleEventView> list = custMod.GetScheduleEventsByCustomerId(customerId, serviceId??0);
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
-                    output.WriteLine($"{item.CustomerName}");
-                    collection.Add(item.CustomerName.ToUpper());
-       
+                output.WriteLine($"{item.CustomerName}");
+                collection.Add(item.CustomerName.ToUpper());
+
             }
             bool results = collection.Any(s => s.Contains("PAM NISHIMOTO"));
             Assert.True(results);
@@ -424,9 +413,10 @@ namespace ERP_Core2.CustomerDomain
             int? invoiceId = 5;
             //int? invoiceId = null;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            CustomerModule custMod = new CustomerModule();
 
-            IList<InvoiceView> list = unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId, invoiceId);
+            IList<InvoiceView> list = custMod.GetInvoicesByCustomerId(customerId, invoiceId);
             List<string> collection = new List<string>();
             foreach (var item in list)
             {

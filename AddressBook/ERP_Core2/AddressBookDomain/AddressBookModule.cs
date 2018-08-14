@@ -20,7 +20,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             try
             {
-                BuyerView buyerView = unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId);
+                BuyerView buyerView = await unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId);
                 return buyerView;
             }
             catch (Exception ex)
@@ -33,7 +33,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             try
             {
-                CarrierView carrierView = unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId);
+                CarrierView carrierView = await unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId);
                 return carrierView;
             }
             catch (Exception ex)
@@ -47,7 +47,7 @@ namespace ERP_Core2.AddressBookDomain
 
             try
             {
-                SupplierView supplierView = unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
+                SupplierView supplierView = await unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
                 return supplierView;
             }
             catch (Exception ex)
@@ -60,7 +60,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             try
             {
-                EmployeeView employeeView = unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId);
+                EmployeeView employeeView = await unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId);
                 return employeeView;
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace ERP_Core2.AddressBookDomain
 
 
         }
-        public async Task<List<EmployeeView>> GetEmployeesBySupervisorId(long supervisorId)
+        public List<EmployeeView> GetEmployeesBySupervisorId(long supervisorId)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             try
             {
-                SupervisorView view = unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId);
+                SupervisorView view = await unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId);
                 return view;
             }
             catch (Exception ex)
@@ -96,7 +96,7 @@ namespace ERP_Core2.AddressBookDomain
             }
 
         }
-        public async Task<List<Phone>> GetPhonesByAddressId(long addressId)
+        public List<Phone> GetPhonesByAddressId(long addressId)
         {
             try
             {
@@ -109,11 +109,11 @@ namespace ERP_Core2.AddressBookDomain
 
             }
         }
-        public async Task<List<Email>> GetEmailsByAddressId(long addressId)
+        public List<Email> GetEmailsByAddressId(long addressId)
         {
             try
             {
-                List<Email> list = unitOfWork.addressBookRepository.GetEmailsByAddressId(addressId);
+                List<Email> list =  unitOfWork.addressBookRepository.GetEmailsByAddressId(addressId);
                 return list;
             }
             catch (Exception ex)
@@ -148,7 +148,7 @@ namespace ERP_Core2.AddressBookDomain
             }
 
         }
-        public async Task<bool> UpdateAddressBook(AddressBook addressBook)
+        public bool UpdateAddressBook(AddressBook addressBook)
         {
             try
             {
@@ -162,7 +162,7 @@ namespace ERP_Core2.AddressBookDomain
             }
 
         }
-        public async Task<bool> CreateAddressBook(AddressBook addressBook)
+        public bool CreateAddressBook(AddressBook addressBook)
         {
             try
             {
@@ -176,11 +176,11 @@ namespace ERP_Core2.AddressBookDomain
             }
 
         }
-        public async Task<IQueryable<AddressBook>> GetAddressBooksByExpression(Expression<Func<AddressBook, bool>> predicate)
+        public IQueryable<AddressBook> GetAddressBooksByExpression(Expression<Func<AddressBook, bool>> predicate)
         {
             try
             {
-                return unitOfWork.addressBookRepository.GetObjectsAsync(predicate);
+                return  unitOfWork.addressBookRepository.GetObjectsAsync(predicate);
             }
             catch (Exception ex)
             {
@@ -188,7 +188,7 @@ namespace ERP_Core2.AddressBookDomain
             }
 
         }
-        public async Task<bool> DeleteAddressBook(AddressBook addressBook)
+        public bool DeleteAddressBook(AddressBook addressBook)
         {
             try
             {
@@ -200,7 +200,7 @@ namespace ERP_Core2.AddressBookDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<bool> CreateAddressBooks(List<AddressBook> list)
+        public bool CreateAddressBooks(List<AddressBook> list)
         {
             try
             {
@@ -213,7 +213,7 @@ namespace ERP_Core2.AddressBookDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<bool> DeleteAddressBooks(List<AddressBook> list)
+        public bool DeleteAddressBooks(List<AddressBook> list)
         {
             try
             {
