@@ -47,7 +47,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             Task<IList<TimeAndAttendancePunchInView>> resultTask = Task.Run<IList<TimeAndAttendancePunchInView>>(async () => await unitOfWork.TARepository.GetTAPunchinByEmployeeId(employeeId));
             return resultTask.Result;
         }
-    public async Task<bool> UpdatePunchIn(TimeAndAttendancePunchIn taPunchin)
+    public bool UpdatePunchIn(TimeAndAttendancePunchIn taPunchin)
         {
             try
             {
@@ -60,11 +60,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<bool> DeletePunchIn(TimeAndAttendancePunchIn taPunchin)
+        public bool DeletePunchIn(TimeAndAttendancePunchIn taPunchin)
         {
             try
             {
-                bool result = await unitOfWork.TARepository.DeletePunchin(taPunchin);
+                bool result = unitOfWork.TARepository.DeletePunchin(taPunchin);
                 return result;
             }
             catch (Exception ex)

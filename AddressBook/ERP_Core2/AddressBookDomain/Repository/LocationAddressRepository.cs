@@ -78,10 +78,11 @@ namespace MillenniumERP.AddressBookDomain
                         item.AddressId = customerView.AddressId;
                         applicationViewFactory.MapLocationAddressEntity(ref locationAddress, item);
                         AddObject(locationAddress);
+                        return true;
                     }
                 }
-
-                return true;
+                return false;
+               
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }

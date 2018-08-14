@@ -66,35 +66,46 @@ namespace MillenniumERP.AddressBookDomain
     
         public List<EmployeeView> GetEmployeesBySupervisorId(long supervisorId)
         {
-            var resultList = (from supervisoremployee in _dbContext.SupervisorEmployees
-                                                  join employee in _dbContext.Employees on
-                                                  supervisoremployee.EmployeeId equals employee.EmployeeId
-                                                  where supervisoremployee.SupervisorId == supervisorId
-                                                 
-                                                  select employee
-
-                );
-            List<EmployeeView> list = new List<EmployeeView>();
-            foreach (var item in resultList)
+            try
             {
-                list.Add(applicationViewFactory.MapEmployeeView(item));
+                var resultList = (from supervisoremployee in _dbContext.SupervisorEmployees
+                                  join employee in _dbContext.Employees on
+                                  supervisoremployee.EmployeeId equals employee.EmployeeId
+                                  where supervisoremployee.SupervisorId == supervisorId
+
+                                  select employee
+
+                    );
+                List<EmployeeView> list = new List<EmployeeView>();
+                foreach (var item in resultList)
+                {
+                    list.Add(applicationViewFactory.MapEmployeeView(item));
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
             }
 
-            return  list;
-
         }
-        public SupervisorView GetSupervisorBySupervisorId(long supervisorId)
+        public async Task<SupervisorView> GetSupervisorBySupervisorId(long supervisorId)
         {
-            Task<Supervisor> supervisorTask = base.GetObjectAsync(supervisorId);
-            Task<Supervisor> parentSupervisorTask = null;
-            long parentSupervisorId = supervisorTask.Result.ParentSupervisorId??0;
-            if (parentSupervisorId != null)
-            { parentSupervisorTask = base.GetObjectAsync(parentSupervisorId); }
+            try
+            {
+                Supervisor supervisor = await base.GetObjectAsync(supervisorId);
+                Supervisor parentSupervisor = null;
+                long parentSupervisorId = supervisor.ParentSupervisorId ?? 0;
+                if (parentSupervisorId !=0)
+                { parentSupervisor = await base.GetObjectAsync(parentSupervisorId); }
 
-            SupervisorView view = applicationViewFactory.MapSupervisorView(supervisorTask.Result, parentSupervisorTask.Result);
+                SupervisorView view = applicationViewFactory.MapSupervisorView(supervisor, parentSupervisor);
 
-            
-            return view;
+
+                return view;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
     }
