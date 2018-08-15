@@ -88,6 +88,7 @@
     <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
+    <Compile Include="ChartOfAccountsDomain\ChartOfAccountModule.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\UnitTestChartOfAccounts.cs" />
     <Compile Include="CustomerDomain\CustomerModule.cs" />
@@ -162,12 +163,14 @@
     <Compile Include="InvoiceDomain\Repository\InvoiceRepository.cs" />
     <Compile Include="InvoiceDomain\UnitTestInvoice.cs" />
     <Compile Include="AccountReceivableDomain\AccountsReceivableModule.cs" />
+    <Compile Include="ProjectManagementDomain\ProjectManagementModule.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementTaskRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementMilestoneRepository.cs" />
     <Compile Include="ProjectManagementDomain\Repository\ProjectManagementProjectRepository.cs" />
     <Compile Include="ProjectManagementDomain\UnitTestProjectManagement.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ScheduleEventsDomain\Repository\ScheduleEventRepository.cs" />
+    <Compile Include="ScheduleEventsDomain\ScheduleEventModule.cs" />
     <Compile Include="ScheduleEventsDomain\UnitTestScheduleEvent.cs" />
     <Compile Include="TimeAndAttendanceDomain\Repository\TimeAndAttendanceRepository.cs" />
     <Compile Include="TimeAndAttendanceDomain\TimeAndAttendanceModule.cs" />

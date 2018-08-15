@@ -28,40 +28,10 @@ namespace ERP_Core2.ChartOfAccountsDomain
         [Fact]
         public void TestCreateAccountModel()
         {
-            bool status = false;
-            UnitOfWork unitOfWork = new UnitOfWork();
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+            bool result = coaMod.CreateChartOfAccountModel();
 
-
-            status = unitOfWork.chartOfAccountRepository.CreateCash();
-            status = unitOfWork.chartOfAccountRepository.CreateAccountReceivable();
-            status = unitOfWork.chartOfAccountRepository.CreateInventory();
-            status = unitOfWork.chartOfAccountRepository.CreateSupplies();
-            status = unitOfWork.chartOfAccountRepository.CreateAssets();
-            status = unitOfWork.chartOfAccountRepository.CreateEquipment();
-            status = unitOfWork.chartOfAccountRepository.CreateEquipmentDepreciation();
-            status = unitOfWork.chartOfAccountRepository.CreatePrepaidInsurance();
-            status = unitOfWork.chartOfAccountRepository.CreateLand();
-            status = unitOfWork.chartOfAccountRepository.CreateBuilding();
-            status = unitOfWork.chartOfAccountRepository.CreateBuildingDepreciation();
-            status = unitOfWork.chartOfAccountRepository.CreateLiability();
-            status = unitOfWork.chartOfAccountRepository.CreateWagesPayable();
-            status = unitOfWork.chartOfAccountRepository.CreateNotesPayable();
-            status = unitOfWork.chartOfAccountRepository.CreateUnearnedRevenue();
-            status = unitOfWork.chartOfAccountRepository.CreateInterestPayment();
-            status = unitOfWork.chartOfAccountRepository.CreateMortgageLoanPayable();
-            status = unitOfWork.chartOfAccountRepository.CreateExpenses();
-            status = unitOfWork.chartOfAccountRepository.CreateExpensesSalary();
-            status = unitOfWork.chartOfAccountRepository.CreateExpensesWage();
-            status = unitOfWork.chartOfAccountRepository.CreateExpensesRent();
-            status = unitOfWork.chartOfAccountRepository.CreateExpensesCommunication();
-            status = unitOfWork.chartOfAccountRepository.CreateExpensesAdvertising();
-            status = unitOfWork.chartOfAccountRepository.CreateIncome();
-            status = unitOfWork.chartOfAccountRepository.CreateRevenue();
-            status = unitOfWork.chartOfAccountRepository.CreateEquityCapital();
-            status = unitOfWork.chartOfAccountRepository.CreateCapital();
-            status = unitOfWork.chartOfAccountRepository.CreateDrawing();
-            unitOfWork.CommitChanges();
-            Assert.True(true);
+            Assert.True(result);
         }
      
     }

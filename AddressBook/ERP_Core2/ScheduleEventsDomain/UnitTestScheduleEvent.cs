@@ -126,14 +126,17 @@ namespace ERP_Core2.ScheduleEventsDomain
 
 
         [Fact]
-        public void TestGetScheduleEvents()
+        public async Task TestGetScheduleEvents()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
-            int employeeId = 3;
-            Task<IQueryable<ScheduleEvent>> resultTask = Task.Run<IQueryable<ScheduleEvent>>(async () => await unitOfWork.scheduleEventRepository.GetScheduleEventsByEmployeeId(employeeId));
+           
+            long employeeId = 3;
 
+            ScheduleEventModule seMod = new ScheduleEventModule();
+
+            IQueryable<ScheduleEvent> query = await seMod.GetScheduleEventsByEmployeeId(employeeId);
+     
             IList<ScheduleEvent> list = new List<ScheduleEvent>();
-            foreach (var item in resultTask.Result)
+            foreach (var item in query)
             {
                 output.WriteLine($"{item.Employee.EmployeeId} Date: {item.EventDateTime} Duration: {item.DurationMinutes}");
                 list.Add(item);

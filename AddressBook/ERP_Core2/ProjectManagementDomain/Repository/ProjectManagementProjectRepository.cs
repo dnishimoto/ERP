@@ -18,7 +18,7 @@ namespace MillenniumERP.ProjectManagementDomain
         {
             _dbContext = (Entities)db;
         }
-        public async Task<IQueryable<ProjectManagementProject>> GetMilestones(int projectId)
+        public async Task<IQueryable<ProjectManagementProject>> GetMilestones(long projectId)
         {
             try
             {
@@ -30,7 +30,7 @@ namespace MillenniumERP.ProjectManagementDomain
             { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<IQueryable<ProjectManagementTask>> GetTasksByProjectId(int projectId)
+        public async Task<IQueryable<ProjectManagementTask>> GetTasksByProjectId(long projectId)
         {
             try
             {

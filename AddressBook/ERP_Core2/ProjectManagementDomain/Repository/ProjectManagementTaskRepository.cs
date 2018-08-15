@@ -17,7 +17,7 @@ namespace MillenniumERP.ProjectManagementDomain
             _dbContext = (Entities)db;
         }
 
-        public async Task<IQueryable<ProjectManagementMilestone>> GetTasksByMilestoneId(int milestoneId)
+        public async Task<IQueryable<ProjectManagementMilestone>> GetTasksByMilestoneId(long milestoneId)
         {
             try
             {
