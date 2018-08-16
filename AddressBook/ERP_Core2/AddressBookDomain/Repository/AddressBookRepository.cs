@@ -27,7 +27,7 @@ namespace MillenniumERP.AddressBookDomain
         {
             try
             {
-                var resultList = base.GetObjectsAsync(e => e.AddressId == addressId, "phones").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.AddressId == addressId, "phones").FirstOrDefault();
 
                 List<Phone> phoneList = new List<Phone>();
                 foreach (var item in resultList.Phones)
@@ -42,7 +42,7 @@ namespace MillenniumERP.AddressBookDomain
         {
             try
             {
-                var resultList = base.GetObjectsAsync(e => e.AddressId == addressId, "emails").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.AddressId == addressId, "emails").FirstOrDefault();
 
                 List<Email> emailList = new List<Email>();
                 foreach (var item in resultList.Emails)

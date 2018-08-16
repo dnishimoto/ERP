@@ -40,6 +40,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<LocationAddress> LocationAddresses { get; set; }
         public virtual DbSet<NetTerm> NetTerms { get; set; }
         public virtual DbSet<NextNumber> NextNumbers { get; set; }
+        public virtual DbSet<PackingSlip> PackingSlips { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<POQuote> POQuotes { get; set; }
         public virtual DbSet<ProjectManagementMilestone> ProjectManagementMilestones { get; set; }
@@ -48,7 +49,6 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployees { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-        public virtual DbSet<Receipt> Receipts { get; set; }
         public virtual DbSet<SalesOrder> SalesOrders { get; set; }
         public virtual DbSet<SalesOrderDetail> SalesOrderDetails { get; set; }
         public virtual DbSet<ScheduleEvent> ScheduleEvents { get; set; }
@@ -66,7 +66,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShifts { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
-        public virtual DbSet<ReceiptDetail> ReceiptDetails { get; set; }
+        public virtual DbSet<PackingSlipDetail> PackingSlipDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -818,7 +818,7 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ItemMaster>()
-                .HasMany(e => e.ReceiptDetails)
+                .HasMany(e => e.PackingSlipDetails)
                 .WithRequired(e => e.ItemMaster)
                 .WillCascadeOnDelete(false);
 
@@ -868,6 +868,28 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<NextNumber>()
                 .Property(e => e.NextNumberName)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlip>()
+                .Property(e => e.SlipDocument)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlip>()
+                .Property(e => e.PONumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlip>()
+                .Property(e => e.Remark)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlip>()
+                .Property(e => e.SlipType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlip>()
+                .HasMany(e => e.PackingSlipDetails)
+                .WithRequired(e => e.PackingSlip)
+                .HasForeignKey(e => e.PackagingSlipId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Phone>()
                 .Property(e => e.PhoneNumber)
@@ -1035,23 +1057,6 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<PurchaseOrderDetail>()
                 .Property(e => e.Description)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.ReceiptDocument)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.OrderNumber)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Receipt>()
-                .Property(e => e.Remark)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Receipt>()
-                .HasMany(e => e.ReceiptDetails)
-                .WithRequired(e => e.Receipt)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<SalesOrder>()
                 .Property(e => e.Amount)
@@ -1233,17 +1238,17 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Supplier>()
+                .HasMany(e => e.PackingSlips)
+                .WithRequired(e => e.Supplier)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Supplier>()
                 .HasMany(e => e.POQuotes)
                 .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Supplier>()
                 .HasMany(e => e.PurchaseOrders)
-                .WithRequired(e => e.Supplier)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Supplier>()
-                .HasMany(e => e.Receipts)
                 .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
 
@@ -1383,12 +1388,6 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<UDC>()
-                .HasMany(e => e.Receipts)
-                .WithRequired(e => e.UDC)
-                .HasForeignKey(e => e.ReceiptTypeXrefId)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<UDC>()
                 .HasMany(e => e.ServiceInformations)
                 .WithOptional(e => e.UDC)
                 .HasForeignKey(e => e.ServiceTypeXRefId);
@@ -1404,13 +1403,21 @@ namespace ERP_Core2.EntityFramework
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ReceiptDetail>()
-                .Property(e => e.UnitCost)
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.UnitPrice)
                 .HasPrecision(18, 4);
 
-            modelBuilder.Entity<ReceiptDetail>()
+            modelBuilder.Entity<PackingSlipDetail>()
                 .Property(e => e.ExtendedCost)
                 .HasPrecision(18, 4);
+
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.UnitOfMeasure)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
         }
     }
 }

@@ -13,6 +13,53 @@ using MillenniumERP.PurchaseOrderDomain;
 
 namespace MillenniumERP.AccountsPayableDomain
 {
+    public class PackingSlipView
+    {
+        public PackingSlipView() { this.PackingSlipDetailViews = new List<PackingSlipDetailView>(); }
+        public PackingSlipView(PackingSlip packingSlip)
+        {
+            this.PackingSlipId = packingSlip.PackingSlipId;
+            this.SupplierId = packingSlip.SupplierId;
+            this.ReceivedDate = packingSlip.ReceivedDate;
+            this.SlipDocument = packingSlip.SlipDocument;
+            this.PONumber = packingSlip.PONumber;
+            this.Remark = packingSlip.Remark;
+            this.SlipType = packingSlip.SlipType;
+            this.PackingSlipDetailViews = new List<PackingSlipDetailView>();
+        }
+        public long PackingSlipId { get; set; }
+        public long SupplierId { get; set; }
+        public DateTime ReceivedDate { get; set; }
+        public string SlipDocument { get; set; }
+        public string PONumber { get; set; }
+        public string Remark { get; set; }
+        public string SlipType { get; set; }
+        public IList<PackingSlipDetailView> PackingSlipDetailViews { get; set; }
+    }
+    public class PackingSlipDetailView
+    {
+        public PackingSlipDetailView() { }
+        public PackingSlipDetailView(PackingSlipDetail detail)
+        {
+            this.PackingSlipDetailId = detail.PackingSlipDetailId;
+            this.PackagingSlipId = detail.PackagingSlipId;
+            this.ItemId = detail.ItemId;
+            this.Quantity = detail.Quantity;
+            this.UnitPrice = detail.UnitPrice;
+            this.ExtendedCost = detail.ExtendedCost;
+            this.UnitOfMeasure = detail.UnitOfMeasure;
+            this.Description = detail.Description;
+    }
+        public long PackingSlipDetailId { get; set; }
+        public long PackagingSlipId { get; set; }
+        public long ItemId { get; set; }
+        public int? Quantity { get; set; }
+        public decimal? UnitPrice { get; set; }
+        public decimal? ExtendedCost { get; set; }
+        public string UnitOfMeasure { get; set; }
+        public string Description { get; set; }
+    }
+
     public class AccountPayableView
     {
         public AccountPayableView() { }
@@ -40,7 +87,7 @@ namespace MillenniumERP.AccountsPayableDomain
             this.AmountOpen = acctPay.AmountOpen;
             this.OrderNumber = acctPay.OrderNumber;
             this.DiscountDueDate = acctPay.DiscountDueDate;
-    }
+        }
         public long AcctPayId { get; set; }
         public long? DocNumber { get; set; }
         public decimal? GrossAmount { get; set; }
@@ -61,13 +108,13 @@ namespace MillenniumERP.AccountsPayableDomain
         public decimal? DiscountPercent { get; set; }
         public decimal? AmountPaid { get; set; }
         public decimal? AmountOpen { get; set; }
-         public string OrderNumber { get; set; }
+        public string OrderNumber { get; set; }
         public DateTime? DiscountDueDate { get; set; }
     }
-  
 
 
-    public class AccountPayableRepository: Repository<AcctPay>
+
+    public class AccountPayableRepository : Repository<AcctPay>
     {
         public Entities _dbContext;
         private ApplicationViewFactory applicationViewFactory;
@@ -76,15 +123,15 @@ namespace MillenniumERP.AccountsPayableDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-      
+
         public async Task<bool> CreateAcctPayByPurchaseOrderView(PurchaseOrderView poView)
         {
             //Check if exists
-            List<AcctPay> list = await GetObjectsAsync(e => e.OrderNumber == poView.PONumber).ToListAsync<AcctPay>();
+            List<AcctPay> list = await GetObjectsQueryable(e => e.OrderNumber == poView.PONumber).ToListAsync<AcctPay>();
 
             if (list.Count == 0)
             {
-               NextNumber nextNumber = await base.GetNextNumber("DocNumber");
+                NextNumber nextNumber = await base.GetNextNumber("DocNumber");
                 AcctPay acctPay = new AcctPay();
                 acctPay.DocNumber = nextNumber.NextNumberValue;
                 acctPay.GrossAmount = poView.GrossAmount;
@@ -100,21 +147,21 @@ namespace MillenniumERP.AccountsPayableDomain
                 acctPay.AccountId = poView.AccountId;
                 acctPay.DocType = poView.DocType;
                 acctPay.PaymentTerms = poView.PaymentTerms;
-               // acctPay.DiscountPercent
+                // acctPay.DiscountPercent
                 acctPay.AmountOpen = poView.GrossAmount;
                 acctPay.OrderNumber = poView.PONumber;
                 // acctPay.DiscountDueDate
                 acctPay.AmountPaid = 0;
                 AddObject(acctPay);
                 return true;
-                    }
+            }
             return false;
         }
         public async Task<AcctPay> GetAcctPayableByDocNumber(long docNumber)
         {
             try
             {
-                List<AcctPay> list = await GetObjectsAsync(e => e.DocNumber == docNumber).ToListAsync<AcctPay>();
+                List<AcctPay> list = await GetObjectsQueryable(e => e.DocNumber == docNumber).ToListAsync<AcctPay>();
                 AcctPay acctPay = list[0];
 
                 return acctPay;
@@ -125,10 +172,10 @@ namespace MillenniumERP.AccountsPayableDomain
         }
         public async Task<bool> UpdatePayableByCashLedger(GeneralLedgerView ledgerView)
         {
-           
+
             try
             {
-                List<AcctPay> list = await GetObjectsAsync(e => e.DocNumber == ledgerView.DocNumber).ToListAsync<AcctPay>();
+                List<AcctPay> list = await GetObjectsQueryable(e => e.DocNumber == ledgerView.DocNumber).ToListAsync<AcctPay>();
                 AcctPay acctPay = list[0];
 
 
@@ -140,7 +187,7 @@ namespace MillenniumERP.AccountsPayableDomain
                                        where e.DocNumber == ledgerView.DocNumber
                                        && e.DocType == "PV"
                                        && e.LedgerType == "AA"
-                                       && e.AccountId== ledgerView.AccountId
+                                       && e.AccountId == ledgerView.AccountId
                                        group e by e.DocNumber
                                        into g
 
@@ -148,14 +195,14 @@ namespace MillenniumERP.AccountsPayableDomain
                                        ).FirstOrDefaultAsync();
 
 
-                    decimal? cash = query?.AmountPaid??0;
+                    decimal? cash = query?.AmountPaid ?? 0;
                     acctPay.AmountPaid = cash;
                     acctPay.AmountOpen = acctPay.GrossAmount - acctPay.AmountPaid;
                     decimal discountAmount = acctPay.GrossAmount * acctPay.DiscountPercent ?? 0;
                     //Check for Discount Dates
                     if (
                         (acctPay.DiscountDueDate <= ledgerView.GLDate)
-                    && ((acctPay.AmountPaid + discountAmount)==acctPay.AmountOpen)
+                    && ((acctPay.AmountPaid + discountAmount) == acctPay.AmountOpen)
                     )
                     {
                         acctPay.AmountOpen = acctPay.GrossAmount - (acctPay.AmountPaid + discountAmount);
@@ -169,7 +216,7 @@ namespace MillenniumERP.AccountsPayableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<AccountPayableView> GetAccountPayableViewByInvoiceId(long ? docNumber)
+        public async Task<AccountPayableView> GetAccountPayableViewByInvoiceId(long? docNumber)
         {
             try
             {
@@ -196,8 +243,8 @@ namespace MillenniumERP.AccountsPayableDomain
 
                 AcctPay acctRecBase = query;
 
-                
-                
+
+
                 UpdateObject(acctRecBase);
                 return true;
             }
@@ -205,8 +252,8 @@ namespace MillenniumERP.AccountsPayableDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-   
-            }
+
+        }
         public bool DeleteAcctRec(AcctPay acctPay)
         {
             try
@@ -218,7 +265,7 @@ namespace MillenniumERP.AccountsPayableDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-      
+
         }
     }
 }

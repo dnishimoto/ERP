@@ -21,7 +21,7 @@ namespace MillenniumERP.ProjectManagementDomain
         {
             try
             {
-                var list = await base.GetObjectsAsync(e => e.TaskId == taskId, "").ToListAsync();
+                var list = await base.GetObjectsQueryable(e => e.TaskId == taskId, "").ToListAsync();
 
                 return list.AsQueryable<ProjectManagementTask>();
             }

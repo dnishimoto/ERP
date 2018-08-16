@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System;
 using MillenniumERP.PurchaseOrderDomain;
 using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
+using MillenniumERP.AccountsPayableDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -27,13 +28,82 @@ namespace ERP_Core2.AccountPayableDomain
             this.output = output;
 
         }
-        [Fact]
-        public void TestMatchReceiptToPurchaseOrder()
-        {
-        }
+  
         [Fact]
         public void TestReceiveOpenPurchaseOrderDetail()
         {
+        }
+        [Fact]
+        public async Task TestCreateInboundPackingSlip()
+        {
+            long supplierId = 3;
+
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork();
+
+                SupplierView supplierView = await unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
+                UDC slipTypeUDC = await unitOfWork.supplierRepository.GetUdc("PACKINGSLIP_TYPE", "INBOUND");
+
+
+
+                string json = @"{
+            ""SupplierId"" : " + supplierView.SupplierId + @",
+            ""ReceivedDate"" : """ + DateTime.Parse("8/16/2018") + @""",
+            ""SlipDocument"" : ""SLIP-1"",
+            ""PONumber"" :""PO - 1"",
+            ""SlipType"" : """ + slipTypeUDC.KeyCode + @""",
+
+            ""PackingSlipDetailViews"":[
+                    {
+                    ""ItemId"": 5,
+                    ""Quantity"": 5,
+                    ""UnitPrice"" : " + 10 + @",
+                    ""ExtendedCost"" : " + 50 + @",
+                    ""UnitOfMeasure"" : """ + "Dozen" + @""",
+                    ""Description"": """ + "Pencil HB" + @"""
+                    },
+                    {
+                    ""ItemId"": 6,
+                    ""Quantity"": 4,
+                    ""UnitPrice"" : " + 10 + @",
+                    ""ExtendedCost"" : " + 40 + @",
+                    ""UnitOfMeasure"" : """ + "Dozen" + @""",
+                    ""Description"": """ + "Pencils 2B" + @"""
+                    },
+                    {
+                    ""ItemId"": 7,
+                    ""Quantity"": 10,
+                    ""UnitPrice"" : " + 3 + @",
+                    ""ExtendedCost"" : " + 30 + @",
+                    ""UnitOfMeasure"" : """ + "Ream" + @""",
+                    ""Description"": """ + "Paper - A4, Photo coper, 70 grams" + @"""
+                    },
+                    {
+                    ""ItemId"": 8,
+                    ""Quantity"": 15,
+                    ""UnitPrice"" : " + 3.20 + @",
+                    ""ExtendedCost"" : " + 48 + @",
+                    ""UnitOfMeasure"" : """ + "Ream" + @""",
+                    ""Description"": """ + "NPaper - A4, Photo Copier, 80 gramULL" + @"""
+                    },
+                    {
+                    ""ItemId"": 9,
+                    ""Quantity"": 5,
+                    ""UnitPrice"" : " + 10 + @",
+                    ""ExtendedCost"" : " + 100 + @",
+                    ""UnitOfMeasure"" : """ + "Ream" + @""",
+                    ""Description"": """ + "Pens - Ball Point, Blue" + @"""
+                    }
+                ]
+
+            }";
+
+                PackingSlipView packingSlipView = JsonConvert.DeserializeObject<PackingSlipView>(json);
+
+            }
+            catch (Exception ex) { }
+
         }
         [Fact]
         public async Task TestCreatePurchaseOrder()
@@ -172,17 +242,11 @@ namespace ERP_Core2.AccountPayableDomain
             PurchaseOrderView purchaseOrderView = JsonConvert.DeserializeObject<PurchaseOrderView>(json);
 
 
-            PurchaseOrderStatus result2 = await unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView);
+            AccountsPayableModule apMod = new AccountsPayableModule();
 
-            if (result2 == PurchaseOrderStatus.AlreadyExists || result2 == PurchaseOrderStatus.Created)
-            {
-                PurchaseOrderView lookupView = await unitOfWork.purchaseOrderRepository.GetPurchaseOrderViewByOrderNumber(purchaseOrderView.PONumber);
-                bool result3 = await unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(lookupView);
-                if (result3) {
-                    unitOfWork.CommitChanges();
-                }
-            }
-            Assert.True(true);
+            bool resultCreate = await apMod.CreateAccountsPaybyPOView(purchaseOrderView);
+            
+            Assert.True(resultCreate);
         }
      
     }

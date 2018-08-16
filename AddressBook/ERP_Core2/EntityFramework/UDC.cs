@@ -22,7 +22,6 @@ namespace ERP_Core2.EntityFramework
             Employees1 = new HashSet<Employee>();
             LocationAddresses = new HashSet<LocationAddress>();
             ProjectManagementTasks = new HashSet<ProjectManagementTask>();
-            Receipts = new HashSet<Receipt>();
             ServiceInformations = new HashSet<ServiceInformation>();
             Supervisors = new HashSet<Supervisor>();
             TimeAndAttendancePunchIns = new HashSet<TimeAndAttendancePunchIn>();
@@ -69,9 +68,6 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ProjectManagementTask> ProjectManagementTasks { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Receipt> Receipts { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ServiceInformation> ServiceInformations { get; set; }

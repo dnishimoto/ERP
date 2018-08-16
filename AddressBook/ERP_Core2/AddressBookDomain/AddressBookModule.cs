@@ -180,7 +180,7 @@ namespace ERP_Core2.AddressBookDomain
         {
             try
             {
-                return  unitOfWork.addressBookRepository.GetObjectsAsync(predicate);
+                return  unitOfWork.addressBookRepository.GetObjectsQueryable(predicate);
             }
             catch (Exception ex)
             {

@@ -23,7 +23,7 @@ namespace MillenniumERP.ViewModels
         public void Search()
         {
             AddressBooks.Clear();
-            IQueryable <AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains(SearchName));
+            IQueryable <AddressBook> query = unitOfWork.addressBookRepository.GetObjectsQueryable(a => a.Name.Contains(SearchName));
             foreach (var item in query)
             {
                 AddressBooks.Add(item);

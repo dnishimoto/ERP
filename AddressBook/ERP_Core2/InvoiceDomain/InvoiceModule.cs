@@ -27,7 +27,7 @@ namespace ERP_Core2.InvoiceDomain
 
                 bool result = await unitOfWork.invoiceRepository.AddInvoice(invoice);
                 if (result) { unitOfWork.CommitChanges(); }
-                List<Invoice> list = unitOfWork.invoiceRepository.GetObjectsAsync(e => e.InvoiceNumber == invoice.InvoiceNumber).ToList<Invoice>();
+                List<Invoice> list = unitOfWork.invoiceRepository.GetObjectsQueryable(e => e.InvoiceNumber == invoice.InvoiceNumber).ToList<Invoice>();
                 invoice.InvoiceId = list[0].InvoiceId;
 
                 //Assign the InvoiceId

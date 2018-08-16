@@ -78,7 +78,7 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-                var list = await base.GetObjectsAsync(e => e.EmployeeId == employeeId, "").ToListAsync();
+                var list = await base.GetObjectsQueryable(e => e.EmployeeId == employeeId, "").ToListAsync();
 
                 List<TimeAndAttendancePunchInView> listView = new List<TimeAndAttendancePunchInView>();
 

@@ -13,7 +13,7 @@ namespace ERP_Core2.ProjectManagementDomain
  
         public class UnitTestProjectManagement
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
+           
             private readonly ITestOutputHelper output;
 
         public UnitTestProjectManagement(ITestOutputHelper output)
@@ -21,12 +21,15 @@ namespace ERP_Core2.ProjectManagementDomain
             this.output = output;
         }
         [Fact]
-        public void TestGetTasksByMilestoneId()
+        public async Task TestGetTasksByMilestoneId()
         {
-            int milestoneId = 1;
-            Task<IQueryable<ProjectManagementMilestone>> resultTask = unitOfWork.projectManagementMilestoneRepository.GetTasksByMilestoneId(milestoneId);
+            long milestoneId = 1;
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            IQueryable<ProjectManagementMilestone> query = await pmMod.GetTasksByMilestoneId(milestoneId);
+
             int count = 0;
-            foreach (var item in resultTask.Result)
+            foreach (var item in query)
             {
                 foreach (var task in item.ProjectManagementTasks)
                 {
@@ -39,13 +42,14 @@ namespace ERP_Core2.ProjectManagementDomain
 
 
         [Fact]
-            public void TestGetMileStonesByProjectId()
+            public async Task TestGetMileStonesByProjectId()
             {
             int projectId = 1;
 
-            Task<IQueryable<ProjectManagementProject>> resultTask = unitOfWork.projectManagementProjectRepository.GetMilestones(projectId);
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+            IQueryable<ProjectManagementProject> query = await pmMod.GetMilestones(projectId);
             int count = 0;
-            foreach (var item in resultTask.Result)
+            foreach (var item in query)
             {
                 foreach (var milestone in item.ProjectManagementMilestones)
                 {
@@ -57,13 +61,16 @@ namespace ERP_Core2.ProjectManagementDomain
             }
 
         [Fact]
-        public void TestGetTasksByProjectId()
+        public async Task TestGetTasksByProjectId()
         {
-            int projectId = 1;
+            long projectId = 1;
 
-            Task<IQueryable<ProjectManagementTask>> resultTask = unitOfWork.projectManagementProjectRepository.GetTasksByProjectId(projectId);
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            IQueryable<ProjectManagementTask> query = await pmMod.GetTasksByProjectId(projectId);
+
             int count = 0;
-            foreach (var item in resultTask.Result)
+            foreach (var item in query)
             {
                 
                     output.WriteLine($"Task Name: {item.WBS} {item.TaskName}");

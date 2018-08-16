@@ -6,36 +6,35 @@ namespace ERP_Core2.EntityFramework
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Receipt")]
-    public partial class Receipt
+    [Table("PackingSlip")]
+    public partial class PackingSlip
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Receipt()
+        public PackingSlip()
         {
-            ReceiptDetails = new HashSet<ReceiptDetail>();
+            PackingSlipDetails = new HashSet<PackingSlipDetail>();
         }
 
-        public long ReceiptId { get; set; }
+        public long PackingSlipId { get; set; }
 
         public long SupplierId { get; set; }
 
-        public DateTime ReceiptDate { get; set; }
+        public DateTime ReceivedDate { get; set; }
 
         [StringLength(50)]
-        public string ReceiptDocument { get; set; }
+        public string SlipDocument { get; set; }
 
         [StringLength(50)]
-        public string OrderNumber { get; set; }
+        public string PONumber { get; set; }
 
         public string Remark { get; set; }
 
-        public long ReceiptTypeXrefId { get; set; }
+        [StringLength(20)]
+        public string SlipType { get; set; }
 
         public virtual Supplier Supplier { get; set; }
 
-        public virtual UDC UDC { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ReceiptDetail> ReceiptDetails { get; set; }
+        public virtual ICollection<PackingSlipDetail> PackingSlipDetails { get; set; }
     }
 }

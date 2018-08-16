@@ -263,7 +263,7 @@ namespace ERP_Core2.AddressBookDomain
             bool result =  abMod.CreateAddressBook(addressBook);
 
             IQueryable<AddressBook> query =  abMod.GetAddressBooksByExpression(a => a.Name == "James Dean");
-            //IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync();
+            //IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsQueryable();
 
             foreach (var item in query)
             {

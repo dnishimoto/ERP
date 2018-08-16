@@ -200,7 +200,7 @@ namespace MillenniumERP.CustomerDomain
             try
             {
                 IEnumerable<CustomerLedger> ledgerList = null;
-                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "customerledgers").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.CustomerId == customerId, "customerledgers").FirstOrDefault();
                 IList<CustomerLedgerView> list = new List<CustomerLedgerView>();
 
                 ledgerList = resultList.CustomerLedgers;
@@ -219,7 +219,7 @@ namespace MillenniumERP.CustomerDomain
             try
             {
                 IEnumerable<Invoice> invoiceList = null;
-                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.CustomerId == customerId, "invoices").FirstOrDefault();
 
                 IList<InvoiceView> list = new List<InvoiceView>();
                 if (invoiceId != null)
@@ -246,7 +246,7 @@ namespace MillenniumERP.CustomerDomain
         {
             try
             {
-                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "customerclaims").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.CustomerId == customerId, "customerclaims").FirstOrDefault();
 
                 IList<CustomerClaimView> list = new List<CustomerClaimView>();
                 foreach (var item in resultList.CustomerClaims)
@@ -263,7 +263,7 @@ namespace MillenniumERP.CustomerDomain
             try
             {
                 IEnumerable<ScheduleEvent> scheduleEventList = null;
-                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.CustomerId == customerId, "scheduleEvents").FirstOrDefault();
 
             
                 IList<ScheduleEventView> list = new List<ScheduleEventView>();
@@ -310,7 +310,7 @@ namespace MillenniumERP.CustomerDomain
             try
             {
                 IEnumerable<Contract> contractList = null;
-                var resultList = base.GetObjectsAsync(e => e.CustomerId == customerId, "contracts").FirstOrDefault();
+                var resultList = base.GetObjectsQueryable(e => e.CustomerId == customerId, "contracts").FirstOrDefault();
 
                 IList<ContractView> list = new List<ContractView>();
                 if (contractId != null)
