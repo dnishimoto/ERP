@@ -70,7 +70,7 @@ namespace MillenniumERP.AccountsReceivableDomain
         {
             try
             {
-                List<AcctRec> list = await GetObjectsAsync(e => e.DocNumber == docNumber).ToListAsync<AcctRec>();
+                List<AcctRec> list = await GetObjectsQueryable(e => e.DocNumber == docNumber).ToListAsync<AcctRec>();
                 AcctRec acctRec = list[0];
 
                 return acctRec;
@@ -84,7 +84,7 @@ namespace MillenniumERP.AccountsReceivableDomain
            
             try
             {
-                List<AcctRec> list = await GetObjectsAsync(e => e.DocNumber == ledgerView.DocNumber).ToListAsync<AcctRec>();
+                List<AcctRec> list = await GetObjectsQueryable(e => e.DocNumber == ledgerView.DocNumber).ToListAsync<AcctRec>();
                 AcctRec acctRec = list[0];
 
 

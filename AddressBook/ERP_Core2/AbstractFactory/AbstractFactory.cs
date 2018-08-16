@@ -220,6 +220,7 @@ namespace ERP_Core2.AbstractFactory
             purchaseOrderDetail.OrderDate = purchaseOrderDetailView.OrderDate;
             purchaseOrderDetail.ReceivedQuantity = purchaseOrderDetailView.ReceivedQuantity;
             purchaseOrderDetail.RemainingQuantity = purchaseOrderDetailView.RemainingQuantity;
+            purchaseOrderDetail.Description = purchaseOrderDetailView.Description;
     }
 
         public override CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim)

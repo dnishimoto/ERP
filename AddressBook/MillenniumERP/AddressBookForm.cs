@@ -24,7 +24,7 @@ namespace MillenniumERP
         private void cmdSearch_Click(object sender, EventArgs e)
         {
 
-            IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsAsync(a => a.Name.Contains(txtSearchName.Text.ToString()));
+            IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsQueryable(a => a.Name.Contains(txtSearchName.Text.ToString()));
 
             dataGridViewAddressBook.AutoGenerateColumns = false;
             dataGridViewAddressBook.DataSource = query.ToList<AddressBook>();

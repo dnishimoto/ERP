@@ -77,7 +77,7 @@ namespace MillenniumERP.Services
                                              select e).FirstOrDefaultAsync<Company>();
                 chartOfAcct.Company = companyTask.Result;
                 ChartOfAccountView view = applicationViewFactory.MapChartOfAccountView(chartOfAcct);
-                IQueryable<ChartOfAcct> query = GetObjectsAsync(e => e.ObjectNumber == view.ObjectNumber, "");
+                IQueryable<ChartOfAcct> query = GetObjectsQueryable(e => e.ObjectNumber == view.ObjectNumber, "");
                 List<ChartOfAcct> list = query.ToList<ChartOfAcct>();
                 if (list.Count == 0)
                 {

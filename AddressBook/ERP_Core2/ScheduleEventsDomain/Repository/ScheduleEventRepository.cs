@@ -21,7 +21,7 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-                var list = await base.GetObjectsAsync(e => e.EmployeeId == employeeId, "Employee").ToListAsync();
+                var list = await base.GetObjectsQueryable(e => e.EmployeeId == employeeId, "Employee").ToListAsync();
 
                 return list.AsQueryable<ScheduleEvent>();
             }

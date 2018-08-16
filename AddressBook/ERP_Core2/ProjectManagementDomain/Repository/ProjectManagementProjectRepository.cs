@@ -22,7 +22,7 @@ namespace MillenniumERP.ProjectManagementDomain
         {
             try
             {
-                var list = await base.GetObjectsAsync(e => e.ProjectId == projectId, "ProjectManagementMilestones").ToListAsync();
+                var list = await base.GetObjectsQueryable(e => e.ProjectId == projectId, "ProjectManagementMilestones").ToListAsync();
 
                 return list.AsQueryable<ProjectManagementProject>();
             }
@@ -50,7 +50,7 @@ namespace MillenniumERP.ProjectManagementDomain
         public async Task<IQueryable<ProjectManagementMilestone>> GetMilestones(int projectId)
         {
            
-            var list = await base.GetObjectsAsync(e => e.ProjectId == projectId, "ProjectManagmentMilestone").ToListAsync();
+            var list = await base.GetObjectsQueryable(e => e.ProjectId == projectId, "ProjectManagmentMilestone").ToListAsync();
 
             return list.AsQueryable<ProjectManagementMilestone>();
            

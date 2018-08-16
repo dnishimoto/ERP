@@ -136,7 +136,7 @@ namespace MillenniumERP.PurchaseOrderDomain
         {
             try
             {
-                List<PurchaseOrder> list = await GetObjectsAsync(e => e.PONumber == orderNumber).ToListAsync<PurchaseOrder>();
+                List<PurchaseOrder> list = await GetObjectsQueryable(e => e.PONumber == orderNumber).ToListAsync<PurchaseOrder>();
 
                 PurchaseOrderView view = applicationViewFactory.MapPurchaseOrderView(list[0]);
 
@@ -211,7 +211,7 @@ namespace MillenniumERP.PurchaseOrderDomain
         {
             try
             {
-                List<PurchaseOrder> list = await GetObjectsAsync(e => e.PONumber == PONumber).ToListAsync<PurchaseOrder>();
+                List<PurchaseOrder> list = await GetObjectsQueryable(e => e.PONumber == PONumber).ToListAsync<PurchaseOrder>();
                 PurchaseOrder purchaseOrder = list[0];
 
                 return purchaseOrder;

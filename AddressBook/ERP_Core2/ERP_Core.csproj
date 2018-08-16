@@ -128,6 +128,8 @@
     <Compile Include="EntityFramework\LocationAddress.cs" />
     <Compile Include="EntityFramework\NetTerm.cs" />
     <Compile Include="EntityFramework\NextNumber.cs" />
+    <Compile Include="EntityFramework\PackingSlip.cs" />
+    <Compile Include="EntityFramework\PackingSlipDetail.cs" />
     <Compile Include="EntityFramework\Phone.cs" />
     <Compile Include="EntityFramework\POQuote.cs" />
     <Compile Include="EntityFramework\ProjectManagementMilestone.cs" />
@@ -136,8 +138,6 @@
     <Compile Include="EntityFramework\ProjectManagementTaskToEmployee.cs" />
     <Compile Include="EntityFramework\PurchaseOrder.cs" />
     <Compile Include="EntityFramework\PurchaseOrderDetail.cs" />
-    <Compile Include="EntityFramework\Receipt.cs" />
-    <Compile Include="EntityFramework\ReceiptDetail.cs" />
     <Compile Include="EntityFramework\SalesOrder.cs" />
     <Compile Include="EntityFramework\SalesOrderDetail.cs" />
     <Compile Include="EntityFramework\ScheduleEvent.cs" />
