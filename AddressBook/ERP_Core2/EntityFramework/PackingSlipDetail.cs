@@ -9,18 +9,10 @@ namespace ERP_Core2.EntityFramework
     [Table("PackingSlipDetail")]
     public partial class PackingSlipDetail
     {
-        [Key]
-        [Column(Order = 0)]
         public long PackingSlipDetailId { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public long PackagingSlipId { get; set; }
+        public long PackingSlipId { get; set; }
 
-        [Key]
-        [Column(Order = 2)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long ItemId { get; set; }
 
         public int? Quantity { get; set; }
@@ -34,8 +26,6 @@ namespace ERP_Core2.EntityFramework
 
         [StringLength(200)]
         public string Description { get; set; }
-
-        public virtual ItemMaster ItemMaster { get; set; }
 
         public virtual PackingSlip PackingSlip { get; set; }
     }

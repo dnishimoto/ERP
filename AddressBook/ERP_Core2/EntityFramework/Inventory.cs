@@ -9,23 +9,16 @@ namespace ERP_Core2.EntityFramework
     [Table("Inventory")]
     public partial class Inventory
     {
-        [Key]
-        public long ItemId { get; set; }
+        public long InventoryId { get; set; }
 
         [StringLength(100)]
-        public string ShortDescription { get; set; }
-
-        [StringLength(255)]
-        public string LongDescription { get; set; }
+        public string Description { get; set; }
 
         [StringLength(2000)]
         public string Remarks { get; set; }
 
         [StringLength(100)]
-        public string UOM { get; set; }
-
-        [StringLength(100)]
-        public string SKU { get; set; }
+        public string UnitOfMeasure { get; set; }
 
         public int? Quantity { get; set; }
 
@@ -34,7 +27,9 @@ namespace ERP_Core2.EntityFramework
 
         public long? DistributionAccountId { get; set; }
 
-        public long? ReceivingAccountId { get; set; }
+        public long? PackingSlipDetailId { get; set; }
+
+        public long ItemId { get; set; }
 
         public virtual ItemMaster ItemMaster { get; set; }
     }

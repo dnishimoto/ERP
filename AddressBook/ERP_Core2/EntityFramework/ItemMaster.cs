@@ -12,9 +12,9 @@ namespace ERP_Core2.EntityFramework
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ItemMaster()
         {
+            Inventories = new HashSet<Inventory>();
             InvoiceDetails = new HashSet<InvoiceDetail>();
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
-            PackingSlipDetails = new HashSet<PackingSlipDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
             ShipmentsDetails = new HashSet<ShipmentsDetail>();
         }
@@ -41,16 +41,14 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "money")]
         public decimal? UnitPrice { get; set; }
 
-        public virtual Inventory Inventory { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Inventory> Inventories { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<InvoiceDetail> InvoiceDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetails { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PackingSlipDetail> PackingSlipDetails { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SalesOrderDetail> SalesOrderDetails { get; set; }

@@ -32,9 +32,12 @@ namespace ERP_Core2.EntityFramework
         [StringLength(20)]
         public string SlipType { get; set; }
 
-        public virtual Supplier Supplier { get; set; }
+        [Column(TypeName = "money")]
+        public decimal? Amount { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PackingSlipDetail> PackingSlipDetails { get; set; }
+
+        public virtual Supplier Supplier { get; set; }
     }
 }

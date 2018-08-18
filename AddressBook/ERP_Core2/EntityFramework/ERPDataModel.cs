@@ -41,6 +41,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<NetTerm> NetTerms { get; set; }
         public virtual DbSet<NextNumber> NextNumbers { get; set; }
         public virtual DbSet<PackingSlip> PackingSlips { get; set; }
+        public virtual DbSet<PackingSlipDetail> PackingSlipDetails { get; set; }
         public virtual DbSet<Phone> Phones { get; set; }
         public virtual DbSet<POQuote> POQuotes { get; set; }
         public virtual DbSet<ProjectManagementMilestone> ProjectManagementMilestones { get; set; }
@@ -66,7 +67,6 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShifts { get; set; }
         public virtual DbSet<UDC> UDCs { get; set; }
-        public virtual DbSet<PackingSlipDetail> PackingSlipDetails { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -692,11 +692,7 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Inventory>()
-                .Property(e => e.ShortDescription)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Inventory>()
-                .Property(e => e.LongDescription)
+                .Property(e => e.Description)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Inventory>()
@@ -704,11 +700,7 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<Inventory>()
-                .Property(e => e.UOM)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<Inventory>()
-                .Property(e => e.SKU)
+                .Property(e => e.UnitOfMeasure)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Inventory>()
@@ -804,8 +796,9 @@ namespace ERP_Core2.EntityFramework
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<ItemMaster>()
-                .HasOptional(e => e.Inventory)
-                .WithRequired(e => e.ItemMaster);
+                .HasMany(e => e.Inventories)
+                .WithRequired(e => e.ItemMaster)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ItemMaster>()
                 .HasMany(e => e.InvoiceDetails)
@@ -814,11 +807,6 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<ItemMaster>()
                 .HasMany(e => e.PurchaseOrderDetails)
-                .WithRequired(e => e.ItemMaster)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ItemMaster>()
-                .HasMany(e => e.PackingSlipDetails)
                 .WithRequired(e => e.ItemMaster)
                 .WillCascadeOnDelete(false);
 
@@ -886,10 +874,29 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<PackingSlip>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<PackingSlip>()
                 .HasMany(e => e.PackingSlipDetails)
                 .WithRequired(e => e.PackingSlip)
-                .HasForeignKey(e => e.PackagingSlipId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.ExtendedCost)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.UnitOfMeasure)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<PackingSlipDetail>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
 
             modelBuilder.Entity<Phone>()
                 .Property(e => e.PhoneNumber)
@@ -1402,22 +1409,6 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.UDC)
                 .HasForeignKey(e => e.TypeOfTimeUdcXrefId)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<PackingSlipDetail>()
-                .Property(e => e.UnitPrice)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<PackingSlipDetail>()
-                .Property(e => e.ExtendedCost)
-                .HasPrecision(18, 4);
-
-            modelBuilder.Entity<PackingSlipDetail>()
-                .Property(e => e.UnitOfMeasure)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<PackingSlipDetail>()
-                .Property(e => e.Description)
-                .IsUnicode(false);
         }
     }
 }
