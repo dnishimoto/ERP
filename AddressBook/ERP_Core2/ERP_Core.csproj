@@ -72,6 +72,7 @@
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AbstractFactory\AbstractModule.cs" />
     <Compile Include="AccountPayableDomain\AccountsPayableModule.cs" />
+    <Compile Include="AccountPayableDomain\Repository\PackingSlipRepository.cs" />
     <Compile Include="AccountPayableDomain\Repository\PurchaseOrderRepository.cs" />
     <Compile Include="AccountPayableDomain\Repository\AccountPayableRepository.cs" />
     <Compile Include="AccountPayableDomain\UnitTestAccountPayable.cs" />
@@ -157,6 +158,7 @@
     <Compile Include="EntityFramework\UDC.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
+    <Compile Include="InventoryDomain\Repository\InventoryRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\InvoiceModule.cs" />
     <Compile Include="InvoiceDomain\Repository\InvoiceDetailRepository.cs" />

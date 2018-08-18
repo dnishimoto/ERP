@@ -13,52 +13,7 @@ using MillenniumERP.PurchaseOrderDomain;
 
 namespace MillenniumERP.AccountsPayableDomain
 {
-    public class PackingSlipView
-    {
-        public PackingSlipView() { this.PackingSlipDetailViews = new List<PackingSlipDetailView>(); }
-        public PackingSlipView(PackingSlip packingSlip)
-        {
-            this.PackingSlipId = packingSlip.PackingSlipId;
-            this.SupplierId = packingSlip.SupplierId;
-            this.ReceivedDate = packingSlip.ReceivedDate;
-            this.SlipDocument = packingSlip.SlipDocument;
-            this.PONumber = packingSlip.PONumber;
-            this.Remark = packingSlip.Remark;
-            this.SlipType = packingSlip.SlipType;
-            this.PackingSlipDetailViews = new List<PackingSlipDetailView>();
-        }
-        public long PackingSlipId { get; set; }
-        public long SupplierId { get; set; }
-        public DateTime ReceivedDate { get; set; }
-        public string SlipDocument { get; set; }
-        public string PONumber { get; set; }
-        public string Remark { get; set; }
-        public string SlipType { get; set; }
-        public IList<PackingSlipDetailView> PackingSlipDetailViews { get; set; }
-    }
-    public class PackingSlipDetailView
-    {
-        public PackingSlipDetailView() { }
-        public PackingSlipDetailView(PackingSlipDetail detail)
-        {
-            this.PackingSlipDetailId = detail.PackingSlipDetailId;
-            this.PackagingSlipId = detail.PackagingSlipId;
-            this.ItemId = detail.ItemId;
-            this.Quantity = detail.Quantity;
-            this.UnitPrice = detail.UnitPrice;
-            this.ExtendedCost = detail.ExtendedCost;
-            this.UnitOfMeasure = detail.UnitOfMeasure;
-            this.Description = detail.Description;
-    }
-        public long PackingSlipDetailId { get; set; }
-        public long PackagingSlipId { get; set; }
-        public long ItemId { get; set; }
-        public int? Quantity { get; set; }
-        public decimal? UnitPrice { get; set; }
-        public decimal? ExtendedCost { get; set; }
-        public string UnitOfMeasure { get; set; }
-        public string Description { get; set; }
-    }
+    
 
     public class AccountPayableView
     {

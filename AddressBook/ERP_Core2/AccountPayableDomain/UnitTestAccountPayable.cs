@@ -14,6 +14,7 @@ using System;
 using MillenniumERP.PurchaseOrderDomain;
 using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
 using MillenniumERP.AccountsPayableDomain;
+using MillenniumERP.PackingSlipDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -101,6 +102,16 @@ namespace ERP_Core2.AccountPayableDomain
 
                 PackingSlipView packingSlipView = JsonConvert.DeserializeObject<PackingSlipView>(json);
 
+                AccountsPayableModule apMod = new AccountsPayableModule();
+
+                bool resultCreate = await apMod.CreatePackingSlipByView(packingSlipView);
+
+                PackingSlipView lookupView=await apMod.GetPackingSlipViewBySlipDocument(packingSlipView.SlipDocument);
+
+               bool resultCreateInventory= await apMod.CreateInventoryByPackingSlipView(lookupView);
+
+
+                Assert.True(resultCreate);
             }
             catch (Exception ex) { }
 

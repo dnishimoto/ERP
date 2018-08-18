@@ -9,6 +9,7 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.GeneralLedgerDomain;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.PurchaseOrderDomain
 {
@@ -127,11 +128,7 @@ namespace MillenniumERP.PurchaseOrderDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public enum PurchaseOrderStatus
-        {
-            Created,
-            AlreadyExists
-        }
+
         public async Task<PurchaseOrderView> GetPurchaseOrderViewByOrderNumber(string orderNumber)
         {
             try

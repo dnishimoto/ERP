@@ -7,6 +7,7 @@ using MillenniumERP.CustomerLedgerDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoiceDetailsDomain;
 using MillenniumERP.InvoicesDomain;
+using MillenniumERP.PackingSlipDomain;
 using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
@@ -55,6 +56,11 @@ namespace ERP_Core2.AbstractFactory
         public abstract PurchaseOrderDetailView MapPurchaseOrderDetailView(PurchaseOrderDetail purchaseOrderDetail);
         public abstract void MapPurchaseOrderEntity(ref PurchaseOrder purchaseOrder, PurchaseOrderView purchaseOrderView);
         public abstract void MapPurchaseOrderDetailEntity(ref PurchaseOrderDetail purchaseOrderDetail, PurchaseOrderDetailView purchaseOrderDetailView);
+        public abstract PackingSlipView MapPackingSlipView(PackingSlip packingSlip);
+        public abstract PackingSlipDetailView MapPackingSlipDetailView(PackingSlipDetail packingSlipDetail);
+        public abstract void MapPackingSlipEntity(ref PackingSlip packingSlip, PackingSlipView packingSlipView);
+        public abstract void MapPackingSlipDetailEntity(ref PackingSlipDetail packingSlipDetail, PackingSlipDetailView packingSlipDetailView);
+        public abstract void MapPackingSlipIntoInventoryEntity(ref Inventory inventory,PackingSlipDetailView packingSlipDetailView);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -222,7 +228,48 @@ namespace ERP_Core2.AbstractFactory
             purchaseOrderDetail.RemainingQuantity = purchaseOrderDetailView.RemainingQuantity;
             purchaseOrderDetail.Description = purchaseOrderDetailView.Description;
     }
+        public override PackingSlipView MapPackingSlipView(PackingSlip packingSlip)
+        {
+            return new PackingSlipView(packingSlip);
+        }
+        public override void MapPackingSlipEntity(ref PackingSlip packingSlip, PackingSlipView packingSlipView)
+        {
+            packingSlip.PackingSlipId = packingSlipView.PackingSlipId;
+            packingSlip.SupplierId = packingSlipView.SupplierId;
+            packingSlip.ReceivedDate = packingSlipView.ReceivedDate;
+            packingSlip.SlipDocument = packingSlipView.SlipDocument;
+            packingSlip.PONumber = packingSlipView.PONumber;
+            packingSlip.Remark = packingSlipView.Remark;
+            packingSlip.SlipType = packingSlipView.SlipType;
+            packingSlip.Amount = packingSlipView.Amount??0;
+        }
+        public override void MapPackingSlipDetailEntity(ref PackingSlipDetail packingSlipDetail, PackingSlipDetailView packingSlipDetailView)
+        {
 
+            packingSlipDetail.PackingSlipDetailId = packingSlipDetailView.PackingSlipDetailId;
+            packingSlipDetail.PackingSlipId = packingSlipDetailView.PackingSlipId;
+            packingSlipDetail.ItemId = packingSlipDetailView.ItemId;
+            packingSlipDetail.Quantity = packingSlipDetailView.Quantity;
+            packingSlipDetail.UnitPrice = packingSlipDetailView.UnitPrice;
+            packingSlipDetail.ExtendedCost = packingSlipDetailView.ExtendedCost;
+            packingSlipDetail.UnitOfMeasure = packingSlipDetailView.UnitOfMeasure;
+            packingSlipDetail.Description = packingSlipDetailView.Description;
+    }
+
+        public override void MapPackingSlipIntoInventoryEntity(ref Inventory inventory, PackingSlipDetailView packingSlipDetailView)
+        {
+            inventory.ItemId = packingSlipDetailView.ItemId;
+            inventory.Description = packingSlipDetailView.Description;
+            inventory.UnitOfMeasure = packingSlipDetailView.UnitOfMeasure;
+            inventory.Quantity = packingSlipDetailView.Quantity;
+            inventory.ExtendedPrice = packingSlipDetailView.ExtendedCost;
+            inventory.PackingSlipDetailId = packingSlipDetailView.PackingSlipDetailId;
+    }
+
+        public override PackingSlipDetailView MapPackingSlipDetailView(PackingSlipDetail packingSlipDetail)
+        {
+            return new PackingSlipDetailView(packingSlipDetail);
+        }
         public override CustomerClaimView MapCustomerClaimView(CustomerClaim customerClaim)
         {
             return new CustomerClaimView(customerClaim);
