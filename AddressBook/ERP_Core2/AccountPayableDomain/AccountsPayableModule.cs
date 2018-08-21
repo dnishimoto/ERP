@@ -9,28 +9,68 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
+using MillenniumERP.SupplierInvoicesDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {
-    public class AccountsPayableModule : AbstractModule
+    public interface IAccountsPayable
     {
-        public enum PurchaseOrderStatus
+        IAccountsPayable CreateSupplierInvoice(SupplierInvoiceView supplierInvoiceView);
+        IAccountsPayable CreateSupplierInvoiceDetail(SupplierInvoiceView supplierInvoiceView);
+        IAccountsPayable Apply();
+    }
+
+
+    public class AccountsPayableModule : AbstractModule, IAccountsPayable
+    {
+        private CreateProcessStatus processStatus;
+        public enum CreateProcessStatus
         {
+            Inserted,
             Created,
-            AlreadyExists
-        }
-        public enum PackingSlipStatus
-        {
-            Created,
-            AlreadyExists
+            AlreadyExists,
+            Failed
         }
         UnitOfWork unitOfWork = new UnitOfWork();
+        public IAccountsPayable CreateSupplierInvoice(SupplierInvoiceView supplierInvoiceView)
+        {
+            try
+            {
+                Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.supplierInvoiceRepository.CreateSupplierInvoiceByView(supplierInvoiceView));
+                Task.WaitAll(resultTask);
+                processStatus = resultTask.Result;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+
+            return this as IAccountsPayable;
+        }
+        public IAccountsPayable CreateSupplierInvoiceDetail(SupplierInvoiceView supplierInvoiceView)
+        {
+            try
+            {
+                Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.supplierInvoiceRepository.CreateSupplierInvoiceDetailsByView(supplierInvoiceView));
+                Task.WaitAll(resultTask);
+                processStatus = resultTask.Result;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+
+            return this as IAccountsPayable;
+        }
+        public IAccountsPayable Apply()
+        {
+            if (processStatus == CreateProcessStatus.Inserted)
+            {
+                unitOfWork.CommitChanges();
+
+            }
+            return this as IAccountsPayable;
+        }
         public async Task<bool> CreatePackingSlipByView(PackingSlipView packingSlipView)
         {
             try
             {
-                PackingSlipStatus result2 = await unitOfWork.packingSlipRepository.CreatePackingSlipByView(packingSlipView);
-                if (result2 == PackingSlipStatus.AlreadyExists || result2 == PackingSlipStatus.Created)
+                CreateProcessStatus result2 = await unitOfWork.packingSlipRepository.CreatePackingSlipByView(packingSlipView);
+                if (result2 == CreateProcessStatus.AlreadyExists || result2 == CreateProcessStatus.Created)
                 {
                     return true;
                 }
@@ -41,7 +81,7 @@ namespace ERP_Core2.AccountPayableDomain
         }
         public async Task<bool> CreateInventoryByPackingSlipView(PackingSlipView packingSlipView)
         {
-           
+
             bool result3 = await unitOfWork.inventoryRepository.CreateInventoryByPackingSlipView(packingSlipView);
             if (result3)
             {
@@ -54,21 +94,30 @@ namespace ERP_Core2.AccountPayableDomain
             PackingSlipView lookupView = await unitOfWork.packingSlipRepository.GetPackingSlipViewBySlipDocument(slipDocument);
             return lookupView;
         }
+        public async Task<bool> CreateAcctPayByPurchaseOrderNumber(string poNumber)
+        {
+            try
+            {
+                PurchaseOrderView lookupView = await unitOfWork.purchaseOrderRepository.GetPurchaseOrderViewByOrderNumber(poNumber);
+                bool result = await unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(lookupView);
+                if (result)
+                {
+                    unitOfWork.CommitChanges();
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<bool> CreateAccountsPaybyPOView(PurchaseOrderView purchaseOrderView)
         {
             try
             {
-                PurchaseOrderStatus result2 = await unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView);
+                CreateProcessStatus result2 = await unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView);
 
-                if (result2 == PurchaseOrderStatus.AlreadyExists || result2 == PurchaseOrderStatus.Created)
-                {
-                    PurchaseOrderView lookupView = await unitOfWork.purchaseOrderRepository.GetPurchaseOrderViewByOrderNumber(purchaseOrderView.PONumber);
-                    bool result3 = await unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(lookupView);
-                    if (result3)
-                    {
-                        unitOfWork.CommitChanges();
-                    }
-                }
+
                 return true;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }

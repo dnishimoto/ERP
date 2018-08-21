@@ -47,6 +47,10 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "date")]
         public DateTime? DiscountDueDate { get; set; }
 
+        public decimal? FreightCost { get; set; }
+
+        public decimal? DiscountAmount { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<AcctPay> AcctPays { get; set; }
 

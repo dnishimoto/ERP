@@ -24,6 +24,7 @@ namespace MillenniumERP.InvoiceDetailsDomain
             this.Amount = invoiceDetail.Amount;
             this.DiscountPercent = invoiceDetail.DiscountPercent;
             this.DiscountAmount = invoiceDetail.DiscountAmount;
+            this.DiscountDueDate = invoiceDetail.DiscountDueDate;
             this.ItemId = invoiceDetail.ItemMaster.ItemId;
             this.ItemNumber = invoiceDetail.ItemMaster.ItemNumber;
             this.ItemDescription = invoiceDetail.ItemMaster.Description;
@@ -39,6 +40,7 @@ namespace MillenniumERP.InvoiceDetailsDomain
         //todo public long? SalesOrderDetailId { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
+        public DateTime? DiscountDueDate { get; set; }
         //todo    public long? ShipmentDetailId { get; set; }
         //todo maybe public string InvoiceNumber { get; set; }
         //public virtual Invoice Invoice { get; set; }

@@ -150,7 +150,7 @@ namespace MillenniumERP.PurchaseOrderDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<PurchaseOrderStatus> CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView)
+        public async Task<CreateProcessStatus> CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView)
         {
             decimal grossAmount = 0;
             try
@@ -160,7 +160,7 @@ namespace MillenniumERP.PurchaseOrderDomain
                                    where e.PONumber == purchaseOrderView.PONumber
                               
                                    select e).FirstOrDefaultAsync<PurchaseOrder>();
-                if (queryPO != null) { return PurchaseOrderStatus.AlreadyExists; }
+                if (queryPO != null) { return CreateProcessStatus.AlreadyExists; }
 
 
                 foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
@@ -200,7 +200,7 @@ namespace MillenniumERP.PurchaseOrderDomain
                     }
                     
                 }
-                return PurchaseOrderStatus.Created;
+                return CreateProcessStatus.Created;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
