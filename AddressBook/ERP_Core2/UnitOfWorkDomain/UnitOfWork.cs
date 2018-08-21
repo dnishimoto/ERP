@@ -20,6 +20,7 @@ using MillenniumERP.AccountsPayableDomain;
 using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.PackingSlipDomain;
 using MillenniumERP.InventoryDomain;
+using MillenniumERP.SupplierInvoicesDomain;
 
 namespace MillenniumERP.Services
 {
@@ -52,6 +53,7 @@ namespace MillenniumERP.Services
         public PurchaseOrderRepository purchaseOrderRepository => new PurchaseOrderRepository(db);
         public PackingSlipRepository packingSlipRepository => new PackingSlipRepository(db);
         public InventoryRepository inventoryRepository => new InventoryRepository(db);
+        public SupplierInvoiceRepository supplierInvoiceRepository => new SupplierInvoiceRepository(db);
         public UnitOfWork()
         {
             /*

@@ -16,6 +16,7 @@ namespace ERP_Core2.EntityFramework
             PackingSlips = new HashSet<PackingSlip>();
             POQuotes = new HashSet<POQuote>();
             PurchaseOrders = new HashSet<PurchaseOrder>();
+            SupplierInvoices = new HashSet<SupplierInvoice>();
         }
 
         public long SupplierId { get; set; }
@@ -38,5 +39,8 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierInvoice> SupplierInvoices { get; set; }
     }
 }

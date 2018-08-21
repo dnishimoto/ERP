@@ -96,7 +96,7 @@ namespace MillenniumERP.PackingSlipDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<PackingSlipStatus> CreatePackingSlipByView(PackingSlipView view)
+        public async Task<CreateProcessStatus> CreatePackingSlipByView(PackingSlipView view)
         {
             decimal amount = 0;
             try
@@ -106,7 +106,7 @@ namespace MillenniumERP.PackingSlipDomain
                                    where e.SlipDocument == view.SlipDocument
                               
                                    select e).FirstOrDefaultAsync<PackingSlip>();
-                if (query != null) { return PackingSlipStatus.AlreadyExists; }
+                if (query != null) { return CreateProcessStatus.AlreadyExists; }
 
 
                 foreach (var detail in view.PackingSlipDetailViews)
@@ -142,7 +142,7 @@ namespace MillenniumERP.PackingSlipDomain
                     }
                     
                 }
-                return PackingSlipStatus.Created;
+                return CreateProcessStatus.Created;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

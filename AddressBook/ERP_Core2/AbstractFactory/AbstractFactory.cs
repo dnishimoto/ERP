@@ -11,6 +11,7 @@ using MillenniumERP.PackingSlipDomain;
 using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
+using MillenniumERP.SupplierInvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,9 @@ namespace ERP_Core2.AbstractFactory
         public abstract PackingSlipDetailView MapPackingSlipDetailView(PackingSlipDetail packingSlipDetail);
         public abstract void MapPackingSlipEntity(ref PackingSlip packingSlip, PackingSlipView packingSlipView);
         public abstract void MapPackingSlipDetailEntity(ref PackingSlipDetail packingSlipDetail, PackingSlipDetailView packingSlipDetailView);
-        public abstract void MapPackingSlipIntoInventoryEntity(ref Inventory inventory,PackingSlipDetailView packingSlipDetailView);
+        public abstract void MapPackingSlipIntoInventoryEntity(ref Inventory inventory, PackingSlipDetailView packingSlipDetailView);
+        public abstract void MapSupplierInvoiceEntity(ref SupplierInvoice supplierInvoice, SupplierInvoiceView supplierInvoiceView);
+        public abstract void MapSupplierInvoiceDetailEntity(ref SupplierInvoiceDetail supplierInvoiceDetail, SupplierInvoiceDetailView supplierInvoiceDetailView);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -70,9 +73,9 @@ namespace ERP_Core2.AbstractFactory
     }
     //General Ledger
     public abstract partial class AbstractFactory
-    { 
+    {
         public abstract void MapGeneralLedgerEntity(ref GeneralLedger ledger, GeneralLedgerView view);
-  
+
     }
 
     //Business View Factory
@@ -160,17 +163,20 @@ namespace ERP_Core2.AbstractFactory
             invoice.PaymentTerms = invoiceView.PaymentTerms;
             invoice.CompanyId = invoiceView.CompanyId ?? 0;
             invoice.DiscountDueDate = invoiceView.DiscountDueDate;
+            invoice.DiscountAmount = invoiceView.DiscountAmount;
+            invoice.FreightCost = invoiceView.FreightCost ?? 0;
 
         }
         public override void MapInvoiceDetailEntity(ref InvoiceDetail invoiceDetail, InvoiceDetailView invoiceDetailView)
         {
             invoiceDetail.InvoiceId = invoiceDetailView.InvoiceId ?? 0;
-            invoiceDetail.UnitOfMeasure = invoiceDetailView.UnitOfMeasure = "Project";
+            invoiceDetail.UnitOfMeasure = invoiceDetailView.UnitOfMeasure;
             invoiceDetail.Quantity = invoiceDetailView.Quantity;
             invoiceDetail.UnitPrice = invoiceDetailView.UnitPrice;
             invoiceDetail.Amount = invoiceDetailView.Amount;
             invoiceDetail.DiscountPercent = invoiceDetailView.DiscountPercent;
             invoiceDetail.DiscountAmount = invoiceDetailView.DiscountAmount;
+            invoiceDetail.DiscountDueDate = invoiceDetailView.DiscountDueDate;
             invoiceDetail.ItemId = invoiceDetailView.ItemId ?? 0;
 
         }
@@ -184,7 +190,7 @@ namespace ERP_Core2.AbstractFactory
         }
         public override void MapPurchaseOrderEntity(ref PurchaseOrder purchaseOrder, PurchaseOrderView purchaseOrderView)
         {
-            purchaseOrder.PurchaseOrderId = purchaseOrderView.PurchaseOrderId??0;
+            purchaseOrder.PurchaseOrderId = purchaseOrderView.PurchaseOrderId ?? 0;
             purchaseOrder.DocType = purchaseOrderView.DocType;
             purchaseOrder.PaymentTerms = purchaseOrderView.PaymentTerms;
             purchaseOrder.GrossAmount = purchaseOrderView.GrossAmount;
@@ -211,7 +217,7 @@ namespace ERP_Core2.AbstractFactory
             purchaseOrder.ShippedToCity = purchaseOrderView.ShippedToCity;
             purchaseOrder.ShippedToZipcode = purchaseOrderView.ShippedToZipcode;
             purchaseOrder.ShippedToState = purchaseOrderView.ShippedToState;
-    }
+        }
         public override void MapPurchaseOrderDetailEntity(ref PurchaseOrderDetail purchaseOrderDetail, PurchaseOrderDetailView purchaseOrderDetailView)
         {
             purchaseOrderDetail.PurchaseOrderDetailId = purchaseOrderDetailView.PurchaseOrderDetailId;
@@ -227,7 +233,7 @@ namespace ERP_Core2.AbstractFactory
             purchaseOrderDetail.ReceivedQuantity = purchaseOrderDetailView.ReceivedQuantity;
             purchaseOrderDetail.RemainingQuantity = purchaseOrderDetailView.RemainingQuantity;
             purchaseOrderDetail.Description = purchaseOrderDetailView.Description;
-    }
+        }
         public override PackingSlipView MapPackingSlipView(PackingSlip packingSlip)
         {
             return new PackingSlipView(packingSlip);
@@ -241,7 +247,7 @@ namespace ERP_Core2.AbstractFactory
             packingSlip.PONumber = packingSlipView.PONumber;
             packingSlip.Remark = packingSlipView.Remark;
             packingSlip.SlipType = packingSlipView.SlipType;
-            packingSlip.Amount = packingSlipView.Amount??0;
+            packingSlip.Amount = packingSlipView.Amount ?? 0;
         }
         public override void MapPackingSlipDetailEntity(ref PackingSlipDetail packingSlipDetail, PackingSlipDetailView packingSlipDetailView)
         {
@@ -254,8 +260,37 @@ namespace ERP_Core2.AbstractFactory
             packingSlipDetail.ExtendedCost = packingSlipDetailView.ExtendedCost;
             packingSlipDetail.UnitOfMeasure = packingSlipDetailView.UnitOfMeasure;
             packingSlipDetail.Description = packingSlipDetailView.Description;
+        }
+        public override void MapSupplierInvoiceEntity(ref SupplierInvoice supplierInvoice, SupplierInvoiceView supplierInvoiceView)
+        {
+            supplierInvoice.SupplierInvoiceId = supplierInvoiceView.SupplierInvoiceId??0;
+            supplierInvoice.SupplierInvoiceNumber = supplierInvoiceView.SupplierInvoiceNumber;
+            supplierInvoice.SupplierInvoiceDate = supplierInvoiceView.SupplierInvoiceDate;
+            supplierInvoice.PONumber = supplierInvoiceView.PONumber;
+            supplierInvoice.Amount = supplierInvoiceView.Amount;
+            supplierInvoice.Description = supplierInvoiceView.Description;
+            supplierInvoice.TaxAmount = supplierInvoiceView.TaxAmount;
+            supplierInvoice.PaymentDueDate = supplierInvoiceView.PaymentDueDate;
+            supplierInvoice.PaymentTerms = supplierInvoiceView.PaymentTerms;
+            supplierInvoice.DiscountDueDate = supplierInvoiceView.DiscountDueDate;
+            supplierInvoice.SupplierId = supplierInvoiceView.SupplierId??0;
+            supplierInvoice.FreightCost = supplierInvoiceView.FreightCost;
+            supplierInvoice.DiscountAmount = supplierInvoiceView.DiscountAmount;
     }
-
+        public override void MapSupplierInvoiceDetailEntity(ref SupplierInvoiceDetail supplierInvoiceDetail, SupplierInvoiceDetailView supplierInvoiceDetailView)
+        {
+            supplierInvoiceDetail.SupplierInvoiceDetailId = supplierInvoiceDetailView.SupplierInvoiceDetailId??0;
+            supplierInvoiceDetail.SupplierInvoiceId = supplierInvoiceDetailView.SupplierInvoiceId??0;
+            supplierInvoiceDetail.UnitPrice = supplierInvoiceDetailView.UnitPrice;
+            supplierInvoiceDetail.Quantity = supplierInvoiceDetailView.Quantity;
+            supplierInvoiceDetail.UnitOfMeasure = supplierInvoiceDetailView.UnitOfMeasure;
+            supplierInvoiceDetail.ExtendedCost = supplierInvoiceDetailView.ExtendedCost;
+            supplierInvoiceDetail.ItemId = supplierInvoiceDetailView.ItemId??0;
+            supplierInvoiceDetail.Description = supplierInvoiceDetailView.Description;
+            supplierInvoiceDetail.DiscountDueDate = supplierInvoiceDetailView.DiscountDueDate;
+            supplierInvoiceDetail.DiscountAmount = supplierInvoiceDetailView.DiscountAmount;
+            supplierInvoiceDetail.DiscountPercent = supplierInvoiceDetailView.DiscountPercent;
+    }
         public override void MapPackingSlipIntoInventoryEntity(ref Inventory inventory, PackingSlipDetailView packingSlipDetailView)
         {
             inventory.ItemId = packingSlipDetailView.ItemId;
@@ -264,7 +299,7 @@ namespace ERP_Core2.AbstractFactory
             inventory.Quantity = packingSlipDetailView.Quantity;
             inventory.ExtendedPrice = packingSlipDetailView.ExtendedCost;
             inventory.PackingSlipDetailId = packingSlipDetailView.PackingSlipDetailId;
-    }
+        }
 
         public override PackingSlipDetailView MapPackingSlipDetailView(PackingSlipDetail packingSlipDetail)
         {

@@ -72,6 +72,7 @@
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
     <Compile Include="AbstractFactory\AbstractModule.cs" />
     <Compile Include="AccountPayableDomain\AccountsPayableModule.cs" />
+    <Compile Include="AccountPayableDomain\Repository\SupplierInvoiceRepository.cs" />
     <Compile Include="AccountPayableDomain\Repository\PackingSlipRepository.cs" />
     <Compile Include="AccountPayableDomain\Repository\PurchaseOrderRepository.cs" />
     <Compile Include="AccountPayableDomain\Repository\AccountPayableRepository.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="EntityFramework\Supervisor.cs" />
     <Compile Include="EntityFramework\SupervisorEmployee.cs" />
     <Compile Include="EntityFramework\Supplier.cs" />
+    <Compile Include="EntityFramework\SupplierInvoice.cs" />
+    <Compile Include="EntityFramework\SupplierInvoiceDetail.cs" />
     <Compile Include="EntityFramework\TaxRatesByCode.cs" />
     <Compile Include="EntityFramework\TimeAndAttendancePunchIn.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceSchedule.cs" />

@@ -10,6 +10,7 @@ using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.PurchaseOrderDomain;
+using MillenniumERP.SupplierInvoicesDomain;
 
 namespace MillenniumERP.AccountsPayableDomain
 {
@@ -79,6 +80,7 @@ namespace MillenniumERP.AccountsPayableDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
+        
         public async Task<bool> CreateAcctPayByPurchaseOrderView(PurchaseOrderView poView)
         {
             //Check if exists

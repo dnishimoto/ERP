@@ -15,11 +15,12 @@ using MillenniumERP.PurchaseOrderDomain;
 using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
 using MillenniumERP.AccountsPayableDomain;
 using MillenniumERP.PackingSlipDomain;
+using MillenniumERP.SupplierInvoicesDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {
-    
-       public class UnitTestAccountPayable
+
+    public class UnitTestAccountPayable
     {
         private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
@@ -29,10 +30,87 @@ namespace ERP_Core2.AccountPayableDomain
             this.output = output;
 
         }
-  
+
         [Fact]
-        public void TestReceiveOpenPurchaseOrderDetail()
+        public async Task TestReceiveSupplierInvoice()
         {
+            long supplierId = 3;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            try
+            {
+                SupplierView supplierView = await unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
+
+                string json = @"{
+            ""SupplierId"" : " + supplierView.SupplierId + @",
+            ""SupplierInvoiceNumber"": ""AZW23-1"", 
+            ""SupplierInvoiceDate"" : """ + DateTime.Parse("8/20/2018") + @""",
+            ""PONumber"" : ""PO-1"",
+            ""Amount"": 268,
+            ""Description"":  ""Back to School supplies"",
+            ""TaxAmount"" : 16.08,
+            ""PaymentDueDate"": """ + DateTime.Parse("8/20/2018") + @""",
+            ""PaymentTerms"" : ""Net 30"",
+            ""FreightCost"" : 4.98,
+            
+
+            ""SupplierInvoiceDetailViews"":[
+                    {
+                    ""ItemId"": 5,
+                    ""Quantity"": 5,
+                    ""UnitPrice"" : " + 10 + @",
+                    ""ExtendedCost"" : " + 50 + @",
+                    ""UnitOfMeasure"" : """ + "Dozen" + @""",
+                    ""Description"": """ + "Pencil HB" + @"""
+                    },
+                    {
+                    ""ItemId"": 6,
+                    ""Quantity"": 4,
+                    ""UnitPrice"" : " + 10 + @",
+                    ""ExtendedCost"" : " + 40 + @",
+                    ""UnitOfMeasure"" : """ + "Dozen" + @""",
+                    ""Description"": """ + "Pencils 2B" + @"""
+                    },
+                    {
+                    ""ItemId"": 7,
+                    ""Quantity"": 10,
+                    ""UnitPrice"" : " + 3 + @",
+                    ""ExtendedCost"" : " + 30 + @",
+                    ""UnitOfMeasure"" : """ + "Ream" + @""",
+                    ""Description"": """ + "Paper - A4, Photo coper, 70 grams" + @"""
+                    },
+                    {
+                    ""ItemId"": 8,
+                    ""Quantity"": 15,
+                    ""UnitPrice"" : " + 3.20 + @",
+                    ""ExtendedCost"" : " + 48 + @",
+                    ""UnitOfMeasure"" : """ + "Ream" + @""",
+                    ""Description"": """ + "NPaper - A4, Photo Copier, 80 gramULL" + @"""
+                    },
+                    {
+                    ""ItemId"": 9,
+                    ""Quantity"": 5,
+                    ""UnitPrice"" : " + 10 + @",
+                    ""ExtendedCost"" : " + 100 + @",
+                    ""UnitOfMeasure"" : """ + "Ream" + @""",
+                    ""Description"": """ + "Pens - Ball Point, Blue" + @"""
+                    }
+                ]
+
+            }";
+                SupplierInvoiceView supplierInvoiceView = JsonConvert.DeserializeObject<SupplierInvoiceView>(json);
+
+                AccountsPayableModule apMod = new AccountsPayableModule();
+
+                apMod
+                    .CreateSupplierInvoice(supplierInvoiceView)
+                    .Apply()
+                    .CreateSupplierInvoiceDetail(supplierInvoiceView)
+                    .Apply();
+                   
+            }
+            catch (Exception ex) { }
         }
         [Fact]
         public async Task TestCreateInboundPackingSlip()
@@ -52,7 +130,7 @@ namespace ERP_Core2.AccountPayableDomain
             ""SupplierId"" : " + supplierView.SupplierId + @",
             ""ReceivedDate"" : """ + DateTime.Parse("8/16/2018") + @""",
             ""SlipDocument"" : ""SLIP-1"",
-            ""PONumber"" :""PO - 1"",
+            ""PONumber"" :""PO-1"",
             ""SlipType"" : """ + slipTypeUDC.KeyCode + @""",
 
             ""PackingSlipDetailViews"":[
@@ -106,9 +184,9 @@ namespace ERP_Core2.AccountPayableDomain
 
                 bool resultCreate = await apMod.CreatePackingSlipByView(packingSlipView);
 
-                PackingSlipView lookupView=await apMod.GetPackingSlipViewBySlipDocument(packingSlipView.SlipDocument);
+                PackingSlipView lookupView = await apMod.GetPackingSlipViewBySlipDocument(packingSlipView.SlipDocument);
 
-               bool resultCreateInventory= await apMod.CreateInventoryByPackingSlipView(lookupView);
+                bool resultCreateInventory = await apMod.CreateInventoryByPackingSlipView(lookupView);
 
 
                 Assert.True(resultCreate);
@@ -148,12 +226,12 @@ namespace ERP_Core2.AccountPayableDomain
 
 
             SupplierView supplierView = await unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook, locationAddress, email);
-         
+
             ChartOfAcct coa = await unitOfWork.supplierRepository.GetChartofAccount("1000", "1200", "240", "");
 
             Company company = await unitOfWork.supplierRepository.GetCompany();
 
-            ItemMaster[] itemMasterLookup=new ItemMaster[5];
+            ItemMaster[] itemMasterLookup = new ItemMaster[5];
 
             itemMasterLookup[0] = await unitOfWork.itemMasterRepository.GetObjectAsync(5);
             itemMasterLookup[1] = await unitOfWork.itemMasterRepository.GetObjectAsync(6);
@@ -167,33 +245,33 @@ namespace ERP_Core2.AccountPayableDomain
             ""DocType"" : """ + udcAcctPayDocType.KeyCode + @""",
             ""PaymentTerms"" : ""Net 30"",
             ""GLDate"" : """ + DateTime.Parse("7/30/2018") + @""",
-            ""AccountId"" :"  + coa.AccountId + @",
-            ""SupplierId"" :" + (supplierView.SupplierId ?? 0).ToString() +@",
-            ""SupplierName"" :""" + supplierView.CompanyName +@""",
+            ""AccountId"" :" + coa.AccountId + @",
+            ""SupplierId"" :" + (supplierView.SupplierId ?? 0).ToString() + @",
+            ""SupplierName"" :""" + supplierView.CompanyName + @""",
             ""Description"" :""Back to School Inventory"",
             ""PONumber"" :""PO -1"",
             ""TakenBy"" : ""David Nishimoto"",
-            ""BuyerId"" :"  + company.CompanyId +@",
-            ""TaxCode1"" :""" + company.TaxCode1 +@""",
-            ""TaxCode2"" :""" + company.TaxCode2 +@""",
-            ""ShippedToName"" :"""+ company.CompanyName + @""",
+            ""BuyerId"" :" + company.CompanyId + @",
+            ""TaxCode1"" :""" + company.TaxCode1 + @""",
+            ""TaxCode2"" :""" + company.TaxCode2 + @""",
+            ""ShippedToName"" :""" + company.CompanyName + @""",
             ""ShippedToAddress1"" :""" + company.CompanyStreet + @""",
             ""ShippedToCity"" :""" + company.CompanyCity + @""",
             ""ShippedToState"" :""" + company.CompanyState + @""",
             ""ShippedToZipcode"" :""" + company.CompanyZipcode + @""",
             ""RequestedDate"" :""" + DateTime.Parse("7/24/2018") + @""",
             ""PromisedDeliveredDate"" :""" + DateTime.Parse("8/2/2018") + @""",
-            ""TransactionDate"" :""" + DateTime.Parse("7/30/2018")+ @""", 
+            ""TransactionDate"" :""" + DateTime.Parse("7/30/2018") + @""", 
 
             ""PurchaseOrderDetailViews"":[
                     {
                     ""ItemId"": 5,
-                    ""OrderDate"":"""+ DateTime.Parse("7 / 30 / 2018") + @""",
+                    ""OrderDate"":""" + DateTime.Parse("7 / 30 / 2018") + @""",
                     ""OrderedQuantity"": 5,
                     ""UnitPrice"" : " + itemMasterLookup[0].UnitPrice + @",
                     ""UnitOfMeasure"" : """ + itemMasterLookup[0].UnitOfMeasure + @""",
-                    ""Amount"" : " + itemMasterLookup[0].UnitPrice*5 + @",
-                    ""Description"": """+itemMasterLookup[0].Description + @""",
+                    ""Amount"" : " + itemMasterLookup[0].UnitPrice * 5 + @",
+                    ""Description"": """ + itemMasterLookup[0].Description + @""",
                     ""ExpectedDeliveryDate"" :""" + DateTime.Parse("8/2/2018") + @""",
                     ""ReceivedQuantity"":0,
                     ""RemainingQuantity"":5
@@ -249,16 +327,16 @@ namespace ERP_Core2.AccountPayableDomain
                 ]
     }";
 
-        
+
             PurchaseOrderView purchaseOrderView = JsonConvert.DeserializeObject<PurchaseOrderView>(json);
 
 
             AccountsPayableModule apMod = new AccountsPayableModule();
 
-            bool resultCreate = await apMod.CreateAccountsPaybyPOView(purchaseOrderView);
-            
+            bool resultCreate = await apMod.CreateAcctPayByPurchaseOrderNumber(purchaseOrderView.PONumber);
+
             Assert.True(resultCreate);
         }
-     
+
     }
 }

@@ -28,6 +28,7 @@ namespace MillenniumERP.InvoicesDomain
             this.Description = invoice.Description;
             this.TaxAmount = invoice.TaxAmount;
             this.PaymentDueDate = invoice.PaymentDueDate;
+            this.DiscountAmount = invoice.DiscountAmount;
             this.PaymentTerms = invoice.PaymentTerms;
             this.CompanyId = invoice.Company.CompanyId;
             this.CompanyName = invoice.Company.CompanyName;
@@ -35,6 +36,7 @@ namespace MillenniumERP.InvoicesDomain
             this.CompanyCity = invoice.Company.CompanyCity;
             this.CompanyZipcode = invoice.Company.CompanyZipcode;
             this.DiscountDueDate = invoice.DiscountDueDate;
+            this.FreightCost = invoice.FreightCost;
             InvoiceDetailViews = new List<InvoiceDetailView>();
 
         }
@@ -54,6 +56,8 @@ namespace MillenniumERP.InvoicesDomain
         public decimal? TaxAmount { get; set; }
         public DateTime? PaymentDueDate { get; set; }
         public DateTime? DiscountDueDate { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public decimal? FreightCost { get; set; }
         public string PaymentTerms { get; set; }
         public IList<InvoiceDetailView> InvoiceDetailViews { get; set; }
     }
@@ -117,6 +121,7 @@ namespace MillenniumERP.InvoicesDomain
             try
             {
                 DeleteObject(invoice);
+                //TODO delete all detail
                 return true;
             }
             catch (Exception ex)

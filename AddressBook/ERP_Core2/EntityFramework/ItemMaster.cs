@@ -17,6 +17,7 @@ namespace ERP_Core2.EntityFramework
             PurchaseOrderDetails = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetails = new HashSet<SalesOrderDetail>();
             ShipmentsDetails = new HashSet<ShipmentsDetail>();
+            SupplierInvoiceDetails = new HashSet<SupplierInvoiceDetail>();
         }
 
         [Key]
@@ -55,5 +56,8 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShipmentsDetail> ShipmentsDetails { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierInvoiceDetail> SupplierInvoiceDetails { get; set; }
     }
 }

@@ -61,6 +61,8 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<Supervisor> Supervisors { get; set; }
         public virtual DbSet<SupervisorEmployee> SupervisorEmployees { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
+        public virtual DbSet<SupplierInvoice> SupplierInvoices { get; set; }
+        public virtual DbSet<SupplierInvoiceDetail> SupplierInvoiceDetails { get; set; }
         public virtual DbSet<TaxRatesByCode> TaxRatesByCodes { get; set; }
         public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
@@ -728,6 +730,14 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<Invoice>()
+                .Property(e => e.FreightCost)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Invoice>()
+                .Property(e => e.DiscountAmount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<Invoice>()
                 .HasMany(e => e.AcctRecs)
                 .WithRequired(e => e.Invoice)
                 .WillCascadeOnDelete(false);
@@ -817,6 +827,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<ItemMaster>()
                 .HasMany(e => e.ShipmentsDetails)
+                .WithRequired(e => e.ItemMaster)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ItemMaster>()
+                .HasMany(e => e.SupplierInvoiceDetails)
                 .WithRequired(e => e.ItemMaster)
                 .WillCascadeOnDelete(false);
 
@@ -1258,6 +1273,72 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.PurchaseOrders)
                 .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Supplier>()
+                .HasMany(e => e.SupplierInvoices)
+                .WithRequired(e => e.Supplier)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.SupplierInvoiceNumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.PONumber)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.Amount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.TaxAmount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.PaymentTerms)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.FreightCost)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .Property(e => e.DiscountAmount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoice>()
+                .HasMany(e => e.SupplierInvoiceDetails)
+                .WithRequired(e => e.SupplierInvoice)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<SupplierInvoiceDetail>()
+                .Property(e => e.UnitPrice)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoiceDetail>()
+                .Property(e => e.UnitOfMeasure)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierInvoiceDetail>()
+                .Property(e => e.ExtendedCost)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoiceDetail>()
+                .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierInvoiceDetail>()
+                .Property(e => e.DiscountAmount)
+                .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierInvoiceDetail>()
+                .Property(e => e.DiscountPercent)
+                .HasPrecision(18, 4);
 
             modelBuilder.Entity<TaxRatesByCode>()
                 .Property(e => e.TaxCode)
