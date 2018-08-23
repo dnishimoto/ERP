@@ -9,6 +9,7 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.InvoiceDetailsDomain;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.InvoicesDomain
 {
@@ -71,6 +72,39 @@ namespace MillenniumERP.InvoicesDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<Invoice> GetInvoiceByInvoiceNumber(string invoiceNumber)
+        {
+            try
+            {
+                Invoice invoice = await (from a in _dbContext.Invoices
+                                         where a.InvoiceNumber == invoiceNumber
+                                         select a).FirstOrDefaultAsync<Invoice>();
+                return invoice;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+            
+        }
+        public async Task<CreateProcessStatus> CreateInvoiceByView(InvoiceView invoiceView)
+        {
+            try
+            {
+                Invoice invoice = new Invoice();
+
+                applicationViewFactory.MapInvoiceEntity(ref invoice, invoiceView);
+
+                var query = await (from a in _dbContext.Invoices
+                                   where a.InvoiceNumber == invoice.InvoiceNumber
+                                   select a).FirstOrDefaultAsync<Invoice>();
+                if (query == null)
+                {
+                    AddObject(invoice);
+                    return CreateProcessStatus.Inserted;
+                }
+                return CreateProcessStatus.AlreadyExists;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+     
         public async Task<bool> AddInvoice(Invoice invoice)
         {
          

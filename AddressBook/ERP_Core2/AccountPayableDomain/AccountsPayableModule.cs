@@ -10,20 +10,15 @@ using System.Text;
 using System.Threading.Tasks;
 using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
 using MillenniumERP.SupplierInvoicesDomain;
+using ERP_Core2.Interfaces;
 
 namespace ERP_Core2.AccountPayableDomain
 {
-    public interface IAccountsPayable
-    {
-        IAccountsPayable CreateSupplierInvoice(SupplierInvoiceView supplierInvoiceView);
-        IAccountsPayable CreateSupplierInvoiceDetail(SupplierInvoiceView supplierInvoiceView);
-        IAccountsPayable Apply();
-    }
-
-
+   
     public class AccountsPayableModule : AbstractModule, IAccountsPayable
     {
         private CreateProcessStatus processStatus;
+      
         public enum CreateProcessStatus
         {
             Inserted,
@@ -32,6 +27,54 @@ namespace ERP_Core2.AccountPayableDomain
             Failed
         }
         UnitOfWork unitOfWork = new UnitOfWork();
+
+     
+        public IAccountsPayable CreatePackingSlip(PackingSlipView packingSlipView)
+        {
+            Task<CreateProcessStatus> resultTask =  Task.Run(()=>unitOfWork.packingSlipRepository.CreatePackingSlipByView(packingSlipView));
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as IAccountsPayable;
+        }
+        public IAccountsPayable CreatePackingSlipDetails(PackingSlipView packingSlipView)
+        {
+            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.packingSlipRepository.CreatePackingSlipDetailsByView(packingSlipView));
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as IAccountsPayable;
+        }
+        public IAccountsPayable CreateInventoryByPackingSlip(PackingSlipView packingSlipView)
+        {
+            Task<PackingSlipView> lookupViewTask = Task.Run(()=>unitOfWork.packingSlipRepository.GetPackingSlipViewBySlipDocument(packingSlipView.SlipDocument));
+            Task.WaitAll(lookupViewTask);
+            Task<CreateProcessStatus> resultTask = unitOfWork.inventoryRepository.CreateInventoryByPackingSlipView(lookupViewTask.Result);
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as IAccountsPayable;
+        } 
+
+        public IAccountsPayable CreateAcctPayByPurchaseOrderNumber(PurchaseOrderView purchaseOrderView)
+        {
+            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(purchaseOrderView));
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as IAccountsPayable;
+        }
+        public IAccountsPayable CreatePurchaseOrder(PurchaseOrderView purchaseOrderView)
+        {
+            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView));
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as IAccountsPayable;
+        }
+        public IAccountsPayable CreatePurchaseOrderDetails(PurchaseOrderView purchaseOrderView)
+        {
+            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.purchaseOrderRepository.CreatePurchaseOrderDetailsByView(purchaseOrderView));
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as IAccountsPayable;
+        }
+     
         public IAccountsPayable CreateSupplierInvoice(SupplierInvoiceView supplierInvoiceView)
         {
             try
@@ -39,10 +82,10 @@ namespace ERP_Core2.AccountPayableDomain
                 Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.supplierInvoiceRepository.CreateSupplierInvoiceByView(supplierInvoiceView));
                 Task.WaitAll(resultTask);
                 processStatus = resultTask.Result;
+                return this as IAccountsPayable;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-
-            return this as IAccountsPayable;
+            
         }
         public IAccountsPayable CreateSupplierInvoiceDetail(SupplierInvoiceView supplierInvoiceView)
         {
@@ -51,76 +94,24 @@ namespace ERP_Core2.AccountPayableDomain
                 Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.supplierInvoiceRepository.CreateSupplierInvoiceDetailsByView(supplierInvoiceView));
                 Task.WaitAll(resultTask);
                 processStatus = resultTask.Result;
+                return this as IAccountsPayable;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
-            return this as IAccountsPayable;
+            
         }
         public IAccountsPayable Apply()
         {
             if (processStatus == CreateProcessStatus.Inserted)
             {
                 unitOfWork.CommitChanges();
-
-            }
+             }
             return this as IAccountsPayable;
-        }
-        public async Task<bool> CreatePackingSlipByView(PackingSlipView packingSlipView)
-        {
-            try
-            {
-                CreateProcessStatus result2 = await unitOfWork.packingSlipRepository.CreatePackingSlipByView(packingSlipView);
-                if (result2 == CreateProcessStatus.AlreadyExists || result2 == CreateProcessStatus.Created)
-                {
-                    return true;
-                }
-                return false;
 
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<bool> CreateInventoryByPackingSlipView(PackingSlipView packingSlipView)
-        {
+  
 
-            bool result3 = await unitOfWork.inventoryRepository.CreateInventoryByPackingSlipView(packingSlipView);
-            if (result3)
-            {
-                unitOfWork.CommitChanges();
-            }
-            return true;
-        }
-        public async Task<PackingSlipView> GetPackingSlipViewBySlipDocument(string slipDocument)
-        {
-            PackingSlipView lookupView = await unitOfWork.packingSlipRepository.GetPackingSlipViewBySlipDocument(slipDocument);
-            return lookupView;
-        }
-        public async Task<bool> CreateAcctPayByPurchaseOrderNumber(string poNumber)
-        {
-            try
-            {
-                PurchaseOrderView lookupView = await unitOfWork.purchaseOrderRepository.GetPurchaseOrderViewByOrderNumber(poNumber);
-                bool result = await unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(lookupView);
-                if (result)
-                {
-                    unitOfWork.CommitChanges();
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-        public async Task<bool> CreateAccountsPaybyPOView(PurchaseOrderView purchaseOrderView)
-        {
-            try
-            {
-                CreateProcessStatus result2 = await unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView);
-
-
-                return true;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
+        
+       
     }
 }

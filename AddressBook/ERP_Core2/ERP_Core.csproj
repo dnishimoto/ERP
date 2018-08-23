@@ -70,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractFactory\AbstractFactory.cs" />
+    <Compile Include="AbstractFactory\AbstractErrorHandling.cs" />
     <Compile Include="AbstractFactory\AbstractModule.cs" />
     <Compile Include="AccountPayableDomain\AccountsPayableModule.cs" />
     <Compile Include="AccountPayableDomain\Repository\SupplierInvoiceRepository.cs" />
@@ -161,6 +162,7 @@
     <Compile Include="EntityFramework\UDC.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
+    <Compile Include="Interfaces\IAccountsPayable.cs" />
     <Compile Include="InventoryDomain\Repository\InventoryRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\InvoiceModule.cs" />

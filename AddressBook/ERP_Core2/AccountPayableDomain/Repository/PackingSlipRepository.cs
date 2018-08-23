@@ -96,6 +96,42 @@ namespace MillenniumERP.PackingSlipDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
+        public async Task<CreateProcessStatus> CreatePackingSlipDetailsByView(PackingSlipView view)
+        {
+            try
+            {
+                PackingSlip packingSlip = await (from e in _dbContext.PackingSlips
+                                                 where e.SlipDocument == view.SlipDocument
+                                                 select e).FirstOrDefaultAsync<PackingSlip>();
+
+                if (packingSlip != null)
+                {
+                    long packingSlipId = packingSlip.PackingSlipId;
+
+                    foreach (var detail in view.PackingSlipDetailViews)
+                    {
+                        detail.PackingSlipId = packingSlipId;
+
+                        PackingSlipDetail newDetail = new PackingSlipDetail();
+                        applicationViewFactory.MapPackingSlipDetailEntity(ref newDetail, detail);
+
+                        var queryDetail = await (from e in _dbContext.PackingSlipDetails
+                                                 where e.ItemId == detail.ItemId
+                                                 && e.PackingSlipId == newDetail.PackingSlipId
+                                                 select e).FirstOrDefaultAsync<PackingSlipDetail>();
+                        if (queryDetail == null)
+                        {
+                            _dbContext.Set<PackingSlipDetail>().Add(newDetail);
+
+                        }
+                    }
+                    return CreateProcessStatus.Inserted;
+                }
+                return CreateProcessStatus.AlreadyExists;
+
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<CreateProcessStatus> CreatePackingSlipByView(PackingSlipView view)
         {
             decimal amount = 0;
@@ -120,29 +156,8 @@ namespace MillenniumERP.PackingSlipDomain
 
                 base.AddObject(packingSlip);
 
-                _dbContext.SaveChanges();
-
-                long packingSlipId = packingSlip.PackingSlipId;
-
-                foreach (var detail in view.PackingSlipDetailViews)
-                {
-                    detail.PackingSlipId = packingSlipId;
-
-                    PackingSlipDetail newDetail = new PackingSlipDetail();
-                    applicationViewFactory.MapPackingSlipDetailEntity(ref newDetail, detail);
-
-                    var queryDetail = await (from e in _dbContext.PackingSlipDetails
-                                       where e.ItemId == detail.ItemId
-                                       && e.PackingSlipDetailId == newDetail.PackingSlipDetailId
-                                       select e).FirstOrDefaultAsync<PackingSlipDetail>();
-                    if (queryDetail == null)
-                    {
-                        _dbContext.Set<PackingSlipDetail>().Add(newDetail);
-                        _dbContext.SaveChanges();
-                    }
-                    
-                }
-                return CreateProcessStatus.Created;
+           
+                return CreateProcessStatus.Inserted;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
