@@ -9,6 +9,7 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.PackingSlipDomain;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.InventoryDomain
 {
@@ -44,7 +45,7 @@ namespace MillenniumERP.InventoryDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<bool> CreateInventoryByPackingSlipView(PackingSlipView view)
+        public async Task<CreateProcessStatus> CreateInventoryByPackingSlipView(PackingSlipView view)
         {
             int count = 0;
             try
@@ -66,7 +67,7 @@ namespace MillenniumERP.InventoryDomain
                    
                     }
                 }
-                if (count == 0) { return false; } else { return true; }
+                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Inserted; }
 
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }

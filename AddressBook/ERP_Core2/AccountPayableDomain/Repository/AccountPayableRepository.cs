@@ -11,6 +11,7 @@ using System.Collections;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.SupplierInvoicesDomain;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.AccountsPayableDomain
 {
@@ -81,38 +82,39 @@ namespace MillenniumERP.AccountsPayableDomain
         }
 
         
-        public async Task<bool> CreateAcctPayByPurchaseOrderView(PurchaseOrderView poView)
+        public async Task<CreateProcessStatus> CreateAcctPayByPurchaseOrderView(PurchaseOrderView poView)
         {
-            //Check if exists
-            List<AcctPay> list = await GetObjectsQueryable(e => e.OrderNumber == poView.PONumber).ToListAsync<AcctPay>();
-
-            if (list.Count == 0)
+            try
             {
-                NextNumber nextNumber = await base.GetNextNumber("DocNumber");
-                AcctPay acctPay = new AcctPay();
-                acctPay.DocNumber = nextNumber.NextNumberValue;
-                acctPay.GrossAmount = poView.GrossAmount;
-                //acctPay.DiscountAmount = poView.
-                acctPay.Remark = "";
-                acctPay.GLDate = DateTime.Today.Date;
-                acctPay.SupplierId = poView.SupplierId;
-                acctPay.ContractId = poView.ContractId;
-                acctPay.POQuoteId = poView.POQuoteId;
-                acctPay.Description = poView.Description;
-                acctPay.PurchaseOrderId = poView.PurchaseOrderId;
-                acctPay.Tax = poView.Tax;
-                acctPay.AccountId = poView.AccountId;
-                acctPay.DocType = poView.DocType;
-                acctPay.PaymentTerms = poView.PaymentTerms;
-                // acctPay.DiscountPercent
-                acctPay.AmountOpen = poView.GrossAmount;
-                acctPay.OrderNumber = poView.PONumber;
-                // acctPay.DiscountDueDate
-                acctPay.AmountPaid = 0;
-                AddObject(acctPay);
-                return true;
+                //Check if exists
+                List<AcctPay> list = await GetObjectsQueryable(e => e.OrderNumber == poView.PONumber).ToListAsync<AcctPay>();
+
+                if (list.Count == 0)
+                {
+                    NextNumber nextNumber = await base.GetNextNumber("DocNumber");
+                    AcctPay acctPay = new AcctPay();
+                    acctPay.DocNumber = nextNumber.NextNumberValue;
+                    acctPay.GrossAmount = poView.GrossAmount;
+                    acctPay.Remark = "";
+                    acctPay.GLDate = DateTime.Today.Date;
+                    acctPay.SupplierId = poView.SupplierId;
+                    acctPay.ContractId = poView.ContractId;
+                    acctPay.POQuoteId = poView.POQuoteId;
+                    acctPay.Description = poView.Description;
+                    acctPay.PurchaseOrderId = poView.PurchaseOrderId;
+                    acctPay.Tax = poView.Tax;
+                    acctPay.AccountId = poView.AccountId;
+                    acctPay.DocType = poView.DocType;
+                    acctPay.PaymentTerms = poView.PaymentTerms;
+                    acctPay.AmountOpen = poView.GrossAmount;
+                    acctPay.OrderNumber = poView.PONumber;
+                    acctPay.AmountPaid = 0;
+                    AddObject(acctPay);
+                    return CreateProcessStatus.Inserted;
+                }
+                return CreateProcessStatus.AlreadyExists;
             }
-            return false;
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<AcctPay> GetAcctPayableByDocNumber(long docNumber)
         {

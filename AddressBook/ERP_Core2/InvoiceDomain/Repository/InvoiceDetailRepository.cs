@@ -8,10 +8,12 @@ using System.Threading.Tasks;
 using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using MillenniumERP.InvoicesDomain;
 
 namespace MillenniumERP.InvoiceDetailsDomain
 {
-  
+
     public class InvoiceDetailView
     {
         public InvoiceDetailView() { }
@@ -45,7 +47,7 @@ namespace MillenniumERP.InvoiceDetailsDomain
         //todo maybe public string InvoiceNumber { get; set; }
         //public virtual Invoice Invoice { get; set; }
 
-        public long ? ItemId { get; set; }
+        public long? ItemId { get; set; }
         public string ItemNumber { get; set; }
         public string ItemDescription { get; set; }
         public string ItemDescription2 { get; set; }
@@ -64,9 +66,36 @@ namespace MillenniumERP.InvoiceDetailsDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<CreateProcessStatus> CreateInvoiceDetailsByView(InvoiceView invoiceView)
+        {
+            try
+            {
+                int count = 0;
+
+                Invoice invoice = await (from e in _dbContext.Invoices
+                                         where e.InvoiceNumber == invoiceView.InvoiceNumber
+                                         select e).FirstOrDefaultAsync<Invoice>();
+
+        
+                //Assign the InvoiceId
+                for (int i = 0; i < invoiceView.InvoiceDetailViews.Count; i++)
+                {
+                    invoiceView.InvoiceDetailViews[i].InvoiceId = invoice.InvoiceId;
+                    InvoiceDetail invoiceDetail = new InvoiceDetail();
+                    applicationViewFactory.MapInvoiceDetailEntity(ref invoiceDetail, invoiceView.InvoiceDetailViews[i]);
+
+                    bool result = await AddInvoiceDetail(invoiceDetail);
+                    if (result == true) { count++; }
+                }
+                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Inserted; }
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+
+        }
         public async Task<bool> AddInvoiceDetail(InvoiceDetail invoiceDetail)
         {
-         
+
             try
             {
                 var query = await (from a in _dbContext.InvoiceDetails
@@ -108,8 +137,8 @@ namespace MillenniumERP.InvoiceDetailsDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-            
-            }
+
+        }
         public bool DeleteInvoiceDetail(InvoiceDetail invoiceDetail)
         {
             try
@@ -121,7 +150,7 @@ namespace MillenniumERP.InvoiceDetailsDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-          
+
         }
     }
 }

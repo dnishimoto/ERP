@@ -9,6 +9,8 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.InvoicesDomain;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.AccountsReceivableDomain
 {
@@ -144,47 +146,55 @@ namespace MillenniumERP.AccountsReceivableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<bool> CreateAcctRecFromInvoice(Invoice invoice)
+        public async Task<CreateProcessStatus> CreateAcctRecFromInvoice(InvoiceView invoiceView)
         {
             try
             {
-                long? invoiceId = invoice.InvoiceId;
+                Invoice invoice = await (from e in _dbContext.Invoices
+                                         where e.InvoiceNumber == invoiceView.InvoiceNumber
+                                         select e).FirstOrDefaultAsync<Invoice>();
 
-                var query = await (from a in _dbContext.AcctRecs
-                                   where a.InvoiceId == invoice.InvoiceId
-                                   select a).FirstOrDefaultAsync<AcctRec>();
-              
-                if (query == null)
+                if (invoice != null)
                 {
-                    UDC udc = await base.GetUdc("ACCTRECDOCTYPE", "INV");
+                    long? invoiceId = invoice.InvoiceId;
 
-                    NextNumber nextNumber = await base.GetNextNumber("DocNumber");
+                    var query = await (from a in _dbContext.AcctRecs
+                                       where a.InvoiceId == invoice.InvoiceId
+                                       select a).FirstOrDefaultAsync<AcctRec>();
 
-                    ChartOfAcct chartOfAcct = await base.GetChartofAccount("1000", "1200", "120", "");
+                    if (query == null)
+                    {
+                        UDC udc = await base.GetUdc("ACCTRECDOCTYPE", "INV");
 
-                    AcctRec acctRec = new AcctRec();
-                    acctRec.InvoiceId = invoice.InvoiceId;
-                    acctRec.DiscountDueDate = invoice.DiscountDueDate;
-                    acctRec.GLDate = DateTime.Now.Date;
-                    acctRec.CreateDate = DateTime.Now.Date;
-                    acctRec.DocNumber = nextNumber.NextNumberValue;
-                    acctRec.Remarks = invoice.Description;
-                    acctRec.PaymentTerms = invoice.PaymentTerms;
-                    acctRec.CustomerId = invoice.CustomerId;
-                    //PurchaseOrderId 
-                    acctRec.Description = invoice.Description;
-                    acctRec.AcctRecDocTypeXRefId = udc.XRefId;
-                    acctRec.AccountId = chartOfAcct.AccountId;
-                    acctRec.Amount = invoice.Amount;
-                    acctRec.OpenAmount = invoice.Amount;
-                    acctRec.DebitAmount = 0;
-                    acctRec.CreditAmount = invoice.Amount;
+                        NextNumber nextNumber = await base.GetNextNumber("DocNumber");
 
-                    AddObject(acctRec);
-                    return true;
+                        ChartOfAcct chartOfAcct = await base.GetChartofAccount("1000", "1200", "120", "");
+
+                        AcctRec acctRec = new AcctRec();
+                        acctRec.InvoiceId = invoice.InvoiceId;
+                        acctRec.DiscountDueDate = invoice.DiscountDueDate;
+                        acctRec.GLDate = DateTime.Now.Date;
+                        acctRec.CreateDate = DateTime.Now.Date;
+                        acctRec.DocNumber = nextNumber.NextNumberValue;
+                        acctRec.Remarks = invoice.Description;
+                        acctRec.PaymentTerms = invoice.PaymentTerms;
+                        acctRec.CustomerId = invoice.CustomerId;
+                        //PurchaseOrderId 
+                        acctRec.Description = invoice.Description;
+                        acctRec.AcctRecDocTypeXRefId = udc.XRefId;
+                        acctRec.AccountId = chartOfAcct.AccountId;
+                        acctRec.Amount = invoice.Amount;
+                        acctRec.OpenAmount = invoice.Amount;
+                        acctRec.DebitAmount = 0;
+                        acctRec.CreditAmount = invoice.Amount;
+
+                        AddObject(acctRec);
+                        return CreateProcessStatus.Inserted;
+                    }
+
                 }
 
-                return false;
+                return CreateProcessStatus.AlreadyExists;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

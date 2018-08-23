@@ -76,7 +76,7 @@ namespace MillenniumERP.PurchaseOrderDomain
         public DateTime? PromisedDeliveredDate { get; set; }
         public decimal? Tax { get; set; }
         public DateTime? TransactionDate { get; set; }
-         public decimal? AmountPaid { get; set; }
+        public decimal? AmountPaid { get; set; }
         public string TaxCode1 { get; set; }
         public string TaxCode2 { get; set; }
         public IList<PurchaseOrderDetailView> PurchaseOrderDetailViews { get; set; }
@@ -100,12 +100,12 @@ namespace MillenniumERP.PurchaseOrderDomain
             this.ReceivedQuantity = detail.ReceivedQuantity;
             this.RemainingQuantity = detail.RemainingQuantity;
             this.Description = detail.Description;
-    }
-    public long PurchaseOrderDetailId { get; set; }
+        }
+        public long PurchaseOrderDetailId { get; set; }
         public long PurchaseOrderId { get; set; }
-       public decimal? Amount { get; set; }
+        public decimal? Amount { get; set; }
         public decimal? OrderedQuantity { get; set; }
-       public long ItemId { get; set; }
+        public long ItemId { get; set; }
         public decimal? UnitPrice { get; set; }
         public string UnitOfMeasure { get; set; }
         public DateTime? ReceivedDate { get; set; }
@@ -119,7 +119,7 @@ namespace MillenniumERP.PurchaseOrderDomain
 
 
 
-    public class PurchaseOrderRepository: Repository<PurchaseOrder>
+    public class PurchaseOrderRepository : Repository<PurchaseOrder>
     {
         public Entities _dbContext;
         private ApplicationViewFactory applicationViewFactory;
@@ -157,9 +157,9 @@ namespace MillenniumERP.PurchaseOrderDomain
             {
                 //check if PO exists
                 var queryPO = await (from e in _dbContext.PurchaseOrders
-                                   where e.PONumber == purchaseOrderView.PONumber
-                              
-                                   select e).FirstOrDefaultAsync<PurchaseOrder>();
+                                     where e.PONumber == purchaseOrderView.PONumber
+
+                                     select e).FirstOrDefaultAsync<PurchaseOrder>();
                 if (queryPO != null) { return CreateProcessStatus.AlreadyExists; }
 
 
@@ -178,29 +178,43 @@ namespace MillenniumERP.PurchaseOrderDomain
 
                 base.AddObject(po);
 
-                _dbContext.SaveChanges();
+                return CreateProcessStatus.Inserted;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public async Task<CreateProcessStatus> CreatePurchaseOrderDetailsByView(PurchaseOrderView purchaseOrderView)
+        {
+            try
+            {
+                PurchaseOrder po = await (from e in _dbContext.PurchaseOrders
+                                          where e.PONumber == purchaseOrderView.PONumber
+                                          select e).FirstOrDefaultAsync<PurchaseOrder>();
 
-                long purchaseOrderId = po.PurchaseOrderId;
 
-                foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
+                if (po != null)
                 {
-                    detail.PurchaseOrderId = purchaseOrderId;
+                    long purchaseOrderId = po.PurchaseOrderId;
 
-                    PurchaseOrderDetail poDetail = new PurchaseOrderDetail();
-                    applicationViewFactory.MapPurchaseOrderDetailEntity(ref poDetail, detail);
-
-                    var queryPODetail = await (from e in _dbContext.PurchaseOrderDetails
-                                       where e.ItemId == detail.ItemId
-                                       && e.PurchaseOrderId == purchaseOrderId
-                                       select e).FirstOrDefaultAsync<PurchaseOrderDetail>();
-                    if (queryPODetail == null)
+                    foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
                     {
-                        _dbContext.Set<PurchaseOrderDetail>().Add(poDetail);
-                        _dbContext.SaveChanges();
+                        detail.PurchaseOrderId = purchaseOrderId;
+
+                        PurchaseOrderDetail poDetail = new PurchaseOrderDetail();
+                        applicationViewFactory.MapPurchaseOrderDetailEntity(ref poDetail, detail);
+
+                        var queryPODetail = await (from e in _dbContext.PurchaseOrderDetails
+                                                   where e.ItemId == detail.ItemId
+                                                   && e.PurchaseOrderId == purchaseOrderId
+                                                   select e).FirstOrDefaultAsync<PurchaseOrderDetail>();
+                        if (queryPODetail == null)
+                        {
+                            _dbContext.Set<PurchaseOrderDetail>().Add(poDetail);
+
+                        }
                     }
-                    
+                   
                 }
-                return CreateProcessStatus.Created;
+                return CreateProcessStatus.Inserted;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
@@ -217,7 +231,7 @@ namespace MillenniumERP.PurchaseOrderDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-  
-      
+
+
     }
 }

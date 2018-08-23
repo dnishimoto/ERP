@@ -182,14 +182,16 @@ namespace ERP_Core2.AccountPayableDomain
 
                 AccountsPayableModule apMod = new AccountsPayableModule();
 
-                bool resultCreate = await apMod.CreatePackingSlipByView(packingSlipView);
+                apMod
+                    .CreatePackingSlip(packingSlipView)
+                    .Apply()
+                    .CreatePackingSlipDetails(packingSlipView)
+                    .Apply()
+                    .CreateInventoryByPackingSlip(packingSlipView)
+                    .Apply();
 
-                PackingSlipView lookupView = await apMod.GetPackingSlipViewBySlipDocument(packingSlipView.SlipDocument);
-
-                bool resultCreateInventory = await apMod.CreateInventoryByPackingSlipView(lookupView);
-
-
-                Assert.True(resultCreate);
+             
+                Assert.True(true);
             }
             catch (Exception ex) { }
 
@@ -249,7 +251,7 @@ namespace ERP_Core2.AccountPayableDomain
             ""SupplierId"" :" + (supplierView.SupplierId ?? 0).ToString() + @",
             ""SupplierName"" :""" + supplierView.CompanyName + @""",
             ""Description"" :""Back to School Inventory"",
-            ""PONumber"" :""PO -1"",
+            ""PONumber"" :""PO-2"",
             ""TakenBy"" : ""David Nishimoto"",
             ""BuyerId"" :" + company.CompanyId + @",
             ""TaxCode1"" :""" + company.TaxCode1 + @""",
@@ -333,9 +335,18 @@ namespace ERP_Core2.AccountPayableDomain
 
             AccountsPayableModule apMod = new AccountsPayableModule();
 
-            bool resultCreate = await apMod.CreateAcctPayByPurchaseOrderNumber(purchaseOrderView.PONumber);
 
-            Assert.True(resultCreate);
+            //TODO Create the Purchase Order
+
+             apMod
+                .CreatePurchaseOrder(purchaseOrderView)
+                .Apply()
+                .CreatePurchaseOrderDetails(purchaseOrderView)
+                .Apply()
+                .CreateAcctPayByPurchaseOrderNumber(purchaseOrderView)
+                .Apply();
+
+            Assert.True(true);
         }
 
     }
