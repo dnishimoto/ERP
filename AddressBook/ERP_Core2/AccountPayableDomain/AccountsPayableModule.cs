@@ -24,6 +24,8 @@ namespace ERP_Core2.AccountPayableDomain
             Inserted,
             Created,
             AlreadyExists,
+            Updated,
+            Deleted,
             Failed
         }
         UnitOfWork unitOfWork = new UnitOfWork();

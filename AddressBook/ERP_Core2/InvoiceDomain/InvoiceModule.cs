@@ -1,5 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.EntityFramework;
+using ERP_Core2.Interfaces;
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoicesDomain;
@@ -13,58 +14,17 @@ using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace ERP_Core2.InvoiceDomain
 {
-
-
-    public interface IQuery
-    {
-        IQuery Query();
-       
-    }
-
-    public interface IInvoiceModule
-    {
-        IInvoice Invoice();
-        IInvoiceDetail InvoiceDetail();
-        IAccountsReceivable AccountsReceivable();
-        IGeneralLedger GeneralLedger();
-    }
-    public interface IInvoice 
-    {
-        IInvoice CreateInvoice(InvoiceView invoiceView);
-        IInvoice MergeWithInvoiceNumber(ref InvoiceView invoiceView);
-        IInvoice Apply();
-        IQuery Query();
-    }
-    public interface IInvoiceDetail
-    {
-
-        IInvoiceDetail CreateInvoiceDetails(InvoiceView invoiceView);
-        IInvoiceDetail Apply();
-        IQuery Query();
-
-    }
-    public interface IAccountsReceivable
-    {
-        IAccountsReceivable CreateAcctRecFromInvoice(InvoiceView invoiceView);
-        IAccountsReceivable Apply();
-        IQuery Query();
-    }
-    public interface IGeneralLedger
-    {
-
-        IGeneralLedger CreateGeneralLedger(InvoiceView invoiceView);
-        IGeneralLedger Apply();
-        IGeneralLedger UpdateLedgerBalances();
-    }
-
+     
     public class FluentInvoice : AbstractErrorHandling, IInvoice
     {
         InvoiceModule _parent;
         public FluentInvoice(){}
         public FluentInvoice(InvoiceModule parent) { _parent = parent; }
+  
         public IInvoice Apply()
         {
-            if (_parent.processStatus == CreateProcessStatus.Inserted) { _parent.unitOfWork.CommitChanges(); }
+            if (_parent.processStatus == CreateProcessStatus.Inserted || _parent.processStatus == CreateProcessStatus.Updated || _parent.processStatus == CreateProcessStatus.Deleted)
+            { _parent.unitOfWork.CommitChanges(); }
             return this as IInvoice;
         }
         public IInvoice CreateInvoice(InvoiceView invoiceView)
@@ -137,7 +97,8 @@ namespace ERP_Core2.InvoiceDomain
         }
         public IInvoiceDetail Apply()
         {
-            if (_parent.processStatus == CreateProcessStatus.Inserted) { _parent.unitOfWork.CommitChanges(); }
+            if (_parent.processStatus == CreateProcessStatus.Inserted || _parent.processStatus == CreateProcessStatus.Updated || _parent.processStatus == CreateProcessStatus.Deleted)
+            { _parent.unitOfWork.CommitChanges(); }
             return this as IInvoiceDetail;
         }
     }
@@ -161,7 +122,8 @@ namespace ERP_Core2.InvoiceDomain
         }
         public IAccountsReceivable Apply()
         {
-            if (_parent.processStatus == CreateProcessStatus.Inserted) { _parent.unitOfWork.CommitChanges(); }
+            if (_parent.processStatus == CreateProcessStatus.Inserted || _parent.processStatus == CreateProcessStatus.Updated || _parent.processStatus == CreateProcessStatus.Deleted)
+            { _parent.unitOfWork.CommitChanges(); }
             return this as IAccountsReceivable;
         }
     }
@@ -215,7 +177,8 @@ namespace ERP_Core2.InvoiceDomain
 
         public IGeneralLedger Apply()
         {
-            if (_parent.processStatus == CreateProcessStatus.Inserted) { _parent.unitOfWork.CommitChanges(); }
+            if (_parent.processStatus == CreateProcessStatus.Inserted || _parent.processStatus == CreateProcessStatus.Updated || _parent.processStatus == CreateProcessStatus.Deleted)
+            { _parent.unitOfWork.CommitChanges(); }
             return this as IGeneralLedger;
         }
     }
