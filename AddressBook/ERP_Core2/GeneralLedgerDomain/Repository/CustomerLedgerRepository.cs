@@ -11,6 +11,7 @@ using System.Collections;
 using MillenniumERP.AccountsReceivableDomain;
 using System.Data.SqlClient;
 using MillenniumERP.GeneralLedgerDomain;
+using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.CustomerLedgerDomain
 {
@@ -84,7 +85,7 @@ namespace MillenniumERP.CustomerLedgerDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<long> CreateLedgerFromView(CustomerLedgerView view)
+        public async Task<CreateProcessStatus> CreateLedgerFromView(CustomerLedgerView view)
         {
             try
             {
@@ -108,11 +109,11 @@ namespace MillenniumERP.CustomerLedgerDomain
 
                     AddObject(customerLedger);
 
-                    _dbContext.SaveChanges();
+                    return CreateProcessStatus.Inserted;
 
-                    return customerLedger.AccountId;
+              
                 }
-                return query.CustomerLedgerId;
+                return CreateProcessStatus.AlreadyExists;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }

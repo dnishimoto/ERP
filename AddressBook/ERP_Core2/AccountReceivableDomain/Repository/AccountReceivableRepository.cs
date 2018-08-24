@@ -81,7 +81,7 @@ namespace MillenniumERP.AccountsReceivableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<bool> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
+        public async Task<CreateProcessStatus> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
         {
            
             try
@@ -121,9 +121,9 @@ namespace MillenniumERP.AccountsReceivableDomain
 
                     }
                     UpdateObject(acctRec);
-                    return true;
+                    return CreateProcessStatus.Updated;
                 }
-                return false;
+                return CreateProcessStatus.Failed;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }

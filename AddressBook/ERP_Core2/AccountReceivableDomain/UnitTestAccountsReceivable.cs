@@ -30,6 +30,7 @@ namespace ERP_Core2.AccountsReceivableDomain
             this.output = output;
 
         }
+       
         [Fact]
         public async Task TestCustomerCashPayment2()
         {
@@ -58,12 +59,22 @@ namespace ERP_Core2.AccountsReceivableDomain
             ledgerView.CheckNumber = "112";
 
 
-            AccountsReceivable acctRec = new AccountsReceivable();
+            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
 
-            bool result = await acctRec.CustomerCashPayment(ledgerView);
+            acctRecMod
+                .CustomerCashPayment
+                   .CreateGeneralLedger(ledgerView)
+                    .Apply()
+                    .CreateCustomerLedger(ledgerView)
+                    .Apply()
+                    .UpdateAccountReceivable(ledgerView)
+                    .Apply()
+                    .UpdateAccountBalances(ledgerView);
+
+            //bool result = await acctRec.CustomerCashPayment(ledgerView);
 
 
-            Assert.True(result);
+            Assert.True(true);
         }
         [Fact]
         public async Task TestCustomerCashPayment()
@@ -93,12 +104,19 @@ namespace ERP_Core2.AccountsReceivableDomain
             ledgerView.CheckNumber = "111";
 
 
-            AccountsReceivable acctRec = new AccountsReceivable();
+            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
 
-            bool result = await acctRec.CustomerCashPayment(ledgerView);
+            acctRecMod
+                    .CustomerCashPayment
+                        .CreateGeneralLedger(ledgerView)
+                        .Apply()
+                        .CreateCustomerLedger(ledgerView)
+                        .Apply()
+                        .UpdateAccountReceivable(ledgerView)
+                        .Apply()
+                        .UpdateAccountBalances(ledgerView);
 
-
-            Assert.True(result);
+            Assert.True(true);
         }
               
     

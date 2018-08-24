@@ -163,6 +163,12 @@
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
     <Compile Include="Interfaces\IAccountsPayable.cs" />
+    <Compile Include="Interfaces\IAccountsReceivable.cs" />
+    <Compile Include="Interfaces\IGeneralLedger.cs" />
+    <Compile Include="Interfaces\IInvoice.cs" />
+    <Compile Include="Interfaces\IInvoiceDetail.cs" />
+    <Compile Include="Interfaces\IInvoiceModule.cs" />
+    <Compile Include="Interfaces\IQuery.cs" />
     <Compile Include="InventoryDomain\Repository\InventoryRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\InvoiceModule.cs" />
@@ -287,6 +293,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContractsDomain\Repository\" />
+    <Folder Include="FluentAPI\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />
   </ItemGroup>
