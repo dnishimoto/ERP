@@ -12,6 +12,7 @@ using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.SupplierInvoicesDomain;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.AccountsPayableDomain
 {

@@ -10,6 +10,7 @@ using ERP_Core2.AbstractFactory;
 using System.Collections;
 using MillenniumERP.PackingSlipDomain;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.InventoryDomain
 {

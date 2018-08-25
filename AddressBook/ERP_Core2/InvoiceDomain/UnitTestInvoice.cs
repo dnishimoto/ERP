@@ -16,6 +16,7 @@ using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.InvoiceDetailsDomain;
 using MillenniumERP.CustomerLedgerDomain;
+using ERP_Core2.Interfaces;
 
 namespace ERP_Core2.InvoiceDomain
 {
@@ -67,10 +68,9 @@ namespace ERP_Core2.InvoiceDomain
 
                 InvoiceModule invoiceModule = new InvoiceModule();
 
-
-                invoiceModule
-                      .Invoice().CreateInvoice(invoiceView).Apply()
-                      .MergeWithInvoiceNumber(ref invoiceView);
+               invoiceModule
+                          .Invoice().CreateInvoice(invoiceView).Apply()
+                          .MergeWithInvoiceNumber(ref invoiceView);
                 invoiceModule
                       .InvoiceDetail().CreateInvoiceDetails(invoiceView).Apply();
                 invoiceModule

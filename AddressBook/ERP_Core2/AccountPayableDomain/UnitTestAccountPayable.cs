@@ -104,6 +104,7 @@ namespace ERP_Core2.AccountPayableDomain
                 AccountsPayableModule apMod = new AccountsPayableModule();
 
                 apMod
+                    .SupplierLedger()
                     .CreateSupplierInvoice(supplierInvoiceView)
                     .Apply()
                     .CreateSupplierInvoiceDetail(supplierInvoiceView)
@@ -183,8 +184,7 @@ namespace ERP_Core2.AccountPayableDomain
                 AccountsPayableModule apMod = new AccountsPayableModule();
 
                 apMod
-                    .CreatePackingSlip(packingSlipView)
-                    .Apply()
+                    .PackingSlip().CreatePackingSlip(packingSlipView).Apply()
                     .CreatePackingSlipDetails(packingSlipView)
                     .Apply()
                     .CreateInventoryByPackingSlip(packingSlipView)
@@ -339,6 +339,7 @@ namespace ERP_Core2.AccountPayableDomain
             //TODO Create the Purchase Order
 
              apMod
+                .PurchaseOrder()
                 .CreatePurchaseOrder(purchaseOrderView)
                 .Apply()
                 .CreatePurchaseOrderDetails(purchaseOrderView)
