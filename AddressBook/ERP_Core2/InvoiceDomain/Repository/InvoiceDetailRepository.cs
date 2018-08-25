@@ -10,6 +10,7 @@ using ERP_Core2.AbstractFactory;
 using System.Collections;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 using MillenniumERP.InvoicesDomain;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.InvoiceDetailsDomain
 {

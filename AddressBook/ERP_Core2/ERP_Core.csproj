@@ -160,6 +160,11 @@
     <Compile Include="EntityFramework\TimeAndAttendanceScheduledToWork.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
+    <Compile Include="FluentAPI\FluentAccountsReceivable.cs" />
+    <Compile Include="FluentAPI\FluentGeneralLedger.cs" />
+    <Compile Include="FluentAPI\FluentInvoice.cs" />
+    <Compile Include="FluentAPI\FluentInvoiceDetail.cs" />
+    <Compile Include="FluentAPI\FluentQuery.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
     <Compile Include="Interfaces\IAccountsPayable.cs" />
@@ -293,7 +298,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContractsDomain\Repository\" />
-    <Folder Include="FluentAPI\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />
   </ItemGroup>

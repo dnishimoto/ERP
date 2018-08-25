@@ -11,6 +11,7 @@ using System.Collections;
 using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoicesDomain;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.AccountsReceivableDomain
 {
