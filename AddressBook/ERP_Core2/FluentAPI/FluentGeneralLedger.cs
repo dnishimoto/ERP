@@ -21,6 +21,12 @@ namespace ERP_Core2.FluentAPI
         public CreateProcessStatus processStatus;
 
         public FluentGeneralLedger() { }
+        public IGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView)
+        {
+            Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerView.AccountId, ledgerView.FiscalYear, ledgerView.FiscalPeriod));
+            Task.WaitAll(resultTask);
+            return this as IGeneralLedger;
+        }
         public IGeneralLedger UpdateLedgerBalances()
         {
 
@@ -30,7 +36,21 @@ namespace ERP_Core2.FluentAPI
             Task.WaitAll(resultTask);
             return this as IGeneralLedger;
         }
+        public IGeneralLedger CreateGeneralLedger(GeneralLedgerView ledgerView)
+        {
+            try
+            {
+                Task<CreateProcessStatus> statusTask = Task.Run(() => unitOfWork.generalLedgerRepository.CreateLedgerFromView(ledgerView));
+                Task.WaitAll(statusTask);
+                processStatus = statusTask.Result;
 
+                return this as IGeneralLedger;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public IGeneralLedger CreateGeneralLedger(InvoiceView invoiceView)
         {
             try

@@ -1,0 +1,52 @@
+﻿using ERP_Core2.AbstractFactory;
+using ERP_Core2.AccountPayableDomain;
+using ERP_Core2.EntityFramework;
+using ERP_Core2.Interfaces;
+using MillenniumERP.CustomerLedgerDomain;
+using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ERP_Core2.FluentAPI
+{
+    public class FluentCustomerLedger : AbstractErrorHandling, ICustomerLedger
+    {
+        UnitOfWork unitOfWork = new UnitOfWork();
+        CreateProcessStatus processStatus;
+
+        public ICustomerLedger Apply()
+        {
+            if (processStatus == CreateProcessStatus.Inserted || processStatus == CreateProcessStatus.Updated || processStatus == CreateProcessStatus.Deleted)
+            {
+                unitOfWork.CommitChanges();
+            }
+            return this as ICustomerLedger;
+        }
+        public ICustomerLedger CreateCustomerLedger(GeneralLedgerView ledgerView)
+        {
+
+            CustomerLedgerView customerLedgerView = new CustomerLedgerView(ledgerView);
+
+            //Get the AcctRecId
+            Task<AcctRec> acctRecTask = Task.Run(() => unitOfWork.accountReceiveableRepository.GetAcctRecByDocNumber(ledgerView.DocNumber));
+            Task.WaitAll(acctRecTask);
+
+            if (acctRecTask.Result != null)
+            {
+                customerLedgerView.AcctRecId = acctRecTask.Result.AcctRecId;
+                customerLedgerView.InvoiceId = acctRecTask.Result.InvoiceId;
+                customerLedgerView.CustomerId = acctRecTask.Result.CustomerId;
+                customerLedgerView.GeneralLedgerId = ledgerView.GeneralLedgerId;
+
+                Task<CreateProcessStatus> statusTask = Task.Run(() => unitOfWork.customerLedgerRepository.CreateLedgerFromView(customerLedgerView));
+                Task.WaitAll(statusTask);
+                processStatus = statusTask.Result;
+            }
+            return this as ICustomerLedger;
+        }
+    }
+}

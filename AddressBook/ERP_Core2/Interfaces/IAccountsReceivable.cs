@@ -1,4 +1,5 @@
-﻿using MillenniumERP.InvoicesDomain;
+﻿using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.InvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace ERP_Core2.Interfaces
     {
         IAccountsReceivable CreateAcctRecFromInvoice(InvoiceView invoiceView);
         IAccountsReceivable Apply();
+        IAccountsReceivable UpdateAccountReceivable(GeneralLedgerView ledgerView);
         IQuery Query();
     }
 }
