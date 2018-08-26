@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
+using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.EntityFramework;
 using MillenniumERP.CustomerDomain;
 using MillenniumERP.Services;
@@ -54,14 +55,12 @@ namespace MillenniumERP.AddressBookDomain
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public async Task<long> CreateAddressBook(CustomerView customerView)
+        public async Task<CreateProcessStatus> CreateAddressBook(CustomerView customerView)
         {
             long addressId = 0;
             try
             {
-
                 AddressBook lookupAddressBook = await base.GetAddressBookByCustomerView(customerView);
-
 
                 if (lookupAddressBook == null)
                 {
@@ -69,15 +68,10 @@ namespace MillenniumERP.AddressBookDomain
 
                     applicationViewFactory.MapAddressBookEntity(ref addressBook, customerView);
                     AddObject(addressBook);
-                    _dbContext.SaveChanges();
-                    addressId = addressBook.AddressId;
+                    return CreateProcessStatus.Inserted;
+                }
 
-                }
-                else
-                {
-                    addressId = lookupAddressBook.AddressId;
-                }
-                return addressId;
+                return CreateProcessStatus.AlreadyExists;
             }
             catch (Exception ex)
             {

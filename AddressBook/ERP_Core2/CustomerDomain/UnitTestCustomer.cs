@@ -126,8 +126,13 @@ namespace ERP_Core2.CustomerDomain
         {
             long customerId = 9;
             CustomerModule custMod = new CustomerModule();
+            custMod
+            .Customer()
+            .Query()
+            .WithCustomerLedgers(customerId);
 
-            IList<CustomerLedgerView> list =  custMod.GetCustomerLedgersByCustomerId(customerId);
+
+            IList<CustomerLedgerView> list = custMod.CustomerLedgerViews;
             foreach (var item in list)
             {
                 listCheck.Add(item.DocNumber.ToString());
@@ -211,9 +216,20 @@ namespace ERP_Core2.CustomerDomain
 
                 CustomerModule custMod = new CustomerModule();
 
-                bool result = await custMod.CreateCustomerAccount(customerView);
+                custMod
+                    .Customer()
 
-                Assert.True(result);
+                        .CreateAddressBook(customerView)
+                        .Apply()
+                        .CreateCustomerEmail(customerView)
+                        .Apply()
+                        .CreateCustomer(customerView)
+                        .Apply()
+                        .CreateCustomerLocationAddress(customerView)
+                        .Apply()
+                        ;
+
+                Assert.True(true);
             }
             catch (Exception ex)
             { throw new Exception("TestCreateCustomerAccount", ex); }
@@ -221,12 +237,20 @@ namespace ERP_Core2.CustomerDomain
         [Fact]
         public void TestGetAccountReceivablesByCustomerId()
         {
-            int customerId = 3;
+            long customerId = 3;
             //UnitOfWork unitOfWork = new UnitOfWork();
 
             CustomerModule custMod = new CustomerModule();
 
-            IList<AccountReceiveableView> list =  custMod.GetAccountReceivablesByCustomerId(customerId);
+            //IList<AccountReceiveableView> list =  custMod.GetAccountReceivablesByCustomerId(customerId);
+
+            custMod
+               .Customer()
+               .Query()
+                   .WithAccountReceivables(customerId);
+
+            IList<AccountReceiveableView> list = custMod.AccountReceivableViews;
+
 
             List<string> collection = new List<string>();
             foreach (AccountReceiveableView accountReceiveableView in list)
@@ -293,8 +317,16 @@ namespace ERP_Core2.CustomerDomain
             int customerId = 2;
 
             CustomerModule custMod = new CustomerModule();
-            IList<CustomerClaimView> list =  custMod.GetCustomerClaimsByCustomerId(customerId);
-           List<string> collection = new List<string>();
+            custMod
+              .Customer()
+              .Query()
+                  .WithCustomerClaims(customerId);
+
+
+
+            IList<CustomerClaimView> list = custMod.CustomerClaimViews;
+
+            List<string> collection = new List<string>();
             foreach (CustomerClaimView customerClaimView in list)
             {
                 output.WriteLine($"{customerClaimView.GroupId}");
@@ -314,7 +346,12 @@ namespace ERP_Core2.CustomerDomain
 
             CustomerModule custMod = new CustomerModule();
 
-            IList<ContractView> list =custMod.GetContractsByCustomerId(customerId, contractId??0);
+            custMod
+                .Customer()
+                .Query()
+                .WithContracts(customerId, contractId ?? 0);
+
+            IList<ContractView> list = custMod.ContractViews;
 
             List<string> collection = new List<string>();
             foreach (var item in list)
@@ -334,10 +371,14 @@ namespace ERP_Core2.CustomerDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
+            custMod
+                .Customer()
+                .Query()
+                .WithEmails(customerId);
+        
+            IList<EmailView> list = custMod.EmailViews;
 
-            IList<EmailView> list = custMod.GetEmailsByCustomerId(customerId);
 
-            
             List<string> collection = new List<string>();
 
             foreach (var item in list)
@@ -354,8 +395,13 @@ namespace ERP_Core2.CustomerDomain
             int customerId = 3;
 
             //UnitOfWork unitOfWork = new UnitOfWork();
-            CustomerModule custModule = new CustomerModule();
-            IList<PhoneView> list = custModule.GetPhonesByCustomerId(customerId);
+            CustomerModule custMod= new CustomerModule();
+            custMod
+              .Customer()
+              .Query()
+              .WithPhones(customerId);
+            IList<PhoneView> list = custMod.PhoneViews;
+
             List<string> collection = new List<string>();
 
             foreach (var item in list)
@@ -374,7 +420,13 @@ namespace ERP_Core2.CustomerDomain
 
             // UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            IList<LocationAddressView> list = custMod.GetLocationAddressByCustomerId(customerId);
+            custMod
+              .Customer()
+              .Query()
+              .WithLocationAddress(customerId);
+
+            IList<LocationAddressView> list = custMod.LocationAddressViews;
+
             List<string> collection = new List<string>();
 
             foreach (var item in list)
@@ -394,8 +446,12 @@ namespace ERP_Core2.CustomerDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
+            custMod
+              .Customer()
+              .Query()
+              .WithScheduleEvent(customerId,serviceId??0);
 
-            IList<ScheduleEventView> list = custMod.GetScheduleEventsByCustomerId(customerId, serviceId??0);
+            IList<ScheduleEventView> list = custMod.ScheduleEventViews;
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
@@ -416,7 +472,14 @@ namespace ERP_Core2.CustomerDomain
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
 
-            IList<InvoiceView> list = custMod.GetInvoicesByCustomerId(customerId, invoiceId);
+           
+            custMod
+              .Customer()
+              .Query()
+              .WithInvoices(customerId, invoiceId);
+
+            IList<InvoiceView> list = custMod.InvoiceViews;
+
             List<string> collection = new List<string>();
             foreach (var item in list)
             {

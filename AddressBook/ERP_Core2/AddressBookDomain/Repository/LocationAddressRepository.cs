@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MillenniumERP.Services;
 using MillenniumERP.CustomerDomain;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.AddressBookDomain
 {
@@ -49,7 +50,7 @@ namespace MillenniumERP.AddressBookDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<bool> CreateLocationUsingCustomer(CustomerView customerView)
+        public async Task<CreateProcessStatus> CreateLocationUsingCustomer(CustomerView customerView)
         {
             try
             {
@@ -78,10 +79,10 @@ namespace MillenniumERP.AddressBookDomain
                         item.AddressId = customerView.AddressId;
                         applicationViewFactory.MapLocationAddressEntity(ref locationAddress, item);
                         AddObject(locationAddress);
-                        return true;
+                        return CreateProcessStatus.Inserted;
                     }
                 }
-                return false;
+                return CreateProcessStatus.AlreadyExists;
                
             }
             catch (Exception ex)

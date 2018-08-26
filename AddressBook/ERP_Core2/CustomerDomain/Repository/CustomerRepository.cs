@@ -1,4 +1,5 @@
 ﻿using ERP_Core2.AbstractFactory;
+using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.EntityFramework;
 using MillenniumERP.AccountsReceivableDomain;
 using MillenniumERP.AddressBookDomain;
@@ -176,7 +177,7 @@ namespace MillenniumERP.CustomerDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<bool> CreateCustomer(CustomerView customerView)
+        public async Task<CreateProcessStatus> CreateCustomer(CustomerView customerView)
         {
             try
             {
@@ -188,9 +189,9 @@ namespace MillenniumERP.CustomerDomain
                     Customer customer = new Customer();
                     applicationViewFactory.MapCustomerEntity(ref customer, customerView);
                     AddObject(customer);
-                    return true;
+                    return CreateProcessStatus.Inserted;
                 }
-                return false;
+                return CreateProcessStatus.AlreadyExists;
                 
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }

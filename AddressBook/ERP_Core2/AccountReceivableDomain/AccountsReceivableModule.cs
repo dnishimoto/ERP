@@ -26,25 +26,7 @@ namespace MillenniumERP.AccountsReceivableDomain
  
 
   
-    public class FluentCustomerCashPayment: AbstractErrorHandling, IAccountsReceivableModule
-    {
-      
-
-        public IGeneralLedger GeneralLedger()
-        {
-            return new FluentGeneralLedger() as IGeneralLedger;
-        }
-        public ICustomerLedger CustomerLedger()
-        {
-            return new FluentCustomerLedger() as ICustomerLedger;
-        }
-        public IAccountsReceivable AccountsReceivable()
-        {
-            return new FluentAccountsReceivable() as IAccountsReceivable;
-        }
-     
-      
-    }
+   
     public class AccountsReceivableModule : AbstractModule
     {
 

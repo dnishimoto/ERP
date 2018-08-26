@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MillenniumERP.Services;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.AddressBookDomain
 {
@@ -39,7 +40,7 @@ namespace MillenniumERP.AddressBookDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<bool> CreateEmail(EmailView emailView)
+        public async Task<CreateProcessStatus> CreateEmail(EmailView emailView)
         {
             try
             {
@@ -51,9 +52,9 @@ namespace MillenniumERP.AddressBookDomain
                     Email email = new Email();
                     applicationViewFactory.MapEmailEntity(ref email, emailView);
                     AddObject(email);
-                    return true;
+                    return CreateProcessStatus.Inserted;
                 }
-                return false;
+                return CreateProcessStatus.AlreadyExists;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
