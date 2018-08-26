@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Interfaces;
+using MillenniumERP.GeneralLedgerDomain;
 using MillenniumERP.InvoicesDomain;
 using MillenniumERP.Services;
 using System;
@@ -18,6 +19,14 @@ namespace ERP_Core2.FluentAPI
         public CreateProcessStatus processStatus;
 
         public FluentAccountsReceivable() { }
+        public IAccountsReceivable UpdateAccountReceivable(GeneralLedgerView ledgerView)
+        {
+            //Update receivable (today) (check for discount rules)
+            Task<CreateProcessStatus> statusTask = Task.Run(() => unitOfWork.accountReceiveableRepository.UpdateReceivableByCashLedger(ledgerView));
+            Task.WaitAll(statusTask);
+            processStatus = statusTask.Result;
+            return this as IAccountsReceivable;
+        }
         public IAccountsReceivable CreateAcctRecFromInvoice(InvoiceView invoiceView)
         {
             Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.accountReceiveableRepository.CreateAcctRecFromInvoice(invoiceView));

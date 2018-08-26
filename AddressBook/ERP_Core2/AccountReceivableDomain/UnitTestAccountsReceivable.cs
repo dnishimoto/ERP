@@ -60,16 +60,25 @@ namespace ERP_Core2.AccountsReceivableDomain
 
 
             AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
-
             acctRecMod
                 .CustomerCashPayment
-                   .CreateGeneralLedger(ledgerView)
-                    .Apply()
-                    .CreateCustomerLedger(ledgerView)
-                    .Apply()
-                    .UpdateAccountReceivable(ledgerView)
-                    .Apply()
-                    .UpdateAccountBalances(ledgerView);
+                    .GeneralLedger().CreateGeneralLedger(ledgerView).Apply();
+
+            acctRecMod
+               .CustomerCashPayment
+                 .CustomerLedger()
+                 .CreateCustomerLedger(ledgerView)
+                 .Apply();
+
+            acctRecMod
+              .CustomerCashPayment
+                .AccountsReceivable()
+                       .UpdateAccountReceivable(ledgerView)
+                         .Apply();
+            acctRecMod
+                .CustomerCashPayment
+                    .GeneralLedger()
+                        .UpdateAccountBalances(ledgerView);
 
             //bool result = await acctRec.CustomerCashPayment(ledgerView);
 
@@ -108,12 +117,22 @@ namespace ERP_Core2.AccountsReceivableDomain
 
             acctRecMod
                     .CustomerCashPayment
+                        .GeneralLedger()
                         .CreateGeneralLedger(ledgerView)
-                        .Apply()
+                        .Apply();
+            acctRecMod
+                    .CustomerCashPayment
+                        .CustomerLedger()
                         .CreateCustomerLedger(ledgerView)
-                        .Apply()
+                        .Apply();
+            acctRecMod
+                    .CustomerCashPayment
+                        .AccountsReceivable()
                         .UpdateAccountReceivable(ledgerView)
-                        .Apply()
+                        .Apply();
+            acctRecMod
+                    .CustomerCashPayment
+                        .GeneralLedger()
                         .UpdateAccountBalances(ledgerView);
 
             Assert.True(true);

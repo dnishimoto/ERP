@@ -1,4 +1,5 @@
-﻿using MillenniumERP.InvoicesDomain;
+﻿using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.InvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,9 @@ namespace ERP_Core2.Interfaces
     {
 
         IGeneralLedger CreateGeneralLedger(InvoiceView invoiceView);
+        IGeneralLedger CreateGeneralLedger(GeneralLedgerView ledgerView);
         IGeneralLedger Apply();
         IGeneralLedger UpdateLedgerBalances();
+        IGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView);
     }
 }
