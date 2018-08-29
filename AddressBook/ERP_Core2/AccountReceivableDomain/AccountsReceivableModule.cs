@@ -16,17 +16,7 @@ using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace MillenniumERP.AccountsReceivableDomain
 {
-    public interface IAccountsReceivableModule
-    {
-        //IAccountsReceivableModule CreateGeneralLedger(GeneralLedgerView ledgerView);
-        IGeneralLedger GeneralLedger();
-        ICustomerLedger CustomerLedger();
-        IAccountsReceivable AccountsReceivable();
-     }
  
-
-  
-   
     public class AccountsReceivableModule : AbstractModule
     {
 

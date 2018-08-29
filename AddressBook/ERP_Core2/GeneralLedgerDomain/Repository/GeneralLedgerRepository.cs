@@ -39,6 +39,10 @@ namespace MillenniumERP.GeneralLedgerDomain
         }
 
         public long GeneralLedgerId { get; set; }
+        public long? SupplierId { get; set; }
+        public long? CustomerId { get; set; }
+        public long? InvoiceId { get; set; }
+        public long? AcctPayId { get; set; }
         public long DocNumber { get; set; }
         public string DocType { get; set; }
         public decimal Amount { get; set; }
@@ -76,7 +80,6 @@ namespace MillenniumERP.GeneralLedgerDomain
                              && e.Amount == view.Amount
                              && e.GLDate == view.GLDate
                              && e.DocNumber == view.DocNumber
-                             && e.Comment == view.Comment
                              && e.CheckNumber==view.CheckNumber
                              select e
                              ).FirstOrDefaultAsync<GeneralLedger>();

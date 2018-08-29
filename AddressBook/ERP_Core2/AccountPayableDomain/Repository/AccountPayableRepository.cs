@@ -82,7 +82,19 @@ namespace MillenniumERP.AccountsPayableDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-        
+        public async Task<AcctPay> GetAcctPayByPONumber(string poNumber)
+        {
+            try
+            {
+
+                AcctPay acctPay = await(from e in _dbContext.AcctPays
+                                            where e.OrderNumber == poNumber
+                                            select e).FirstOrDefaultAsync<AcctPay>();
+
+            return acctPay;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<CreateProcessStatus> CreateAcctPayByPurchaseOrderView(PurchaseOrderView poView)
         {
             try

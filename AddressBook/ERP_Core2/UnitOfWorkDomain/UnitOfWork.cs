@@ -54,6 +54,7 @@ namespace MillenniumERP.Services
         public PackingSlipRepository packingSlipRepository => new PackingSlipRepository(db);
         public InventoryRepository inventoryRepository => new InventoryRepository(db);
         public SupplierInvoiceRepository supplierInvoiceRepository => new SupplierInvoiceRepository(db);
+        public SupplierLedgerRepository supplierLedgerRepository => new SupplierLedgerRepository(db);
         public UnitOfWork()
         {
             /*

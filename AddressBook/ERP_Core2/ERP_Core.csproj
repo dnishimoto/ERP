@@ -154,6 +154,7 @@
     <Compile Include="EntityFramework\Supplier.cs" />
     <Compile Include="EntityFramework\SupplierInvoice.cs" />
     <Compile Include="EntityFramework\SupplierInvoiceDetail.cs" />
+    <Compile Include="EntityFramework\SupplierLedger.cs" />
     <Compile Include="EntityFramework\TaxRatesByCode.cs" />
     <Compile Include="EntityFramework\TimeAndAttendancePunchIn.cs" />
     <Compile Include="EntityFramework\TimeAndAttendanceSchedule.cs" />
@@ -168,10 +169,13 @@
     <Compile Include="FluentAPI\FluentGeneralLedger.cs" />
     <Compile Include="FluentAPI\FluentInvoice.cs" />
     <Compile Include="FluentAPI\FluentInvoiceDetail.cs" />
+    <Compile Include="FluentAPI\FluentPackingSlip.cs" />
+    <Compile Include="FluentAPI\FluentPurchaseOrder.cs" />
     <Compile Include="FluentAPI\FluentQuery.cs" />
+    <Compile Include="FluentAPI\FluentSupplierLedger.cs" />
+    <Compile Include="GeneralLedgerDomain\Repository\SupplierLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
-    <Compile Include="Interfaces\IAccountsPayable.cs" />
     <Compile Include="Interfaces\IAccountsReceivable.cs" />
     <Compile Include="Interfaces\ICustomer.cs" />
     <Compile Include="Interfaces\ICustomerLedger.cs" />
@@ -179,8 +183,10 @@
     <Compile Include="Interfaces\IGeneralLedger.cs" />
     <Compile Include="Interfaces\IInvoice.cs" />
     <Compile Include="Interfaces\IInvoiceDetail.cs" />
-    <Compile Include="Interfaces\IInvoiceModule.cs" />
+    <Compile Include="Interfaces\IPackingSlip.cs" />
+    <Compile Include="Interfaces\IPurchaseOrder.cs" />
     <Compile Include="Interfaces\IQuery.cs" />
+    <Compile Include="Interfaces\ISupplierLedger.cs" />
     <Compile Include="InventoryDomain\Repository\InventoryRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\InvoiceModule.cs" />

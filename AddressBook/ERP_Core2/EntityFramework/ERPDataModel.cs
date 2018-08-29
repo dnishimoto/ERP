@@ -12,6 +12,7 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -63,6 +64,7 @@ namespace ERP_Core2.EntityFramework
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<SupplierInvoice> SupplierInvoices { get; set; }
         public virtual DbSet<SupplierInvoiceDetail> SupplierInvoiceDetails { get; set; }
+        public virtual DbSet<SupplierLedger> SupplierLedgers { get; set; }
         public virtual DbSet<TaxRatesByCode> TaxRatesByCodes { get; set; }
         public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
@@ -123,6 +125,11 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<AcctPay>()
                 .Property(e => e.AmountPaid)
                 .HasPrecision(19, 4);
+
+            modelBuilder.Entity<AcctPay>()
+                .HasMany(e => e.SupplierLedgers)
+                .WithRequired(e => e.AcctPay)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<AcctRec>()
                 .Property(e => e.OpenAmount)
@@ -690,6 +697,11 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<GeneralLedger>()
                 .HasMany(e => e.CustomerLedgers)
+                .WithRequired(e => e.GeneralLedger)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<GeneralLedger>()
+                .HasMany(e => e.SupplierLedgers)
                 .WithRequired(e => e.GeneralLedger)
                 .WillCascadeOnDelete(false);
 
@@ -1279,6 +1291,11 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.Supplier)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Supplier>()
+                .HasMany(e => e.SupplierLedgers)
+                .WithRequired(e => e.Supplier)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<SupplierInvoice>()
                 .Property(e => e.SupplierInvoiceNumber)
                 .IsUnicode(false);
@@ -1316,6 +1333,12 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.SupplierInvoice)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<SupplierInvoice>()
+                .HasMany(e => e.SupplierLedgers)
+                .WithRequired(e => e.SupplierInvoice)
+                .HasForeignKey(e => e.InvoiceId)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<SupplierInvoiceDetail>()
                 .Property(e => e.UnitPrice)
                 .HasPrecision(18, 4);
@@ -1339,6 +1362,26 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<SupplierInvoiceDetail>()
                 .Property(e => e.DiscountPercent)
                 .HasPrecision(18, 4);
+
+            modelBuilder.Entity<SupplierLedger>()
+                .Property(e => e.Amount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SupplierLedger>()
+                .Property(e => e.Comment)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierLedger>()
+                .Property(e => e.DocType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<SupplierLedger>()
+                .Property(e => e.DebitAmount)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<SupplierLedger>()
+                .Property(e => e.CreditAmount)
+                .HasPrecision(19, 4);
 
             modelBuilder.Entity<TaxRatesByCode>()
                 .Property(e => e.TaxCode)

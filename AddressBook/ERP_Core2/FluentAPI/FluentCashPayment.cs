@@ -9,23 +9,10 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.FluentAPI
 {
-    public class FluentCustomerCashPayment : AbstractErrorHandling, IAccountsReceivableModule
+    public class FluentCustomerCashPayment : AbstractErrorHandling
     {
-
-
-        public IGeneralLedger GeneralLedger()
-        {
-            return new FluentGeneralLedger() as IGeneralLedger;
-        }
-        public ICustomerLedger CustomerLedger()
-        {
-            return new FluentCustomerLedger() as ICustomerLedger;
-        }
-        public IAccountsReceivable AccountsReceivable()
-        {
-            return new FluentAccountsReceivable() as IAccountsReceivable;
-        }
-
-
+           public FluentGeneralLedger GeneralLedger= new FluentGeneralLedger();
+           public FluentCustomerLedger CustomerLedger= new FluentCustomerLedger() ;
+           public FluentAccountsReceivable AccountsReceivable = new FluentAccountsReceivable() ;
     }
 }

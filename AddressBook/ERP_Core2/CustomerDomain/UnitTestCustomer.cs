@@ -127,7 +127,7 @@ namespace ERP_Core2.CustomerDomain
             long customerId = 9;
             CustomerModule custMod = new CustomerModule();
             custMod
-            .Customer()
+            .Customer
             .Query()
             .WithCustomerLedgers(customerId);
 
@@ -217,7 +217,7 @@ namespace ERP_Core2.CustomerDomain
                 CustomerModule custMod = new CustomerModule();
 
                 custMod
-                    .Customer()
+                    .Customer
 
                         .CreateAddressBook(customerView)
                         .Apply()
@@ -245,7 +245,7 @@ namespace ERP_Core2.CustomerDomain
             //IList<AccountReceiveableView> list =  custMod.GetAccountReceivablesByCustomerId(customerId);
 
             custMod
-               .Customer()
+               .Customer
                .Query()
                    .WithAccountReceivables(customerId);
 
@@ -318,7 +318,7 @@ namespace ERP_Core2.CustomerDomain
 
             CustomerModule custMod = new CustomerModule();
             custMod
-              .Customer()
+              .Customer
               .Query()
                   .WithCustomerClaims(customerId);
 
@@ -347,7 +347,7 @@ namespace ERP_Core2.CustomerDomain
             CustomerModule custMod = new CustomerModule();
 
             custMod
-                .Customer()
+                .Customer
                 .Query()
                 .WithContracts(customerId, contractId ?? 0);
 
@@ -372,7 +372,7 @@ namespace ERP_Core2.CustomerDomain
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
             custMod
-                .Customer()
+                .Customer
                 .Query()
                 .WithEmails(customerId);
         
@@ -397,7 +397,7 @@ namespace ERP_Core2.CustomerDomain
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod= new CustomerModule();
             custMod
-              .Customer()
+              .Customer
               .Query()
               .WithPhones(customerId);
             IList<PhoneView> list = custMod.PhoneViews;
@@ -421,7 +421,7 @@ namespace ERP_Core2.CustomerDomain
             // UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
             custMod
-              .Customer()
+              .Customer
               .Query()
               .WithLocationAddress(customerId);
 
@@ -447,7 +447,7 @@ namespace ERP_Core2.CustomerDomain
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
             custMod
-              .Customer()
+              .Customer
               .Query()
               .WithScheduleEvent(customerId,serviceId??0);
 
@@ -474,7 +474,7 @@ namespace ERP_Core2.CustomerDomain
 
            
             custMod
-              .Customer()
+              .Customer
               .Query()
               .WithInvoices(customerId, invoiceId);
 

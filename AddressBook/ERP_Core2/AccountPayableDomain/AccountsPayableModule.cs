@@ -11,6 +11,10 @@ using System.Threading.Tasks;
 using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
 using MillenniumERP.SupplierInvoicesDomain;
 using ERP_Core2.Interfaces;
+using ERP_Core2.FluentAPI;
+using MillenniumERP.GeneralLedgerDomain;
+using MillenniumERP.CustomerLedgerDomain;
+using ERP_Core2.EntityFramework;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -24,166 +28,69 @@ namespace ERP_Core2.AccountPayableDomain
         Failed
     }
 
-    public interface IPackingSlip
+    public interface ISupplier
     {
-        IPackingSlip CreatePackingSlip(PackingSlipView packingSlipView);
-
-        IPackingSlip CreatePackingSlipDetails(PackingSlipView packingSlipView);
-        IPackingSlip CreateInventoryByPackingSlip(PackingSlipView packingSlipView);
-        IPackingSlip Apply();
+        ISupplier UpdateSupplierLedgerWithGeneralLedger(GeneralLedgerView generalLedgerView);
+        ISupplier CreateSupplierLedger(GeneralLedgerView generalLedger);
+        ISupplier Apply();
     }
-
-    public class FluentPackingSlip : AbstractErrorHandling, IPackingSlip
+    public class FluentSupplier : AbstractErrorHandling, ISupplier
     {
-         private CreateProcessStatus processStatus;
-         UnitOfWork unitOfWork = new UnitOfWork();
-        public IPackingSlip Apply()
+        public UnitOfWork unitOfWork = new UnitOfWork();
+        CreateProcessStatus processStatus;
+        private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
+
+        public FluentSupplier() { }
+        public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
+
+        public ISupplier CreateSupplierLedger(GeneralLedgerView generalLedgerView)
         {
-            if ((processStatus == CreateProcessStatus.Inserted) || (processStatus == CreateProcessStatus.Updated) || (processStatus == CreateProcessStatus.Deleted))
-            {
-                unitOfWork.CommitChanges();
-            }
-            return this as IPackingSlip;
+            Task<GeneralLedgerView> generalLedgerTask = Task.Run(() => unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(generalLedgerView.DocNumber,generalLedgerView.DocType));
+            Task.WaitAll(generalLedgerTask);
 
+            SupplierLedgerView supplierLedgerView = applicationViewFactory.MapSupplierLedgerView(generalLedgerView);
+            supplierLedgerView.GeneralLedgerId = generalLedgerTask.Result.GeneralLedgerId;
+
+
+            Task<CreateProcessStatus> statusResult = Task.Run(() => unitOfWork.supplierLedgerRepository.CreateSupplierLedgerFromView(supplierLedgerView));
+            Task.WaitAll(statusResult);
+            processStatus = statusResult.Result;
+            return this as ISupplier;
         }
-
-        public IPackingSlip CreatePackingSlip(PackingSlipView packingSlipView)
-    {
-        Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.packingSlipRepository.CreatePackingSlipByView(packingSlipView));
-        Task.WaitAll(resultTask);
-        processStatus = resultTask.Result;
-        return this as IPackingSlip;
-    }
-    public IPackingSlip CreatePackingSlipDetails(PackingSlipView packingSlipView)
-    {
-        Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.packingSlipRepository.CreatePackingSlipDetailsByView(packingSlipView));
-        Task.WaitAll(resultTask);
-        processStatus = resultTask.Result;
-        return this as IPackingSlip;
-    }
-    public IPackingSlip CreateInventoryByPackingSlip(PackingSlipView packingSlipView)
-    {
-        Task<PackingSlipView> lookupViewTask = Task.Run(() => unitOfWork.packingSlipRepository.GetPackingSlipViewBySlipDocument(packingSlipView.SlipDocument));
-        Task.WaitAll(lookupViewTask);
-        Task<CreateProcessStatus> resultTask = unitOfWork.inventoryRepository.CreateInventoryByPackingSlipView(lookupViewTask.Result);
-        Task.WaitAll(resultTask);
-        processStatus = resultTask.Result;
-        return this as IPackingSlip;
-    }
-}
-
-    public interface IPurchaseOrder
-    {
-        IPurchaseOrder CreateAcctPayByPurchaseOrderNumber(PurchaseOrderView purchaseOrderView);
-        IPurchaseOrder CreatePurchaseOrder(PurchaseOrderView purchaseOrderView);
-        IPurchaseOrder CreatePurchaseOrderDetails(PurchaseOrderView purchaseOrderView);
-        IPurchaseOrder Apply();
-    }
-
-    public class FluentPurchaseOrder: AbstractErrorHandling,IPurchaseOrder
-    {
-        private CreateProcessStatus processStatus;
-        UnitOfWork unitOfWork = new UnitOfWork();
-
-        public IPurchaseOrder Apply()
+        public ISupplier UpdateSupplierLedgerWithGeneralLedger(GeneralLedgerView generalLedgerView)
         {
-            if ((processStatus == CreateProcessStatus.Inserted) || (processStatus == CreateProcessStatus.Updated) || (processStatus == CreateProcessStatus.Deleted))
-            {
-                unitOfWork.CommitChanges();
-            }
-            return this as IPurchaseOrder;
+            Task<SupplierLedgerView> supplierLedgerTask = Task.Run(() => unitOfWork.supplierLedgerRepository.GetSupplierLedgerByDocNumber(generalLedgerView.DocNumber, generalLedgerView.DocType));
+            Task.WaitAll(supplierLedgerTask);
 
-        }
-        public IPurchaseOrder CreateAcctPayByPurchaseOrderNumber(PurchaseOrderView purchaseOrderView)
-        {
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(purchaseOrderView));
-            Task.WaitAll(resultTask);
-            processStatus = resultTask.Result;
-            return this as IPurchaseOrder;
-        }
-        public IPurchaseOrder CreatePurchaseOrder(PurchaseOrderView purchaseOrderView)
-        {
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView));
-            Task.WaitAll(resultTask);
-            processStatus = resultTask.Result;
-            return this as IPurchaseOrder;
-        }
-        public IPurchaseOrder CreatePurchaseOrderDetails(PurchaseOrderView purchaseOrderView)
-        {
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.purchaseOrderRepository.CreatePurchaseOrderDetailsByView(purchaseOrderView));
-            Task.WaitAll(resultTask);
-            processStatus = resultTask.Result;
-            return this as IPurchaseOrder;
-        }
+            SupplierLedgerView supplierLedgerView = applicationViewFactory.MapSupplierLedgerView(generalLedgerView);
 
-    }
-    public interface ISupplierLedger
-    {
-        ISupplierLedger CreateSupplierInvoice(SupplierInvoiceView supplierInvoiceView);
-        ISupplierLedger CreateSupplierInvoiceDetail(SupplierInvoiceView supplierInvoiceView);
-        ISupplierLedger Apply();
-    }
+            supplierLedgerView.SupplierLedgerId = supplierLedgerTask.Result.SupplierLedgerId;
 
-    public class FluentSupplierLedger: AbstractErrorHandling,ISupplierLedger
-    {
-        private CreateProcessStatus processStatus;
-        UnitOfWork unitOfWork = new UnitOfWork();
-
-        public ISupplierLedger Apply()
-        {
-            if ((processStatus == CreateProcessStatus.Inserted) || (processStatus == CreateProcessStatus.Updated) || (processStatus == CreateProcessStatus.Deleted))
-            {
-                unitOfWork.CommitChanges();
-            }
-            return this as ISupplierLedger;
-
+            Task<CreateProcessStatus> statusResult = Task.Run(() => unitOfWork.supplierLedgerRepository.UpdateSupplierLedger(supplierLedgerView));
+            Task.WaitAll(statusResult);
+            processStatus = statusResult.Result;
+            return this as ISupplier;
         }
-        public ISupplierLedger CreateSupplierInvoice(SupplierInvoiceView supplierInvoiceView)
+        public ISupplier Apply()
         {
             try
             {
-                Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.supplierInvoiceRepository.CreateSupplierInvoiceByView(supplierInvoiceView));
-                Task.WaitAll(resultTask);
-                processStatus = resultTask.Result;
-                return this as ISupplierLedger;
+                if ((processStatus == CreateProcessStatus.Inserted) || (processStatus == CreateProcessStatus.Updated) || (processStatus == CreateProcessStatus.Deleted))
+                {
+                    unitOfWork.CommitChanges();
+                }
+                return this as ISupplier;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-
-        }
-        public ISupplierLedger CreateSupplierInvoiceDetail(SupplierInvoiceView supplierInvoiceView)
-        {
-            try
-            {
-                Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.supplierInvoiceRepository.CreateSupplierInvoiceDetailsByView(supplierInvoiceView));
-                Task.WaitAll(resultTask);
-                processStatus = resultTask.Result;
-                return this as ISupplierLedger;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-
-
+          
         }
     }
-    public class AccountsPayableModule : AbstractModule, IAccountsPayable
+    public class AccountsPayableModule : AbstractModule
     {
+        public FluentSupplier Supplier = new FluentSupplier();
+        public FluentPackingSlip PackingSlip = new FluentPackingSlip();
+        public FluentPurchaseOrder PurchaseOrder = new FluentPurchaseOrder();
+        public FluentSupplierLedger SupplierLedger = new FluentSupplierLedger();
 
-        public IPackingSlip PackingSlip()
-        {
-            return new FluentPackingSlip() as IPackingSlip;
-        }
-
-        public IPurchaseOrder PurchaseOrder()
-        {
-            return new FluentPurchaseOrder() as IPurchaseOrder;
-        }
-        public ISupplierLedger SupplierLedger()
-        {
-            return new FluentSupplierLedger() as ISupplierLedger;
-        }
-
-
-    
-            
-       
     }
 }

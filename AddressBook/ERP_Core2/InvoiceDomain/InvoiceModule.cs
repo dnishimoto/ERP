@@ -15,27 +15,13 @@ using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace ERP_Core2.InvoiceDomain
 {
-     
 
-    public class InvoiceModule : AbstractModule, IInvoiceModule
+
+    public class InvoiceModule : AbstractModule
     {
-       public IInvoice Invoice()
-        {
-            return new FluentInvoice() as IInvoice;
-        }
-        public IInvoiceDetail InvoiceDetail()
-        {
-            return new FluentInvoiceDetail() as IInvoiceDetail;
-        }
-        public IAccountsReceivable AccountsReceivable()
-        {
-            return new FluentAccountsReceivable() as IAccountsReceivable;
-        }
-        public IGeneralLedger GeneralLedger()
-        {
-            return new FluentGeneralLedger() as IGeneralLedger;
-        }
-     
-
+        public FluentInvoice Invoice = new FluentInvoice();
+        public FluentInvoiceDetail InvoiceDetail = new FluentInvoiceDetail();
+        public FluentAccountsReceivable AccountsReceivable = new FluentAccountsReceivable();
+        public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
     }
 }

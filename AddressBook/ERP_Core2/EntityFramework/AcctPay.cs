@@ -9,6 +9,12 @@ namespace ERP_Core2.EntityFramework
     [Table("AcctPay")]
     public partial class AcctPay
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public AcctPay()
+        {
+            SupplierLedgers = new HashSet<SupplierLedger>();
+        }
+
         public long AcctPayId { get; set; }
 
         public long? DocNumber { get; set; }
@@ -73,5 +79,8 @@ namespace ERP_Core2.EntityFramework
         public virtual POQuote POQuote { get; set; }
 
         public virtual Supplier Supplier { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierLedger> SupplierLedgers { get; set; }
     }
 }

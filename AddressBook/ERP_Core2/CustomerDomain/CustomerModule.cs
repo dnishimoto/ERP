@@ -18,29 +18,20 @@ using System.Threading.Tasks;
 namespace ERP_Core2.CustomerDomain
 {
 
-  
-   
-    public interface ICustomerModule
-    {
-        ICustomer Customer();
-    }
-    public class CustomerModule : AbstractModule, ICustomerModule
-    {
-        private FluentCustomer _Customer;
-        public ICustomer Customer()
-        {
-            _Customer = new FluentCustomer();
-            return _Customer as ICustomer;
-        }
 
-        public IList<AccountReceiveableView> AccountReceivableViews { get { return _Customer._query.listAccountsReceivableViews; } }
-        public IList<CustomerLedgerView> CustomerLedgerViews { get { return _Customer._query.listCustomerLedgerViews; } }
-        public IList<EmailView> EmailViews { get { return _Customer._query.listEmailViews; } }
-        public IList<PhoneView> PhoneViews { get { return _Customer._query.listPhoneViews; } }
-        public IList<InvoiceView> InvoiceViews { get { return _Customer._query.listInvoiceViews; } }
-        public IList<ScheduleEventView> ScheduleEventViews { get { return _Customer._query.listScheduleEventViews; } }
-        public IList<LocationAddressView> LocationAddressViews { get { return _Customer._query.listLocationAddressViews; } }
-        public IList<CustomerClaimView> CustomerClaimViews { get { return _Customer._query.listCustomerClaimViews; } }
-        public IList<ContractView> ContractViews { get { return _Customer._query.listContractViews; } }
+    public class CustomerModule : AbstractModule
+    {
+
+        public FluentCustomer Customer = new FluentCustomer();
+
+        public IList<AccountReceiveableView> AccountReceivableViews { get { return Customer._query.listAccountsReceivableViews; } }
+        public IList<CustomerLedgerView> CustomerLedgerViews { get { return Customer._query.listCustomerLedgerViews; } }
+        public IList<EmailView> EmailViews { get { return Customer._query.listEmailViews; } }
+        public IList<PhoneView> PhoneViews { get { return Customer._query.listPhoneViews; } }
+        public IList<InvoiceView> InvoiceViews { get { return Customer._query.listInvoiceViews; } }
+        public IList<ScheduleEventView> ScheduleEventViews { get { return Customer._query.listScheduleEventViews; } }
+        public IList<LocationAddressView> LocationAddressViews { get { return Customer._query.listLocationAddressViews; } }
+        public IList<CustomerClaimView> CustomerClaimViews { get { return Customer._query.listCustomerClaimViews; } }
+        public IList<ContractView> ContractViews { get { return Customer._query.listContractViews; } }
     }
 }

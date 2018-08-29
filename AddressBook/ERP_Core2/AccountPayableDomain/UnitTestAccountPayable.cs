@@ -16,6 +16,7 @@ using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
 using MillenniumERP.AccountsPayableDomain;
 using MillenniumERP.PackingSlipDomain;
 using MillenniumERP.SupplierInvoicesDomain;
+using MillenniumERP.GeneralLedgerDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -30,7 +31,69 @@ namespace ERP_Core2.AccountPayableDomain
             this.output = output;
 
         }
+        [Fact]
+        public async Task TestPayAccountsPayable()
+        {
+            long customerId = 2;
+            string poNumber = "PO-2";
+            UnitOfWork unitOfWork = new UnitOfWork();
+            GeneralLedgerView ledgerView = new GeneralLedgerView();
 
+            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
+            ChartOfAcct coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "210", "");
+            AcctPay acctPay = await unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber);
+            SupplierInvoice supplierInvoice = await unitOfWork.supplierInvoiceRepository.GetSupplierInvoiceByPONumber(poNumber);
+
+            if (coa == null || acctPay == null || supplierInvoice == null)
+            {
+                Assert.True(false);
+            }
+            //TODO create a process to match the ledger to the invoice and account receivable
+
+            ledgerView.GeneralLedgerId = -1;
+            ledgerView.SupplierId = 3;
+            ledgerView.DocNumber = acctPay.DocNumber??0;   //doc number of the account payable
+            ledgerView.AcctPayId = acctPay.AcctPayId;
+            ledgerView.InvoiceId = supplierInvoice.SupplierInvoiceId;
+            ledgerView.DocType = "PV";
+            ledgerView.Amount = 268M;
+            ledgerView.LedgerType = "AA";
+            ledgerView.GLDate = DateTime.Parse("8/28/2018");
+            ledgerView.AccountId = coa.AccountId;
+            ledgerView.CreatedDate = DateTime.Parse("8/28/2018");
+            ledgerView.AddressId = addressId ?? 0;
+            ledgerView.Comment = "Payment for back to school";
+            ledgerView.DebitAmount = 0;
+            ledgerView.CreditAmount = 268M;
+            ledgerView.FiscalPeriod = 8;
+            ledgerView.FiscalYear = 2018;
+            ledgerView.CheckNumber = "113";
+
+
+            AccountsPayableModule acctPayablesMod = new AccountsPayableModule();
+
+     
+            acctPayablesMod
+                .Supplier
+                .GeneralLedger.CreateGeneralLedger(ledgerView).Apply();
+
+
+            acctPayablesMod
+               .Supplier
+                 .CreateSupplierLedger(ledgerView)
+                 .Apply();
+            /*
+            acctPayablesMod
+              .Supplier
+                  .UpdateAccountsPayable(ledgerView)
+                         .Apply();
+
+            acctPayablesMod
+                .Supplier
+                    .GeneralLedger
+                        .UpdateAccountBalances(ledgerView);
+                        */
+        }
         [Fact]
         public async Task TestReceiveSupplierInvoice()
         {
@@ -46,7 +109,7 @@ namespace ERP_Core2.AccountPayableDomain
             ""SupplierId"" : " + supplierView.SupplierId + @",
             ""SupplierInvoiceNumber"": ""AZW23-1"", 
             ""SupplierInvoiceDate"" : """ + DateTime.Parse("8/20/2018") + @""",
-            ""PONumber"" : ""PO-1"",
+            ""PONumber"" : ""PO-2"",
             ""Amount"": 268,
             ""Description"":  ""Back to School supplies"",
             ""TaxAmount"" : 16.08,
@@ -104,7 +167,7 @@ namespace ERP_Core2.AccountPayableDomain
                 AccountsPayableModule apMod = new AccountsPayableModule();
 
                 apMod
-                    .SupplierLedger()
+                    .SupplierLedger
                     .CreateSupplierInvoice(supplierInvoiceView)
                     .Apply()
                     .CreateSupplierInvoiceDetail(supplierInvoiceView)
@@ -131,7 +194,7 @@ namespace ERP_Core2.AccountPayableDomain
             ""SupplierId"" : " + supplierView.SupplierId + @",
             ""ReceivedDate"" : """ + DateTime.Parse("8/16/2018") + @""",
             ""SlipDocument"" : ""SLIP-1"",
-            ""PONumber"" :""PO-1"",
+            ""PONumber"" :""PO-2"",
             ""SlipType"" : """ + slipTypeUDC.KeyCode + @""",
 
             ""PackingSlipDetailViews"":[
@@ -184,7 +247,7 @@ namespace ERP_Core2.AccountPayableDomain
                 AccountsPayableModule apMod = new AccountsPayableModule();
 
                 apMod
-                    .PackingSlip().CreatePackingSlip(packingSlipView).Apply()
+                    .PackingSlip.CreatePackingSlip(packingSlipView).Apply()
                     .CreatePackingSlipDetails(packingSlipView)
                     .Apply()
                     .CreateInventoryByPackingSlip(packingSlipView)
@@ -339,13 +402,15 @@ namespace ERP_Core2.AccountPayableDomain
             //TODO Create the Purchase Order
 
              apMod
-                .PurchaseOrder()
+                .PurchaseOrder
                 .CreatePurchaseOrder(purchaseOrderView)
                 .Apply()
                 .CreatePurchaseOrderDetails(purchaseOrderView)
                 .Apply()
                 .CreateAcctPayByPurchaseOrderNumber(purchaseOrderView)
                 .Apply();
+
+
 
             Assert.True(true);
         }
