@@ -64,6 +64,9 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapPackingSlipIntoInventoryEntity(ref Inventory inventory, PackingSlipDetailView packingSlipDetailView);
         public abstract void MapSupplierInvoiceEntity(ref SupplierInvoice supplierInvoice, SupplierInvoiceView supplierInvoiceView);
         public abstract void MapSupplierInvoiceDetailEntity(ref SupplierInvoiceDetail supplierInvoiceDetail, SupplierInvoiceDetailView supplierInvoiceDetailView);
+        public abstract SupplierLedgerView MapSupplierLedgerView(GeneralLedgerView generalLedgerView);
+        public abstract SupplierLedgerView MapSupplierLedgerView(SupplierLedger supplierLedger);
+        public abstract void MapSupplierLedgerEntity(ref SupplierLedger supplierLedger, SupplierLedgerView view);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -300,7 +303,32 @@ namespace ERP_Core2.AbstractFactory
             inventory.ExtendedPrice = packingSlipDetailView.ExtendedCost;
             inventory.PackingSlipDetailId = packingSlipDetailView.PackingSlipDetailId;
         }
-
+        public override void MapSupplierLedgerEntity(ref SupplierLedger supplierLedger, SupplierLedgerView view)
+        {
+            supplierLedger.SupplierLedgerId = view.SupplierLedgerId;
+            supplierLedger.SupplierId = view.SupplierId;
+            supplierLedger.InvoiceId = view.InvoiceId;
+            supplierLedger.AcctPayId = view.AcctPayId;
+            supplierLedger.Amount = view.Amount;
+            supplierLedger.GLDate = view.GLDate;
+            supplierLedger.AccountId = view.AccountId;
+            supplierLedger.GeneralLedgerId = view.GeneralLedgerId;
+            supplierLedger.DocNumber = view.DocNumber;
+            supplierLedger.DocType = view.DocType;
+            supplierLedger.Comment = view.Comment;
+            supplierLedger.AddressId = view.AddressId;
+            supplierLedger.CreatedDate = view.CreatedDate;
+            supplierLedger.FiscalPeriod = view.FiscalPeriod;
+            supplierLedger.FiscalYear = view.FiscalYear;
+    }
+    public override SupplierLedgerView MapSupplierLedgerView(GeneralLedgerView generalLedgerView)
+        {
+            return new SupplierLedgerView(generalLedgerView);
+        }
+        public override SupplierLedgerView MapSupplierLedgerView(SupplierLedger supplierLedger)
+        {
+            return new SupplierLedgerView(supplierLedger);
+        }
         public override PackingSlipDetailView MapPackingSlipDetailView(PackingSlipDetail packingSlipDetail)
         {
             return new PackingSlipDetailView(packingSlipDetail);

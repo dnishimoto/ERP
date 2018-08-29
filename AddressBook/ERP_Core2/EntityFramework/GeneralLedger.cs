@@ -13,6 +13,7 @@ namespace ERP_Core2.EntityFramework
         public GeneralLedger()
         {
             CustomerLedgers = new HashSet<CustomerLedger>();
+            SupplierLedgers = new HashSet<SupplierLedger>();
         }
 
         public long GeneralLedgerId { get; set; }
@@ -63,5 +64,8 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CustomerLedger> CustomerLedgers { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SupplierLedger> SupplierLedgers { get; set; }
     }
 }

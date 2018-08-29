@@ -96,6 +96,19 @@ namespace MillenniumERP.SupplierInvoicesDomain
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<SupplierInvoice> GetSupplierInvoiceByPONumber(string poNumber)
+        {
+            try
+            {
+                var query = await (from e in _dbContext.SupplierInvoices
+                                   where e.PONumber == poNumber
+
+                                   select e).FirstOrDefaultAsync<SupplierInvoice>();
+
+                return query;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<CreateProcessStatus> CreateSupplierInvoiceByView(SupplierInvoiceView view)
         {
             decimal amount = 0;
