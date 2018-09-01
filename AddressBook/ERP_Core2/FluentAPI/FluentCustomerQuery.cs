@@ -16,46 +16,29 @@ namespace ERP_Core2.FluentAPI
 {
     public class FluentCustomerQuery : FluentCustomer, ICustomerQuery
     {
-        public IList<AccountReceiveableView> listAccountsReceivableViews;
-        public IList<CustomerLedgerView> listCustomerLedgerViews;
-        public IList<EmailView> listEmailViews;
-        public IList<PhoneView> listPhoneViews;
-        public IList<InvoiceView> listInvoiceViews;
-        public IList<ScheduleEventView> listScheduleEventViews;
-        public IList<LocationAddressView> listLocationAddressViews;
-        public IList<CustomerClaimView> listCustomerClaimViews;
-        public IList<ContractView> listContractViews;
-
+     
         public FluentCustomerQuery()
         {
-            listAccountsReceivableViews = new List<AccountReceiveableView>();
-            listCustomerLedgerViews = new List<CustomerLedgerView>();
-            listEmailViews = new List<EmailView>();
-            listPhoneViews = new List<PhoneView>();
-            listInvoiceViews = new List<InvoiceView>();
-            listScheduleEventViews = new List<ScheduleEventView>();
-            listLocationAddressViews = new List<LocationAddressView>();
-            listCustomerClaimViews = new List<CustomerClaimView>();
-            listContractViews = new List<ContractView>();
+         
         }
-        public ICustomerQuery WithAccountReceivables(long customerId)
+        public IList<AccountReceiveableView> GetAccountReceivables(long customerId)
         {
             try
             {
-                listAccountsReceivableViews = base.unitOfWork.customerRepository.GetAccountReceivablesByCustomerId(customerId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetAccountReceivablesByCustomerId(customerId);
+               
             }
             catch (Exception ex)
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public ICustomerQuery WithCustomerLedgers(long customerId)
+        public IList<CustomerLedgerView> GetCustomerLedgers(long customerId)
         {
             try
             {
-                listCustomerLedgerViews = base.unitOfWork.customerRepository.GetCustomerLedgersByCustomerId(customerId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetCustomerLedgersByCustomerId(customerId);
+     
             }
             catch (Exception ex)
             {
@@ -64,69 +47,62 @@ namespace ERP_Core2.FluentAPI
         }
 
 
-        public ICustomerQuery WithEmails(long customerId)
+        public IList<EmailView> GetEmails(long customerId)
         {
             try
             {
-                listEmailViews = base.unitOfWork.customerRepository.GetEmailsByCustomerId(customerId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetEmailsByCustomerId(customerId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public ICustomerQuery WithPhones(long customerId)
+        public IList<PhoneView> GetPhones(long customerId)
         {
             try
             {
-                listPhoneViews = base.unitOfWork.customerRepository.GetPhonesByCustomerId(customerId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetPhonesByCustomerId(customerId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public ICustomerQuery WithInvoices(long customerId, long? invoiceId)
+        public IList<InvoiceView> GetInvoices(long customerId, long? invoiceId)
         {
             try
             {
-                listInvoiceViews = base.unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId, invoiceId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetInvoicesByCustomerId(customerId, invoiceId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public ICustomerQuery WithScheduleEvent(long customerId, long serviceId)
+        public IList<ScheduleEventView> GetScheduleEvent(long customerId, long serviceId)
         {
             try
             {
-                listScheduleEventViews = base.unitOfWork.customerRepository.GetScheduleEventsByCustomerId(customerId, serviceId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetScheduleEventsByCustomerId(customerId, serviceId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public ICustomerQuery WithLocationAddress(long customerId)
+        public IList<LocationAddressView> GetLocationAddress(long customerId)
         {
             try
             {
-                listLocationAddressViews = base.unitOfWork.customerRepository.GetLocationAddressByCustomerId(customerId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetLocationAddressByCustomerId(customerId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public ICustomerQuery WithCustomerClaims(long customerId)
+        public IList<CustomerClaimView> GetCustomerClaims(long customerId)
         {
             try
             {
-                listCustomerClaimViews = base.unitOfWork.customerRepository.GetCustomerClaimsByCustomerId(customerId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetCustomerClaimsByCustomerId(customerId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public ICustomerQuery WithContracts(long customerId, long contractId)
+        public IList<ContractView> GetContracts(long customerId, long contractId)
         {
             try
             {
-                listContractViews = base.unitOfWork.customerRepository.GetContractsByCustomerId(customerId, contractId);
-                return this as ICustomerQuery;
+                return base.unitOfWork.customerRepository.GetContractsByCustomerId(customerId, contractId);
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

@@ -14,7 +14,6 @@ namespace ERP_Core2.AddressBookDomain
 {
     public class UnitTestAddressBook
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
         public UnitTestAddressBook(ITestOutputHelper output)
@@ -23,42 +22,44 @@ namespace ERP_Core2.AddressBookDomain
 
         }
         [Fact]
-        public async Task TestGetBuyerByBuyerId()
+        public void TestGetBuyerByBuyerId()
         {
             int buyerId = 1;
 
             AddressBookModule abMod = new AddressBookModule();
 
-            BuyerView buyerView = await abMod.GetBuyerByBuyerId(buyerId);
+            BuyerView buyerView = abMod.AddressBook.Query().GetBuyerByBuyerId(buyerId);
+   
             Assert.Equal("Regional Purchasing Clerk",buyerView.BuyerTitle);
         }
         [Fact]
-        public async Task TestGetCarrierByCarrierId()
+        public void TestGetCarrierByCarrierId()
         {
             int carrierId = 1;
 
             AddressBookModule abMod = new AddressBookModule();
-
-            CarrierView carrierView = await abMod.GetCarrierByCarrierId(carrierId);
-          
+            CarrierView carrierView = abMod.AddressBook.Query().GetCarrierByCarrierId(carrierId);
+              
             Assert.Equal("United Parcel Service",carrierView.CarrierName.ToString());
         }
 
         [Fact]
-        public async Task   TestGetSupplierBySupplierId()
+        public void  TestGetSupplierBySupplierId()
         {
             int supplierId = 1;
             AddressBookModule abMod = new AddressBookModule();
-            SupplierView supplierView = await abMod.GetSupplierBySupplierId(supplierId);
+            SupplierView supplierView = abMod.AddressBook.Query().GetSupplierBySupplierId(supplierId);
+
            Assert.True(supplierView.SupplierId != null);
 
         }
         [Fact]
-        public async Task TestGetEmployeeByEmployeeId()
+        public void TestGetEmployeeByEmployeeId()
         {
             int employeeId = 3;
             AddressBookModule abMod = new AddressBookModule();
-            EmployeeView employeeView =await abMod.GetEmployeeByEmployeeId(employeeId);
+            EmployeeView employeeView = abMod.AddressBook.Query().GetEmployeeByEmployeeId(employeeId);
+
             Assert.True(employeeView.EmployeeId != null);
         }
         [Fact]
@@ -68,18 +69,18 @@ namespace ERP_Core2.AddressBookDomain
             int supervisorId = 1;
             AddressBookModule abMod = new AddressBookModule();
 
-            List<EmployeeView> list =  abMod.GetEmployeesBySupervisorId(supervisorId);
+            List<EmployeeView> list = abMod.AddressBook.Query().GetEmployeesBySupervisorId(supervisorId);
 
          
             Assert.True(list.Count>0);
             
         }
         [Fact]
-        public async Task TestGetSupervisorBySupervisorId()
+        public void TestGetSupervisorBySupervisorId()
         {
             int supervisorId = 1;
             AddressBookModule abMod = new AddressBookModule();
-            SupervisorView view = await abMod.GetSupervisorBySupervisorId(supervisorId);
+            SupervisorView view = abMod.AddressBook.Query().GetSupervisorBySupervisorId(supervisorId);
 
             Assert.Equal(view.ParentSupervisorName.ToUpper().ToString() , "PAM NISHIMOTO".ToString());
         }
@@ -88,10 +89,8 @@ namespace ERP_Core2.AddressBookDomain
         {
             long addressId = 1;
             AddressBookModule abMod = new AddressBookModule();
-
-            List<Phone> list =  abMod.GetPhonesByAddressId(addressId);
-
-
+            List<Phone> list = abMod.AddressBook.Query().GetPhonesByAddressId(addressId);
+  
             List<string> intCollection = new List<string>();
             foreach (var item in list)
             {
@@ -108,9 +107,8 @@ namespace ERP_Core2.AddressBookDomain
         {
             long addressId = 1;
             AddressBookModule abMod = new AddressBookModule();
-
-            List<Email> list =  abMod.GetEmailsByAddressId(addressId);
-
+            List<Email> list = abMod.AddressBook.Query().GetEmailsByAddressId(addressId);
+      
             List<string> intCollection = new List<string>();
             foreach (var item in list)
             {
@@ -189,11 +187,10 @@ namespace ERP_Core2.AddressBookDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             AddressBookModule abMod = new AddressBookModule();
-
-            Task<List<AddressBook>> resultTask = Task.Run<List<AddressBook>>(async () => await abMod.GetAddressBookByName("David"));
-
+            List<AddressBook> addressBooks=abMod.AddressBook.Query().GetAddressBookByName("David");
+     
             IList<string> list = new List<string>();
-            foreach (var item in resultTask.Result)
+            foreach (var item in addressBooks)
             {
                 output.WriteLine($"{item.Name}");
                 list.Add(item.Name.ToUpper());
@@ -211,41 +208,34 @@ namespace ERP_Core2.AddressBookDomain
             Assert.Equal("David",resultTask.Result.FirstName);
         }
         [Fact]
-        public async Task TestUpdateAddressBook()
+        public void TestUpdateAddressBook()
         {
             long addressId = 1;
 
             AddressBookModule abMod = new AddressBookModule();
-
-            AddressBook addressBook = await abMod.GetAddressBookByAddressId(addressId);
-            //UnitOfWork unitOfWork = new UnitOfWork();
-            //Task<AddressBook> resultTask = Task.Run<AddressBook>(async () => await unitOfWork.addressBookRepository.GetObjectAsync(1));
-
-            //AddressBook addressBook = resultTask.Result;
+            AddressBook addressBook=abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
 
             addressBook.FirstName = "David2";
-            bool results =  abMod.UpdateAddressBook(addressBook);
+            abMod.AddressBook.UpdateAddressBook(addressBook).Apply();
 
-           
+
             //unitOfWork.addressBookRepository.UpdateObject(addressBook);
             //unitOfWork.CommitChanges();
-
-            AddressBook addressBook2 = await abMod.GetAddressBookByAddressId(addressId);
-
+            AddressBook addressBook2=abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
+    
             string name = addressBook2.FirstName;
 
             Assert.Equal("David2",name );
 
             //addressBook = resultTask.Result;
             addressBook2.FirstName = "David";
-            results =  abMod.UpdateAddressBook(addressBook);
+            abMod.AddressBook.UpdateAddressBook(addressBook).Apply();
             //unitOfWork.addressBookRepository.UpdateObject(addressBook2);
             //unitOfWork.CommitChanges();
 
-            AddressBook addressBook3 = await abMod.GetAddressBookByAddressId(addressId);
+            AddressBook addressBook3 = abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
 
-
-            name = addressBook3.FirstName;
+           name = addressBook3.FirstName;
 
             Assert.Equal("David",name);
         }
@@ -260,21 +250,23 @@ namespace ERP_Core2.AddressBookDomain
     
 
             AddressBookModule abMod = new AddressBookModule();
-            bool result =  abMod.CreateAddressBook(addressBook);
-
-            IQueryable<AddressBook> query =  abMod.GetAddressBooksByExpression(a => a.Name == "James Dean");
-            //IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsQueryable();
+            abMod.AddressBook.CreateAddressBook(addressBook).Apply();
+            IQueryable<AddressBook> query =abMod.AddressBook.Query().GetAddressBooksByExpression(a => a.Name == "James Dean");
+            //IQueryable<AddressBook> query = abMod.AddressBook.queryAddressBook;
+            //IQueryable<AddressBook> query = unitOfWork.addressBookRepository.GetObjectsQueryable(a => a.Name == "James Dean");
 
             foreach (var item in query)
             {
                 Assert.Equal("James Dean",item.Name );
 
                 //unitOfWork.addressBookRepository.DeleteObject(item);
-                result = abMod.DeleteAddressBook(item);
+                abMod.AddressBook.DeleteAddressBook(item);
             }
+            abMod.AddressBook.Apply(); //Avoid the thread problem
+
             //unitOfWork.CommitChanges();
 
-            Assert.True(result);
+            Assert.True(true);
            
 
         }
@@ -292,10 +284,13 @@ namespace ERP_Core2.AddressBookDomain
                 list.Add(addressBook);
 
             }
-            bool result = abMod.CreateAddressBooks(list);
-  
+            abMod.AddressBook.CreateAddressBooks(list).Apply();
 
-            IQueryable<AddressBook> query =  abMod.GetAddressBooksByExpression(a => a.Name.Contains("Test"));
+             list[0].CompanyName = "test";
+       
+            abMod.AddressBook.UpdateAddressBook(list[0]).Apply();
+
+            IQueryable<AddressBook> query=abMod.AddressBook.Query().GetAddressBooksByExpression(a => a.Name.Contains("Test"));
 
             list.Clear();
 
@@ -304,10 +299,10 @@ namespace ERP_Core2.AddressBookDomain
                 list.Add(item);
             }
 
-            result = abMod.DeleteAddressBooks(list);
+            abMod.AddressBook.DeleteAddressBooks(list).Apply();
 
 
-            Assert.True(result);
+            Assert.True(true);
 
         }
     }

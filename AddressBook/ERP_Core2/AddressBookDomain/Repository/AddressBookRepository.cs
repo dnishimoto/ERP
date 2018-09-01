@@ -57,7 +57,6 @@ namespace MillenniumERP.AddressBookDomain
 
         public async Task<CreateProcessStatus> CreateAddressBook(CustomerView customerView)
         {
-            long addressId = 0;
             try
             {
                 AddressBook lookupAddressBook = await base.GetAddressBookByCustomerView(customerView);

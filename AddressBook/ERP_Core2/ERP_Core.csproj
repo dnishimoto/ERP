@@ -162,6 +162,8 @@
     <Compile Include="EntityFramework\TimeAndAttendanceShift.cs" />
     <Compile Include="EntityFramework\UDC.cs" />
     <Compile Include="FluentAPI\FluentAccountsReceivable.cs" />
+    <Compile Include="FluentAPI\FluentAddressBook.cs" />
+    <Compile Include="FluentAPI\FluentAddressBookQuery.cs" />
     <Compile Include="FluentAPI\FluentCashPayment.cs" />
     <Compile Include="FluentAPI\FluentCustomer.cs" />
     <Compile Include="FluentAPI\FluentCustomerLedger.cs" />
@@ -172,11 +174,14 @@
     <Compile Include="FluentAPI\FluentPackingSlip.cs" />
     <Compile Include="FluentAPI\FluentPurchaseOrder.cs" />
     <Compile Include="FluentAPI\FluentQuery.cs" />
+    <Compile Include="FluentAPI\FluentSupplier.cs" />
     <Compile Include="FluentAPI\FluentSupplierLedger.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\SupplierLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
     <Compile Include="Interfaces\IAccountsReceivable.cs" />
+    <Compile Include="Interfaces\IAddressBook.cs" />
+    <Compile Include="Interfaces\IAddressBookQuery.cs" />
     <Compile Include="Interfaces\ICustomer.cs" />
     <Compile Include="Interfaces\ICustomerLedger.cs" />
     <Compile Include="Interfaces\ICustomerQuery.cs" />
@@ -186,6 +191,7 @@
     <Compile Include="Interfaces\IPackingSlip.cs" />
     <Compile Include="Interfaces\IPurchaseOrder.cs" />
     <Compile Include="Interfaces\IQuery.cs" />
+    <Compile Include="Interfaces\ISupplier.cs" />
     <Compile Include="Interfaces\ISupplierLedger.cs" />
     <Compile Include="InventoryDomain\Repository\InventoryRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
