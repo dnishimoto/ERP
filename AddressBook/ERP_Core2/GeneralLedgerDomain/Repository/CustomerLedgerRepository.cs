@@ -155,7 +155,7 @@ namespace MillenniumERP.CustomerLedgerDomain
         }
       
 
-        public async Task<bool> UpdateCustomerLedger(CustomerLedger CustomerLedger)
+        public async Task<CreateProcessStatus> UpdateCustomerLedger(CustomerLedger CustomerLedger)
         {
             try
             {
@@ -166,7 +166,7 @@ namespace MillenniumERP.CustomerLedgerDomain
 
 
                 UpdateObject(CustomerLedgerBase);
-                return true;
+                return CreateProcessStatus.Updated;
             }
             catch (Exception ex)
             {
@@ -174,12 +174,12 @@ namespace MillenniumERP.CustomerLedgerDomain
             }
 
         }
-        public bool DeleteCustomerLedger(CustomerLedger CustomerLedger)
+        public CreateProcessStatus DeleteCustomerLedger(CustomerLedger CustomerLedger)
         {
             try
             {
                 DeleteObject(CustomerLedger);
-                return true;
+                return CreateProcessStatus.Deleted;
             }
             catch (Exception ex)
             {

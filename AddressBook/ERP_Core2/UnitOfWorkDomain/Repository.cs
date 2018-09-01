@@ -185,9 +185,7 @@ namespace MillenniumERP.Services
        
         public void DeleteObject(T dataObject)
         {
-
-                _dbContext.Set<T>().Remove(dataObject);
-
+              _dbContext.Set<T>().Remove(dataObject);
         }
         public void DeleteObjects(List<T> dataObjects)
         {

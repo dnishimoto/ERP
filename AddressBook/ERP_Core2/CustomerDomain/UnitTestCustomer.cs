@@ -126,13 +126,11 @@ namespace ERP_Core2.CustomerDomain
         {
             long customerId = 9;
             CustomerModule custMod = new CustomerModule();
-            custMod
+            IList<CustomerLedgerView> list = custMod
             .Customer
             .Query()
-            .WithCustomerLedgers(customerId);
-
-
-            IList<CustomerLedgerView> list = custMod.CustomerLedgerViews;
+            .GetCustomerLedgers(customerId);
+   
             foreach (var item in list)
             {
                 listCheck.Add(item.DocNumber.ToString());
@@ -184,7 +182,7 @@ namespace ERP_Core2.CustomerDomain
 
         }
         [Fact]
-        public async Task TestCreateCustomerAccount()
+        public void TestCreateCustomerAccount()
         {
             try
             {
@@ -244,13 +242,11 @@ namespace ERP_Core2.CustomerDomain
 
             //IList<AccountReceiveableView> list =  custMod.GetAccountReceivablesByCustomerId(customerId);
 
-            custMod
+            IList<AccountReceiveableView> list=custMod
                .Customer
                .Query()
-                   .WithAccountReceivables(customerId);
-
-            IList<AccountReceiveableView> list = custMod.AccountReceivableViews;
-
+                   .GetAccountReceivables(customerId);
+         
 
             List<string> collection = new List<string>();
             foreach (AccountReceiveableView accountReceiveableView in list)
@@ -317,14 +313,11 @@ namespace ERP_Core2.CustomerDomain
             int customerId = 2;
 
             CustomerModule custMod = new CustomerModule();
-            custMod
+            IList<CustomerClaimView> list = custMod
               .Customer
               .Query()
-                  .WithCustomerClaims(customerId);
-
-
-
-            IList<CustomerClaimView> list = custMod.CustomerClaimViews;
+                  .GetCustomerClaims(customerId);
+   
 
             List<string> collection = new List<string>();
             foreach (CustomerClaimView customerClaimView in list)
@@ -346,12 +339,10 @@ namespace ERP_Core2.CustomerDomain
 
             CustomerModule custMod = new CustomerModule();
 
-            custMod
+            IList<ContractView> list = custMod
                 .Customer
                 .Query()
-                .WithContracts(customerId, contractId ?? 0);
-
-            IList<ContractView> list = custMod.ContractViews;
+                .GetContracts(customerId, contractId ?? 0);
 
             List<string> collection = new List<string>();
             foreach (var item in list)
@@ -371,15 +362,12 @@ namespace ERP_Core2.CustomerDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            custMod
+            IList<EmailView> list = custMod
                 .Customer
                 .Query()
-                .WithEmails(customerId);
+                .GetEmails(customerId);
         
-            IList<EmailView> list = custMod.EmailViews;
-
-
-            List<string> collection = new List<string>();
+             List<string> collection = new List<string>();
 
             foreach (var item in list)
             {
@@ -396,11 +384,10 @@ namespace ERP_Core2.CustomerDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod= new CustomerModule();
-            custMod
+            IList<PhoneView> list = custMod
               .Customer
               .Query()
-              .WithPhones(customerId);
-            IList<PhoneView> list = custMod.PhoneViews;
+              .GetPhones(customerId);
 
             List<string> collection = new List<string>();
 
@@ -420,14 +407,12 @@ namespace ERP_Core2.CustomerDomain
 
             // UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            custMod
+            IList<LocationAddressView> list = custMod
               .Customer
               .Query()
-              .WithLocationAddress(customerId);
+              .GetLocationAddress(customerId);
 
-            IList<LocationAddressView> list = custMod.LocationAddressViews;
-
-            List<string> collection = new List<string>();
+               List<string> collection = new List<string>();
 
             foreach (var item in list)
             {
@@ -446,12 +431,11 @@ namespace ERP_Core2.CustomerDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            custMod
+            IList<ScheduleEventView> list = custMod
               .Customer
               .Query()
-              .WithScheduleEvent(customerId,serviceId??0);
+              .GetScheduleEvent(customerId,serviceId??0);
 
-            IList<ScheduleEventView> list = custMod.ScheduleEventViews;
             List<string> collection = new List<string>();
             foreach (var item in list)
             {
@@ -472,13 +456,12 @@ namespace ERP_Core2.CustomerDomain
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
 
-           
-            custMod
+
+            IList<InvoiceView> list = custMod
               .Customer
               .Query()
-              .WithInvoices(customerId, invoiceId);
+              .GetInvoices(customerId, invoiceId);
 
-            IList<InvoiceView> list = custMod.InvoiceViews;
 
             List<string> collection = new List<string>();
             foreach (var item in list)

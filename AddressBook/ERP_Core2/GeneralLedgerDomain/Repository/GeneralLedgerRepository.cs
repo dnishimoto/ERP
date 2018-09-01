@@ -132,7 +132,7 @@ namespace MillenniumERP.GeneralLedgerDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<bool> CreateLedgerFromReceiveable(AccountReceiveableView accountReceivableView)
+        public async Task<CreateProcessStatus> CreateLedgerFromReceiveable(AccountReceiveableView accountReceivableView)
         {
             try
             {
@@ -161,10 +161,10 @@ namespace MillenniumERP.GeneralLedgerDomain
                     ledger.DebitAmount = 0.0M;
                     ledger.CreditAmount= accountReceivableView.Amount ?? 0;
                     AddObject(ledger);
-                    return true;
+                    return CreateProcessStatus.Inserted;
             
                 }
-                return false;
+                return CreateProcessStatus.Failed;
             }
             catch (Exception ex)
             {
@@ -173,7 +173,7 @@ namespace MillenniumERP.GeneralLedgerDomain
 
         }
 
-        public async Task<bool> UpdateGeneralLedger(GeneralLedger generalLedger)
+        public async Task<CreateProcessStatus> UpdateGeneralLedger(GeneralLedger generalLedger)
         {
             try
             {
@@ -184,7 +184,7 @@ namespace MillenniumERP.GeneralLedgerDomain
 
 
                 UpdateObject(generalLedgerBase);
-                return true;
+                return CreateProcessStatus.Updated;
             }
             catch (Exception ex)
             {
@@ -192,12 +192,12 @@ namespace MillenniumERP.GeneralLedgerDomain
             }
 
         }
-        public bool DeleteGeneralLedger(GeneralLedger generalLedger)
+        public CreateProcessStatus DeleteGeneralLedger(GeneralLedger generalLedger)
         {
             try
             {
                 DeleteObject(generalLedger);
-                return true;
+                return CreateProcessStatus.Deleted;
             }
             catch (Exception ex)
             {

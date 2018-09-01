@@ -82,17 +82,19 @@ namespace ERP_Core2.AccountPayableDomain
                .Supplier
                  .CreateSupplierLedger(ledgerView)
                  .Apply();
-            /*
+          
             acctPayablesMod
               .Supplier
                   .UpdateAccountsPayable(ledgerView)
                          .Apply();
+        
+          acctPayablesMod
+              .Supplier
+                  .GeneralLedger
+                      .UpdateAccountBalances(ledgerView);
 
-            acctPayablesMod
-                .Supplier
-                    .GeneralLedger
-                        .UpdateAccountBalances(ledgerView);
-                        */
+            Assert.True(true);
+               
         }
         [Fact]
         public async Task TestReceiveSupplierInvoice()

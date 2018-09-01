@@ -142,7 +142,8 @@ namespace MillenniumERP.AccountsPayableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<bool> UpdatePayableByCashLedger(GeneralLedgerView ledgerView)
+
+        public async Task<CreateProcessStatus> UpdatePayableByLedgerView(GeneralLedgerView ledgerView)
         {
 
             try
@@ -181,9 +182,9 @@ namespace MillenniumERP.AccountsPayableDomain
 
                     }
                     UpdateObject(acctPay);
-                    return true;
+                    return CreateProcessStatus.Updated;
                 }
-                return false;
+                return CreateProcessStatus.Failed;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
@@ -207,7 +208,7 @@ namespace MillenniumERP.AccountsPayableDomain
             { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public async Task<bool> UpdateAcct(AcctPay acctPay)
+        public async Task<CreateProcessStatus> UpdateAcct(AcctPay acctPay)
         {
             try
             {
@@ -215,10 +216,8 @@ namespace MillenniumERP.AccountsPayableDomain
 
                 AcctPay acctRecBase = query;
 
-
-
                 UpdateObject(acctRecBase);
-                return true;
+                return CreateProcessStatus.Updated;
             }
             catch (Exception ex)
             {
@@ -226,12 +225,12 @@ namespace MillenniumERP.AccountsPayableDomain
             }
 
         }
-        public bool DeleteAcctRec(AcctPay acctPay)
+        public CreateProcessStatus DeleteAcctRec(AcctPay acctPay)
         {
             try
             {
                 DeleteObject(acctPay);
-                return true;
+                return CreateProcessStatus.Deleted;
             }
             catch (Exception ex)
             {

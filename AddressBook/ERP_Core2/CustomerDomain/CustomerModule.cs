@@ -24,14 +24,5 @@ namespace ERP_Core2.CustomerDomain
 
         public FluentCustomer Customer = new FluentCustomer();
 
-        public IList<AccountReceiveableView> AccountReceivableViews { get { return Customer._query.listAccountsReceivableViews; } }
-        public IList<CustomerLedgerView> CustomerLedgerViews { get { return Customer._query.listCustomerLedgerViews; } }
-        public IList<EmailView> EmailViews { get { return Customer._query.listEmailViews; } }
-        public IList<PhoneView> PhoneViews { get { return Customer._query.listPhoneViews; } }
-        public IList<InvoiceView> InvoiceViews { get { return Customer._query.listInvoiceViews; } }
-        public IList<ScheduleEventView> ScheduleEventViews { get { return Customer._query.listScheduleEventViews; } }
-        public IList<LocationAddressView> LocationAddressViews { get { return Customer._query.listLocationAddressViews; } }
-        public IList<CustomerClaimView> CustomerClaimViews { get { return Customer._query.listCustomerClaimViews; } }
-        public IList<ContractView> ContractViews { get { return Customer._query.listContractViews; } }
-    }
+      }
 }

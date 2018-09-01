@@ -199,7 +199,7 @@ namespace MillenniumERP.AccountsReceivableDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<bool> UpdateAcct(AcctRec acctRec)
+        public async Task<CreateProcessStatus> UpdateAcct(AcctRec acctRec)
         {
             try
             {
@@ -210,20 +210,20 @@ namespace MillenniumERP.AccountsReceivableDomain
                 
                 
                 UpdateObject(acctRecBase);
-                return true;
+                return CreateProcessStatus.Updated;
             }
             catch (Exception ex)
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-   
+            
             }
-        public bool DeleteAcctRec(AcctRec acctRec)
+        public CreateProcessStatus DeleteAcctRec(AcctRec acctRec)
         {
             try
             {
                 DeleteObject(acctRec);
-                return true;
+                return CreateProcessStatus.Deleted;
             }
             catch (Exception ex)
             {

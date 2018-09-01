@@ -60,15 +60,12 @@ namespace ERP_Core2.FluentAPI
                 Task.WaitAll(acctRecViewTask);
                 if (acctRecViewTask.Result != null)
                 {
-
-                    Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.CreateLedgerFromReceiveable(acctRecViewTask.Result));
+                    Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.CreateLedgerFromReceiveable(acctRecViewTask.Result));
                     Task.WaitAll(resultTask);
-                    if (resultTask.Result == true)
-                    {
-                        processStatus = CreateProcessStatus.Inserted;
-                        return this as IGeneralLedger;
-                    }
-
+                   
+                    processStatus = resultTask.Result;
+                    return this as IGeneralLedger;
+  
                 }
                 processStatus = CreateProcessStatus.AlreadyExists;
                 return this as IGeneralLedger;
