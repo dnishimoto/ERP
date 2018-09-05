@@ -123,7 +123,7 @@ namespace MillenniumERP.AccountsPayableDomain
                     acctPay.OrderNumber = poView.PONumber;
                     acctPay.AmountPaid = 0;
                     AddObject(acctPay);
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
                 return CreateProcessStatus.AlreadyExists;
             }
@@ -182,7 +182,7 @@ namespace MillenniumERP.AccountsPayableDomain
 
                     }
                     UpdateObject(acctPay);
-                    return CreateProcessStatus.Updated;
+                    return CreateProcessStatus.Update;
                 }
                 return CreateProcessStatus.Failed;
             }
@@ -217,7 +217,7 @@ namespace MillenniumERP.AccountsPayableDomain
                 AcctPay acctRecBase = query;
 
                 UpdateObject(acctRecBase);
-                return CreateProcessStatus.Updated;
+                return CreateProcessStatus.Update;
             }
             catch (Exception ex)
             {
@@ -230,7 +230,7 @@ namespace MillenniumERP.AccountsPayableDomain
             try
             {
                 DeleteObject(acctPay);
-                return CreateProcessStatus.Deleted;
+                return CreateProcessStatus.Delete;
             }
             catch (Exception ex)
             {

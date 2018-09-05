@@ -67,7 +67,7 @@ namespace MillenniumERP.AddressBookDomain
 
                     applicationViewFactory.MapAddressBookEntity(ref addressBook, customerView);
                     AddObject(addressBook);
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
 
                 return CreateProcessStatus.AlreadyExists;

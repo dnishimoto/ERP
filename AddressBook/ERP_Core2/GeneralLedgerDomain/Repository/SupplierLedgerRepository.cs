@@ -113,7 +113,7 @@ namespace MillenniumERP.CustomerLedgerDomain
 
                     AddObject(supplierLedger);
 
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
 
 
                 }
@@ -170,7 +170,7 @@ namespace MillenniumERP.CustomerLedgerDomain
                 {
                     applicationViewFactory.MapSupplierLedgerEntity(ref supplierLedgerBase, supplierLedgerView);
                     UpdateObject(supplierLedgerBase);
-                    return CreateProcessStatus.Updated;
+                    return CreateProcessStatus.Update;
                 }
                 return CreateProcessStatus.Failed;
             }

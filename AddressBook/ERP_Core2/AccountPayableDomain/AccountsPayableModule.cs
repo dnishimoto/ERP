@@ -20,11 +20,11 @@ namespace ERP_Core2.AccountPayableDomain
 {
     public enum CreateProcessStatus
     {
-        Inserted,
-        Created,
+        Insert,
+        Create,
         AlreadyExists,
-        Updated,
-        Deleted,
+        Update,
+        Delete,
         Failed
     }
 

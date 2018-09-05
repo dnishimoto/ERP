@@ -122,7 +122,7 @@ namespace MillenniumERP.AccountsReceivableDomain
 
                     }
                     UpdateObject(acctRec);
-                    return CreateProcessStatus.Updated;
+                    return CreateProcessStatus.Update;
                 }
                 return CreateProcessStatus.Failed;
             }
@@ -190,7 +190,7 @@ namespace MillenniumERP.AccountsReceivableDomain
                         acctRec.CreditAmount = invoice.Amount;
 
                         AddObject(acctRec);
-                        return CreateProcessStatus.Inserted;
+                        return CreateProcessStatus.Insert;
                     }
 
                 }
@@ -210,7 +210,7 @@ namespace MillenniumERP.AccountsReceivableDomain
                 
                 
                 UpdateObject(acctRecBase);
-                return CreateProcessStatus.Updated;
+                return CreateProcessStatus.Update;
             }
             catch (Exception ex)
             {
@@ -223,7 +223,7 @@ namespace MillenniumERP.AccountsReceivableDomain
             try
             {
                 DeleteObject(acctRec);
-                return CreateProcessStatus.Deleted;
+                return CreateProcessStatus.Delete;
             }
             catch (Exception ex)
             {

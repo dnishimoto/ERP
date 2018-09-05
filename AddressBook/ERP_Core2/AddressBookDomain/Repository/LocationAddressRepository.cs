@@ -79,7 +79,7 @@ namespace MillenniumERP.AddressBookDomain
                         item.AddressId = customerView.AddressId;
                         applicationViewFactory.MapLocationAddressEntity(ref locationAddress, item);
                         AddObject(locationAddress);
-                        return CreateProcessStatus.Inserted;
+                        return CreateProcessStatus.Insert;
                     }
                 }
                 return CreateProcessStatus.AlreadyExists;

@@ -68,7 +68,7 @@ namespace MillenniumERP.InventoryDomain
                    
                     }
                 }
-                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Inserted; }
+                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Insert; }
 
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }

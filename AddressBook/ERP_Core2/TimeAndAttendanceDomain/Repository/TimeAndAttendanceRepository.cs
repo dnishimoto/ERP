@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
+using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.ScheduleEventsDomain
 {
@@ -96,22 +97,22 @@ namespace MillenniumERP.ScheduleEventsDomain
             }
            
         }
-        public bool DeletePunchin(TimeAndAttendancePunchIn taPunchin)
+        public CreateProcessStatus DeletePunchin(TimeAndAttendancePunchIn taPunchin)
         {
             try { 
             DeleteObject(taPunchin);
-            return true;
+            return CreateProcessStatus.Delete;
             }
              catch (Exception ex)
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<long> AddPunchin(TimeAndAttendancePunchIn taPunchin)
+        public async Task<CreateProcessStatus> AddPunchin(TimeAndAttendancePunchIn taPunchin)
         {
             try
             {
-                long timePunchinId = 0;
+                //long timePunchinId = 0;
                 long? employeeId = taPunchin.EmployeeId;
                 string punchinDateTime = taPunchin.PunchinDateTime;
 
@@ -122,23 +123,20 @@ namespace MillenniumERP.ScheduleEventsDomain
                 if (query == null)
                 {
                     AddObject(taPunchin);
-                    _dbContext.SaveChanges();
-                    timePunchinId = taPunchin.TimePunchinId;
-                }
-                else
-                {
-                    timePunchinId = query.TimePunchinId;
+                    return CreateProcessStatus.Insert;
+                    //_dbContext.SaveChanges();
+                    //timePunchinId = taPunchin.TimePunchinId;
                 }
 
 
-                return timePunchinId;
+                return CreateProcessStatus.AlreadyExists;
             }
             catch (Exception ex)
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<bool> UpdateByTimePunchinId(long timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
+        public async Task<CreateProcessStatus> UpdateByTimePunchinId(long timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
         {
             try
             {
@@ -155,7 +153,7 @@ namespace MillenniumERP.ScheduleEventsDomain
                 taPunchin.PunchoutDate = punchoutDate;
 
                 UpdateObject(taPunchin);
-                return true;
+                return CreateProcessStatus.Update;
             }
             catch (Exception ex)
             {

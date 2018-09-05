@@ -110,7 +110,7 @@ namespace MillenniumERP.CustomerLedgerDomain
 
                     AddObject(customerLedger);
 
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
 
               
                 }
@@ -166,7 +166,7 @@ namespace MillenniumERP.CustomerLedgerDomain
 
 
                 UpdateObject(CustomerLedgerBase);
-                return CreateProcessStatus.Updated;
+                return CreateProcessStatus.Update;
             }
             catch (Exception ex)
             {
@@ -179,7 +179,7 @@ namespace MillenniumERP.CustomerLedgerDomain
             try
             {
                 DeleteObject(CustomerLedger);
-                return CreateProcessStatus.Deleted;
+                return CreateProcessStatus.Delete;
             }
             catch (Exception ex)
             {

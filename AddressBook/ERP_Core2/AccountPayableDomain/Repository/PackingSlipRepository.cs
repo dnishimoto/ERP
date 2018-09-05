@@ -126,7 +126,7 @@ namespace MillenniumERP.PackingSlipDomain
 
                         }
                     }
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
                 return CreateProcessStatus.AlreadyExists;
 
@@ -158,7 +158,7 @@ namespace MillenniumERP.PackingSlipDomain
                 base.AddObject(packingSlip);
 
            
-                return CreateProcessStatus.Inserted;
+                return CreateProcessStatus.Insert;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

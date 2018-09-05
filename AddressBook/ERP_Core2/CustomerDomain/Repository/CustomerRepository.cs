@@ -189,7 +189,7 @@ namespace MillenniumERP.CustomerDomain
                     Customer customer = new Customer();
                     applicationViewFactory.MapCustomerEntity(ref customer, customerView);
                     AddObject(customer);
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
                 return CreateProcessStatus.AlreadyExists;
                 
