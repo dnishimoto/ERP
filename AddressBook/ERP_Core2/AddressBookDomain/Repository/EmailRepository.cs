@@ -52,7 +52,7 @@ namespace MillenniumERP.AddressBookDomain
                     Email email = new Email();
                     applicationViewFactory.MapEmailEntity(ref email, emailView);
                     AddObject(email);
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
                 return CreateProcessStatus.AlreadyExists;
             }

@@ -135,7 +135,7 @@ namespace MillenniumERP.SupplierInvoicesDomain
 
                 base.AddObject(supplierInvoice);
 
-                return CreateProcessStatus.Inserted;
+                return CreateProcessStatus.Insert;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
@@ -170,7 +170,7 @@ namespace MillenniumERP.SupplierInvoicesDomain
               
                     }
                 }
-                return CreateProcessStatus.Inserted;
+                return CreateProcessStatus.Insert;
             }
             return CreateProcessStatus.Failed;
         }

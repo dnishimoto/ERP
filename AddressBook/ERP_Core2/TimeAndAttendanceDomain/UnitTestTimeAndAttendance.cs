@@ -23,9 +23,11 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         }
 
         [Fact]
-        public async Task TestAddTAPunchin()
+        public void TestAddTAPunchin()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
+
+
+            //UnitOfWork unitOfWork = new UnitOfWork();
             DateTime punchinDate = DateTime.Parse("6/24/2018 08:01:02");
             int employeeId = 3;
             int jobCodeXrefId = 31;
@@ -38,7 +40,12 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             TimeAndAttendancePunchIn taPunchin = new TimeAndAttendancePunchIn();
             taPunchin.PunchinDate = punchinDate;
 
-            string punchinDateTime = unitOfWork.TARepository.GetPunchDateTime(taPunchin.PunchinDate);
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+
+
+            string punchinDateTime = taMod.FormatPunchDateTime(taPunchin.PunchinDate);
             taPunchin.PunchinDateTime = punchinDateTime;
 
             taPunchin.EmployeeId = employeeId;
@@ -49,34 +56,36 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             taPunchin.PayCodeXrefId = payCodeXrefId;
             taPunchin.ScheduleId = scheduleId;
 
-            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            long timePunchinId = await taMod.AddPunchIn(taPunchin);
+            taMod.AddPunchIn(taPunchin).Apply();
 
-            TimeAndAttendancePunchIn taPunchinLookUp= await taMod.GetPunchInById(timePunchinId);
+            //TODO Get the new created punchin
+            TimeAndAttendancePunchIn taPunchinLookUp = taMod.Query().GetPunchInByExpression(e => e.PunchinDateTime == punchinDateTime && e.EmployeeId == employeeId);
 
-            bool result = taMod.DeletePunchIn(taPunchinLookUp);
+            //TimeAndAttendancePunchIn taPunchinLookUp=  taMod.Query().GetPunchInById(timePunchinId);
+
+            taMod.DeletePunchIn(taPunchinLookUp).Apply();
  
-            Assert.True(result);
+            Assert.True(true);
 
         }
         [Fact]
-        public async Task TestUpdateTAPunchin()
+        public void TestUpdateTAPunchin()
         {
             long timePunchinId = 3;
             //UnitOfWork unitOfWork = new UnitOfWork();
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            TimeAndAttendancePunchIn taPunchinLookUp = await taMod.GetPunchInById(timePunchinId);
+            TimeAndAttendancePunchIn taPunchinLookUp = taMod.Query().GetPunchInById(timePunchinId);
 
             taPunchinLookUp.DurationInMinutes = 480;
             taPunchinLookUp.MealDurationInMinutes = 30;
 
-            bool result = taMod.UpdatePunchIn(taPunchinLookUp);
+             taMod.UpdatePunchIn(taPunchinLookUp).Apply();
        
 
-            Assert.True(result);
+            Assert.True(true);
 
         }
         [Fact]
@@ -85,7 +94,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
             int employeeId = 3;
 
-            IList<TimeAndAttendancePunchInView> queryList = taMod.GetTAPunchinByEmployeeId(employeeId);
+            IList<TimeAndAttendancePunchInView> queryList = taMod.Query().GetTAPunchinByEmployeeId(employeeId);
 
             IList<TimeAndAttendancePunchInView> list = new List<TimeAndAttendancePunchInView>();
             foreach (var item in queryList)

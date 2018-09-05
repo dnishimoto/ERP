@@ -32,7 +32,7 @@ namespace ERP_Core2.FluentAPI
         }
         public IAddressBook Apply()
         {
-            if (processStatus == CreateProcessStatus.Inserted || processStatus == CreateProcessStatus.Updated || processStatus == CreateProcessStatus.Deleted)
+            if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
             { unitOfWork.CommitChanges(); }
             return this as IAddressBook;
         }
@@ -42,7 +42,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 unitOfWork.addressBookRepository.UpdateObject(addressBook);
-                processStatus = CreateProcessStatus.Updated;
+                processStatus = CreateProcessStatus.Update;
                 return this as IAddressBook;
             }
             catch (Exception ex)
@@ -56,7 +56,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 unitOfWork.addressBookRepository.AddObject(addressBook);
-                processStatus = CreateProcessStatus.Inserted;
+                processStatus = CreateProcessStatus.Insert;
                 return this as IAddressBook;
             }
             catch (Exception ex)
@@ -73,7 +73,7 @@ namespace ERP_Core2.FluentAPI
                 //Task.WaitAll(lookupTask);
 
                 unitOfWork.addressBookRepository.DeleteObject(addressBook);
-                processStatus = CreateProcessStatus.Deleted;
+                processStatus = CreateProcessStatus.Delete;
                 return this as IAddressBook;
             }
             catch (Exception ex)
@@ -86,7 +86,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 unitOfWork.addressBookRepository.AddObjects(list);
-                processStatus = CreateProcessStatus.Updated;
+                processStatus = CreateProcessStatus.Update;
                 return this as IAddressBook;
             }
             catch (Exception ex)
@@ -99,7 +99,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 unitOfWork.addressBookRepository.DeleteObjects(list);
-                processStatus = CreateProcessStatus.Deleted;
+                processStatus = CreateProcessStatus.Delete;
                 return this as IAddressBook;
             }
             catch (Exception ex)

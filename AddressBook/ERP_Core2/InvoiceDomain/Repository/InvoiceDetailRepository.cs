@@ -88,7 +88,7 @@ namespace MillenniumERP.InvoiceDetailsDomain
                     bool result = await AddInvoiceDetail(invoiceDetail);
                     if (result == true) { count++; }
                 }
-                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Inserted; }
+                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Insert; }
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }

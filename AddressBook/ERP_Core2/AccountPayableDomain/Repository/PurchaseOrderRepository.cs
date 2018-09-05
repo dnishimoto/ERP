@@ -179,7 +179,7 @@ namespace MillenniumERP.PurchaseOrderDomain
 
                 base.AddObject(po);
 
-                return CreateProcessStatus.Inserted;
+                return CreateProcessStatus.Insert;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
@@ -215,7 +215,7 @@ namespace MillenniumERP.PurchaseOrderDomain
                     }
                    
                 }
-                return CreateProcessStatus.Inserted;
+                return CreateProcessStatus.Insert;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

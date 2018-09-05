@@ -91,7 +91,7 @@ namespace MillenniumERP.GeneralLedgerDomain
 
                     AddObject(ledger);
 
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
                 return CreateProcessStatus.AlreadyExists;
             }
@@ -161,7 +161,7 @@ namespace MillenniumERP.GeneralLedgerDomain
                     ledger.DebitAmount = 0.0M;
                     ledger.CreditAmount= accountReceivableView.Amount ?? 0;
                     AddObject(ledger);
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
             
                 }
                 return CreateProcessStatus.Failed;
@@ -184,7 +184,7 @@ namespace MillenniumERP.GeneralLedgerDomain
 
 
                 UpdateObject(generalLedgerBase);
-                return CreateProcessStatus.Updated;
+                return CreateProcessStatus.Update;
             }
             catch (Exception ex)
             {
@@ -197,7 +197,7 @@ namespace MillenniumERP.GeneralLedgerDomain
             try
             {
                 DeleteObject(generalLedger);
-                return CreateProcessStatus.Deleted;
+                return CreateProcessStatus.Delete;
             }
             catch (Exception ex)
             {

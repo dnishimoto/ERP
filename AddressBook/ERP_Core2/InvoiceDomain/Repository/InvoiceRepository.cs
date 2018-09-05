@@ -99,7 +99,7 @@ namespace MillenniumERP.InvoicesDomain
                 if (query == null)
                 {
                     AddObject(invoice);
-                    return CreateProcessStatus.Inserted;
+                    return CreateProcessStatus.Insert;
                 }
                 return CreateProcessStatus.AlreadyExists;
             }

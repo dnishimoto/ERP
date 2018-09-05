@@ -17,7 +17,7 @@ namespace ERP_Core2.FluentAPI
         UnitOfWork unitOfWork = new UnitOfWork();
         public IPackingSlip Apply()
         {
-            if ((processStatus == CreateProcessStatus.Inserted) || (processStatus == CreateProcessStatus.Updated) || (processStatus == CreateProcessStatus.Deleted))
+            if ((processStatus == CreateProcessStatus.Insert) || (processStatus == CreateProcessStatus.Update) || (processStatus == CreateProcessStatus.Delete))
             {
                 unitOfWork.CommitChanges();
             }
