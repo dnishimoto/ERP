@@ -30,10 +30,13 @@ namespace ERP_Core2.EntityFramework
 
         public long? ShiftId { get; set; }
 
-        public long? ScheduleGroupXrefId { get; set; }
+        [StringLength(50)]
+        public string ScheduleGroup { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
+
+        public virtual TimeAndAttendanceShift TimeAndAttendanceShift { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }

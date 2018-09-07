@@ -1,8 +1,10 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.EntityFramework;
+using ERP_Core2.FluentAPI;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
+using MillenniumERP.TimeAndAttendanceDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,140 +14,77 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {
-    public interface IFluentTimeAndAttendanceQuery
+    public interface ITimeAndAttendanceScheduleQuery
     {
-        TimeAndAttendancePunchIn GetPunchInById(long timePunchinId);
-        IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId);
-        TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>>predicate);
+        TimeAndAttendanceSchedule GetScheduleByExpression(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate);
     }
-    public class FluentTimeAndAttendanceQuery : IFluentTimeAndAttendanceQuery
+    public class FluentTimeAndAttendanceScheduleQuery: AbstractModule, ITimeAndAttendanceScheduleQuery
     {
-        private UnitOfWork _unitOfWork;
-        public FluentTimeAndAttendanceQuery(UnitOfWork unitOfWork)
+        UnitOfWork _unitOfWork = null;
+        public FluentTimeAndAttendanceScheduleQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
+
+        public TimeAndAttendanceSchedule GetScheduleByExpression(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate)
         {
-            _unitOfWork = unitOfWork;
-        }
-        public TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)
-        {
-           var query= _unitOfWork.TARepository.GetObjectsQueryable(predicate) as IQueryable<TimeAndAttendancePunchIn>;
-            TimeAndAttendancePunchIn retItem=null;
-            foreach (var item in query)
+            try
             {
-                retItem = item;
-                break;
+                var query = _unitOfWork.timeAndAttendanceScheduleRepository.GetObjectsQueryable(predicate) as IQueryable<TimeAndAttendanceSchedule>;
+                TimeAndAttendanceSchedule retItem = null;
+                foreach (var item in query)
+                {
+                    retItem = item;
+                    break;
+                }
+                return retItem;
             }
-            return retItem;
-          
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
 
-        public TimeAndAttendancePunchIn GetPunchInById(long timePunchinId)
-        {
-
-            Task<TimeAndAttendancePunchIn> taPunchinTask = Task.Run(async() => await _unitOfWork.TARepository.GetObjectAsync(timePunchinId));
-            Task.WaitAll(taPunchinTask);
-            return taPunchinTask.Result;
-        }
-        public IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId)
-        {
-            Task<IList<TimeAndAttendancePunchInView>> resultTask = Task.Run<IList<TimeAndAttendancePunchInView>>(async () => await _unitOfWork.TARepository.GetTAPunchinByEmployeeId(employeeId));
-            return resultTask.Result;
-        }
     }
-    public interface ITimeAndAttendanceModule
+    public interface ITimeAndAttendanceSchedule
     {
-        IFluentTimeAndAttendanceQuery Query();
-        ITimeAndAttendanceModule AddPunchIn(TimeAndAttendancePunchIn taPunchin);
-        ITimeAndAttendanceModule DeletePunchIn(TimeAndAttendancePunchIn taPunchin);
-        ITimeAndAttendanceModule UpdatePunchIn(TimeAndAttendancePunchIn taPunchin);
-        ITimeAndAttendanceModule Apply();
-    }
+        ITimeAndAttendanceSchedule AddSchedule(TimeAndAttendanceScheduleView view);
+        ITimeAndAttendanceSchedule Apply();
+        ITimeAndAttendanceScheduleQuery Query();
 
-    class TimeAndAttendanceModule : AbstractModule, ITimeAndAttendanceModule
+    }
+    public class FluentTimeAndAttendanceSchedule : AbstractModule, ITimeAndAttendanceSchedule
     {
         UnitOfWork unitOfWork = new UnitOfWork();
         CreateProcessStatus processStatus;
-
-        public TimeAndAttendanceModule()
+        FluentTimeAndAttendanceScheduleQuery _query;
+        public FluentTimeAndAttendanceSchedule()
         {
 
         }
-
-        public IFluentTimeAndAttendanceQuery Query()
+        public ITimeAndAttendanceScheduleQuery Query()
         {
-            return new FluentTimeAndAttendanceQuery(unitOfWork) as IFluentTimeAndAttendanceQuery;
+            if (_query == null)
+            {
+                _query = new FluentTimeAndAttendanceScheduleQuery(unitOfWork);
+            }
+            return _query as ITimeAndAttendanceScheduleQuery;
         }
-
-        public ITimeAndAttendanceModule Apply()
+        public ITimeAndAttendanceSchedule Apply()
         {
             if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
             { unitOfWork.CommitChanges(); }
-            return this as ITimeAndAttendanceModule;
+            return this as ITimeAndAttendanceSchedule;
         }
-        public string FormatPunchDateTime(DateTime? punchinDate)
+        public ITimeAndAttendanceSchedule AddSchedule(TimeAndAttendanceScheduleView view)
         {
-            return unitOfWork.TARepository.GetPunchDateTime(punchinDate);
+            Task<CreateProcessStatus> statusTask = Task.Run(async () => await unitOfWork.timeAndAttendanceScheduleRepository.AddSchedule(view));
+            Task.WaitAll(statusTask);
+            processStatus = statusTask.Result;
+            return this as ITimeAndAttendanceSchedule;
         }
-        public ITimeAndAttendanceModule AddPunchIn(TimeAndAttendancePunchIn taPunchin)
-        {
+    }
+    public class TimeAndAttendanceModule 
+    {
+        public FluentTimeAndAttendance TimeAndAttendance = new FluentTimeAndAttendance();
+        public FluentTimeAndAttendanceSchedule TimeAndAttendanceSchedule = new FluentTimeAndAttendanceSchedule();
 
-            try
-            {
-                Task<CreateProcessStatus> statusTask = Task.Run(async()=>await unitOfWork.TARepository.AddPunchin(taPunchin));
-                Task.WaitAll(statusTask);
-
-                //unitOfWork.CommitChanges();
-                processStatus=statusTask.Result;
-                return this as ITimeAndAttendanceModule;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-        //public async Task<TimeAndAttendancePunchIn> GetPunchInById(long timePunchinId)
-        //{
-        //    try
-        //    {
-
-        //        TimeAndAttendancePunchIn taPunchin = await unitOfWork.TARepository.GetObjectAsync(timePunchinId);
-        //        return taPunchin;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(GetMyMethodName(), ex);
-        //    }
-        //}
-        //public IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId)
-        //{
-        //    Task<IList<TimeAndAttendancePunchInView>> resultTask = Task.Run<IList<TimeAndAttendancePunchInView>>(async () => await unitOfWork.TARepository.GetTAPunchinByEmployeeId(employeeId));
-        //    return resultTask.Result;
-        //}
-        public ITimeAndAttendanceModule UpdatePunchIn(TimeAndAttendancePunchIn taPunchin)
-        {
-            try
-            {
-                 unitOfWork.TARepository.UpdateObject(taPunchin);
-                processStatus=CreateProcessStatus.Update;
-                return this as ITimeAndAttendanceModule;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-        public ITimeAndAttendanceModule DeletePunchIn(TimeAndAttendancePunchIn taPunchin)
-        {
-            try
-            {
-                CreateProcessStatus statusResult = unitOfWork.TARepository.DeletePunchin(taPunchin);
-                processStatus = statusResult;
-                return this as ITimeAndAttendanceModule;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
     }
 }

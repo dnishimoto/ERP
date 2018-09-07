@@ -21,6 +21,8 @@ using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.PackingSlipDomain;
 using MillenniumERP.InventoryDomain;
 using MillenniumERP.SupplierInvoicesDomain;
+using MillenniumERP.TimeAndAttendanceDomain;
+using static MillenniumERP.TimeAndAttendanceDomain.TimeAndAttendanceScheduleView;
 
 namespace MillenniumERP.Services
 {
@@ -40,7 +42,8 @@ namespace MillenniumERP.Services
         public CarrierRepository carrierRepository => new CarrierRepository(db);
         public BuyerRepository buyerRepository => new BuyerRepository(db);
         public CustomerRepository customerRepository => new CustomerRepository(db);
-        public TimeAndAttendanceRepository TARepository => new TimeAndAttendanceRepository(db);
+        public TimeAndAttendanceRepository timeAndAttendanceRepository => new TimeAndAttendanceRepository(db);
+        public TimeAndAttendanceScheduleRepository timeAndAttendanceScheduleRepository => new TimeAndAttendanceScheduleRepository(db);
         public InvoiceRepository invoiceRepository => new InvoiceRepository(db);
         public InvoiceDetailRepository invoiceDetailRepository => new InvoiceDetailRepository(db);
         public AccountReceivableRepository accountReceiveableRepository => new AccountReceivableRepository(db);

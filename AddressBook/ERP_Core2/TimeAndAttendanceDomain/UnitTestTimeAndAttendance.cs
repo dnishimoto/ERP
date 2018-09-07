@@ -1,7 +1,10 @@
-﻿using ERP_Core2.EntityFramework;
+﻿using ERP_Core2.AddressBookDomain;
+using ERP_Core2.EntityFramework;
 using ERP_Core2.TimeAndAttendanceDomain;
+using MillenniumERP.AddressBookDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
+using MillenniumERP.TimeAndAttendanceDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +24,51 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             this.output = output;
 
         }
+        [Fact]
+        public void TestAddScheduledToWork()
+        {
+            int supervisorId = 1;
 
+            AddressBookModule abMod=new AddressBookModule();
+
+            List<EmployeeView> employeeViews = abMod.AddressBook.Query().GetEmployeesBySupervisorId(supervisorId);
+
+
+            string scheduleName = "Schedule A";
+            DateTime startDate = DateTime.Parse("9/10/2018");
+            DateTime endDate = DateTime.Parse("9/14/2018");
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            TimeAndAttendanceSchedule schedule = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e=>e.ScheduleName==scheduleName && e.StartDate==startDate && e.EndDate==endDate);
+
+            
+        }
+        [Fact]
+        public void TestAddSchedule()
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+            long shiftId = 1;
+            Task<TimeAndAttendanceShift> shiftTask = Task.Run(async()=> await unitOfWork.timeAndAttendanceRepository.GetShiftById(shiftId));
+            Task.WaitAll(shiftTask);
+            TimeAndAttendanceScheduleView view = new TimeAndAttendanceScheduleView();
+
+
+            view.ScheduleName = "Schedule A";
+            view.StartDate = DateTime.Parse("9/10/2018"); 
+            view.EndDate = DateTime.Parse("9/14/2018"); 
+
+            view.ShiftId = shiftTask.Result.ShiftId;
+            view.ShiftName = shiftTask.Result.ShiftName;
+            view.ShiftStartTime = shiftTask.Result.ShiftStartTime;
+            view.ShiftEndTime = shiftTask.Result.ShiftEndTime;
+            view.ScheduleGroup = "A";
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            taMod.TimeAndAttendanceSchedule.AddSchedule(view).Apply();
+
+        }
         [Fact]
         public void TestAddTAPunchin()
         {
@@ -43,9 +90,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-
-
-            string punchinDateTime = taMod.FormatPunchDateTime(taPunchin.PunchinDate);
+            string punchinDateTime = taMod.TimeAndAttendance.FormatPunchDateTime(taPunchin.PunchinDate);
             taPunchin.PunchinDateTime = punchinDateTime;
 
             taPunchin.EmployeeId = employeeId;
@@ -57,14 +102,14 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             taPunchin.ScheduleId = scheduleId;
 
 
-            taMod.AddPunchIn(taPunchin).Apply();
+            taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
 
             //TODO Get the new created punchin
-            TimeAndAttendancePunchIn taPunchinLookUp = taMod.Query().GetPunchInByExpression(e => e.PunchinDateTime == punchinDateTime && e.EmployeeId == employeeId);
+            TimeAndAttendancePunchIn taPunchinLookUp = taMod.TimeAndAttendance.Query().GetPunchInByExpression(e => e.PunchinDateTime == punchinDateTime && e.EmployeeId == employeeId);
 
             //TimeAndAttendancePunchIn taPunchinLookUp=  taMod.Query().GetPunchInById(timePunchinId);
 
-            taMod.DeletePunchIn(taPunchinLookUp).Apply();
+            taMod.TimeAndAttendance.DeletePunchIn(taPunchinLookUp).Apply();
  
             Assert.True(true);
 
@@ -77,12 +122,12 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            TimeAndAttendancePunchIn taPunchinLookUp = taMod.Query().GetPunchInById(timePunchinId);
+            TimeAndAttendancePunchIn taPunchinLookUp = taMod.TimeAndAttendance.Query().GetPunchInById(timePunchinId);
 
             taPunchinLookUp.DurationInMinutes = 480;
             taPunchinLookUp.MealDurationInMinutes = 30;
 
-             taMod.UpdatePunchIn(taPunchinLookUp).Apply();
+             taMod.TimeAndAttendance.UpdatePunchIn(taPunchinLookUp).Apply();
        
 
             Assert.True(true);
@@ -94,7 +139,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
             int employeeId = 3;
 
-            IList<TimeAndAttendancePunchInView> queryList = taMod.Query().GetTAPunchinByEmployeeId(employeeId);
+            IList<TimeAndAttendancePunchInView> queryList = taMod.TimeAndAttendance.Query().GetTAPunchinByEmployeeId(employeeId);
 
             IList<TimeAndAttendancePunchInView> list = new List<TimeAndAttendancePunchInView>();
             foreach (var item in queryList)

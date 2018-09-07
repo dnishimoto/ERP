@@ -12,6 +12,7 @@ using MillenniumERP.PurchaseOrderDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
 using MillenniumERP.SupplierInvoicesDomain;
+using MillenniumERP.TimeAndAttendanceDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -67,6 +68,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract SupplierLedgerView MapSupplierLedgerView(GeneralLedgerView generalLedgerView);
         public abstract SupplierLedgerView MapSupplierLedgerView(SupplierLedger supplierLedger);
         public abstract void MapSupplierLedgerEntity(ref SupplierLedger supplierLedger, SupplierLedgerView view);
+        public abstract void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -320,6 +322,15 @@ namespace ERP_Core2.AbstractFactory
             supplierLedger.CreatedDate = view.CreatedDate;
             supplierLedger.FiscalPeriod = view.FiscalPeriod;
             supplierLedger.FiscalYear = view.FiscalYear;
+    }
+        public override void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view)
+        {
+            schedule.ScheduleId = view.ScheduleId;
+            schedule.ScheduleName = view.ScheduleName;
+            schedule.StartDate = view.StartDate;
+            schedule.EndDate = view.EndDate;
+            schedule.ShiftId = view.ShiftId;
+            schedule.ScheduleGroup = view.ScheduleGroup;
     }
     public override SupplierLedgerView MapSupplierLedgerView(GeneralLedgerView generalLedgerView)
         {

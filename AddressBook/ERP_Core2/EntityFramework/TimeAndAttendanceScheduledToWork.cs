@@ -10,7 +10,7 @@ namespace ERP_Core2.EntityFramework
     public partial class TimeAndAttendanceScheduledToWork
     {
         [Key]
-        public long ScheduleToWorkId { get; set; }
+        public long ScheduledToWorkId { get; set; }
 
         public long EmployeeId { get; set; }
 
