@@ -12,7 +12,6 @@ namespace ERP_Core2.EntityFramework
         {
         }
 
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -1424,6 +1423,10 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<TimeAndAttendanceSchedule>()
+                .Property(e => e.ScheduleGroup)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceSchedule>()
                 .HasMany(e => e.TimeAndAttendancePunchIns)
                 .WithRequired(e => e.TimeAndAttendanceSchedule)
                 .HasForeignKey(e => e.SupervisorId)
@@ -1440,12 +1443,8 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<TimeAndAttendanceShift>()
-                .Property(e => e.ShiftStartTime)
-                .IsFixedLength();
-
-            modelBuilder.Entity<TimeAndAttendanceShift>()
-                .Property(e => e.ShiftEndTime)
-                .IsFixedLength();
+                .Property(e => e.ShiftType)
+                .IsUnicode(false);
 
             modelBuilder.Entity<UDC>()
                 .Property(e => e.ProductCode)

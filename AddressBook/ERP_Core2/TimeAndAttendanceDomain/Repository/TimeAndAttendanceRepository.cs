@@ -9,8 +9,9 @@ using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.ScheduleEventsDomain
+namespace MillenniumERP.TimeAndAttendanceDomain
 {
+
     public class TimeAndAttendancePunchInView
     {
         public TimeAndAttendancePunchInView(TimeAndAttendancePunchIn taPunchin)
@@ -53,12 +54,12 @@ namespace MillenniumERP.ScheduleEventsDomain
         public string SupervisorName { get; set; }
         public DateTime? ProcessedDate { get; set; }
         public string Note { get; set; }
-        public long? ShiftId { get; set; } 
+        public long? ShiftId { get; set; }
         public bool? ScheduledToWork { get; set; }
         public long? TypeOfTimeUdcXrefId { get; set; }
         public string TypeOfTime { get; set; }
         public long? ApprovingAddressId { get; set; }
-        public long? PayCodeXrefId { get; set; } 
+        public long? PayCodeXrefId { get; set; }
         public string PayCode { get; set; }
         public long? ScheduleId { get; set; }
         public int? DurationInMinutes { get; set; }
@@ -66,7 +67,7 @@ namespace MillenniumERP.ScheduleEventsDomain
 
     }
 
-    public class TimeAndAttendanceRepository: Repository<TimeAndAttendancePunchIn>
+    public class TimeAndAttendanceRepository : Repository<TimeAndAttendancePunchIn>
     {
         public Entities _dbContext;
         private ApplicationViewFactory applicationViewFactory;
@@ -74,6 +75,21 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             _dbContext = (Entities)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<TimeAndAttendanceShift> GetShiftById(long shiftId)
+        {
+            try
+            {
+                var query = await (from a in _dbContext.TimeAndAttendanceShifts
+                                   where a.ShiftId == shiftId
+                                   select a).FirstOrDefaultAsync<TimeAndAttendanceShift>();
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
         public async Task<List<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(long employeeId)
         {
@@ -95,15 +111,16 @@ namespace MillenniumERP.ScheduleEventsDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-           
+
         }
         public CreateProcessStatus DeletePunchin(TimeAndAttendancePunchIn taPunchin)
         {
-            try { 
-            DeleteObject(taPunchin);
-            return CreateProcessStatus.Delete;
+            try
+            {
+                DeleteObject(taPunchin);
+                return CreateProcessStatus.Delete;
             }
-             catch (Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
@@ -136,7 +153,7 @@ namespace MillenniumERP.ScheduleEventsDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<CreateProcessStatus> UpdateByTimePunchinId(long timePunchinId, int workDurationInMinutes,int mealDurationInMinutes)
+        public async Task<CreateProcessStatus> UpdateByTimePunchinId(long timePunchinId, int workDurationInMinutes, int mealDurationInMinutes)
         {
             try
             {
@@ -159,8 +176,8 @@ namespace MillenniumERP.ScheduleEventsDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-     
-            }
+
+        }
         public string GetPunchDateTime(DateTime? myDate)
         {
             try
@@ -188,7 +205,7 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-                
+
                 String year, month, day = "";
                 String longHours, minutes, seconds = "";
                 DateTime myDate;
@@ -214,7 +231,7 @@ namespace MillenniumERP.ScheduleEventsDomain
         {
             try
             {
-              
+
                 String year, month, day = "";
                 String longHours, minutes, seconds = "";
                 DateTime myDate;
@@ -235,6 +252,6 @@ namespace MillenniumERP.ScheduleEventsDomain
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
-            }
+        }
     }
 }

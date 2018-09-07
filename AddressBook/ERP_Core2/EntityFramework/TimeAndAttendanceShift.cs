@@ -13,6 +13,7 @@ namespace ERP_Core2.EntityFramework
         public TimeAndAttendanceShift()
         {
             TimeAndAttendancePunchIns = new HashSet<TimeAndAttendancePunchIn>();
+            TimeAndAttendanceSchedules = new HashSet<TimeAndAttendanceSchedule>();
         }
 
         [Key]
@@ -21,15 +22,17 @@ namespace ERP_Core2.EntityFramework
         [StringLength(20)]
         public string ShiftName { get; set; }
 
-        [StringLength(14)]
-        public string ShiftStartTime { get; set; }
+        public int? ShiftStartTime { get; set; }
 
-        [StringLength(14)]
-        public string ShiftEndTime { get; set; }
+        public int? ShiftEndTime { get; set; }
 
-        public long? ShiftTypeXrefId { get; set; }
+        [StringLength(50)]
+        public string ShiftType { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TimeAndAttendanceSchedule> TimeAndAttendanceSchedules { get; set; }
     }
 }
