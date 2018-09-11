@@ -69,6 +69,8 @@ namespace ERP_Core2.AbstractFactory
         public abstract SupplierLedgerView MapSupplierLedgerView(SupplierLedger supplierLedger);
         public abstract void MapSupplierLedgerEntity(ref SupplierLedger supplierLedger, SupplierLedgerView view);
         public abstract void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view);
+        public abstract void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeView);
+        public abstract TimeAndAttendanceScheduleView MapTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule item);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -268,7 +270,7 @@ namespace ERP_Core2.AbstractFactory
         }
         public override void MapSupplierInvoiceEntity(ref SupplierInvoice supplierInvoice, SupplierInvoiceView supplierInvoiceView)
         {
-            supplierInvoice.SupplierInvoiceId = supplierInvoiceView.SupplierInvoiceId??0;
+            supplierInvoice.SupplierInvoiceId = supplierInvoiceView.SupplierInvoiceId ?? 0;
             supplierInvoice.SupplierInvoiceNumber = supplierInvoiceView.SupplierInvoiceNumber;
             supplierInvoice.SupplierInvoiceDate = supplierInvoiceView.SupplierInvoiceDate;
             supplierInvoice.PONumber = supplierInvoiceView.PONumber;
@@ -278,24 +280,24 @@ namespace ERP_Core2.AbstractFactory
             supplierInvoice.PaymentDueDate = supplierInvoiceView.PaymentDueDate;
             supplierInvoice.PaymentTerms = supplierInvoiceView.PaymentTerms;
             supplierInvoice.DiscountDueDate = supplierInvoiceView.DiscountDueDate;
-            supplierInvoice.SupplierId = supplierInvoiceView.SupplierId??0;
+            supplierInvoice.SupplierId = supplierInvoiceView.SupplierId ?? 0;
             supplierInvoice.FreightCost = supplierInvoiceView.FreightCost;
             supplierInvoice.DiscountAmount = supplierInvoiceView.DiscountAmount;
-    }
+        }
         public override void MapSupplierInvoiceDetailEntity(ref SupplierInvoiceDetail supplierInvoiceDetail, SupplierInvoiceDetailView supplierInvoiceDetailView)
         {
-            supplierInvoiceDetail.SupplierInvoiceDetailId = supplierInvoiceDetailView.SupplierInvoiceDetailId??0;
-            supplierInvoiceDetail.SupplierInvoiceId = supplierInvoiceDetailView.SupplierInvoiceId??0;
+            supplierInvoiceDetail.SupplierInvoiceDetailId = supplierInvoiceDetailView.SupplierInvoiceDetailId ?? 0;
+            supplierInvoiceDetail.SupplierInvoiceId = supplierInvoiceDetailView.SupplierInvoiceId ?? 0;
             supplierInvoiceDetail.UnitPrice = supplierInvoiceDetailView.UnitPrice;
             supplierInvoiceDetail.Quantity = supplierInvoiceDetailView.Quantity;
             supplierInvoiceDetail.UnitOfMeasure = supplierInvoiceDetailView.UnitOfMeasure;
             supplierInvoiceDetail.ExtendedCost = supplierInvoiceDetailView.ExtendedCost;
-            supplierInvoiceDetail.ItemId = supplierInvoiceDetailView.ItemId??0;
+            supplierInvoiceDetail.ItemId = supplierInvoiceDetailView.ItemId ?? 0;
             supplierInvoiceDetail.Description = supplierInvoiceDetailView.Description;
             supplierInvoiceDetail.DiscountDueDate = supplierInvoiceDetailView.DiscountDueDate;
             supplierInvoiceDetail.DiscountAmount = supplierInvoiceDetailView.DiscountAmount;
             supplierInvoiceDetail.DiscountPercent = supplierInvoiceDetailView.DiscountPercent;
-    }
+        }
         public override void MapPackingSlipIntoInventoryEntity(ref Inventory inventory, PackingSlipDetailView packingSlipDetailView)
         {
             inventory.ItemId = packingSlipDetailView.ItemId;
@@ -322,7 +324,7 @@ namespace ERP_Core2.AbstractFactory
             supplierLedger.CreatedDate = view.CreatedDate;
             supplierLedger.FiscalPeriod = view.FiscalPeriod;
             supplierLedger.FiscalYear = view.FiscalYear;
-    }
+        }
         public override void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view)
         {
             schedule.ScheduleId = view.ScheduleId;
@@ -331,8 +333,23 @@ namespace ERP_Core2.AbstractFactory
             schedule.EndDate = view.EndDate;
             schedule.ShiftId = view.ShiftId;
             schedule.ScheduleGroup = view.ScheduleGroup;
-    }
-    public override SupplierLedgerView MapSupplierLedgerView(GeneralLedgerView generalLedgerView)
+        }
+        public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeView)
+        {
+            scheduledToWork.EmployeeId = employeeView.EmployeeId??0;
+            scheduledToWork.EmployeeName = employeeView.EmployeeName;
+           scheduledToWork.ScheduleId = scheduleView.ScheduleId;
+            scheduledToWork.ScheduleName = scheduleView.ScheduleName;
+            scheduledToWork.StartDate = scheduleView.StartDate;
+            scheduledToWork.EndDate = scheduleView.EndDate;
+            scheduledToWork.StartDateTime = scheduleView.StartDateTime;
+            scheduledToWork.EndDateTime = scheduleView.EndDateTime;
+        }
+        public override TimeAndAttendanceScheduleView MapTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule schedule)
+        {
+            return new TimeAndAttendanceScheduleView(schedule);
+        }
+        public override SupplierLedgerView MapSupplierLedgerView(GeneralLedgerView generalLedgerView)
         {
             return new SupplierLedgerView(generalLedgerView);
         }

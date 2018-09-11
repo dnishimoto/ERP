@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AddressBookDomain;
 using ERP_Core2.EntityFramework;
 using ERP_Core2.TimeAndAttendanceDomain;
+using ERP_Core2.TimeAndAttendanceDomain.Repository;
 using MillenniumERP.AddressBookDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
@@ -40,8 +41,11 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            TimeAndAttendanceSchedule schedule = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e=>e.ScheduleName==scheduleName && e.StartDate==startDate && e.EndDate==endDate);
+            TimeAndAttendanceScheduleView scheduleView = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e=>e.ScheduleName==scheduleName && e.StartDate==startDate && e.EndDate==endDate);
 
+            IList<TimeAndAttendanceScheduledToWork> items = taMod.TimeAndAttendanceScheduleToWork.BuildScheduledToWork(scheduleView, employeeViews);
+
+            taMod.TimeAndAttendanceScheduleToWork.AddScheduledToWork(items).Apply();
             
         }
         [Fact]

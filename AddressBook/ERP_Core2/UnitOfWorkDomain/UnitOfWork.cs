@@ -23,6 +23,7 @@ using MillenniumERP.InventoryDomain;
 using MillenniumERP.SupplierInvoicesDomain;
 using MillenniumERP.TimeAndAttendanceDomain;
 using static MillenniumERP.TimeAndAttendanceDomain.TimeAndAttendanceScheduleView;
+using ERP_Core2.TimeAndAttendanceDomain.Repository;
 
 namespace MillenniumERP.Services
 {
@@ -44,6 +45,7 @@ namespace MillenniumERP.Services
         public CustomerRepository customerRepository => new CustomerRepository(db);
         public TimeAndAttendanceRepository timeAndAttendanceRepository => new TimeAndAttendanceRepository(db);
         public TimeAndAttendanceScheduleRepository timeAndAttendanceScheduleRepository => new TimeAndAttendanceScheduleRepository(db);
+        public TimeAndAttendanceScheduledToWorkRepository timeAndAttendanceScheduledToWorkRepository => new TimeAndAttendanceScheduledToWorkRepository(db);
         public InvoiceRepository invoiceRepository => new InvoiceRepository(db);
         public InvoiceDetailRepository invoiceDetailRepository => new InvoiceDetailRepository(db);
         public AccountReceivableRepository accountReceiveableRepository => new AccountReceivableRepository(db);
