@@ -16,6 +16,26 @@ namespace ERP_Core2.EntityFramework
 
         public long ScheduleId { get; set; }
 
+        [StringLength(255)]
+        public string ScheduleName { get; set; }
+
+        [StringLength(20)]
+        public string StartDateTime { get; set; }
+
+        [StringLength(20)]
+        public string EndDateTime { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? StartDate { get; set; }
+
+        [Column(TypeName = "date")]
+        public DateTime? EndDate { get; set; }
+
+        [StringLength(255)]
+        public string EmployeeName { get; set; }
+
+        public virtual Employee Employee { get; set; }
+
         public virtual TimeAndAttendanceSchedule TimeAndAttendanceSchedule { get; set; }
     }
 }

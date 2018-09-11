@@ -662,6 +662,11 @@ namespace ERP_Core2.EntityFramework
                 .WithRequired(e => e.Employee)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Employee>()
+                .HasMany(e => e.TimeAndAttendanceScheduledToWorks)
+                .WithRequired(e => e.Employee)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<GeneralLedger>()
                 .Property(e => e.DocType)
                 .IsUnicode(false);
@@ -1436,6 +1441,22 @@ namespace ERP_Core2.EntityFramework
                 .HasMany(e => e.TimeAndAttendanceScheduledToWorks)
                 .WithRequired(e => e.TimeAndAttendanceSchedule)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<TimeAndAttendanceScheduledToWork>()
+                .Property(e => e.ScheduleName)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceScheduledToWork>()
+                .Property(e => e.StartDateTime)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceScheduledToWork>()
+                .Property(e => e.EndDateTime)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<TimeAndAttendanceScheduledToWork>()
+                .Property(e => e.EmployeeName)
+                .IsUnicode(false);
 
             modelBuilder.Entity<TimeAndAttendanceShift>()
                 .Property(e => e.ShiftName)

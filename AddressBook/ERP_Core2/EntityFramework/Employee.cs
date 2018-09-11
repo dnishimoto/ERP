@@ -17,6 +17,7 @@ namespace ERP_Core2.EntityFramework
             ScheduleEvents = new HashSet<ScheduleEvent>();
             SupervisorEmployees = new HashSet<SupervisorEmployee>();
             TimeAndAttendancePunchIns = new HashSet<TimeAndAttendancePunchIn>();
+            TimeAndAttendanceScheduledToWorks = new HashSet<TimeAndAttendanceScheduledToWork>();
         }
 
         public long EmployeeId { get; set; }
@@ -56,5 +57,8 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIns { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWorks { get; set; }
     }
 }

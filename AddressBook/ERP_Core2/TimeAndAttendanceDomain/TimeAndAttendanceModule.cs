@@ -2,6 +2,8 @@
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.EntityFramework;
 using ERP_Core2.FluentAPI;
+using ERP_Core2.TimeAndAttendanceDomain.Repository;
+using MillenniumERP.AddressBookDomain;
 using MillenniumERP.ScheduleEventsDomain;
 using MillenniumERP.Services;
 using MillenniumERP.TimeAndAttendanceDomain;
@@ -16,22 +18,22 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 {
     public interface ITimeAndAttendanceScheduleQuery
     {
-        TimeAndAttendanceSchedule GetScheduleByExpression(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate);
+        TimeAndAttendanceScheduleView GetScheduleByExpression(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate);
     }
     public class FluentTimeAndAttendanceScheduleQuery: AbstractModule, ITimeAndAttendanceScheduleQuery
     {
         UnitOfWork _unitOfWork = null;
         public FluentTimeAndAttendanceScheduleQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
-        public TimeAndAttendanceSchedule GetScheduleByExpression(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate)
+        public TimeAndAttendanceScheduleView GetScheduleByExpression(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate)
         {
             try
             {
                 var query = _unitOfWork.timeAndAttendanceScheduleRepository.GetObjectsQueryable(predicate) as IQueryable<TimeAndAttendanceSchedule>;
-                TimeAndAttendanceSchedule retItem = null;
+                TimeAndAttendanceScheduleView retItem = null;
                 foreach (var item in query)
                 {
-                    retItem = item;
+                    retItem = _unitOfWork.timeAndAttendanceScheduleRepository.BuildTimeAndAttendanceScheduleView(item);
                     break;
                 }
                 return retItem;
@@ -81,10 +83,48 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             return this as ITimeAndAttendanceSchedule;
         }
     }
+
+    public interface ITimeAndAttendanceScheduledToWork
+    {
+        ITimeAndAttendanceScheduledToWork Apply();
+        ITimeAndAttendanceScheduledToWork AddScheduledToWork(IList<TimeAndAttendanceScheduledToWork> items);
+        IList<TimeAndAttendanceScheduledToWork> BuildScheduledToWork(TimeAndAttendanceScheduleView scheduleView, IList<EmployeeView> employeeViews);
+    }
+    public class FluentTimeAndAttendanceScheduledToWork : AbstractModule, ITimeAndAttendanceScheduledToWork
+    {
+        UnitOfWork unitOfWork = new UnitOfWork();
+        CreateProcessStatus processStatus;
+        public FluentTimeAndAttendanceScheduledToWork() { }
+        public ITimeAndAttendanceScheduledToWork Apply()
+        {
+            if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
+            { unitOfWork.CommitChanges(); }
+            return this as ITimeAndAttendanceScheduledToWork;
+        }
+        public ITimeAndAttendanceScheduledToWork AddScheduledToWork(IList<TimeAndAttendanceScheduledToWork> items)
+        {
+            Task<CreateProcessStatus> resultTask=Task.Run(async()=>await unitOfWork.timeAndAttendanceScheduledToWorkRepository.AddScheduledToWorkItems(items));
+            Task.WaitAll(resultTask);
+            processStatus = resultTask.Result;
+            return this as ITimeAndAttendanceScheduledToWork;
+        }
+        public IList<TimeAndAttendanceScheduledToWork> BuildScheduledToWork(TimeAndAttendanceScheduleView scheduleView, IList<EmployeeView> employeeViews)
+        {
+            IList<TimeAndAttendanceScheduledToWork> retList = new List<TimeAndAttendanceScheduledToWork>();
+
+            foreach (var employeeItem in employeeViews)
+            {
+                TimeAndAttendanceScheduledToWork scheduledToWork=unitOfWork.timeAndAttendanceScheduledToWorkRepository.BuildScheduledToWork(scheduleView, employeeItem);
+                retList.Add(scheduledToWork);
+            }
+
+            return retList;
+        }
+    }
     public class TimeAndAttendanceModule 
     {
         public FluentTimeAndAttendance TimeAndAttendance = new FluentTimeAndAttendance();
         public FluentTimeAndAttendanceSchedule TimeAndAttendanceSchedule = new FluentTimeAndAttendanceSchedule();
-
+        public FluentTimeAndAttendanceScheduledToWork TimeAndAttendanceScheduleToWork =new FluentTimeAndAttendanceScheduledToWork();
     }
 }

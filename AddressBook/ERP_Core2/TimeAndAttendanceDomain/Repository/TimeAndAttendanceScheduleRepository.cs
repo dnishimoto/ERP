@@ -11,7 +11,7 @@ using ERP_Core2.AccountPayableDomain;
 
 namespace MillenniumERP.TimeAndAttendanceDomain
 {
-    public class TimeAndAttendanceScheduleView
+    public class TimeAndAttendanceScheduleView: AbstractModule
     {
         public TimeAndAttendanceScheduleView()
         { }
@@ -26,7 +26,8 @@ namespace MillenniumERP.TimeAndAttendanceDomain
             this.ShiftStartTime = schedule.TimeAndAttendanceShift.ShiftStartTime;
             this.ShiftEndTime = schedule.TimeAndAttendanceShift.ShiftEndTime;
             this.ScheduleGroup = schedule.ScheduleGroup;
-
+            this.StartDateTime = BuildLongDate(this.StartDate??DateTime.Now, this.ShiftStartTime??0);
+            this.EndDateTime = BuildLongDate(this.EndDate??DateTime.Now, this.ShiftEndTime??0);
         }
 
         public long ScheduleId { get; set; }
@@ -38,9 +39,37 @@ namespace MillenniumERP.TimeAndAttendanceDomain
         public int? ShiftStartTime { get; set; }
         public int? ShiftEndTime { get; set; }
         public string ScheduleGroup { get; set; }
+        public string StartDateTime { get; set; }
+        public string EndDateTime { get; set; }
 
+        String BuildLongDate(DateTime myDate, int hours)
+        {
+            try
+            {
+
+                String year, month, day = "";
+                string myLongTime = "0" + hours+"00"; myLongTime = myLongTime.Substring(myLongTime.Length - 6);
+                String longHours, minutes, seconds = "";
+ 
+
+                year = myDate.Year.ToString();
+                month = myDate.Month.ToString().PadLeft(2, '0');
+                day = myDate.Day.ToString().PadLeft(2, '0');
+
+                //longHours = myDate.Hour.ToString().PadLeft(2, '0');
+                //minutes = myDate.Minute.ToString().PadLeft(2, '0');
+                //seconds = myDate.Second.ToString().PadLeft(2, '0');
+                return year + month + day + myLongTime;
+                //return year + month + day + longHours + minutes + seconds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
     }
 
+   
     public class TimeAndAttendanceScheduleRepository : Repository<TimeAndAttendanceSchedule>
     {
         public Entities _dbContext;
@@ -62,6 +91,11 @@ namespace MillenniumERP.TimeAndAttendanceDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
+        }
+        public TimeAndAttendanceScheduleView BuildTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule item)
+        {
+            TimeAndAttendanceScheduleView view = applicationViewFactory.MapTimeAndAttendanceScheduleView(item);
+            return view;
         }
         public async Task<CreateProcessStatus> AddSchedule(TimeAndAttendanceScheduleView view)
         {
