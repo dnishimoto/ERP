@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP_Core", "ERP_Core2\ERP_C
 EndProject
 Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "MillenniumReports", "..\MillenniumReports\MillenniumReports\MillenniumReports.rptproj", "{476320CC-6DAD-4A49-9AAF-19D139660ECE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular", "..\lssAngular\lssAngular\lssAngular.csproj", "{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,12 @@ Global
 		{476320CC-6DAD-4A49-9AAF-19D139660ECE}.Release|Any CPU.ActiveCfg = Release
 		{476320CC-6DAD-4A49-9AAF-19D139660ECE}.Release|Any CPU.Build.0 = Release
 		{476320CC-6DAD-4A49-9AAF-19D139660ECE}.Release|Any CPU.Deploy.0 = Release
+		{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFDC74CD-D8D4-4363-83D5-8E8B017DDE21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

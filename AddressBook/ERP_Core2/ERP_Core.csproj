@@ -178,6 +178,9 @@
     <Compile Include="FluentAPI\FluentSupplierLedger.cs" />
     <Compile Include="FluentAPI\FluentTimeAndAttendance.cs" />
     <Compile Include="FluentAPI\FluentTimeAndAttendanceQuery.cs" />
+    <Compile Include="FluentAPI\FluentTimeAndAttendanceSchedule.cs" />
+    <Compile Include="FluentAPI\FluentTimeAndAttendanceScheduledToWork.cs" />
+    <Compile Include="FluentAPI\FluentTimeAndAttendanceScheduleQuery.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\SupplierLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\GeneralLedgerRepository.cs" />
     <Compile Include="GeneralLedgerDomain\Repository\CustomerLedgerRepository.cs" />
@@ -197,6 +200,9 @@
     <Compile Include="Interfaces\ISupplierLedger.cs" />
     <Compile Include="Interfaces\ITimeAndAttendance.cs" />
     <Compile Include="Interfaces\ITimeAndAttendanceQuery.cs" />
+    <Compile Include="Interfaces\ITimeAndAttendanceSchedule.cs" />
+    <Compile Include="Interfaces\ITimeAndAttendanceScheduledToWork.cs" />
+    <Compile Include="Interfaces\ITimeAndAttendanceScheduleQuery.cs" />
     <Compile Include="InventoryDomain\Repository\InventoryRepository.cs" />
     <Compile Include="InventoryDomain\Repository\ItemMasterRepository.cs" />
     <Compile Include="InvoiceDomain\InvoiceModule.cs" />
