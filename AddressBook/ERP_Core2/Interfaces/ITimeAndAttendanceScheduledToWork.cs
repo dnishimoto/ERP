@@ -1,6 +1,6 @@
 ﻿using ERP_Core2.EntityFramework;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.TimeAndAttendanceDomain;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.TimeAndAttendanceDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

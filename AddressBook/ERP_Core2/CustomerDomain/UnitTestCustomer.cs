@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Xunit;
 using ERP_Core2.EntityFramework;
 using Xunit.Abstractions;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.Services;
-using MillenniumERP.CustomerDomain;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.Services;
+using ERP_Core2.CustomerDomain;
 using System.Collections.Generic;
-using MillenniumERP.InvoicesDomain;
-using MillenniumERP.AccountsReceivableDomain;
+using ERP_Core2.InvoicesDomain;
+using ERP_Core2.AccountsReceivableDomain;
 using Newtonsoft.Json;
 using System;
 using System.Data.SqlClient;
 using System.Data;
-using MillenniumERP.InvoiceDetailsDomain;
-using MillenniumERP.CustomerLedgerDomain;
+using ERP_Core2.InvoiceDetailsDomain;
+using ERP_Core2.CustomerLedgerDomain;
 
-namespace ERP_Core2.CustomerDomain
+namespace ERP_Core.CustomerDomain
 {
     public interface IEntity { }
     public class SquareNumber : IEntity

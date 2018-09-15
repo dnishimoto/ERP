@@ -1,5 +1,5 @@
 ﻿using ERP_Core2.EntityFramework;
-using MillenniumERP.AddressBookDomain;
+using ERP_Core2.AddressBookDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

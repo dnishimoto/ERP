@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.EntityFramework;
-using MillenniumERP.CustomerDomain;
-using MillenniumERP.Services;
+using ERP_Core2.CustomerDomain;
+using ERP_Core2.Services;
 
-namespace MillenniumERP.AddressBookDomain
+namespace ERP_Core2.AddressBookDomain
 {
 
     public class AddressBookRepository: Repository<AddressBook>

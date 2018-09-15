@@ -9,10 +9,10 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.BudgetDomain
 {
-    public class BudgetSnapShotRepository : Repository<BudgetSnapShot>
+    public class BudgetRepository : Repository<BudgetSnapShot>
     {
         Entities _dbContext;
-        public BudgetSnapShotRepository(DbContext db) : base(db)
+        public BudgetRepository(DbContext db) : base(db)
         {
             _dbContext = (Entities)db;
         }

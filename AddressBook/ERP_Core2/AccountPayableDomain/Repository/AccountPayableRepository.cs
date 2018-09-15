@@ -5,16 +5,16 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
-using MillenniumERP.GeneralLedgerDomain;
-using MillenniumERP.PurchaseOrderDomain;
-using MillenniumERP.SupplierInvoicesDomain;
+using ERP_Core2.GeneralLedgerDomain;
+using ERP_Core2.PurchaseOrderDomain;
+using ERP_Core2.SupplierInvoicesDomain;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.AccountsPayableDomain
+namespace ERP_Core2.AccountsPayableDomain
 {
     
 

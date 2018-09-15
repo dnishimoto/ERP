@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.EntityFramework;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 
-namespace MillenniumERP.AddressBookDomain
+namespace ERP_Core2.AddressBookDomain
 {
           
       

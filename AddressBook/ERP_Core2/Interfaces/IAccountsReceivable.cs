@@ -1,5 +1,5 @@
-﻿using MillenniumERP.GeneralLedgerDomain;
-using MillenniumERP.InvoicesDomain;
+﻿using ERP_Core2.GeneralLedgerDomain;
+using ERP_Core2.InvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

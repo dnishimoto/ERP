@@ -6,11 +6,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
-using MillenniumERP.CustomerDomain;
+using ERP_Core2.Services;
+using ERP_Core2.CustomerDomain;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.AddressBookDomain
+namespace ERP_Core2.AddressBookDomain
 {
     public class LocationAddressView
     {

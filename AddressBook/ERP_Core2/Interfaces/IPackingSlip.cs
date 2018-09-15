@@ -1,4 +1,4 @@
-﻿using MillenniumERP.PackingSlipDomain;
+﻿using ERP_Core2.PackingSlipDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

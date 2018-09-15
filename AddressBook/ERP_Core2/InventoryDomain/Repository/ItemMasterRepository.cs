@@ -5,11 +5,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
+using ERP_Core2.Services;
 
-namespace MillenniumERP.ItemMasterDomain
+namespace ERP_Core2.ItemMasterDomain
 {
     public class ItemMasterView
     {

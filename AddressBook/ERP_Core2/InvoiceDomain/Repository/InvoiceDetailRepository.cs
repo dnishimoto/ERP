@@ -5,14 +5,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
-using MillenniumERP.InvoicesDomain;
+using ERP_Core2.InvoicesDomain;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.InvoiceDetailsDomain
+namespace ERP_Core2.InvoiceDetailsDomain
 {
 
     public class InvoiceDetailView

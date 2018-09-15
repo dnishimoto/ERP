@@ -1,4 +1,4 @@
-﻿using MillenniumERP.Services;
+﻿using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using ERP_Core2.EntityFramework;
 using Xunit.Abstractions;
-using MillenniumERP.AddressBookDomain;
+using ERP_Core2.AddressBookDomain;
 
 namespace ERP_Core2.AddressBookDomain
 {

@@ -6,26 +6,28 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.ProjectManagementDomain;
-using MillenniumERP.ScheduleEventsDomain;
-using MillenniumERP.CustomerDomain;
-using MillenniumERP.InvoicesDomain;
-using MillenniumERP.InvoiceDetailsDomain;
-using MillenniumERP.AccountsReceivableDomain;
-using MillenniumERP.GeneralLedgerDomain;
-using MillenniumERP.ItemMasterDomain;
-using MillenniumERP.CustomerLedgerDomain;
-using MillenniumERP.AccountsPayableDomain;
-using MillenniumERP.PurchaseOrderDomain;
-using MillenniumERP.PackingSlipDomain;
-using MillenniumERP.InventoryDomain;
-using MillenniumERP.SupplierInvoicesDomain;
-using MillenniumERP.TimeAndAttendanceDomain;
-using static MillenniumERP.TimeAndAttendanceDomain.TimeAndAttendanceScheduleView;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.ProjectManagementDomain;
+using ERP_Core2.ScheduleEventsDomain;
+using ERP_Core2.CustomerDomain;
+using ERP_Core2.InvoicesDomain;
+using ERP_Core2.InvoiceDetailsDomain;
+using ERP_Core2.AccountsReceivableDomain;
+using ERP_Core2.GeneralLedgerDomain;
+using ERP_Core2.ItemMasterDomain;
+using ERP_Core2.CustomerLedgerDomain;
+using ERP_Core2.AccountsPayableDomain;
+using ERP_Core2.PurchaseOrderDomain;
+using ERP_Core2.PackingSlipDomain;
+using ERP_Core2.InventoryDomain;
+using ERP_Core2.SupplierInvoicesDomain;
+using ERP_Core2.TimeAndAttendanceDomain;
+using static ERP_Core2.TimeAndAttendanceDomain.TimeAndAttendanceScheduleView;
 using ERP_Core2.TimeAndAttendanceDomain.Repository;
+using ERP_Core2.ChartOfAccountsDomain;
+using ERP_Core2.BudgetDomain;
 
-namespace MillenniumERP.Services
+namespace ERP_Core2.Services
 {
     public class UnitOfWork
     {

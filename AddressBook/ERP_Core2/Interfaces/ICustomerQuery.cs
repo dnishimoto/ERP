@@ -1,8 +1,8 @@
-﻿using MillenniumERP.AccountsReceivableDomain;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.CustomerDomain;
-using MillenniumERP.CustomerLedgerDomain;
-using MillenniumERP.InvoicesDomain;
+﻿using ERP_Core2.AccountsReceivableDomain;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.CustomerDomain;
+using ERP_Core2.CustomerLedgerDomain;
+using ERP_Core2.InvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,8 +1,8 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Interfaces;
-using MillenniumERP.Services;
-using MillenniumERP.SupplierInvoicesDomain;
+using ERP_Core2.Services;
+using ERP_Core2.SupplierInvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -2,10 +2,8 @@
 using ERP_Core2.EntityFramework;
 using ERP_Core2.TimeAndAttendanceDomain;
 using ERP_Core2.TimeAndAttendanceDomain.Repository;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.ScheduleEventsDomain;
-using MillenniumERP.Services;
-using MillenniumERP.TimeAndAttendanceDomain;
+using ERP_Core2.ScheduleEventsDomain;
+using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

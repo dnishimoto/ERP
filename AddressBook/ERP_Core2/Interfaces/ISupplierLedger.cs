@@ -1,4 +1,4 @@
-﻿using MillenniumERP.SupplierInvoicesDomain;
+﻿using ERP_Core2.SupplierInvoicesDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.Interfaces;
-using MillenniumERP.AccountsReceivableDomain;
+using ERP_Core2.AccountsReceivableDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

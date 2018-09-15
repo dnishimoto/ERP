@@ -1,4 +1,4 @@
-﻿using MillenniumERP.CustomerDomain;
+﻿using ERP_Core2.CustomerDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
