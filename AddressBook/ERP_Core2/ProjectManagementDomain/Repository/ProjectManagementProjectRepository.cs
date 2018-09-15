@@ -5,10 +5,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 
 
-namespace MillenniumERP.ProjectManagementDomain
+namespace ERP_Core2.ProjectManagementDomain
 {
 
     public class ProjectManagementProjectRepository: Repository<ProjectManagementProject>

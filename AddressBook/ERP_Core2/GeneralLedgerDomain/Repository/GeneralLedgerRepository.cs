@@ -5,15 +5,15 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
-using MillenniumERP.AccountsReceivableDomain;
+using ERP_Core2.AccountsReceivableDomain;
 using System.Data.SqlClient;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.GeneralLedgerDomain
+namespace ERP_Core2.GeneralLedgerDomain
 {
     public class GeneralLedgerView
     {

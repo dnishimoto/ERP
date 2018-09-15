@@ -1,11 +1,11 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.EntityFramework;
-using MillenniumERP.AccountsReceivableDomain;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.CustomerLedgerDomain;
-using MillenniumERP.InvoicesDomain;
-using MillenniumERP.Services;
+using ERP_Core2.AccountsReceivableDomain;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.CustomerLedgerDomain;
+using ERP_Core2.InvoicesDomain;
+using ERP_Core2.Services;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MillenniumERP.CustomerDomain
+namespace ERP_Core2.CustomerDomain
 {
    
     public class CustomerClaimView

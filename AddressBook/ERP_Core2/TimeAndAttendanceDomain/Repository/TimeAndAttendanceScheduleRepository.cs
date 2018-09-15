@@ -5,11 +5,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.TimeAndAttendanceDomain
+namespace ERP_Core2.TimeAndAttendanceDomain
 {
     public class TimeAndAttendanceScheduleView: AbstractModule
     {
@@ -49,9 +49,7 @@ namespace MillenniumERP.TimeAndAttendanceDomain
 
                 String year, month, day = "";
                 string myLongTime = "0" + hours+"00"; myLongTime = myLongTime.Substring(myLongTime.Length - 6);
-                String longHours, minutes, seconds = "";
- 
-
+                
                 year = myDate.Year.ToString();
                 month = myDate.Month.ToString().PadLeft(2, '0');
                 day = myDate.Day.ToString().PadLeft(2, '0');

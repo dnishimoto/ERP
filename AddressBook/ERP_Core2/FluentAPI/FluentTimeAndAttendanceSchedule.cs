@@ -2,8 +2,7 @@
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Interfaces;
 using ERP_Core2.TimeAndAttendanceDomain;
-using MillenniumERP.Services;
-using MillenniumERP.TimeAndAttendanceDomain;
+using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

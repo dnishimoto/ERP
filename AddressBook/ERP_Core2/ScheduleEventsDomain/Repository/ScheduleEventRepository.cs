@@ -5,9 +5,9 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 
-namespace MillenniumERP.ScheduleEventsDomain
+namespace ERP_Core2.ScheduleEventsDomain
 {
 
     public class ScheduleEventRepository: Repository<ScheduleEvent>

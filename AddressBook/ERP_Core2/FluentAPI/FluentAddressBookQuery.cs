@@ -1,8 +1,8 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.EntityFramework;
 using ERP_Core2.Interfaces;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.Services;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

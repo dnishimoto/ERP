@@ -1,5 +1,5 @@
 ﻿using ERP_Core2.EntityFramework;
-using MillenniumERP.CustomerDomain;
+using ERP_Core2.CustomerDomain;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MillenniumERP.Services
+namespace ERP_Core2.Services
 {
     public class Repository<T> where T : class
     {

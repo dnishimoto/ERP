@@ -1,5 +1,5 @@
 ﻿using ERP_Core2.EntityFramework;
-using MillenniumERP.TimeAndAttendanceDomain;
+using ERP_Core2.TimeAndAttendanceDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

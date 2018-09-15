@@ -5,18 +5,18 @@ using System.Threading.Tasks;
 using Xunit;
 using ERP_Core2.EntityFramework;
 using Xunit.Abstractions;
-using MillenniumERP.AddressBookDomain;
-using MillenniumERP.Services;
-using MillenniumERP.CustomerDomain;
+using ERP_Core2.AddressBookDomain;
+using ERP_Core2.Services;
+using ERP_Core2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using MillenniumERP.PurchaseOrderDomain;
-using static MillenniumERP.PurchaseOrderDomain.PurchaseOrderRepository;
-using MillenniumERP.AccountsPayableDomain;
-using MillenniumERP.PackingSlipDomain;
-using MillenniumERP.SupplierInvoicesDomain;
-using MillenniumERP.GeneralLedgerDomain;
+using ERP_Core2.PurchaseOrderDomain;
+using static ERP_Core2.PurchaseOrderDomain.PurchaseOrderRepository;
+using ERP_Core2.AccountsPayableDomain;
+using ERP_Core2.PackingSlipDomain;
+using ERP_Core2.SupplierInvoicesDomain;
+using ERP_Core2.GeneralLedgerDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {

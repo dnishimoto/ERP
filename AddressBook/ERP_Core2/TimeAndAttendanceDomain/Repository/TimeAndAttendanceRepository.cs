@@ -5,11 +5,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.TimeAndAttendanceDomain
+namespace ERP_Core2.TimeAndAttendanceDomain
 {
 
     public class TimeAndAttendancePunchInView

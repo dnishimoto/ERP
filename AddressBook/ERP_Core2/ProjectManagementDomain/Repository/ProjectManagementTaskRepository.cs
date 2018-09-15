@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.EntityFramework;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 
-namespace MillenniumERP.ProjectManagementDomain
+namespace ERP_Core2.ProjectManagementDomain
 {
     public class ProjectManagementMilestoneRepository : Repository<ProjectManagementMilestone>
     {

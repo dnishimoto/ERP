@@ -1,9 +1,9 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Interfaces;
-using MillenniumERP.CustomerLedgerDomain;
-using MillenniumERP.GeneralLedgerDomain;
-using MillenniumERP.Services;
+using ERP_Core2.CustomerLedgerDomain;
+using ERP_Core2.GeneralLedgerDomain;
+using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

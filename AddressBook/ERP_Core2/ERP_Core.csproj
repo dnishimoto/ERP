@@ -90,6 +90,7 @@
     <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
+    <Compile Include="BudgetsDomain\Repository\BudgetRepository.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\ChartOfAccountModule.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />

@@ -5,14 +5,14 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using System.Collections;
-using MillenniumERP.PackingSlipDomain;
+using ERP_Core2.PackingSlipDomain;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.InventoryDomain
+namespace ERP_Core2.InventoryDomain
 {
     public class InventoryView
     {

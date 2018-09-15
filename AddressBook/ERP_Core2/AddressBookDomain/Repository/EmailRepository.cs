@@ -6,10 +6,10 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MillenniumERP.Services;
+using ERP_Core2.Services;
 using ERP_Core2.AccountPayableDomain;
 
-namespace MillenniumERP.AddressBookDomain
+namespace ERP_Core2.AddressBookDomain
 {
 
 
