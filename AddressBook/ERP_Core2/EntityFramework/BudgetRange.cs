@@ -58,7 +58,5 @@ namespace ERP_Core2.EntityFramework
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets1 { get; set; }
-
-        public virtual ChartOfAcct ChartOfAcct { get; set; }
     }
 }

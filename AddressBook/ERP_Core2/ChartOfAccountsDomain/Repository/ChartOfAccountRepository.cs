@@ -303,9 +303,57 @@ namespace ERP_Core2.ChartOfAccountsDomain
        ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
+
             return true;
         }
+        public bool CreateExpensesPersonal()
+        {
+            string json = "";
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502""
+      ,""Description"":""Expense Personal (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
 
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.01""
+      ,""Description"":""Expense Personal (DB) Mortgage"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.01""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.02""
+      ,""Description"":""Expense Personal (DB) Utilities: Gas, Electricity, Sewer, Trash, Water"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.02""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.03""
+      ,""Description"":""Expense Personal (DB) Car Payment"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.03""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+
+            ProcessAccount(json);
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.04""
+      ,""Description"":""Expense Personal (DB) Food"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.04""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.05""
+      ,""Description"":""Expense Personal (DB) Tithing"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.05""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.06""
+      ,""Description"":""Expense Personal (DB) Medical"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.06""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.07""
+      ,""Description"":""Expense Personal (DB) Missionary Fund"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.07""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
+
+            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.08""
+      ,""Description"":""Expense Personal (DB) Entertainment and Travel"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.08""
+       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+            ProcessAccount(json);
+            return true;
+
+        }
         public bool CreateExpensesSalary()
         {
             string json = "";
