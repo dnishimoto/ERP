@@ -13,12 +13,9 @@ namespace ERP_Core2.EntityFramework
         {
             AccountBalances = new HashSet<AccountBalance>();
             AcctPays = new HashSet<AcctPay>();
-            AcctRecs = new HashSet<AcctRec>();
             Budgets = new HashSet<Budget>();
             Budgets1 = new HashSet<Budget>();
-            BudgetRanges = new HashSet<BudgetRange>();
             GeneralLedgers = new HashSet<GeneralLedger>();
-            PurchaseOrders = new HashSet<PurchaseOrder>();
         }
 
         [Key]
@@ -36,7 +33,7 @@ namespace ERP_Core2.EntityFramework
         [StringLength(10)]
         public string SubSub { get; set; }
 
-        [StringLength(10)]
+        [StringLength(30)]
         public string Account { get; set; }
 
         [StringLength(255)]
@@ -51,7 +48,7 @@ namespace ERP_Core2.EntityFramework
         [StringLength(3)]
         public string SubCode { get; set; }
 
-        [StringLength(10)]
+        [StringLength(20)]
         public string ObjectNumber { get; set; }
 
         [StringLength(10)]
@@ -83,23 +80,14 @@ namespace ERP_Core2.EntityFramework
         public virtual ICollection<AcctPay> AcctPays { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AcctRec> AcctRecs { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets1 { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<BudgetRange> BudgetRanges { get; set; }
-
         public virtual Company Company { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<GeneralLedger> GeneralLedgers { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PurchaseOrder> PurchaseOrders { get; set; }
     }
 }

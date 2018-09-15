@@ -67,8 +67,6 @@ namespace ERP_Core2.EntityFramework
         [Column(TypeName = "money")]
         public decimal? DiscountAmount { get; set; }
 
-        public virtual ChartOfAcct ChartOfAcct { get; set; }
-
         public virtual Customer Customer { get; set; }
 
         public virtual Invoice Invoice { get; set; }

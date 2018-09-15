@@ -11,7 +11,6 @@ namespace ERP_Core2.EntityFramework
              : base("name=Entities")
         {
         }
-
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -462,11 +461,6 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ChartOfAcct>()
-                .HasMany(e => e.AcctRecs)
-                .WithRequired(e => e.ChartOfAcct)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.Budgets)
                 .WithOptional(e => e.ChartOfAcct)
                 .HasForeignKey(e => e.AccountId);
@@ -478,11 +472,6 @@ namespace ERP_Core2.EntityFramework
 
             modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.GeneralLedgers)
-                .WithRequired(e => e.ChartOfAcct)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ChartOfAcct>()
-                .HasMany(e => e.PurchaseOrders)
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
 

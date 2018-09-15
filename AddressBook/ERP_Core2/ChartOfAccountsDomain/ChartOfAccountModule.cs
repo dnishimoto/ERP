@@ -39,6 +39,7 @@ namespace ERP_Core2.ChartOfAccountsDomain
                 status = unitOfWork.chartOfAccountRepository.CreateInterestPayment(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateMortgageLoanPayable(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateExpenses(); result = result && status;
+                status = unitOfWork.chartOfAccountRepository.CreateExpensesPersonal(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateExpensesSalary(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateExpensesWage(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateExpensesRent(); result = result && status;
@@ -50,7 +51,10 @@ namespace ERP_Core2.ChartOfAccountsDomain
                 status = unitOfWork.chartOfAccountRepository.CreateCapital(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateDrawing(); result = result && status;
 
-                unitOfWork.CommitChanges();
+                if (status == true)
+                {
+                    unitOfWork.CommitChanges();
+                }
                 return result;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
