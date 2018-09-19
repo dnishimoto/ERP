@@ -35,6 +35,8 @@ namespace ERP_Core2.Services
         public AddressBookRepository addressBookRepository => new AddressBookRepository(db);
         public ChartOfAccountRepository chartOfAccountRepository => new ChartOfAccountRepository(db);
         public BudgetSnapShotRepository budgetSnapShotRepository => new BudgetSnapShotRepository(db);
+        public BudgetRangeRepository budgetRangeRepository => new BudgetRangeRepository(db);
+        public BudgetRepository budgetRepository => new BudgetRepository(db);
         public ScheduleEventRepository scheduleEventRepository => new ScheduleEventRepository(db);
         public ProjectManagementProjectRepository projectManagementProjectRepository => new ProjectManagementProjectRepository(db);
         public ProjectManagementMilestoneRepository projectManagementMilestoneRepository => new ProjectManagementMilestoneRepository(db);

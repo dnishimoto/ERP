@@ -36,6 +36,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             this.FiscalYear = generalLedger.FiscalYear??0;
             this.CheckNumber = generalLedger.CheckNumber;
             this.PurchaseOrderNumber = generalLedger.PurchaseOrderNumber;
+            this.Units = generalLedger.Units;
         }
 
         public long GeneralLedgerId { get; set; }
@@ -58,6 +59,7 @@ namespace ERP_Core2.GeneralLedgerDomain
         public int FiscalYear { get; set; }
         public string CheckNumber { get; set; }
         public string PurchaseOrderNumber { get; set; }
+        public decimal? Units { get; set; }
     }
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>

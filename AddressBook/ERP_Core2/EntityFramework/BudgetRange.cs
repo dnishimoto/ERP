@@ -13,7 +13,6 @@ namespace ERP_Core2.EntityFramework
         public BudgetRange()
         {
             Budgets = new HashSet<Budget>();
-            Budgets1 = new HashSet<Budget>();
         }
 
         [Key]
@@ -34,11 +33,8 @@ namespace ERP_Core2.EntityFramework
         [StringLength(3)]
         public string SubCode { get; set; }
 
-        [StringLength(2)]
-        public string SubsidiaryAcct { get; set; }
-
         [StringLength(10)]
-        public string Company { get; set; }
+        public string CompanyCode { get; set; }
 
         [StringLength(10)]
         public string BusinessUnit { get; set; }
@@ -53,10 +49,12 @@ namespace ERP_Core2.EntityFramework
 
         public DateTime? LastUpdated { get; set; }
 
+        [StringLength(10)]
+        public string ObjectNumber { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Budget> Budgets { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Budget> Budgets1 { get; set; }
+        public virtual ChartOfAcct ChartOfAcct { get; set; }
     }
 }

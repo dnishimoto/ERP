@@ -11,6 +11,8 @@ namespace ERP_Core2.EntityFramework
              : base("name=Entities")
         {
         }
+
+        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<AccountBalance> AccountBalances { get; set; }
         public virtual DbSet<AcctPay> AcctPays { get; set; }
         public virtual DbSet<AcctRec> AcctRecs { get; set; }
@@ -325,11 +327,7 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<BudgetRange>()
-                .Property(e => e.SubsidiaryAcct)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<BudgetRange>()
-                .Property(e => e.Company)
+                .Property(e => e.CompanyCode)
                 .IsUnicode(false);
 
             modelBuilder.Entity<BudgetRange>()
@@ -345,14 +343,8 @@ namespace ERP_Core2.EntityFramework
                 .IsUnicode(false);
 
             modelBuilder.Entity<BudgetRange>()
-                .HasMany(e => e.Budgets)
-                .WithOptional(e => e.BudgetRange)
-                .HasForeignKey(e => e.RangeId);
-
-            modelBuilder.Entity<BudgetRange>()
-                .HasMany(e => e.Budgets1)
-                .WithOptional(e => e.BudgetRange1)
-                .HasForeignKey(e => e.RangeId);
+                .Property(e => e.ObjectNumber)
+                .IsUnicode(false);
 
             modelBuilder.Entity<BudgetSnapShot>()
                 .Property(e => e.BudgetHours)
@@ -461,17 +453,17 @@ namespace ERP_Core2.EntityFramework
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ChartOfAcct>()
-                .HasMany(e => e.Budgets)
-                .WithOptional(e => e.ChartOfAcct)
-                .HasForeignKey(e => e.AccountId);
-
-            modelBuilder.Entity<ChartOfAcct>()
-                .HasMany(e => e.Budgets1)
-                .WithOptional(e => e.ChartOfAcct1)
-                .HasForeignKey(e => e.AccountId);
+                .HasMany(e => e.AcctRecs)
+                .WithRequired(e => e.ChartOfAcct)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<ChartOfAcct>()
                 .HasMany(e => e.GeneralLedgers)
+                .WithRequired(e => e.ChartOfAcct)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ChartOfAcct>()
+                .HasMany(e => e.PurchaseOrders)
                 .WithRequired(e => e.ChartOfAcct)
                 .WillCascadeOnDelete(false);
 
@@ -687,6 +679,10 @@ namespace ERP_Core2.EntityFramework
             modelBuilder.Entity<GeneralLedger>()
                 .Property(e => e.PurchaseOrderNumber)
                 .IsUnicode(false);
+
+            modelBuilder.Entity<GeneralLedger>()
+                .Property(e => e.Units)
+                .HasPrecision(18, 4);
 
             modelBuilder.Entity<GeneralLedger>()
                 .HasMany(e => e.CustomerLedgers)

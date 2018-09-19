@@ -90,8 +90,11 @@
     <Compile Include="AddressBookDomain\Repository\SupervisorRepository.cs" />
     <Compile Include="AddressBookDomain\Repository\EmployeeRepository.cs" />
     <Compile Include="AddressBookDomain\UnitTestAddressBook.cs" />
+    <Compile Include="BudgetsDomain\BudgetModule.cs" />
+    <Compile Include="BudgetsDomain\Repository\BudgetRangeRepository.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetRepository.cs" />
     <Compile Include="BudgetsDomain\Repository\BudgetSnapShotRepository.cs" />
+    <Compile Include="BudgetsDomain\UnitTestBudget.cs" />
     <Compile Include="ChartOfAccountsDomain\ChartOfAccountModule.cs" />
     <Compile Include="ChartOfAccountsDomain\Repository\ChartOfAccountRepository.cs" />
     <Compile Include="ChartOfAccountsDomain\UnitTestChartOfAccounts.cs" />
@@ -165,6 +168,8 @@
     <Compile Include="FluentAPI\FluentAccountsReceivable.cs" />
     <Compile Include="FluentAPI\FluentAddressBook.cs" />
     <Compile Include="FluentAPI\FluentAddressBookQuery.cs" />
+    <Compile Include="FluentAPI\FluentBudgetRange.cs" />
+    <Compile Include="FluentAPI\FluentBudgetRangeQuery.cs" />
     <Compile Include="FluentAPI\FluentCashPayment.cs" />
     <Compile Include="FluentAPI\FluentCustomer.cs" />
     <Compile Include="FluentAPI\FluentCustomerLedger.cs" />
@@ -188,6 +193,8 @@
     <Compile Include="Interfaces\IAccountsReceivable.cs" />
     <Compile Include="Interfaces\IAddressBook.cs" />
     <Compile Include="Interfaces\IAddressBookQuery.cs" />
+    <Compile Include="Interfaces\IBudgetRange.cs" />
+    <Compile Include="Interfaces\IBudgetRangeQuery.cs" />
     <Compile Include="Interfaces\ICustomer.cs" />
     <Compile Include="Interfaces\ICustomerLedger.cs" />
     <Compile Include="Interfaces\ICustomerQuery.cs" />

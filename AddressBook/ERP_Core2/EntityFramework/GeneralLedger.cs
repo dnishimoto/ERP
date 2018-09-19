@@ -58,6 +58,8 @@ namespace ERP_Core2.EntityFramework
         [StringLength(50)]
         public string PurchaseOrderNumber { get; set; }
 
+        public decimal? Units { get; set; }
+
         public virtual AddressBook AddressBook { get; set; }
 
         public virtual ChartOfAcct ChartOfAcct { get; set; }

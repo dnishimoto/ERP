@@ -30,9 +30,5 @@ namespace ERP_Core2.EntityFramework
         public virtual BudgetRange BudgetRange { get; set; }
 
         public virtual ChartOfAcct ChartOfAcct { get; set; }
-
-        public virtual BudgetRange BudgetRange1 { get; set; }
-
-        public virtual ChartOfAcct ChartOfAcct1 { get; set; }
     }
 }
