@@ -315,40 +315,56 @@ namespace ERP_Core2.ChartOfAccountsDomain
             ProcessAccount(json);
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.01""
-      ,""Description"":""Expense Personal (DB) Mortgage"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.01""
-       ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
+      ,""Description"":""Expense Personal (DB) Mortgage"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+      ,""Subsidiary"":""01""
+,""SupCode"":""4366""
+,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.02""
-      ,""Description"":""Expense Personal (DB) Utilities: Gas, Electricity, Sewer, Trash, Water"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.02""
+      ,""Description"":""Expense Personal (DB) Utilities: Gas, Electricity, Sewer, Trash, Water"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""02""
+,""SupCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.03""
-      ,""Description"":""Expense Personal (DB) Car Payment"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.03""
+      ,""Description"":""Expense Personal (DB) Car Payment"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""03""
+,""SupCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.04""
-      ,""Description"":""Expense Personal (DB) Food"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.04""
+      ,""Description"":""Expense Personal (DB) Food"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""04""
+,""SupCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.05""
-      ,""Description"":""Expense Personal (DB) Tithing"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.05""
+      ,""Description"":""Expense Personal (DB) Tithing"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""05""
+,""SupCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.06""
-      ,""Description"":""Expense Personal (DB) Medical"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.06""
+      ,""Description"":""Expense Personal (DB) Medical"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""06""
+,""SupervisorCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.07""
-      ,""Description"":""Expense Personal (DB) Missionary Fund"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.07""
+      ,""Description"":""Expense Personal (DB) Missionary Fund"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""07""
+,""SupCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502.08""
-      ,""Description"":""Expense Personal (DB) Entertainment and Travel"",""CompanyNumber"":""1000"",""ObjectNumber"":""502.08""
+      ,""Description"":""Expense Personal (DB) Entertainment and Travel"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
+,""Subsidiary"":""08""
+,""SupCode"":""4366""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
             return true;

@@ -19,6 +19,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.ChartOfAccountsDomain;
+using ERP_Core2.BudgetDomain;
 
 namespace ERP_Core2.AbstractFactory
 {
@@ -72,6 +73,12 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view);
         public abstract void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeView);
         public abstract TimeAndAttendanceScheduleView MapTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule item);
+        public abstract void MapBudgetRangeEntity(ref BudgetRange budgetRange, BudgetRangeView view);
+        public abstract BudgetRangeView MapBudgetRangeView(BudgetRange budgetRange);
+        public abstract void MapBudgetEntity(ref Budget budget, BudgetView budgetView);
+        public abstract void MapRangeToBudgetViewEntity(ref BudgetView budgetView, BudgetRangeView budgetRangeView);
+        public abstract BudgetActualsView MapBudgetRangeToBudgetActuals(BudgetRangeView budgetRangeView);
+
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -337,15 +344,64 @@ namespace ERP_Core2.AbstractFactory
         }
         public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeView)
         {
-            scheduledToWork.EmployeeId = employeeView.EmployeeId??0;
+            scheduledToWork.EmployeeId = employeeView.EmployeeId ?? 0;
             scheduledToWork.EmployeeName = employeeView.EmployeeName;
-           scheduledToWork.ScheduleId = scheduleView.ScheduleId;
+            scheduledToWork.ScheduleId = scheduleView.ScheduleId;
             scheduledToWork.ScheduleName = scheduleView.ScheduleName;
             scheduledToWork.StartDate = scheduleView.StartDate;
             scheduledToWork.EndDate = scheduleView.EndDate;
             scheduledToWork.StartDateTime = scheduleView.StartDateTime;
             scheduledToWork.EndDateTime = scheduleView.EndDateTime;
         }
+        public override void MapBudgetRangeEntity(ref BudgetRange budgetRange, BudgetRangeView view)
+        {
+            budgetRange.RangeId = view.RangeId;
+            budgetRange.StartDate = view.StartDate;
+            budgetRange.EndDate = view.EndDate;
+            budgetRange.Location = view.Location;
+            budgetRange.GenCode = view.GenCode;
+            budgetRange.SubCode = view.SubCode;
+            budgetRange.CompanyCode = view.CompanyCode;
+            budgetRange.BusinessUnit = view.BusinessUnit;
+            budgetRange.ObjectNumber = view.ObjectNumber;
+            budgetRange.Subsidiary = view.Subsidiary;
+            budgetRange.AccountId = view.AccountId;
+            budgetRange.SupervisorCode = view.SupervisorCode;
+            DateTime? now = DateTime.Now;
+            budgetRange.LastUpdated = now;
+        }
+        public override void MapBudgetEntity(ref Budget budget, BudgetView budgetView)
+        {
+            budget.BudgetId = budgetView.BudgetId;
+            budget.BudgetHours = budgetView.BudgetHours;
+            budget.BudgetAmount = budgetView.BudgetAmount;
+            budget.ActualHours = budgetView.ActualHours;
+            budget.ActualAmount = budgetView.ActualAmount;
+            budget.AccountId = budgetView.AccountId;
+            budget.RangeId = budgetView.RangeId;
+            budget.ProjectedHours = budgetView.ProjectedHours??0;
+            budget.ProjectedAmount = budgetView.ProjectedAmount??0;
+    }
+        public override void MapRangeToBudgetViewEntity(ref BudgetView budgetView, BudgetRangeView budgetRangeView)
+        {
+            budgetView.AccountId = budgetRangeView.AccountId;
+            budgetView.RangeId = budgetRangeView.RangeId;
+            budgetView.RangeStartDate = budgetRangeView.StartDate;
+            budgetView.RangeEndDate = budgetRangeView.EndDate;
+        }
+        public override BudgetActualsView MapBudgetRangeToBudgetActuals(BudgetRangeView budgetRangeView)
+        {
+            BudgetActualsView budgetActualsView = new BudgetActualsView();
+
+            budgetActualsView.RangeId = budgetRangeView.RangeId;
+            budgetActualsView.RangeStartDate = budgetRangeView.StartDate;
+            budgetActualsView.RangeEndDate = budgetRangeView.EndDate;
+            budgetActualsView.AccountId = budgetRangeView.AccountId;
+
+            return budgetActualsView;
+        }
+        public override BudgetRangeView MapBudgetRangeView(BudgetRange budgetRange)
+        { return new BudgetRangeView(budgetRange); }
         public override TimeAndAttendanceScheduleView MapTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule schedule)
         {
             return new TimeAndAttendanceScheduleView(schedule);
@@ -453,6 +509,7 @@ namespace ERP_Core2.AbstractFactory
             ledger.FiscalPeriod = view.FiscalPeriod;
             ledger.CheckNumber = view.CheckNumber;
             ledger.PurchaseOrderNumber = view.PurchaseOrderNumber;
+            ledger.Units = view.Units;
         }
         public override void MapCustomerLedgerEntity(ref CustomerLedger customerLedger, CustomerLedgerView ledgerView)
         {
