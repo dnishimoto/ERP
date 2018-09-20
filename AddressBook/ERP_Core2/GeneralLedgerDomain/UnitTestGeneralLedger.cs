@@ -26,11 +26,68 @@ namespace ERP_Core2.GeneralLedgerDomain
 
         }
         [Fact]
-        public void TestCreatePersonalExpense()
+        public async Task TestCreatePersonalExpenseAndPayment()
         {
             //ToDo
+            UnitOfWork unitOfWork = new UnitOfWork();
+            long addressId = 1;
+            long expenseDocumentNumber = 19;
+            decimal expense = 768M;
+            ChartOfAcct coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "502", "01");
+            UDC udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
+            UDC udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE", "PV");
+            AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
+            GeneralLedgerView glView = new GeneralLedgerView();
+            GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
+
+            glView.DocNumber = expenseDocumentNumber;
+            glView.DocType = udcDocType.KeyCode;
+            glView.AccountId = coa.AccountId;
+            glView.Amount = expense;
+            glView.LedgerType = udcLedgerType.KeyCode;
+            glView.GLDate = DateTime.Parse("9/19/2018");
+            glView.CreatedDate = DateTime.Parse("9/19/2018");
+            glView.AddressId = addressBook.AddressId;
+            glView.Comment = "Mortgage Payment";
+            glView.DebitAmount = 0;
+            glView.CreditAmount = expense;
+            glView.FiscalPeriod = 9;
+            glView.FiscalYear = 2018;
+
+            ledgerMod.GeneralLedger.CreateGeneralLedger(glView).Apply();
+            ledgerMod.GeneralLedger.UpdateAccountBalances(glView);
+
+            GeneralLedgerView glViewLookup =
+             ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glView.DocNumber, glView.DocType);
+
+            ChartOfAcct coaCash = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "101", "");
+
+            GeneralLedgerView glCashView = new GeneralLedgerView();
+
+            long cashDocumentNumber = 22;
+            glCashView.DocNumber = cashDocumentNumber;
+            glCashView.DocType = udcDocType.KeyCode;
+            glCashView.AccountId = coaCash.AccountId;
+            glCashView.Amount = expense;
+            glCashView.LedgerType = udcLedgerType.KeyCode;
+            glCashView.GLDate = DateTime.Parse("9/20/2018");
+            glCashView.CreatedDate = DateTime.Parse("9/20/2018");
+            glCashView.AddressId = addressBook.AddressId;
+            glCashView.Comment = "Mortgage Payment";
+            glCashView.DebitAmount = 0;
+            glCashView.CreditAmount = expense;
+            glCashView.FiscalPeriod = 9;
+            glCashView.FiscalYear = 2018;
+          
+            ledgerMod.GeneralLedger.CreateGeneralLedger(glCashView).Apply();
+            ledgerMod.GeneralLedger.UpdateAccountBalances(glCashView);
+
+            GeneralLedgerView glCashViewLookup =
+           ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glCashView.DocNumber, glCashView.DocType);
+
+            Assert.True(glCashViewLookup != null);
         }
-   
+
         [Fact]
         public async Task TestCreateIncomeRevenue()
         {
