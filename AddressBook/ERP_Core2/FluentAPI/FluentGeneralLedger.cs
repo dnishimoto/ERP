@@ -14,12 +14,21 @@ using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 
 namespace ERP_Core2.FluentAPI
 {
+   
     public class FluentGeneralLedger : AbstractErrorHandling, IGeneralLedger
     {
         public UnitOfWork unitOfWork = new UnitOfWork();
         public AccountReceiveableView lastAccountReceivableView;
         public CreateProcessStatus processStatus;
 
+        private FluentGeneralLedgerQuery _query = null;
+
+        public IGeneralLedgerQuery Query()
+       {
+            if (_query == null) { _query = new FluentGeneralLedgerQuery(unitOfWork); }
+
+            return _query as IGeneralLedgerQuery;
+        }
         public FluentGeneralLedger() { }
         public IGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView)
         {

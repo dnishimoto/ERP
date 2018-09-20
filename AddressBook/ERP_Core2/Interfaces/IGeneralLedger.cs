@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.Interfaces
 {
+ 
     public interface IGeneralLedger
     {
 
@@ -16,5 +17,6 @@ namespace ERP_Core2.Interfaces
         IGeneralLedger Apply();
         IGeneralLedger UpdateLedgerBalances();
         IGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView);
+        IGeneralLedgerQuery Query();
     }
 }
