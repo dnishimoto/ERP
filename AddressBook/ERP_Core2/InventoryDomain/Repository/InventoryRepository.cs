@@ -1,5 +1,4 @@
-﻿using ERP_Core2.EntityFramework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -11,6 +10,7 @@ using System.Collections;
 using ERP_Core2.PackingSlipDomain;
 using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
 using ERP_Core2.AccountPayableDomain;
+
 
 namespace ERP_Core2.InventoryDomain
 {

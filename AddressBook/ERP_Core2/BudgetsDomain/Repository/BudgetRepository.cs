@@ -1,6 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.EntityFramework;
+
 using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
@@ -70,35 +70,54 @@ namespace ERP_Core2.BudgetDomain
         {
             _dbContext = (Entities)db;
         }
-        public async Task<BudgetActualsView> GetActuals(BudgetRangeView budgetRangeView)
+        public async Task<BudgetView> GetBudgetView(long budgetId)
         {
-            UDC udcActuals = await GetUdc("GENERALLEDGERTYPE", "AA");
-            UDC udcHours = await GetUdc("GENERALLEDGERTYPE", "HA");
+            Budget budget = await (from e in _dbContext.Budgets
+                                   where e.BudgetId == budgetId
+                                   select e).FirstOrDefaultAsync<Budget>();
 
-          
+            BudgetView budgetView = null;
+            if (budget != null)
+            {
+                budgetView=applicationViewFactory.MapBudgetView(budget);
+            }
+            return budgetView;
 
-            BudgetActualsView budgetActualsView=applicationViewFactory.MapBudgetRangeToBudgetActuals(budgetRangeView);
+        }
+                            
+        public async Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView)
+        {
+            try
+            {
+                UDC udcActuals = await GetUdc("GENERALLEDGERTYPE", "AA");
+                UDC udcHours = await GetUdc("GENERALLEDGERTYPE", "HA");
 
 
-            //query actual amounts
-            decimal actualAmount = (from e in _dbContext.GeneralLedgers
-                         where e.AccountId == budgetRangeView.AccountId
-                         && e.GLDate >= budgetRangeView.StartDate
-                         && e.GLDate <= budgetRangeView.EndDate
-                         && e.LedgerType == udcActuals.KeyCode
-                         select e.Amount
-                       ).Sum();
-            budgetActualsView.ActualAmount = actualAmount;
-            //query actual hours
-            decimal? actualHours = (from e in _dbContext.GeneralLedgers
-                                    where e.AccountId == budgetRangeView.AccountId
-                                    && e.GLDate >= budgetRangeView.StartDate
-                                    && e.GLDate <= budgetRangeView.EndDate
-                                    && e.LedgerType == udcHours.KeyCode
-                                    select e.Units
-           ).Sum();
-            budgetActualsView.ActualHours = actualHours??0;
-            return budgetActualsView;
+
+                BudgetActualsView budgetActualsView = applicationViewFactory.MapBudgetRangeToBudgetActuals(budgetRangeView);
+
+
+                //query actual amounts
+                decimal actualAmount = (from e in _dbContext.GeneralLedgers
+                                        where e.AccountId == budgetRangeView.AccountId
+                                        && e.GLDate >= budgetRangeView.StartDate
+                                        && e.GLDate <= budgetRangeView.EndDate
+                                        && e.LedgerType == udcActuals.KeyCode
+                                        select e.Amount
+                           ).Sum();
+                budgetActualsView.ActualAmount = actualAmount;
+                //query actual hours
+                decimal? actualHours = (from e in _dbContext.GeneralLedgers
+                                        where e.AccountId == budgetRangeView.AccountId
+                                        && e.GLDate >= budgetRangeView.StartDate
+                                        && e.GLDate <= budgetRangeView.EndDate
+                                        && e.LedgerType == udcHours.KeyCode
+                                        select e.Units
+               ).Sum();
+                budgetActualsView.ActualHours = actualHours ?? 0;
+                return budgetActualsView;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
 

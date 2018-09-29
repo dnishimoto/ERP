@@ -1,6 +1,5 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.EntityFramework;
 using ERP_Core2.Interfaces;
 using ERP_Core2.InvoicesDomain;
 using ERP_Core2.Services;

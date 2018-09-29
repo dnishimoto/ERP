@@ -1,4 +1,4 @@
-﻿using ERP_Core2.EntityFramework;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
+using ERP_Core2.EntityFramework;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {

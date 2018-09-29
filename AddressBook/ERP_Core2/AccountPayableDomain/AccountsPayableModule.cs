@@ -14,7 +14,6 @@ using ERP_Core2.Interfaces;
 using ERP_Core2.FluentAPI;
 using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.CustomerLedgerDomain;
-using ERP_Core2.EntityFramework;
 
 namespace ERP_Core2.AccountPayableDomain
 {

@@ -1,5 +1,4 @@
-﻿using ERP_Core2.EntityFramework;
-using ERP_Core2.AccountsPayableDomain;
+﻿using ERP_Core2.AccountsPayableDomain;
 using ERP_Core2.AccountsReceivableDomain;
 using ERP_Core2.AddressBookDomain;
 using ERP_Core2.CustomerDomain;
@@ -9,17 +8,13 @@ using ERP_Core2.InvoiceDetailsDomain;
 using ERP_Core2.InvoicesDomain;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.PurchaseOrderDomain;
-using ERP_Core2.ScheduleEventsDomain;
-using ERP_Core2.Services;
 using ERP_Core2.SupplierInvoicesDomain;
 using ERP_Core2.TimeAndAttendanceDomain;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ERP_Core2.ChartOfAccountsDomain;
 using ERP_Core2.BudgetDomain;
+using ERP_Core2.EntityFramework;
 
 namespace ERP_Core2.AbstractFactory
 {
@@ -78,6 +73,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapBudgetEntity(ref Budget budget, BudgetView budgetView);
         public abstract void MapRangeToBudgetViewEntity(ref BudgetView budgetView, BudgetRangeView budgetRangeView);
         public abstract BudgetActualsView MapBudgetRangeToBudgetActuals(BudgetRangeView budgetRangeView);
+        public abstract BudgetView MapBudgetView(Budget budget);
 
     }
     //Time and Attendance Domain
@@ -399,6 +395,10 @@ namespace ERP_Core2.AbstractFactory
             budgetActualsView.AccountId = budgetRangeView.AccountId;
 
             return budgetActualsView;
+        }
+        public override BudgetView MapBudgetView(Budget budget)
+        {
+            return new BudgetView(budget);
         }
         public override BudgetRangeView MapBudgetRangeView(BudgetRange budgetRange)
         { return new BudgetRangeView(budgetRange); }
