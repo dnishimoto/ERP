@@ -28,7 +28,7 @@ namespace lssWebApi2
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var connection = @"tcp:listensoftware.database.windows.net; Database=ListensoftwareDB;user id=dnishimoto;password=Amanda7258;Trusted_Connection=True;ConnectRetryCount=0";
+            var connection = @"tcp:listensoftware.database.windows.net; Database=ListensoftwareDB;user id=dnishimoto;password=x;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<ListensoftwareDBContext>(options => options.UseSqlServer(connection));
         }
 
