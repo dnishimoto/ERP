@@ -1,5 +1,5 @@
 ﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.EntityFramework;
+
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;

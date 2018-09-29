@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using ERP_Core2.EntityFramework;
+
 using Xunit.Abstractions;
 using ERP_Core2.AddressBookDomain;
 using ERP_Core2.Services;
@@ -24,6 +24,19 @@ namespace ERP_Core2.BudgetDomain
         {
             this.output = output;
 
+        }
+        [Fact]
+        public void TestGetBudget()
+        {
+            long budgetId = 2;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            BudgetModule budgetMod = new BudgetModule();
+
+            BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
+
+            if (budgetView != null) { Assert.True(true); }
         }
         [Fact]
         public async Task TestCreateBudget()
@@ -56,7 +69,7 @@ namespace ERP_Core2.BudgetDomain
 
             budgetMod.Budget.MapRangeToBudgetView(ref budgetView, budgetRangeLookupView);
 
-            BudgetActualsView budgetActualsView = budgetMod.Budget.Query().GetBudgetActuals(budgetRangeLookupView);
+            BudgetActualsView budgetActualsView = budgetMod.Budget.Query().GetBudgetActualsView(budgetRangeLookupView);
 
             budgetView.BudgetAmount = 768 * 12;
             budgetView.BudgetHours = 0;

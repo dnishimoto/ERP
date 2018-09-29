@@ -1,4 +1,4 @@
-﻿using ERP_Core2.EntityFramework;
+﻿
 using ERP_Core2.CustomerDomain;
 using System;
 using System.Collections.Generic;

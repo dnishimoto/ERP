@@ -3,7 +3,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-using ERP_Core2.EntityFramework;
+
 using Xunit.Abstractions;
 using ERP_Core2.AddressBookDomain;
 using ERP_Core2.Services;
@@ -43,7 +43,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             glView.DocNumber = expenseDocumentNumber;
             glView.DocType = udcDocType.KeyCode;
             glView.AccountId = coa.AccountId;
-            glView.Amount = expense;
+            glView.Amount = expense*-1;
             glView.LedgerType = udcLedgerType.KeyCode;
             glView.GLDate = DateTime.Parse("9/19/2018");
             glView.CreatedDate = DateTime.Parse("9/19/2018");
@@ -68,7 +68,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             glCashView.DocNumber = cashDocumentNumber;
             glCashView.DocType = udcDocType.KeyCode;
             glCashView.AccountId = coaCash.AccountId;
-            glCashView.Amount = expense;
+            glCashView.Amount = expense*-1;
             glCashView.LedgerType = udcLedgerType.KeyCode;
             glCashView.GLDate = DateTime.Parse("9/20/2018");
             glCashView.CreatedDate = DateTime.Parse("9/20/2018");

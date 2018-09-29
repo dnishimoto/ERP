@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ERP_Core2.EntityFramework;
 using System.Linq.Expressions;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.FluentAPI;

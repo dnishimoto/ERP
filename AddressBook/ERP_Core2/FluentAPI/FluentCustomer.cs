@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ERP_Core2.CustomerDomain;
-using ERP_Core2.EntityFramework;
 using ERP_Core2.AddressBookDomain;
 
 namespace ERP_Core2.FluentAPI

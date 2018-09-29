@@ -1,10 +1,11 @@
-﻿using ERP_Core2.EntityFramework;
+﻿
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ERP_Core2.EntityFramework;
 using ERP_Core2.Services;
 
 namespace ERP_Core2.ScheduleEventsDomain
