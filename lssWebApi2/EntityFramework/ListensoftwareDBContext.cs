@@ -13,6 +13,7 @@ namespace lssWebApi2.entityframework
         public ListensoftwareDBContext(DbContextOptions<ListensoftwareDBContext> options)
             : base(options)
         {
+      
         }
 
 
@@ -84,11 +85,7 @@ namespace lssWebApi2.entityframework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("server=tcp:listensoftware.database.windows.net; Database=ListensoftwareDB;trusted_connection=true; integrated security=false;user id=dnishimoto;password=Amanda7258;");
-            }
+           
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

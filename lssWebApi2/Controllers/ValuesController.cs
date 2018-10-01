@@ -25,13 +25,13 @@ namespace lssWebApi2.Controllers
 
             */
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-            Task<NextNumber> nextNumberTask = Task.Run(async()=>await unitOfWork.udcRepository.GetNextNumber("PackingSlipNumber"));
-            Task.WaitAll(nextNumberTask);
+            //UnitOfWork unitOfWork = new UnitOfWork();
+            //Task<NextNumber> nextNumberTask = Task.Run(async()=>await unitOfWork.udcRepository.GetNextNumber("PackingSlipNumber"));
+            //Task.WaitAll(nextNumberTask);
 
-            return new string[] { nextNumberTask.Result.NextNumberName };
+            //return new string[] { nextNumberTask.Result.NextNumberName };
 
-            //return new string[] { query.BudgetAmount.ToString(), query.ActualAmount.ToString() };
+            return new string[] { "value1" ,"value2" };
         }
 
         // GET api/values/5
