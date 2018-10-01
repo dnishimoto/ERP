@@ -5,7 +5,7 @@ namespace ERP_Core2.InvoiceDomain
 {
 
 
-    public class InvoiceModule : AbstractModule
+    public class InvoiceModule 
     {
         public FluentInvoice Invoice = new FluentInvoice();
         public FluentInvoiceDetail InvoiceDetail = new FluentInvoiceDetail();

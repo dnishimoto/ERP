@@ -4,7 +4,7 @@ using ERP_Core2.FluentAPI;
 namespace ERP_Core2.AddressBookDomain
 {
 
-    class AddressBookModule : AbstractModule
+    public class AddressBookModule 
     {
 
         public FluentAddressBook AddressBook = new FluentAddressBook();

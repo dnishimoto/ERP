@@ -9,16 +9,81 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using lssWebApi2.entityframework;
+using System.Data.Common;
+using System.Data;
 
 namespace ERP_Core2.Services
 {
+    public static class EF_Extension
+    {
+        //https://github.com/aspnet/EntityFrameworkCore/issues/10262
+        public static IList<T> SqlQuery<T>(this DbContext db, CommandType type, string sql, List<SqlParameter> parameters) where T : new()
+        {
+            var conn = db.Database.GetDbConnection();
+            try
+            {
+                if (conn.State == System.Data.ConnectionState.Closed)
+                    conn.Open();
+                using (var command = conn.CreateCommand())
+                {
+                    command.CommandText = sql;
+                    command.CommandType = type;
+                    if (parameters != null && parameters.Count() > 0)
+                    {
+                        foreach (var item in parameters)
+                        {
+                            DbParameter p = command.CreateParameter();
+                            p.DbType = item.DbType;
+                            p.ParameterName = item.ParameterName;
+                            p.Value = item.Value;
+                            command.Parameters.Add(p);
+                        }
+                    }
+                    var propts = typeof(T).GetProperties();
+                    var rtnList = new List<T>();
+                    T model;
+                    object val;
+                    using (var reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            model = new T();
+                            foreach (var l in propts)
+                            {
+                                val = reader[l.Name];
+                                if (val == DBNull.Value)
+                                    l.SetValue(model, null);
+                                else
+                                    l.SetValue(model, val);
+                            }
+                            rtnList.Add(model);
+                        }
+                    }
+                    return rtnList;
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+
+        public class ResultDTO
+        {
+            public string UserName { get; set; }
+            public string TrueName { get; set; }
+        }
+
+    }
     public class Repository<T> where T : class
     {
         private DbContext _dbContext;
 
         public Repository(DbContext dbContext)
         {
-             _dbContext=dbContext;  
+             _dbContext=dbContext;
+           
         }
         public string GetMyMethodName()
         {
@@ -37,14 +102,24 @@ namespace ERP_Core2.Services
 
 
         }
+    
+
         public async Task<NextNumber> GetNextNumber(string nextNumberName)
         {
             try
             {
-                //ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
 
-                SqlParameter param1 = new SqlParameter("@NextNumberName", nextNumberName);
+                List<SqlParameter> parameters = new List<SqlParameter>();
+
+                parameters.Add( new SqlParameter("@NextNumberName", nextNumberName));
+
+       
+                IList<NextNumber> nextNumber= _dbContext.SqlQuery<NextNumber>(CommandType.Text, "usp_GetNextNumber @NextNumberName",parameters);
+
+                /*
+                 SqlParameter param1 = new SqlParameter("@NextNumberName", nextNumberName);
                 //NextNumber nextNumber = await _dbContext.Database.SqlQuery<NextNumber>("usp_GetNextNumber @NextNumberName", param1).SingleAsync();
+
                 var command = _dbContext.Database.GetDbConnection().CreateCommand();
 
                 command.CommandType = System.Data.CommandType.StoredProcedure;
@@ -52,18 +127,22 @@ namespace ERP_Core2.Services
                 command.Parameters.Add(param1);
 
                 _dbContext.Database.OpenConnection();
-            
+
+        
+
                 var queryResults = command.ExecuteReader();
-                NextNumber nextNumber = null;
-                if (queryResults.Read())
+                NextNumber nextNumber = new NextNumber();
+                while (queryResults.Read())
                 {
-                            
-                    foreach (NextNumber item in queryResults.Cast<NextNumber>())
-                    {
-                        nextNumber = item;
-                    }
+                    nextNumber.NextNumberId = (long) queryResults["NextNumberId"];
+                    nextNumber.NextNumberName = queryResults["NextNumberName"].ToString();
+                    nextNumber.NextNumberValue = (long)queryResults["NextNumberValue"];
+                   
+
+
                 }
-                return nextNumber;
+                */
+                return nextNumber[0];
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
       
