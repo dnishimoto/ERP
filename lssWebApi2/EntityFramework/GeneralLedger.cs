@@ -29,9 +29,9 @@ namespace lssWebApi2.entityframework
         public string PurchaseOrderNumber { get; set; }
         public decimal? Units { get; set; }
 
-        public ChartOfAccts Account { get; set; }
-        public AddressBook Address { get; set; }
-        public ICollection<CustomerLedger> CustomerLedger { get; set; }
-        public ICollection<SupplierLedger> SupplierLedger { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
+        public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
     }
 }

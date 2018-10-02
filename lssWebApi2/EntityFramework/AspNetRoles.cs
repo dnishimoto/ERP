@@ -13,6 +13,6 @@ namespace lssWebApi2.entityframework
         public string Id { get; set; }
         public string Name { get; set; }
 
-        public ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
+        public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
     }
 }

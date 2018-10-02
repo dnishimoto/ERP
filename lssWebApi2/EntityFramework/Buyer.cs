@@ -9,6 +9,6 @@ namespace lssWebApi2.entityframework
         public long AddressId { get; set; }
         public string Title { get; set; }
 
-        public AddressBook Address { get; set; }
+        public virtual AddressBook Address { get; set; }
     }
 }

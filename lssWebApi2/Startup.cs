@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.entityframework;
@@ -28,8 +29,13 @@ namespace lssWebApi2
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            var connection = @"tcp:listensoftware.database.windows.net; Database=ListensoftwareDB;user id=dnishimoto;password=x;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<ListensoftwareDBContext>(options => options.UseSqlServer(connection));
+            IConfigurationRoot configuration = new ConfigurationBuilder()
+                 .SetBasePath(Directory.GetCurrentDirectory())
+                 .AddJsonFile("appsettings.json")
+                 .Build();
+            var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
+       
+            services.AddDbContext<ListensoftwareDBContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString) );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

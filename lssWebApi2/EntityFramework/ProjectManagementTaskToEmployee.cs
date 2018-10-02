@@ -9,7 +9,7 @@ namespace lssWebApi2.entityframework
         public long? EmployeeId { get; set; }
         public long? TaskId { get; set; }
 
-        public Employee Employee { get; set; }
-        public ProjectManagementTask Task { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual ProjectManagementTask Task { get; set; }
     }
 }

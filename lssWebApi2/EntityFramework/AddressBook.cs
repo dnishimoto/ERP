@@ -35,15 +35,15 @@ namespace lssWebApi2.entityframework
         public DateTime? CategoryCodeDate3 { get; set; }
         public string CompanyName { get; set; }
 
-        public ICollection<Buyer> Buyer { get; set; }
-        public ICollection<Carrier> Carrier { get; set; }
-        public ICollection<Customer> Customer { get; set; }
-        public ICollection<Emails> Emails { get; set; }
-        public ICollection<Employee> Employee { get; set; }
-        public ICollection<GeneralLedger> GeneralLedger { get; set; }
-        public ICollection<LocationAddress> LocationAddress { get; set; }
-        public ICollection<Phones> Phones { get; set; }
-        public ICollection<Supervisor> Supervisor { get; set; }
-        public ICollection<Supplier> Supplier { get; set; }
+        public virtual ICollection<Buyer> Buyer { get; set; }
+        public virtual ICollection<Carrier> Carrier { get; set; }
+        public virtual ICollection<Customer> Customer { get; set; }
+        public virtual ICollection<Emails> Emails { get; set; }
+        public virtual ICollection<Employee> Employee { get; set; }
+        public virtual ICollection<GeneralLedger> GeneralLedger { get; set; }
+        public virtual ICollection<LocationAddress> LocationAddress { get; set; }
+        public virtual ICollection<Phones> Phones { get; set; }
+        public virtual ICollection<Supervisor> Supervisor { get; set; }
+        public virtual ICollection<Supplier> Supplier { get; set; }
     }
 }

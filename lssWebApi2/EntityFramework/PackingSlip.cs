@@ -19,7 +19,7 @@ namespace lssWebApi2.entityframework
         public string SlipType { get; set; }
         public decimal? Amount { get; set; }
 
-        public Supplier Supplier { get; set; }
-        public ICollection<PackingSlipDetail> PackingSlipDetail { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<PackingSlipDetail> PackingSlipDetail { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace lssWebApi2.entityframework
         public string ObjectNumber { get; set; }
         public bool? IsActive { get; set; }
 
-        public ChartOfAccts Account { get; set; }
-        public ICollection<Budget> Budget { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
+        public virtual ICollection<Budget> Budget { get; set; }
     }
 }

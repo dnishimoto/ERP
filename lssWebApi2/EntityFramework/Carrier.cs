@@ -9,7 +9,7 @@ namespace lssWebApi2.entityframework
         public long AddressId { get; set; }
         public long CarrierTypeXrefId { get; set; }
 
-        public AddressBook Address { get; set; }
-        public Udc CarrierTypeXref { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual Udc CarrierTypeXref { get; set; }
     }
 }

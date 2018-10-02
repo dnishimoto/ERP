@@ -27,10 +27,10 @@ namespace lssWebApi2.entityframework
         public int? DurationInMinutes { get; set; }
         public int? MealDurationInMinutes { get; set; }
 
-        public Employee Employee { get; set; }
-        public TimeAndAttendanceShift Shift { get; set; }
-        public TimeAndAttendanceSchedule Supervisor { get; set; }
-        public Supervisor SupervisorNavigation { get; set; }
-        public Udc TypeOfTimeUdcXref { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual TimeAndAttendanceShift Shift { get; set; }
+        public virtual TimeAndAttendanceSchedule Supervisor { get; set; }
+        public virtual Supervisor SupervisorNavigation { get; set; }
+        public virtual Udc TypeOfTimeUdcXref { get; set; }
     }
 }

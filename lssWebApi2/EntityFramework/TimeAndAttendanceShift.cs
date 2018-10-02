@@ -17,7 +17,7 @@ namespace lssWebApi2.entityframework
         public int? ShiftEndTime { get; set; }
         public string ShiftType { get; set; }
 
-        public ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
-        public ICollection<TimeAndAttendanceSchedule> TimeAndAttendanceSchedule { get; set; }
+        public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+        public virtual ICollection<TimeAndAttendanceSchedule> TimeAndAttendanceSchedule { get; set; }
     }
 }

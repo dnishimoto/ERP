@@ -17,7 +17,7 @@ namespace lssWebApi2.entityframework
         public decimal? DiscountAmount { get; set; }
         public decimal? DiscountPercent { get; set; }
 
-        public ItemMaster Item { get; set; }
-        public SupplierInvoice SupplierInvoice { get; set; }
+        public virtual ItemMaster Item { get; set; }
+        public virtual SupplierInvoice SupplierInvoice { get; set; }
     }
 }

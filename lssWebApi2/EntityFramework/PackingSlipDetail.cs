@@ -14,6 +14,6 @@ namespace lssWebApi2.entityframework
         public string UnitOfMeasure { get; set; }
         public string Description { get; set; }
 
-        public PackingSlip PackingSlip { get; set; }
+        public virtual PackingSlip PackingSlip { get; set; }
     }
 }

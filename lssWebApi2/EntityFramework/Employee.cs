@@ -23,14 +23,14 @@ namespace lssWebApi2.entityframework
         public DateTime? TerminationDate { get; set; }
         public string TaxIdentification { get; set; }
 
-        public AddressBook Address { get; set; }
-        public Udc EmploymentStatusXref { get; set; }
-        public Udc JobTitleXref { get; set; }
-        public ICollection<CustomerClaim> CustomerClaim { get; set; }
-        public ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
-        public ICollection<ScheduleEvent> ScheduleEvent { get; set; }
-        public ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
-        public ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
-        public ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual Udc EmploymentStatusXref { get; set; }
+        public virtual Udc JobTitleXref { get; set; }
+        public virtual ICollection<CustomerClaim> CustomerClaim { get; set; }
+        public virtual ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
+        public virtual ICollection<ScheduleEvent> ScheduleEvent { get; set; }
+        public virtual ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
+        public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+        public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
     }
 }

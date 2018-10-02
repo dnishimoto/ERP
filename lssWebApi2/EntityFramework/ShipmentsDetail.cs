@@ -12,7 +12,7 @@ namespace lssWebApi2.entityframework
         public decimal? Amount { get; set; }
         public long SalesOrderDetailId { get; set; }
 
-        public ItemMaster Item { get; set; }
-        public Shipments Shipment { get; set; }
+        public virtual ItemMaster Item { get; set; }
+        public virtual Shipments Shipment { get; set; }
     }
 }

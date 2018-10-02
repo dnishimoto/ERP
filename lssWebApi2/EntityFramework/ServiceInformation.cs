@@ -26,11 +26,11 @@ namespace lssWebApi2.entityframework
         public string Comments { get; set; }
         public bool Status { get; set; }
 
-        public Contract Contract { get; set; }
-        public Customer Customer { get; set; }
-        public LocationAddress Location { get; set; }
-        public Udc ServiceTypeXref { get; set; }
-        public ICollection<ScheduleEvent> ScheduleEvent { get; set; }
-        public ICollection<ServiceInformationInvoice> ServiceInformationInvoice { get; set; }
+        public virtual Contract Contract { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual LocationAddress Location { get; set; }
+        public virtual Udc ServiceTypeXref { get; set; }
+        public virtual ICollection<ScheduleEvent> ScheduleEvent { get; set; }
+        public virtual ICollection<ServiceInformationInvoice> ServiceInformationInvoice { get; set; }
     }
 }

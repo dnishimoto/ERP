@@ -29,9 +29,9 @@ namespace lssWebApi2.entityframework
         public long ProjectId { get; set; }
         public string AccountNumber { get; set; }
 
-        public ProjectManagementMilestones MileStone { get; set; }
-        public ProjectManagementProject Project { get; set; }
-        public Udc StatusXref { get; set; }
-        public ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
+        public virtual ProjectManagementMilestones MileStone { get; set; }
+        public virtual ProjectManagementProject Project { get; set; }
+        public virtual Udc StatusXref { get; set; }
+        public virtual ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
     }
 }

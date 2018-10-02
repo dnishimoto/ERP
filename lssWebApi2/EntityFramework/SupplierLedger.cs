@@ -23,9 +23,9 @@ namespace lssWebApi2.entityframework
         public int FiscalYear { get; set; }
         public int FiscalPeriod { get; set; }
 
-        public AcctPay AcctPay { get; set; }
-        public GeneralLedger GeneralLedger { get; set; }
-        public SupplierInvoice Invoice { get; set; }
-        public Supplier Supplier { get; set; }
+        public virtual AcctPay AcctPay { get; set; }
+        public virtual GeneralLedger GeneralLedger { get; set; }
+        public virtual SupplierInvoice Invoice { get; set; }
+        public virtual Supplier Supplier { get; set; }
     }
 }

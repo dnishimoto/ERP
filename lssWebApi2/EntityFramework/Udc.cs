@@ -27,18 +27,18 @@ namespace lssWebApi2.entityframework
         public string KeyCode { get; set; }
         public string Value { get; set; }
 
-        public ICollection<AcctRec> AcctRec { get; set; }
-        public ICollection<Assets> Assets { get; set; }
-        public ICollection<Carrier> Carrier { get; set; }
-        public ICollection<Contract> Contract { get; set; }
-        public ICollection<CustomerClaim> CustomerClaimClassificationXref { get; set; }
-        public ICollection<CustomerClaim> CustomerClaimGroupIdXref { get; set; }
-        public ICollection<Employee> EmployeeEmploymentStatusXref { get; set; }
-        public ICollection<Employee> EmployeeJobTitleXref { get; set; }
-        public ICollection<LocationAddress> LocationAddress { get; set; }
-        public ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
-        public ICollection<ServiceInformation> ServiceInformation { get; set; }
-        public ICollection<Supervisor> Supervisor { get; set; }
-        public ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+        public virtual ICollection<AcctRec> AcctRec { get; set; }
+        public virtual ICollection<Assets> Assets { get; set; }
+        public virtual ICollection<Carrier> Carrier { get; set; }
+        public virtual ICollection<Contract> Contract { get; set; }
+        public virtual ICollection<CustomerClaim> CustomerClaimClassificationXref { get; set; }
+        public virtual ICollection<CustomerClaim> CustomerClaimGroupIdXref { get; set; }
+        public virtual ICollection<Employee> EmployeeEmploymentStatusXref { get; set; }
+        public virtual ICollection<Employee> EmployeeJobTitleXref { get; set; }
+        public virtual ICollection<LocationAddress> LocationAddress { get; set; }
+        public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
+        public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
+        public virtual ICollection<Supervisor> Supervisor { get; set; }
+        public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
     }
 }

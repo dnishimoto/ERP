@@ -30,7 +30,7 @@ namespace lssWebApi2.entityframework
         public DateTime? ScheduledPickupDate { get; set; }
         public DateTime? ActualPickupDate { get; set; }
 
-        public Customer Customer { get; set; }
-        public ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
     }
 }

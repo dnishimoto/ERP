@@ -12,8 +12,8 @@ namespace lssWebApi2.entityframework
         public long? DurationMinutes { get; set; }
         public long? CustomerId { get; set; }
 
-        public Customer Customer { get; set; }
-        public Employee Employee { get; set; }
-        public ServiceInformation Service { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual ServiceInformation Service { get; set; }
     }
 }

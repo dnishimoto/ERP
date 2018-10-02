@@ -25,7 +25,7 @@ namespace lssWebApi2.entityframework
         public int? ActualDays { get; set; }
         public int? EstimatedDays { get; set; }
 
-        public ICollection<ProjectManagementMilestones> ProjectManagementMilestones { get; set; }
-        public ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
+        public virtual ICollection<ProjectManagementMilestones> ProjectManagementMilestones { get; set; }
+        public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
     }
 }

@@ -23,11 +23,11 @@ namespace lssWebApi2.entityframework
         public string ItemNumber { get; set; }
         public decimal? UnitPrice { get; set; }
 
-        public ICollection<Inventory> Inventory { get; set; }
-        public ICollection<InvoiceDetail> InvoiceDetail { get; set; }
-        public ICollection<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
-        public ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
-        public ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }
-        public ICollection<SupplierInvoiceDetail> SupplierInvoiceDetail { get; set; }
+        public virtual ICollection<Inventory> Inventory { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
+        public virtual ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
+        public virtual ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }
+        public virtual ICollection<SupplierInvoiceDetail> SupplierInvoiceDetail { get; set; }
     }
 }

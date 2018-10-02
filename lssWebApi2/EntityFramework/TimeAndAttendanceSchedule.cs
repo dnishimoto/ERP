@@ -18,8 +18,8 @@ namespace lssWebApi2.entityframework
         public long? ShiftId { get; set; }
         public string ScheduleGroup { get; set; }
 
-        public TimeAndAttendanceShift Shift { get; set; }
-        public ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
-        public ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
+        public virtual TimeAndAttendanceShift Shift { get; set; }
+        public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+        public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
     }
 }

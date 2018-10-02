@@ -15,7 +15,7 @@ namespace lssWebApi2.entityframework
         public decimal? ProjectedHours { get; set; }
         public decimal? ProjectedAmount { get; set; }
 
-        public ChartOfAccts Account { get; set; }
-        public BudgetRange Range { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
+        public virtual BudgetRange Range { get; set; }
     }
 }

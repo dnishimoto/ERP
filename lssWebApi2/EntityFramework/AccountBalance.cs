@@ -13,6 +13,6 @@ namespace lssWebApi2.entityframework
         public int FiscalPeriod { get; set; }
         public long AccountId { get; set; }
 
-        public ChartOfAccts Account { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
     }
 }

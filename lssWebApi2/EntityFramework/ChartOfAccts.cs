@@ -36,13 +36,13 @@ namespace lssWebApi2.entityframework
         public long CompanyId { get; set; }
         public int Level { get; set; }
 
-        public Company Company { get; set; }
-        public ICollection<AccountBalance> AccountBalance { get; set; }
-        public ICollection<AcctPay> AcctPay { get; set; }
-        public ICollection<AcctRec> AcctRec { get; set; }
-        public ICollection<Budget> Budget { get; set; }
-        public ICollection<BudgetRange> BudgetRange { get; set; }
-        public ICollection<GeneralLedger> GeneralLedger { get; set; }
-        public ICollection<PurchaseOrder> PurchaseOrder { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual ICollection<AccountBalance> AccountBalance { get; set; }
+        public virtual ICollection<AcctPay> AcctPay { get; set; }
+        public virtual ICollection<AcctRec> AcctRec { get; set; }
+        public virtual ICollection<Budget> Budget { get; set; }
+        public virtual ICollection<BudgetRange> BudgetRange { get; set; }
+        public virtual ICollection<GeneralLedger> GeneralLedger { get; set; }
+        public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; }
     }
 }

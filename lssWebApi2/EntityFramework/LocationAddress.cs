@@ -20,8 +20,8 @@ namespace lssWebApi2.entityframework
         public string State { get; set; }
         public string Country { get; set; }
 
-        public AddressBook Address { get; set; }
-        public Udc TypeXref { get; set; }
-        public ICollection<ServiceInformation> ServiceInformation { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual Udc TypeXref { get; set; }
+        public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
     }
 }
