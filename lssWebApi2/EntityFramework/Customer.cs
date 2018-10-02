@@ -28,16 +28,16 @@ namespace lssWebApi2.entityframework
         public long? PrimaryBillingLocationId { get; set; }
         public string TaxIdentification { get; set; }
 
-        public AddressBook Address { get; set; }
-        public ICollection<AcctRec> AcctRec { get; set; }
-        public ICollection<Contract> Contract { get; set; }
-        public ICollection<CustomerClaim> CustomerClaim { get; set; }
-        public ICollection<CustomerLedger> CustomerLedger { get; set; }
-        public ICollection<Invoice> Invoice { get; set; }
-        public ICollection<Poquote> Poquote { get; set; }
-        public ICollection<SalesOrder> SalesOrder { get; set; }
-        public ICollection<ScheduleEvent> ScheduleEvent { get; set; }
-        public ICollection<ServiceInformation> ServiceInformation { get; set; }
-        public ICollection<Shipments> Shipments { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual ICollection<AcctRec> AcctRec { get; set; }
+        public virtual ICollection<Contract> Contract { get; set; }
+        public virtual ICollection<CustomerClaim> CustomerClaim { get; set; }
+        public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
+        public virtual ICollection<Invoice> Invoice { get; set; }
+        public virtual ICollection<Poquote> Poquote { get; set; }
+        public virtual ICollection<SalesOrder> SalesOrder { get; set; }
+        public virtual ICollection<ScheduleEvent> ScheduleEvent { get; set; }
+        public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
+        public virtual ICollection<Shipments> Shipments { get; set; }
     }
 }

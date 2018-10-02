@@ -72,17 +72,20 @@ namespace ERP_Core2.BudgetDomain
         }
         public async Task<BudgetView> GetBudgetView(long budgetId)
         {
-            Budget budget = await (from e in _dbContext.Budget
-                                   where e.BudgetId == budgetId
-                                   select e).FirstOrDefaultAsync<Budget>();
-
-            BudgetView budgetView = null;
-            if (budget != null)
+            try
             {
-                budgetView=applicationViewFactory.MapBudgetView(budget);
-            }
-            return budgetView;
+                Budget budget = await (from e in _dbContext.Budget
+                                       where e.BudgetId == budgetId
+                                       select e).FirstOrDefaultAsync<Budget>();
 
+                BudgetView budgetView = null;
+                if (budget != null)
+                {
+                    budgetView = applicationViewFactory.MapBudgetView(budget);
+                }
+                return budgetView;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
                             
         public async Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView)

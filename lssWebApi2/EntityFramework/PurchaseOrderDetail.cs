@@ -19,7 +19,7 @@ namespace lssWebApi2.entityframework
         public int? RemainingQuantity { get; set; }
         public string Description { get; set; }
 
-        public ItemMaster Item { get; set; }
-        public PurchaseOrder PurchaseOrder { get; set; }
+        public virtual ItemMaster Item { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
     }
 }

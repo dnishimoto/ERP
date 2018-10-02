@@ -15,7 +15,7 @@ namespace lssWebApi2.entityframework
         public decimal? UnitPrice { get; set; }
         public long? InvoiceDetailId { get; set; }
 
-        public ItemMaster Item { get; set; }
-        public SalesOrder SalesOrder { get; set; }
+        public virtual ItemMaster Item { get; set; }
+        public virtual SalesOrder SalesOrder { get; set; }
     }
 }

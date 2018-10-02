@@ -15,7 +15,7 @@ namespace lssWebApi2.entityframework
         public DateTime? EndDate { get; set; }
         public string EmployeeName { get; set; }
 
-        public Employee Employee { get; set; }
-        public TimeAndAttendanceSchedule Schedule { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual TimeAndAttendanceSchedule Schedule { get; set; }
     }
 }

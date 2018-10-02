@@ -21,7 +21,7 @@ namespace lssWebApi2.entityframework
         public string TaxCode1 { get; set; }
         public string TaxCode2 { get; set; }
 
-        public ICollection<ChartOfAccts> ChartOfAccts { get; set; }
-        public ICollection<Invoice> Invoice { get; set; }
+        public virtual ICollection<ChartOfAccts> ChartOfAccts { get; set; }
+        public virtual ICollection<Invoice> Invoice { get; set; }
     }
 }

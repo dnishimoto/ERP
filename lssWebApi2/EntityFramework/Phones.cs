@@ -11,6 +11,6 @@ namespace lssWebApi2.entityframework
         public string Extension { get; set; }
         public long AddressId { get; set; }
 
-        public AddressBook Address { get; set; }
+        public virtual AddressBook Address { get; set; }
     }
 }

@@ -18,9 +18,9 @@ namespace lssWebApi2.entityframework
         public long? ParentSupervisorId { get; set; }
         public bool? IsActive { get; set; }
 
-        public AddressBook Address { get; set; }
-        public Udc JobTitleXref { get; set; }
-        public ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
-        public ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual Udc JobTitleXref { get; set; }
+        public virtual ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
+        public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
     }
 }

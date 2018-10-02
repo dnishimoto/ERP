@@ -32,12 +32,12 @@ namespace lssWebApi2.entityframework
         public DateTime? DiscountDueDate { get; set; }
         public decimal? AmountPaid { get; set; }
 
-        public ChartOfAccts Account { get; set; }
-        public Contract Contract { get; set; }
-        public Invoice Invoice { get; set; }
-        public Poquote Poquote { get; set; }
-        public PurchaseOrder PurchaseOrder { get; set; }
-        public Supplier Supplier { get; set; }
-        public ICollection<SupplierLedger> SupplierLedger { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
+        public virtual Contract Contract { get; set; }
+        public virtual Invoice Invoice { get; set; }
+        public virtual Poquote Poquote { get; set; }
+        public virtual PurchaseOrder PurchaseOrder { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
     }
 }

@@ -16,9 +16,9 @@ namespace lssWebApi2.entityframework
         public DateTime? CreatedDate { get; set; }
         public long? ContractId { get; set; }
 
-        public Udc ClassificationXref { get; set; }
-        public Customer Customer { get; set; }
-        public Employee Employee { get; set; }
-        public Udc GroupIdXref { get; set; }
+        public virtual Udc ClassificationXref { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Employee Employee { get; set; }
+        public virtual Udc GroupIdXref { get; set; }
     }
 }

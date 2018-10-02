@@ -18,12 +18,12 @@ namespace lssWebApi2.entityframework
         public long AddressId { get; set; }
         public string Identification { get; set; }
 
-        public AddressBook Address { get; set; }
-        public AcctPay AcctPay { get; set; }
-        public ICollection<PackingSlip> PackingSlip { get; set; }
-        public ICollection<Poquote> Poquote { get; set; }
-        public ICollection<PurchaseOrder> PurchaseOrder { get; set; }
-        public ICollection<SupplierInvoice> SupplierInvoice { get; set; }
-        public ICollection<SupplierLedger> SupplierLedger { get; set; }
+        public virtual AddressBook Address { get; set; }
+        public virtual AcctPay AcctPay { get; set; }
+        public virtual ICollection<PackingSlip> PackingSlip { get; set; }
+        public virtual ICollection<Poquote> Poquote { get; set; }
+        public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; }
+        public virtual ICollection<SupplierInvoice> SupplierInvoice { get; set; }
+        public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
     }
 }

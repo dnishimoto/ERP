@@ -15,6 +15,6 @@ namespace lssWebApi2.entityframework
         public long? PackingSlipDetailId { get; set; }
         public long ItemId { get; set; }
 
-        public ItemMaster Item { get; set; }
+        public virtual ItemMaster Item { get; set; }
     }
 }

@@ -25,8 +25,8 @@ namespace lssWebApi2.entityframework
         public decimal? FreightCost { get; set; }
         public decimal? DiscountAmount { get; set; }
 
-        public Supplier Supplier { get; set; }
-        public ICollection<SupplierInvoiceDetail> SupplierInvoiceDetail { get; set; }
-        public ICollection<SupplierLedger> SupplierLedger { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<SupplierInvoiceDetail> SupplierInvoiceDetail { get; set; }
+        public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
     }
 }

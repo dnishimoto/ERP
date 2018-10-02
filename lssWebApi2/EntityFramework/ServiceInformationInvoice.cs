@@ -9,7 +9,7 @@ namespace lssWebApi2.entityframework
         public long InvoiceId { get; set; }
         public long ServiceId { get; set; }
 
-        public Invoice Invoice { get; set; }
-        public ServiceInformation Service { get; set; }
+        public virtual Invoice Invoice { get; set; }
+        public virtual ServiceInformation Service { get; set; }
     }
 }

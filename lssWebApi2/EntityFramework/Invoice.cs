@@ -27,12 +27,12 @@ namespace lssWebApi2.entityframework
         public decimal? FreightCost { get; set; }
         public decimal? DiscountAmount { get; set; }
 
-        public Company Company { get; set; }
-        public Customer Customer { get; set; }
-        public AcctPay AcctPay { get; set; }
-        public ICollection<AcctRec> AcctRec { get; set; }
-        public ICollection<CustomerLedger> CustomerLedger { get; set; }
-        public ICollection<InvoiceDetail> InvoiceDetail { get; set; }
-        public ICollection<ServiceInformationInvoice> ServiceInformationInvoice { get; set; }
+        public virtual Company Company { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual AcctPay AcctPay { get; set; }
+        public virtual ICollection<AcctRec> AcctRec { get; set; }
+        public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
+        public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
+        public virtual ICollection<ServiceInformationInvoice> ServiceInformationInvoice { get; set; }
     }
 }

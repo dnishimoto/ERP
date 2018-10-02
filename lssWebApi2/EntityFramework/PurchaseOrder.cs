@@ -39,9 +39,9 @@ namespace lssWebApi2.entityframework
         public string TaxCode1 { get; set; }
         public string TaxCode2 { get; set; }
 
-        public ChartOfAccts Account { get; set; }
-        public Supplier Supplier { get; set; }
-        public ICollection<AcctPay> AcctPay { get; set; }
-        public ICollection<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
+        public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<AcctPay> AcctPay { get; set; }
+        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
     }
 }

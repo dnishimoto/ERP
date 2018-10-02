@@ -31,10 +31,10 @@ namespace lssWebApi2.entityframework
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
 
-        public ChartOfAccts Account { get; set; }
-        public Udc AcctRecDocTypeXref { get; set; }
-        public Customer Customer { get; set; }
-        public Invoice Invoice { get; set; }
-        public ICollection<CustomerLedger> CustomerLedger { get; set; }
+        public virtual ChartOfAccts Account { get; set; }
+        public virtual Udc AcctRecDocTypeXref { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Invoice Invoice { get; set; }
+        public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace lssWebApi2.entityframework
         public string ExtendedDescription { get; set; }
         public DateTime? DiscountDueDate { get; set; }
 
-        public Invoice Invoice { get; set; }
-        public ItemMaster Item { get; set; }
+        public virtual Invoice Invoice { get; set; }
+        public virtual ItemMaster Item { get; set; }
     }
 }

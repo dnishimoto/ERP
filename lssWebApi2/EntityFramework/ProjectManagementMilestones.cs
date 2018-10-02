@@ -24,7 +24,7 @@ namespace lssWebApi2.entityframework
         public decimal? Cost { get; set; }
         public string Wbs { get; set; }
 
-        public ProjectManagementProject Project { get; set; }
-        public ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
+        public virtual ProjectManagementProject Project { get; set; }
+        public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
     }
 }

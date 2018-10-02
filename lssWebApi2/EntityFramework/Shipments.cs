@@ -29,7 +29,7 @@ namespace lssWebApi2.entityframework
         public decimal? VendorShippingCost { get; set; }
         public decimal? VendorHandlingCost { get; set; }
 
-        public Customer Customer { get; set; }
-        public ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }
     }
 }

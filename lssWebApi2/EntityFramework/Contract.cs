@@ -20,10 +20,10 @@ namespace lssWebApi2.entityframework
         public decimal? RemainingBalance { get; set; }
         public string Title { get; set; }
 
-        public Customer Customer { get; set; }
-        public Udc ServiceTypeXref { get; set; }
-        public AcctPay AcctPay { get; set; }
-        public ICollection<ContractContent> ContractContent { get; set; }
-        public ICollection<ServiceInformation> ServiceInformation { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Udc ServiceTypeXref { get; set; }
+        public virtual AcctPay AcctPay { get; set; }
+        public virtual ICollection<ContractContent> ContractContent { get; set; }
+        public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
     }
 }

@@ -25,6 +25,6 @@ namespace lssWebApi2.entityframework
         public string GenericLocationLevel2 { get; set; }
         public string GenericLocationLevel3 { get; set; }
 
-        public Udc EquipmentStatusXref { get; set; }
+        public virtual Udc EquipmentStatusXref { get; set; }
     }
 }

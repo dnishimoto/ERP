@@ -10,6 +10,6 @@ namespace lssWebApi2.entityframework
         public string Wbs { get; set; }
         public string TextMemo { get; set; }
 
-        public Contract Contract { get; set; }
+        public virtual Contract Contract { get; set; }
     }
 }
