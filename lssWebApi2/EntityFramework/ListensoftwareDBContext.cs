@@ -89,13 +89,14 @@ namespace lssWebApi2.entityframework
         {
             if (!optionsBuilder.IsConfigured)
             {
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                   .SetBasePath(Directory.GetCurrentDirectory())
-                   .AddJsonFile("appsettings.json")
-                   .Build();
-                var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
-                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
-                //optionsBuilder.UseSqlServer(connectionString);
+               
+                    IConfigurationRoot configuration = new ConfigurationBuilder()
+                       .SetBasePath(Directory.GetCurrentDirectory())
+                       .AddJsonFile("appsettings.json")
+                       .Build();
+                    var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
+                    optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
+      
             }
         }
 

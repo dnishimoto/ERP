@@ -29,6 +29,7 @@ namespace lssWebApi2
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+           
             IConfigurationRoot configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
                  .AddJsonFile("appsettings.json")
@@ -45,8 +46,16 @@ namespace lssWebApi2
             {
                 app.UseDeveloperExceptionPage();
             }
+       
+
 
             app.UseMvc();
+        }
+        public class MySection
+        {
+            public string SharedValue { get; set; }
+            public string AppSpecificValue { get; set; }
+
         }
     }
 }

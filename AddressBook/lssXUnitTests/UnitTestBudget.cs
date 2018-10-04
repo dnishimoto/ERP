@@ -33,16 +33,16 @@ namespace ERP_Core2.BudgetDomain
             long budgetId = 2;
 
 
-            BudgetController bc = new BudgetController();
+            //BudgetController bc = new BudgetController();
 
-            BudgetView budgetView = bc.Get(budgetId);
+            //BudgetView budgetView = bc.Get(budgetId);
 
 
-            //UnitOfWork unitOfWork = new UnitOfWork();
+            UnitOfWork unitOfWork = new UnitOfWork();
 
-            //BudgetModule budgetMod = new BudgetModule();
+            BudgetModule budgetMod = new BudgetModule();
 
-            //BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
+            BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
 
             if (budgetView != null) { Assert.True(true); }
         }

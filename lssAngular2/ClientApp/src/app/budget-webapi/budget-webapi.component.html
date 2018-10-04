@@ -1,0 +1,18 @@
+<h1>Budget Web Api</h1>
+
+<p>This component is hello world of the web api.</p>
+
+<p *ngIf="!budget"><em>Loading...</em></p>
+
+<table class='table' *ngIf="budget">
+  <thead>
+    <tr>
+      <th>Account Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td>{{ budget.accountDescription }}</td>
+    </tr>
+  </tbody>
+</table>
