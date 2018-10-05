@@ -3,7 +3,7 @@
 <p>This component is hello world of the web api.</p>
 
 <p *ngIf="!budget"><em>Loading...</em></p>
-
+My String: {{myString}}
 <table class='table' *ngIf="budget">
   <thead>
     <tr>
@@ -11,8 +11,11 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let forecast of forecasts">
-      <td>{{ budget.accountDescription }}</td>
+    <tr >
+      <td>Budget{{ budget.accountDescription }}</td>
+    </tr>
+    <tr>
+      <td>{{myString}}</td>
     </tr>
   </tbody>
 </table>
