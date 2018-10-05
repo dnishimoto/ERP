@@ -7,34 +7,79 @@ import { HttpClient } from '@angular/common/http';
 })
 
 
+
 export class BudgetWebApiComponent {
-  public budget: BudgetView;
+  public budget: IBudgetView;
+  public myString: string;
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<BudgetView>(baseUrl + 'api/SampleData/Budget?budgetId=2').subscribe(result => {
+  constructor(
+    http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+
+    //this.myString = "Hello world";
+
+    http.get<IBudgetView>(baseUrl + 'api/SampleData/Budget?budgetId=2').subscribe(result => {
+
       this.budget = result;
+      this.myString = "Hello World";
+
     }, error => console.error(error));
+
+    //this.getBudget();
   }
-}
+  /*
+  getBudget() {
+    this.http.get<IBudgetView>(this.baseUrl + 'api/SampleData/Budget?budgetId=2').subscribe(result => {
+
+      this.budget = result;
+      this.myString = "Hello World";
+
+    }, error => console.error(error));
+
+  }
+  */
+ }
 
 
-interface BudgetView {
-        budgetId: number;
-        budgetHours : number;
-        budgetAmount : number;
-        actualHours : number;
-        actualAmount : number;
-        accountId : number;
-        accountDescription: string;
-        companyNumber: string;
-        busUnit: string;
-        objectNumber: string;
-        subsidiary: string;
-        rangeId : number;
-        rangeStartDate: Date;
-        rRangeEndDate: Date;
-        companyCode: string;
-        supervisorCode: string;
-        projectedHours : number;
-        projectedAmount : number;
+interface IBudgetView {
+  budgetId: number;
+  budgetHours: number;
+  budgetAmount: number;
+  actualHours: number;
+  actualAmount: number;
+  accountId: number;
+  accountDescription: string;
+  companyNumber: string;
+  busUnit: string;
+  objectNumber: string;
+  subsidiary: string;
+  rangeId: number;
+  rangeStartDate: Date;
+  rRangeEndDate: Date;
+  companyCode: string;
+  supervisorCode: string;
+  projectedHours: number;
+  projectedAmount: number;
 }
+/*
+export class BudgetView {
+  budgetId: number;
+  budgetHours: number;
+  budgetAmount: number;
+  actualHours: number;
+  actualAmount: number;
+  accountId: number;
+  accountDescription: string;
+  companyNumber: string;
+  busUnit: string;
+  objectNumber: string;
+  subsidiary: string;
+  rangeId: number;
+  rangeStartDate: Date;
+  rRangeEndDate: Date;
+  companyCode: string;
+  supervisorCode: string;
+  projectedHours: number;
+  projectedAmount: number;
+}
+*/
+

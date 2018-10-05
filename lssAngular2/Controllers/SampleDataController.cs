@@ -43,7 +43,7 @@ namespace lssAngular2.Controllers
 
         string Baseurl = "http://localhost:61612";
 
-        //[Route("~api/SampleData/Budget/{budgetId}")]
+
         [HttpGet("[action]")]
         public async Task<BudgetView> Budget(long budgetId)
         {

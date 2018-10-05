@@ -27,6 +27,7 @@ namespace ERP_Core2.BudgetDomain
         {
             this.BudgetId = budget.BudgetId;
             this.BudgetHours = budget.BudgetHours;
+            this.BudgetAmount = budget.BudgetAmount;
             this.ActualHours = budget.ActualHours;
             this.ActualAmount = budget.ActualAmount;
             this.AccountId = budget.AccountId;
