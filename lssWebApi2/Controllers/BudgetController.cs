@@ -18,8 +18,6 @@ namespace lssWebApi2.Controllers
         public BudgetView Get(long budgetId)
         {
 
-            UnitOfWork unitOfWork = new UnitOfWork();
-
             BudgetModule budgetMod = new BudgetModule();
 
             BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
@@ -27,9 +25,16 @@ namespace lssWebApi2.Controllers
             return budgetView;
         }
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<BudgetView> Get()
         {
-            return new string[] { "bvalue1", "bvalue2" };
+     
+
+            BudgetModule budgetMod = new BudgetModule();
+
+            IEnumerable<BudgetView> budgetViews = budgetMod.Budget.Query().GetBudgetViews();
+
+            return budgetViews;
+
         }
 
         // GET api/<controller>/5

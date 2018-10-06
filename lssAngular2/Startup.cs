@@ -48,6 +48,7 @@ namespace lssAngular2
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
+
             });
 
             app.UseSpa(spa =>

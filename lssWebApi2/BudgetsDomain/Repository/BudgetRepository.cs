@@ -88,7 +88,25 @@ namespace ERP_Core2.BudgetDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-                            
+        public async Task<List<BudgetView>> GetBudgetViews()
+        {
+            try
+            {
+                var query = await (from e in _dbContext.Budget
+                                       select e).ToListAsync<Budget>();
+
+                List<BudgetView> budgetViews = new List<BudgetView>();
+                BudgetView budgetView = null;
+                foreach(var budget in query)
+                {
+                    budgetView = applicationViewFactory.MapBudgetView(budget);
+                    budgetViews.Add(budgetView);
+                }
+                return budgetViews;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+
         public async Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView)
         {
             try
