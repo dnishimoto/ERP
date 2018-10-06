@@ -26,5 +26,11 @@ namespace ERP_Core2.FluentAPI
             Task.WaitAll(budgetViewTask);
             return budgetViewTask.Result;
         }
+        public IEnumerable<BudgetView> GetBudgetViews()
+        {
+            Task<List<BudgetView>> budgetViewsTask = Task.Run(async () => await _unitOfWork.budgetRepository.GetBudgetViews());
+            Task.WaitAll(budgetViewsTask);
+            return budgetViewsTask.Result;
+        }
     }
 }

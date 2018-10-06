@@ -11,5 +11,6 @@ namespace ERP_Core2.Interfaces
     {
         BudgetActualsView GetBudgetActualsView(BudgetRangeView budgetRangeView);
         BudgetView GetBudgetView(long budgetId);
+        IEnumerable<BudgetView> GetBudgetViews();
     }
 }

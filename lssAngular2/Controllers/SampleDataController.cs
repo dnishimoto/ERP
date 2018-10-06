@@ -44,33 +44,7 @@ namespace lssAngular2.Controllers
         string Baseurl = "http://localhost:61612";
 
 
-        [HttpGet("[action]")]
-        public async Task<BudgetView> Budget(long budgetId)
-        {
-            BudgetView view=null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-
-                client.DefaultRequestHeaders.Clear();
-                //Define request data format  
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage Res = await client.GetAsync("api/Budget/"+budgetId.ToString());
-
-                if (Res.IsSuccessStatusCode)
-                {
-                    //Storing the response details recieved from web api   
-                    var BudgetResponse = Res.Content.ReadAsStringAsync().Result;
-
-                    //Deserializing the response recieved from web api and storing into the Employee list  
-                     view = JsonConvert.DeserializeObject<BudgetView>(BudgetResponse);
-                   
-                }
-               
-            }
-            return view;
-        }
+     
 
         [HttpGet("[action]")]
         public async Task<BudgetView> BudgetTest()

@@ -9,22 +9,29 @@ import { HttpClient } from '@angular/common/http';
 
 
 export class BudgetWebApiComponent {
-  public budget: IBudgetView;
+  public budgets: IBudgetView[];
+  //public budget: IBudgetView;
   public myString: string;
 
   constructor(
     http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
 
-    //this.myString = "Hello world";
+    http.get<IBudgetView[]>(baseUrl + 'api/Budget').subscribe(result => {
 
-    http.get<IBudgetView>(baseUrl + 'api/SampleData/Budget?budgetId=2').subscribe(result => {
-
-      this.budget = result;
+      this.budgets = result;
       this.myString = "Hello World";
 
     }, error => console.error(error));
 
-    //this.getBudget();
+    /*
+    http.get<IBudgetView>(baseUrl + 'api/Budget/2').subscribe(result => {
+
+    this.budget = result;
+     this.myString = "Hello World";
+
+    }, error => console.error(error));
+    */
+
   }
   /*
   getBudget() {
@@ -54,7 +61,7 @@ interface IBudgetView {
   subsidiary: string;
   rangeId: number;
   rangeStartDate: Date;
-  rRangeEndDate: Date;
+  rangeEndDate: Date;
   companyCode: string;
   supervisorCode: string;
   projectedHours: number;
