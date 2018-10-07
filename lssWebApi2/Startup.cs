@@ -29,10 +29,12 @@ namespace lssWebApi2
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-           
+            //var basePath = AppDomain.CurrentDomain.BaseDirectory;
+
             IConfigurationRoot configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
-                 .AddJsonFile("appsettings.json")
+                //.SetBasePath(basePath) 
+                .AddJsonFile("appsettings.json")
                  .Build();
             var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
        
