@@ -74,6 +74,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapRangeToBudgetViewEntity(ref BudgetView budgetView, BudgetRangeView budgetRangeView);
         public abstract BudgetActualsView MapBudgetRangeToBudgetActuals(BudgetRangeView budgetRangeView);
         public abstract BudgetView MapBudgetView(Budget budget);
+        public abstract void MapSupplierViewEntity(ref  Supplier supplier,  SupplierView view);
 
     }
     //Time and Attendance Domain
@@ -396,7 +397,14 @@ namespace ERP_Core2.AbstractFactory
 
             return budgetActualsView;
         }
-        public override BudgetView MapBudgetView(Budget budget)
+        public override void MapSupplierViewEntity(ref Supplier supplier, SupplierView view)
+        {
+            supplier.SupplierId = view.SupplierId??0;
+            supplier.AddressId = view.AddressId??0;
+            supplier.Identification = view.SupplierIdentification;
+
+    }
+    public override BudgetView MapBudgetView(Budget budget)
         {
             return new BudgetView(budget);
         }

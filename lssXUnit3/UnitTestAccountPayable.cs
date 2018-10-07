@@ -18,6 +18,7 @@ using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.SupplierInvoicesDomain;
 using ERP_Core2.GeneralLedgerDomain;
 using lssWebApi2.entityframework;
+using lssWebApi2.InventoryDomain;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -293,7 +294,23 @@ namespace ERP_Core2.AccountPayableDomain
             email.Password = "123";
 
 
-            SupplierView supplierView = await unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook, locationAddress, email);
+            //SupplierView supplierView = await unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook, locationAddress, email);
+
+            SupplierModule supplierModule = new SupplierModule();
+
+            supplierModule.Supplier.CreateSupplierAddressBook(addressBook,email).Apply();
+            AddressBook ab = supplierModule.Supplier.Query().GetAddressBookbyEmail(email);
+            supplierModule.Supplier.CreateSupplierLocationAddress(ab.AddressId, locationAddress).Apply();
+            supplierModule.Supplier.CreateSupplierEmail(ab.AddressId, email).Apply();
+
+            Supplier supplier = new Supplier { AddressId = ab.AddressId, Identification = email.Email };
+
+            supplierModule.Supplier.CreateSupplier(supplier).Apply();
+
+
+            SupplierView supplierView = supplierModule.Supplier.Query().GetSupplierViewByEmail(email);
+            //supplierModule.CreateSupplierByAddressBook(addressBook, locationAddress, email);
+
 
             ChartOfAccts coa = await unitOfWork.supplierRepository.GetChartofAccount("1000", "1200", "240", "");
 
