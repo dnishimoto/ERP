@@ -15,7 +15,7 @@ namespace lssWebApi2.entityframework
         public ListensoftwareDBContext(DbContextOptions<ListensoftwareDBContext> options)
             : base(options)
         {
-      
+
         }
 
 
@@ -89,14 +89,24 @@ namespace lssWebApi2.entityframework
         {
             if (!optionsBuilder.IsConfigured)
             {
-               
-                    IConfigurationRoot configuration = new ConfigurationBuilder()
-                       .SetBasePath(Directory.GetCurrentDirectory())
+                /*var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                var basePath = AppDomain.CurrentDomain.BaseDirectory;
+                var environmentPath = Environment.CurrentDirectory;
+                var assemblyPath = System.IO.Path.GetDirectoryName(
+System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+                */
+
+                var directoryPath = Directory.GetCurrentDirectory();
+
+              
+
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                       .SetBasePath(directoryPath)
                        .AddJsonFile("appsettings.json")
                        .Build();
-                    var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
-                    optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
-      
+                var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
+
             }
         }
 
