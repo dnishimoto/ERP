@@ -17,7 +17,7 @@ namespace ERP_Core2.Services
     public static class EF_Extension
     {
         //https://github.com/aspnet/EntityFrameworkCore/issues/10262
-        public static IList<T> SqlQuery<T>(this DbContext db, CommandType type, string sql, List<SqlParameter> parameters) where T : new()
+        public static async Task<IList<T>> SqlQuery<T>(this DbContext db, CommandType type, string sql, List<SqlParameter> parameters) where T : new()
         {
             var conn = db.Database.GetDbConnection();
             try
@@ -43,7 +43,7 @@ namespace ERP_Core2.Services
                     var rtnList = new List<T>();
                     T model;
                     object val;
-                    using (var reader = command.ExecuteReader())
+                    using (var reader = await command.ExecuteReaderAsync())
                     {
                         while (reader.Read())
                         {
@@ -114,7 +114,7 @@ namespace ERP_Core2.Services
                 parameters.Add( new SqlParameter("@NextNumberName", nextNumberName));
 
        
-                IList<NextNumber> nextNumber= _dbContext.SqlQuery<NextNumber>(CommandType.Text, "usp_GetNextNumber @NextNumberName",parameters);
+                IList<NextNumber> nextNumber=await _dbContext.SqlQuery<NextNumber>(CommandType.Text, "usp_GetNextNumber @NextNumberName",parameters);
 
                 /*
                  SqlParameter param1 = new SqlParameter("@NextNumberName", nextNumberName);

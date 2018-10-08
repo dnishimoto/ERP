@@ -43,6 +43,8 @@ namespace ERP_Core2.BudgetDomain
             this.SupervisorCode = budget.Range.SupervisorCode;
             this.ProjectedHours = budget.ProjectedHours;
             this.ProjectedAmount = budget.ProjectedAmount;
+            this.RangeIsActive = budget.Range.IsActive;    
+          
         }
         public long BudgetId { get; set; }
         public decimal? BudgetHours { get; set; }
@@ -62,6 +64,8 @@ namespace ERP_Core2.BudgetDomain
         public string SupervisorCode { get; set; }
         public decimal? ProjectedHours { get; set; }
         public decimal? ProjectedAmount { get; set; }
+        public bool? RangeIsActive { get; set; }
+
     }
     public class BudgetRepository : Repository<Budget>
     {

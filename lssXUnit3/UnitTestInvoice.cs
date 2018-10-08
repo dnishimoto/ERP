@@ -37,7 +37,7 @@ namespace ERP_Core2.InvoiceDomain
         {
             try
             {
-                //NextNumber nextNumber = await unitOfWork.invoiceRepository.GetNextNumber("InvoiceNumber");
+                //NextNumber nextNumber = await unitOfWork.invoiceRepository.Get("InvoiceNumber");
 
                 InvoiceView invoiceView = new InvoiceView();
 

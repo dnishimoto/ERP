@@ -27,6 +27,31 @@ namespace ERP_Core2.GeneralLedgerDomain
 
         }
         [Fact]
+        public void TestGetLedgersByFiscalYear()
+        {
+            long fiscalYear = 2018;
+            GeneralLedgerModule glMod = new GeneralLedgerModule();
+
+            IEnumerable<AccountSummaryView> list = glMod.GeneralLedger.Query().GetAccountSummaryByFiscalYearViews(fiscalYear);
+
+            decimal? amount = 0;
+            foreach (var item in list)
+            {
+                Console.Write($"{0} {1}", item.Description, item.Amount);
+
+                amount += item.Amount;
+                foreach (var ledger in item.ledgers)
+                {
+                    Console.Write($"{0} {1} {2} {3}", ledger.DocType, ledger.Gldate, ledger.DebitAmount,ledger.CreditAmount);
+
+                }
+            }
+            if (amount > 0)
+            {
+                Assert.True(true);
+            }
+        }
+        [Fact]
         public async Task TestCreatePersonalExpenseAndPayment()
         {
             //ToDo

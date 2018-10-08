@@ -26,6 +26,7 @@ namespace ERP_Core2.BudgetDomain
             this.Subsidiary = budgetRange.Subsidiary;
             this.AccountId = budgetRange.AccountId;
             this.SupervisorCode = budgetRange.SupervisorCode;
+            this.IsActive = budgetRange.IsActive;
     }
         public long RangeId { get; set; }
         public DateTime? StartDate { get; set; }
@@ -39,6 +40,7 @@ namespace ERP_Core2.BudgetDomain
         public string Subsidiary { get; set; }
         public long? AccountId { get; set; }
         public string SupervisorCode { get; set; }
+        public bool? IsActive { get; set; }
     }
 
     public class BudgetRangeRepository : Repository<BudgetRange>

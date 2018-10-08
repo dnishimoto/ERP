@@ -8,6 +8,7 @@ using System.Data.SqlClient;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.entityframework;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace ERP_Core2.GeneralLedgerDomain
 {
@@ -57,6 +58,19 @@ namespace ERP_Core2.GeneralLedgerDomain
         public string PurchaseOrderNumber { get; set; }
         public decimal? Units { get; set; }
     }
+    public class AccountSummaryView {
+
+        public AccountSummaryView() {
+            ledgers = new List<GeneralLedger>();
+        }
+        public long AccountId { get; set; }
+        public int? FiscalPeriod { get; set; }
+        public int? FiscalYear { get; set; }
+        public string Description { get; set; }
+        public decimal? Amount { get; set; }
+
+        public List<GeneralLedger> ledgers { get; set; }
+    }
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>
     {
@@ -66,6 +80,52 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
             _dbContext = (ListensoftwareDBContext)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<List<AccountSummaryView>> GetAccountSummaryByFiscalYearViews(long fiscalYear)
+        {
+            try
+            {
+                var query = (from e in _dbContext.GeneralLedger
+                             where (e.LedgerType == "AA" && e.DocType == "PV" && e.FiscalYear == 2018)
+                             group e by e.AccountId into pg
+
+                             join f in _dbContext.ChartOfAccts
+                                 on pg.Key equals f.AccountId
+
+                             select new
+                             {
+                                 AccountId = pg.Key,
+                                 FiscalPeriod = pg.Select(g => g.FiscalPeriod).FirstOrDefault(),
+                                 FiscalYear = pg.Select(g => g.FiscalYear).FirstOrDefault(),
+                                 Amount = pg.Select(g => g.Amount).Sum(),
+                                 Description = f.Description,
+                                 Ledgers = pg.ToList()
+                             });
+
+                List<AccountSummaryView> list = new List<AccountSummaryView>();
+
+                foreach (var item in query)
+                {
+                    AccountSummaryView view = new AccountSummaryView();
+                    view.AccountId = item.AccountId;
+
+                    view.FiscalPeriod = item.FiscalPeriod;
+                    view.FiscalYear = item.FiscalYear;
+                    view.Description = item.Description;
+                    view.Amount = item.Amount;
+
+                    foreach (var ledger in item.Ledgers)
+                    {
+                        view.ledgers.Add(ledger);
+                    }
+
+                    list.Add(view);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+ 
         }
         public async Task<CreateProcessStatus> CreateLedgerFromView(GeneralLedgerView view)
         {

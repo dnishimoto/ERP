@@ -14,6 +14,8 @@ namespace lssWebApi2.entityframework
         public long? RangeId { get; set; }
         public decimal? ProjectedHours { get; set; }
         public decimal? ProjectedAmount { get; set; }
+        //dsn added
+        //public DateTime? AsOfActualDate { get; set; }
 
         public virtual ChartOfAccts Account { get; set; }
         public virtual BudgetRange Range { get; set; }
