@@ -15,6 +15,13 @@ namespace ERP_Core2.FluentAPI
         UnitOfWork _unitOfWork = null;
         public FluentGeneralLedgerQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
+        public List<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
+        {
+            Task<List<AccountSummaryView>> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetAccountSummaryByFiscalYearViews(fiscalYear));
+            Task.WaitAll(viewTask);
+            return viewTask.Result;
+        }
+
         public GeneralLedgerView GetGeneralLedgerView(long docNumber, string docType)
         {
             Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(docNumber, docType));

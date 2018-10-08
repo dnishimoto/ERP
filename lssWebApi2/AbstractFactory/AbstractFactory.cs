@@ -366,6 +366,7 @@ namespace ERP_Core2.AbstractFactory
             budgetRange.SupervisorCode = view.SupervisorCode;
             DateTime? now = DateTime.Now;
             budgetRange.LastUpdated = now;
+            budgetRange.IsActive = view.IsActive;
         }
         public override void MapBudgetEntity(ref Budget budget, BudgetView budgetView)
         {
@@ -385,6 +386,7 @@ namespace ERP_Core2.AbstractFactory
             budgetView.RangeId = budgetRangeView.RangeId;
             budgetView.RangeStartDate = budgetRangeView.StartDate;
             budgetView.RangeEndDate = budgetRangeView.EndDate;
+            budgetView.RangeIsActive = budgetRangeView.IsActive;
         }
         public override BudgetActualsView MapBudgetRangeToBudgetActuals(BudgetRangeView budgetRangeView)
         {

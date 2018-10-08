@@ -140,7 +140,7 @@ namespace ERP_Core.CustomerDomain
             Assert.True(results);
         }
         [Fact]
-        public void TestTableViewParameter()
+        public async Task TestTableViewParameter()
         {
             try
             {
@@ -174,7 +174,7 @@ namespace ERP_Core.CustomerDomain
                 param1.Value = dt;
                 parameters.Add(param1);
                 //DataTable query = await dbContext.Database.SqlQuery<DataTable>("usp_CreateAccount @ParamHashTable", param1).SingleAsync();
-                IList<DataTable> query = dbContext.SqlQuery<DataTable>(CommandType.Text,"usp_CreateAccount @ParamHashTable", parameters);
+                IList<DataTable> query = await dbContext.SqlQuery<DataTable>(CommandType.Text,"usp_CreateAccount @ParamHashTable", parameters);
 
                 //DataTable query = dbContext.Database.ExecuteSqlCommand("usp_createaccount @ParamHashTable");
                 //foreach (var item in query)

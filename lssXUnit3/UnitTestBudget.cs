@@ -28,11 +28,20 @@ namespace ERP_Core2.BudgetDomain
 
         }
         [Fact]
+        public async Task TestNextNumber()
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            NextNumber nn = await unitOfWork.accountPayableRepository.GetNextNumber("PackingSlipNumber");
+
+            if (nn.NextNumberValue > 0) { Assert.True(true); }
+        }
+        [Fact]
         public void TestGetBudget()
         {
             long budgetId = 2;
 
-
+           
             //BudgetController bc = new BudgetController();
 
             //BudgetView budgetView = bc.Get(budgetId);
