@@ -60,16 +60,23 @@ namespace ERP_Core2.GeneralLedgerDomain
     }
     public class AccountSummaryView {
 
+        private List<GeneralLedgerView> _ledgers = new List<GeneralLedgerView>();
+
         public AccountSummaryView() {
-            ledgers = new List<GeneralLedger>();
+           // if (ledgers == null)
+            //{
+            //    ledgers = new List<GeneralLedger>();
+           // }
         }
+      
         public long AccountId { get; set; }
         public int? FiscalPeriod { get; set; }
         public int? FiscalYear { get; set; }
         public string Description { get; set; }
         public decimal? Amount { get; set; }
 
-        public List<GeneralLedger> ledgers { get; set; }
+        public List<GeneralLedgerView> ledgers { get { return _ledgers; }  }
+     
     }
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>
@@ -81,7 +88,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             _dbContext = (ListensoftwareDBContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<List<AccountSummaryView>> GetAccountSummaryByFiscalYearViews(long fiscalYear)
+        public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try
             {
@@ -102,7 +109,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                                  Ledgers = pg.ToList()
                              });
 
-                List<AccountSummaryView> list = new List<AccountSummaryView>();
+                IList<AccountSummaryView> list = new List<AccountSummaryView>();
 
                 foreach (var item in query)
                 {
@@ -114,9 +121,10 @@ namespace ERP_Core2.GeneralLedgerDomain
                     view.Description = item.Description;
                     view.Amount = item.Amount;
 
-                    foreach (var ledger in item.Ledgers)
-                    {
-                        view.ledgers.Add(ledger);
+                    foreach (var ledger in item.Ledgers.OrderByDescending(i=>i.Gldate))
+                   {
+                        GeneralLedgerView glView = applicationViewFactory.MapGeneralLedgerView(ledger);
+                        view.ledgers.Add(glView);
                     }
 
                     list.Add(view);

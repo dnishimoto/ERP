@@ -25,7 +25,7 @@ namespace lssWebApi2.FluentAPI
         public IInventorySupplier CreateSupplierAddressBook(AddressBook addressBook, Emails email)
         {
             Task<CreateProcessStatus> resultTask = Task.Run(async () => await unitOfWork.supplierRepository.CreateSupplierAddressBook(addressBook, email));
-            Task.WaitAll(resultTask);
+            //Task.WaitAll(resultTask);
 
             processStatus = resultTask.Result;
             return this as IInventorySupplier;
@@ -34,21 +34,21 @@ namespace lssWebApi2.FluentAPI
         public IInventorySupplier CreateSupplierLocationAddress(long addressId, LocationAddress locationAddress)
         {
             Task<CreateProcessStatus> resultTask = Task.Run(async () => await unitOfWork.supplierRepository.CreateSupplierLocationAddress(addressId, locationAddress));
-            Task.WaitAll(resultTask);
+            //Task.WaitAll(resultTask);
             processStatus = resultTask.Result;
             return this as IInventorySupplier;
         }
         public IInventorySupplier CreateSupplierEmail(long addressId, Emails email)
         {
             Task<CreateProcessStatus> resultTask = Task.Run(async () => await unitOfWork.supplierRepository.CreateSupplierEmail(addressId, email));
-            Task.WaitAll(resultTask);
+            //Task.WaitAll(resultTask);
             processStatus = resultTask.Result;
             return this as IInventorySupplier;
         }
         public IInventorySupplier CreateSupplier(Supplier supplier)
         {
             Task<CreateProcessStatus> resultTask = Task.Run(async () => await unitOfWork.supplierRepository.CreateSupplier(supplier));
-            Task.WaitAll(resultTask);
+            //Task.WaitAll(resultTask);
             processStatus = resultTask.Result;
             return this as IInventorySupplier;
         }

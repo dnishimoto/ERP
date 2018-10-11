@@ -10,6 +10,6 @@ namespace ERP_Core2.Interfaces
     public interface IGeneralLedgerQuery
     {
         GeneralLedgerView GetGeneralLedgerView(long docNumber,string docType);
-        List<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear);
+        IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear);
     }
 }

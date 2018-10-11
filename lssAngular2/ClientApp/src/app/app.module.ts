@@ -10,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BudgetWebApiComponent } from './budget-webapi/budget-webapi.component';
+import { GeneralLedgerComponent } from './generalledger-webapi/generalledger-webapi.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { BudgetWebApiComponent } from './budget-webapi/budget-webapi.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    BudgetWebApiComponent
+    BudgetWebApiComponent,
+    GeneralLedgerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -28,7 +30,8 @@ import { BudgetWebApiComponent } from './budget-webapi/budget-webapi.component';
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'budget-webapi', component: BudgetWebApiComponent}
+      { path: 'budget-webapi', component: BudgetWebApiComponent },
+      { path: 'generalledger-webapi', component: GeneralLedgerComponent}
     ])
   ],
   providers: [],

@@ -17,19 +17,19 @@ namespace ERP_Core2.FluentAPI
         public BudgetActualsView GetBudgetActualsView(BudgetRangeView budgetRangeView)
         {
             Task<BudgetActualsView> budgetActualsViewTask = Task.Run(async () => await _unitOfWork.budgetRepository.GetActualsView(budgetRangeView));
-            Task.WaitAll(budgetActualsViewTask);
+            //Task.WaitAll(budgetActualsViewTask);
             return budgetActualsViewTask.Result;
         }
         public BudgetView GetBudgetView(long budgetId)
         {
             Task<BudgetView> budgetViewTask = Task.Run(async () => await _unitOfWork.budgetRepository.GetBudgetView(budgetId));
-            Task.WaitAll(budgetViewTask);
+            //Task.WaitAll(budgetViewTask);
             return budgetViewTask.Result;
         }
         public IEnumerable<BudgetView> GetBudgetViews()
         {
             Task<List<BudgetView>> budgetViewsTask = Task.Run(async () => await _unitOfWork.budgetRepository.GetBudgetViews());
-            Task.WaitAll(budgetViewsTask);
+            //Task.WaitAll(budgetViewsTask);
             return budgetViewsTask.Result;
         }
     }

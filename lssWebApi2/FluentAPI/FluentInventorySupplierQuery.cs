@@ -24,7 +24,7 @@ namespace lssWebApi2.FluentAPI
         public SupplierView GetSupplierViewByEmail(Emails email)
         {
             Task<SupplierView> resultTask = Task.Run(async () => await _unitOfWork.supplierRepository.GetSupplierViewByEmail(email));
-            Task.WaitAll(resultTask);
+            //Task.WaitAll(resultTask);
             return resultTask.Result;
         }
     }

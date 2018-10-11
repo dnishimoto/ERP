@@ -9,29 +9,7 @@ using Newtonsoft.Json;
 
 namespace lssAngular2.Controllers
 {
-    public class BudgetView
-    {
-        public BudgetView() { }
-       
-        public long BudgetId { get; set; }
-        public decimal? BudgetHours { get; set; }
-        public decimal? BudgetAmount { get; set; }
-        public decimal? ActualHours { get; set; }
-        public decimal? ActualAmount { get; set; }
-        public long? AccountId { get; set; }
-        public string AccountDescription { get; set; }
-        public string CompanyNumber { get; set; }
-        public string BusUnit { get; set; }
-        public string ObjectNumber { get; set; }
-        public string Subsidiary { get; set; }
-        public long? RangeId { get; set; }
-        public DateTime? RangeStartDate { get; set; }
-        public DateTime? RangeEndDate { get; set; }
-        public string CompanyCode { get; set; }
-        public string SupervisorCode { get; set; }
-        public decimal? ProjectedHours { get; set; }
-        public decimal? ProjectedAmount { get; set; }
-    }
+
 
     [Route("api/[controller]")]
     public class SampleDataController : Controller
@@ -46,15 +24,7 @@ namespace lssAngular2.Controllers
 
      
 
-        [HttpGet("[action]")]
-        public async Task<BudgetView> BudgetTest()
-        {
-            BudgetView view = new BudgetView();
-            view.AccountDescription = "Hello World";
-
-            
-            return view;
-        }
+        
         [HttpGet("[action]")]
         public IEnumerable<WeatherForecast> WeatherForecasts()
         {

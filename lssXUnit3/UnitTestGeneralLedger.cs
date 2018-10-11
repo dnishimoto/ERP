@@ -42,7 +42,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                 amount += item.Amount;
                 foreach (var ledger in item.ledgers)
                 {
-                    Console.Write($"{0} {1} {2} {3}", ledger.DocType, ledger.Gldate, ledger.DebitAmount,ledger.CreditAmount);
+                    Console.Write($"{0} {1} {2} {3}", ledger.DocType, ledger.GLDate, ledger.DebitAmount,ledger.CreditAmount);
 
                 }
             }

@@ -1,0 +1,29 @@
+<h1>General Ledgers</h1>
+
+
+<p *ngIf="!accountSummaries"><em>Loading...</em></p>
+{{mystring}}
+
+
+<div class=“container-fluid”>
+
+
+  <div *ngFor="let accountSummary of accountSummaries">
+    <div class="col-lg-9, col-md-9">
+      {{accountSummary.description }}
+    </div>
+    <div class="col-lg-3, col-md-3">
+      {{accountSummary.amount}}
+    </div>
+    <div class="col-lg-12, col-md-12">
+      <table class="table">
+        <tr *ngFor="let ledger of accountSummary.ledgers">
+          <td>{{ledger.glDate | date:'mediumDate'}}</td>
+          <td>{{ledger.amount}}</td>
+          <td>{{ledger.comment}}</td>
+        </tr>
+      </table>
+    </div>
+
+
+</div>

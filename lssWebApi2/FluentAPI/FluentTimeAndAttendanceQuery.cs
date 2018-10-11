@@ -35,7 +35,7 @@ namespace ERP_Core2.FluentAPI
         {
 
             Task<TimeAndAttendancePunchIn> taPunchinTask = Task.Run(async () => await _unitOfWork.timeAndAttendanceRepository.GetObjectAsync(timePunchinId));
-            Task.WaitAll(taPunchinTask);
+            //Task.WaitAll(taPunchinTask);
             return taPunchinTask.Result;
         }
         public IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId)
