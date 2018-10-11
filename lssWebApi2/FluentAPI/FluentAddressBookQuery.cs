@@ -22,7 +22,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<BuyerView> resultTask = Task.Run(async() => await _unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<CarrierView> resultTask = Task.Run(async() => await _unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
                 return resultTask.Result;
 
             }
@@ -50,7 +50,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<SupplierView> resultTask = Task.Run(async () => await _unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<EmployeeView> resultTask = Task.Run(async() => await _unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<SupervisorView> resultTask = Task.Run(async() => await _unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
@@ -135,7 +135,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<List<AddressBook>> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetAddressBookByName(namePattern));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
 
                 return resultTask.Result;
             }
@@ -150,7 +150,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<AddressBook> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId));
-                Task.WaitAll(resultTask);
+                //Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)

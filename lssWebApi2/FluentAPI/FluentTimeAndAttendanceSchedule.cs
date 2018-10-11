@@ -37,7 +37,7 @@ namespace ERP_Core2.FluentAPI
         public ITimeAndAttendanceSchedule AddSchedule(TimeAndAttendanceScheduleView view)
         {
             Task<CreateProcessStatus> statusTask = Task.Run(async () => await unitOfWork.timeAndAttendanceScheduleRepository.AddSchedule(view));
-            Task.WaitAll(statusTask);
+            //Task.WaitAll(statusTask);
             processStatus = statusTask.Result;
             return this as ITimeAndAttendanceSchedule;
         }
