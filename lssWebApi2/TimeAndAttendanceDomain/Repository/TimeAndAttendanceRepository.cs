@@ -7,6 +7,8 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.entityframework;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
+using lssWebApi2.Mapper;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {
@@ -66,6 +68,34 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
     }
 
+    public class TimeAndAttendanceView
+    {
+        public long TimePunchinId { get; set; }
+        public DateTime PunchinDate { get; set; }
+        public DateTime PunchoutDate { get; set; }
+        public string PunchinDateTime { get; set; }
+        public string PunchoutDateTime { get; set; }
+        public string PayCode { get; set; }
+        public string TypeOfTime { get; set; }
+        public string JobCode { get; set; }
+        public long ApproverAddressId { get; set; }
+        public string ApproverName { get; set; }
+        public string EmployeeName { get; set; }
+        public long EmployeeId { get; set; }
+        public long ShiftId { get; set; }
+        public string ShiftName { get; set; }
+        public string ShiftType { get; set; }
+        public long ScheduleId { get; set; }
+        public string ScheduleName { get; set; }
+        public DateTime ScheduleStartDate { get; set; }
+        public DateTime ScheduleEndDate { get; set; }
+        public string ScheduleGroup { get; set; }
+        public bool ScheduledToWork { get; set; }
+
+    }
+
+
+
     public class TimeAndAttendanceRepository : Repository<TimeAndAttendancePunchIn>
     {
         public ListensoftwareDBContext _dbContext;
@@ -74,6 +104,112 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         {
             _dbContext = (ListensoftwareDBContext)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime filterDate)
+        {
+            try
+            {
+                var query = (from taPunchin in _dbContext.TimeAndAttendancePunchIn
+                             where taPunchin.PunchinDate >= filterDate
+
+                             join udcTypeOfTime in _dbContext.Udc
+                             on taPunchin.TypeOfTimeUdcXrefId equals udcTypeOfTime.XrefId
+
+                             join udcJobCode in _dbContext.Udc
+                             on taPunchin.JobCodeXrefId equals udcJobCode.XrefId
+
+                             join udcPayCode in _dbContext.Udc
+                             on taPunchin.PayCodeXrefId equals udcPayCode.XrefId into ljPayCode
+                             from udcPayCode in ljPayCode.DefaultIfEmpty()
+
+                             join taSchedule in _dbContext.TimeAndAttendanceSchedule
+                             on taPunchin.ScheduleId equals taSchedule.ScheduleId
+
+                             join taShift in _dbContext.TimeAndAttendanceShift
+                             on taPunchin.ShiftId equals taShift.ShiftId into ljShift
+                             from taShift in ljShift.DefaultIfEmpty()
+
+                             join supervisor in _dbContext.Supervisor
+                             on taPunchin.SupervisorId equals supervisor.SupervisorId
+
+                             join supervisorAddressBook in _dbContext.AddressBook
+                             on supervisor.AddressId equals supervisorAddressBook.AddressId
+
+                             join employee in _dbContext.Employee
+                             on taPunchin.EmployeeId equals employee.EmployeeId
+
+
+                             join employeeAddressBook in _dbContext.AddressBook
+                             on employee.AddressId equals employeeAddressBook.AddressId
+
+                             join approverAddressBook in _dbContext.AddressBook
+                             on taPunchin.ApprovingAddressId equals approverAddressBook.AddressId
+
+                             select new
+                             {
+                                 TimePunchinId = taPunchin.TimePunchinId,
+                                 PunchinDate = taPunchin.PunchinDate,
+                                 PunchoutDate = taPunchin.PunchoutDate,
+                                 PunchinDateTime = taPunchin.PunchinDateTime,
+                                 PunchoutDateTime = taPunchin.PunchoutDateTime,
+                                 PayCode = udcPayCode.Value,
+                                 TypeOfTime = udcTypeOfTime.Value,
+                                 JobCode = udcJobCode.Value,
+                                 ApproverAddressId = approverAddressBook.AddressId,
+                                 ApproverName = approverAddressBook.Name,
+                                 EmployeeName = employeeAddressBook.Name,
+                                 EmployeeId = employee.EmployeeId,
+                                 ShiftId = (long?)taShift.ShiftId,
+                                 ShiftName = taShift.ShiftName,
+                                 ShiftType = taShift.ShiftType,
+                                 ScheduleId = taSchedule.ScheduleId,
+                                 ScheduleName = taSchedule.ScheduleName,
+                                 ScheduleStartDate = taSchedule.StartDate,
+                                 ScheduleEndDate = taSchedule.EndDate,
+                                 ScheduleGroup = taSchedule.ScheduleGroup,
+                                 ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
+                             }).ToList();
+
+                List<TimeAndAttendanceView> list = new List<TimeAndAttendanceView>();
+                Mapper mapper = new Mapper();
+                foreach (var item in query)
+                {
+                    //TimeAndAttendanceView taView = mapper.Map<TimeAndAttendanceView>(item);
+
+                    TimeAndAttendanceView taView = new TimeAndAttendanceView
+                    {
+                        TimePunchinId = item.TimePunchinId,
+                        PunchinDate = item.PunchinDate ?? DateTime.Now,
+                        PunchoutDate = item.PunchoutDate ?? DateTime.Now,
+                        PunchinDateTime = item.PunchinDateTime,
+                        PunchoutDateTime = item.PunchoutDateTime,
+                        PayCode = item.PayCode,
+                        TypeOfTime = item.TypeOfTime,
+                        JobCode = item.JobCode,
+                        ApproverAddressId = item.ApproverAddressId,
+                        ApproverName = item.ApproverName,
+                        EmployeeName = item.EmployeeName,
+                        EmployeeId = item.EmployeeId,
+                        ShiftId = item.ShiftId ?? 0,
+                        ShiftName = item.ShiftName,
+                        ShiftType = item.ShiftType,
+                        ScheduleId = item.ScheduleId,
+                        ScheduleName = item.ScheduleName,
+                        ScheduleStartDate = item.ScheduleStartDate ?? DateTime.Now,
+                        ScheduleEndDate = item.ScheduleEndDate ?? DateTime.Now,
+                        ScheduleGroup = item.ScheduleGroup,
+                        ScheduledToWork = item.ScheduledToWork
+
+                    };
+                    list.Add(taView);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+
         }
         public async Task<TimeAndAttendanceShift> GetShiftById(long shiftId)
         {

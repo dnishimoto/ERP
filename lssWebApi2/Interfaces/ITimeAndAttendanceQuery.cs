@@ -11,5 +11,7 @@ namespace ERP_Core2.Interfaces
         TimeAndAttendancePunchIn GetPunchInById(long timePunchinId);
         IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId);
         TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate);
+        List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime filterDate);
+
     }
 }
