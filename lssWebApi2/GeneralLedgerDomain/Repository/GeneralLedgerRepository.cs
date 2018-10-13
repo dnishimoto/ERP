@@ -93,7 +93,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             try
             {
                 var query = (from e in _dbContext.GeneralLedger
-                             where (e.LedgerType == "AA" && e.DocType == "PV" && e.FiscalYear == 2018)
+                             where (e.LedgerType == "AA" && e.DocType == "PV" && e.FiscalYear == fiscalYear)
                              group e by e.AccountId into pg
 
                              join f in _dbContext.ChartOfAccts

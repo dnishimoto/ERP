@@ -17,7 +17,7 @@ namespace ERP_Core2.FluentAPI
         {
             _unitOfWork = unitOfWork;
         }
-      
+
         public TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)
         {
             var query = _unitOfWork.timeAndAttendanceRepository.GetObjectsQueryable(predicate) as IQueryable<TimeAndAttendancePunchIn>;
@@ -37,6 +37,10 @@ namespace ERP_Core2.FluentAPI
             Task<TimeAndAttendancePunchIn> taPunchinTask = Task.Run(async () => await _unitOfWork.timeAndAttendanceRepository.GetObjectAsync(timePunchinId));
             //Task.WaitAll(taPunchinTask);
             return taPunchinTask.Result;
+        }
+        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime filterDate)
+        {
+            return _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByDate(filterDate);
         }
         public IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId)
         {
