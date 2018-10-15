@@ -38,9 +38,9 @@ namespace ERP_Core2.FluentAPI
             //Task.WaitAll(taPunchinTask);
             return taPunchinTask.Result;
         }
-        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime filterDate)
+        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)
         {
-            return _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByDate(filterDate);
+            return _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByDate(startDate,endDate);
         }
         public IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId)
         {
