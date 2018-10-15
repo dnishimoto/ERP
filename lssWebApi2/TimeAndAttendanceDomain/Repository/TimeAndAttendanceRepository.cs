@@ -105,12 +105,13 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             _dbContext = (ListensoftwareDBContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime filterDate)
+        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)
         {
             try
             {
                 var query = (from taPunchin in _dbContext.TimeAndAttendancePunchIn
-                             where taPunchin.PunchinDate >= filterDate
+                             where taPunchin.PunchinDate >= startDate
+                             && taPunchin.PunchinDate<= endDate
 
                              join udcTypeOfTime in _dbContext.Udc
                              on taPunchin.TypeOfTimeUdcXrefId equals udcTypeOfTime.XrefId
