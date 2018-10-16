@@ -27,11 +27,12 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         [Fact]
         public void TestTimeAndAttendanceViewsByDate()
         {
-            DateTime filterDate = DateTime.Parse("10/12/2018");
+            DateTime startDate = DateTime.Parse("10/12/2018");
+            DateTime endDate = DateTime.Now;
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            List<TimeAndAttendanceView> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(filterDate);
+            List<TimeAndAttendanceView> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(startDate,endDate);
 
             if (list.Count > 0)
             {

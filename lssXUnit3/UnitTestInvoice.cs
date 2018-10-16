@@ -31,6 +31,16 @@ namespace ERP_Core2.InvoiceDomain
             this.output = output;
 
         }
+        [Fact]
+        public void TestGetInvoiceFlatViews()
+        {
+            DateTime startDate = DateTime.Parse("1/1/2018");
+            DateTime endDate = DateTime.Now;
+ 
+            InvoiceModule invoiceModule = new InvoiceModule();
+
+            List<InvoiceFlatView> list = invoiceModule.Invoice.Query().GetInvoicesByDate(startDate, endDate);
+        }
         
         [Fact]
         public void TestPostInvoiceAndDetailToAcctRec()

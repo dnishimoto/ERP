@@ -4,16 +4,43 @@ using ERP_Core2.Interfaces;
 using ERP_Core2.InvoicesDomain;
 using ERP_Core2.Services;
 using lssWebApi2.entityframework;
+using lssWebApi2.Interfaces;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ERP_Core2.FluentAPI
 {
+ 
+    public class FluentInvoiceQuery : AbstractErrorHandling, IInvoiceQuery
+    {
+        public UnitOfWork _unitOfWork = null;
+        public FluentInvoiceQuery() { }
+        public FluentInvoiceQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
+
+        public List<InvoiceFlatView> GetInvoicesByDate(DateTime startInvoiceDate, DateTime endInvoiceDate)
+        {
+            return _unitOfWork.invoiceRepository.GetInvoicesByDate(startInvoiceDate, endInvoiceDate);
+        }
+
+    }
     public class FluentInvoice : AbstractErrorHandling, IInvoice
     {
         public UnitOfWork unitOfWork = new UnitOfWork();
         public CreateProcessStatus processStatus;
 
+        private FluentInvoiceQuery _query = null;
+
         public FluentInvoice() { }
+
+        public IInvoiceQuery Query()
+        {
+            if (_query == null) { _query = new FluentInvoiceQuery(unitOfWork); }
+
+            return _query as IInvoiceQuery;
+
+        }
+
 
 
         public IInvoice Apply()
@@ -62,11 +89,7 @@ namespace ERP_Core2.FluentAPI
             return this as IInvoice;
         }
 
-        public IQuery Query()
-        {
-            FluentQuery query = new FluentQuery();
-            return query as IQuery;
-        }
+      
 
     }
 }
