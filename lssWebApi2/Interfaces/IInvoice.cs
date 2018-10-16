@@ -1,4 +1,5 @@
 ﻿using ERP_Core2.InvoicesDomain;
+using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ namespace ERP_Core2.Interfaces
         IInvoice CreateInvoice(InvoiceView invoiceView);
         IInvoice MergeWithInvoiceNumber(ref InvoiceView invoiceView);
         IInvoice Apply();
-        IQuery Query();
+
+        IInvoiceQuery Query();
     }
 }
