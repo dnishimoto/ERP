@@ -26,12 +26,22 @@ namespace ERP_Core2.ChartOfAccountsDomain
 
         }
         [Fact]
+        public void TestGetAccountsByIds()
+        {
+            long [] acctIds = { 3, 4, 5 };
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+            List<ChartOfAccountView> list = coaMod.ChartOfAccount.Query().GetChartOfAccountViewsByIds(acctIds);
+            if (list.Count > 0)
+            { Assert.True(true); }
+        }
+        [Fact]
         public void TestCreateAccountModel()
         {
-            ChartOfAccountModule coaMod = new ChartOfAccountModule();
-            bool result = coaMod.CreateChartOfAccountModel();
 
-            Assert.True(result);
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+            coaMod.ChartOfAccount.CreateChartOfAccountModel().Apply();
+
+            Assert.True(true);
         }
      
     }

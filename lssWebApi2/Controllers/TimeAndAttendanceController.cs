@@ -10,22 +10,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace lssWebApi2.Controllers
 {
     public class FilterTimeAndAttendance
-        {
-            public DateTime StartDate { get; set; }
-            public DateTime EndDate { get; set; }
+    {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 
     [Route("api/[controller]")]
     public class TimeAndAttendanceController : Controller
     {
-        // GET: api/<controller>
-        //[HttpGet]
-        // public FilterTimeAndAttendance Get()
-        //{
-        //     return new FilterTimeAndAttendance();
-        //return new string[] { "value1", "value2" };
-        // }
-
         [HttpGet("{id}")]
         public string Get(int id)
         {
@@ -34,12 +26,14 @@ namespace lssWebApi2.Controllers
         //[HttpGet("{FilterTimeAndAttendance}")]
         [HttpGet]
         [Route("TAViews")]
+        //http://localhost:61612/api/TimeAndAttendance/TAViews?StartDate=10/1/2018&EndDate=10/14/2018
+
         public List<TimeAndAttendanceView> Get([FromQuery] FilterTimeAndAttendance filter)
         {
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            List<TimeAndAttendanceView> views = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(filter.StartDate,filter.EndDate);
+            List<TimeAndAttendanceView> views = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(filter.StartDate, filter.EndDate);
 
             return views;
         }
