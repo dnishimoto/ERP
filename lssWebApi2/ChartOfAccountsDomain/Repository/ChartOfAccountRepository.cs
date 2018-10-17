@@ -66,7 +66,40 @@ namespace ERP_Core2.ChartOfAccountsDomain
             _dbContext = (ListensoftwareDBContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-      
+        public List<ChartOfAccountView> GetChartOfAccountsByIds(long[] accountIds)
+        {
+            try
+            {
+                List<ChartOfAccountView> list = (from coa in _dbContext.ChartOfAccts
+                                                 where accountIds.Contains(coa.AccountId)
+                                                 select new ChartOfAccountView
+                                                 {
+                                                     AccountId = coa.AccountId,
+                                                     Location = coa.Location,
+                                                     BusUnit = coa.BusUnit,
+                                                     Subsidiary = coa.Subsidiary,
+                                                     SubSub = coa.SubSub,
+                                                     Account = coa.Account,
+                                                     Description = coa.Description,
+                                                     CompanyNumber = coa.CompanyNumber,
+                                                     GenCode = coa.GenCode,
+                                                     SubCode = coa.SubCode,
+                                                     ObjectNumber = coa.ObjectNumber,
+                                                     SupCode = coa.SubCode,
+                                                     ThirdAccount = coa.ThirdAccount,
+                                                     CategoryCode1 = coa.CategoryCode1,
+                                                     CategoryCode2 = coa.CategoryCode2,
+                                                     CategoryCode3 = coa.CategoryCode3,
+                                                     PostEditCode = coa.PostEditCode,
+                                                     CompanyId = coa.CompanyId,
+                                                     CompanyName = coa.Company.CompanyName,
+                                                     Level = coa.Level
+                                                 }).ToList<ChartOfAccountView>();
+
+                return list;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public void ProcessAccount(string json)
         {
             try
@@ -102,28 +135,30 @@ namespace ERP_Core2.ChartOfAccountsDomain
         public bool CreateAssets()
         {
             string json = "";
-
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.100""
       ,""Description"":""Assets (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""100""
        ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
-
-
-
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateCash()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.101""
       ,""Description"":""Cash (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""101""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
 
-
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
             return true;
         }
@@ -131,172 +166,229 @@ namespace ERP_Core2.ChartOfAccountsDomain
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.120""
       ,""Description"":""Account Receivables (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""120""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateInventory()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.140""
       ,""Description"":""Inventory (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""140""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateSupplies()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.150""
       ,""Description"":""Supplies (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""150""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateEquipment()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.180""
       ,""Description"":""Equipment (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""180""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateEquipmentDepreciation()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.188""
       ,""Description"":""Equipment Depreciation (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""188""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreatePrepaidInsurance()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.160""
       ,""Description"":""Prepaid Insurance (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""160""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateLand()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.170""
       ,""Description"":""Land (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""170""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateBuilding()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.175""
       ,""Description"":""Building (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""175""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateBuildingDepreciation()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.178""
       ,""Description"":""Building Depreciation (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""178""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateLiability()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.200""
       ,""Description"":""Liabilities (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""200""
        ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateNotesPayable()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.210""
       ,""Description"":""Notes Payable (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""210""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateWagesPayable()
         {
             string json = "";
 
-            json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.215""
+            try
+            {
+                json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.215""
       ,""Description"":""Wages Payable (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""215""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
-            ProcessAccount(json);
-            return true;
-        }
+                ProcessAccount(json);
+                return true;
+
+              }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex);
+    }
+}
         public bool CreateInterestPayment()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.230""
       ,""Description"":""Interest Payment (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""230""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateUnearnedRevenue()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.240""
       ,""Description"":""Unearned Revenue (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""240""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateMortgageLoanPayable()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.250""
       ,""Description"":""Mortgage Loan Payable (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""250""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
         public bool CreateExpenses()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.500""
       ,""Description"":""Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""500""
        ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
@@ -304,10 +396,14 @@ namespace ERP_Core2.ChartOfAccountsDomain
             ProcessAccount(json);
 
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesPersonal()
         {
             string json = "";
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.502""
       ,""Description"":""Expense Personal (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""502""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
@@ -367,172 +463,219 @@ namespace ERP_Core2.ChartOfAccountsDomain
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
             ProcessAccount(json);
             return true;
-
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesSalary()
         {
             string json = "";
-
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.501""
       ,""Description"":""Salary Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""501""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesWage()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.510""
       ,""Description"":""Wage Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""510""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesSupply()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.540""
       ,""Description"":""Supply Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""540""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesRent()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.560""
       ,""Description"":""Rent Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""560""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesUtilities()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.570""
       ,""Description"":""Utilities Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""570""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesCommunication()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.576""
       ,""Description"":""Communication Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""576""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesAdvertising()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.610""
       ,""Description"":""Advertising Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""610""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesDepreciation()
         {
             string json = "";
-
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.750""
       ,""Description"":""Advertising Expenses (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""750""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesInterestRevenue()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.810""
       ,""Description"":""Interest Revenue (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""810""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateExpensesGainOnSaleOfAsset()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.900""
       ,""Description"":""Gain On Sale of Asset (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""900""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateIncome()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.300""
       ,""Description"":""Income (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""300""
        ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateRevenue()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.310""
       ,""Description"":""Revenue (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""310""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateEquityCapital()
         {
             string json = "";
-
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.200""
       ,""Description"":""Equity Capital (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""200""
        ,""CompanyId"":1,""Level"":1,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateCapital()
         {
             string json = "";
 
+            try
+            { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.250""
       ,""Description"":""Capital (CR)"",""CompanyNumber"":""1000"",""ObjectNumber"":""250""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
         public bool CreateDrawing()
         {
             string json = "";
 
+            try { 
             json = @"{ ""Location"":""01"" ,""BusUnit"":""1200"",""Account"":""1200.295""
       ,""Description"":""Drawing (DB)"",""CompanyNumber"":""1000"",""ObjectNumber"":""295""
        ,""CompanyId"":1,""Level"":2,""PostEditCode"":""P""}";
 
             ProcessAccount(json);
             return true;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
     }
 }

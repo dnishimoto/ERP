@@ -1,4 +1,5 @@
 ﻿using ERP_Core2.AbstractFactory;
+using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
@@ -8,12 +9,46 @@ using System.Threading.Tasks;
 
 namespace ERP_Core2.ChartOfAccountsDomain
 {
-    public class ChartOfAccountModule : AbstractModule
+
+    public interface IChartOfAccountQuery
     {
-
+        List<ChartOfAccountView> GetChartOfAccountViewsByIds(long[] acctIds);
+    }
+    public class FluentChartOfAccountQuery : AbstractErrorHandling, IChartOfAccountQuery
+    {
+        private UnitOfWork _unitOfWork;
+        public FluentChartOfAccountQuery() { }
+        public FluentChartOfAccountQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
+        public List<ChartOfAccountView> GetChartOfAccountViewsByIds(long[] acctIds)
+            {
+            return _unitOfWork.chartOfAccountRepository.GetChartOfAccountsByIds(acctIds);
+            }
+    }
+    public interface IChartOfAccount
+    {
+        IChartOfAccount CreateChartOfAccountModel();
+        IChartOfAccountQuery Query();
+        IChartOfAccount Apply();
+    }
+    public class FluentChartOfAccount : AbstractErrorHandling, IChartOfAccount
+    {
         UnitOfWork unitOfWork = new UnitOfWork();
+        public CreateProcessStatus processStatus;
 
-        public bool CreateChartOfAccountModel()
+        private FluentChartOfAccountQuery _query = null;
+
+        public IChartOfAccountQuery Query() {
+            if (_query == null) { _query = new FluentChartOfAccountQuery(unitOfWork); }
+
+            return _query as IChartOfAccountQuery;
+        }
+        public IChartOfAccount Apply()
+        {
+            if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
+            { unitOfWork.CommitChanges(); }
+            return this as IChartOfAccount;
+        }
+        public IChartOfAccount CreateChartOfAccountModel()
         {
             bool status = true;
             bool result = true;
@@ -51,13 +86,21 @@ namespace ERP_Core2.ChartOfAccountsDomain
                 status = unitOfWork.chartOfAccountRepository.CreateCapital(); result = result && status;
                 status = unitOfWork.chartOfAccountRepository.CreateDrawing(); result = result && status;
 
-                if (status == true)
+                if (result == true)
                 {
-                    unitOfWork.CommitChanges();
+                    //either Insert or Update
+                    this.processStatus = CreateProcessStatus.Insert;
                 }
-                return result;
+                return this as IChartOfAccount;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
+    }
+    public class ChartOfAccountModule : AbstractModule
+    {
+
+        public FluentChartOfAccount ChartOfAccount = new FluentChartOfAccount();
+
+      
     }
 }
