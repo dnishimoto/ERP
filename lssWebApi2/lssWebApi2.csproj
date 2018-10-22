@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <ApplicationIcon />
+    <OutputType>Exe</OutputType>
+    <StartupObject />
   </PropertyGroup>
 
   <ItemGroup>
@@ -184,7 +187,6 @@
 
   <ItemGroup>
     <Folder Include="ContractsDomain\Repository\" />
-    <Folder Include="EntityFramework\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />
     <Folder Include="wwwroot\" />
@@ -200,7 +202,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="microsoft.visualstudio.web.codegeneration.design" Version="2.1.4" />
+    <PackageReference Include="microsoft.visualstudio.web.codegeneration.design" Version="2.1.5" />
   </ItemGroup>
 
   <ItemGroup>

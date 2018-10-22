@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Udc
     {
@@ -40,5 +40,6 @@ namespace lssWebApi2.entityframework
         public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
         public virtual ICollection<Supervisor> Supervisor { get; set; }
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+
     }
 }

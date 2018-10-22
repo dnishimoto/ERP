@@ -25,7 +25,7 @@ namespace lssWebApi2.Controllers
         }
         [HttpGet]
         [Route("CoaViews")]
-        http://localhost:61612/api/ChartOfAccount/CoaViews?AccountIds=3&AccountIds=4&AccountIds=5
+        //http://localhost:61612/api/ChartOfAccount/CoaViews?AccountIds=3&AccountIds=4&AccountIds=5
         public List<ChartOfAccountView> Get([FromQuery] FilterChartOfAccount filter)
         {
 

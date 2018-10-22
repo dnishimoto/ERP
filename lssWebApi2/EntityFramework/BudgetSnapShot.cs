@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class BudgetSnapShot
     {
@@ -16,5 +16,6 @@ namespace lssWebApi2.entityframework
         public decimal? ProjectedAmount { get; set; }
         public decimal? OpenPurchaseOrderAmount { get; set; }
         public string Comments { get; set; }
+
     }
 }

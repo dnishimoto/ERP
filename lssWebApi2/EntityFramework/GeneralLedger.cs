@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class GeneralLedger
     {
@@ -33,5 +33,6 @@ namespace lssWebApi2.entityframework
         public virtual AddressBook Address { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
         public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
+
     }
 }

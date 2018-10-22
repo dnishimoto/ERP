@@ -1,7 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -45,11 +45,11 @@ namespace ERP_Core2.BudgetDomain
 
     public class BudgetRangeRepository : Repository<BudgetRange>
     {
-        ListensoftwareDBContext _dbContext;
+        ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
         public BudgetRangeRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
         }
         public async Task<BudgetRangeView> GetBudgetRange(long ?accountId, DateTime ? startDate, DateTime ? endDate)
         {

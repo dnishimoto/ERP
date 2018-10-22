@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class AcctRec
     {
@@ -30,11 +30,13 @@ namespace lssWebApi2.entityframework
         public DateTime? PaymentDueDate { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
+        public string AcctRecDocType { get; set; }
 
         public virtual ChartOfAccts Account { get; set; }
         public virtual Udc AcctRecDocTypeXref { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Invoice Invoice { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
+
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ProjectManagementTask
     {
@@ -33,5 +33,6 @@ namespace lssWebApi2.entityframework
         public virtual ProjectManagementProject Project { get; set; }
         public virtual Udc StatusXref { get; set; }
         public virtual ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
+
     }
 }

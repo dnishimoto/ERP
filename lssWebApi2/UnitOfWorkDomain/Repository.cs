@@ -8,9 +8,10 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using System.Data.Common;
 using System.Data;
+using lssWebApi2;
 
 namespace ERP_Core2.Services
 {
@@ -153,18 +154,18 @@ namespace ERP_Core2.Services
             /*
             NextNumber nextNumber = null;
             long? currentNextNumberValue = 0;
-            using (DbContextTransaction scope = _dbListensoftwareDBContext.Database.BeginTransaction())
+            using (DbContextTransaction scope = _dbListensoftwaredbContext.Database.BeginTransaction())
             {
                 //Lock the table during this transaction
-                nextNumber = await (from e in _dbListensoftwareDBContext.NextNumbers
+                nextNumber = await (from e in _dbListensoftwaredbContext.NextNumbers
                                                where e.NextNumberName == nextNumberName
                                                select e).FirstOrDefaultAsync<NextNumber>();
 
                 currentNextNumberValue = nextNumber.NextNumberValue;
                 nextNumber.NextNumberValue += 1;
-                _dbListensoftwareDBContext.NextNumbers.Attach(nextNumber);
-                _dbListensoftwareDBContext.Entry(nextNumber).State = EntityState.Modified;
-                _dbListensoftwareDBContext.SaveChanges();
+                _dbListensoftwaredbContext.NextNumbers.Attach(nextNumber);
+                _dbListensoftwaredbContext.Entry(nextNumber).State = EntityState.Modified;
+                _dbListensoftwaredbContext.SaveChanges();
                 nextNumber.NextNumberValue = currentNextNumberValue??0;
 
                 scope.Commit();
@@ -176,9 +177,9 @@ namespace ERP_Core2.Services
         {
             try
             {
-                ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
-                var query = await (from e in _dbListensoftwareDBContext.AddressBook
-                                   join f in _dbListensoftwareDBContext.Emails on e.AddressId equals f.AddressId
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
+                var query = await (from e in _dbListensoftwaredbContext.AddressBook
+                                   join f in _dbListensoftwaredbContext.Emails on e.AddressId equals f.AddressId
                                    where e.Name == customerView.CustomerName &&
                                    f.Email == customerView.AccountEmail.EmailText
                                    && f.LoginEmail == true
@@ -191,10 +192,10 @@ namespace ERP_Core2.Services
         {
             try
             {
-                ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
 
 
-                Company company = await (from e in _dbListensoftwareDBContext.Company
+                Company company = await (from e in _dbListensoftwaredbContext.Company
                                          where e.CompanyId == 1
                                          select e).FirstOrDefaultAsync<Company>();
 
@@ -206,10 +207,10 @@ namespace ERP_Core2.Services
         {
             try
             {
-                ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
 
 
-                ChartOfAccts chartOfAcct = await (from e in _dbListensoftwareDBContext.ChartOfAccts
+                ChartOfAccts chartOfAcct = await (from e in _dbListensoftwaredbContext.ChartOfAccts
                                                  where e.CompanyNumber == company
                                                  && e.BusUnit == busUnit
                                                  && e.ObjectNumber == objectNumber
@@ -226,9 +227,9 @@ namespace ERP_Core2.Services
         {
             try
             {
-                ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
 
-                Customer customer = await (from e in _dbListensoftwareDBContext.Customer
+                Customer customer = await (from e in _dbListensoftwaredbContext.Customer
                                            where e.CustomerId == customerId
                                            select e).FirstOrDefaultAsync<Customer>();
 
@@ -241,9 +242,9 @@ namespace ERP_Core2.Services
         {
             try
             {
-                ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
 
-                TaxRatesByCode tax = await (from e in _dbListensoftwareDBContext.TaxRatesByCode
+                TaxRatesByCode tax = await (from e in _dbListensoftwaredbContext.TaxRatesByCode
                                             where e.TaxCode == TaxCode
                                             select e).FirstOrDefaultAsync<TaxRatesByCode>();
 
@@ -256,9 +257,9 @@ namespace ERP_Core2.Services
         {
             try
             {
-                ListensoftwareDBContext _dbListensoftwareDBContext = (ListensoftwareDBContext)_dbContext;
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
 
-                Udc udc = await (from e in _dbListensoftwareDBContext.Udc
+                Udc udc = await (from e in _dbListensoftwaredbContext.Udc
                                  where e.ProductCode == productCode
                                  && e.KeyCode == keyCode
                                  select e).FirstOrDefaultAsync<Udc>();

@@ -1,7 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;

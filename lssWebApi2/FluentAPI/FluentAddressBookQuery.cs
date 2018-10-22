@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.FluentAPI
 {

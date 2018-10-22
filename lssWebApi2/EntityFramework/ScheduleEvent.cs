@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ScheduleEvent
     {
@@ -15,5 +15,6 @@ namespace lssWebApi2.entityframework
         public virtual Customer Customer { get; set; }
         public virtual Employee Employee { get; set; }
         public virtual ServiceInformation Service { get; set; }
+
     }
 }

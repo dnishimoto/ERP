@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Carrier
     {
@@ -11,5 +11,6 @@ namespace lssWebApi2.entityframework
 
         public virtual AddressBook Address { get; set; }
         public virtual Udc CarrierTypeXref { get; set; }
+
     }
 }

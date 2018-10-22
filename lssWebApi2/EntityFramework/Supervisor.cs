@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Supervisor
     {
@@ -22,5 +22,6 @@ namespace lssWebApi2.entityframework
         public virtual Udc JobTitleXref { get; set; }
         public virtual ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
+
     }
 }

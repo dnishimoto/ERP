@@ -1,4 +1,4 @@
-﻿using lssWebApi2.entityframework;
+﻿using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

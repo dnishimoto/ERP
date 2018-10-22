@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Assets
     {
@@ -26,5 +26,6 @@ namespace lssWebApi2.entityframework
         public string GenericLocationLevel3 { get; set; }
 
         public virtual Udc EquipmentStatusXref { get; set; }
+
     }
 }

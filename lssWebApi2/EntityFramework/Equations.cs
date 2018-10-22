@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Equations
     {
@@ -10,5 +10,6 @@ namespace lssWebApi2.entityframework
         public string Queueid { get; set; }
         public string Evaluated { get; set; }
         public string Cellname { get; set; }
+
     }
 }

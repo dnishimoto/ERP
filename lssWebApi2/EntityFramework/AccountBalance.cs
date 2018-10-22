@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class AccountBalance
     {
@@ -14,5 +14,6 @@ namespace lssWebApi2.entityframework
         public long AccountId { get; set; }
 
         public virtual ChartOfAccts Account { get; set; }
+
     }
 }

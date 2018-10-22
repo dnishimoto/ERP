@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class SupplierLedger
     {
@@ -27,5 +27,6 @@ namespace lssWebApi2.entityframework
         public virtual GeneralLedger GeneralLedger { get; set; }
         public virtual SupplierInvoice Invoice { get; set; }
         public virtual Supplier Supplier { get; set; }
+
     }
 }

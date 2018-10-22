@@ -24,13 +24,13 @@ using static ERP_Core2.TimeAndAttendanceDomain.TimeAndAttendanceScheduleView;
 using ERP_Core2.TimeAndAttendanceDomain.Repository;
 using ERP_Core2.ChartOfAccountsDomain;
 using ERP_Core2.BudgetDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.Services
 {
     public class UnitOfWork
     {
-        ListensoftwareDBContext db = new ListensoftwareDBContext();
+        ListensoftwaredbContext db = new ListensoftwaredbContext();
         public AddressBookRepository addressBookRepository => new AddressBookRepository(db);
         public ChartOfAccountRepository chartOfAccountRepository => new ChartOfAccountRepository(db);
         public BudgetSnapShotRepository budgetSnapShotRepository => new BudgetSnapShotRepository(db);

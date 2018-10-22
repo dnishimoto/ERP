@@ -4,20 +4,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.Extensions.Configuration;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
-    public partial class ListensoftwareDBContext : DbContext
+    public partial class ListensoftwaredbContext : DbContext
     {
-        public ListensoftwareDBContext()
+        public ListensoftwaredbContext()
         {
         }
-
-        public ListensoftwareDBContext(DbContextOptions<ListensoftwareDBContext> options)
+        public ListensoftwaredbContext(DbContextOptions<ListensoftwaredbContext> options)
             : base(options)
         {
-
         }
-
 
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }
@@ -30,6 +27,7 @@ namespace lssWebApi2.entityframework
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
         public virtual DbSet<Assets> Assets { get; set; }
         public virtual DbSet<Budget> Budget { get; set; }
+        public virtual DbSet<BudgetNote> BudgetNote { get; set; }
         public virtual DbSet<BudgetRange> BudgetRange { get; set; }
         public virtual DbSet<BudgetSnapShot> BudgetSnapShot { get; set; }
         public virtual DbSet<Buyer> Buyer { get; set; }
@@ -89,16 +87,7 @@ namespace lssWebApi2.entityframework
         {
             if (!optionsBuilder.IsConfigured)
             {
-                /*var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var basePath = AppDomain.CurrentDomain.BaseDirectory;
-                var environmentPath = Environment.CurrentDirectory;
-                var assemblyPath = System.IO.Path.GetDirectoryName(
-System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
-                */
-
                 var directoryPath = Directory.GetCurrentDirectory();
-
-              
 
                 IConfigurationRoot configuration = new ConfigurationBuilder()
                        .SetBasePath(directoryPath)
@@ -215,6 +204,10 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
             modelBuilder.Entity<AcctRec>(entity =>
             {
+                entity.Property(e => e.AcctRecDocType)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.AcctRecDocTypeXrefId).HasColumnName("AcctRecDocTypeXRefId");
 
                 entity.Property(e => e.Amount).HasColumnType("money");
@@ -473,6 +466,8 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             {
                 entity.Property(e => e.ActualAmount).HasColumnType("decimal(18, 4)");
 
+                entity.Property(e => e.ActualsAsOfDate).HasColumnType("date");
+
                 entity.Property(e => e.BudgetAmount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.BudgetHours).HasColumnType("decimal(18, 1)");
@@ -490,6 +485,23 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
                     .WithMany(p => p.Budget)
                     .HasForeignKey(d => d.RangeId)
                     .HasConstraintName("FK_Budget_BudgetRange");
+            });
+
+            modelBuilder.Entity<BudgetNote>(entity =>
+            {
+                entity.Property(e => e.Create)
+                    .HasColumnType("datetime")
+                    .HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.Note)
+                    .IsRequired()
+                    .HasColumnType("ntext");
+
+                entity.HasOne(d => d.Budget)
+                    .WithMany(p => p.BudgetNote)
+                    .HasForeignKey(d => d.BudgetId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_BudgetNote_Budget");
             });
 
             modelBuilder.Entity<BudgetRange>(entity =>
@@ -806,6 +818,10 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             modelBuilder.Entity<CustomerLedger>(entity =>
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.CheckNumber)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Comment)
                     .HasMaxLength(255)
@@ -1124,6 +1140,10 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
                     .IsUnicode(false);
 
                 entity.Property(e => e.State).HasMaxLength(2);
+
+                entity.Property(e => e.Type)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.TypeXrefId).HasColumnName("TypeXRefId");
 
@@ -1947,6 +1967,10 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
             {
                 entity.HasKey(e => e.TimePunchinId);
 
+                entity.Property(e => e.JobCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.MealPunchin)
                     .HasColumnName("mealPunchin")
                     .HasMaxLength(14)
@@ -1961,6 +1985,10 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.PayCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.ProcessedDate).HasColumnType("date");
 
                 entity.Property(e => e.PunchinDate).HasColumnType("date");
@@ -1973,6 +2001,14 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 
                 entity.Property(e => e.PunchoutDateTime)
                     .HasMaxLength(14)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TransferJobCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TypeOfTime)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Employee)
@@ -2097,6 +2133,10 @@ System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
                     .HasMaxLength(255)
                     .IsUnicode(false);
             });
+
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

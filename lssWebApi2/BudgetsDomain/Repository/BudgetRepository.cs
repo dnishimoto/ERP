@@ -1,7 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -43,7 +43,8 @@ namespace ERP_Core2.BudgetDomain
             this.SupervisorCode = budget.Range.SupervisorCode;
             this.ProjectedHours = budget.ProjectedHours;
             this.ProjectedAmount = budget.ProjectedAmount;
-            this.RangeIsActive = budget.Range.IsActive;    
+            this.RangeIsActive = budget.Range.IsActive;
+            this.ActualsAsOfDate = budget.ActualsAsOfDate;
           
         }
         public long BudgetId { get; set; }
@@ -65,15 +66,16 @@ namespace ERP_Core2.BudgetDomain
         public decimal? ProjectedHours { get; set; }
         public decimal? ProjectedAmount { get; set; }
         public bool? RangeIsActive { get; set; }
+        public DateTime? ActualsAsOfDate { get; set; }
 
     }
     public class BudgetRepository : Repository<Budget>
     {
-        ListensoftwareDBContext _dbContext;
+        ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
         public BudgetRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
         }
         public async Task<BudgetView> GetBudgetView(long budgetId)
         {

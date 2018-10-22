@@ -17,7 +17,7 @@ using System.Data.SqlClient;
 using System.Data;
 using ERP_Core2.InvoiceDetailsDomain;
 using ERP_Core2.CustomerLedgerDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core.CustomerDomain
 {
@@ -146,7 +146,7 @@ namespace ERP_Core.CustomerDomain
             {
                 UnitOfWork unitOfWork = new UnitOfWork();
 
-                ListensoftwareDBContext dbContext = unitOfWork.generalLedgerRepository._dbContext;
+                ListensoftwaredbContext dbContext = unitOfWork.generalLedgerRepository._dbContext;
 
                 DataTable dt = new DataTable();
                 dt.Columns.Add("CustomerName", typeof(string));
@@ -220,20 +220,10 @@ namespace ERP_Core.CustomerDomain
 
                 CustomerModule custMod = new CustomerModule();
 
-                custMod
-                    .Customer
+                bool result = custMod.CreateCustomer(customerView);
+               
 
-                        .CreateAddressBook(customerView)
-                        .Apply()
-                        .CreateCustomerEmail(customerView)
-                        .Apply()
-                        .CreateCustomer(customerView)
-                        .Apply()
-                        .CreateCustomerLocationAddress(customerView)
-                        .Apply()
-                        ;
-
-                Assert.True(true);
+                Assert.True(result);
             }
             catch (Exception ex)
             { throw new Exception("TestCreateCustomerAccount", ex); }

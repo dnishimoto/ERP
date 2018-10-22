@@ -6,7 +6,7 @@ using ERP_Core2.AbstractFactory;
 using System.Data.SqlClient;
 using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.CustomerLedgerDomain
@@ -29,6 +29,7 @@ namespace ERP_Core2.CustomerLedgerDomain
             this.FiscalPeriod = ledger.FiscalPeriod;
             this.FiscalYear = ledger.FiscalYear;
             this.GeneralLedgerId = ledger.GeneralLedgerId;
+            this.CheckNumber = ledger.CheckNumber;
         }
         public CustomerLedgerView(CustomerLedger CustomerLedger)
         {
@@ -50,6 +51,7 @@ namespace ERP_Core2.CustomerLedgerDomain
             this.FiscalPeriod = CustomerLedger.FiscalPeriod;
             this.FiscalYear = CustomerLedger.FiscalYear;
             this.GeneralLedgerId = CustomerLedger.GeneralLedgerId;
+            this.CheckNumber = CustomerLedger.CheckNumber;
         }
         public long CustomerId { get; set; }
         public long GeneralLedgerId { get; set; }
@@ -70,15 +72,16 @@ namespace ERP_Core2.CustomerLedgerDomain
         public decimal? CreditAmount { get; set; }
         public int FiscalPeriod { get; set; }
         public int FiscalYear { get; set; }
+        public string CheckNumber { get; set; }
     }
 
     public class CustomerLedgerRepository : Repository<CustomerLedger>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public CustomerLedgerRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public async Task<CreateProcessStatus> CreateLedgerFromView(CustomerLedgerView view)
@@ -88,11 +91,8 @@ namespace ERP_Core2.CustomerLedgerDomain
                 CustomerLedger customerLedger = new CustomerLedger();
 
                 var query = await (from e in _dbContext.CustomerLedger
-                             where e.AccountId == view.AccountId
-                             && e.Amount == view.Amount
-                             && e.Gldate == view.GLDate
-                             && e.DocNumber == view.DocNumber
-                             && e.Comment == view.Comment
+                             where e.GeneralLedgerId==view.GeneralLedgerId
+                         
                            
                              select e
                              ).FirstOrDefaultAsync<CustomerLedger>();

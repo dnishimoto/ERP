@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,11 +68,11 @@ namespace ERP_Core2.PackingSlipDomain
 
     public class PackingSlipRepository: Repository<PackingSlip>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public PackingSlipRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
 

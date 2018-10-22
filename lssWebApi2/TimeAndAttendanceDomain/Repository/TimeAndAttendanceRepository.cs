@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using lssWebApi2.Mapper;
+
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {
@@ -98,11 +99,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
     public class TimeAndAttendanceRepository : Repository<TimeAndAttendancePunchIn>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public TimeAndAttendanceRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)

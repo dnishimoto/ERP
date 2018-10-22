@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.PurchaseOrderDomain
@@ -118,11 +118,11 @@ namespace ERP_Core2.PurchaseOrderDomain
 
     public class PurchaseOrderRepository : Repository<PurchaseOrder>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public PurchaseOrderRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
 

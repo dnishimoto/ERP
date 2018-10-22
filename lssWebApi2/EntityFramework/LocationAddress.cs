@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class LocationAddress
     {
@@ -19,9 +19,11 @@ namespace lssWebApi2.entityframework
         public long AddressId { get; set; }
         public string State { get; set; }
         public string Country { get; set; }
+        public string Type { get; set; }
 
         public virtual AddressBook Address { get; set; }
         public virtual Udc TypeXref { get; set; }
         public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
+
     }
 }

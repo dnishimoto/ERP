@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ItemMaster
     {
@@ -29,5 +29,6 @@ namespace lssWebApi2.entityframework
         public virtual ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
         public virtual ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }
         public virtual ICollection<SupplierInvoiceDetail> SupplierInvoiceDetail { get; set; }
+
     }
 }

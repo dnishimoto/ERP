@@ -11,7 +11,7 @@ using ERP_Core2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.GeneralLedgerDomain
 {

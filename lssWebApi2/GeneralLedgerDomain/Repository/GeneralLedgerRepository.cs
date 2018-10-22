@@ -6,9 +6,10 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountsReceivableDomain;
 using System.Data.SqlClient;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace ERP_Core2.GeneralLedgerDomain
 {
@@ -81,13 +82,15 @@ namespace ERP_Core2.GeneralLedgerDomain
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public GeneralLedgerRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+           
+
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try

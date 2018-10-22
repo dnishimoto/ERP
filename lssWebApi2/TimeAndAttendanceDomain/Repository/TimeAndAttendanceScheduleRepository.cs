@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
@@ -68,11 +68,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
    
     public class TimeAndAttendanceScheduleRepository : Repository<TimeAndAttendanceSchedule>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public TimeAndAttendanceScheduleRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ServiceInformation
     {
@@ -32,5 +32,6 @@ namespace lssWebApi2.entityframework
         public virtual Udc ServiceTypeXref { get; set; }
         public virtual ICollection<ScheduleEvent> ScheduleEvent { get; set; }
         public virtual ICollection<ServiceInformationInvoice> ServiceInformationInvoice { get; set; }
+
     }
 }

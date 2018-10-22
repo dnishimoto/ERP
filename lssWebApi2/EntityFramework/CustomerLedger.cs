@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class CustomerLedger
     {
@@ -22,10 +22,12 @@ namespace lssWebApi2.entityframework
         public decimal? CreditAmount { get; set; }
         public int FiscalYear { get; set; }
         public int FiscalPeriod { get; set; }
+        public string CheckNumber { get; set; }
 
         public virtual AcctRec AcctRec { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual GeneralLedger GeneralLedger { get; set; }
         public virtual Invoice Invoice { get; set; }
+
     }
 }

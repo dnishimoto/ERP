@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ProjectManagementTaskToEmployee
     {
@@ -11,5 +11,6 @@ namespace lssWebApi2.entityframework
 
         public virtual Employee Employee { get; set; }
         public virtual ProjectManagementTask Task { get; set; }
+
     }
 }

@@ -11,7 +11,7 @@ using ERP_Core2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using lssWebApi2.Controllers;
 
 namespace ERP_Core2.BudgetDomain
@@ -40,16 +40,8 @@ namespace ERP_Core2.BudgetDomain
         public void TestGetBudget()
         {
             long budgetId = 2;
-
-           
-            //BudgetController bc = new BudgetController();
-
-            //BudgetView budgetView = bc.Get(budgetId);
-
-
-            //UnitOfWork unitOfWork = new UnitOfWork();
-
-            BudgetModule budgetMod = new BudgetModule();
+     
+              BudgetModule budgetMod = new BudgetModule();
 
             BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
 

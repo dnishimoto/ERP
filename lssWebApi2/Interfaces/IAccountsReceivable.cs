@@ -1,5 +1,6 @@
 ﻿using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.InvoicesDomain;
+using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,6 @@ namespace ERP_Core2.Interfaces
         IAccountsReceivable CreateAcctRecFromInvoice(InvoiceView invoiceView);
         IAccountsReceivable Apply();
         IAccountsReceivable UpdateAccountReceivable(GeneralLedgerView ledgerView);
-        IQuery Query();
+        IQueryAccountReceivable Query();
     }
 }

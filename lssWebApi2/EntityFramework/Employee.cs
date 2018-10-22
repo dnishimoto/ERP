@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Employee
     {
@@ -32,5 +32,6 @@ namespace lssWebApi2.entityframework
         public virtual ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
         public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
+
     }
 }

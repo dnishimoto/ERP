@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.TimeAndAttendenceDomain
 {
