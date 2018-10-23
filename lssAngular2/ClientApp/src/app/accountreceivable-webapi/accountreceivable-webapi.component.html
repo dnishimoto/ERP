@@ -1,0 +1,27 @@
+<h1>Open Receivables</h1>
+
+
+<p *ngIf="!accountReceivables"><em>Loading...</em></p>
+
+
+
+<div class=“container-fluid”>
+
+
+  <div *ngFor="let ar of accountReceivables">
+    <div class="col-lg-9, col-md-9">
+      {{ar.customerName}}
+      {{ar.addressLine1}}
+      {{ar.addressLine2}}
+      {{ar.city}}
+      {{ar.state}}
+      {{ar.zipcode}}
+      {{ar.openAmount }}
+    </div>
+    <div class="col-lg-3, col-md-3">
+     
+    </div>
+  </div>
+
+
+</div>

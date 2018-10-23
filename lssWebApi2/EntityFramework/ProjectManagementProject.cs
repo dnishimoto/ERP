@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ProjectManagementProject
     {
@@ -27,5 +27,6 @@ namespace lssWebApi2.entityframework
 
         public virtual ICollection<ProjectManagementMilestones> ProjectManagementMilestones { get; set; }
         public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
+
     }
 }

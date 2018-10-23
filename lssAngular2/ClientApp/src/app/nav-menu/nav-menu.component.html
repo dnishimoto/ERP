@@ -37,6 +37,11 @@
                 <span class='glyphicon glyphicon-th-list'></span> General Ledgers
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/accountreceivable-webapi"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Open Receivables
+              </a>
+            </li>
           </ul>
         </div>
     </div>

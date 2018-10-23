@@ -14,7 +14,7 @@ using System;
 using System.Collections.Generic;
 using ERP_Core2.ChartOfAccountsDomain;
 using ERP_Core2.BudgetDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.AbstractFactory
 {
@@ -379,6 +379,7 @@ namespace ERP_Core2.AbstractFactory
             budget.RangeId = budgetView.RangeId;
             budget.ProjectedHours = budgetView.ProjectedHours??0;
             budget.ProjectedAmount = budgetView.ProjectedAmount??0;
+            budget.ActualsAsOfDate = budgetView.ActualsAsOfDate;
     }
         public override void MapRangeToBudgetViewEntity(ref BudgetView budgetView, BudgetRangeView budgetRangeView)
         {
@@ -539,6 +540,7 @@ namespace ERP_Core2.AbstractFactory
             customerLedger.FiscalYear = ledgerView.FiscalYear;
             customerLedger.FiscalPeriod = ledgerView.FiscalPeriod;
             customerLedger.GeneralLedgerId = ledgerView.GeneralLedgerId;
+            customerLedger.CheckNumber = ledgerView.CheckNumber;
 
         }
     }

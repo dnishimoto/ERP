@@ -5,7 +5,7 @@ using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.InventoryDomain
@@ -35,11 +35,11 @@ namespace ERP_Core2.InventoryDomain
     }
     public class InventoryRepository: Repository<Inventory>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public InventoryRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public async Task<CreateProcessStatus> CreateInventoryByPackingSlipView(PackingSlipView view)

@@ -6,9 +6,10 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountsReceivableDomain;
 using System.Data.SqlClient;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace ERP_Core2.GeneralLedgerDomain
 {
@@ -81,13 +82,15 @@ namespace ERP_Core2.GeneralLedgerDomain
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public GeneralLedgerRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+           
+
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try
@@ -165,7 +168,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<bool> UpdateBalanceByAccountId(long? accountId, int? fiscalYear, int? fiscalPeriod)
+        public async Task<bool> UpdateBalanceByAccountId(long? accountId, int? fiscalYear, int? fiscalPeriod,string docType)
         {
 
             try
@@ -173,10 +176,11 @@ namespace ERP_Core2.GeneralLedgerDomain
                 SqlParameter param1 = new SqlParameter("@AccountId", accountId);
                 SqlParameter param2 = new SqlParameter("@FiscalPeriod", fiscalPeriod);
                 SqlParameter param3 = new SqlParameter("@FiscalYear", fiscalYear);
+                SqlParameter param4 = new SqlParameter("@DocType", docType);
                 //params Object[] parameters;
 
 
-                var result = await _dbContext.Database.ExecuteSqlCommandAsync("usp_RollupGeneralLedgerBalance @AccountId, @FiscalPeriod, @FiscalYear", param1, param2, param3);
+                var result = await _dbContext.Database.ExecuteSqlCommandAsync("usp_RollupGeneralLedgerBalance @AccountId, @FiscalPeriod, @FiscalYear, @DocType", param1, param2, param3,param4);
 
 
                 return true;

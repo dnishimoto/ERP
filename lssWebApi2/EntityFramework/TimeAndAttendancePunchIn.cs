@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class TimeAndAttendancePunchIn
     {
@@ -26,11 +26,17 @@ namespace lssWebApi2.entityframework
         public long? ScheduleId { get; set; }
         public int? DurationInMinutes { get; set; }
         public int? MealDurationInMinutes { get; set; }
+        public string TypeOfTime { get; set; }
+        public string PayCode { get; set; }
+        public string JobCode { get; set; }
+        public string TransferJobCode { get; set; }
+        public long? TransferSupervisorId { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual TimeAndAttendanceShift Shift { get; set; }
         public virtual TimeAndAttendanceSchedule Supervisor { get; set; }
         public virtual Supervisor SupervisorNavigation { get; set; }
         public virtual Udc TypeOfTimeUdcXref { get; set; }
+
     }
 }

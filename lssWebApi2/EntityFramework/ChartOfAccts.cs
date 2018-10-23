@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ChartOfAccts
     {
@@ -44,5 +44,6 @@ namespace lssWebApi2.entityframework
         public virtual ICollection<BudgetRange> BudgetRange { get; set; }
         public virtual ICollection<GeneralLedger> GeneralLedger { get; set; }
         public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; }
+
     }
 }

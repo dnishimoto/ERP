@@ -6,8 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.entityframework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.TimeAndAttendanceDomain.Repository
 {
@@ -38,11 +39,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain.Repository
     }
     public class TimeAndAttendanceScheduledToWorkRepository : Repository<TimeAndAttendanceScheduledToWork>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public TimeAndAttendanceScheduledToWorkRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public TimeAndAttendanceScheduledToWork BuildScheduledToWork(TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeItem)

@@ -1,6 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
@@ -59,11 +59,11 @@ namespace ERP_Core2.ChartOfAccountsDomain
     }
     public class ChartOfAccountRepository : Repository<ChartOfAccts>
     {
-        private ListensoftwareDBContext _dbContext;
+        private ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public ChartOfAccountRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public List<ChartOfAccountView> GetChartOfAccountsByIds(long[] accountIds)
@@ -110,7 +110,7 @@ namespace ERP_Core2.ChartOfAccountsDomain
                                              select e).FirstOrDefaultAsync<Company>();
                 chartOfAcct.Company = companyTask.Result;
                 ChartOfAccountView view = applicationViewFactory.MapChartOfAccountView(chartOfAcct);
-                IQueryable<ChartOfAccts> query = GetObjectsQueryable(e => e.ObjectNumber == view.ObjectNumber, "");
+                IQueryable<ChartOfAccts> query = GetObjectsQueryable(e => e.BusUnit==view.BusUnit && e.ObjectNumber == view.ObjectNumber && e.Subsidiary==view.Subsidiary, "");
                 List<ChartOfAccts> list = query.ToList<ChartOfAccts>();
                 if (list.Count == 0)
                 {

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.AddressBookDomain
@@ -39,10 +39,10 @@ namespace ERP_Core2.AddressBookDomain
     {
         private ApplicationViewFactory applicationViewFactory;
       
-        ListensoftwareDBContext _dbContext;
+        ListensoftwaredbContext _dbContext;
         public SupplierRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public AddressBook GetAddressBookByEmail(Emails email)

@@ -1,4 +1,4 @@
-﻿using lssWebApi2.entityframework;
+﻿using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.Interfaces
 {

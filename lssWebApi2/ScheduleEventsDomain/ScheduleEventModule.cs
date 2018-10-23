@@ -1,6 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using System;
 using System.Linq;
 using System.Threading.Tasks;

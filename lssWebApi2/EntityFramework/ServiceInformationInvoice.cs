@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ServiceInformationInvoice
     {
@@ -11,5 +11,6 @@ namespace lssWebApi2.entityframework
 
         public virtual Invoice Invoice { get; set; }
         public virtual ServiceInformation Service { get; set; }
+
     }
 }

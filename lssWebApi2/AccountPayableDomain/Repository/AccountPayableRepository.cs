@@ -7,7 +7,7 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.PurchaseOrderDomain;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.AccountsPayableDomain
@@ -70,11 +70,11 @@ namespace ERP_Core2.AccountsPayableDomain
 
     public class AccountPayableRepository : Repository<AcctPay>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public AccountPayableRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
 

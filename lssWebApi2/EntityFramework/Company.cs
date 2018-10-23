@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Company
     {
@@ -23,5 +23,6 @@ namespace lssWebApi2.entityframework
 
         public virtual ICollection<ChartOfAccts> ChartOfAccts { get; set; }
         public virtual ICollection<Invoice> Invoice { get; set; }
+
     }
 }

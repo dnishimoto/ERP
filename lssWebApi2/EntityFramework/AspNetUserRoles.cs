@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class AspNetUserRoles
     {
@@ -10,5 +10,6 @@ namespace lssWebApi2.entityframework
 
         public virtual AspNetRoles Role { get; set; }
         public virtual AspNetUsers User { get; set; }
+
     }
 }

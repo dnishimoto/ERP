@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.Services;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.ItemMasterDomain
@@ -33,11 +33,11 @@ namespace ERP_Core2.ItemMasterDomain
     }
     public class ItemMasterRepository: Repository<ItemMaster>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public ItemMasterRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public async Task<bool> CreateItemMaster(ItemMaster itemMaster)

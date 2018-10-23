@@ -6,7 +6,7 @@ using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.InvoiceDetailsDomain;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.InvoicesDomain
@@ -99,11 +99,11 @@ namespace ERP_Core2.InvoicesDomain
     }
     public class InvoiceRepository : Repository<Invoice>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         public ApplicationViewFactory applicationViewFactory;
         public InvoiceRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public List<InvoiceFlatView> GetInvoicesByDate(DateTime startInvoiceDate, DateTime endInvoiceDate)

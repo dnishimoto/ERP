@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class TimeAndAttendanceSchedule
     {
@@ -21,5 +21,6 @@ namespace lssWebApi2.entityframework
         public virtual TimeAndAttendanceShift Shift { get; set; }
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
         public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
+
     }
 }

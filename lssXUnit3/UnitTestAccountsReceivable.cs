@@ -16,7 +16,7 @@ using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.InvoicesDomain;
 using ERP_Core2.InvoiceDetailsDomain;
 using ERP_Core2.CustomerLedgerDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.AccountsReceivableDomain
 {
@@ -31,7 +31,49 @@ namespace ERP_Core2.AccountsReceivableDomain
             this.output = output;
 
         }
-       
+        [Fact]
+        public void TestOpenAccountReceivables()
+        {
+            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
+            List<AccountReceivableFlatView> list = acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            Assert.True(true);
+        }
+        [Fact]
+        public async Task TestCustomerCashPayment3()
+        {
+            int customerId = 2;
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+            GeneralLedgerView ledgerView = new GeneralLedgerView();
+
+            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
+            ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "101", "");
+
+            ledgerView.GeneralLedgerId = -1;
+            ledgerView.DocNumber = 1;
+            ledgerView.DocType = "PV";
+            ledgerView.Amount = 251M;
+            ledgerView.LedgerType = "AA";
+            ledgerView.GLDate = DateTime.Parse("10/18/2018");
+            ledgerView.AccountId = coa.AccountId;
+            ledgerView.CreatedDate = DateTime.Parse("10/18/2018");
+            ledgerView.AddressId = addressId ?? 0;
+            ledgerView.Comment = "Second installment payment for dashboard";
+            ledgerView.DebitAmount = 251;
+            ledgerView.CreditAmount = 0;
+            ledgerView.FiscalPeriod = 8;
+            ledgerView.FiscalYear = 2018;
+            ledgerView.CheckNumber = "113";
+
+
+            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
+            bool result=acctRecMod.CreateCustomerLedger(ledgerView);
+
+              //bool result = await acctRec.CustomerCashPayment(ledgerView);
+
+
+            Assert.True(result);
+        }
         [Fact]
         public async Task TestCustomerCashPayment2()
         {
@@ -59,32 +101,9 @@ namespace ERP_Core2.AccountsReceivableDomain
             ledgerView.FiscalYear = 2018;
             ledgerView.CheckNumber = "112";
 
-
             AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
-            acctRecMod
-                .CustomerCashPayment
-                    .GeneralLedger.CreateGeneralLedger(ledgerView).Apply();
-
-            acctRecMod
-               .CustomerCashPayment
-                 .CustomerLedger
-                 .CreateCustomerLedger(ledgerView)
-                 .Apply();
-
-            acctRecMod
-              .CustomerCashPayment
-                .AccountsReceivable
-                       .UpdateAccountReceivable(ledgerView)
-                         .Apply();
-            acctRecMod
-                .CustomerCashPayment
-                    .GeneralLedger
-                        .UpdateAccountBalances(ledgerView);
-
-            //bool result = await acctRec.CustomerCashPayment(ledgerView);
-
-
-            Assert.True(true);
+            bool result = acctRecMod.CreateCustomerLedger(ledgerView);
+            Assert.True(result);
         }
         [Fact]
         public async Task TestCustomerCashPayment()
@@ -116,25 +135,8 @@ namespace ERP_Core2.AccountsReceivableDomain
 
             AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
 
-            acctRecMod
-                    .CustomerCashPayment
-                        .GeneralLedger
-                        .CreateGeneralLedger(ledgerView)
-                        .Apply();
-            acctRecMod
-                    .CustomerCashPayment
-                        .CustomerLedger
-                        .CreateCustomerLedger(ledgerView)
-                        .Apply();
-            acctRecMod
-                    .CustomerCashPayment
-                        .AccountsReceivable
-                        .UpdateAccountReceivable(ledgerView)
-                        .Apply();
-            acctRecMod
-                    .CustomerCashPayment
-                        .GeneralLedger
-                        .UpdateAccountBalances(ledgerView);
+            bool result = acctRecMod.CreateCustomerCashPayment(ledgerView);
+          
 
             Assert.True(true);
         }

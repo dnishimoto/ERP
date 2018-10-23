@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -30,15 +30,16 @@ namespace lssWebApi2
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             //var basePath = AppDomain.CurrentDomain.BaseDirectory;
-
+         
             IConfigurationRoot configuration = new ConfigurationBuilder()
                  .SetBasePath(Directory.GetCurrentDirectory())
                 //.SetBasePath(basePath) 
                 .AddJsonFile("appsettings.json")
                  .Build();
             var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
-       
-            services.AddDbContext<ListensoftwareDBContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString) );
+
+            services.AddDbContext<ListensoftwaredbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString));
+      
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,7 +49,7 @@ namespace lssWebApi2
             {
                 app.UseDeveloperExceptionPage();
             }
-       
+
 
 
             app.UseMvc();
@@ -61,3 +62,4 @@ namespace lssWebApi2
         }
     }
 }
+

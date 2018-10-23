@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class ContractContent
     {
@@ -11,5 +11,6 @@ namespace lssWebApi2.entityframework
         public string TextMemo { get; set; }
 
         public virtual Contract Contract { get; set; }
+
     }
 }

@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.CustomerDomain
@@ -168,10 +168,10 @@ namespace ERP_Core2.CustomerDomain
     {
         private ApplicationViewFactory applicationViewFactory;
 
-        ListensoftwareDBContext _dbContext;
+        ListensoftwaredbContext _dbContext;
         public CustomerRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public async Task<CreateProcessStatus> CreateCustomer(CustomerView customerView)

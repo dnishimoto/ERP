@@ -9,16 +9,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using static ERP_Core2.AccountPayableDomain.AccountPayableModule;
+using ERP_Core2.AccountsReceivableDomain;
+using lssWebApi2.Interfaces;
+using lssWebApi2.FluentAPI;
 
 namespace ERP_Core2.FluentAPI
 {
-    public class FluentAccountsReceivable : AbstractErrorHandling, IAccountsReceivable
+   
+   
+    public class FluentAccountReceivable : AbstractErrorHandling, IAccountsReceivable
     {
         public UnitOfWork unitOfWork = new UnitOfWork();
         public CreateProcessStatus processStatus;
 
-        public FluentAccountsReceivable() { }
+        public FluentAccountReceivable() { }
+
+        public IQueryAccountReceivable Query()
+        {
+            FluentAccountReceivableQuery query = new FluentAccountReceivableQuery(unitOfWork);
+            return query as IQueryAccountReceivable;
+        }
+
         public IAccountsReceivable UpdateAccountReceivable(GeneralLedgerView ledgerView)
         {
             //Update receivable (today) (check for discount rules)
@@ -34,11 +46,7 @@ namespace ERP_Core2.FluentAPI
             processStatus = resultTask.Result;
             return this as IAccountsReceivable;
         }
-        public IQuery Query()
-        {
-            FluentQuery query = new FluentQuery();
-            return query as IQuery;
-        }
+     
         public IAccountsReceivable Apply()
         {
             if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)

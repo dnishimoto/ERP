@@ -13,6 +13,6 @@ namespace ERP_Core2.FluentAPI
     {
            public FluentGeneralLedger GeneralLedger= new FluentGeneralLedger();
            public FluentCustomerLedger CustomerLedger= new FluentCustomerLedger() ;
-           public FluentAccountsReceivable AccountsReceivable = new FluentAccountsReceivable() ;
+           public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable() ;
     }
 }

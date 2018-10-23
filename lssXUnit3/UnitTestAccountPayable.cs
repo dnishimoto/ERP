@@ -17,7 +17,7 @@ using ERP_Core2.AccountsPayableDomain;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.SupplierInvoicesDomain;
 using ERP_Core2.GeneralLedgerDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using lssWebApi2.InventoryDomain;
 
 namespace ERP_Core2.AccountPayableDomain
@@ -38,19 +38,25 @@ namespace ERP_Core2.AccountPayableDomain
         {
             long customerId = 2;
             string poNumber = "PO-2";
+
+            AccountPayableModule acctPayablesMod = new AccountPayableModule();
             UnitOfWork unitOfWork = new UnitOfWork();
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
             long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
             ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "210", "");
-            AcctPay acctPay = await unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber);
+
+            AcctPay acctPay = acctPayablesMod.AccountPayable.Query().GetAcctPayByPONumber(poNumber);
+           // AcctPay acctPay = await unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber);
+
+
             SupplierInvoice supplierInvoice = await unitOfWork.supplierInvoiceRepository.GetSupplierInvoiceByPONumber(poNumber);
 
             if (coa == null || acctPay == null || supplierInvoice == null)
             {
                 Assert.True(false);
             }
-            //TODO create a process to match the ledger to the invoice and account receivable
+           
 
             ledgerView.GeneralLedgerId = -1;
             ledgerView.SupplierId = 3;
@@ -71,31 +77,10 @@ namespace ERP_Core2.AccountPayableDomain
             ledgerView.FiscalYear = 2018;
             ledgerView.CheckNumber = "113";
 
-
-            AccountsPayableModule acctPayablesMod = new AccountsPayableModule();
-
+            bool result = acctPayablesMod.CreateAccountPayable(ledgerView);
      
-            acctPayablesMod
-                .Supplier
-                .GeneralLedger.CreateGeneralLedger(ledgerView).Apply();
 
-
-            acctPayablesMod
-               .Supplier
-                 .CreateSupplierLedger(ledgerView)
-                 .Apply();
-          
-            acctPayablesMod
-              .Supplier
-                  .UpdateAccountsPayable(ledgerView)
-                         .Apply();
-        
-          acctPayablesMod
-              .Supplier
-                  .GeneralLedger
-                      .UpdateAccountBalances(ledgerView);
-
-            Assert.True(true);
+            Assert.True(result);
                
         }
         [Fact]
@@ -168,14 +153,10 @@ namespace ERP_Core2.AccountPayableDomain
             }";
                 SupplierInvoiceView supplierInvoiceView = JsonConvert.DeserializeObject<SupplierInvoiceView>(json);
 
-                AccountsPayableModule apMod = new AccountsPayableModule();
+                AccountPayableModule apMod = new AccountPayableModule();
+                bool result = apMod.CreateSupplierInvoice(supplierInvoiceView);
 
-                apMod
-                    .SupplierLedger
-                    .CreateSupplierInvoice(supplierInvoiceView)
-                    .Apply()
-                    .CreateSupplierInvoiceDetail(supplierInvoiceView)
-                    .Apply();
+       
                    
             }
             catch (Exception ex) { }
@@ -248,17 +229,11 @@ namespace ERP_Core2.AccountPayableDomain
 
                 PackingSlipView packingSlipView = JsonConvert.DeserializeObject<PackingSlipView>(json);
 
-                AccountsPayableModule apMod = new AccountsPayableModule();
+                AccountPayableModule apMod = new AccountPayableModule();
+                bool result = apMod.CreatePackingSlip(packingSlipView);
 
-                apMod
-                    .PackingSlip.CreatePackingSlip(packingSlipView).Apply()
-                    .CreatePackingSlipDetails(packingSlipView)
-                    .Apply()
-                    .CreateInventoryByPackingSlip(packingSlipView)
-                    .Apply();
-
-             
-                Assert.True(true);
+                           
+                Assert.True(result);
             }
             catch (Exception ex) { }
 
@@ -298,16 +273,9 @@ namespace ERP_Core2.AccountPayableDomain
 
             SupplierModule supplierModule = new SupplierModule();
 
-            supplierModule.Supplier.CreateSupplierAddressBook(addressBook,email).Apply();
-            AddressBook ab = supplierModule.Supplier.Query().GetAddressBookbyEmail(email);
-            supplierModule.Supplier.CreateSupplierLocationAddress(ab.AddressId, locationAddress).Apply();
-            supplierModule.Supplier.CreateSupplierEmail(ab.AddressId, email).Apply();
+            bool result2 = supplierModule.CreateSupplier(addressBook, email,locationAddress);
 
-            Supplier supplier = new Supplier { AddressId = ab.AddressId, Identification = email.Email };
-
-            supplierModule.Supplier.CreateSupplier(supplier).Apply();
-
-
+           
             SupplierView supplierView = supplierModule.Supplier.Query().GetSupplierViewByEmail(email);
             //supplierModule.CreateSupplierByAddressBook(addressBook, locationAddress, email);
 
@@ -416,23 +384,11 @@ namespace ERP_Core2.AccountPayableDomain
             PurchaseOrderView purchaseOrderView = JsonConvert.DeserializeObject<PurchaseOrderView>(json);
 
 
-            AccountsPayableModule apMod = new AccountsPayableModule();
+            AccountPayableModule apMod = new AccountPayableModule();
+            bool result3 = apMod.CreatePurchaseOrder(purchaseOrderView);
 
-
-            //TODO Create the Purchase Order
-
-             apMod
-                .PurchaseOrder
-                .CreatePurchaseOrder(purchaseOrderView)
-                .Apply()
-                .CreatePurchaseOrderDetails(purchaseOrderView)
-                .Apply()
-                .CreateAcctPayByPurchaseOrderNumber(purchaseOrderView)
-                .Apply();
-
-
-
-            Assert.True(true);
+        
+            Assert.True(result3);
         }
 
     }

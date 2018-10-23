@@ -5,7 +5,7 @@ using ERP_Core2.Services;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.InvoicesDomain;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.InvoiceDetailsDomain
@@ -55,12 +55,12 @@ namespace ERP_Core2.InvoiceDetailsDomain
     }
     public class InvoiceDetailRepository : Repository<InvoiceDetail>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         public ApplicationViewFactory applicationViewFactory;
 
         public InvoiceDetailRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public async Task<CreateProcessStatus> CreateInvoiceDetailsByView(InvoiceView invoiceView)

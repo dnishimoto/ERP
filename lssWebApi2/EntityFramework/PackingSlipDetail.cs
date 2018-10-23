@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class PackingSlipDetail
     {
@@ -15,5 +15,6 @@ namespace lssWebApi2.entityframework
         public string Description { get; set; }
 
         public virtual PackingSlip PackingSlip { get; set; }
+
     }
 }

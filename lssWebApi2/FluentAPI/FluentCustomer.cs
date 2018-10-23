@@ -6,7 +6,7 @@ using System;
 using System.Threading.Tasks;
 using ERP_Core2.CustomerDomain;
 using ERP_Core2.AddressBookDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.FluentAPI
 {

@@ -1,10 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Budget
     {
+        public Budget()
+        {
+            BudgetNote = new HashSet<BudgetNote>();
+        }
+
         public long BudgetId { get; set; }
         public decimal? BudgetHours { get; set; }
         public decimal? BudgetAmount { get; set; }
@@ -14,10 +19,11 @@ namespace lssWebApi2.entityframework
         public long? RangeId { get; set; }
         public decimal? ProjectedHours { get; set; }
         public decimal? ProjectedAmount { get; set; }
-        //dsn added
-        //public DateTime? AsOfActualDate { get; set; }
+        public DateTime? ActualsAsOfDate { get; set; }
 
         public virtual ChartOfAccts Account { get; set; }
         public virtual BudgetRange Range { get; set; }
+        public virtual ICollection<BudgetNote> BudgetNote { get; set; }
+
     }
 }

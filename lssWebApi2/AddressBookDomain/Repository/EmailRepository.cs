@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.Services;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.AddressBookDomain
@@ -32,10 +32,10 @@ namespace ERP_Core2.AddressBookDomain
     public class EmailRepository : Repository<Emails> {
         private ApplicationViewFactory applicationViewFactory;
 
-        ListensoftwareDBContext _dbContext;
+        ListensoftwaredbContext _dbContext;
         public EmailRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
         public async Task<CreateProcessStatus> CreateEmail(EmailView emailView)

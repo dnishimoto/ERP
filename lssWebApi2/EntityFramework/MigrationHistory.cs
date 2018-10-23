@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class MigrationHistory
     {
@@ -9,5 +9,6 @@ namespace lssWebApi2.entityframework
         public string ContextKey { get; set; }
         public byte[] Model { get; set; }
         public string ProductVersion { get; set; }
+
     }
 }

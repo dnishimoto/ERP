@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace lssWebApi2.entityframework
+namespace lssWebApi2.EntityFramework
 {
     public partial class Inventory
     {
@@ -16,5 +16,6 @@ namespace lssWebApi2.entityframework
         public long ItemId { get; set; }
 
         public virtual ItemMaster Item { get; set; }
+
     }
 }

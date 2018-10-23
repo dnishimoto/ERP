@@ -78,19 +78,11 @@ namespace ERP_Core2.InvoiceDomain
 
                 InvoiceModule invoiceModule = new InvoiceModule();
 
-               invoiceModule
-                          .Invoice.CreateInvoice(invoiceView).Apply()
-                          .MergeWithInvoiceNumber(ref invoiceView);
-                invoiceModule
-                      .InvoiceDetail.CreateInvoiceDetails(invoiceView).Apply();
-                invoiceModule
-                      .AccountsReceivable.CreateAcctRecFromInvoice(invoiceView).Apply();
-                invoiceModule
-                       .GeneralLedger.CreateGeneralLedger(invoiceView).Apply().UpdateLedgerBalances();
+                bool result = invoiceModule.PostInvoiceAndDetailToAcctRec(invoiceView);
 
-                //bool result=await invoiceModule.PostInvoiceAndDetailToAcctRec(invoiceView);
-
-                Assert.True(true);
+              
+            
+                Assert.True(result);
             }
             catch (Exception ex)
             {

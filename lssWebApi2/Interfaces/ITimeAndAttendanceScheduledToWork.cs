@@ -1,7 +1,7 @@
 ﻿using ERP_Core2.AddressBookDomain;
 using ERP_Core2.TimeAndAttendanceDomain;
 using System.Collections.Generic;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.Interfaces
 {

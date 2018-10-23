@@ -5,7 +5,7 @@ using ERP_Core2.CustomerLedgerDomain;
 using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.Services;
 using System.Threading.Tasks;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.FluentAPI
 {

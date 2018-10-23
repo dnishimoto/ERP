@@ -6,7 +6,7 @@ using ERP_Core2.AbstractFactory;
 using System.Data.SqlClient;
 using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.AccountPayableDomain;
-using lssWebApi2.entityframework;
+using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.CustomerLedgerDomain
@@ -78,11 +78,11 @@ namespace ERP_Core2.CustomerLedgerDomain
 
     public class SupplierLedgerRepository : Repository<SupplierLedger>
     {
-        public ListensoftwareDBContext _dbContext;
+        public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
         public SupplierLedgerRepository(DbContext db) : base(db)
         {
-            _dbContext = (ListensoftwareDBContext)db;
+            _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
 
