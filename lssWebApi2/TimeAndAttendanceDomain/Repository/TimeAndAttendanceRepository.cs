@@ -12,7 +12,7 @@ using lssWebApi2.Mapper;
 using lssWebApi2.EntityFramework;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
-{
+{ 
 
     public class TimeAndAttendancePunchInView
     {
