@@ -110,7 +110,7 @@ namespace ERP_Core2.ChartOfAccountsDomain
                                              select e).FirstOrDefaultAsync<Company>();
                 chartOfAcct.Company = companyTask.Result;
                 ChartOfAccountView view = applicationViewFactory.MapChartOfAccountView(chartOfAcct);
-                IQueryable<ChartOfAccts> query = GetObjectsQueryable(e => e.ObjectNumber == view.ObjectNumber, "");
+                IQueryable<ChartOfAccts> query = GetObjectsQueryable(e => e.BusUnit==view.BusUnit && e.ObjectNumber == view.ObjectNumber && e.Subsidiary==view.Subsidiary, "");
                 List<ChartOfAccts> list = query.ToList<ChartOfAccts>();
                 if (list.Count == 0)
                 {

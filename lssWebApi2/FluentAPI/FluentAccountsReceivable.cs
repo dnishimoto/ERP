@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using static ERP_Core2.AccountPayableDomain.AccountPayableModule;
 using ERP_Core2.AccountsReceivableDomain;
 using lssWebApi2.Interfaces;
 using lssWebApi2.FluentAPI;

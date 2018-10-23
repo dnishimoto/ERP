@@ -38,19 +38,25 @@ namespace ERP_Core2.AccountPayableDomain
         {
             long customerId = 2;
             string poNumber = "PO-2";
+
+            AccountPayableModule acctPayablesMod = new AccountPayableModule();
             UnitOfWork unitOfWork = new UnitOfWork();
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
             long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
             ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "210", "");
-            AcctPay acctPay = await unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber);
+
+            AcctPay acctPay = acctPayablesMod.AccountPayable.Query().GetAcctPayByPONumber(poNumber);
+           // AcctPay acctPay = await unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber);
+
+
             SupplierInvoice supplierInvoice = await unitOfWork.supplierInvoiceRepository.GetSupplierInvoiceByPONumber(poNumber);
 
             if (coa == null || acctPay == null || supplierInvoice == null)
             {
                 Assert.True(false);
             }
-            //TODO create a process to match the ledger to the invoice and account receivable
+           
 
             ledgerView.GeneralLedgerId = -1;
             ledgerView.SupplierId = 3;
@@ -71,12 +77,8 @@ namespace ERP_Core2.AccountPayableDomain
             ledgerView.FiscalYear = 2018;
             ledgerView.CheckNumber = "113";
 
-
-            AccountsPayableModule acctPayablesMod = new AccountsPayableModule();
-
             bool result = acctPayablesMod.CreateAccountPayable(ledgerView);
      
-           
 
             Assert.True(result);
                
@@ -151,7 +153,7 @@ namespace ERP_Core2.AccountPayableDomain
             }";
                 SupplierInvoiceView supplierInvoiceView = JsonConvert.DeserializeObject<SupplierInvoiceView>(json);
 
-                AccountsPayableModule apMod = new AccountsPayableModule();
+                AccountPayableModule apMod = new AccountPayableModule();
                 bool result = apMod.CreateSupplierInvoice(supplierInvoiceView);
 
        
@@ -227,7 +229,7 @@ namespace ERP_Core2.AccountPayableDomain
 
                 PackingSlipView packingSlipView = JsonConvert.DeserializeObject<PackingSlipView>(json);
 
-                AccountsPayableModule apMod = new AccountsPayableModule();
+                AccountPayableModule apMod = new AccountPayableModule();
                 bool result = apMod.CreatePackingSlip(packingSlipView);
 
                            
@@ -382,7 +384,7 @@ namespace ERP_Core2.AccountPayableDomain
             PurchaseOrderView purchaseOrderView = JsonConvert.DeserializeObject<PurchaseOrderView>(json);
 
 
-            AccountsPayableModule apMod = new AccountsPayableModule();
+            AccountPayableModule apMod = new AccountPayableModule();
             bool result3 = apMod.CreatePurchaseOrder(purchaseOrderView);
 
         

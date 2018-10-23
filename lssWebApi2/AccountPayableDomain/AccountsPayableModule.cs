@@ -4,8 +4,12 @@ using ERP_Core2.FluentAPI;
 using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.PurchaseOrderDomain;
+using ERP_Core2.Services;
 using ERP_Core2.SupplierInvoicesDomain;
+using lssWebApi2.EntityFramework;
+using lssWebApi2.FluentAPI;
 using System;
+using System.Threading.Tasks;
 
 namespace ERP_Core2.AccountPayableDomain
 {
@@ -19,10 +23,15 @@ namespace ERP_Core2.AccountPayableDomain
         Failed
     }
 
+   
+   
+   
+   
 
   
-    public class AccountsPayableModule : AbstractModule
+    public class AccountPayableModule : AbstractModule
     {
+        public FluentAccountPayable AccountPayable = new FluentAccountPayable();
         public FluentSupplier Supplier = new FluentSupplier();
         public FluentPackingSlip PackingSlip = new FluentPackingSlip();
         public FluentPurchaseOrder PurchaseOrder = new FluentPurchaseOrder();

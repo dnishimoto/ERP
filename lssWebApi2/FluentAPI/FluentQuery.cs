@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using static ERP_Core2.AccountPayableDomain.AccountPayableModule;
 
 namespace ERP_Core2.FluentAPI
 {

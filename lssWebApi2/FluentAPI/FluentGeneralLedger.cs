@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ERP_Core2.AccountPayableDomain.AccountsPayableModule;
+using static ERP_Core2.AccountPayableDomain.AccountPayableModule;
 
 namespace ERP_Core2.FluentAPI
 {
@@ -32,7 +32,7 @@ namespace ERP_Core2.FluentAPI
         public FluentGeneralLedger() { }
         public IGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView)
         {
-            Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerView.AccountId, ledgerView.FiscalYear, ledgerView.FiscalPeriod));
+            Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerView.AccountId, ledgerView.FiscalYear, ledgerView.FiscalPeriod,ledgerView.DocType));
             Task.WaitAll(resultTask);
             return this as IGeneralLedger;
         }
@@ -41,7 +41,7 @@ namespace ERP_Core2.FluentAPI
 
             Task<GeneralLedgerView> ledgerTask = Task.Run(() => unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(lastAccountReceivableView.DocNumber, "OV"));
             Task.WaitAll(ledgerTask);
-            Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerTask.Result.AccountId, ledgerTask.Result.FiscalYear, ledgerTask.Result.FiscalPeriod));
+            Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerTask.Result.AccountId, ledgerTask.Result.FiscalYear, ledgerTask.Result.FiscalPeriod,ledgerTask.Result.DocType));
             Task.WaitAll(resultTask);
             return this as IGeneralLedger;
         }
