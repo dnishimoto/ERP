@@ -24,7 +24,7 @@ namespace ERP_Core2.FluentAPI
         public ITimeAndAttendanceScheduledToWork AddScheduledToWork(IList<TimeAndAttendanceScheduledToWork> items)
         {
             Task<CreateProcessStatus> resultTask = Task.Run(async () => await unitOfWork.timeAndAttendanceScheduledToWorkRepository.AddScheduledToWorkItems(items));
-            //Task.WaitAll(resultTask);
+            Task.WaitAll(resultTask);
             processStatus = resultTask.Result;
             return this as ITimeAndAttendanceScheduledToWork;
         }

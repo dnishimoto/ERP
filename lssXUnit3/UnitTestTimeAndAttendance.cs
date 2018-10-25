@@ -123,7 +123,6 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
 
-            //TODO Get the new created punchin
             TimeAndAttendancePunchIn taPunchinLookUp = taMod.TimeAndAttendance.Query().GetPunchInByExpression(e => e.PunchinDateTime == punchinDateTime && e.EmployeeId == employeeId);
 
             //TimeAndAttendancePunchIn taPunchinLookUp=  taMod.Query().GetPunchInById(timePunchinId);

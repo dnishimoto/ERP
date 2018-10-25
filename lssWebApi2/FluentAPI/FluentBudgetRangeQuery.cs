@@ -18,7 +18,7 @@ namespace ERP_Core2.FluentAPI
         public BudgetRangeView GetBudgetRange(long? accountId, DateTime? startDate, DateTime? endDate)
         {
             Task<BudgetRangeView> budgetRangeViewTask = Task.Run(async () => await _unitOfWork.budgetRangeRepository.GetBudgetRange(accountId, startDate, endDate));
-            //Task.WaitAll(budgetRangeViewTask);
+            Task.WaitAll(budgetRangeViewTask);
             return budgetRangeViewTask.Result;
 
         }

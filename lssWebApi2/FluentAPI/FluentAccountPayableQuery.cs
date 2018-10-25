@@ -18,6 +18,7 @@ namespace lssWebApi2.FluentAPI
         {
 
             Task<AcctPay> acctPayTask = Task.Run(async () => await _unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber));
+            Task.WaitAll(acctPayTask);
             return acctPayTask.Result;
 
         }
