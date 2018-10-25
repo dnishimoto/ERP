@@ -50,7 +50,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<SupplierView> resultTask = Task.Run(async () => await _unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId));
-                //Task.WaitAll(resultTask);
+                Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
@@ -64,7 +64,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<EmployeeView> resultTask = Task.Run(async() => await _unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId));
-                //Task.WaitAll(resultTask);
+                Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)

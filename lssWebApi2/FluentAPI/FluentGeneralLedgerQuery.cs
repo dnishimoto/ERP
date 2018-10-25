@@ -36,7 +36,7 @@ namespace ERP_Core2.FluentAPI
         public GeneralLedgerView GetGeneralLedgerView(long docNumber, string docType)
         {
             Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(docNumber, docType));
-            //Task.WaitAll(viewTask);
+            Task.WaitAll(viewTask);
             return viewTask.Result;
         }
     }

@@ -72,8 +72,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
     public class TimeAndAttendanceView
     {
         public long TimePunchinId { get; set; }
-        public DateTime PunchinDate { get; set; }
-        public DateTime PunchoutDate { get; set; }
+        public DateTime ? PunchinDate { get; set; }
+        public DateTime ? PunchoutDate { get; set; }
         public string PunchinDateTime { get; set; }
         public string PunchoutDateTime { get; set; }
         public string PayCode { get; set; }
@@ -83,13 +83,13 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public string ApproverName { get; set; }
         public string EmployeeName { get; set; }
         public long EmployeeId { get; set; }
-        public long ShiftId { get; set; }
+        public long ? ShiftId { get; set; }
         public string ShiftName { get; set; }
         public string ShiftType { get; set; }
         public long ScheduleId { get; set; }
         public string ScheduleName { get; set; }
-        public DateTime ScheduleStartDate { get; set; }
-        public DateTime ScheduleEndDate { get; set; }
+        public DateTime ? ScheduleStartDate { get; set; }
+        public DateTime ? ScheduleEndDate { get; set; }
         public string ScheduleGroup { get; set; }
         public bool ScheduledToWork { get; set; }
 
@@ -110,7 +110,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         {
             try
             {
-                var query = (from taPunchin in _dbContext.TimeAndAttendancePunchIn
+               List< TimeAndAttendanceView> list = (from taPunchin in _dbContext.TimeAndAttendancePunchIn
                              where taPunchin.PunchinDate >= startDate
                              && taPunchin.PunchinDate<= endDate
 
@@ -147,7 +147,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                              join approverAddressBook in _dbContext.AddressBook
                              on taPunchin.ApprovingAddressId equals approverAddressBook.AddressId
 
-                             select new
+                             select new TimeAndAttendanceView
                              {
                                  TimePunchinId = taPunchin.TimePunchinId,
                                  PunchinDate = taPunchin.PunchinDate,
@@ -170,8 +170,9 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                                  ScheduleEndDate = taSchedule.EndDate,
                                  ScheduleGroup = taSchedule.ScheduleGroup,
                                  ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
-                             }).ToList();
+                             }).ToList<TimeAndAttendanceView>();
 
+                /*
                 List<TimeAndAttendanceView> list = new List<TimeAndAttendanceView>();
                 Mapper mapper = new Mapper();
                 foreach (var item in query)
@@ -205,6 +206,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                     };
                     list.Add(taView);
                 }
+                */
                 return list;
             }
             catch (Exception ex)

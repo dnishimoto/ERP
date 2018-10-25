@@ -31,7 +31,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<CreateProcessStatus> resultStatus = Task.Run(async () => await unitOfWork.budgetRangeRepository.CreateBudgetRange(budgetRange));
-                //Task.WaitAll(resultStatus);
+                Task.WaitAll(resultStatus);
                 processStatus = resultStatus.Result;
                 return this as IBudgetRange;
             }

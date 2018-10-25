@@ -54,17 +54,22 @@ namespace ERP_Core2.GeneralLedgerDomain
         [Fact]
         public async Task TestCreatePersonalExpenseAndPayment()
         {
-            //ToDo
-            UnitOfWork unitOfWork = new UnitOfWork();
+ 
+            GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
+            //UnitOfWork unitOfWork = new UnitOfWork();
             long addressId = 1;
             long expenseDocumentNumber = 19;
             decimal expense = 768M;
-            ChartOfAccts coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "502", "01");
-            Udc udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
-            Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE", "PV");
-            AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
+            // ChartOfAccts coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "502", "01");
+            ChartOfAccts coa = ledgerMod.ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "502", "01");
+            Udc udcLedgerType = ledgerMod.UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+            //Udc udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
+            Udc udcDocType = ledgerMod.UDC.Query().GetUdc("DOCTYPE", "PV");
+            //Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE", "PV");
+            //AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
+            AddressBook addressBook = ledgerMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
             GeneralLedgerView glView = new GeneralLedgerView();
-            GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
+           
 
             glView.DocNumber = expenseDocumentNumber;
             glView.DocType = udcDocType.KeyCode;
@@ -80,16 +85,17 @@ namespace ERP_Core2.GeneralLedgerDomain
             glView.FiscalPeriod = 9;
             glView.FiscalYear = 2018;
 
-            ledgerMod.GeneralLedger.CreateGeneralLedger(glView).Apply();
-            ledgerMod.GeneralLedger.UpdateAccountBalances(glView);
+            bool result1=ledgerMod.CreatePersonalExpense(glView);
 
             GeneralLedgerView glViewLookup =
              ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glView.DocNumber, glView.DocType);
 
-            ChartOfAccts coaCash = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "101", "");
+            //ChartOfAccts coaCash = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "101", "");
 
+            ChartOfAccts coaCash = ledgerMod.ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
             GeneralLedgerView glCashView = new GeneralLedgerView();
 
+            //TODO remove hard coding
             long cashDocumentNumber = 22;
             glCashView.DocNumber = cashDocumentNumber;
             glCashView.DocType = udcDocType.KeyCode;
@@ -104,10 +110,10 @@ namespace ERP_Core2.GeneralLedgerDomain
             glCashView.CreditAmount = expense;
             glCashView.FiscalPeriod = 9;
             glCashView.FiscalYear = 2018;
-          
-            ledgerMod.GeneralLedger.CreateGeneralLedger(glCashView).Apply();
-            ledgerMod.GeneralLedger.UpdateAccountBalances(glCashView);
 
+            bool result2=ledgerMod.CreateCashPayment(glCashView);
+          
+           
             GeneralLedgerView glCashViewLookup =
            ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glCashView.DocNumber, glCashView.DocType);
 
@@ -119,17 +125,24 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
             int addressId = 1;
             decimal income = 2800M;
-            long incomeDocumentNumber = 20; //manually extracted
-            UnitOfWork unitOfWork = new UnitOfWork();
+            //long incomeDocumentNumber = 20; //manually extracted
+            //UnitOfWork unitOfWork = new UnitOfWork();
 
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
+            //Income GL
 
-            ChartOfAccts coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "300", "");
-            Udc udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
-            Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE","PV");
-            AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
+            //ChartOfAccts coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "300", "");
+            ChartOfAccts coa=ledgerMod.ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "300", "");
+          
+            //Udc udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
+            Udc udcLedgerType =ledgerMod.UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+            Udc udcDocType = ledgerMod.UDC.Query().GetUdc("DOCTYPE", "PV");
+
+            //Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE","PV");
+            //AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
+            AddressBook addressBook = ledgerMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
             GeneralLedgerView glView = new GeneralLedgerView();
-            glView.DocNumber = incomeDocumentNumber;
+            glView.DocNumber = -1;
             glView.DocType = udcDocType.KeyCode;
             glView.AccountId = coa.AccountId;
             glView.Amount = income;
@@ -143,35 +156,10 @@ namespace ERP_Core2.GeneralLedgerDomain
             glView.FiscalPeriod = 9;
             glView.FiscalYear = 2018;
 
-            ledgerMod.GeneralLedger.CreateGeneralLedger(glView).Apply();
-            ledgerMod.GeneralLedger.UpdateAccountBalances(glView);
+            bool result=ledgerMod.CreateIncomeAndCash(glView);
 
-            ChartOfAccts coa2 = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "101", "");
-
-            long cashDocumentNumber = 21;
-            GeneralLedgerView glView2 = new GeneralLedgerView();
-            glView2.DocNumber = cashDocumentNumber;
-            glView2.DocType = udcDocType.KeyCode;
-            glView2.AccountId = coa2.AccountId;
-            glView2.Amount = income;
-            glView2.LedgerType = udcLedgerType.KeyCode;
-            glView2.GLDate = DateTime.Parse("9/20/2018");
-            glView2.CreatedDate = DateTime.Parse("9/20/2018");
-            glView2.AddressId = addressBook.AddressId;
-            glView2.Comment = "Week end 8/31/2018";
-            glView2.DebitAmount = income;
-            glView2.CreditAmount = 0;
-            glView2.FiscalPeriod = 9;
-            glView2.FiscalYear = 2018;
-
-            ledgerMod.GeneralLedger.CreateGeneralLedger(glView2).Apply();
-
-            ledgerMod.GeneralLedger.UpdateAccountBalances(glView2);
-
-
-            GeneralLedgerView glViewLookup =
-                ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glView2.DocNumber,glView2.DocType);
-            Assert.True(glViewLookup!=null);
+         
+            Assert.True(result);
         }
      
     }

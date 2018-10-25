@@ -39,9 +39,9 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<CreateProcessStatus> statusTask = Task.Run(async () => await unitOfWork.timeAndAttendanceRepository.AddPunchin(taPunchin));
-                //Task.WaitAll(statusTask);
+                Task.WaitAll(statusTask);
 
-                //unitOfWork.CommitChanges();
+
                 processStatus = statusTask.Result;
                 return this as ITimeAndAttendance;
             }
