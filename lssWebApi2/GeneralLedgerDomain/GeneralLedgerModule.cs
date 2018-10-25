@@ -12,71 +12,7 @@ using System.Threading.Tasks;
 namespace ERP_Core2.GeneralLedgerDomain
 {
 
-    public interface INextNumberQuery
-    {
-        NextNumber GetNextNumber(string nextNumberName);
-    }
-    public class FluentNextNumberQuery : AbstractErrorHandling, INextNumberQuery
-    {
-        private UnitOfWork _unitOfWork = null;
-        public FluentNextNumberQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
-
-        public NextNumber GetNextNumber(string nextNumberName)
-        {
-            Task<NextNumber> nnTask = Task.Run(async () => await _unitOfWork.chartOfAccountRepository.GetNextNumber(nextNumberName));
-            Task.WaitAll(nnTask);
-            return nnTask.Result;
-        }
-
-    }
-    public interface INextNumber
-    {
-        INextNumberQuery Query();
-    }
-    public class FluentNextNumber: AbstractErrorHandling,INextNumber
-    {
-        private FluentNextNumberQuery _query = null;
-        private UnitOfWork unitOfWork = new UnitOfWork();
-        public INextNumberQuery Query()
-        {
-            if (_query == null) { _query = new FluentNextNumberQuery(unitOfWork); }
-            return _query as INextNumberQuery;
-        }
-    }
-
-    public interface IUDCQuery
-    {
-        Udc GetUdc(string productCode, string keyCode);
-    }
-    public class FluentUDCQuery : AbstractErrorHandling, IUDCQuery
-    {
-        private UnitOfWork _unitOfWork = null;
-        public FluentUDCQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
-        public Udc GetUdc(string productCode, string keyCode)
-        {
-           Task<Udc> udcTask=Task.Run(async()=>await _unitOfWork.generalLedgerRepository.GetUdc(productCode,keyCode));
-          Task.WaitAll(udcTask);
-            return udcTask.Result;
-        }
-    }
-    public interface IUDC
-    { }
-
-    public class FluentUDC : AbstractErrorHandling, IUDC
-    {
-        private FluentUDCQuery _query=null;
-        private UnitOfWork unitOfWork = new UnitOfWork();
-
-        public IUDCQuery Query()
-        {
-            if (_query == null) { _query = new FluentUDCQuery(unitOfWork); }
-            return _query as IUDCQuery;
-        }
-
-    }
-
-
-    public class GeneralLedgerModule
+     public class GeneralLedgerModule
     {
         public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
         public FluentChartOfAccounts ChartOfAccounts = new FluentChartOfAccounts();
