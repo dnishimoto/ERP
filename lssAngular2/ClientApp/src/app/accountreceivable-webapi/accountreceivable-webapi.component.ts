@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { IAccountReceivableFlatView } from '../interface/interfaceMod';
+
 @Component({
   selector: 'app-accountreceivable-webapi',
   templateUrl: './accountreceivable-webapi.component.html'
@@ -32,28 +34,4 @@ export class AccountReceivableComponent {
 }
 
 
-
-interface IAccountReceivableFlatView {
-  OpenAmount: number;
-  GLDate: Date;
-  InvoiceId: number;
-  InvoiceNumber: string;
-  InvoiceDescription: string;
-  DocNumber: number;
-  Remarks: string;
-  PaymentTerms: string;
-  DiscountDueDate: Date;
-  PaymentDueDate: Date;
-  CustomerId: number;
-  CustomerName: string;
-  AddressLine1: string;
-  AddressLine2: string;
-  City: string;
-  State: string;
-  Zipcode: string;
-  Account: string;
-  CoaDescription: string;
-  GLAmount: number;
-
-}
 

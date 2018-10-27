@@ -42,6 +42,11 @@
                 <span class='glyphicon glyphicon-th-list'></span> Open Receivables
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/personalExpense-webapi"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Personal Expense
+              </a>
+            </li>
           </ul>
         </div>
     </div>

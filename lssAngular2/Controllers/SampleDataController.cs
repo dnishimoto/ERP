@@ -19,7 +19,7 @@ namespace lssAngular2.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        string Baseurl = "http://localhost:61612";
+        //string Baseurl = "http://localhost:61612";
 
 
      

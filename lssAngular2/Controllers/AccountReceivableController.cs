@@ -16,7 +16,7 @@ namespace lssAngular2.Controllers
         // GET api/<controller>/5
         [HttpGet()]
         [Route("OpenReceivables")]
-        public async Task<IEnumerable<AccountReceivableFlatView>> Get()
+        public async Task<IEnumerable<AccountReceivableFlatView>> GetOpenReceivables()
         {
             DataService ds = new DataService();
             IEnumerable<AccountReceivableFlatView> views = await ds.GetAsync<List<AccountReceivableFlatView>>("api/AccountReceivable/OpenReceivables");

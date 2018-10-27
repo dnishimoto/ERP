@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { IAccountSummaryView } from '../interface/interfaceMod';
+
 @Component({
   selector: 'app-generalledger-webapi',
   templateUrl: './generalledger-webapi.component.html'
@@ -15,7 +17,7 @@ export class GeneralLedgerComponent {
   constructor(
     http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
 
-    http.get<IAccountSummaryView[]>(baseUrl + 'api/GeneralLedger/2018').subscribe(result => {
+    http.get<IAccountSummaryView[]>(baseUrl + 'api/GeneralLedger/BySummary/2018').subscribe(result => {
 
       this.accountSummaries = result;
 
@@ -32,32 +34,6 @@ export class GeneralLedgerComponent {
  }
 
 
-interface IAccountSummaryView {
-  accountId : number;
-  fiscalPeriod : number;
-  fiscalYear : number;
-  description : string;
-  amount : number;
-  ledgers: IGeneralLedgerView[];
-}
-interface IGeneralLedgerView {
-    generalLedgerId: number;
-        docNumber: number;
-        docType: string;
-        amount: number;
-        ledgerType: string;
-        gldate: Date;
-        accountId: number;
-        createdDate: Date;
-        addressId: number;
-        comment: string;
-        debitAmount : number;
-        creditAmount : number;
-        fiscalYear : number;
-        fiscalPeriod : number;
-        checkNumber: string;
-        purchaseOrderNumber: string;
-        units : number;
-}
+
 
 

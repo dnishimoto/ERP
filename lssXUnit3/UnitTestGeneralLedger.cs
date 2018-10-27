@@ -52,13 +52,13 @@ namespace ERP_Core2.GeneralLedgerDomain
             }
         }
         [Fact]
-        public async Task TestCreatePersonalExpenseAndPayment()
+        public void TestCreatePersonalExpenseAndPayment()
         {
  
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
             //UnitOfWork unitOfWork = new UnitOfWork();
             long addressId = 1;
-            long expenseDocumentNumber = 19;
+            //long expenseDocumentNumber = 19;
             decimal expense = 768M;
             // ChartOfAccts coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "502", "01");
             ChartOfAccts coa = ledgerMod.ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "502", "01");
@@ -71,7 +71,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             GeneralLedgerView glView = new GeneralLedgerView();
            
 
-            glView.DocNumber = expenseDocumentNumber;
+            glView.DocNumber = -1;
             glView.DocType = udcDocType.KeyCode;
             glView.AccountId = coa.AccountId;
             glView.Amount = expense*-1;
@@ -95,9 +95,9 @@ namespace ERP_Core2.GeneralLedgerDomain
             ChartOfAccts coaCash = ledgerMod.ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
             GeneralLedgerView glCashView = new GeneralLedgerView();
 
-            //TODO remove hard coding
-            long cashDocumentNumber = 22;
-            glCashView.DocNumber = cashDocumentNumber;
+ 
+            //long cashDocumentNumber = 22;
+            glCashView.DocNumber = -1;
             glCashView.DocType = udcDocType.KeyCode;
             glCashView.AccountId = coaCash.AccountId;
             glCashView.Amount = expense*-1;
@@ -121,7 +121,7 @@ namespace ERP_Core2.GeneralLedgerDomain
         }
 
         [Fact]
-        public async Task TestCreateIncomeRevenue()
+        public void TestCreateIncomeRevenue()
         {
             int addressId = 1;
             decimal income = 2800M;
