@@ -12,9 +12,21 @@ namespace lssWebApi2.Controllers
     [Route("api/[controller]")]
     public class GeneralLedgerController : Controller
     {
+  
+       
+        [Route("ById/{generalLedgerId}")]
+        [HttpGet]
+        public async Task<GeneralLedgerView> GetByAccountId(long generalLedgerId)
+        {
+            GeneralLedgerModule glMod = new GeneralLedgerModule();
+            return glMod.GeneralLedger.Query().GetLedgerViewById(generalLedgerId);
+        }
+
+       
         // GET: api/<controller>
-        [HttpGet("{fiscalYear}")]
-        public IEnumerable<AccountSummaryView> Get(int fiscalYear)
+        [Route("BySummary/{fiscalYear}")]
+        [HttpGet]
+        public IEnumerable<AccountSummaryView> GetSummary(int fiscalYear)
         {
   
             GeneralLedgerModule glMod = new GeneralLedgerModule();
@@ -24,6 +36,16 @@ namespace lssWebApi2.Controllers
             return list;
         }
 
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
+        }
 
         // POST api/<controller>
         [HttpPost]

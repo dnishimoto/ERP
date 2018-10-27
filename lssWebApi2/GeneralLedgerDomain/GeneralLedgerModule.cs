@@ -90,8 +90,21 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
             try
             {
-                GeneralLedger.CreateGeneralLedger(glCashView).Apply();
-                GeneralLedger.UpdateAccountBalances(glCashView);
+                GeneralLedgerView glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
+              e => e.AccountId == glCashView.AccountId
+              && e.AddressId == glCashView.AddressId
+              && e.Amount == glCashView.Amount
+              && e.CheckNumber == glCashView.CheckNumber
+              && e.DocType == glCashView.DocType
+              && e.Gldate == glCashView.GLDate
+              );
+                if (glLookup == null)
+                {
+                    NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
+                    glCashView.DocNumber = nnDocumentNumber.NextNumberValue;
+                    GeneralLedger.CreateGeneralLedger(glCashView).Apply();
+                    GeneralLedger.UpdateAccountBalances(glCashView);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception("CreateCashPayment", ex); }
@@ -101,8 +114,21 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
             try
             {
-                GeneralLedger.CreateGeneralLedger(glView).Apply();
-                GeneralLedger.UpdateAccountBalances(glView);
+                GeneralLedgerView glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
+               e => e.AccountId == glView.AccountId
+               && e.AddressId == glView.AddressId
+               && e.Amount == glView.Amount
+               && e.CheckNumber == glView.CheckNumber
+               && e.DocType == glView.DocType
+               && e.Gldate == glView.GLDate
+               );
+                if (glLookup == null)
+                {
+                    NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
+                    glView.DocNumber = nnDocumentNumber.NextNumberValue;
+                    GeneralLedger.CreateGeneralLedger(glView).Apply();
+                    GeneralLedger.UpdateAccountBalances(glView);
+                }
                 return true;
             }
             catch (Exception ex) { throw new Exception("CreatePersonalExpense", ex); }

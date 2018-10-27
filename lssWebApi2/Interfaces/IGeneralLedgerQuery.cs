@@ -14,5 +14,6 @@ namespace ERP_Core2.Interfaces
         GeneralLedgerView GetGeneralLedgerView(long docNumber,string docType);
         IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear);
         GeneralLedgerView GetLedgerViewByExpression(Expression<Func<GeneralLedger, bool>> predicate);
+        GeneralLedgerView GetLedgerViewById(long accountId);
     }
 }

@@ -13,21 +13,42 @@ namespace lssAngular2.Controllers
     public class GeneralLedgerController : Controller
     {
         // GET: api/<controller>
+        /*
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
+        */
+        /*
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            return "value";
+        }
+        */
 
         // GET api/<controller>/5
-        [HttpGet("{fiscalYear}")]
-        public async Task<IEnumerable<AccountSummaryView>> Get(long fiscalYear)
+        //[HttpGet("{fiscalYear}")]
+        
+        [Route("BySummary/{fiscalYear}")]
+        [HttpGet]
+        public async Task<IEnumerable<AccountSummaryView>> GetSummary(long fiscalYear)
         {
             DataService ds = new DataService();
-            IEnumerable<AccountSummaryView> views = await ds.GetAsync<List<AccountSummaryView>>("api/GeneralLedger/" + fiscalYear.ToString());
-          
-
+            IEnumerable<AccountSummaryView> views = await ds.GetAsync<List<AccountSummaryView>>("api/GeneralLedger/BySummary/" + fiscalYear.ToString());
             return views;
+        }
+        
+        
+        [Route("ById/{generalLedgerId}")]
+        [HttpGet]
+        public async Task<GeneralLedgerView> Get(long generalLedgerId)
+        {
+            DataService ds = new DataService();
+            GeneralLedgerView view = await ds.GetAsync<GeneralLedgerView>("api/GeneralLedger/ById/" + generalLedgerId.ToString());
+            
+            return view;
         }
         // POST api/<controller>
         [HttpPost]

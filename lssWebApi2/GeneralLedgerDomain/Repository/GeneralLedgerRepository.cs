@@ -187,6 +187,20 @@ namespace ERP_Core2.GeneralLedgerDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
+        public async Task<GeneralLedgerView> GetLedgerViewById(long generalLedgerId)
+            {
+            try
+            {
+                var query = await (from a in _dbContext.GeneralLedger
+                                   where a.GeneralLedgerId == generalLedgerId
+                                   select a).FirstOrDefaultAsync<GeneralLedger>();
+
+                GeneralLedgerView view = applicationViewFactory.MapGeneralLedgerView(query);
+                return view;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<GeneralLedgerView> GetLedgerByDocNumber(long ? docNumber, string docType)
         {
             try

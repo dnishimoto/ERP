@@ -23,7 +23,13 @@ namespace ERP_Core2.FluentAPI
             IEnumerable<AccountSummaryView> views =  _unitOfWork.generalLedgerRepository.GetAccountSummaryByFiscalYearViews(fiscalYear);
             return views;
         }
+        public GeneralLedgerView GetLedgerViewById(long accountId)
+        {
+            Task<GeneralLedgerView> viewTask = Task.Run(async()=>await _unitOfWork.generalLedgerRepository.GetLedgerViewById(accountId));
+            Task.WaitAll(viewTask);
+            return viewTask.Result;
 
+        }
         public GeneralLedgerView GetLedgerViewByExpression(Expression<Func<GeneralLedger, bool>> predicate)
         {
             var query = _unitOfWork.generalLedgerRepository.GetObjectsQueryable(predicate) as IQueryable<GeneralLedger>;

@@ -16,7 +16,7 @@ namespace lssWebApi2.FluentAPI
 
         public NextNumber GetNextNumber(string nextNumberName)
         {
-            Task<NextNumber> nnTask = Task.Run(async () => await _unitOfWork.chartOfAccountRepository.GetNextNumber(nextNumberName));
+            Task<NextNumber> nnTask = Task.Run(async () => await _unitOfWork.nextNumberRepository.GetNextNumber(nextNumberName));
             Task.WaitAll(nnTask);
             return nnTask.Result;
         }

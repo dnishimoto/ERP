@@ -63,6 +63,7 @@ namespace ERP_Core2.Services
         public InventoryRepository inventoryRepository => new InventoryRepository(db);
         public SupplierInvoiceRepository supplierInvoiceRepository => new SupplierInvoiceRepository(db);
         public SupplierLedgerRepository supplierLedgerRepository => new SupplierLedgerRepository(db);
+        public NextNumberRepository nextNumberRepository => new NextNumberRepository(db);
         public UnitOfWork()
         {
             /*
