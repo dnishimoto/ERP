@@ -7,12 +7,24 @@
 
 <div class=“container-fluid”>
 
-
-
-    <div class="col-lg-12, col-md-12">
-      {{personalExpense.amount }}
+   {{diagnostic}}
+  <form #expenseForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Amount</label>
+      <input required #spy type="text" [(ngModel)]="personalExpense.amount" id="amount" class="form-control" name="amount" required>
+      <br>TODO: remove this: {{spy.className}}
+      <div [hidden]="amount.valid || amount.pristine"
+           class="alert alert-danger">
+        Name is required
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+      <button type="button" class="btn btn-default" (click)="newHero()">New Hero</button>
     </div>
-   
+    
+
+  </form>
+
+  
 
 
 </div>
