@@ -1,9 +1,9 @@
 export interface IAccountSummaryView {
-  accountId : number;
-  fiscalPeriod : number;
-  fiscalYear : number;
-  description : string;
-  amount : number;
+  accountId: number;
+  fiscalPeriod: number;
+  fiscalYear: number;
+  description: string;
+  amount: number;
   ledgers: IGeneralLedgerView[];
 }
 export interface IGeneralLedgerView {
@@ -25,7 +25,28 @@ export interface IGeneralLedgerView {
   purchaseOrderNumber: string;
   units: number;
 }
-
+export interface IChartOfAccountView {
+  AccountId: number;
+  Location: string;
+  BusUnit: string;
+  Subsidiary: string;
+  SubSub: string;
+  Account: string;
+  Description: string;
+  CompanyNumber: string;
+  GenCode: string;
+  SubCode: string;
+  ObjectNumber: string;
+  SupCode: string;
+  ThirdAccount: string;
+  CategoryCode1: string;
+  CategoryCode2: string;
+  CategoryCode3: string;
+  PostEditCode: string;
+  CompanyId: number;
+  CompanyName: string;
+  Level: number;
+}
 export interface IAccountReceivableFlatView {
   OpenAmount: number;
   GLDate: Date;
