@@ -10,6 +10,11 @@
    {{diagnostic}}
   <form #expenseForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
+      <label for="coa">Expense Type</label>
+      <select class="form-control" id="personalExpense" required>
+        <option *ngFor="let pe of coaPersonalExpenses" [value]="pe.accountId">{{pe.description}}</option>
+      </select>
+
       <label for="name">Amount</label>
       <input required #spy type="text" [(ngModel)]="personalExpense.amount" id="amount" class="form-control" name="amount" required>
       <br>TODO: remove this: {{spy.className}}

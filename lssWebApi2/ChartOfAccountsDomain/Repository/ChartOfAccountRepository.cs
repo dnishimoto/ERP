@@ -66,6 +66,43 @@ namespace ERP_Core2.ChartOfAccountsDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public List<ChartOfAccountView> GetChartOfAccountViewsByAccount(string companyNumber, string busUnit, string objectNumber, string subsidiary)
+        {
+            try
+            {
+
+                IQueryable<ChartOfAccts> query = _dbContext.ChartOfAccts;
+
+                if (companyNumber != "")
+                {
+                    query = query.Where(e => e.CompanyNumber == companyNumber);
+                }
+                if (busUnit != "")
+                {
+                    query = query.Where(e => e.BusUnit == busUnit);
+                }
+                if (objectNumber != "")
+                {
+                    query = query.Where(e => e.ObjectNumber == objectNumber);
+                }
+                if (subsidiary != "")
+                {
+                    query = query.Where(e => e.Subsidiary == subsidiary);
+                }
+                List<ChartOfAccountView> list = new List<ChartOfAccountView>();
+                foreach (var item in query)
+                {
+                    list.Add
+                        (
+                          applicationViewFactory.MapChartOfAccountView(item)
+                        );
+
+                }
+                return list;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+
+        }
         public List<ChartOfAccountView> GetChartOfAccountsByIds(long[] accountIds)
         {
             try

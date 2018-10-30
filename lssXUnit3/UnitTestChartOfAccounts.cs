@@ -26,6 +26,19 @@ namespace ERP_Core2.ChartOfAccountsDomain
 
         }
         [Fact]
+        public void TestGetExpenseCoa()
+        {
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+            string company = "1000";
+            string busUnit = "1200";
+            string objectNumber = "502";
+            List<ChartOfAccountView> list = coaMod.ChartOfAccount.Query().GetChartOfAccountViewsByAccount(company, busUnit, objectNumber, "");
+            if (list.Count == 0)
+            {
+                Assert.True(false);
+            }
+        }
+        [Fact]
         public void TestGetAccountsByIds()
         {
             long [] acctIds = { 3, 4, 5 };

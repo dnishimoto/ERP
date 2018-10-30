@@ -24,6 +24,18 @@ namespace lssWebApi2.Controllers
             return new string[] { "value1", "value2" };
         }
         [HttpGet]
+        [Route("PersonalExpense")]
+        public List<ChartOfAccountView> GetPersonalExpenseCoa()
+        {
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+            string company = "1000";
+            string busUnit = "1200";
+            string objectNumber = "502";
+            List<ChartOfAccountView> list = coaMod.ChartOfAccount.Query().GetChartOfAccountViewsByAccount(company, busUnit, objectNumber, "");
+            return list;
+
+        }
+        [HttpGet]
         [Route("CoaViews")]
         //http://localhost:61612/api/ChartOfAccount/CoaViews?AccountIds=3&AccountIds=4&AccountIds=5
         public List<ChartOfAccountView> Get([FromQuery] FilterChartOfAccount filter)

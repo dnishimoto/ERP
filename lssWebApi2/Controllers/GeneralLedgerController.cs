@@ -16,7 +16,7 @@ namespace lssWebApi2.Controllers
        
         [Route("ById/{generalLedgerId}")]
         [HttpGet]
-        public async Task<GeneralLedgerView> GetByAccountId(long generalLedgerId)
+        public GeneralLedgerView GetByAccountId(long generalLedgerId)
         {
             GeneralLedgerModule glMod = new GeneralLedgerModule();
             return glMod.GeneralLedger.Query().GetLedgerViewById(generalLedgerId);

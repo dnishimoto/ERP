@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { IGeneralLedgerView } from '../interface/interfaceMod';
+import { IChartOfAccountView } from '../interface/interfaceMod';
 //import { ViewChild, AfterViewInit } from '@angular/core';
 
 
@@ -33,11 +34,13 @@ import { AppComponent } from '../app.component';
 
 export class PersonalExpenseComponent  {
   public personalExpense: IGeneralLedgerView;
+  public coaPersonalExpenses: IChartOfAccountView[];
   submitted = false;
 
 
   onSubmit() {
     alert('reached');
+    
     this.submitted = true;
   }
   newHero() { alert('reached new hero');}
@@ -49,6 +52,11 @@ export class PersonalExpenseComponent  {
 
       this.personalExpense = result;
 
+
+    }, error => console.error(error));
+
+    http.get<IChartOfAccountView[]>(baseUrl + 'api/ChartOfAccount/PersonalExpense').subscribe(result => {
+      this.coaPersonalExpenses = result;
 
     }, error => console.error(error));
 
