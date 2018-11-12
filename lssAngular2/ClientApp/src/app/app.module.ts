@@ -14,6 +14,8 @@ import { GeneralLedgerComponent } from './generalledger-webapi/generalledger-web
 import { AccountReceivableComponent } from './accountreceivable-webapi/accountreceivable-webapi.component';
 import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpense-webapi.component';
 
+import { ApplicationService } from './application.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +42,7 @@ import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpen
       { path: 'personalExpense-webapi', component: PersonalExpenseComponent}
     ])
   ],
-  providers: [],
+  providers: [ApplicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
