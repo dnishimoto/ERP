@@ -11,57 +11,70 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from '../app.component';
+import { ApplicationService } from '../application.service';
 
 @Component({
   selector: 'app-personalExpense-webapi',
   templateUrl: './personalExpense-webapi.component.html'
 })
-
-@NgModule({
-  imports: [
-    BrowserModule,
-    FormsModule,
-    HttpClient
-  ],
-  declarations: [
-    AppComponent,
-    Component
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
-})
-
+  
 
 export class PersonalExpenseComponent  {
   public personalExpense: IGeneralLedgerView;
   public coaPersonalExpenses: IChartOfAccountView[];
+
   submitted = false;
+
+  get diagnostic() { return JSON.stringify(this.personalExpense); }
 
 
   onSubmit() {
-    alert('reached');
+
+    alert(this.myApp.getData());
+    //this.personalExpense = myApp.GetLedgerById(25);
+    
+    //let app = new ApplicationService();
+
+    //alert(app.getData());
     
     this.submitted = true;
   }
-  newHero() { alert('reached new hero');}
+  newExpense() {
+    this.personalExpense.amount = 0;
+  }
 
   constructor(
-    http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+     private myApp: ApplicationService) {
 
-    http.get<IGeneralLedgerView>(baseUrl + 'api/GeneralLedger/ById/25').subscribe(result => {
+   
+    //http: HttpClient, @Inject('BASE_URL') baseUrl: string,
 
-      this.personalExpense = result;
+    //http.get<IGeneralLedgerView>(baseUrl + 'api/GeneralLedger/ById/25').subscribe(result => {
+
+     
+      //this.personalExpense = result;
 
 
-    }, error => console.error(error));
+     //http.get<IChartOfAccountView[]>(baseUrl + 'api/ChartOfAccount/PersonalExpense').subscribe(result => {
+     // this.coaPersonalExpenses = result;
 
-    http.get<IChartOfAccountView[]>(baseUrl + 'api/ChartOfAccount/PersonalExpense').subscribe(result => {
-      this.coaPersonalExpenses = result;
-
-    }, error => console.error(error));
+    //}, error => console.error(error));
 
 
   }
+  ngOnInit() {
+
+    this.myApp.getLedgerById(25).subscribe(
+      result => { this.personalExpense = result },
+      error => console.error(error)
+    );
+
+    this.myApp.getPEChartOfAccountList().subscribe(
+      result => { this.coaPersonalExpenses = result },
+      error => console.error(error)
+    )
+
+   }//end ngOnInit
   
  }
 
