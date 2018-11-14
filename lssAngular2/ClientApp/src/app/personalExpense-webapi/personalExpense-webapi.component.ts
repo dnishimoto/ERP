@@ -30,7 +30,9 @@ export class PersonalExpenseComponent  {
 
   onSubmit() {
 
-    alert(this.myApp.getData());
+    //alert(this.myApp.getData());
+    alert(JSON.stringify(this.personalExpense));
+    
     //this.personalExpense = myApp.GetLedgerById(25);
     
     //let app = new ApplicationService();
@@ -45,34 +47,19 @@ export class PersonalExpenseComponent  {
 
   constructor(
      private myApp: ApplicationService) {
-
-   
-    //http: HttpClient, @Inject('BASE_URL') baseUrl: string,
-
-    //http.get<IGeneralLedgerView>(baseUrl + 'api/GeneralLedger/ById/25').subscribe(result => {
-
-     
-      //this.personalExpense = result;
-
-
-     //http.get<IChartOfAccountView[]>(baseUrl + 'api/ChartOfAccount/PersonalExpense').subscribe(result => {
-     // this.coaPersonalExpenses = result;
-
-    //}, error => console.error(error));
-
-
+ 
   }
   ngOnInit() {
+    this.myApp.getPEChartOfAccountList().subscribe(
+      result => { this.coaPersonalExpenses = result },
+      error => console.error(error)
+    );
+
 
     this.myApp.getLedgerById(25).subscribe(
       result => { this.personalExpense = result },
       error => console.error(error)
     );
-
-    this.myApp.getPEChartOfAccountList().subscribe(
-      result => { this.coaPersonalExpenses = result },
-      error => console.error(error)
-    )
 
    }//end ngOnInit
   
