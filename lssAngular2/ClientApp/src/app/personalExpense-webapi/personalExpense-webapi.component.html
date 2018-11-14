@@ -1,35 +1,95 @@
 <h1>Personal Expense</h1>
 
+<style type="text/css">
+  input.ng-invalid.ng-dirty {
+    background-color: red;
+  }
 
-<p *ngIf="!personalExpense"><em>Loading...</em></p>
+  input.ng-valid.ng-dirty {
+    background-color: white;
+  }
+</style>
+<p *ngIf="!coaPersonalExpenses"><em>Loading...</em></p>
+
+  <div class=“container-fluid” *ngIf="coaPersonalExpenses">
+
+    {{diagnostic}}
 
 
-
-<div class=“container-fluid”>
-
-   {{diagnostic}}
-  <form #expenseForm="ngForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="coa">Expense Type</label>
-      <select class="form-control" id="personalExpense" required>
-        <option *ngFor="let pe of coaPersonalExpenses" [value]="pe.accountId">{{pe.description}}</option>
-      </select>
-
-      <label for="name">Amount</label>
-      <input required #spy type="text" [(ngModel)]="personalExpense.amount" id="amount" class="form-control" name="amount" required>
-      <br>TODO: remove this: {{spy.className}}
-      <div [hidden]="amount.valid || amount.pristine"
-           class="alert alert-danger">
-        Name is required
+    <form #expenseForm="ngForm" (ngSubmit)="onSubmit()" >
+      <div class="form-group">
+        <label>Expense Type</label>
+        <select class="form-control"
+                name="expenseType" [(ngModel)]="personalExpense.accountId"
+                >
+          <option *ngFor="let pe of coaPersonalExpenses"
+                   value="{{pe.accountId}}">{{pe.description}}</option>
+        </select>
       </div>
+      <div class="form-group">
+        <label>Amount</label>
+        <input  [(ngModel)]="personalExpense.amount" required #spy type="text" name="amount" class="form-control">
+        <br>TODO: remove this: {{spy.className}}
+        <div [hidden]="!amount">Amount is required</div>
+      </div>
+      <div class="form-group">
+        <label>addressId:</label>
+        <input required type="text" [(ngModel)]="personalExpense.addressId" name="addressid" />
+      </div>
+      <div class="form-group">
+        <label>units</label>
+        <input required type="text" [(ngModel)]="personalExpense.units" name="units" />
+      </div>
+      <div class="form-group">
+        <label>generalLedgerId</label> {{personalExpense.generalLedgerId}}
+      </div>
+      <div class="form-group">
+        <label>docNumber:</label> {{personalExpense.docNumber}}
+      </div>
+      <div class="form-group">
+        <label>docType:</label> {{personalExpense.docType}}
+      </div>
+      <div class="form-group">
+        <label>ledgerType:</label> {{personalExpense.ledgerType}}
+      </div>
+      <div class="form-group">
+        <label>gldate:</label>{{personalExpense.glDate}}
+      </div>
+      <div class="form-group">
+        <label>accountId:</label> {{personalExpense.accountId}}
+      </div>
+      <div class="form-group">
+        <label>createdDate:</label> {{personalExpense.createdDate}}
+      </div>
+      <div class="form-group">
+        <label>comment:</label> {{personalExpense.comment}}
+      </div>
+      <div class="form-group">
+        <label>debitAmount:</label> {{personalExpense.debtAmount}}
+      </div>
+      <div class="form-group">
+        <label>creditAmount:</label> {{personalExpense.creditAmount}}
+      </div>
+      <div class="form-group">
+        <label>fiscalYear:</label>{{personalExpense.fiscalYear}}
+      </div>
+      <div class="form-group">
+        <label>fiscalPeriod:</label> {{personalExpense.fiscalPeriod}}
+      </div>
+      <div class="form-group">
+        <label>checkNumber:</label> {{personalExpense.checkNumber}}
+      </div>
+      <div class="form-group">
+        <label>purchaseOrderNumber:</label> {{personalExpense.purchaseOrderNumber}}
+      </div>
+
+
       <button type="submit" class="btn btn-success">Submit</button>
       <button type="button" class="btn btn-default" (click)="newExpense()">New Hero</button>
-    </div>
-    
-
-  </form>
-
-  
 
 
-</div>
+
+    </form>
+
+
+  </div>
