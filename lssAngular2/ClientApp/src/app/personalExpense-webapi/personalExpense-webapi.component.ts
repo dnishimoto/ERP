@@ -2,8 +2,8 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { IGeneralLedgerView } from '../interface/interfaceMod';
-import { IChartOfAccountView } from '../interface/interfaceMod';
+import { IGeneralLedgerView, IChartOfAccountView } from '../interface/interfaceMod';
+
 //import { ViewChild, AfterViewInit } from '@angular/core';
 
 
@@ -22,6 +22,8 @@ import { ApplicationService } from '../application.service';
 export class PersonalExpenseComponent  {
   public personalExpense: IGeneralLedgerView;
   public coaPersonalExpenses: IChartOfAccountView[];
+
+  public queryGeneralLedgerId: number=0;
 
   submitted = false;
 
@@ -42,7 +44,16 @@ export class PersonalExpenseComponent  {
     this.submitted = true;
   }
   newExpense() {
-    this.personalExpense.amount = 0;
+    var generalLedgerId = this.queryGeneralLedgerId;
+
+    if (generalLedgerId >0) {
+    this.myApp.getLedgerById(generalLedgerId).subscribe(
+      result => { this.personalExpense = result },
+      error => console.error(error)
+      );
+    }
+
+    //this.personalExpense.amount = 0;
   }
 
   constructor(
@@ -55,12 +66,7 @@ export class PersonalExpenseComponent  {
       error => console.error(error)
     );
 
-
-    this.myApp.getLedgerById(25).subscribe(
-      result => { this.personalExpense = result },
-      error => console.error(error)
-    );
-
+    
    }//end ngOnInit
   
  }

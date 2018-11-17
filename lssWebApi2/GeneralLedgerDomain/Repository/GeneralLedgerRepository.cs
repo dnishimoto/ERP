@@ -189,13 +189,20 @@ namespace ERP_Core2.GeneralLedgerDomain
         }
         public async Task<GeneralLedgerView> GetLedgerViewById(long generalLedgerId)
             {
+            GeneralLedgerView view;
             try
             {
                 var query = await (from a in _dbContext.GeneralLedger
                                    where a.GeneralLedgerId == generalLedgerId
                                    select a).FirstOrDefaultAsync<GeneralLedger>();
-
-                GeneralLedgerView view = applicationViewFactory.MapGeneralLedgerView(query);
+                if (query != null)
+                {
+                     view = applicationViewFactory.MapGeneralLedgerView(query);
+                }
+                else
+                {
+                    view = new GeneralLedgerView();
+                }
                 return view;
             }
             catch (Exception ex)

@@ -9,31 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace lssAngular2.Controllers
-{/*
-    public class BudgetView
-    {
-        public BudgetView() { }
-
-        public long BudgetId { get; set; }
-        public decimal? BudgetHours { get; set; }
-        public decimal? BudgetAmount { get; set; }
-        public decimal? ActualHours { get; set; }
-        public decimal? ActualAmount { get; set; }
-        public long? AccountId { get; set; }
-        public string AccountDescription { get; set; }
-        public string CompanyNumber { get; set; }
-        public string BusUnit { get; set; }
-        public string ObjectNumber { get; set; }
-        public string Subsidiary { get; set; }
-        public long? RangeId { get; set; }
-        public DateTime? RangeStartDate { get; set; }
-        public DateTime? RangeEndDate { get; set; }
-        public string CompanyCode { get; set; }
-        public string SupervisorCode { get; set; }
-        public decimal? ProjectedHours { get; set; }
-        public decimal? ProjectedAmount { get; set; }
-    }
-    */
+{
 
     [Route("api/[controller]")]
     public class BudgetController : Controller
@@ -45,55 +21,27 @@ namespace lssAngular2.Controllers
         {
             DataService ds = new DataService();
             BudgetView view =  await ds.GetAsync<BudgetView>("api/Budget/" + budgetId.ToString());
-            /*
-            BudgetView view = null;
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage Res = await client.GetAsync("api/Budget/" + budgetId.ToString());
-
-                if (Res.IsSuccessStatusCode)
-                {
-                    var BudgetResponse = Res.Content.ReadAsStringAsync().Result;
-                    view = JsonConvert.DeserializeObject<BudgetView>(BudgetResponse);
-
-                }
-
-            }
-            */
+          
             return view;
-        }
 
+          
+        }
         [HttpGet()]
-        public async Task<List<BudgetView>> Get()
+        [Route("PersonalBudgetViews")]
+        public async Task<List<PersonalBudgetView>> GetPersonalBudgetViews()
+        {
+            DataService ds = new DataService();
+            List<PersonalBudgetView> views = await ds.GetAsync<List<PersonalBudgetView>>("api/Budget/PersonalBudgetViews");
+            return views;
+         
+        }
+        public async Task<IEnumerable<BudgetView>> Get()
         {
             DataService ds = new DataService();
             List<BudgetView> views = await ds.GetAsync<List<BudgetView>>("api/Budget");
-            /*
-
-            List <BudgetView> views = null;
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(Baseurl);
-                client.DefaultRequestHeaders.Clear();
-                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-                HttpResponseMessage Res = await client.GetAsync("api/Budget");
-
-                if (Res.IsSuccessStatusCode)
-                {
-                    var BudgetResponse = Res.Content.ReadAsStringAsync().Result;
-                    views = JsonConvert.DeserializeObject<List<BudgetView>>(BudgetResponse);
-
-                }
-
-            }
-            */
+           
             return views;
+           
         }
 
 

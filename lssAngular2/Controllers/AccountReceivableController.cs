@@ -22,6 +22,7 @@ namespace lssAngular2.Controllers
             IEnumerable<AccountReceivableFlatView> views = await ds.GetAsync<List<AccountReceivableFlatView>>("api/AccountReceivable/OpenReceivables");
 
             return views;
+          
         }
 
         // GET api/<controller>/5
