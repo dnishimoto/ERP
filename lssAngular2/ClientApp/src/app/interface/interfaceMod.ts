@@ -71,4 +71,45 @@ export interface IAccountReceivableFlatView {
 
 }
 
+export interface IBudgetView {
+  budgetId: number;
+  budgetHours: number;
+  budgetAmount: number;
+  actualHours: number;
+  actualAmount: number;
+  accountId: number;
+  accountDescription: string;
+  companyNumber: string;
+  busUnit: string;
+  objectNumber: string;
+  subsidiary: string;
+  rangeId: number;
+  rangeStartDate: Date;
+  rangeEndDate: Date;
+  companyCode: string;
+  supervisorCode: string;
+  projectedHours: number;
+  projectedAmount: number;
+}
+export interface IPersonalBudgetView {
+
+  accountId: number;
+  location: string;
+  busUnit: string;
+  objectNumber: string;
+  supCode: string;
+  subsidiary: string;
+  subSub: string;
+  account: string;
+  description: string;
+  companyNumber: string;
+  budgetAmount: number;
+  budgetHours: number;
+  startDate: Date;
+  endDate: Date;
+  paymentAmount;
+  paymentHours;
+
+}
+
 

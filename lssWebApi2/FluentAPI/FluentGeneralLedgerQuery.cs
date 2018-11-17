@@ -20,30 +20,55 @@ namespace ERP_Core2.FluentAPI
 
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
-            IEnumerable<AccountSummaryView> views =  _unitOfWork.generalLedgerRepository.GetAccountSummaryByFiscalYearViews(fiscalYear);
-            return views;
+            try
+            {
+                IEnumerable<AccountSummaryView> views = _unitOfWork.generalLedgerRepository.GetAccountSummaryByFiscalYearViews(fiscalYear);
+                return views;
+            }
+            catch (Exception ex)
+
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public GeneralLedgerView GetLedgerViewById(long accountId)
         {
-            Task<GeneralLedgerView> viewTask = Task.Run(async()=>await _unitOfWork.generalLedgerRepository.GetLedgerViewById(accountId));
-            Task.WaitAll(viewTask);
-            return viewTask.Result;
+            try
+            {
+                Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerViewById(accountId));
+                Task.WaitAll(viewTask);
+                return viewTask.Result;
+            }
+            catch (Exception ex)
+  
+                { throw new Exception(GetMyMethodName(), ex); }
+ 
 
         }
         public GeneralLedgerView GetLedgerViewByExpression(Expression<Func<GeneralLedger, bool>> predicate)
         {
-            var query = _unitOfWork.generalLedgerRepository.GetObjectsQueryable(predicate) as IQueryable<GeneralLedger>;
+            try
+            {
+                var query = _unitOfWork.generalLedgerRepository.GetObjectsQueryable(predicate) as IQueryable<GeneralLedger>;
 
-            GeneralLedger ledger = query.FirstOrDefault<GeneralLedger>();
+                GeneralLedger ledger = query.FirstOrDefault<GeneralLedger>();
 
-            GeneralLedgerView view=applicationViewFactory.MapGeneralLedgerView(ledger);
-            return view;
+                GeneralLedgerView view = applicationViewFactory.MapGeneralLedgerView(ledger);
+                return view;
+            }
+            catch (Exception ex)
+
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public GeneralLedgerView GetGeneralLedgerView(long docNumber, string docType)
         {
-            Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(docNumber, docType));
-            Task.WaitAll(viewTask);
-            return viewTask.Result;
+            try
+            {
+                Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(docNumber, docType));
+                Task.WaitAll(viewTask);
+                return viewTask.Result;
+            }
+            catch (Exception ex)
+
+            { throw new Exception(GetMyMethodName(), ex); }
         }
     }
 }

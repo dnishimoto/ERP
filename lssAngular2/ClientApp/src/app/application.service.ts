@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IGeneralLedgerView } from './interface/interfaceMod';
-import { IChartOfAccountView } from './interface/interfaceMod';
+import { IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView } from './interface/interfaceMod';
+
 
 
 @Injectable()
@@ -24,7 +24,17 @@ export class ApplicationService
 
     return this.http.get<IGeneralLedgerView>('/api/GeneralLedger/ById/' + id);
   }
+  getLedgers(year: number) {
+    return this.http.get<IAccountSummaryView[]>('/api/GeneralLedger/BySummary/'+year);
+  }
   getPEChartOfAccountList() {
     return this.http.get<IChartOfAccountView[]>('/api/ChartOfAccount/PersonalExpense');
+  }
+  getBudget() {
+    return this.http.get<IBudgetView[]>('/api/Budget');
+
+  }
+  getAccountReceivable() {
+    return this.http.get<IAccountReceivableFlatView[]>('/api/AccountReceivable/OpenReceivables');
   }
 }

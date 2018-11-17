@@ -36,12 +36,21 @@ namespace lssWebApi2.Controllers
             return budgetViews;
 
         }
+        [HttpGet]
+        [Route("PersonalBudgetViews")]
+        public List<PersonalBudgetView> GetPersonalBudgetViews()
+        {
+            BudgetModule budgetMod = new BudgetModule();
+            List<PersonalBudgetView> list = budgetMod.Budget.Query().GetPersonalBudgetViews();
+            return list;
+
+        }
 
         // GET api/<controller>/5
         //[HttpGet("{id}")]
         //public string Get(int id)
         //{
-         //   return "value";
+        //   return "value";
         //}
 
         // POST api/<controller>

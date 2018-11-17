@@ -45,7 +45,7 @@ namespace ERP_Core2.BudgetDomain
             this.ProjectedAmount = budget.ProjectedAmount;
             this.RangeIsActive = budget.Range.IsActive;
             this.ActualsAsOfDate = budget.ActualsAsOfDate;
-          
+
         }
         public long BudgetId { get; set; }
         public decimal? BudgetHours { get; set; }
@@ -69,6 +69,65 @@ namespace ERP_Core2.BudgetDomain
         public DateTime? ActualsAsOfDate { get; set; }
 
     }
+    public class PersonalBudgetView
+    {
+        public long AccountId
+        {
+            get; set;
+        }
+        public string Location
+        {
+            get; set;
+        }
+        public string BusUnit
+        {
+            get; set;
+        }
+        public string ObjectNumber
+        {
+            get; set;
+        }
+        public string SupCode
+        {
+            get; set;
+        }
+        public string Subsidiary
+        {
+            get; set;
+        }
+        public string SubSub
+        {
+            get; set;
+        }
+        public string Account
+        {
+            get; set;
+        }
+        public string Description
+        {
+            get; set;
+        }
+        public string CompanyNumber
+        {
+            get; set;
+        }
+        public decimal? BudgetAmount
+        {
+            get; set;
+        }
+        public decimal ? BudgetHours
+        {
+            get; set;
+        }
+        public DateTime ? StartDate
+        {
+            get; set;
+        }
+        public DateTime ? EndDate
+        { get; set; }
+        public decimal? PaymentAmount { get; set; }
+        public decimal? PaymentHours { get; set; }
+    }
     public class BudgetRepository : Repository<Budget>
     {
         ListensoftwaredbContext _dbContext;
@@ -76,6 +135,41 @@ namespace ERP_Core2.BudgetDomain
         public BudgetRepository(DbContext db) : base(db)
         {
             _dbContext = (ListensoftwaredbContext)db;
+        }
+        public async Task<List<PersonalBudgetView>> GetPersonalBudgetViews()
+        {
+            try
+            {
+                List<PersonalBudgetView> list = await (from coa in _dbContext.ChartOfAccts
+                                                       join bud in _dbContext.Budget
+                                             on coa.AccountId equals bud.AccountId
+                                                       join bud_range in _dbContext.BudgetRange
+                                                       on bud.AccountId equals bud_range.AccountId
+                                                       select new PersonalBudgetView
+                                                       {
+                                                           AccountId = coa.AccountId,
+                                                           Location = coa.Location,
+                                                           BusUnit = coa.BusUnit,
+                                                           ObjectNumber = coa.ObjectNumber,
+                                                           SupCode = coa.SupCode,
+                                                           Subsidiary = coa.Subsidiary,
+                                                           SubSub = coa.SubSub,
+                                                           Account = coa.Account,
+                                                           Description = coa.Description,
+                                                           CompanyNumber = coa.CompanyNumber,
+                                                           BudgetAmount = bud.BudgetAmount,
+                                                           BudgetHours = bud.BudgetHours,
+                                                           StartDate = bud_range.StartDate,
+                                                           EndDate = bud_range.EndDate
+                                                       }).ToListAsync<PersonalBudgetView>();
+
+      
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
         public async Task<BudgetView> GetBudgetView(long budgetId)
         {
@@ -99,11 +193,11 @@ namespace ERP_Core2.BudgetDomain
             try
             {
                 var query = await (from e in _dbContext.Budget
-                                       select e).ToListAsync<Budget>();
+                                   select e).ToListAsync<Budget>();
 
                 List<BudgetView> budgetViews = new List<BudgetView>();
                 BudgetView budgetView = null;
-                foreach(var budget in query)
+                foreach (var budget in query)
                 {
                     budgetView = applicationViewFactory.MapBudgetView(budget);
                     budgetViews.Add(budgetView);
@@ -158,9 +252,9 @@ namespace ERP_Core2.BudgetDomain
             try
             {
                 Budget budgetLookup = await (from e in _dbContext.Budget
-                                   where e.AccountId == budgetView.AccountId
-                                   && e.RangeId == budgetView.RangeId
-                                   select e
+                                             where e.AccountId == budgetView.AccountId
+                                             && e.RangeId == budgetView.RangeId
+                                             select e
                           ).FirstOrDefaultAsync<Budget>();
                 if (budgetLookup == null)
                 {
@@ -177,7 +271,7 @@ namespace ERP_Core2.BudgetDomain
                     UpdateObject(budgetLookup);
                     return CreateProcessStatus.Update;
                 }
-                
+
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }

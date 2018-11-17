@@ -16,7 +16,7 @@ namespace lssWebApi2.Controllers
         [HttpGet]
         [Route("OpenReceivables")]
         //http://localhost:61612/api/AccountReceivable/OpenReceivables
-        public IEnumerable<AccountReceivableFlatView> GetReceivables()
+        public List<AccountReceivableFlatView> GetReceivables()
         {
             AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
             List<AccountReceivableFlatView> list = acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();

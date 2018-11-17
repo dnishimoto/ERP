@@ -22,10 +22,25 @@ namespace ERP_Core2.BudgetDomain
         private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
+        
         public UnitTestBudget(ITestOutputHelper output)
         {
             this.output = output;
 
+        }
+        [Fact]
+        public void TestPersonalBudgetViews()
+        {
+            BudgetModule budgetMod = new BudgetModule();
+
+            List<PersonalBudgetView> list = budgetMod.Budget.Query().GetPersonalBudgetViews();
+
+            if (list.Count > 0)
+            {
+                Assert.True(true);
+            }
+
+           
         }
         [Fact]
         public async Task TestNextNumber()

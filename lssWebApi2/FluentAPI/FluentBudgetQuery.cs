@@ -14,6 +14,16 @@ namespace ERP_Core2.FluentAPI
     {
         private UnitOfWork _unitOfWork;
         public FluentBudgetQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
+
+        public List<PersonalBudgetView> GetPersonalBudgetViews()
+        {
+       
+            Task<List<PersonalBudgetView>> viewsTask = Task.Run(async () => await _unitOfWork.budgetRepository.GetPersonalBudgetViews());
+
+            Task.WaitAll(viewsTask);
+            return viewsTask.Result;
+        }
+
         public BudgetActualsView GetBudgetActualsView(BudgetRangeView budgetRangeView)
         {
             Task<BudgetActualsView> budgetActualsViewTask = Task.Run(async () => await _unitOfWork.budgetRepository.GetActualsView(budgetRangeView));

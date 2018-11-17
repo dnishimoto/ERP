@@ -17,8 +17,9 @@ namespace lssAngular2.Controllers
         public async Task<IList<ChartOfAccountView>> GetPersonalExpense()
         {
             DataService ds = new DataService();
-            IList<ChartOfAccountView> views = await ds.GetAsync<List<ChartOfAccountView>>("api/ChartOfAccount/PersonalExpense");
+             IList<ChartOfAccountView> views = await ds.GetAsync<List<ChartOfAccountView>>("api/ChartOfAccount/PersonalExpense");
             return views;
+          
         }
         // GET: api/<controller>
         [HttpGet]

@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { IAccountReceivableFlatView } from '../interface/interfaceMod';
+import { ApplicationService } from '../application.service';
 
 @Component({
   selector: 'app-accountreceivable-webapi',
@@ -15,22 +16,12 @@ export class AccountReceivableComponent {
 
  
 
-  constructor(
-    http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-
-       http.get<IAccountReceivableFlatView[]>(baseUrl + 'api/AccountReceivable/OpenReceivables').subscribe(result => {
-
-      this.accountReceivables = result;
-
-      
-      //console.log(result);
-
-
-    }, error => console.error(error));
-
-
-  }
-
+  constructor(private myApp: ApplicationService ) {  }
+  ngOnInit() {
+    this.myApp.getAccountReceivable().subscribe(
+      result => { this.accountReceivables= result },
+      error => console.error(error)
+    );
 }
 
 
