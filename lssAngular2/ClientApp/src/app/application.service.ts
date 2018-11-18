@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView } from './interface/interfaceMod';
+import { IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView } from './interface/interfaceMod';
 
 
 
@@ -36,5 +36,12 @@ export class ApplicationService
   }
   getAccountReceivable() {
     return this.http.get<IAccountReceivableFlatView[]>('/api/AccountReceivable/OpenReceivables');
+  }
+  getPersonalBudgets() {
+    return this.http.get<IPersonalBudgetView[]>('/api/Budget/PersonalBudgetViews');
+  }
+  postPersonalBudget(personalBudget: IPersonalBudgetView) {
+    return this.http.post('/api/Budget/Payment/', personalBudget);
+
   }
 }

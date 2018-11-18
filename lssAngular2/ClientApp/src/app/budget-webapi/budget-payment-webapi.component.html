@@ -1,0 +1,53 @@
+<div class="container-fluid">
+  <h1>Budget Payments Web Api</h1>
+
+   <p *ngIf="!budgets"><em>Loading...</em></p>
+
+  <div *ngIf="budgets">
+   
+    <form #postPaymentForm="ngForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <div class="col-xs-3">
+          <ul class="list-group" *ngFor="let budget of budgets">
+            <a class="list-group-item py-2" (click)="queryClick(budget)">
+            {{budget.description}}
+              <span class="pull-right button-group">
+                <button type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
+              </span>
+            </a>
+          </ul>
+        </div>
+      </div>
+
+      <div *ngIf="postPayment">
+        <div class="form-group">
+          <div class="col-xs-3">
+            <label>{{postPayment.description}}</label>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-3">
+            <label for="ctrl1">Payment Amount:</label>
+            <input id="spy" [(ngModel)]="postPayment.paymentAmount" required #spy type="text" name="paymentAmount" class="form-control">
+            <br>TODO: remove this: {{spy.className}}
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-3">
+            <label for="ctrl2">Payment Hours:</label>
+            <input id="ctrl2" [(ngModel)]="postPayment.paymentHours" type="text" name="paymentHours" class="form-control">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+ 
+
+    </form>
+
+
+  </div>
+  </div>
+
+
+
+

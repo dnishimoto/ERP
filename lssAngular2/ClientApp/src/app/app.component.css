@@ -3,4 +3,21 @@
   .body-content {
     padding-top: 50px;
   }
+
+  .row.display-flex {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+    .row.display-flex > [class*='col-'] {
+      display: flex;
+      flex-direction: column;
+    }
+  input.ng-invalid.ng-dirty {
+    background-color: red;
+  }
+
+  input.ng-valid.ng-dirty {
+    background-color: white;
+  }
 }

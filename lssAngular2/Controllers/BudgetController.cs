@@ -27,6 +27,7 @@ namespace lssAngular2.Controllers
           
         }
         [HttpGet()]
+        
         [Route("PersonalBudgetViews")]
         public async Task<List<PersonalBudgetView>> GetPersonalBudgetViews()
         {
@@ -54,6 +55,14 @@ namespace lssAngular2.Controllers
         // }
 
         // POST api/<controller>
+        [HttpPost]
+        [Route("Payment")]
+        public void Post([FromBody] PersonalBudgetView budget)
+        {
+           string info=string.Format("{0}", budget.Account);
+
+
+        }
         [HttpPost]
         public void Post([FromBody]string value)
         {

@@ -13,66 +13,38 @@ import { ApplicationService } from '../application.service';
 
 export class BudgetPaymentWebApiComponent {
   public budgets: IPersonalBudgetView[];
-  //public budget: IBudgetView;
+  public postPayment: IPersonalBudgetView;
   public myString: string;
 
+  private queryClick(budget: IPersonalBudgetView) {
+    //alert(JSON.stringify(budget))
+    this.postPayment = budget;
+    //alert(this.postPayment.description);
+  }
+  private onSubmit() {
+    alert(JSON.stringify(this.postPayment));
+
+
+    this.myApp.postPersonalBudget(this.postPayment).subscribe
+      (
+      result => { }
+      , error => console.error(error);
+      );
+
+
+  }
   constructor(private myApp: ApplicationService) {
-    /*
-    http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-
-    http.get<IBudgetView[]>(baseUrl + 'api/Budget').subscribe(result => {
-
-      this.budgets = result;
-      this.myString = "Hello World";
-
-    }, error => console.error(error));
-    */
-
-    /*
-    http.get<IBudgetView>(baseUrl + 'api/Budget/2').subscribe(result => {
-
-    this.budget = result;
-     this.myString = "Hello World";
-
-    }, error => console.error(error));
-    */
+    
 
   }
-  /*
-  getBudget() {
-    this.http.get<IBudgetView>(this.baseUrl + 'api/SampleData/Budget?budgetId=2').subscribe(result => {
-
-      this.budget = result;
-      this.myString = "Hello World";
-
-    }, error => console.error(error));
-
+  ngOnInit() {
+    this.myApp.getPersonalBudgets().subscribe(
+      result => { this.budgets = result;
+      },
+      error => console.error(error)
+    );
   }
-  */
  }
 
 
-
-/*
-export class BudgetView {
-  budgetId: number;
-  budgetHours: number;
-  budgetAmount: number;
-  actualHours: number;
-  actualAmount: number;
-  accountId: number;
-  accountDescription: string;
-  companyNumber: string;
-  busUnit: string;
-  objectNumber: string;
-  subsidiary: string;
-  rangeId: number;
-  rangeStartDate: Date;
-  rRangeEndDate: Date;
-  companyCode: string;
-  supervisorCode: string;
-  projectedHours: number;
-  projectedAmount: number;
-}
-*/
 

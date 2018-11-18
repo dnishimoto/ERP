@@ -71,60 +71,20 @@ namespace ERP_Core2.BudgetDomain
     }
     public class PersonalBudgetView
     {
-        public long AccountId
-        {
-            get; set;
-        }
-        public string Location
-        {
-            get; set;
-        }
-        public string BusUnit
-        {
-            get; set;
-        }
-        public string ObjectNumber
-        {
-            get; set;
-        }
-        public string SupCode
-        {
-            get; set;
-        }
-        public string Subsidiary
-        {
-            get; set;
-        }
-        public string SubSub
-        {
-            get; set;
-        }
-        public string Account
-        {
-            get; set;
-        }
-        public string Description
-        {
-            get; set;
-        }
-        public string CompanyNumber
-        {
-            get; set;
-        }
-        public decimal? BudgetAmount
-        {
-            get; set;
-        }
-        public decimal ? BudgetHours
-        {
-            get; set;
-        }
-        public DateTime ? StartDate
-        {
-            get; set;
-        }
-        public DateTime ? EndDate
-        { get; set; }
+        public long AccountId { get; set; }
+        public string Location { get; set; }
+        public string BusUnit { get; set; }
+        public string ObjectNumber { get; set; }
+        public string SupCode { get; set; }
+        public string Subsidiary { get; set; }
+        public string SubSub { get; set; }
+        public string Account { get; set; }
+        public string Description { get; set; }
+        public string CompanyNumber { get; set; }
+        public decimal? BudgetAmount { get; set; }
+        public decimal? BudgetHours { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         public decimal? PaymentAmount { get; set; }
         public decimal? PaymentHours { get; set; }
     }
@@ -163,7 +123,7 @@ namespace ERP_Core2.BudgetDomain
                                                            EndDate = bud_range.EndDate
                                                        }).ToListAsync<PersonalBudgetView>();
 
-      
+
                 return list;
             }
             catch (Exception ex)
