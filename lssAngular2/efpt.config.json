@@ -1,0 +1,1 @@
+﻿{"ContextClassName":"ListensoftwaredbContext","DefaultDacpacSchema":null,"IdReplace":false,"IncludeConnectionString":true,"OutputPath":"EntityFramework","ProjectRootNamespace":"lssAngular2","SelectedToBeGenerated":2,"Tables":["dbo.Budget"],"UseDatabaseNames":false,"UseFluentApiOnly":true,"UseHandleBars":false,"UseInflector":false}

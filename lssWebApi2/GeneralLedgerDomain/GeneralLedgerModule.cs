@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace ERP_Core2.GeneralLedgerDomain
 {
 
-     public class GeneralLedgerModule
+    public class GeneralLedgerModule
     {
         public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
         public FluentChartOfAccounts ChartOfAccounts = new FluentChartOfAccounts();
@@ -24,12 +24,12 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
 
             GeneralLedgerView glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
-                e=>e.AccountId==glView.AccountId
-                && e.AddressId==glView.AddressId
-                && e.Amount ==glView.Amount
-                && e.CheckNumber==glView.CheckNumber
-                && e.DocType==glView.DocType
-                && e.Gldate==glView.GLDate
+                e => e.AccountId == glView.AccountId
+                && e.AddressId == glView.AddressId
+                && e.Amount == glView.Amount
+                && e.CheckNumber == glView.CheckNumber
+                && e.DocType == glView.DocType
+                && e.Gldate == glView.GLDate
                 );
             if (glLookup == null)
             {
@@ -76,7 +76,7 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                 glView2.DocNumber = nnObject2.NextNumberValue;
 
-                  GeneralLedger.CreateGeneralLedger(glView2).Apply();
+                GeneralLedger.CreateGeneralLedger(glView2).Apply();
                 GeneralLedger.UpdateAccountBalances(glView2);
             }
 
@@ -90,14 +90,19 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
             try
             {
-                GeneralLedgerView glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
-              e => e.AccountId == glCashView.AccountId
-              && e.AddressId == glCashView.AddressId
-              && e.Amount == glCashView.Amount
-              && e.CheckNumber == glCashView.CheckNumber
-              && e.DocType == glCashView.DocType
-              && e.Gldate == glCashView.GLDate
-              );
+                GeneralLedgerView glLookup = null;
+
+                if (glCashView.CheckNumber != null)
+                {
+                    GeneralLedger.Query().GetLedgerViewByExpression(
+                  e => e.AccountId == glCashView.AccountId
+                  && e.AddressId == glCashView.AddressId
+                  && e.Amount == glCashView.Amount
+                  && e.CheckNumber == glCashView.CheckNumber
+                  && e.DocType == glCashView.DocType
+                  && e.Gldate == glCashView.GLDate
+                  );
+                }
                 if (glLookup == null)
                 {
                     NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
@@ -114,14 +119,18 @@ namespace ERP_Core2.GeneralLedgerDomain
         {
             try
             {
-                GeneralLedgerView glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
-               e => e.AccountId == glView.AccountId
-               && e.AddressId == glView.AddressId
-               && e.Amount == glView.Amount
-               && e.CheckNumber == glView.CheckNumber
-               && e.DocType == glView.DocType
-               && e.Gldate == glView.GLDate
+                GeneralLedgerView glLookup = null;
+                if (glView.CheckNumber != null)
+                {
+                    glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
+                    e => e.AccountId == glView.AccountId
+                    && e.AddressId == glView.AddressId
+                    && e.Amount == glView.Amount
+                    && e.CheckNumber == glView.CheckNumber
+                    && e.DocType == glView.DocType
+                    && e.Gldate == glView.GLDate
                );
+                }
                 if (glLookup == null)
                 {
                     NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");

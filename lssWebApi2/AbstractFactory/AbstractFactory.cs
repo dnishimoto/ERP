@@ -508,6 +508,7 @@ namespace ERP_Core2.AbstractFactory
             ledger.DocNumber = view.DocNumber;
             ledger.DocType = view.DocType;
             ledger.Amount = view.Amount;
+            ledger.Units = view.Hours;
             ledger.LedgerType = view.LedgerType;
             ledger.Gldate = view.GLDate;
             ledger.AccountId = view.AccountId;

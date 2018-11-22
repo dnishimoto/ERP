@@ -82,11 +82,13 @@ namespace ERP_Core2.BudgetDomain
         public string Description { get; set; }
         public string CompanyNumber { get; set; }
         public decimal? BudgetAmount { get; set; }
+        public int PayCycles { get; set; }
         public decimal? BudgetHours { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public decimal? PaymentAmount { get; set; }
         public decimal? PaymentHours { get; set; }
+        public DateTime GLDate { get; set; }
     }
     public class BudgetRepository : Repository<Budget>
     {
@@ -120,7 +122,9 @@ namespace ERP_Core2.BudgetDomain
                                                            BudgetAmount = bud.BudgetAmount,
                                                            BudgetHours = bud.BudgetHours,
                                                            StartDate = bud_range.StartDate,
-                                                           EndDate = bud_range.EndDate
+                                                           EndDate = bud_range.EndDate,
+                                                           PayCycles=bud_range.PayCycles??0,
+                                                           GLDate=DateTime.Now
                                                        }).ToListAsync<PersonalBudgetView>();
 
 

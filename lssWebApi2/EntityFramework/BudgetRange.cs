@@ -24,6 +24,7 @@ namespace lssWebApi2.EntityFramework
         public DateTime? LastUpdated { get; set; }
         public string ObjectNumber { get; set; }
         public bool? IsActive { get; set; }
+        public int? PayCycles { get; set; }
 
         public virtual ChartOfAccts Account { get; set; }
         public virtual ICollection<Budget> Budget { get; set; }

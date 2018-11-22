@@ -22,6 +22,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             this.DocNumber = generalLedger.DocNumber;
             this.DocType = generalLedger.DocType;
             this.Amount = generalLedger.Amount;
+            this.Hours = generalLedger.Units;
             this.LedgerType = generalLedger.LedgerType;
             this.GLDate = generalLedger.Gldate;
             this.AccountId = generalLedger.AccountId;
@@ -45,6 +46,7 @@ namespace ERP_Core2.GeneralLedgerDomain
         public long DocNumber { get; set; }
         public string DocType { get; set; }
         public decimal Amount { get; set; }
+        public decimal? Hours { get; set; }
         public string LedgerType { get; set; }
         public DateTime GLDate { get; set; }
         public long AccountId { get; set; }
