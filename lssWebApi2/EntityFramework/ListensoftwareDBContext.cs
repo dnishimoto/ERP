@@ -9,12 +9,19 @@ namespace lssWebApi2.EntityFramework
     public partial class ListensoftwaredbContext : DbContext
     {
         public ListensoftwaredbContext()
+
         {
+
         }
+
         public ListensoftwaredbContext(DbContextOptions<ListensoftwaredbContext> options)
+
             : base(options)
+
         {
+
         }
+
 
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }

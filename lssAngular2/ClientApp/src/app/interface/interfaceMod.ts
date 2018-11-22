@@ -109,6 +109,8 @@ export interface IPersonalBudgetView {
   endDate: Date;
   paymentAmount;
   paymentHours;
+  glDate: Date;
+  payCycles: number;
 
 }
 
