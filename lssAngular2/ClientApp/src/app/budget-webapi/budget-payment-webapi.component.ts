@@ -28,22 +28,22 @@ export class BudgetPaymentWebApiComponent {
     this.myApp.postPersonalBudget(this.postPayment).subscribe
       (
       result => { }
-      , error => console.error(error);
+      , error => console.error(error)
       );
 
 
   }
-  constructor(private myApp: ApplicationService) {
-    
+  constructor(private myApp: ApplicationService) {  }
 
-  }
   ngOnInit() {
     this.myApp.getPersonalBudgets().subscribe(
       result => { this.budgets = result;
       },
       error => console.error(error)
     );
+
   }
+
  }
 
 

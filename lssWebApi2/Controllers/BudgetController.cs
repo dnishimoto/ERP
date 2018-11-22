@@ -55,6 +55,15 @@ namespace lssWebApi2.Controllers
 
         // POST api/<controller>
         [HttpPost]
+        [Route("Payment")]
+        public void PostPayment([FromBody] PersonalBudgetView budget)
+        {
+            BudgetModule budgetMod = new BudgetModule();
+
+        }
+
+
+        [HttpPost]
         public void Post([FromBody]string value)
         {
         }

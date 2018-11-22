@@ -1,16 +1,16 @@
 <div class="container-fluid">
   <h1>Budget Payments Web Api</h1>
 
-   <p *ngIf="!budgets"><em>Loading...</em></p>
+  <p *ngIf="!budgets"><em>Loading...</em></p>
 
   <div *ngIf="budgets">
-   
+
     <form #postPaymentForm="ngForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <div class="col-xs-3">
           <ul class="list-group" *ngFor="let budget of budgets">
             <a class="list-group-item py-2" (click)="queryClick(budget)">
-            {{budget.description}}
+              {{budget.description}}
               <span class="pull-right button-group">
                 <button type="button" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-edit"></span></button>
               </span>
@@ -40,13 +40,13 @@
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
       </div>
- 
+
 
     </form>
 
 
   </div>
-  </div>
+</div>
 
 
 

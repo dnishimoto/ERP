@@ -14,15 +14,15 @@ import { ApplicationService } from '../application.service';
 export class AccountReceivableComponent {
   public accountReceivables: IAccountReceivableFlatView[];
 
- 
 
-  constructor(private myApp: ApplicationService ) {  }
+
+  constructor(private myApp: ApplicationService) { }
   ngOnInit() {
     this.myApp.getAccountReceivable().subscribe(
-      result => { this.accountReceivables= result },
+      result => { this.accountReceivables = result },
       error => console.error(error)
     );
+  }
 }
-
 
 
