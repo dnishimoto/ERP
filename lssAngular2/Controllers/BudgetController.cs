@@ -57,9 +57,11 @@ namespace lssAngular2.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("Payment")]
-        public void Post([FromBody] PersonalBudgetView budget)
+        public async Task Post([FromBody] PersonalBudgetView budget)
         {
-           string info=string.Format("{0}", budget.Account);
+           //string info=string.Format("{0}", budget.Account);
+            DataService ds = new DataService();
+            await ds.PostAsync<PersonalBudgetView>("api/budget/Payment",budget);
 
 
         }
