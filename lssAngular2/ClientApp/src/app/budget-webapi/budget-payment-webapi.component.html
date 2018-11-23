@@ -23,6 +23,7 @@
         <div class="form-group">
           <div class="col-xs-3">
             <label>{{postPayment.description}}</label>
+            <small>Amt Due: {{postPayment.budgetAmount/postPayment.payCycles}}</small>
           </div>
         </div>
         <div class="form-group">
@@ -41,7 +42,8 @@
         <div class="form-group">
           <div class="col-xs-3">
             <label for="ctrl2">Payment GL Date:</label>
-            <input id="ctrl2" [(ngModel)]="postPayment.glDate" type="date" name="glDate" class="form-control">
+            {{postPayment.glDate|date:'MM/dd/yyyy'}}
+            <input id="ctrl2" [(ngModel)]="postPayment.glDate" (ngModelChange)="postPayment.glDate=$event" type="date" name="glDate" class="form-control">
           </div>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
