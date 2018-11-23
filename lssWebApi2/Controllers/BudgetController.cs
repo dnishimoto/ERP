@@ -60,9 +60,7 @@ namespace lssWebApi2.Controllers
         [Route("Payment")]
         public void PostPayment([FromBody] PersonalBudgetView budget)
         {
-            BudgetModule budgetMod = new BudgetModule();
-
-
+          
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
         
             long addressId = 1;

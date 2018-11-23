@@ -124,7 +124,7 @@ namespace ERP_Core2.BudgetDomain
                                                            StartDate = bud_range.StartDate,
                                                            EndDate = bud_range.EndDate,
                                                            PayCycles=bud_range.PayCycles??0,
-                                                           GLDate=DateTime.Now
+                                                           GLDate= DateTime.Now
                                                        }).ToListAsync<PersonalBudgetView>();
 
 

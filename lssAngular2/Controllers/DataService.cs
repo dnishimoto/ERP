@@ -21,14 +21,8 @@ namespace lssAngular2.Controllers
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                //var mediaType = new MediaTypeHeaderValue("application/json");
-                //var jsonSerializerSettings = new JsonSerializerSettings();
-                //var jsonFormatter = new JsonNetFormatter(jsonSerializerSettings);
-
-                var myContent = JsonConvert.SerializeObject(myObject);
-                //var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                //var byteContent = new ByteArrayContent(buffer);
-
+                     var myContent = JsonConvert.SerializeObject(myObject);
+          
                 var stringContent = new StringContent(myContent, UnicodeEncoding.UTF8, "application/json");
 
 
