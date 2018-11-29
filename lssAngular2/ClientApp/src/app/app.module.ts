@@ -14,6 +14,7 @@ import { BudgetPaymentWebApiComponent } from './budget-webapi/budget-payment-web
 import { GeneralLedgerComponent } from './generalledger-webapi/generalledger-webapi.component';
 import { AccountReceivableComponent } from './accountreceivable-webapi/accountreceivable-webapi.component';
 import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpense-webapi.component';
+import { IncomeComponent } from './income-webapi/income-webapi.component';
 
 import { ApplicationService } from './application.service';
 
@@ -28,7 +29,8 @@ import { ApplicationService } from './application.service';
     BudgetPaymentWebApiComponent,
     GeneralLedgerComponent,
     AccountReceivableComponent,
-    PersonalExpenseComponent
+    PersonalExpenseComponent,
+    IncomeComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -42,7 +44,8 @@ import { ApplicationService } from './application.service';
       { path: 'budget-payment-webapi', component: BudgetPaymentWebApiComponent},
       { path: 'generalledger-webapi', component: GeneralLedgerComponent },
       { path: 'accountreceivable-webapi', component: AccountReceivableComponent },
-      { path: 'personalExpense-webapi', component: PersonalExpenseComponent}
+      { path: 'personalExpense-webapi', component: PersonalExpenseComponent },
+      { path: 'income-webapi', component: IncomeComponent}
     ])
   ],
   providers: [ApplicationService],

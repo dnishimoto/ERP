@@ -29,6 +29,12 @@ namespace ERP_Core2.FluentAPI
 
             { throw new Exception(GetMyMethodName(), ex); }
         }
+        public IList<IncomeView> GetIncomeViews()
+        {
+            Task<IList<IncomeView>> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetIncomeViews());
+            Task.WaitAll(viewTask);
+            return viewTask.Result;
+        }
         public GeneralLedgerView GetLedgerViewById(long accountId)
         {
             try
@@ -47,11 +53,15 @@ namespace ERP_Core2.FluentAPI
         {
             try
             {
+                GeneralLedgerView view=null;
                 var query = _unitOfWork.generalLedgerRepository.GetObjectsQueryable(predicate) as IQueryable<GeneralLedger>;
 
                 GeneralLedger ledger = query.FirstOrDefault<GeneralLedger>();
-
-                GeneralLedgerView view = applicationViewFactory.MapGeneralLedgerView(ledger);
+                if (ledger!=null)
+                {
+                    view = applicationViewFactory.MapGeneralLedgerView(ledger);
+                }
+               
                 return view;
             }
             catch (Exception ex)
