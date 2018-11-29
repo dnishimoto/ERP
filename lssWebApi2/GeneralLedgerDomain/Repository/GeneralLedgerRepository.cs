@@ -61,6 +61,21 @@ namespace ERP_Core2.GeneralLedgerDomain
         public string PurchaseOrderNumber { get; set; }
         public decimal? Units { get; set; }
     }
+    public class IncomeView {
+
+        public string Description { get; set; }
+        public string Account { get; set; }
+        public long AccountId { get; set; }
+        public long GeneralLedgerId { get; set; }
+        public string DocType { get; set; }
+        public string LedgerType { get; set; }
+        public long AddressId { get; set; }
+        public string Name { get; set; }
+        public decimal Amount { get; set; }
+        public DateTime GLDate { get; set; }
+        public int? FiscalPeriod { get; set; }
+        public int? FiscalYear { get; set; }
+    }
     public class AccountSummaryView {
 
         private List<GeneralLedgerView> _ledgers = new List<GeneralLedgerView>();
@@ -91,8 +106,38 @@ namespace ERP_Core2.GeneralLedgerDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-           
 
+        public async Task<IList<IncomeView>>  GetIncomeViews()
+        {
+            try
+            {
+                List<IncomeView> list = await (from coa in _dbContext.ChartOfAccts
+                                               join gl in _dbContext.GeneralLedger
+                                                   on coa.AccountId equals gl.AccountId
+                                               join ab in _dbContext.AddressBook
+                                                   on gl.AddressId equals ab.AddressId
+                                               where coa.BusUnit == "1200" && coa.ObjectNumber == "300"
+                                               select new IncomeView
+                                               {
+                                                   Description = coa.Description,
+                                                   Account = coa.Account,
+                                                   AccountId = coa.AccountId,
+                                                   GeneralLedgerId = gl.GeneralLedgerId,
+                                                   DocType = gl.DocType,
+                                                   LedgerType = gl.LedgerType,
+                                                   AddressId = gl.AddressId,
+                                                   Name = ab.Name,
+                                                   Amount = gl.Amount,
+                                                   GLDate = gl.Gldate,
+                                                   FiscalPeriod = gl.FiscalPeriod,
+                                                   FiscalYear = gl.FiscalYear
+                                               }).ToListAsync<IncomeView>();
+
+                return list;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try

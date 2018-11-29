@@ -1,0 +1,28 @@
+<div class="container-fluid">
+  <h1>Income Web Api</h1>
+
+  <p *ngIf="!budgets"><em>Loading...</em></p>
+
+  <div *ngIf="budgets">
+
+    <form #postIncomeForm="ngForm" (ngSubmit)="onSubmit()">
+
+        <div class="form-group">
+          <div class="col-xs-3">
+            <label for="ctrl1">Income Amount:</label>
+            <input id="spy" [(ngModel)]="postIncome.incomeAmount" required #spy type="text" name="incomeAmount" class="form-control">
+            <br>TODO: remove this: {{spy.className}}
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit</button>
+  
+    </form>
+
+
+  </div>
+</div>
+
+
+
+
