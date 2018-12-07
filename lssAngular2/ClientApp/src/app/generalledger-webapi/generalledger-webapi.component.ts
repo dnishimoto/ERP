@@ -17,7 +17,7 @@ export class GeneralLedgerComponent {
   constructor(private myApp: ApplicationService) {
   }    
   ngOnInit() {
-    this.myApp.getLedgers(2018).subscribe(
+    this.myApp.getLedgers().subscribe(
       result => { this.accountSummaries = result },
       error => console.error(error)
     );
