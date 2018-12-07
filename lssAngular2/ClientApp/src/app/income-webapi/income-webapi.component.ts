@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-//import { IPersonalBudgetView } from '../interface/interfaceMod';
+import { PostIncomeView, IIncomeView } from '../interface/interfaceMod';
 
 import { ApplicationService } from '../application.service';
 
@@ -14,29 +13,43 @@ import { ApplicationService } from '../application.service';
 export class IncomeComponent {
   public income: number;
   public glDate: Date;
+  //public myString: string;
+  public postIncome: PostIncomeView = new PostIncomeView();
+  public incomeViews: IIncomeView[];
  
-  
-  private onSubmit() {
-    //alert(JSON.stringify(this.postPayment));
 
-    /*
-    this.myApp.postPersonalBudget(this.postPayment).subscribe
+  private onSubmit() {
+    //alert(JSON.stringify(this.postIncome));
+
+    this.myApp.postIncome(this.postIncome).subscribe
       (
-      result => { }
+      result => { alert('Posted'); this.loadIncomeViews(); }
       , error => console.error(error)
       );
-      */
-
-
   }
-  constructor(private myApp: ApplicationService) {  }
+  private loadIncomeViews() {
+    this.myApp.getIncomeViews().subscribe(
+      result => {
+        this.incomeViews = result;
+        //this.output = JSON.stringify(result);
+      },
+      error => console.error(error)
+    );
+  }
+  constructor(private myApp: ApplicationService) {   }
 
   ngOnInit() {
-    //this.myApp.getPersonalBudgets().subscribe(
-     // result => { this.budgets = result;
-     // },
-     // error => console.error(error)
-   // );
+   // this.myString="Hello World"
+    this.loadIncomeViews();
+    /*
+    this.myApp.getIncomeViews().subscribe(
+      result => {
+        this.incomeViews = result;
+        //this.output = JSON.stringify(result);
+      },
+      error => console.error(error)
+    );
+    */
 
   }
 

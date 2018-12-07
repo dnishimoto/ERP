@@ -91,6 +91,30 @@ export interface IBudgetView {
   projectedHours: number;
   projectedAmount: number;
 }
+
+export interface IIncomeView {
+  
+  description: string;
+  account: string;
+  accountId: number;
+  generalLedgerId: number;
+  docType: string;
+  ledgerType: string;
+  addressId: number;
+  name: string;
+  amount: number;
+  gLDate: Date;
+  fiscalPeriod: number;
+  fiscalYear: number;
+
+}
+export class PostIncomeView {
+  amount: number;
+  gLDate: Date;
+  comment: string;
+  checkNumber: string;
+}
+
 export interface IPersonalBudgetView {
 
   accountId: number;

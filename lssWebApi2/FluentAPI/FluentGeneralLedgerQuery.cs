@@ -29,9 +29,9 @@ namespace ERP_Core2.FluentAPI
 
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public IList<IncomeView> GetIncomeViews()
+        public List<IncomeView> GetIncomeViews()
         {
-            Task<IList<IncomeView>> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetIncomeViews());
+            Task<List<IncomeView>> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetIncomeViews());
             Task.WaitAll(viewTask);
             return viewTask.Result;
         }

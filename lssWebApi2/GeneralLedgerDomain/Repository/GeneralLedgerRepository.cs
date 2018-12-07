@@ -76,6 +76,14 @@ namespace ERP_Core2.GeneralLedgerDomain
         public int? FiscalPeriod { get; set; }
         public int? FiscalYear { get; set; }
     }
+
+
+    public class IncomeShortView {
+        public DateTime GLDate { get; set; }
+        public String Comment { get; set; }
+        public Decimal Amount { get; set; }
+        public String CheckNumber { get; set; }
+    }
     public class AccountSummaryView {
 
         private List<GeneralLedgerView> _ledgers = new List<GeneralLedgerView>();
@@ -107,7 +115,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-        public async Task<IList<IncomeView>>  GetIncomeViews()
+        public async Task<List<IncomeView>>  GetIncomeViews()
         {
             try
             {
