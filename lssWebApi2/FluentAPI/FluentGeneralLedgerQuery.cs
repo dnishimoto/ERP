@@ -18,6 +18,12 @@ namespace ERP_Core2.FluentAPI
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
         public FluentGeneralLedgerQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
+        public List<IncomeStatementView> GetIncomeStatementViews(long fiscalYear)
+        {
+            Task<List<IncomeStatementView>> viewsTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetIncomeStatementView(fiscalYear));
+            Task.WaitAll(viewsTask);
+            return viewsTask.Result;
+          }
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try
