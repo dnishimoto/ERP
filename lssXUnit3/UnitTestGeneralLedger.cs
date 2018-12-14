@@ -27,6 +27,16 @@ namespace ERP_Core2.GeneralLedgerDomain
 
         }
         [Fact]
+        public void TestIncomeStatementViews()
+        {
+            GeneralLedgerModule glMod = new GeneralLedgerModule();
+            IList<IncomeStatementView> list = glMod.GeneralLedger.Query().GetIncomeStatementViews(2018);
+            foreach (var item in list)
+            {
+                System.Diagnostics.Debug.WriteLine($"{item.Description}{item.Amount}");
+            }
+        }
+        [Fact]
         public void TestIncomeViews()
         {
 

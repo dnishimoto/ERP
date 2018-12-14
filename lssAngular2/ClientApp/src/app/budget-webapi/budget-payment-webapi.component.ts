@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject , OnInit} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { IPersonalBudgetView } from '../interface/interfaceMod';
 
@@ -8,36 +8,46 @@ import { ApplicationService } from '../application.service';
   selector: 'app-budget-payment-webapi',
   templateUrl: './budget-payment-webapi.component.html'
 })
-
-
-
-export class BudgetPaymentWebApiComponent {
+   
+export class BudgetPaymentWebApiComponent implements OnInit {
   public budgets: IPersonalBudgetView[];
   public postPayment: IPersonalBudgetView;
   public myString: string;
 
+  private dateChanged(newDate) {
+    this.postPayment.glDate = newDate;
+  }
+
   private queryClick(budget: IPersonalBudgetView) {
-    //alert(JSON.stringify(budget))
-    this.postPayment = budget;
+      //this.postPayment = budget;
+    //copy rather than assign the object
+    this.postPayment=<IPersonalBudgetView>JSON.parse(JSON.stringify(budget));
+     
+    //this.postPayment.glDate = new Date();
     //alert(this.postPayment.description);
   }
-  private onSubmit() {
-    alert(JSON.stringify(this.postPayment));
-
-
-    this.myApp.postPersonalBudget(this.postPayment).subscribe
-      (
-      result => { }
-      , error => console.error(error)
-      );
-
+  private onSubmit(paymentForm:any) {
+    //alert(paymentForm.valid)
+    if (paymentForm.valid) {
+     // alert(JSON.stringify(this.postPayment));
+      this.myApp.postPersonalBudget(this.postPayment).subscribe
+        (
+        result => {
+          alert("Posted");
+        }
+        , error => console.error(error)
+        );
+    }
 
   }
   constructor(private myApp: ApplicationService) {  }
 
   ngOnInit() {
     this.myApp.getPersonalBudgets().subscribe(
-      result => { this.budgets = result;
+      result => {
+        this.budgets = result; 
+        
+
       },
       error => console.error(error)
     );

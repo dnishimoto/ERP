@@ -16,5 +16,6 @@ namespace ERP_Core2.Interfaces
         GeneralLedgerView GetLedgerViewByExpression(Expression<Func<GeneralLedger, bool>> predicate);
         GeneralLedgerView GetLedgerViewById(long accountId);
         List<IncomeView> GetIncomeViews();
+        List<IncomeStatementView> GetIncomeStatementViews(long fiscalYear);
     }
 }

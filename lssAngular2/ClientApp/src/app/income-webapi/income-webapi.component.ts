@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { PostIncomeView, IIncomeView } from '../interface/interfaceMod';
 
 import { ApplicationService } from '../application.service';
@@ -10,22 +10,28 @@ import { ApplicationService } from '../application.service';
 
 
 
-export class IncomeComponent {
+export class IncomeComponent implements OnInit {
   public income: number;
   public glDate: Date;
   //public myString: string;
   public postIncome: PostIncomeView = new PostIncomeView();
   public incomeViews: IIncomeView[];
  
+  private dateChanged(newDate) {
+    this.postIncome.gLDate = newDate;
+  }
+  private onSubmit(incomeForm: any) {
 
-  private onSubmit() {
-    //alert(JSON.stringify(this.postIncome));
-
-    this.myApp.postIncome(this.postIncome).subscribe
-      (
-      result => { alert('Posted'); this.loadIncomeViews(); }
-      , error => console.error(error)
-      );
+    if (incomeForm.valid) {
+      //alert(JSON.stringify(this.postIncome));
+   
+      this.myApp.postIncome(this.postIncome).subscribe
+        (
+        result => { alert('Posted'); this.loadIncomeViews(); }
+        , error => console.error(error)
+        );
+      
+    }
   }
   private loadIncomeViews() {
     this.myApp.getIncomeViews().subscribe(
@@ -36,10 +42,11 @@ export class IncomeComponent {
       error => console.error(error)
     );
   }
-  constructor(private myApp: ApplicationService) {   }
+  constructor(private myApp: ApplicationService) {  }
 
   ngOnInit() {
    // this.myString="Hello World"
+    this.postIncome.gLDate = new Date();
     this.loadIncomeViews();
     /*
     this.myApp.getIncomeViews().subscribe(
