@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
+import { IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
 
 
 
@@ -48,5 +48,11 @@ export class ApplicationService
   postIncome(income: PostIncomeView) {
     alert(JSON.stringify(income))
     return this.http.post('/api/GeneralLedger/IncomeShortView', income);
+  }
+  getIncomeStatementViews(fiscalYear: number) {
+    return this.http.get<IIncomeStatementView[]>('/api/GeneralLedger/IncomeStatementViews/'+fiscalYear);
+  }
+  getIncomeStatementAccounts(fiscalYear: number) {
+    return this.http.get<string[]>('/api/GeneralLedger/IncomeStatementAccounts/' + fiscalYear);
   }
 }

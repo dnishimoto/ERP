@@ -30,6 +30,25 @@ namespace lssAngular2.Controllers
 
         // GET api/<controller>/5
         //[HttpGet("{fiscalYear}")]
+        [Route("IncomeStatementAccounts/{fiscalYear}")]
+        [HttpGet]
+        public async Task<String[]> GetIncomeStatementAccounts(int fiscalYear)
+        {
+            DataService ds = new DataService();
+            string[] array = await ds.GetAsync<String[]>("api/GeneralLedger/IncomeStatementAccounts/" + fiscalYear.ToString());
+            return array;
+
+        }
+        [Route("IncomeStatementViews/{fiscalYear}")]
+        [HttpGet]
+
+        public async Task<IList<IncomeStatementView>> GetIncomeStatementViews(int fiscalYear)
+        {
+            DataService ds = new DataService();
+            IList <IncomeStatementView> views = await ds.GetAsync<List<IncomeStatementView>>("api/GeneralLedger/IncomeStatementViews/"+fiscalYear.ToString());
+            return views;
+        }
+
         [Route("IncomeShortView")]
         [HttpPost]
         public async Task PostIncomeView([FromBody]IncomeShortView income)

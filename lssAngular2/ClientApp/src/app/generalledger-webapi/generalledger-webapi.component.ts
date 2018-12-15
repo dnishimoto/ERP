@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ApplicationService } from '../application.service';
 import { IAccountSummaryView } from '../interface/interfaceMod';
@@ -10,7 +10,7 @@ import { IAccountSummaryView } from '../interface/interfaceMod';
 
 
 
-export class GeneralLedgerComponent {
+export class GeneralLedgerComponent implements OnInit{
   public accountSummaries: IAccountSummaryView[];
   public mystring: string;
 

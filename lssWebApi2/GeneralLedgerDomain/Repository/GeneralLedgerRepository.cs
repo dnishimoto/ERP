@@ -108,18 +108,24 @@ namespace ERP_Core2.GeneralLedgerDomain
         public List<GeneralLedgerView> ledgers { get { return _ledgers; } }
 
     }
+    public class AccountEntity
+    {
+        public string Account { get; set; }
+        public string AccountId { get; set; }
+
+    }
     public class IncomeStatementView
     {
-        private decimal _TotalAmount;
+       
         public string Account { get; set; }
         public string Description { get; set; }
         public int? FiscalPeriod { get; set; }
         public int? FiscalYear { get; set; }
         public decimal Amount { get; set; }
         public DateTime GLDate { get; set; }
-      
-    }
 
+      }
+    
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>
     {
@@ -140,6 +146,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                                               from gl in glLeftJoin.DefaultIfEmpty()
                                               where (new string[] { "300", "310", "502" }).Contains(coa.ObjectNumber)
                                               && gl.FiscalYear == fiscalYear
+                                              orderby coa.Account
                                               select
                                               (
                                               new IncomeStatementView

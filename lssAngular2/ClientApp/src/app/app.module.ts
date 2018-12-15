@@ -12,10 +12,11 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { BudgetWebApiComponent } from './budget-webapi/budget-webapi.component';
 import { BudgetPaymentWebApiComponent } from './budget-webapi/budget-payment-webapi.component';
 import { GeneralLedgerComponent } from './generalledger-webapi/generalledger-webapi.component';
+import { IncomeStatementComponent } from './generalledger-webapi/financials.component';
 import { AccountReceivableComponent } from './accountreceivable-webapi/accountreceivable-webapi.component';
 import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpense-webapi.component';
 import { IncomeComponent } from './income-webapi/income-webapi.component';
-
+import { FilterAcctPipe } from './shared/pipes/acct-filter.pipe';
 import { ApplicationService } from './application.service';
 
 @NgModule({
@@ -30,7 +31,9 @@ import { ApplicationService } from './application.service';
     GeneralLedgerComponent,
     AccountReceivableComponent,
     PersonalExpenseComponent,
-    IncomeComponent
+    IncomeComponent,
+    IncomeStatementComponent,
+    FilterAcctPipe
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -45,7 +48,8 @@ import { ApplicationService } from './application.service';
       { path: 'generalledger-webapi', component: GeneralLedgerComponent },
       { path: 'accountreceivable-webapi', component: AccountReceivableComponent },
       { path: 'personalExpense-webapi', component: PersonalExpenseComponent },
-      { path: 'income-webapi', component: IncomeComponent}
+      { path: 'income-webapi', component: IncomeComponent },
+      { path: 'app-financials',component:IncomeStatementComponent}
     ])
   ],
   providers: [ApplicationService],

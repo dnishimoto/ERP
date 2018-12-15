@@ -13,6 +13,25 @@ namespace lssWebApi2.Controllers
     [Route("api/[controller]")]
     public class GeneralLedgerController : Controller
     {
+        [Route("IncomeStatementAccounts/{fiscalYear}")]
+        [HttpGet]
+        public string[] GetIncomeStatementAccounts(int fiscalYear)
+        {
+            GeneralLedgerModule glMod = new GeneralLedgerModule();
+            IList<IncomeStatementView> list = glMod.GeneralLedger.Query().GetIncomeStatementViews(fiscalYear);
+
+            string[] accounts = list.GroupBy(e => e.Account).Select(e => e.Key).ToArray<string>();
+
+            return accounts;
+        }
+        [Route("IncomeStatementViews/{fiscalYear}")]
+        [HttpGet]
+        public IList<IncomeStatementView> GetIncomeStatementView(int fiscalYear)
+        {
+            GeneralLedgerModule glMod = new GeneralLedgerModule();
+            IList<IncomeStatementView> list = glMod.GeneralLedger.Query().GetIncomeStatementViews(fiscalYear);
+            return list;
+        }
         [Route("IncomeShortView")]
         [HttpPost]
         public void PostIncome([FromBody] IncomeShortView incomeShortView)
