@@ -57,6 +57,12 @@
                 <span class='glyphicon glyphicon-th-list'></span> Income
               </a>
             </li>
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/app-financials"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Financials
+              </a>
+            </li>
+            x
           </ul>
         </div>
     </div>

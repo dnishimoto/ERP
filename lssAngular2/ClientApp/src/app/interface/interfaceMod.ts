@@ -137,5 +137,13 @@ export interface IPersonalBudgetView {
   payCycles: number;
 
 }
+export interface IIncomeStatementView {
+  account: string;
+  description: string;
+  fiscalPeriod: number;
+  fiscalYear: number;
+  amount: number;
+  gLDate: Date;
+}
 
 
