@@ -3,7 +3,11 @@
 
 <p *ngIf="!incomeStatementViews"><em>Loading...</em></p>
 
-<form #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)"></form>
+<form *ngIf="fiscalYear" #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
+  <input type="text" [(ngModel)]="fiscalYear" name="fiscalYear" />
+  <button type="submit" class="btn btn-primary">Query</button>
+
+</form>
 <div *ngFor="let accountHeader of accounts "  >
   <h3>{{accountHeader}}</h3>
 

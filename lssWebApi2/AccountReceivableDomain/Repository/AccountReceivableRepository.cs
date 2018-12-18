@@ -61,10 +61,12 @@ namespace ERP_Core2.AccountsReceivableDomain
     {
         public Decimal? OpenAmount { get; set; }
         public DateTime? GLDate { get; set; }
+        public long? AcctRecId { get; set; }
         public long? InvoiceId { get; set; }
         public string InvoiceNumber { get; set; }
         public string InvoiceDescription { get; set; }
         public long? DocNumber { get; set; }
+        public string AcctRecDocType { get; set; }
         public string Remarks { get; set; }
         public string PaymentTerms { get; set; }
         public DateTime? DiscountDueDate { get; set; }
@@ -90,49 +92,138 @@ namespace ERP_Core2.AccountsReceivableDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public bool HasLateFee(long? acctRecId)
+        {
+            try
+            {
+                bool status = (from e in _dbContext.AcctRecFee
+                               where e.AcctRecId == acctRecId
+                               select e).Any();
+
+                return status;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public async Task<CreateProcessStatus> AdjustOpenAmount(AccountReceivableFlatView view)
+        {
+            try
+            {
+                var gl_query = await (from e in _dbContext.GeneralLedger
+                                      where e.DocNumber == view.DocNumber
+                                      && e.DocType == "PV"
+                                      && e.LedgerType == "AA"
+
+                                      group e by e.DocNumber
+                                          into g
+
+                                      select new { AmountPaid = g.Sum(e => e.Amount) }
+                                          ).FirstOrDefaultAsync();
+
+                var fee_query = await (from e in _dbContext.AcctRecFee
+                                       where e.AcctRecId == view.AcctRecId
+                                       group e by e.AcctRecId
+                                                into pg
+                                       select new { FeeAmount = pg.Sum(e => e.FeeAmount??0) }
+                                        ).FirstOrDefaultAsync();
+
+                AcctRec acctRec = await (from e in _dbContext.AcctRec
+                                         where e.AcctRecId == view.AcctRecId
+                                         select e
+                                    ).FirstOrDefaultAsync<AcctRec>();
+
+                acctRec.OpenAmount = acctRec.Amount + fee_query.FeeAmount - gl_query.AmountPaid;
+                acctRec.LateFee = fee_query.FeeAmount;
+
+                _dbContext.Set<AcctRec>().Update(acctRec);
+
+                return CreateProcessStatus.Update;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
+        public async Task<CreateProcessStatus> CreateLateFee(AccountReceivableFlatView view)
+        {
+            try
+            {
+                AcctRecFee acctRecFee = new AcctRecFee();
+
+                applicationViewFactory.MapAcctRecFeeEntity(ref acctRecFee, view);
+
+                Udc feeUDC = await GetUdc("FEES", "TWO_WEEK_LATE");
+
+
+                acctRecFee.FeeAmount = Decimal.Parse(feeUDC.Value);
+
+                _dbContext.Set<AcctRecFee>().Add(acctRecFee);
+
+                return CreateProcessStatus.Insert;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public bool IsPaymentLate(long? invoiceId, DateTime asOfDate)
+        {
+            try
+            {
+                bool status = (from e in _dbContext.AcctRec
+                               where e.InvoiceId == invoiceId
+                               && DateTime.Parse(e.PaymentDueDate.ToString()).AddDays(15) < asOfDate
+                               select e).Any();
+
+                return status;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
         public List<AccountReceivableFlatView> GetOpenAcctRec()
         {
-            try { 
-            List<AccountReceivableFlatView> list = (from ar in _dbContext.AcctRec
-                                                    join inv in _dbContext.Invoice
-                                                        on ar.InvoiceId equals inv.InvoiceId
-                                                    join cust in _dbContext.Customer
-                                                        on ar.CustomerId equals cust.CustomerId
-                                                    join udcDocType in _dbContext.Udc
-                                                        on ar.AcctRecDocTypeXrefId equals udcDocType.XrefId
-                                                    join abCust in _dbContext.AddressBook
-                                                        on cust.AddressId equals abCust.AddressId
-                                                    join la in _dbContext.LocationAddress
-                                                        on abCust.AddressId equals la.AddressId
-                                                    join coa in _dbContext.ChartOfAccts
-                                                        on ar.AccountId equals coa.AccountId
-                                                    where ar.OpenAmount > 0
-                                                    select new AccountReceivableFlatView
-                                                    {
-                                                        OpenAmount = ar.OpenAmount,
-                                                        GLDate = ar.Gldate,
-                                                        InvoiceId = ar.InvoiceId,
-                                                        InvoiceNumber = inv.InvoiceNumber,
-                                                        InvoiceDescription = inv.Description,
-                                                        DocNumber = ar.DocNumber,
-                                                        Remarks = ar.Remarks,
-                                                        PaymentTerms = ar.PaymentTerms,
-                                                        PaymentDueDate = ar.PaymentDueDate,
-                                                        DiscountDueDate = ar.DiscountDueDate,
-                                                        CustomerId = ar.CustomerId,
-                                                        CustomerName = abCust.Name,
-                                                        AddressLine1 = la.AddressLine1,
-                                                        AddressLine2 = la.AddressLine2,
-                                                        City = la.City,
-                                                        State = la.State,
-                                                        Zipcode = la.Zipcode,
-                                                        Account = coa.Account,
-                                                        CoaDescription = coa.Description,
-                                                        GLAmount = _dbContext.GeneralLedger.Where(e => e.AccountId == ar.AccountId && e.DocNumber == ar.DocNumber).Sum(e => (decimal?)e.Amount)
-                                                    }).ToList<AccountReceivableFlatView>();
-            return list;
-        }
-             catch (Exception ex)
+            try
+            {
+                List<AccountReceivableFlatView> list = (from ar in _dbContext.AcctRec
+                                                        join inv in _dbContext.Invoice
+                                                            on ar.InvoiceId equals inv.InvoiceId
+                                                        join cust in _dbContext.Customer
+                                                            on ar.CustomerId equals cust.CustomerId
+                                                        join udcDocType in _dbContext.Udc
+                                                            on ar.AcctRecDocTypeXrefId equals udcDocType.XrefId
+                                                        join abCust in _dbContext.AddressBook
+                                                            on cust.AddressId equals abCust.AddressId
+                                                        join la in _dbContext.LocationAddress
+                                                            on abCust.AddressId equals la.AddressId
+                                                        join coa in _dbContext.ChartOfAccts
+                                                            on ar.AccountId equals coa.AccountId
+                                                        where ar.OpenAmount > 0
+                                                        select new AccountReceivableFlatView
+                                                        {
+                                                            OpenAmount = ar.OpenAmount,
+                                                            GLDate = ar.Gldate,
+                                                            AcctRecId = ar.AcctRecId,
+                                                            InvoiceId = ar.InvoiceId,
+                                                            InvoiceNumber = inv.InvoiceNumber,
+                                                            InvoiceDescription = inv.Description,
+                                                            DocNumber = ar.DocNumber,
+                                                            AcctRecDocType = ar.AcctRecDocType,
+                                                            Remarks = ar.Remarks,
+                                                            PaymentTerms = ar.PaymentTerms,
+                                                            PaymentDueDate = ar.PaymentDueDate,
+                                                            DiscountDueDate = ar.DiscountDueDate,
+                                                            CustomerId = ar.CustomerId,
+                                                            CustomerName = abCust.Name,
+                                                            AddressLine1 = la.AddressLine1,
+                                                            AddressLine2 = la.AddressLine2,
+                                                            City = la.City,
+                                                            State = la.State,
+                                                            Zipcode = la.Zipcode,
+                                                            Account = coa.Account,
+                                                            CoaDescription = coa.Description,
+                                                            GLAmount = _dbContext.GeneralLedger.Where(e => e.AccountId == ar.AccountId && e.DocNumber == ar.DocNumber).Sum(e => (decimal?)e.Amount)
+                                                        }).ToList<AccountReceivableFlatView>();
+                return list;
+            }
+            catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<AcctRec> GetAcctRecByDocNumber(long docNumber)
@@ -148,6 +239,7 @@ namespace ERP_Core2.AccountsReceivableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
+
         public async Task<CreateProcessStatus> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
         {
 

@@ -9,5 +9,7 @@ namespace lssWebApi2.Interfaces
     public interface IQueryAccountReceivable
     {
         List<AccountReceivableFlatView> GetOpenAccountReceivables();
+        bool IsPaymentLate(long? invoiceId,DateTime asOfDate);
+        bool HasLateFee(long? invoiceId);
     }
 }

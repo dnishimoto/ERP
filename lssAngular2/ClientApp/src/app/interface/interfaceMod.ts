@@ -50,10 +50,12 @@ export interface IChartOfAccountView {
 export interface IAccountReceivableFlatView {
   OpenAmount: number;
   GLDate: Date;
+  AcctRecId: number;
   InvoiceId: number;
   InvoiceNumber: string;
   InvoiceDescription: string;
   DocNumber: number;
+  AcctRecDocType: string;
   Remarks: string;
   PaymentTerms: string;
   DiscountDueDate: Date;

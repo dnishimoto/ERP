@@ -1,4 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
+import {Router} from '@angular/router'
 import { PostIncomeView, IIncomeView } from '../interface/interfaceMod';
 
 import { ApplicationService } from '../application.service';
@@ -19,6 +20,9 @@ export class IncomeComponent implements OnInit {
  
   private dateChanged(newDate) {
     this.postIncome.gLDate = newDate;
+  }
+  private navigateToIncomeStatement() {
+    this.router.navigate(['\app-financials']);
   }
   private onSubmit(incomeForm: any) {
 
@@ -42,7 +46,7 @@ export class IncomeComponent implements OnInit {
       error => console.error(error)
     );
   }
-  constructor(private myApp: ApplicationService) {  }
+  constructor(private myApp: ApplicationService, private router: Router) {  }
 
   ngOnInit() {
    // this.myString="Hello World"

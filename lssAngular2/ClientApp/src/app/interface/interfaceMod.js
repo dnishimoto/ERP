@@ -6,4 +6,4 @@ var PostIncomeView = /** @class */ (function () {
     return PostIncomeView;
 }());
 exports.PostIncomeView = PostIncomeView;
-//# sourceMappingURL=interfacemod.js.map
+//# sourceMappingURL=interfaceMod.js.map

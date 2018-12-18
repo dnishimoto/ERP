@@ -23,9 +23,27 @@ namespace lssWebApi2.EntityFramework
         }
 
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var directoryPath = Directory.GetCurrentDirectory();
+
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                       .SetBasePath(directoryPath)
+                       .AddJsonFile("appsettings.json")
+                       .Build();
+                var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
+
+            }
+        }
+
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }
         public virtual DbSet<AcctRec> AcctRec { get; set; }
+        public virtual DbSet<AcctRecFee> AcctRecFee { get; set; }
+        public virtual DbSet<AcctRecInterest> AcctRecInterest { get; set; }
         public virtual DbSet<AddressBook> AddressBook { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
@@ -90,21 +108,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShift { get; set; }
         public virtual DbSet<Udc> Udc { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var directoryPath = Directory.GetCurrentDirectory();
-
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                       .SetBasePath(directoryPath)
-                       .AddJsonFile("appsettings.json")
-                       .Build();
-                var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
-                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
-
-            }
-        }
+       
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -237,6 +241,10 @@ namespace lssWebApi2.EntityFramework
                     .HasColumnName("GLDate")
                     .HasColumnType("date");
 
+                entity.Property(e => e.InterestPaid).HasColumnType("money");
+
+                entity.Property(e => e.LateFee).HasColumnType("money");
+
                 entity.Property(e => e.OpenAmount).HasColumnType("money");
 
                 entity.Property(e => e.PaymentDueDate).HasColumnType("date");
@@ -272,6 +280,66 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.InvoiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AcctRec_Invoices");
+            });
+
+            modelBuilder.Entity<AcctRecFee>(entity =>
+            {
+                entity.Property(e => e.AcctRecDocType)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.FeeAmount).HasColumnType("money");
+
+                entity.Property(e => e.PaymentDueDate).HasColumnType("date");
+
+                entity.HasOne(d => d.AcctRec)
+                    .WithMany(p => p.AcctRecFee)
+                    .HasForeignKey(d => d.AcctRecId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AcctRecFee_AcctRec");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.AcctRecFee)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AcctRecFee_Customer");
+            });
+
+            modelBuilder.Entity<AcctRecInterest>(entity =>
+            {
+                entity.Property(e => e.AcctRecDocType)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.InterestFromDate).HasColumnType("date");
+
+                entity.Property(e => e.InterestRate).HasColumnType("money");
+
+                entity.Property(e => e.InterestToDate).HasColumnType("date");
+
+                entity.Property(e => e.LastInterestDueDate).HasColumnType("date");
+
+                entity.Property(e => e.PaymentDueDate).HasColumnType("date");
+
+                entity.Property(e => e.PaymentTerms)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.AcctRec)
+                    .WithMany(p => p.AcctRecInterest)
+                    .HasForeignKey(d => d.AcctRecId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AcctRecInterest_AcctRec");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.AcctRecInterest)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AcctRecInterest_Customer");
             });
 
             modelBuilder.Entity<AddressBook>(entity =>
