@@ -7,6 +7,8 @@ namespace lssWebApi2.EntityFramework
     {
         public AcctRec()
         {
+            AcctRecFee = new HashSet<AcctRecFee>();
+            AcctRecInterest = new HashSet<AcctRecInterest>();
             CustomerLedger = new HashSet<CustomerLedger>();
         }
 
@@ -31,11 +33,15 @@ namespace lssWebApi2.EntityFramework
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
         public string AcctRecDocType { get; set; }
+        public decimal? InterestPaid { get; set; }
+        public decimal? LateFee { get; set; }
 
         public virtual ChartOfAccts Account { get; set; }
         public virtual Udc AcctRecDocTypeXref { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Invoice Invoice { get; set; }
+        public virtual ICollection<AcctRecFee> AcctRecFee { get; set; }
+        public virtual ICollection<AcctRecInterest> AcctRecInterest { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
 
     }

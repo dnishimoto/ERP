@@ -18,5 +18,14 @@ namespace lssWebApi2.FluentAPI
         {
             return _unitOfWork.accountReceiveableRepository.GetOpenAcctRec();
         }
+        public bool HasLateFee(long? AcctRecId)
+        { return _unitOfWork.accountReceiveableRepository.HasLateFee(AcctRecId); }
+        public bool IsPaymentLate(long? invoiceId, DateTime asOfDate)
+        {
+            return _unitOfWork.accountReceiveableRepository.IsPaymentLate(invoiceId, asOfDate);
+        }
+        
+
+
     }
 }

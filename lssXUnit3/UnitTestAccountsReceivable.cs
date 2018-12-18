@@ -26,12 +26,42 @@ namespace ERP_Core2.AccountsReceivableDomain
         private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
+       
+
         public UnitTestAccountsReceivable(ITestOutputHelper output)
         {
             this.output = output;
 
         }
         [Fact]
+        public void UnitTestLatePayment()
+        {
+            DateTime asOfDate = DateTime.Now;
+
+            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
+
+            List<AccountReceivableFlatView> list = acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+
+            foreach (var item in list)
+            {
+                bool status= acctRecMod.AccountsReceivable.Query().IsPaymentLate(item.InvoiceId,asOfDate);
+                if (status == true)
+                {
+                    bool statusFee = acctRecMod.AccountsReceivable.Query().HasLateFee(item.AcctRecId);
+
+                    if (statusFee == false)
+                    {
+                        acctRecMod.AccountsReceivable.CreateLateFee(item).Apply();
+                        
+                    }
+                    acctRecMod.AccountsReceivable.AdjustOpenAmount(item).Apply();
+
+
+                }
+            }
+
+        }
+       [Fact]
         public void TestOpenAccountReceivables()
         {
             AccountsReceivableModule acctRecMod = new AccountsReceivableModule();

@@ -31,6 +31,21 @@ namespace ERP_Core2.FluentAPI
             return query as IQueryAccountReceivable;
         }
 
+        public IAccountsReceivable AdjustOpenAmount(AccountReceivableFlatView view)
+        {
+            Task<CreateProcessStatus> statusTask = Task.Run(() => unitOfWork.accountReceiveableRepository.AdjustOpenAmount(view));
+            Task.WaitAll(statusTask);
+            processStatus = statusTask.Result;
+            return this as IAccountsReceivable;
+        }
+        public IAccountsReceivable CreateLateFee(AccountReceivableFlatView view)
+        {
+            Task<CreateProcessStatus> statusTask = Task.Run(() => unitOfWork.accountReceiveableRepository.CreateLateFee(view));
+            Task.WaitAll(statusTask);
+            processStatus = statusTask.Result;
+            return this as IAccountsReceivable;
+        }
+
         public IAccountsReceivable UpdateAccountReceivable(GeneralLedgerView ledgerView)
         {
             //Update receivable (today) (check for discount rules)

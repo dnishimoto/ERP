@@ -75,7 +75,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract BudgetActualsView MapBudgetRangeToBudgetActuals(BudgetRangeView budgetRangeView);
         public abstract BudgetView MapBudgetView(Budget budget);
         public abstract void MapSupplierViewEntity(ref  Supplier supplier,  SupplierView view);
-
+        public abstract void MapAcctRecFeeEntity(ref AcctRecFee acctRecFee, AccountReceivableFlatView view);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -91,14 +91,14 @@ namespace ERP_Core2.AbstractFactory
     }
 
     //Business View Factory
-    public abstract partial class BusinessViewFactory : AbstractFactory
-    {
+    //public abstract partial class BusinessViewFactory : AbstractFactory
+   // {
         //pass through class
-    }
+    //}
 
 
     //Address Book
-    public partial class ApplicationViewFactory : BusinessViewFactory
+    public partial class ApplicationViewFactory : AbstractFactory
     {
         public override SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor)
         {
@@ -130,7 +130,8 @@ namespace ERP_Core2.AbstractFactory
 
     }
     //Time and Attendance
-    public partial class ApplicationViewFactory : BusinessViewFactory
+    //public partial class ApplicationViewFactory : BusinessViewFactory
+    public partial class ApplicationViewFactory: AbstractFactory
     {
         public override TimeAndAttendancePunchInView MapTAPunchinView(TimeAndAttendancePunchIn taPunchin)
         {
@@ -139,7 +140,8 @@ namespace ERP_Core2.AbstractFactory
     }
 
     //Customer Domain
-    public partial class ApplicationViewFactory : BusinessViewFactory
+    //public partial class ApplicationViewFactory : BusinessViewFactory
+    public partial class ApplicationViewFactory : AbstractFactory
     {
         public override BuyerView MapBuyerView(Buyer buyer)
         {
@@ -162,6 +164,18 @@ namespace ERP_Core2.AbstractFactory
         {
             return new InvoiceDetailView(invoiceDetail);
         }
+        public override void MapAcctRecFeeEntity(ref AcctRecFee acctRecFee, AccountReceivableFlatView view)
+        {
+
+            //public decimal? FeeAmount { get; set; }
+            acctRecFee.PaymentDueDate = view.PaymentDueDate;
+            acctRecFee.CustomerId = view.CustomerId;
+            acctRecFee.DocNumber = view.DocNumber??0;
+            acctRecFee.AcctRecDocType = view.AcctRecDocType;
+            acctRecFee.AcctRecId = view.AcctRecId??0;
+
+
+    }
         public override void MapInvoiceEntity(ref Invoice invoice, InvoiceView invoiceView)
         {
 
@@ -497,7 +511,8 @@ namespace ERP_Core2.AbstractFactory
     }
 
     //General Ledger Domain
-    public partial class ApplicationViewFactory : BusinessViewFactory
+    //public partial class ApplicationViewFactory : BusinessViewFactory
+    public partial class ApplicationViewFactory : AbstractFactory
     {
         public override GeneralLedgerView MapGeneralLedgerView(GeneralLedger ledger)
         { return new GeneralLedgerView(ledger); }

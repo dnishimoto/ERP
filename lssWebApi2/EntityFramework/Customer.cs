@@ -8,6 +8,8 @@ namespace lssWebApi2.EntityFramework
         public Customer()
         {
             AcctRec = new HashSet<AcctRec>();
+            AcctRecFee = new HashSet<AcctRecFee>();
+            AcctRecInterest = new HashSet<AcctRecInterest>();
             Contract = new HashSet<Contract>();
             CustomerClaim = new HashSet<CustomerClaim>();
             CustomerLedger = new HashSet<CustomerLedger>();
@@ -30,6 +32,8 @@ namespace lssWebApi2.EntityFramework
 
         public virtual AddressBook Address { get; set; }
         public virtual ICollection<AcctRec> AcctRec { get; set; }
+        public virtual ICollection<AcctRecFee> AcctRecFee { get; set; }
+        public virtual ICollection<AcctRecInterest> AcctRecInterest { get; set; }
         public virtual ICollection<Contract> Contract { get; set; }
         public virtual ICollection<CustomerClaim> CustomerClaim { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }

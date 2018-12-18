@@ -1,4 +1,5 @@
-﻿using ERP_Core2.GeneralLedgerDomain;
+﻿using ERP_Core2.AccountsReceivableDomain;
+using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.InvoicesDomain;
 using lssWebApi2.Interfaces;
 using System;
@@ -14,6 +15,8 @@ namespace ERP_Core2.Interfaces
         IAccountsReceivable CreateAcctRecFromInvoice(InvoiceView invoiceView);
         IAccountsReceivable Apply();
         IAccountsReceivable UpdateAccountReceivable(GeneralLedgerView ledgerView);
+        IAccountsReceivable AdjustOpenAmount(AccountReceivableFlatView view);
+        IAccountsReceivable CreateLateFee(AccountReceivableFlatView view);
         IQueryAccountReceivable Query();
     }
 }

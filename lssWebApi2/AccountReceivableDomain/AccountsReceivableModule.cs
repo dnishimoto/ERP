@@ -7,6 +7,10 @@ using System;
 namespace ERP_Core2.AccountsReceivableDomain
 {
 
+    public enum PaymentStatus
+    {
+
+    }
     public class AccountsReceivableModule : AbstractModule
     {
 

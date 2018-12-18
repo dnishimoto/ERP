@@ -3,6 +3,7 @@
 
   <p *ngIf="!incomeViews"><em>Loading...</em></p>
 
+  <button class="btn btn-default"  (click)="navigateToIncomeStatement()">Income Statement - Click Here</button>
 
   <form #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
 
