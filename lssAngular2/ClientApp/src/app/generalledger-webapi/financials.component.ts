@@ -1,5 +1,4 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router'
 import { ApplicationService } from '../application.service';
 import { IIncomeStatementView } from '../interface/interfaceMod';
