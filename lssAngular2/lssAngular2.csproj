@@ -19,18 +19,14 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\src\app\NewFolder\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\app\NewFolder\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="ClientApp\src\app\NewFolder\**" />
-    <None Remove="ClientApp\src\app\NewFolder\**" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <None Remove="ClientApp\src\app\addressbook\addressbook.component.ts" />
+    <None Remove="ClientApp\src\app\addressbook\app.addressbook.routes.ts" />
+    <None Remove="ClientApp\src\app\app.routes.ts" />
     <None Remove="ClientApp\src\app\application.service.ts" />
     <None Remove="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
     <None Remove="ClientApp\src\app\interface\interfaceMod.ts" />
@@ -41,9 +37,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\addressbook\addressbook.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\addressbook\app.addressbook.routes.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\app.routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\application.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\interfacemod.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
