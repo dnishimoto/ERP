@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
+import { IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
 
 
 
@@ -17,6 +17,9 @@ export class ApplicationService
   {
       return ('reached');
       //return this.http.get
+  }
+  getAddressBookViews(searchName: string) {
+    return this.http.get<IAddressBookView[]>('/api/AddressBook/People/' + searchName);
   }
   getLedgerById(id: number) {
 

@@ -10,6 +10,7 @@ var financials_component_1 = require("./generalledger-webapi/financials.componen
 var accountreceivable_webapi_component_1 = require("./accountreceivable-webapi/accountreceivable-webapi.component");
 var personalexpense_webapi_component_1 = require("./personalExpense-webapi/personalexpense-webapi.component");
 var income_webapi_component_1 = require("./income-webapi/income-webapi.component");
+var addressbook_component_1 = require("./addressbook/addressbook.component");
 exports.routes = [
     { path: '', component: home_component_1.HomeComponent, pathMatch: 'full' },
     { path: 'counter', component: counter_component_1.CounterComponent },
@@ -21,5 +22,7 @@ exports.routes = [
     { path: 'personalExpense-webapi', component: personalexpense_webapi_component_1.PersonalExpenseComponent },
     { path: 'income-webapi', component: income_webapi_component_1.IncomeComponent },
     { path: 'app-financials', component: financials_component_1.IncomeStatementComponent },
+    { path: 'app-addressbook', component: addressbook_component_1.AddressBookComponent },
+    { path: 'app-addressbookdetail/:id', component: addressbook_component_1.AddressBookDetailComponent },
 ];
 //# sourceMappingURL=app.routes.js.map

@@ -1,7 +1,41 @@
-<div class='navbar navbar-inverse'>
-  <div class='navbar-header'>
-      <sub-nav></sub-nav>
+<div class="container-fluid">
+  <h1>Address Books</h1>
+
+  <p *ngIf="!addressBookViews"><em>Loading...</em></p>
+
+  <!--
+  <div class='navbar navbar-inverse'>
+    <div class='navbar-header'>
+        <sub-nav></sub-nav>
+      </div>
+      <div class="body-content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
-    <div class="body-content">
-      <router-outlet></router-outlet>
+      -->
+
+  <form *ngIf="addressBookViews" #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
+    <input type="text" [(ngModel)]="searchName" name="searchName" />
+    <button type="submit" class="btn btn-primary">Query</button>
+
+  </form>
+
+
+
+  <form *ngIf="addressBookViews" #frmInput2="ngForm">
+    <div class="row" *ngFor="let ab of addressBookViews">
+      <div class="col-xs-12
+                col-sm-8
+                col-md-6
+                col-lg-8">
+        {{ab.name}} {{ab.companyName}}
+      </div>
+      <div class="col-xs-12 col-sm-4 col-md-6 col-lg-4">
+        <a (click)="onLoadAddressBookDetail(ab.addressId)">Edit</a>
+      </div>
     </div>
+  </form>
+  <!--
+  <app-addressbook-child [parentMessage]="title" (messageEvent)="receiveMessage($event)"></app-addressbook-child>
+      -->
+</div>

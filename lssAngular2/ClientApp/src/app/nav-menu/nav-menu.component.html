@@ -64,7 +64,11 @@
                 <span class='glyphicon glyphicon-th-list'></span> Financials
               </a>
             </li>
-            x
+            <li [routerLinkActive]='["link-active"]'>
+              <a [routerLink]='["/app-addressbook"]' (click)='collapse()'>
+                <span class='glyphicon glyphicon-th-list'></span> Address Book
+              </a>
+            </li>
           </ul>
         </div>
     </div>

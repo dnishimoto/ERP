@@ -11,6 +11,26 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.AddressBookDomain
 {
+    public class AddressBookView
+    {
+        public AddressBookView() { }
+        public AddressBookView(AddressBook item)
+        {
+            this.AddressId = item.AddressId;
+            this.Name = item.Name;
+            this.FirstName = item.FirstName;
+            this.LastName = item.LastName;
+            this.CompanyName = item.CompanyName;
+              
+    }
+       
+        public long AddressId { get; set; }
+        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string CompanyName { get; set; }
+
+    }
 
     public class AddressBookRepository: Repository<AddressBook>
     {
@@ -75,21 +95,33 @@ namespace ERP_Core2.AddressBookDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<List<AddressBook>> GetAddressBookByName(string name)
+        public List<AddressBookView> GetAddressBookByName(string name)
         {
             try
             {
+                IQueryable<AddressBook> query;
+                query = (from e in _dbContext.AddressBook
+                         select e);
+                if (string.IsNullOrWhiteSpace(name)==false)
+                {
+                    query = query.Where(e => e.Name.StartsWith(name));
+                    //query = base.GetObjectsQueryable(e => e.Name !=null);
+                }
 
-                Task<List<AddressBook>> resultList = (from a in _dbContext.AddressBook
-                                                      join b in _dbContext.Supervisor on
-                                                      a.AddressId equals b.AddressId
-                                                      where a.Name.Contains(name)
-                                                      orderby a.Name
-                                                      select a
+                          
+                List<AddressBookView> views = new List<AddressBookView>();
 
-                    ).ToListAsync<AddressBook>();
-
-                return await resultList;
+                foreach (var item in query)
+                {
+                    if (item != null)
+                    {
+                        AddressBookView abv = applicationViewFactory.MapAddressBookView((AddressBook)item);
+                        views.Add(abv);
+                    }
+               }
+            
+             
+                return views ;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
