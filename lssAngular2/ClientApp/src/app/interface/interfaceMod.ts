@@ -95,7 +95,7 @@ export interface IBudgetView {
 }
 
 export interface IIncomeView {
-  
+
   description: string;
   account: string;
   accountId: number;
@@ -116,7 +116,13 @@ export class PostIncomeView {
   comment: string;
   checkNumber: string;
 }
-
+export interface IAddressBookView {
+  addressId: number;
+  name: string;
+  firstName: string;
+  lastName: string;
+  companyName: string;
+}
 export interface IPersonalBudgetView {
 
   accountId: number;

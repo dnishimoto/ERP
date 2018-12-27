@@ -76,6 +76,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract BudgetView MapBudgetView(Budget budget);
         public abstract void MapSupplierViewEntity(ref  Supplier supplier,  SupplierView view);
         public abstract void MapAcctRecFeeEntity(ref AcctRecFee acctRecFee, AccountReceivableFlatView view);
+        public abstract AddressBookView MapAddressBookView(AddressBook item);
     }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
@@ -125,6 +126,10 @@ namespace ERP_Core2.AbstractFactory
             locationAddress.Country = view.Country;
             locationAddress.Zipcode = view.Zipcode;
             locationAddress.TypeXrefId = view.TypeXRefId;
+        }
+        public override AddressBookView MapAddressBookView(AddressBook item)
+        {
+            return new AddressBookView(item);
         }
 
 

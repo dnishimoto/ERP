@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using lssWebApi2.EntityFramework;
+using System.Threading.Tasks;
 
 namespace ERP_Core2.Interfaces
 {
@@ -17,7 +18,7 @@ namespace ERP_Core2.Interfaces
         SupervisorView GetSupervisorBySupervisorId(long supervisorId);
         List<Phones> GetPhonesByAddressId(long addressId);
         List<Emails> GetEmailsByAddressId(long addressId);
-        List<AddressBook> GetAddressBookByName(string namePattern);
+        List<AddressBookView> GetAddressBookByName(string name);
         AddressBook GetAddressBookByAddressId(long addressId);
         IQueryable<AddressBook> GetAddressBooksByExpression(Expression<Func<AddressBook, bool>> predicate);
     }

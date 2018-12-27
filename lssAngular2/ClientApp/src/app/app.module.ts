@@ -18,6 +18,7 @@ import { IncomeStatementComponent } from './generalledger-webapi/financials.comp
 import { AccountReceivableComponent } from './accountreceivable-webapi/accountreceivable-webapi.component';
 import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpense-webapi.component';
 import { IncomeComponent } from './income-webapi/income-webapi.component';
+import { AddressBookComponent,AddressBookChildComponent,AddressBookDetailComponent } from './addressbook/addressbook.component'
 
 
 @NgModule({
@@ -34,7 +35,10 @@ import { IncomeComponent } from './income-webapi/income-webapi.component';
     PersonalExpenseComponent,
     IncomeComponent,
     IncomeStatementComponent,
-    FilterAcctPipe
+    FilterAcctPipe,
+    AddressBookComponent,
+    AddressBookChildComponent,
+    AddressBookDetailComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

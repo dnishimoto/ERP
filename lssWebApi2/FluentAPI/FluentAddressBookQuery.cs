@@ -22,7 +22,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<BuyerView> resultTask = Task.Run(async() => await _unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId));
-                //Task.WaitAll(resultTask);
+                Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
@@ -35,7 +35,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<CarrierView> resultTask = Task.Run(async() => await _unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId));
-                //Task.WaitAll(resultTask);
+                Task.WaitAll(resultTask);
                 return resultTask.Result;
 
             }
@@ -130,14 +130,13 @@ namespace ERP_Core2.FluentAPI
             }
 
         }
-        public List<AddressBook> GetAddressBookByName(string namePattern)
+        public List<AddressBookView> GetAddressBookByName(string namePattern)
         {
             try
             {
-                Task<List<AddressBook>> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetAddressBookByName(namePattern));
-                //Task.WaitAll(resultTask);
-
-                return resultTask.Result;
+                List<AddressBookView>list = _unitOfWork.addressBookRepository.GetAddressBookByName(namePattern);
+               
+                return list;
             }
             catch (Exception ex)
             {
@@ -150,7 +149,7 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 Task<AddressBook> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId));
-                //Task.WaitAll(resultTask);
+                Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
             catch (Exception ex)
