@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests2", "..\lssXUn
 		{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3} = {89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lssAngular3", "..\lssAngular3\lssAngular3.csproj", "{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular3", "..\lssAngular3\lssAngular3.csproj", "{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

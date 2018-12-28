@@ -48,9 +48,17 @@ namespace lssWebApi2.Controllers
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public void Put([FromBody]AddressBookView addressBookView)
         {
+            AddressBookModule abMod = new AddressBookModule();
+         
+            AddressBook addressBook = new AddressBook();
+
+            abMod.AddressBook.MapAddressBookEntity(ref addressBook, addressBookView);
+
+            abMod.AddressBook.UpdateAddressBook(addressBook).Apply();
+
         }
 
         // DELETE api/<controller>/5

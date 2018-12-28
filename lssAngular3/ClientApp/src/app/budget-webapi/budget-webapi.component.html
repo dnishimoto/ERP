@@ -1,0 +1,35 @@
+<h1>Budget Web Api</h1>
+
+<p>This component is hello world of the web api.</p>
+
+<p *ngIf="!budgets"><em>Loading...</em></p>
+My String: {{myString}}
+<table class='table' *ngIf="budgets">
+  <thead>
+    <tr>
+      <th>Account Description</th>
+      <th>Budget Id</th>
+      <th>Budget Amount</th>
+      <th>Actual Amount</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Supervisor</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let budget of budgets">
+      <td>{{budget.accountDescription }}</td>
+      <td>{{budget.budgetId}}</td>
+      <td>{{budget.budgetAmount}}</td>
+      <td>{{budget.actualAmount}}</td>
+      <td>{{budget.rangeStartDate | date:'mediumDate'}}</td>
+      <td>{{budget.rangeEndDate | date:'mediumDate'}}</td>
+      <td>{{budget.supervisorCode}}</td>
+    </tr>
+    <tr>
+      <td>{{myString
+        }}
+      </td>
+    </tr>
+  </tbody>
+</table>
