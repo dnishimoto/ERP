@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests2", "..\lssXUn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular3", "..\lssAngular3\lssAngular3.csproj", "{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "lssAngular4", "..\lssAngular4\lssAngular4.csproj", "{999567AE-208F-4D36-B5E9-B6D922FBE271}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,12 +99,6 @@ Global
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{999567AE-208F-4D36-B5E9-B6D922FBE271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{999567AE-208F-4D36-B5E9-B6D922FBE271}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{999567AE-208F-4D36-B5E9-B6D922FBE271}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{999567AE-208F-4D36-B5E9-B6D922FBE271}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{999567AE-208F-4D36-B5E9-B6D922FBE271}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{999567AE-208F-4D36-B5E9-B6D922FBE271}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

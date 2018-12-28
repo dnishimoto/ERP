@@ -43,7 +43,7 @@ export class PersonalExpenseComponent  {
     
     this.submitted = true;
   }
-  newExpense() {
+  queryExpense() {
     var generalLedgerId = this.queryGeneralLedgerId;
 
     if (generalLedgerId >0) {

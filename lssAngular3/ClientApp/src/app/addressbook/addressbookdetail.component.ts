@@ -12,10 +12,20 @@ export class AddressBookDetailComponent implements OnInit {
   private addressId: number;
   private sub: any;
   private addressBookView: IAddressBookView;
+  private output;
 
   constructor(private myApp: ApplicationService, private route: ActivatedRoute) {
 
 
+  }
+  onSubmit() {
+    this.myApp.updateAddressBookView(this.addressBookView).subscribe
+      (
+      result => { alert('Put');  }
+      , error => console.error(error)
+      );
+      
+    //alert(JSON.stringify(this.addressBookView));
   }
 
   ngOnInit() {
@@ -25,6 +35,7 @@ export class AddressBookDetailComponent implements OnInit {
     this.myApp.getAddressBookView(this.addressId).subscribe(
       result => {
         this.addressBookView = result;
+        //this.output = JSON.stringify(result);
       },
       error => console.error(error)
     );

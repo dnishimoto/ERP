@@ -50,9 +50,12 @@ namespace lssAngular2.Controllers
         }
 
         // PUT api/<controller>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPut]
+        public async Task Put([FromBody]AddressBookView addressBookView)
         {
+            DataService ds = new DataService();
+            await ds.PutAsync<AddressBookView>("api/AddressBook/", addressBookView);
+      
         }
 
         // DELETE api/<controller>/5

@@ -3,6 +3,17 @@
   .body-content {
     padding-top: 50px;
   }
+  input.ng-invalid.ng-dirty {
+    background-color: red;
+  }
+
+  input.ng-valid.ng-dirty {
+    background-color: white;
+  }
+}
+
+/*
+
   .row.display-flex {
     display: flex;
     flex-wrap: wrap;
@@ -13,18 +24,6 @@
       flex-direction: column;
     }
 
-  input.ng-invalid.ng-dirty {
-    background-color: red;
-  }
-
-  input.ng-valid.ng-dirty {
-    background-color: white;
-  }
-
-}
-
-
-/*
 
 .flex-outer li,
 .flex-inner {

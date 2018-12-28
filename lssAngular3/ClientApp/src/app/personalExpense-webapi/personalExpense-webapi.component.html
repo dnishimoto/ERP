@@ -13,11 +13,9 @@
 
   <div class=“container-fluid” *ngIf="coaPersonalExpenses">
 
-    {{diagnostic}}
-
-
+   
     <form #expenseForm="ngForm">
-      <button type="button" class="btn btn-default" (click)="newExpense()">Query</button>
+      <button type="button" class="btn btn-default" (click)="queryExpense()">Query</button>
       <input required type="text" [(ngModel)]="queryGeneralLedgerId" name="queryGeneralLedgerId" />
 
       <div class="form-group">

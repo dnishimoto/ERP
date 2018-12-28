@@ -3,32 +3,38 @@
   <p *ngIf="!addressBookView"><em>Loading...</em></p>
   <div class="container">
     <div *ngIf="addressBookView">
-      <form>
+      <form #addressBookDetailForm="ngForm" (ngSubmit)="onSubmit()">
+    
         <ul class="flex-outer">
           <li>
             <label for="name">Name</label>
             <p>
-              <input [(ngModel)]="addressBookView.name" type="text" id="name" placeholder="Enter your name here">
+              <input [(ngModel)]="addressBookView.name" name="name" type="text" id="name" placeholder="Enter your name here">
             </p>
           </li>
+
           <li>
             <label for="name">First Name</label>
             <p>
-              <input [(ngModel)]="addressBookView.firstname" type="text" id="firstname" placeholder="Enter your first name here">
+              <input [(ngModel)]="addressBookView.firstName" name="firstName" type="text" id="firstname" placeholder="Enter your first name here">
             </p>
           </li>
           <li>
             <label for="name">Last Name</label>
             <p>
-              <input [(ngModel)]="addressBookView.lastname" type="text" id="lastname" placeholder="Enter your last name here">
+              <input [(ngModel)]="addressBookView.lastName" name="lastName" type="text" id="lastname" placeholder="Enter your last name here">
             </p>
           </li>
           <li>
             <label for="name">Company Name</label>
             <p>
-              <input [(ngModel)]="addressBookView.companyname" type="text" id="lastname" placeholder="Enter your company name here">
+              <input [(ngModel)]="addressBookView.companyName" name="companyName" type="text" id="lastname" placeholder="Enter your company name here">
             </p>
           </li>
+          <li>
+            <button type="submit">Submit</button>
+          </li>
+
         </ul>
       </form>
     </div>

@@ -18,6 +18,9 @@ export class ApplicationService
       return ('reached');
       //return this.http.get
   }
+  updateAddressBookView(addressBookView: IAddressBookView) {
+    return this.http.put('/api/AddressBook/', addressBookView);
+  }
   getAddressBookView(id: number) {
     return this.http.get<IAddressBookView>('/api/AddressBook/' + id);
   }
