@@ -1,4 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,7 +19,8 @@ import { IncomeStatementComponent } from './generalledger-webapi/financials.comp
 import { AccountReceivableComponent } from './accountreceivable-webapi/accountreceivable-webapi.component';
 import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpense-webapi.component';
 import { IncomeComponent } from './income-webapi/income-webapi.component';
-import { AddressBookComponent,AddressBookChildComponent,AddressBookDetailComponent } from './addressbook/addressbook.component'
+import { AddressBookComponent, AddressBookChildComponent } from './addressbook/addressbook.component'
+import { AddressBookDetailComponent } from './addressbook/addressbookdetail.component';
 
 
 @NgModule({
@@ -44,6 +46,7 @@ import { AddressBookComponent,AddressBookChildComponent,AddressBookDetailCompone
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    FlexLayoutModule,
     RouterModule.forRoot(routes
     )
   ],

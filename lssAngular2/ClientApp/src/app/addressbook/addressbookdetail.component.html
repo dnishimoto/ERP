@@ -1,16 +1,37 @@
 <div class="container-fluid">
   <h1>Address BookDetail</h1>
-
-  
-  <!--
-  <div class='navbar navbar-inverse'>
-    <div class='navbar-header'>
-        <sub-nav></sub-nav>
-      </div>
-      <div class="body-content">
-        <router-outlet></router-outlet>
-      </div>
+  <p *ngIf="!addressBookView"><em>Loading...</em></p>
+  <div class="container">
+    <div *ngIf="addressBookView">
+      <form>
+        <ul class="flex-outer">
+          <li>
+            <label for="name">Name</label>
+            <p>
+              <input [(ngModel)]="addressBookView.name" type="text" id="name" placeholder="Enter your name here">
+            </p>
+          </li>
+          <li>
+            <label for="name">First Name</label>
+            <p>
+              <input [(ngModel)]="addressBookView.firstname" type="text" id="firstname" placeholder="Enter your first name here">
+            </p>
+          </li>
+          <li>
+            <label for="name">Last Name</label>
+            <p>
+              <input [(ngModel)]="addressBookView.lastname" type="text" id="lastname" placeholder="Enter your last name here">
+            </p>
+          </li>
+          <li>
+            <label for="name">Company Name</label>
+            <p>
+              <input [(ngModel)]="addressBookView.companyname" type="text" id="lastname" placeholder="Enter your company name here">
+            </p>
+          </li>
+        </ul>
+      </form>
     </div>
-      -->
-  
+  </div>
+   
 </div>

@@ -5,7 +5,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { switchMap } from 'rxjs/operators';
 
 
-
 @Component({
   selector: 'app-addressbook',
   templateUrl: './addressbook.component.html'
@@ -75,30 +74,5 @@ export class AddressBookChildComponent implements OnInit {
 }
 
 
-@Component({
-  selector: 'app-addressbookdetail',
-  templateUrl: './addressbookdetail.component.html'
-  ,
-  //templateUrl: './addressbookDetail.component.html'
-})
-export class AddressBookDetailComponent implements OnInit {
-  private addressId: number;
-  private sub: any;
-  
-  constructor(private route: ActivatedRoute) {
-   
-   
-  }
-  ngOnInit() {
-    this.sub = this.route.params.subscribe(params => { this.addressId = +params['id']; });
-
-    alert(this.addressId.toString());
-    //let this.sub = this.route.params.subscribe(params => {
-      //this.addressId = params['id'];
-
-    //})
-
-  }
-}
 
 

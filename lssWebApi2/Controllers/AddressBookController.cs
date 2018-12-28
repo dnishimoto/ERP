@@ -13,6 +13,13 @@ namespace lssWebApi2.Controllers
     [Route("api/[controller]")]
     public class AddressBookController : Controller
     {
+        [HttpGet("{id}")]
+        public AddressBookView Get(long id)
+        {
+            AddressBookModule abMod = new AddressBookModule();
+            AddressBookView addressBookView = abMod.AddressBook.Query().GetAddressBookViewByAddressId(id);
+            return (addressBookView);
+        }
         [Route("People")]
         public List<AddressBookView> GetPeople()
         {
@@ -33,13 +40,7 @@ namespace lssWebApi2.Controllers
             return list;
         }
 
-        // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+    
         // POST api/<controller>
         [HttpPost]
         public void Post([FromBody]string value)

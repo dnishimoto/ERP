@@ -144,6 +144,19 @@ namespace ERP_Core2.FluentAPI
             }
 
         }
+        public AddressBookView GetAddressBookViewByAddressId(long addressId)
+        {
+            try
+            {
+                Task<AddressBookView> resultTask = Task.Run(async () => await _unitOfWork.addressBookRepository.GetAddressBookViewByAddressId(addressId));
+                Task.WaitAll(resultTask);
+                return resultTask.Result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public AddressBook GetAddressBookByAddressId(long addressId)
         {
             try

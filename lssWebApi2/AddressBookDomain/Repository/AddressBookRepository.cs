@@ -21,14 +21,33 @@ namespace ERP_Core2.AddressBookDomain
             this.FirstName = item.FirstName;
             this.LastName = item.LastName;
             this.CompanyName = item.CompanyName;
-              
-    }
+
+            this.CategoryCodeChar1 = item.CategoryCodeChar1;
+            this.CategoryCodeChar2 = item.CategoryCodeChar2;
+            this.CategoryCodeChar3 = item.CategoryCodeChar3;
+            this.CategoryCodeInt1 = item.CategoryCodeInt1;
+            this.CategoryCodeInt2 = item.CategoryCodeInt2;
+            this.CategoryCodeInt3 = item.CategoryCodeInt3;
+            this.CategoryCodeDate1 = item.CategoryCodeDate1;
+            this.CategoryCodeDate2 = item.CategoryCodeDate2;
+            this.CategoryCodeDate3 = item.CategoryCodeDate3;
+
+        }
        
         public long AddressId { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CompanyName { get; set; }
+        public string CategoryCodeChar1 { get; set; }
+        public string CategoryCodeChar2 { get; set; }
+        public string CategoryCodeChar3 { get; set; }
+        public int? CategoryCodeInt1 { get; set; }
+        public int? CategoryCodeInt2 { get; set; }
+        public int? CategoryCodeInt3 { get; set; }
+        public DateTime? CategoryCodeDate1 { get; set; }
+        public DateTime? CategoryCodeDate2 { get; set; }
+        public DateTime? CategoryCodeDate3 { get; set; }
 
     }
 
@@ -41,7 +60,11 @@ namespace ERP_Core2.AddressBookDomain
             _dbContext = (ListensoftwaredbContext) db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-   
+
+        public void MapAddressBookEntity(ref AddressBook addressBook, AddressBookView addressBookView)
+        {
+            applicationViewFactory.MapAddressBookEntity(ref addressBook, addressBookView);
+        }
         public List<Phones> GetPhonesByAddressId(long addressId)
         {
             try
@@ -126,13 +149,27 @@ namespace ERP_Core2.AddressBookDomain
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<AddressBook> GetAddressBookByAddressId(long addressId)
+
+        public async Task<AddressBookView> GetAddressBookViewByAddressId(long addressId)
         {
             try
             {
 
                 AddressBook ab = await GetObjectAsync(addressId);
 
+                AddressBookView view = applicationViewFactory.MapAddressBookView(ab);
+                
+                return view;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public async Task<AddressBook> GetAddressBookByAddressId(long addressId)
+        {
+            try
+            {
+
+                AddressBook ab = await GetObjectAsync(addressId);
+                                
                 return ab;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }

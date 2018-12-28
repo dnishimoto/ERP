@@ -122,6 +122,15 @@ export interface IAddressBookView {
   firstName: string;
   lastName: string;
   companyName: string;
+  categoryCodeChar1: string;
+  categoryCodeChar2: string;
+  categoryCodeChar3: string;
+  categoryCodeInt1: number;
+  categoryCodeInt2: number;
+  categoryCodeInt3: number;
+  categoryCodeDate1: Date;
+  categoryCodeDate2: Date;
+  categoryCodeDate3: Date;
 }
 export interface IPersonalBudgetView {
 

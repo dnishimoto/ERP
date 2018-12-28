@@ -14,6 +14,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.Internal" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Language" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="2.1.1" />
   </ItemGroup>
 
@@ -25,6 +27,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\addressbook\addressbook.component.ts" />
+    <None Remove="ClientApp\src\app\addressbook\addressbookdetail.component.ts" />
     <None Remove="ClientApp\src\app\addressbook\app.addressbook.routes.ts" />
     <None Remove="ClientApp\src\app\app.routes.ts" />
     <None Remove="ClientApp\src\app\application.service.ts" />
@@ -38,6 +41,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\addressbook\addressbook.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\addressbook\addressbookdetail.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\addressbook\app.addressbook.routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\app.routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\application.service.ts" />

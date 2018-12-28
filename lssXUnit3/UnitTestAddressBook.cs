@@ -186,7 +186,7 @@ namespace ERP_Core2.AddressBookDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             AddressBookModule abMod = new AddressBookModule();
-            List<AddressBook> addressBooks=abMod.AddressBook.Query().GetAddressBookByName("David");
+            List<AddressBookView> addressBooks=abMod.AddressBook.Query().GetAddressBookByName("David");
      
             IList<string> list = new List<string>();
             foreach (var item in addressBooks)
@@ -212,9 +212,22 @@ namespace ERP_Core2.AddressBookDomain
             long addressId = 1;
 
             AddressBookModule abMod = new AddressBookModule();
-            AddressBook addressBook=abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
+            //AddressBook addressBook=abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
+            //AddressBookView addressBookView = abMod.AddressBook.Query().GetAddressBookViewByAddressId(addressId);
 
-            addressBook.FirstName = "David2";
+            AddressBookView addressBookView = new AddressBookView();
+            addressBookView.AddressId = addressId;
+            addressBookView.FirstName = "David2";
+            addressBookView.LastName = "Nishimoto";
+            addressBookView.Name = "David Nishimoto";
+
+            AddressBook addressBook = new AddressBook();
+
+            abMod.AddressBook.MapAddressBookEntity(ref addressBook, addressBookView);
+
+            //AddressBookView view = new AddressBookView();
+            //view.FirstName = "David2";
+
             abMod.AddressBook.UpdateAddressBook(addressBook).Apply();
 
 

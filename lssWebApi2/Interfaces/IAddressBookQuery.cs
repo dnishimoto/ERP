@@ -20,6 +20,7 @@ namespace ERP_Core2.Interfaces
         List<Emails> GetEmailsByAddressId(long addressId);
         List<AddressBookView> GetAddressBookByName(string name);
         AddressBook GetAddressBookByAddressId(long addressId);
+        AddressBookView GetAddressBookViewByAddressId(long addressId);
         IQueryable<AddressBook> GetAddressBooksByExpression(Expression<Func<AddressBook, bool>> predicate);
     }
 }

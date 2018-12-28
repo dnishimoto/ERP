@@ -12,6 +12,13 @@ namespace lssAngular2.Controllers
     [Route("api/[controller]")]
     public class AddressBookController : Controller
     {
+        [HttpGet("{id}")]
+        public async Task<AddressBookView> Get(int id)
+        {
+            DataService ds = new DataService();
+            AddressBookView view = await ds.GetAsync<AddressBookView>("api/AddressBook/"+id.ToString());
+            return view;
+        }
         // GET: api/<controller>
         [Route("People")]
         public async Task<List<AddressBookView>> GetPeople()
@@ -34,11 +41,7 @@ namespace lssAngular2.Controllers
         }
 
         // GET api/<controller>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
+       
 
         // POST api/<controller>
         [HttpPost]

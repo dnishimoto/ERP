@@ -77,7 +77,9 @@ namespace ERP_Core2.AbstractFactory
         public abstract void MapSupplierViewEntity(ref  Supplier supplier,  SupplierView view);
         public abstract void MapAcctRecFeeEntity(ref AcctRecFee acctRecFee, AccountReceivableFlatView view);
         public abstract AddressBookView MapAddressBookView(AddressBook item);
-    }
+        public abstract void MapAddressBookEntity(ref AddressBook addressBook, AddressBookView view);
+
+        }
     //Time and Attendance Domain
     public abstract partial class AbstractFactory
     {
@@ -495,6 +497,24 @@ namespace ERP_Core2.AbstractFactory
             addressBook.FirstName = customerView.FirstName;
             addressBook.LastName = customerView.LastName;
             addressBook.CompanyName = customerView.CustomerName;
+        }
+        public override void MapAddressBookEntity(ref AddressBook addressBook, AddressBookView view)
+        {
+            addressBook.AddressId = view.AddressId;
+            addressBook.Name = view.Name;
+            addressBook.FirstName = view.FirstName;
+            addressBook.LastName = view.LastName;
+            addressBook.CompanyName = view.CompanyName;
+
+            addressBook.CategoryCodeChar1 = view.CategoryCodeChar1;
+            addressBook.CategoryCodeChar2 = view.CategoryCodeChar2;
+            addressBook.CategoryCodeChar3 = view.CategoryCodeChar3;
+            addressBook.CategoryCodeInt1 = view.CategoryCodeInt1;
+            addressBook.CategoryCodeInt2 = view.CategoryCodeInt2;
+            addressBook.CategoryCodeInt3 = view.CategoryCodeInt3;
+            addressBook.CategoryCodeDate1 = view.CategoryCodeDate1;
+            addressBook.CategoryCodeDate2 = view.CategoryCodeDate2;
+            addressBook.CategoryCodeDate3 = view.CategoryCodeDate3;
         }
         public override void MapEmailEntity(ref Emails email, EmailView emailView)
         {
