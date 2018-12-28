@@ -1,75 +1,100 @@
-<div class='main-nav'>
-    <div class='navbar navbar-inverse'>
-        <div class='navbar-header'>
-            <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
-                <span class='sr-only'>Toggle navigation</span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-                <span class='icon-bar'></span>
-            </button>
-            <a class='navbar-brand' [routerLink]='["/"]'>lssAngular2</a>
-        </div>
-        <div class='clearfix'></div>
-        <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
-          <ul class='nav navbar-nav'>
-            <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
-              <a [routerLink]='["/"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-home'></span> Home
-              </a>
-            </li>
-            <!--
-  <li [routerLinkActive]='["link-active"]'>
-    <a [routerLink]='["/counter"]' (click)='collapse()'>
-      <span class='glyphicon glyphicon-education'></span> Counter
-    </a>
-  </li>
-  <li [routerLinkActive]='["link-active"]'>
-    <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
-      <span class='glyphicon glyphicon-th-list'></span> Fetch data
-    </a>
-  </li>
-      -->
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/budget-webapi"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Budget
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/generalledger-webapi"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> General Ledgers
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/accountreceivable-webapi"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Open Receivables
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/personalExpense-webapi"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Personal Expense
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/budget-payment-webapi"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Budget Cash Payment
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/income-webapi"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Income
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/app-financials"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Financials
-              </a>
-            </li>
-            <li [routerLinkActive]='["link-active"]'>
-              <a [routerLink]='["/app-addressbook"]' (click)='collapse()'>
-                <span class='glyphicon glyphicon-th-list'></span> Address Book
-              </a>
-            </li>
-          </ul>
-        </div>
+<header>
+  <nav class='navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3'>
+    <div class="container">
+      <a class="navbar-brand" [routerLink]='["/"]'>Millennium ERP</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded" (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse" [ngClass]='{"show": isExpanded}'>
+        <ul class="navbar-nav flex-grow">
+          <li class="nav-item" [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+            <a class="nav-link text-dark" [routerLink]='["/"]'>Home</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]'>
+            <a class="nav-link text-dark" [routerLink]='["/counter"]'>Counter</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]'>
+            <a class="nav-link text-dark" [routerLink]='["/fetch-data"]'>Fetch data</a>
+          </li>
+          <li class="nav-item" [routerLinkActive]='["link-active"]'>
+            <a  class="nav-link text-dark" [routerLink]='["/budget-webapi"]' >Budget</a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a   class="nav-link text-dark" [routerLink]='["/generalledger-webapi"]' >
+              General Ledgers
+            </a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a  class="nav-link text-dark" [routerLink]='["/accountreceivable-webapi"]' >
+              Open Receivables
+            </a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a  class="nav-link text-dark" [routerLink]='["/personalExpense-webapi"]' >
+              Personal Expense
+            </a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a  class="nav-link text-dark" [routerLink]='["/budget-payment-webapi"]' >
+               Budget Cash Payment
+            </a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a class="nav-link text-dark" [routerLink]='["/income-webapi"]' >
+              Income
+            </a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a  class="nav-link text-dark" [routerLink]='["/app-financials"]' >
+              Financials
+            </a>
+          </li>
+          <li class="nav-item"  [routerLinkActive]='["link-active"]'>
+            <a  class="nav-link text-dark" [routerLink]='["/app-addressbook"]' >
+               Address Book
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+</header>
+
+<!--
+<div class='main-nav'>
+  <div class='navbar navbar-inverse'>
+    <div class='navbar-header'>
+      <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)='toggle()'>
+        <span class='sr-only'>Toggle navigation</span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+        <span class='icon-bar'></span>
+      </button>
+      <a class='navbar-brand' [routerLink]='["/"]'>Millennium ERP</a>
+    </div>
+    <div class='clearfix'></div>
+    <div class='navbar-collapse collapse' [ngClass]='{ "in": isExpanded }'>
+      <ul class='nav navbar-nav'>
+        <li [routerLinkActive]='["link-active"]' [routerLinkActiveOptions]='{ exact: true }'>
+          <a [routerLink]='["/"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-home'></span> Home
+          </a>
+        </li>
+    
+        <li [routerLinkActive]='["link-active"]'>
+          <a [routerLink]='["/counter"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-education'></span> Counter
+          </a>
+        </li>
+        <li [routerLinkActive]='["link-active"]'>
+          <a [routerLink]='["/fetch-data"]' (click)='collapse()'>
+            <span class='glyphicon glyphicon-th-list'></span> Fetch data
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
 </div>
+-->

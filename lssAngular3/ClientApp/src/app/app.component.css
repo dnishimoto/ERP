@@ -13,17 +13,19 @@
       flex-direction: column;
     }
 
+  input.ng-invalid.ng-dirty {
+    background-color: red;
+  }
+
+  input.ng-valid.ng-dirty {
+    background-color: white;
+  }
+
 }
 
-input.ng-invalid.ng-dirty {
-  background-color: red;
-}
 
-input.ng-valid.ng-dirty {
-  background-color: white;
-}
+/*
 
-/* start flexing */
 .flex-outer li,
 .flex-inner {
   display: flex;
@@ -44,3 +46,4 @@ input.ng-valid.ng-dirty {
     .flex-inner {
       flex: 1 0 220px;
     }
+*/
