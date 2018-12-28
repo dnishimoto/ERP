@@ -1,0 +1,49 @@
+<div class="container-fluid">
+  <h1>Income Web Api</h1>
+
+  <p *ngIf="!incomeViews"><em>Loading...</em></p>
+
+  <button class="btn btn-default"  (click)="navigateToIncomeStatement()">Income Statement - Click Here</button>
+
+  <form #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
+
+    <div class="form-group">
+
+      <label for="ctrl1">Income Amount:</label>
+      <input #amount="ngModel" id="ctrl1" [(ngModel)]="postIncome.amount" required type="text" name="amount" class="form-control">
+
+      <label id="error1" *ngIf="amount.control.hasError('required') " class="alert alert-danger validation-message">
+        Amount required
+      </label>
+
+    </div>
+    <div class="form-group">
+      {{postIncome.gLDate}}
+        <label for="ctrl2">GL Date</label>
+        <input id="ctrl2" required type="date" [ngModel]="postIncome.gLDate | date:'y-MM-dd'" (ngModelChange)="dateChanged($event)" name="gLDate" class="form-control" />
+   </div>
+    <div class="form-group">
+      <label for="ctrl3">Comments</label>
+      <textarea [(ngModel)]="postIncome.comment" name="comment" class="form-control">
+      </textarea>
+    </div>
+    <div class="form-group">
+      <label for="ctrl4">Check #</label>
+      <input id="ctrl4" type="text" name="checkNumber" [(ngModel)]="postIncome.checkNumber" />
+    </div>
+<div class="form-group">
+  <button type="submit" class="btn btn-success"  [disabled]="frmInput.form.invalid">Submit</button>
+  </div>
+
+  </form>
+  <h3>Income Transactions</h3>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let income of incomeViews">{{income.description}} {{income.amount}} {{income.glDate | date:'mediumDate'}}</li>
+  </ul>
+
+
+</div>
+
+
+
+

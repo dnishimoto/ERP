@@ -1,0 +1,32 @@
+<h3>Financials</h3>
+
+
+<p *ngIf="!incomeStatementViews"><em>Loading...</em></p>
+
+<form *ngIf="fiscalYear" #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
+  <input type="text" [(ngModel)]="fiscalYear" name="fiscalYear" />
+  <button type="submit" class="btn btn-primary">Query</button>
+
+</form>
+<div *ngFor="let accountHeader of accounts "  >
+  <h3>{{accountHeader}}</h3>
+
+
+  <div *ngFor="let incomeStatement of incomeStatementViews | myAcctfilter:accountHeader">
+    <div>
+
+      {{incomeStatement.account}}
+      {{incomeStatement.description}}
+      {{incomeStatement.fiscalPeriod}}
+      {{incomeStatement.fiscalYear }}
+      {{incomeStatement.glDate | date:'mediumDate' }}
+      {{incomeStatement.amount }}
+
+    </div>
+
+  </div>
+
+
+</div>
+
+
