@@ -9,7 +9,8 @@ import { IncomeStatementComponent } from './generalledger-webapi/financials.comp
 import { AccountReceivableComponent } from './accountreceivable-webapi/accountreceivable-webapi.component';
 import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpense-webapi.component';
 import { IncomeComponent } from './income-webapi/income-webapi.component';
-import {AddressBookComponent,AddressBookDetailComponent} from './addressbook/addressbook.component'
+import { AddressBookComponent } from './addressbook/addressbook.component';
+import {AddressBookDetailComponent } from './addressbook/addressbookdetail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },

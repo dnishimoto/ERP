@@ -11,6 +11,7 @@ var accountreceivable_webapi_component_1 = require("./accountreceivable-webapi/a
 var personalexpense_webapi_component_1 = require("./personalExpense-webapi/personalexpense-webapi.component");
 var income_webapi_component_1 = require("./income-webapi/income-webapi.component");
 var addressbook_component_1 = require("./addressbook/addressbook.component");
+var addressbookdetail_component_1 = require("./addressbook/addressbookdetail.component");
 exports.routes = [
     { path: '', component: home_component_1.HomeComponent, pathMatch: 'full' },
     { path: 'counter', component: counter_component_1.CounterComponent },
@@ -23,6 +24,6 @@ exports.routes = [
     { path: 'income-webapi', component: income_webapi_component_1.IncomeComponent },
     { path: 'app-financials', component: financials_component_1.IncomeStatementComponent },
     { path: 'app-addressbook', component: addressbook_component_1.AddressBookComponent },
-    { path: 'app-addressbookdetail/:id', component: addressbook_component_1.AddressBookDetailComponent },
+    { path: 'app-addressbookdetail/:id', component: addressbookdetail_component_1.AddressBookDetailComponent },
 ];
 //# sourceMappingURL=app.routes.js.map

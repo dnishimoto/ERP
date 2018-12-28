@@ -7,7 +7,6 @@ import { IIncomeStatementView } from '../interface/interfaceMod';
   selector: 'app-financials',
   templateUrl: './financials.component.html'
 })
-
 export class IncomeStatementComponent implements OnInit {
   //public accountSummaries: IAccountSummaryView[];
   public incomeStatementViews: IIncomeStatementView[];

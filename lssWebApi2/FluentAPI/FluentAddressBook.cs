@@ -1,5 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
+using ERP_Core2.AddressBookDomain;
 using ERP_Core2.Interfaces;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
@@ -33,7 +34,11 @@ namespace ERP_Core2.FluentAPI
             { unitOfWork.CommitChanges(); }
             return this as IAddressBook;
         }
-
+        public IAddressBook MapAddressBookEntity(ref AddressBook addressBook, AddressBookView addressBookView)
+        {
+            unitOfWork.addressBookRepository.MapAddressBookEntity(ref addressBook, addressBookView);
+            return this as IAddressBook;
+        }
         public IAddressBook UpdateAddressBook(AddressBook addressBook)
         {
             try
