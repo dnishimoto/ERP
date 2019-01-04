@@ -2,9 +2,8 @@ import { Component, Inject, OnInit, Output, Input, EventEmitter } from '@angular
 import { ApplicationService } from '../application.service';
 import { IAddressBookView } from '../interface/interfaceMod';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
-import { switchMap } from 'rxjs/operators';
 import { Subject,Observable,fromEvent } from 'rxjs';
-import { debounceTime, map } from 'rxjs/operators';
+import { map,switchMap,debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 
 @Component({
@@ -42,15 +41,16 @@ export class AddressBookComponent implements OnInit {
     );
 
   }
-  result$;
+  result$:any;
   ngOnInit() {
     this.loadReport("");
 
     this.result$ = this.searchSubject$
       .pipe
       (
-        debounceTime(200),
-        switchMap(searchName => this.myApp.getAddressBookViews(searchName))
+      debounceTime(200),
+      distinctUntilChanged(),
+      switchMap(searchName => this.myApp.getAddressBookViews(searchName))
     ).subscribe(
       result => {
         this.addressBookViews = result;
@@ -58,26 +58,11 @@ export class AddressBookComponent implements OnInit {
       error => console.error(error)
       );
      
-      //.distinctUntilChanged()
-      
-
-
-      //.subscribe(x => console.log('debounce', x))
-
-    //switchMap(searchName => console.log('searchName', searchName))
-
-    //this.loadReport(this.searchName);
-
-    
+       
     //var input$ = fromEvent(document, 'keyup');
     //const subscribe =input$.subscribe(x => console.log(x));
   
-
-     // .distinctUntilChanged()
-
-
-   // this.loadReport(this.searchName);
-  
+ 
   }
   receiveMessage($event) {
     this.message = $event
