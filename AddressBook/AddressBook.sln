@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests2", "..\lssXUn
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular3", "..\lssAngular3\lssAngular3.csproj", "{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular4", "..\lssAngular4\lssAngular4.csproj", "{F9A610D4-7365-4156-A5E2-8C3B946F43F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,12 @@ Global
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

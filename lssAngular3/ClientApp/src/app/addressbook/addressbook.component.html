@@ -13,16 +13,21 @@
       </div>
     </div>
       -->
+  <!--
+    <form *ngIf="addressBookViews" #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
+      <input type="text" [(ngModel)]="searchName" name="searchName" />
 
-  <form *ngIf="addressBookViews" #frmInput="ngForm" (ngSubmit)="onSubmit(frmInput)">
-    <input type="text" [(ngModel)]="searchName" name="searchName" />
-    <button type="submit" class="btn btn-primary">Query</button>
+      <button type="submit" class="btn btn-primary ">Query</button>
 
-  </form>
+    </form>
+  -->
 
-
+  <input type="text" name="searchName" id="searchName" (keyup)=" searchSubject$.next($event.target.value)" />
 
   <form *ngIf="addressBookViews" #frmInput2="ngForm">
+    <div class="row">
+
+    </div>
     <div class="row" *ngFor="let ab of addressBookViews">
       <div class="col-xs-12
                 col-sm-8

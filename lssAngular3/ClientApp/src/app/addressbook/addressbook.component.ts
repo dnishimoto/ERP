@@ -3,6 +3,8 @@ import { ApplicationService } from '../application.service';
 import { IAddressBookView } from '../interface/interfaceMod';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 import { switchMap } from 'rxjs/operators';
+import { Subject,Observable,fromEvent } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 
 @Component({
@@ -12,22 +14,25 @@ import { switchMap } from 'rxjs/operators';
 
 export class AddressBookComponent implements OnInit {
   public addressBookViews: IAddressBookView[];
-  public searchName: string = "";
   private message: string = "";
   public title: string = "Hello world2";
+  searchSubject$ = new Subject<string>();
   constructor(private myApp: ApplicationService, private router: Router) { }
 
+  private onInputChanged($event) {
+    console.log('input changed',$event)
+  }
   private onLoadAddressBookDetail(id: number) {
     //alert(id);
     this.title = id.toString();
     this.router.navigate(['app-addressbookdetail', id]);
   }
 
-  private onSubmit() {
+  //private onSubmit() {
     // alert(this.fiscalYear)
-    this.loadReport(this.searchName);
+   // this.loadReport(this.searchName);
 
-  }
+  //}
   private loadReport(searchName : string) {
     this.myApp.getAddressBookViews(searchName).subscribe(
       result => {
@@ -37,8 +42,41 @@ export class AddressBookComponent implements OnInit {
     );
 
   }
+  result$;
   ngOnInit() {
-    this.loadReport(this.searchName);
+    this.loadReport("");
+
+    this.result$ = this.searchSubject$
+      .pipe
+      (
+        debounceTime(200),
+        switchMap(searchName => this.myApp.getAddressBookViews(searchName))
+    ).subscribe(
+      result => {
+        this.addressBookViews = result;
+      },
+      error => console.error(error)
+      );
+     
+      //.distinctUntilChanged()
+      
+
+
+      //.subscribe(x => console.log('debounce', x))
+
+    //switchMap(searchName => console.log('searchName', searchName))
+
+    //this.loadReport(this.searchName);
+
+    
+    //var input$ = fromEvent(document, 'keyup');
+    //const subscribe =input$.subscribe(x => console.log(x));
+  
+
+     // .distinctUntilChanged()
+
+
+   // this.loadReport(this.searchName);
   
   }
   receiveMessage($event) {
