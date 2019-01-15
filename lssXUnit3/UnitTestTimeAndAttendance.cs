@@ -7,15 +7,21 @@ using ERP_Core2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using lssWebApi2.EntityFramework;
 
+using System.Threading;
+using System.Collections;
+using System.Linq.Expressions;
+
 namespace ERP_Core2.TimeAndAttendenceDomain
 {
 
+ 
     public class UnitTestTimeAndAttendance
     {
         private readonly ITestOutputHelper output;
@@ -24,6 +30,33 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             this.output = output;
 
         }
+        [Fact]
+        public async Task TestTimeAndAttendanceExecuteAsync()
+        {
+            try
+            {
+                UnitOfWork unitOfWork = new UnitOfWork();
+
+                long id = 7;
+                TimeAndAttendancePunchIn item2 = await unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.FindAsync(id);
+                List<TimeAndAttendancePunchIn> list = await unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).ToListAsync<TimeAndAttendancePunchIn>();
+
+                //no getawaiter
+                //  var item =(await unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).ExecuteAsync()).FirstOrDefault();
+                var item=await Task.FromResult(unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).FirstOrDefault<TimeAndAttendancePunchIn>());
+                var item3 = await unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
+                //foreach (var item in query)
+                //{
+                output.WriteLine($"{item.EmployeeId} vDate: {item.PunchinDateTime} Duration: {item.DurationInMinutes}");
+                //}
+            }
+            catch (Exception ex)
+            {
+                output.WriteLine($"{ex.InnerException}");
+            }
+            
+        }
+
         [Fact]
         public void TestTimeAndAttendanceViewsByDate()
         {
