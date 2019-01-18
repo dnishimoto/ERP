@@ -38,9 +38,20 @@ namespace ERP_Core2.FluentAPI
             Task.WaitAll(taPunchinTask);
             return taPunchinTask.Result;
         }
+
         public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)
         {
-            return _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByDate(startDate,endDate);
+            Task<List<TimeAndAttendanceView>> taPunchinTask = Task.Run(async () => await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByDate(startDate, endDate));
+            Task.WaitAll(taPunchinTask);
+
+            return taPunchinTask.Result;
+        }
+        public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
+        {
+            Task<List<TimeAndAttendanceView>> taPunchinTask = Task.Run(async()=> await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByIdAndDate(employeeId, startDate, endDate));
+            Task.WaitAll(taPunchinTask);
+         
+            return taPunchinTask.Result;
         }
         public IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId)
         {
