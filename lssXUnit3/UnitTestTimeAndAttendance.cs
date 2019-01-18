@@ -57,6 +57,41 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             
         }
 
+        public static IEnumerable<object[]> TAGetData(int numTests)
+        {
+            var allData = new List<object[]>
+        {
+            new object[] { 4, DateTime.Parse("10/12/2018"), DateTime.Now },
+            //new object[] { -4, -6, -10 },
+         
+            
+        };
+
+            return allData.Take(numTests);
+        }
+
+        //[Fact]
+        [Theory]
+        [MemberData(nameof(TAGetData), parameters: 3)]
+
+
+        public void TestTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
+        {
+
+           // long employeeId = 4;
+            //DateTime startDate = DateTime.Parse("10/12/2018");
+            //DateTime endDate = DateTime.Now;
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            List<TimeAndAttendanceView> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByIdAndDate(employeeId,startDate, endDate);
+
+            if (list.Count > 0)
+            {
+                Assert.True(true);
+            }
+
+         }
         [Fact]
         public void TestTimeAndAttendanceViewsByDate()
         {
