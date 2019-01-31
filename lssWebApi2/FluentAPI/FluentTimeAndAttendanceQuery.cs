@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using X.PagedList;
 
 namespace ERP_Core2.FluentAPI
 {
@@ -18,6 +19,18 @@ namespace ERP_Core2.FluentAPI
             _unitOfWork = unitOfWork;
         }
 
+        public IEnumerable<TimeAndAttendancePunchIn> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
+        {
+            IEnumerable<TimeAndAttendancePunchIn> query = _unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
+                            .Where(predicate).OrderBy(order).Select(e => e);
+
+            query = query.ToPagedList(pageNumber, pageSize);
+
+
+
+            return query;
+
+        }
         public TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)
         {
             var query = _unitOfWork.timeAndAttendanceRepository.GetObjectsQueryable(predicate) as IQueryable<TimeAndAttendancePunchIn>;

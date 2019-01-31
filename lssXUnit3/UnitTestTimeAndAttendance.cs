@@ -17,6 +17,8 @@ using lssWebApi2.EntityFramework;
 using System.Threading;
 using System.Collections;
 using System.Linq.Expressions;
+using lssWebApi2.Enumerations;
+using X.PagedList;
 
 namespace ERP_Core2.TimeAndAttendenceDomain
 {
@@ -30,6 +32,60 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             this.output = output;
 
         }
+        [Fact]
+        public void TestMoveTo()
+        {
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            int pageSize = 1;
+            int pageNumber = 1;
+
+            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId > 0;
+            Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
+
+            IEnumerable<TimeAndAttendancePunchIn> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate,order, pageSize, pageNumber);
+
+            /*
+
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+           
+
+            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId > 0;
+            Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
+
+            IEnumerable<TimeAndAttendancePunchIn> query = unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
+                .Where(predicate).OrderBy(order).Select(e => e);
+ 
+            query = query.ToPagedList(pageNumber, pageSize);
+            */
+
+            foreach (var item in list)
+            {
+                output.WriteLine($"{item.EmployeeId} Date: {item.PunchinDateTime} Duration: {item.DurationInMinutes}");
+            }
+           
+        }
+
+        [Fact]
+        public void TestEnumeration()
+        {
+            List<TypeOfPayEnum> listTypeOfPay = new List<TypeOfPayEnum> {
+                TypeOfPayEnum.Regular, TypeOfPayEnum.Overtime,TypeOfPayEnum.HolidayPay,
+                TypeOfPayEnum.DoubleOverTime,TypeOfPayEnum.TwoHalfTime
+            };
+
+            string[] arrayTypeOfPay = Array.ConvertAll<TypeOfPayEnum, string>(listTypeOfPay.ToArray(),new Converter<TypeOfPayEnum, string>(EnumToString));
+
+            Assert.Contains("Regular", arrayTypeOfPay);
+                    
+        }
+        public static String EnumToString(TypeOfPayEnum element)
+        {
+            return element.ToString();
+        }
+
         [Fact]
         public async Task TestTimeAndAttendanceExecuteAsync()
         {
