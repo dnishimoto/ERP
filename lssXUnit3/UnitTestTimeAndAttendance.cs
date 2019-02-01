@@ -35,36 +35,38 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         [Fact]
         public void TestMoveTo()
         {
-
-            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
-
             int pageSize = 1;
             int pageNumber = 1;
 
+       
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+ 
             Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId > 0;
             Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
 
-            IEnumerable<TimeAndAttendancePunchIn> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate,order, pageSize, pageNumber);
-
-            /*
-
-            UnitOfWork unitOfWork = new UnitOfWork();
-
+            IPagedList<TimeAndAttendancePunchIn> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate,order, pageSize, pageNumber);
            
 
+            /*
+            UnitOfWork unitOfWork = new UnitOfWork();
             Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId > 0;
             Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
 
-            IEnumerable<TimeAndAttendancePunchIn> query = unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
+            var query = unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
                 .Where(predicate).OrderBy(order).Select(e => e);
  
-            query = query.ToPagedList(pageNumber, pageSize);
-            */
+            var list = query.ToPagedList(pageNumber, pageSize);
 
+            int count = list.PageCount;
+
+            */
+            //foreach (var item in list)
             foreach (var item in list)
             {
                 output.WriteLine($"{item.EmployeeId} Date: {item.PunchinDateTime} Duration: {item.DurationInMinutes}");
             }
+            Assert.True(list.PageCount>0);
            
         }
 

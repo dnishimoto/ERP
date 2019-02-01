@@ -19,16 +19,16 @@ namespace ERP_Core2.FluentAPI
             _unitOfWork = unitOfWork;
         }
 
-        public IEnumerable<TimeAndAttendancePunchIn> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
+        public IPagedList<TimeAndAttendancePunchIn> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {
             IEnumerable<TimeAndAttendancePunchIn> query = _unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
                             .Where(predicate).OrderBy(order).Select(e => e);
 
-            query = query.ToPagedList(pageNumber, pageSize);
+            IPagedList <TimeAndAttendancePunchIn> list = query.ToPagedList(pageNumber, pageSize);
 
 
 
-            return query;
+            return list;
 
         }
         public TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)
