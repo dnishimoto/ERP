@@ -21,14 +21,20 @@ namespace ERP_Core2.FluentAPI
 
         public IPagedList<TimeAndAttendancePunchIn> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {
-            IEnumerable<TimeAndAttendancePunchIn> query = _unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
-                            .Where(predicate).OrderBy(order).Select(e => e);
+            try
+            {
+                Task<IPagedList<TimeAndAttendancePunchIn>> listTask = Task.Run(async()=>await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber));
 
-            IPagedList <TimeAndAttendancePunchIn> list = query.ToPagedList(pageNumber, pageSize);
+                Task.WaitAll(listTask);
 
 
 
-            return list;
+                return listTask.Result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetTimeAndAttendanceViewsByPage", ex);
+            }
 
         }
         public TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)

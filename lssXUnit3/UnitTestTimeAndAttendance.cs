@@ -33,16 +33,25 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
+        public void TestTimeGenerator()
+        {
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            string timeString = unitOfWork.timeAndAttendanceRepository.GetUTCAdjustedTime();
+
+
+        }
+    [Fact]
         public void TestMoveTo()
         {
             int pageSize = 1;
             int pageNumber = 1;
-
+            int employeeId = 3;
        
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
  
-            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId > 0;
+            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId == employeeId && e.PunchinDate== DateTime.Parse("6/23/2018");
             Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
 
             IPagedList<TimeAndAttendancePunchIn> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate,order, pageSize, pageNumber);
