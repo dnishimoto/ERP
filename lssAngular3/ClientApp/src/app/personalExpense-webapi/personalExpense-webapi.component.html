@@ -20,7 +20,7 @@
 
       <div class="form-group">
         <label>Expense Type</label>
-        <select class="form-control"
+        <select *ngIf="personalExpense" class="form-control"
                 name="expenseType" [(ngModel)]="personalExpense.accountId">
           <option *ngFor="let pe of coaPersonalExpenses"
                   value="{{pe.accountId}}">
