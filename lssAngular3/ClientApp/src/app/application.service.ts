@@ -31,8 +31,8 @@ export class ApplicationService
 
     return this.http.get<IGeneralLedgerView>('/api/GeneralLedger/ById/' + id);
   }
-  getLedgers() {
-    return this.http.get<IAccountSummaryView[]>('/api/GeneralLedger/BySummary');
+  getLedgers(fiscalYear: number) {
+    return this.http.get<IAccountSummaryView[]>('/api/GeneralLedger/BySummary/'+fiscalYear);
   }
   getPEChartOfAccountList() {
     return this.http.get<IChartOfAccountView[]>('/api/ChartOfAccount/PersonalExpense');

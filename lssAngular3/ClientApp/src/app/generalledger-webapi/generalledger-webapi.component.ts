@@ -14,10 +14,22 @@ export class GeneralLedgerComponent implements OnInit{
   public accountSummaries: IAccountSummaryView[];
   public mystring: string;
 
+  public queryFiscalYear: number = 2018;
+
+  query() {
+
+    if (this.queryFiscalYear > 0) {
+      this.myApp.getLedgers(this.queryFiscalYear).subscribe(
+        result => { this.accountSummaries = result },
+        error => console.error(error)
+      );
+    }
+  }
+
   constructor(private myApp: ApplicationService) {
   }    
   ngOnInit() {
-    this.myApp.getLedgers().subscribe(
+    this.myApp.getLedgers(this.queryFiscalYear).subscribe(
       result => { this.accountSummaries = result },
       error => console.error(error)
     );

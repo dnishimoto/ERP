@@ -65,12 +65,12 @@ namespace lssAngular2.Controllers
             return views;
         }
         
-        [Route("BySummary")]
+        [Route("BySummary/{fiscalYear}")]
         [HttpGet]
-        public async Task<IEnumerable<AccountSummaryView>> GetSummary()
+        public async Task<IEnumerable<AccountSummaryView>> GetSummary(int fiscalYear)
         {
             DataService ds = new DataService();
-            IEnumerable<AccountSummaryView> views = await ds.GetAsync<List<AccountSummaryView>>("api/GeneralLedger/BySummary/" + DateTime.Now.Year.ToString());
+            IEnumerable<AccountSummaryView> views = await ds.GetAsync<List<AccountSummaryView>>("api/GeneralLedger/BySummary/" + fiscalYear.ToString());
             return views;
         }
         
