@@ -6,6 +6,8 @@
 
 <div class=“container-fluid”>
 
+  <button type="button" class="btn btn-default" (click)="query()">Query</button>
+  <input required type="text" [(ngModel)]="queryFiscalYear" name="queryFiscalYear" />
 
   <div *ngFor="let accountSummary of accountSummaries">
     <div class="col-lg-9, col-md-9">
