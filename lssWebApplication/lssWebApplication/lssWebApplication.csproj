@@ -10,9 +10,6 @@
 
     <!-- Set this to true if you enable server-side prerendering -->
     <BuildServerSideRenderer>false</BuildServerSideRenderer>
-    <UserSecretsId>3f8184a3-e417-48f8-9fbb-a2c70dec74ce</UserSecretsId>
-    <AssemblyVersion>1.0.0.1</AssemblyVersion>
-    <Description>Millennium ERP</Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,33 +19,9 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
-    <Compile Remove="ClientApp\src\addressbook\**" />
     <Content Remove="$(SpaRoot)**" />
-    <Content Remove="ClientApp\src\addressbook\**" />
-    <EmbeddedResource Remove="ClientApp\src\addressbook\**" />
     <None Remove="$(SpaRoot)**" />
-    <None Remove="ClientApp\src\addressbook\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="ClientApp\src\app\app.routes.ts" />
-    <None Remove="ClientApp\src\app\application.service.ts" />
-    <None Remove="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
-    <None Remove="ClientApp\src\app\interface\interfacemod.ts" />
-    <None Remove="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\lssWebApi2\lssWebApi2.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\app.routes.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\application.service.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\interface\interfacemod.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
@@ -77,21 +50,5 @@
       </ResolvedFileToPublish>
     </ItemGroup>
   </Target>
-
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES5</TypeScriptTarget>
-    <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
-    <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
-    <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>
-    <TypeScriptNoImplicitAny>False</TypeScriptNoImplicitAny>
-    <TypeScriptRemoveComments>False</TypeScriptRemoveComments>
-    <TypeScriptOutFile />
-    <TypeScriptOutDir />
-    <TypeScriptGeneratesDeclarations>False</TypeScriptGeneratesDeclarations>
-    <TypeScriptNoEmitOnError>True</TypeScriptNoEmitOnError>
-    <TypeScriptSourceMap>True</TypeScriptSourceMap>
-    <TypeScriptMapRoot />
-    <TypeScriptSourceRoot />
-  </PropertyGroup>
 
 </Project>

@@ -1,16 +1,6 @@
 
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
 import { IGeneralLedgerView, IChartOfAccountView } from '../interface/interfaceMod';
-
-//import { ViewChild, AfterViewInit } from '@angular/core';
-
-
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from '../app.component';
 import { ApplicationService } from '../application.service';
 
 @Component({
@@ -19,7 +9,7 @@ import { ApplicationService } from '../application.service';
 })
   
 
-export class PersonalExpenseComponent  {
+export class PersonalExpenseComponent implements OnInit {
   public personalExpense: IGeneralLedgerView;
   public coaPersonalExpenses: IChartOfAccountView[];
 

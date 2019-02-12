@@ -1,11 +1,11 @@
 {
-  "name": "lssAngular3",
+  "name": "lssWebApplication",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build:ssr": "ng run lssAngular3:server:dev",
+    "build:ssr": "ng run lssWebApplication:server:dev",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -36,7 +36,6 @@
     "@angular/cli": "~6.0.0",
     "@angular/compiler-cli": "6.1.10",
     "@angular/language-service": "^6.0.0",
-    "@types/core-js": "^2.5.0",
     "@types/jasmine": "~2.8.6",
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
