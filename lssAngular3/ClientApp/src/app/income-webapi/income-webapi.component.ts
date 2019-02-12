@@ -9,8 +9,6 @@ import { ApplicationService } from '../application.service';
   templateUrl: './income-webapi.component.html'
 })
 
-
-
 export class IncomeComponent implements OnInit {
   public income: number;
   public glDate: Date;
@@ -18,13 +16,13 @@ export class IncomeComponent implements OnInit {
   public postIncome: PostIncomeView = new PostIncomeView();
   public incomeViews: IIncomeView[];
  
-  private dateChanged(newDate) {
+  public dateChanged(newDate) {
     this.postIncome.gLDate = newDate;
   }
-  private navigateToIncomeStatement() {
+  public navigateToIncomeStatement() {
     this.router.navigate(['\app-financials']);
   }
-  private onSubmit(incomeForm: any) {
+  public onSubmit(incomeForm: any) {
 
     if (incomeForm.valid) {
       //alert(JSON.stringify(this.postIncome));
@@ -37,7 +35,7 @@ export class IncomeComponent implements OnInit {
       
     }
   }
-  private loadIncomeViews() {
+  public loadIncomeViews() {
     this.myApp.getIncomeViews().subscribe(
       result => {
         this.incomeViews = result;

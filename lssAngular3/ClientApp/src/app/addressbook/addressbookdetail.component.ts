@@ -9,9 +9,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router'
   //templateUrl: './addressbookDetail.component.html'
 })
 export class AddressBookDetailComponent implements OnInit {
-  private addressId: number;
+  public addressId: number;
   private sub: any;
-  private addressBookView: IAddressBookView;
+  public addressBookView: IAddressBookView;
   private output;
 
   constructor(private myApp: ApplicationService, private route: ActivatedRoute) {
