@@ -7,6 +7,7 @@ using ERP_Core2.TimeAndAttendanceDomain;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
+using System;
 
 namespace ERP_Core2.FluentAPI
 {
@@ -32,10 +33,39 @@ namespace ERP_Core2.FluentAPI
         {
             IList<TimeAndAttendanceScheduledToWork> retList = new List<TimeAndAttendanceScheduledToWork>();
 
+            DateTime  startDay = scheduleView.StartDate??DateTime.Now;
+            DateTime endDay = scheduleView.EndDate??DateTime.Now;
+
+            TimeSpan difference =  endDay- startDay;
+
             foreach (var employeeItem in employeeViews)
             {
-                TimeAndAttendanceScheduledToWork scheduledToWork = unitOfWork.timeAndAttendanceScheduledToWorkRepository.BuildScheduledToWork(scheduleView, employeeItem);
-                retList.Add(scheduledToWork);
+                for (int i = 0; i <= difference.Days; i++)
+                {
+                    DateTime scheduleStartDate = scheduleView.StartDate ?? DateTime.Now;
+                    DateTime currentDate = scheduleStartDate.AddDays(i);
+                    int durationHours = scheduleView.DurationHours;
+                    int durationMinutes = scheduleView.DurationMinutes;
+
+                    int shiftStartTime = scheduleView.ShiftStartTime??0;
+                    int shiftEndTime = scheduleView.ShiftEndTime ?? 0;
+
+  
+                    DateTime startDate = unitOfWork.timeAndAttendanceRepository.BuildShortDate(currentDate,shiftStartTime);
+                    DateTime endDate = unitOfWork.timeAndAttendanceRepository.AddTimeShortDate(startDate, durationHours,durationMinutes);
+
+                    string startDateTime = unitOfWork.timeAndAttendanceRepository.BuildLongDate(currentDate, shiftStartTime);
+                    string endDateTime = unitOfWork.timeAndAttendanceRepository.BuildLongDate(endDate);
+                    
+                    TimeAndAttendanceScheduleDayView currentDayView = new TimeAndAttendanceScheduleDayView();
+                    currentDayView.StartDate = currentDate;
+                    currentDayView.StartDateTime = startDateTime;
+                    currentDayView.EndDate = endDate;
+                    currentDayView.EndDateTime = endDateTime;
+
+                    TimeAndAttendanceScheduledToWork scheduledToWork = unitOfWork.timeAndAttendanceScheduledToWorkRepository.BuildScheduledToWork(scheduleView, currentDayView, employeeItem);
+                    retList.Add(scheduledToWork);
+                }
             }
 
             return retList;

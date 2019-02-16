@@ -9,6 +9,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {
+    public class TimeAndAttendanceScheduleDayView
+    {
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string StartDateTime { get; set; }
+        public string EndDateTime { get; set; }
+
+    }
     public class TimeAndAttendanceScheduleView: AbstractModule
     {
         public TimeAndAttendanceScheduleView()
@@ -24,8 +32,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             this.ShiftStartTime = schedule.Shift.ShiftStartTime;
             this.ShiftEndTime = schedule.Shift.ShiftEndTime;
             this.ScheduleGroup = schedule.ScheduleGroup;
-            this.StartDateTime = BuildLongDate(this.StartDate??DateTime.Now, this.ShiftStartTime??0);
-            this.EndDateTime = BuildLongDate(this.EndDate??DateTime.Now, this.ShiftEndTime??0);
+            this.DurationHours = schedule.Shift.DurationHours;
+            this.DurationMinutes = schedule.Shift.DurationMinutes;
+           
+            //this.StartDateTime = BuildLongDate(this.StartDate??DateTime.Now, this.ShiftStartTime??0);
+            //this.EndDateTime = BuildLongDate(this.EndDate??DateTime.Now, this.ShiftEndTime??0);
         }
 
         public long ScheduleId { get; set; }
@@ -37,32 +48,13 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public int? ShiftStartTime { get; set; }
         public int? ShiftEndTime { get; set; }
         public string ScheduleGroup { get; set; }
-        public string StartDateTime { get; set; }
-        public string EndDateTime { get; set; }
+        public int DurationHours { get; set; }
+        public int DurationMinutes { get; set; }
+        
+        //public string StartDateTime { get; set; }
+       // public string EndDateTime { get; set; }
 
-        String BuildLongDate(DateTime myDate, int hours)
-        {
-            try
-            {
-
-                String year, month, day = "";
-                string myLongTime = "0" + hours+"00"; myLongTime = myLongTime.Substring(myLongTime.Length - 6);
-                
-                year = myDate.Year.ToString();
-                month = myDate.Month.ToString().PadLeft(2, '0');
-                day = myDate.Day.ToString().PadLeft(2, '0');
-
-                //longHours = myDate.Hour.ToString().PadLeft(2, '0');
-                //minutes = myDate.Minute.ToString().PadLeft(2, '0');
-                //seconds = myDate.Second.ToString().PadLeft(2, '0');
-                return year + month + day + myLongTime;
-                //return year + month + day + longHours + minutes + seconds;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
+        
     }
 
    
@@ -76,6 +68,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
+       
         public CreateProcessStatus DeleteSchedule(TimeAndAttendanceSchedule schedule)
         {
             try

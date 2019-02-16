@@ -173,6 +173,72 @@ namespace ERP_Core2.Services
             */
 
         }
+        public String BuildLongDate(DateTime myDate)
+        {
+            String year, month, day = "";
+            string hour, minute = "";
+            try
+            {
+                year = myDate.Year.ToString();
+                month = myDate.Month.ToString().PadLeft(2, '0');
+                day = myDate.Day.ToString().PadLeft(2, '0');
+
+
+                if (myDate.TimeOfDay.ToString()== "PM")
+                {
+                    hour = (myDate.Hour + 12).ToString().PadLeft(2,'0');
+                }
+                else
+                {
+                    hour = myDate.Hour.ToString().PadLeft(2,'0');
+                }
+                minute = myDate.Minute.ToString().PadLeft(2, '0');
+
+                return year + month + day + hour + minute + "00";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
+        public DateTime AddTimeShortDate(DateTime currentDate, int durationHours,int durationMinutes)
+        {
+            TimeSpan time = new TimeSpan(0, durationHours, durationMinutes, 0);
+            return currentDate.Add(time);
+        }
+        public DateTime BuildShortDate(DateTime currentDate, int shiftTime)
+        {
+            int hour = shiftTime / 100;
+            int minute = shiftTime - (hour * 100);
+
+
+            TimeSpan time = new TimeSpan(0, hour, minute, 0);
+            return currentDate.Add(time);           
+        }
+        public String BuildLongDate(DateTime myDate, int hours)
+        {
+            try
+            {
+
+                String year, month, day = "";
+                string myLongTime = "0" + hours + "00";
+                myLongTime = myLongTime.Substring(myLongTime.Length - 6);
+
+                year = myDate.Year.ToString();
+                month = myDate.Month.ToString().PadLeft(2, '0');
+                day = myDate.Day.ToString().PadLeft(2, '0');
+
+                //longHours = myDate.Hour.ToString().PadLeft(2, '0');
+                //minutes = myDate.Minute.ToString().PadLeft(2, '0');
+                //seconds = myDate.Second.ToString().PadLeft(2, '0');
+                return year + month + day + myLongTime;
+                //return year + month + day + longHours + minutes + seconds;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<AddressBook> GetAddressBookByCustomerView(CustomerView customerView)
         {
             try

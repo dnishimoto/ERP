@@ -18,7 +18,11 @@ namespace ERP_Core2.FluentAPI
         {
             _unitOfWork = unitOfWork;
         }
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId)
+        {
 
+            return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId);
+        }
         public IPagedList<TimeAndAttendancePunchIn> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {
             try

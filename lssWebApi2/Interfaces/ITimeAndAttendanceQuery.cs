@@ -3,12 +3,14 @@ using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using X.PagedList;
 
 namespace ERP_Core2.Interfaces
 {
     public interface IFluentTimeAndAttendanceQuery
     {
+        Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId);
         TimeAndAttendancePunchIn GetPunchInById(long timePunchinId);
         IList<TimeAndAttendancePunchInView> GetTAPunchinByEmployeeId(long employeeId);
         TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate);

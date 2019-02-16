@@ -11,7 +11,9 @@ namespace lssAngular2.Controllers
 {
     public class DataService
     {
-        string Baseurl = "http://localhost:61612";
+        //string Baseurl = "http://localhost:61612";
+        string Baseurl= "https://lsswebapi.azurewebsites.net/";
+
 
         public async Task PutAsync<T>(string apiPath, T myObject)
         {
