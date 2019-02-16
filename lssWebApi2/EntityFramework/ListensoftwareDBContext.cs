@@ -38,7 +38,7 @@ namespace lssWebApi2.EntityFramework
 
             }
         }
-
+        public virtual DbSet<TimeAndAttendanceSetup> TimeAndAttendanceSetup { get; set; }
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }
         public virtual DbSet<AcctRec> AcctRec { get; set; }
@@ -2138,7 +2138,11 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_TimeAndAttendanceSchedule_TimeAndAttendanceShift");
             });
 
-            modelBuilder.Entity<TimeAndAttendanceScheduledToWork>(entity =>
+
+
+           
+
+        modelBuilder.Entity<TimeAndAttendanceScheduledToWork>(entity =>
             {
                 entity.HasKey(e => e.ScheduledToWorkId);
 
@@ -2161,6 +2165,13 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.StartDateTime)
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.Shift)
+                  .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                  .HasForeignKey(d => d.ShiftId)
+                  .OnDelete(DeleteBehavior.ClientSetNull)
+                  .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceShift");
+
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.TimeAndAttendanceScheduledToWork)

@@ -9,6 +9,7 @@ namespace lssWebApi2.EntityFramework
         {
             TimeAndAttendancePunchIn = new HashSet<TimeAndAttendancePunchIn>();
             TimeAndAttendanceSchedule = new HashSet<TimeAndAttendanceSchedule>();
+            TimeAndAttendanceScheduledToWork = new HashSet<TimeAndAttendanceScheduledToWork>();
         }
 
         public long ShiftId { get; set; }
@@ -16,9 +17,12 @@ namespace lssWebApi2.EntityFramework
         public int? ShiftStartTime { get; set; }
         public int? ShiftEndTime { get; set; }
         public string ShiftType { get; set; }
+        public int DurationHours { get; set; }
+        public int DurationMinutes { get; set; }
 
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
         public virtual ICollection<TimeAndAttendanceSchedule> TimeAndAttendanceSchedule { get; set; }
+        public virtual ICollection<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
 
     }
 }

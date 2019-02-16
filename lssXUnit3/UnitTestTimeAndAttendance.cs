@@ -33,12 +33,18 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
-        public void TestTimeGenerator()
+        public async Task TestTimeGenerator()
         {
+            long employeeId = 1;
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            string timeString = unitOfWork.timeAndAttendanceRepository.GetUTCAdjustedTime();
+            //TimeAndAttendanceTimeView timeString = await unitOfWork.timeAndAttendanceRepository.GetUTCAdjustedTime();
 
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId);
+
+            //taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
 
         }
     [Fact]
@@ -178,7 +184,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         [Fact]
         public void TestAddScheduledToWork()
         {
-            int supervisorId = 1;
+            int supervisorId = 2;
 
             AddressBookModule abMod=new AddressBookModule();
 
@@ -186,8 +192,8 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
 
             string scheduleName = "Schedule A";
-            DateTime startDate = DateTime.Parse("9/10/2018");
-            DateTime endDate = DateTime.Parse("9/14/2018");
+            DateTime startDate = DateTime.Parse("2/11/2019");
+            DateTime endDate = DateTime.Parse("2/15/2019");
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
@@ -196,6 +202,8 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             IList<TimeAndAttendanceScheduledToWork> items = taMod.TimeAndAttendanceScheduleToWork.BuildScheduledToWork(scheduleView, employeeViews);
 
             taMod.TimeAndAttendanceScheduleToWork.AddScheduledToWork(items).Apply();
+
+            Assert.True(items.Count > 0);
             
         }
         [Fact]

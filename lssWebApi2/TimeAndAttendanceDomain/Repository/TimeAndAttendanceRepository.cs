@@ -96,6 +96,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public bool ScheduledToWork { get; set; }
 
     }
+    public class TimeAndAttendanceTimeView
+    {
+        public DateTime PunchinDate { get; set; }
+        public String PunchinDateTime { get; set; }
+    }
     public static class Utilities
     {
         public static string Right(this string sValue, int iMaxLength)
@@ -129,36 +134,89 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         }
         public async Task<IPagedList<TimeAndAttendancePunchIn>> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {
-            IEnumerable<TimeAndAttendancePunchIn> query= _dbContext.TimeAndAttendancePunchIn
+            IEnumerable<TimeAndAttendancePunchIn> query = _dbContext.TimeAndAttendancePunchIn
                           .Where(predicate).OrderBy(order).Select(e => e);
 
             IPagedList<TimeAndAttendancePunchIn> list = await query.ToPagedListAsync(pageNumber, pageSize);
             return list;
 
         }
-        public string GetUTCAdjustedTime()
+        private async Task<TimeAndAttendanceSetup> GetTimeAndAttendanceTimeZone()
         {
-            DateTime mst = DateTime.Now;
+            try
+            {
+                return await _dbContext.TimeAndAttendanceSetup.SingleAsync<TimeAndAttendanceSetup>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId)
+        {
 
-            TimeZoneInfo localTime;
+            TimeAndAttendancePunchIn retTA = new TimeAndAttendancePunchIn();
+            TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
+            retTA.PunchinDate = currentTime.PunchinDate;
+            retTA.PunchinDateTime = currentTime.PunchinDateTime;
+            retTA.EmployeeId = employeeId;
 
-            localTime = TimeZoneInfo.FindSystemTimeZoneById("Mountain Standard Time"); //TimeZoneInfo.Local.StandardName
+        
+            /*
+            retTA.JobCodeXrefId
+            
+            retTA.SupervisorId 
+            retTA.Note 
+            retTA.ShiftId 
+         retTA.ScheduledToWork 
+    retTA.TypeOfTimeUdcXrefId 
+retTA.ApprovingAddressId 
+         retTA.PayCodeXrefId
+         retTA.ScheduleId 
+          retTA.TypeOfTime 
+retTA.PayCode 
+         retTA.JobCode 
+         retTA.TransferJobCode 
+         retTA.TransferSupervisorId 
+         */
+            return (retTA);
+    }
+        public async Task<TimeAndAttendanceTimeView> GetUTCAdjustedTime()
+        {
+            try
+            {
+                TimeAndAttendanceTimeView utcTime = new TimeAndAttendanceTimeView();
 
-            TimeSpan offset = localTime.GetUtcOffset(mst);
+                DateTime mst = DateTime.Now;
 
-            //bool isDaylightSaving = localTime.IsDaylightSavingTime(mst);
+                TimeZoneInfo localTime;
 
-            mst = DateTime.Now.ToUniversalTime().AddHours(offset.Hours).ToUniversalTime();
- 
+                TimeAndAttendanceSetup setup = await GetTimeAndAttendanceTimeZone();
 
-            string year = mst.Year.ToString();
-            string month = Utilities.Right("0" + mst.Month.ToString(), 2);
-            string day = Utilities.Right("0" + mst.Day.ToString(), 2);
-            string hours = Utilities.Right("0" + mst.Hour.ToString(), 2);
-            string minutes = Utilities.Right("0" + mst.Minute.ToString(), 2);
-            string seconds = Utilities.Right("0" + mst.Second.ToString(), 2);
-            return (year + month + day + hours + minutes + seconds);
- 
+                localTime = TimeZoneInfo.FindSystemTimeZoneById(setup.TimeZone); //TimeZoneInfo.Local.StandardName
+
+                TimeSpan offset = localTime.GetUtcOffset(mst);
+
+                //bool isDaylightSaving = localTime.IsDaylightSavingTime(mst);
+
+                mst = DateTime.Now.ToUniversalTime().AddHours(offset.Hours).ToUniversalTime();
+
+                utcTime.PunchinDate = mst;
+
+                string year = mst.Year.ToString();
+                string month = Utilities.Right("0" + mst.Month.ToString(), 2);
+                string day = Utilities.Right("0" + mst.Day.ToString(), 2);
+                string hours = Utilities.Right("0" + mst.Hour.ToString(), 2);
+                string minutes = Utilities.Right("0" + mst.Minute.ToString(), 2);
+                string seconds = Utilities.Right("0" + mst.Second.ToString(), 2);
+
+                utcTime.PunchinDateTime = year + month + day + hours + minutes + seconds;
+                return (utcTime);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
         public async Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
         {

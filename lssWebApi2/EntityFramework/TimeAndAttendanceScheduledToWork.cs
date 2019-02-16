@@ -14,9 +14,10 @@ namespace lssWebApi2.EntityFramework
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public string EmployeeName { get; set; }
+        public long ShiftId { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual TimeAndAttendanceSchedule Schedule { get; set; }
-
+        public virtual TimeAndAttendanceShift Shift { get; set; }
     }
-}
+    }

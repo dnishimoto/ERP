@@ -66,7 +66,7 @@ namespace ERP_Core2.AbstractFactory
         public abstract SupplierLedgerView MapSupplierLedgerView(SupplierLedger supplierLedger);
         public abstract void MapSupplierLedgerEntity(ref SupplierLedger supplierLedger, SupplierLedgerView view);
         public abstract void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view);
-        public abstract void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeView);
+        public abstract void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView);
         public abstract TimeAndAttendanceScheduleView MapTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule item);
         public abstract void MapBudgetRangeEntity(ref BudgetRange budgetRange, BudgetRangeView view);
         public abstract BudgetRangeView MapBudgetRangeView(BudgetRange budgetRange);
@@ -360,16 +360,17 @@ namespace ERP_Core2.AbstractFactory
             schedule.ShiftId = view.ShiftId;
             schedule.ScheduleGroup = view.ScheduleGroup;
         }
-        public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, EmployeeView employeeView)
+        public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView)
         {
             scheduledToWork.EmployeeId = employeeView.EmployeeId ?? 0;
             scheduledToWork.EmployeeName = employeeView.EmployeeName;
             scheduledToWork.ScheduleId = scheduleView.ScheduleId;
             scheduledToWork.ScheduleName = scheduleView.ScheduleName;
-            scheduledToWork.StartDate = scheduleView.StartDate;
-            scheduledToWork.EndDate = scheduleView.EndDate;
-            scheduledToWork.StartDateTime = scheduleView.StartDateTime;
-            scheduledToWork.EndDateTime = scheduleView.EndDateTime;
+            scheduledToWork.StartDate = dayView.StartDate;
+            scheduledToWork.EndDate = dayView.EndDate;
+            scheduledToWork.StartDateTime = dayView.StartDateTime;
+            scheduledToWork.EndDateTime = dayView.EndDateTime;
+            scheduledToWork.ShiftId = scheduleView.ShiftId??0;
         }
         public override void MapBudgetRangeEntity(ref BudgetRange budgetRange, BudgetRangeView view)
         {
