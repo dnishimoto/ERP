@@ -181,8 +181,23 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             }
 
             }
-        [Fact]
-        public void TestAddScheduledToWork()
+
+
+        public class ScheduledToWorkData : IEnumerable<object[]>
+        {
+            public IEnumerator<object[]> GetEnumerator()
+            {
+                yield return new object[] { "Schedule A", DateTime.Parse("2/18/2019"), DateTime.Parse("2/22/2019"), "Regular" };
+
+            }
+
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        }
+
+        [Theory]
+        [ClassData(typeof(ScheduledToWorkData))]
+        //[InlineData("Schedule A",  "2/18/2019" ,  "2/22/2019" )]
+        public void TestAddScheduledToWork(string scheduleName,DateTime startDate, DateTime endDate,string payCode)
         {
             int supervisorId = 2;
 
@@ -191,15 +206,15 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             List<EmployeeView> employeeViews = abMod.AddressBook.Query().GetEmployeesBySupervisorId(supervisorId);
 
 
-            string scheduleName = "Schedule A";
-            DateTime startDate = DateTime.Parse("2/11/2019");
-            DateTime endDate = DateTime.Parse("2/15/2019");
+            //string scheduleName = "Schedule A";
+            //DateTime startDate = DateTime.Parse("2/11/2019");
+           // DateTime endDate = DateTime.Parse("2/15/2019");
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
             TimeAndAttendanceScheduleView scheduleView = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e=>e.ScheduleName==scheduleName && e.StartDate==startDate && e.EndDate==endDate);
 
-            IList<TimeAndAttendanceScheduledToWork> items = taMod.TimeAndAttendanceScheduleToWork.BuildScheduledToWork(scheduleView, employeeViews);
+            IList<TimeAndAttendanceScheduledToWork> items = taMod.TimeAndAttendanceScheduleToWork.BuildScheduledToWork(scheduleView, employeeViews, payCode);
 
             taMod.TimeAndAttendanceScheduleToWork.AddScheduledToWork(items).Apply();
 
@@ -217,18 +232,32 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
 
             view.ScheduleName = "Schedule A";
-            view.StartDate = DateTime.Parse("9/10/2018"); 
-            view.EndDate = DateTime.Parse("9/14/2018"); 
+            view.StartDate = DateTime.Parse("2/18/2019"); 
+            view.EndDate = DateTime.Parse("2/22/2019"); 
 
             view.ShiftId = shiftTask.Result.ShiftId;
             view.ShiftName = shiftTask.Result.ShiftName;
             view.ShiftStartTime = shiftTask.Result.ShiftStartTime;
             view.ShiftEndTime = shiftTask.Result.ShiftEndTime;
+            view.DurationHours = shiftTask.Result.DurationHours;
+            view.DurationMinutes = shiftTask.Result.DurationMinutes;
+            view.Monday = shiftTask.Result.Monday;
+            view.Tuesday = shiftTask.Result.Tuesday;
+            view.Wednesday = shiftTask.Result.Wednesday;
+            view.Thursday = shiftTask.Result.Thursday;
+            view.Friday = shiftTask.Result.Friday;
+            view.Saturday = shiftTask.Result.Saturday;
+            view.Sunday = shiftTask.Result.Sunday;
+
             view.ScheduleGroup = "A";
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
             taMod.TimeAndAttendanceSchedule.AddSchedule(view).Apply();
+
+            TimeAndAttendanceScheduleView scheduleView = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e => e.ScheduleName == view.ScheduleName && e.StartDate == view.StartDate && e.EndDate == view.EndDate);
+
+            Assert.True(scheduleView != null);
 
         }
         [Fact]

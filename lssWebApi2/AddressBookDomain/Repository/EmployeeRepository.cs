@@ -17,12 +17,16 @@ namespace ERP_Core2.AddressBookDomain
             this.EmployeeName = employee.Address.Name;
             this.EmployeeTitle = employee.JobTitleXref.Value;
             this.EmployeeStatus = employee.EmploymentStatusXref.Value;
+            this.JobCode = employee.JobTitleXref.KeyCode;
+
+
         }
 
         public long? EmployeeId { get; set; }
         public string EmployeeName { get; set; }
         public string EmployeeTitle { get; set; }
         public string EmployeeStatus { get; set; }
+        public string JobCode { get; set; }
     }
  
 
