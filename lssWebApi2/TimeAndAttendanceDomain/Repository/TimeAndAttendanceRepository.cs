@@ -94,6 +94,13 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public DateTime ? ScheduleEndDate { get; set; }
         public string ScheduleGroup { get; set; }
         public bool ScheduledToWork { get; set; }
+        public bool? Monday { get; set; }
+        public bool? Tuesday { get; set; }
+        public bool? Wednesday { get; set; }
+        public bool? Thursday { get; set; }
+        public bool? Friday { get; set; }
+        public bool? Saturday { get; set; }
+        public bool? Sunday { get; set; }
 
     }
     public class TimeAndAttendanceTimeView
@@ -223,65 +230,72 @@ retTA.PayCode
             try
             {
                 List<TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
-                                                    where taPunchin.PunchinDate >= startDate
-                                                    && taPunchin.PunchinDate <= endDate
-                                                    && taPunchin.EmployeeId==employeeId
+                                                          where taPunchin.PunchinDate >= startDate
+                                                          && taPunchin.PunchinDate <= endDate
+                                                          && taPunchin.EmployeeId == employeeId
 
-                                                    join udcTypeOfTime in _dbContext.Udc
-                                                    on taPunchin.TypeOfTimeUdcXrefId equals udcTypeOfTime.XrefId
+                                                          join udcTypeOfTime in _dbContext.Udc
+                                                          on taPunchin.TypeOfTimeUdcXrefId equals udcTypeOfTime.XrefId
 
-                                                    join udcJobCode in _dbContext.Udc
-                                                    on taPunchin.JobCodeXrefId equals udcJobCode.XrefId
+                                                          join udcJobCode in _dbContext.Udc
+                                                          on taPunchin.JobCodeXrefId equals udcJobCode.XrefId
 
-                                                    join udcPayCode in _dbContext.Udc
-                                                    on taPunchin.PayCodeXrefId equals udcPayCode.XrefId into ljPayCode
-                                                    from udcPayCode in ljPayCode.DefaultIfEmpty()
+                                                          join udcPayCode in _dbContext.Udc
+                                                          on taPunchin.PayCodeXrefId equals udcPayCode.XrefId into ljPayCode
+                                                          from udcPayCode in ljPayCode.DefaultIfEmpty()
 
-                                                    join taSchedule in _dbContext.TimeAndAttendanceSchedule
-                                                    on taPunchin.ScheduleId equals taSchedule.ScheduleId
+                                                          join taSchedule in _dbContext.TimeAndAttendanceSchedule
+                                                          on taPunchin.ScheduleId equals taSchedule.ScheduleId
 
-                                                    join taShift in _dbContext.TimeAndAttendanceShift
-                                                    on taPunchin.ShiftId equals taShift.ShiftId into ljShift
-                                                    from taShift in ljShift.DefaultIfEmpty()
+                                                          join taShift in _dbContext.TimeAndAttendanceShift
+                                                          on taPunchin.ShiftId equals taShift.ShiftId into ljShift
+                                                          from taShift in ljShift.DefaultIfEmpty()
 
-                                                    join supervisor in _dbContext.Supervisor
-                                                    on taPunchin.SupervisorId equals supervisor.SupervisorId
+                                                          join supervisor in _dbContext.Supervisor
+                                                          on taPunchin.SupervisorId equals supervisor.SupervisorId
 
-                                                    join supervisorAddressBook in _dbContext.AddressBook
-                                                    on supervisor.AddressId equals supervisorAddressBook.AddressId
+                                                          join supervisorAddressBook in _dbContext.AddressBook
+                                                          on supervisor.AddressId equals supervisorAddressBook.AddressId
 
-                                                    join employee in _dbContext.Employee
-                                                    on taPunchin.EmployeeId equals employee.EmployeeId
+                                                          join employee in _dbContext.Employee
+                                                          on taPunchin.EmployeeId equals employee.EmployeeId
 
 
-                                                    join employeeAddressBook in _dbContext.AddressBook
-                                                    on employee.AddressId equals employeeAddressBook.AddressId
+                                                          join employeeAddressBook in _dbContext.AddressBook
+                                                          on employee.AddressId equals employeeAddressBook.AddressId
 
-                                                    join approverAddressBook in _dbContext.AddressBook
-                                                    on taPunchin.ApprovingAddressId equals approverAddressBook.AddressId
+                                                          join approverAddressBook in _dbContext.AddressBook
+                                                          on taPunchin.ApprovingAddressId equals approverAddressBook.AddressId
 
-                                                    select new TimeAndAttendanceView
-                                                    {
-                                                        TimePunchinId = taPunchin.TimePunchinId,
-                                                        PunchinDate = taPunchin.PunchinDate,
-                                                        PunchoutDate = taPunchin.PunchoutDate,
-                                                        PunchinDateTime = taPunchin.PunchinDateTime,
-                                                        PunchoutDateTime = taPunchin.PunchoutDateTime,
-                                                        PayCode = udcPayCode.Value,
-                                                        TypeOfTime = udcTypeOfTime.Value,
-                                                        JobCode = udcJobCode.Value,
-                                                        ApproverAddressId = approverAddressBook.AddressId,
-                                                        ApproverName = approverAddressBook.Name,
-                                                        EmployeeName = employeeAddressBook.Name,
-                                                        EmployeeId = employee.EmployeeId,
-                                                        ShiftId = (long?)taShift.ShiftId,
-                                                        ShiftName = taShift.ShiftName,
-                                                        ShiftType = taShift.ShiftType,
-                                                        ScheduleId = taSchedule.ScheduleId,
-                                                        ScheduleName = taSchedule.ScheduleName,
-                                                        ScheduleStartDate = taSchedule.StartDate,
-                                                        ScheduleEndDate = taSchedule.EndDate,
-                                                        ScheduleGroup = taSchedule.ScheduleGroup,
+                                                          select new TimeAndAttendanceView
+                                                          {
+                                                              TimePunchinId = taPunchin.TimePunchinId,
+                                                              PunchinDate = taPunchin.PunchinDate,
+                                                              PunchoutDate = taPunchin.PunchoutDate,
+                                                              PunchinDateTime = taPunchin.PunchinDateTime,
+                                                              PunchoutDateTime = taPunchin.PunchoutDateTime,
+                                                              PayCode = udcPayCode.Value,
+                                                              TypeOfTime = udcTypeOfTime.Value,
+                                                              JobCode = udcJobCode.Value,
+                                                              ApproverAddressId = approverAddressBook.AddressId,
+                                                              ApproverName = approverAddressBook.Name,
+                                                              EmployeeName = employeeAddressBook.Name,
+                                                              EmployeeId = employee.EmployeeId,
+                                                              ShiftId = (long?)taShift.ShiftId,
+                                                              ShiftName = taShift.ShiftName,
+                                                              ShiftType = taShift.ShiftType,
+                                                              ScheduleId = taSchedule.ScheduleId,
+                                                              ScheduleName = taSchedule.ScheduleName,
+                                                              ScheduleStartDate = taSchedule.StartDate,
+                                                              ScheduleEndDate = taSchedule.EndDate,
+                                                              ScheduleGroup = taSchedule.ScheduleGroup,
+                                                              Monday = taSchedule.Monday,
+                                                              Tuesday = taSchedule.Tuesday,
+                                                              Wednesday=taSchedule.Wednesday,
+                                                              Thursday=taSchedule.Thursday,
+                                                              Friday=taSchedule.Friday,
+                                                              Saturday=taSchedule.Saturday,
+                                                              Sunday=taSchedule.Sunday,
                                                         ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
                                                     }).ToListAsync<TimeAndAttendanceView>();
 

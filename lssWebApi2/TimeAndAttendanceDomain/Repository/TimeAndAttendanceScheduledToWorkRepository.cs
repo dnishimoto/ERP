@@ -21,11 +21,14 @@ namespace ERP_Core2.TimeAndAttendanceDomain.Repository
             this.EmployeeName = scheduledToWork.Employee.Address.Name;
             this.ScheduleId = scheduledToWork.ScheduleId;
             this.ScheduleName = scheduledToWork.Schedule.ScheduleName;
-            this.ScheduleStartDate = scheduledToWork.Schedule.StartDate;
-            this.ScheduleEndDate = scheduledToWork.Schedule.EndDate;
+            this.ScheduleStartDate = scheduledToWork.StartDate;
+            this.ScheduleEndDate = scheduledToWork.EndDate;
             this.ShiftStartTime = scheduledToWork.Schedule.Shift.ShiftStartTime;
             this.ShiftEndTime = scheduledToWork.Schedule.Shift.ShiftEndTime;
-        }
+            this.PayCode = scheduledToWork.PayCode;
+            this.JobCode = scheduledToWork.JobCode;
+            this.WorkedJobCode = scheduledToWork.WorkedJobCode;
+    }
      
             public long EmployeeId { get; set; }
             public string EmployeeName { get; set; }
@@ -35,6 +38,18 @@ namespace ERP_Core2.TimeAndAttendanceDomain.Repository
             public DateTime? ScheduleEndDate { get; set; }
             public int? ShiftStartTime { get; set; }
             public int? ShiftEndTime { get; set; }
+            public int DurationHours { get; set; }
+            public int DurationMinutes { get; set; }
+            public bool? Monday { get; set; }
+            public bool? Tuesday { get; set; }
+            public bool? Wednesday { get; set; }
+            public bool? Thursday { get; set; }
+            public bool? Friday { get; set; }
+            public bool? Saturday { get; set; }
+            public bool? Sunday { get; set; }
+            public string PayCode { get; set; }
+            public string JobCode { get; set; }
+            public string WorkedJobCode { get; set; }
 
     }
     public class TimeAndAttendanceScheduledToWorkRepository : Repository<TimeAndAttendanceScheduledToWork>
@@ -46,11 +61,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain.Repository
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public TimeAndAttendanceScheduledToWork BuildScheduledToWork(TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeItem)
+        public TimeAndAttendanceScheduledToWork BuildScheduledToWork(TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeItem,string payCode)
         {
             TimeAndAttendanceScheduledToWork scheduledToWork = new TimeAndAttendanceScheduledToWork();
 
-            applicationViewFactory.MapTimeAndAttendanceScheduledToWorkEntity(ref scheduledToWork, scheduleView, dayView, employeeItem);
+            applicationViewFactory.MapTimeAndAttendanceScheduledToWorkEntity(ref scheduledToWork, scheduleView, dayView, employeeItem,payCode);
 
             return scheduledToWork;
         }

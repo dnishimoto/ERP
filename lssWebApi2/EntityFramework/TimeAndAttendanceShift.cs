@@ -19,6 +19,13 @@ namespace lssWebApi2.EntityFramework
         public string ShiftType { get; set; }
         public int DurationHours { get; set; }
         public int DurationMinutes { get; set; }
+        public bool? Monday { get; set; }
+        public bool? Tuesday { get; set; }
+        public bool? Wednesday { get; set; }
+        public bool? Thursday { get; set; }
+        public bool? Friday { get; set; }
+        public bool? Saturday { get; set; }
+        public bool? Sunday { get; set; }
 
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
         public virtual ICollection<TimeAndAttendanceSchedule> TimeAndAttendanceSchedule { get; set; }

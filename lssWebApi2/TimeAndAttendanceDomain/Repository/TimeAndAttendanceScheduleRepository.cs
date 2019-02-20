@@ -17,7 +17,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public string EndDateTime { get; set; }
 
     }
-    public class TimeAndAttendanceScheduleView: AbstractModule
+    public class TimeAndAttendanceScheduleView : AbstractModule
     {
         public TimeAndAttendanceScheduleView()
         { }
@@ -34,9 +34,15 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             this.ScheduleGroup = schedule.ScheduleGroup;
             this.DurationHours = schedule.Shift.DurationHours;
             this.DurationMinutes = schedule.Shift.DurationMinutes;
-           
-            //this.StartDateTime = BuildLongDate(this.StartDate??DateTime.Now, this.ShiftStartTime??0);
-            //this.EndDateTime = BuildLongDate(this.EndDate??DateTime.Now, this.ShiftEndTime??0);
+            this.Monday = schedule.Monday;
+            this.Tuesday = schedule.Tuesday;
+            this.Wednesday = schedule.Wednesday;
+            this.Thursday = schedule.Thursday;
+            this.Friday = schedule.Friday;
+            this.Saturday = schedule.Saturday;
+            this.Sunday = schedule.Sunday;
+        //this.StartDateTime = BuildLongDate(this.StartDate??DateTime.Now, this.ShiftStartTime??0);
+        //this.EndDateTime = BuildLongDate(this.EndDate??DateTime.Now, this.ShiftEndTime??0);
         }
 
         public long ScheduleId { get; set; }
@@ -50,6 +56,14 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public string ScheduleGroup { get; set; }
         public int DurationHours { get; set; }
         public int DurationMinutes { get; set; }
+        public bool? Monday{ get; set; }
+        public bool? Tuesday { get; set; }
+        public bool? Wednesday { get; set; }
+        public bool? Thursday { get; set; }
+        public bool? Friday { get; set; }
+        public bool? Saturday { get; set; }
+        public bool? Sunday { get; set; }
+
         
         //public string StartDateTime { get; set; }
        // public string EndDateTime { get; set; }
