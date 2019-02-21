@@ -7,7 +7,7 @@ namespace lssWebApi2.Enumerations
 {
     public enum TypeOfTimeEnum
     {
-        ScheduledToWork,
-        NotScheduledButAskedToWork
+        scheduled,
+        notscheduled
     }
 }
