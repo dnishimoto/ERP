@@ -38,13 +38,11 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             long employeeId = 1;
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            //TimeAndAttendanceTimeView timeString = await unitOfWork.timeAndAttendanceRepository.GetUTCAdjustedTime();
-
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
             TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId);
 
-            //taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+            taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
 
         }
     [Fact]

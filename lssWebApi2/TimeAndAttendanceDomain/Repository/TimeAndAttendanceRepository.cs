@@ -11,7 +11,7 @@ using lssWebApi2.Mapper;
 
 using lssWebApi2.EntityFramework;
 using X.PagedList;
-
+using lssWebApi2.Enumerations;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 { 
@@ -159,34 +159,78 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
+
         public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId)
         {
+            try
+            {
+                TimeAndAttendancePunchIn retTA = new TimeAndAttendancePunchIn();
+                TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
+                retTA.PunchinDate = currentTime.PunchinDate;
+                retTA.PunchinDateTime = currentTime.PunchinDateTime;
+                retTA.EmployeeId = employeeId;
 
-            TimeAndAttendancePunchIn retTA = new TimeAndAttendancePunchIn();
-            TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
-            retTA.PunchinDate = currentTime.PunchinDate;
-            retTA.PunchinDateTime = currentTime.PunchinDateTime;
-            retTA.EmployeeId = employeeId;
 
-        
-            /*
-            retTA.JobCodeXrefId
-            
-            retTA.SupervisorId 
-            retTA.Note 
-            retTA.ShiftId 
-         retTA.ScheduledToWork 
-    retTA.TypeOfTimeUdcXrefId 
-retTA.ApprovingAddressId 
-         retTA.PayCodeXrefId
-         retTA.ScheduleId 
-          retTA.TypeOfTime 
-retTA.PayCode 
-         retTA.JobCode 
-         retTA.TransferJobCode 
-         retTA.TransferSupervisorId 
-         */
-            return (retTA);
+
+                Task<TimeAndAttendanceScheduledToWork> queryTask = (from a in _dbContext.TimeAndAttendanceScheduledToWork
+                                                                    where a.EmployeeId == employeeId
+                                                                    && a.StartDate >= retTA.PunchinDate
+                                                                    && a.EndDate <= retTA.PunchinDate
+
+                                                                    select a).SingleAsync<TimeAndAttendanceScheduledToWork>();
+
+                Task<SupervisorEmployees> supQueryTask = (from a in _dbContext.SupervisorEmployees
+                                                          where a.EmployeeId == employeeId
+                                                          select a).SingleAsync<SupervisorEmployees>();
+
+                Task<Udc> scheduledTimeUDCTask = GetUdc("TIME", TypeOfTimeEnum.scheduled.ToString());
+                Task<Udc> nonScheduledTimeUDCTask = GetUdc("TIME", TypeOfTimeEnum.notscheduled.ToString());
+
+                Task[] tasksArray = new Task[] { queryTask, supQueryTask, scheduledTimeUDCTask, nonScheduledTimeUDCTask };
+
+                Task.WaitAll(tasksArray);
+
+
+                if (queryTask.Result == null)
+                {
+                    retTA.TypeOfTimeUdcXrefId = nonScheduledTimeUDCTask.Result.XrefId;
+                    retTA.TypeOfTime = nonScheduledTimeUDCTask.Result.Value;
+                }
+                if (queryTask.Result != null)
+                {
+                    Udc jobCodeUDC = await GetUdc("JOBCODE", queryTask.Result.JobCode);
+                    Udc payCodeUDC = await GetUdc("PAYCODE", queryTask.Result.PayCode);
+
+                    retTA.TypeOfTimeUdcXrefId = scheduledTimeUDCTask.Result.XrefId;
+                    retTA.TypeOfTime = scheduledTimeUDCTask.Result.Value;
+                    retTA.JobCodeXrefId = jobCodeUDC.XrefId;
+                    retTA.PayCodeXrefId = payCodeUDC.XrefId;
+                    retTA.ShiftId = queryTask.Result.ShiftId;
+                    retTA.Note = "";
+                    retTA.ScheduleId = queryTask.Result.ScheduleId;
+                    retTA.JobCode = queryTask.Result.JobCode;
+                    retTA.PayCode = payCodeUDC.KeyCode;
+
+                    if (supQueryTask.Result != null)
+                    {
+                        retTA.SupervisorId = supQueryTask.Result.SupervisorId;
+                    }
+
+                    //retTA.ApprovingAddressId
+
+
+                    //retTA.TransferJobCode
+                    //retTA.TransferSupervisorId
+                }
+
+
+
+                return (retTA);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
     }
         public async Task<TimeAndAttendanceTimeView> GetUTCAdjustedTime()
         {
