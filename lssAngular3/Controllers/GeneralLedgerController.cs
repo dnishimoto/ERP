@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.GeneralLedgerDomain;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,29 +13,17 @@ namespace lssAngular2.Controllers
     [Route("api/[controller]")]
     public class GeneralLedgerController : Controller
     {
-        // GET: api/<controller>
-        /*
-        [HttpGet]
-        public IEnumerable<string> Get()
+        string _baseUrl;
+        public GeneralLedgerController(IOptions<AppSettings> settings)
         {
-            return new string[] { "value1", "value2" };
+            AppSettings _settings = settings.Value;
+            this._baseUrl = _settings.BaseUrl;
         }
-        */
-        /*
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-        */
-
-        // GET api/<controller>/5
-        //[HttpGet("{fiscalYear}")]
         [Route("IncomeStatementAccounts/{fiscalYear}")]
         [HttpGet]
         public async Task<String[]> GetIncomeStatementAccounts(int fiscalYear)
         {
-            DataService ds = new DataService();
+            DataService ds = new DataService(this._baseUrl);
             string[] array = await ds.GetAsync<String[]>("api/GeneralLedger/IncomeStatementAccounts/" + fiscalYear.ToString());
             return array;
 
@@ -44,7 +33,7 @@ namespace lssAngular2.Controllers
 
         public async Task<IList<IncomeStatementView>> GetIncomeStatementViews(int fiscalYear)
         {
-            DataService ds = new DataService();
+            DataService ds = new DataService(this._baseUrl);
             IList <IncomeStatementView> views = await ds.GetAsync<List<IncomeStatementView>>("api/GeneralLedger/IncomeStatementViews/"+fiscalYear.ToString());
             return views;
         }
@@ -53,14 +42,14 @@ namespace lssAngular2.Controllers
         [HttpPost]
         public async Task PostIncomeView([FromBody]IncomeShortView income)
         {
-            DataService ds = new DataService();
+            DataService ds = new DataService(this._baseUrl);
             await ds.PostAsync<IncomeShortView>("api/GeneralLedger/IncomeShortView", income);
         }
         [Route("IncomeViews")]
         [HttpGet]
         public async Task<IEnumerable<IncomeView>> GetIncomeViews()
         {
-            DataService ds = new DataService();
+            DataService ds = new DataService(this._baseUrl);
             IEnumerable<IncomeView> views = await ds.GetAsync<List<IncomeView>>("api/GeneralLedger/IncomeViews");
             return views;
         }
@@ -69,7 +58,7 @@ namespace lssAngular2.Controllers
         [HttpGet]
         public async Task<IEnumerable<AccountSummaryView>> GetSummary(int fiscalYear)
         {
-            DataService ds = new DataService();
+            DataService ds = new DataService(this._baseUrl);
             IEnumerable<AccountSummaryView> views = await ds.GetAsync<List<AccountSummaryView>>("api/GeneralLedger/BySummary/" + fiscalYear.ToString());
             return views;
         }
@@ -79,7 +68,7 @@ namespace lssAngular2.Controllers
         [HttpGet]
         public async Task<GeneralLedgerView> Get(long generalLedgerId)
         {
-            DataService ds = new DataService();
+            DataService ds = new DataService(this._baseUrl);
             GeneralLedgerView view = await ds.GetAsync<GeneralLedgerView>("api/GeneralLedger/ById/" + generalLedgerId.ToString());
             
             return view;
