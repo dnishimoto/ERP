@@ -8,6 +8,11 @@ using System;
 
 namespace lssAngular2
 {
+    public class AppSettings
+    {
+        public string BaseUrl { get; set; }
+    }
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -27,6 +32,8 @@ namespace lssAngular2
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+            services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+    
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

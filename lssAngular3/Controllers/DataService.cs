@@ -12,14 +12,21 @@ namespace lssAngular2.Controllers
     public class DataService
     {
         //string Baseurl = "http://localhost:61612";
-        string Baseurl= "https://lsswebapi.azurewebsites.net/";
+        string _baseurl = "https://lsswebapi.azurewebsites.net/";
 
-
+        public DataService()
+        {
+            
+        }
+        public DataService(string baseURL)
+        {
+            this._baseurl = baseURL;
+        }
         public async Task PutAsync<T>(string apiPath, T myObject)
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(Baseurl);
+                client.BaseAddress = new Uri(_baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -44,7 +51,7 @@ namespace lssAngular2.Controllers
         {
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(Baseurl);
+                client.BaseAddress = new Uri(_baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -71,7 +78,7 @@ namespace lssAngular2.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(Baseurl);
+                client.BaseAddress = new Uri(_baseurl);
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
