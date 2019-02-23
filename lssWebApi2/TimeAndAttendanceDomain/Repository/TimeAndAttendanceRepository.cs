@@ -14,7 +14,7 @@ using X.PagedList;
 using lssWebApi2.Enumerations;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
-{ 
+{
 
     public class TimeAndAttendancePunchInView
     {
@@ -74,8 +74,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
     public class TimeAndAttendanceView
     {
         public long TimePunchinId { get; set; }
-        public DateTime ? PunchinDate { get; set; }
-        public DateTime ? PunchoutDate { get; set; }
+        public DateTime? PunchinDate { get; set; }
+        public DateTime? PunchoutDate { get; set; }
         public string PunchinDateTime { get; set; }
         public string PunchoutDateTime { get; set; }
         public string PayCode { get; set; }
@@ -85,13 +85,13 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public string ApproverName { get; set; }
         public string EmployeeName { get; set; }
         public long EmployeeId { get; set; }
-        public long ? ShiftId { get; set; }
+        public long? ShiftId { get; set; }
         public string ShiftName { get; set; }
         public string ShiftType { get; set; }
         public long ScheduleId { get; set; }
         public string ScheduleName { get; set; }
-        public DateTime ? ScheduleStartDate { get; set; }
-        public DateTime ? ScheduleEndDate { get; set; }
+        public DateTime? ScheduleStartDate { get; set; }
+        public DateTime? ScheduleEndDate { get; set; }
         public string ScheduleGroup { get; set; }
         public bool ScheduledToWork { get; set; }
         public bool? Monday { get; set; }
@@ -148,6 +148,42 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             return list;
 
         }
+        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, DateTime workDay, string account)
+        {
+
+            string workDayDateTime = BuildLongDate(workDay);
+
+            TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, workDay, workDayDateTime, hoursDuration: hours, minutesDuration: minutes);
+            return retTA;
+        }
+        public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
+        {
+            bool retVal = false;
+
+            try
+            {
+
+                Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+
+
+                List<TimeAndAttendancePunchIn> list = await (from e in _dbContext.TimeAndAttendancePunchIn
+                                                             where e.EmployeeId == employeeId
+                                                             && e.PunchinDate >= asOfDate
+                                                             && e.TaskStatusXrefId == taskStatusQuery.XrefId
+                                                             select e
+                                    ).ToListAsync<TimeAndAttendancePunchIn>();
+
+                retVal = list.Any(e => e.EmployeeId == employeeId);
+
+
+
+                return retVal;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         private async Task<TimeAndAttendanceSetup> GetTimeAndAttendanceTimeZone()
         {
             try
@@ -160,41 +196,67 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
         }
 
-        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId)
+        private async Task<TimeAndAttendancePunchIn> GetTimeAndAttendancePunchIn(long employeeId, string account, DateTime punchinDate, string punchinDateTime, int hoursDuration, int minutesDuration)
         {
             try
             {
                 TimeAndAttendancePunchIn retTA = new TimeAndAttendancePunchIn();
-                TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
-                retTA.PunchinDate = currentTime.PunchinDate;
-                retTA.PunchinDateTime = currentTime.PunchinDateTime;
-                retTA.EmployeeId = employeeId;
-
-
 
                 Task<TimeAndAttendanceScheduledToWork> queryTask = (from a in _dbContext.TimeAndAttendanceScheduledToWork
                                                                     where a.EmployeeId == employeeId
-                                                                    && a.StartDate >= retTA.PunchinDate
-                                                                    && a.EndDate <= retTA.PunchinDate
+                                                                    && a.StartDate >= punchinDate
+                                                                    && a.EndDate <= punchinDate
 
-                                                                    select a).SingleAsync<TimeAndAttendanceScheduledToWork>();
+                                                                    select a).FirstOrDefaultAsync<TimeAndAttendanceScheduledToWork>();
 
                 Task<SupervisorEmployees> supQueryTask = (from a in _dbContext.SupervisorEmployees
                                                           where a.EmployeeId == employeeId
-                                                          select a).SingleAsync<SupervisorEmployees>();
+                                                          select a).FirstOrDefaultAsync<SupervisorEmployees>();
+
+
 
                 Task<Udc> scheduledTimeUDCTask = GetUdc("TIME", TypeOfTimeEnum.scheduled.ToString());
                 Task<Udc> nonScheduledTimeUDCTask = GetUdc("TIME", TypeOfTimeEnum.notscheduled.ToString());
-
-                Task[] tasksArray = new Task[] { queryTask, supQueryTask, scheduledTimeUDCTask, nonScheduledTimeUDCTask };
+                Task<Udc> taskStatusTask = GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+                Task[] tasksArray = new Task[] { taskStatusTask, queryTask, supQueryTask, scheduledTimeUDCTask, nonScheduledTimeUDCTask };
 
                 Task.WaitAll(tasksArray);
 
 
+                retTA.PunchinDate = punchinDate;
+                retTA.PunchinDateTime = punchinDateTime;
+                retTA.EmployeeId = employeeId;
+                retTA.Account = account;
+                int total_minutesDuration = hoursDuration * 60 + minutesDuration;
+                retTA.DurationInMinutes = total_minutesDuration;
+
+                if (taskStatusTask.Result != null)
+                {
+                    retTA.TaskStatusXrefId = taskStatusTask.Result.XrefId;
+                    retTA.TaskStatus = taskStatusTask.Result.KeyCode;
+
+                }
+
+                if (supQueryTask.Result != null)
+                {
+                    retTA.SupervisorId = supQueryTask.Result.SupervisorId;
+                }
+
+                //Not scheduled to work
                 if (queryTask.Result == null)
                 {
                     retTA.TypeOfTimeUdcXrefId = nonScheduledTimeUDCTask.Result.XrefId;
                     retTA.TypeOfTime = nonScheduledTimeUDCTask.Result.Value;
+                    retTA.Note = "Not Scheduled - Walkin";
+                    Udc notscheduled_payCodeUDC = await GetUdc("PAYCODE", TypeOfPayEnum.Regular.ToString());
+                    Employee employeeQuery = await (from a in _dbContext.Employee
+                                                    where a.EmployeeId == employeeId
+                                                    select a).FirstOrDefaultAsync<Employee>();
+
+                    retTA.JobCodeXrefId = employeeQuery.JobTitleXrefId;
+                    retTA.JobCode = employeeQuery.JobTitleXref.KeyCode;
+                    retTA.PayCodeXrefId = notscheduled_payCodeUDC.XrefId;
+                    retTA.PayCode = notscheduled_payCodeUDC.KeyCode;
                 }
                 if (queryTask.Result != null)
                 {
@@ -203,27 +265,20 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                     retTA.TypeOfTimeUdcXrefId = scheduledTimeUDCTask.Result.XrefId;
                     retTA.TypeOfTime = scheduledTimeUDCTask.Result.Value;
+
                     retTA.JobCodeXrefId = jobCodeUDC.XrefId;
+                    retTA.JobCode = queryTask.Result.JobCode;
                     retTA.PayCodeXrefId = payCodeUDC.XrefId;
+                    retTA.PayCode = payCodeUDC.KeyCode;
+
                     retTA.ShiftId = queryTask.Result.ShiftId;
                     retTA.Note = "";
                     retTA.ScheduleId = queryTask.Result.ScheduleId;
-                    retTA.JobCode = queryTask.Result.JobCode;
-                    retTA.PayCode = payCodeUDC.KeyCode;
-
-                    if (supQueryTask.Result != null)
-                    {
-                        retTA.SupervisorId = supQueryTask.Result.SupervisorId;
-                    }
-
                     //retTA.ApprovingAddressId
-
-
                     //retTA.TransferJobCode
                     //retTA.TransferSupervisorId
                 }
-
-
+                
 
                 return (retTA);
             }
@@ -231,7 +286,25 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-    }
+
+        }
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId, string account)
+        {
+            try
+            {
+
+                TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
+
+                TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, currentTime.PunchinDate, currentTime.PunchinDateTime, hoursDuration: 0, minutesDuration: 0);
+
+                return retTA;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<TimeAndAttendanceTimeView> GetUTCAdjustedTime()
         {
             try
@@ -335,13 +408,13 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                                                               ScheduleGroup = taSchedule.ScheduleGroup,
                                                               Monday = taSchedule.Monday,
                                                               Tuesday = taSchedule.Tuesday,
-                                                              Wednesday=taSchedule.Wednesday,
-                                                              Thursday=taSchedule.Thursday,
-                                                              Friday=taSchedule.Friday,
-                                                              Saturday=taSchedule.Saturday,
-                                                              Sunday=taSchedule.Sunday,
-                                                        ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
-                                                    }).ToListAsync<TimeAndAttendanceView>();
+                                                              Wednesday = taSchedule.Wednesday,
+                                                              Thursday = taSchedule.Thursday,
+                                                              Friday = taSchedule.Friday,
+                                                              Saturday = taSchedule.Saturday,
+                                                              Sunday = taSchedule.Sunday,
+                                                              ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
+                                                          }).ToListAsync<TimeAndAttendanceView>();
 
                 return list;
             }
@@ -354,69 +427,69 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         {
             try
             {
-               List< TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
-                             where taPunchin.PunchinDate >= startDate
-                             && taPunchin.PunchinDate<= endDate
+                List<TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
+                                                          where taPunchin.PunchinDate >= startDate
+                                                          && taPunchin.PunchinDate <= endDate
 
-                             join udcTypeOfTime in _dbContext.Udc
-                             on taPunchin.TypeOfTimeUdcXrefId equals udcTypeOfTime.XrefId
+                                                          join udcTypeOfTime in _dbContext.Udc
+                                                          on taPunchin.TypeOfTimeUdcXrefId equals udcTypeOfTime.XrefId
 
-                             join udcJobCode in _dbContext.Udc
-                             on taPunchin.JobCodeXrefId equals udcJobCode.XrefId
+                                                          join udcJobCode in _dbContext.Udc
+                                                          on taPunchin.JobCodeXrefId equals udcJobCode.XrefId
 
-                             join udcPayCode in _dbContext.Udc
-                             on taPunchin.PayCodeXrefId equals udcPayCode.XrefId into ljPayCode
-                             from udcPayCode in ljPayCode.DefaultIfEmpty()
+                                                          join udcPayCode in _dbContext.Udc
+                                                          on taPunchin.PayCodeXrefId equals udcPayCode.XrefId into ljPayCode
+                                                          from udcPayCode in ljPayCode.DefaultIfEmpty()
 
-                             join taSchedule in _dbContext.TimeAndAttendanceSchedule
-                             on taPunchin.ScheduleId equals taSchedule.ScheduleId
+                                                          join taSchedule in _dbContext.TimeAndAttendanceSchedule
+                                                          on taPunchin.ScheduleId equals taSchedule.ScheduleId
 
-                             join taShift in _dbContext.TimeAndAttendanceShift
-                             on taPunchin.ShiftId equals taShift.ShiftId into ljShift
-                             from taShift in ljShift.DefaultIfEmpty()
+                                                          join taShift in _dbContext.TimeAndAttendanceShift
+                                                          on taPunchin.ShiftId equals taShift.ShiftId into ljShift
+                                                          from taShift in ljShift.DefaultIfEmpty()
 
-                             join supervisor in _dbContext.Supervisor
-                             on taPunchin.SupervisorId equals supervisor.SupervisorId
+                                                          join supervisor in _dbContext.Supervisor
+                                                          on taPunchin.SupervisorId equals supervisor.SupervisorId
 
-                             join supervisorAddressBook in _dbContext.AddressBook
-                             on supervisor.AddressId equals supervisorAddressBook.AddressId
+                                                          join supervisorAddressBook in _dbContext.AddressBook
+                                                          on supervisor.AddressId equals supervisorAddressBook.AddressId
 
-                             join employee in _dbContext.Employee
-                             on taPunchin.EmployeeId equals employee.EmployeeId
+                                                          join employee in _dbContext.Employee
+                                                          on taPunchin.EmployeeId equals employee.EmployeeId
 
 
-                             join employeeAddressBook in _dbContext.AddressBook
-                             on employee.AddressId equals employeeAddressBook.AddressId
+                                                          join employeeAddressBook in _dbContext.AddressBook
+                                                          on employee.AddressId equals employeeAddressBook.AddressId
 
-                             join approverAddressBook in _dbContext.AddressBook
-                             on taPunchin.ApprovingAddressId equals approverAddressBook.AddressId
+                                                          join approverAddressBook in _dbContext.AddressBook
+                                                          on taPunchin.ApprovingAddressId equals approverAddressBook.AddressId
 
-                             select new TimeAndAttendanceView
-                             {
-                                 TimePunchinId = taPunchin.TimePunchinId,
-                                 PunchinDate = taPunchin.PunchinDate,
-                                 PunchoutDate = taPunchin.PunchoutDate,
-                                 PunchinDateTime = taPunchin.PunchinDateTime,
-                                 PunchoutDateTime = taPunchin.PunchoutDateTime,
-                                 PayCode = udcPayCode.Value,
-                                 TypeOfTime = udcTypeOfTime.Value,
-                                 JobCode = udcJobCode.Value,
-                                 ApproverAddressId = approverAddressBook.AddressId,
-                                 ApproverName = approverAddressBook.Name,
-                                 EmployeeName = employeeAddressBook.Name,
-                                 EmployeeId = employee.EmployeeId,
-                                 ShiftId = (long?)taShift.ShiftId,
-                                 ShiftName = taShift.ShiftName,
-                                 ShiftType = taShift.ShiftType,
-                                 ScheduleId = taSchedule.ScheduleId,
-                                 ScheduleName = taSchedule.ScheduleName,
-                                 ScheduleStartDate = taSchedule.StartDate,
-                                 ScheduleEndDate = taSchedule.EndDate,
-                                 ScheduleGroup = taSchedule.ScheduleGroup,
-                                 ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
-                             }).ToListAsync<TimeAndAttendanceView>();
+                                                          select new TimeAndAttendanceView
+                                                          {
+                                                              TimePunchinId = taPunchin.TimePunchinId,
+                                                              PunchinDate = taPunchin.PunchinDate,
+                                                              PunchoutDate = taPunchin.PunchoutDate,
+                                                              PunchinDateTime = taPunchin.PunchinDateTime,
+                                                              PunchoutDateTime = taPunchin.PunchoutDateTime,
+                                                              PayCode = udcPayCode.Value,
+                                                              TypeOfTime = udcTypeOfTime.Value,
+                                                              JobCode = udcJobCode.Value,
+                                                              ApproverAddressId = approverAddressBook.AddressId,
+                                                              ApproverName = approverAddressBook.Name,
+                                                              EmployeeName = employeeAddressBook.Name,
+                                                              EmployeeId = employee.EmployeeId,
+                                                              ShiftId = (long?)taShift.ShiftId,
+                                                              ShiftName = taShift.ShiftName,
+                                                              ShiftType = taShift.ShiftType,
+                                                              ScheduleId = taSchedule.ScheduleId,
+                                                              ScheduleName = taSchedule.ScheduleName,
+                                                              ScheduleStartDate = taSchedule.StartDate,
+                                                              ScheduleEndDate = taSchedule.EndDate,
+                                                              ScheduleGroup = taSchedule.ScheduleGroup,
+                                                              ScheduledToWork = _dbContext.TimeAndAttendanceScheduledToWork.Any(e => e.EmployeeId == employee.EmployeeId && e.ScheduleId == taSchedule.ScheduleId)
+                                                          }).ToListAsync<TimeAndAttendanceView>();
 
-                
+
                 return list;
             }
             catch (Exception ex)

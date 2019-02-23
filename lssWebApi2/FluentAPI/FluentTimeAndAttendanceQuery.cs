@@ -18,10 +18,18 @@ namespace ERP_Core2.FluentAPI
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId)
+        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, DateTime workDay, string account)
+        {
+            return await _unitOfWork.timeAndAttendanceRepository.BuildByTimeDuration(employeeId, hours, minutes, workDay, account);
+        }
+        public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
+        {
+            return await _unitOfWork.timeAndAttendanceRepository.IsPunchOpen(employeeId,asOfDate);
+        }
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId,string account)
         {
 
-            return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId);
+            return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId,account);
         }
         public IPagedList<TimeAndAttendancePunchIn> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {

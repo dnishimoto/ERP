@@ -33,16 +33,47 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
-        public async Task TestTimeGenerator()
+        public async Task TestAddTimeByDuration()
+        {
+            //No UTC lookup time
+            long employeeId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            int hours = 9;
+            int minutes = 0;
+            DateTime workDay = DateTime.Parse("2/22/2019");
+            string account = "1200.215";
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, workDay);
+
+            if (isOpen != false)
+            {
+                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildByTimeDuration(employeeId, hours, minutes, workDay, account);
+                taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+            }
+
+        }
+        [Fact]
+        public async Task TestScheduledToWorkPunchin()
         {
             long employeeId = 1;
             UnitOfWork unitOfWork = new UnitOfWork();
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId);
+            DateTime asOfDate = DateTime.Now;
 
-            taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+            string account = "1200.215";
+
+            bool isOpen= await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+
+            if (isOpen == false)
+            {
+                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId,account);
+
+                taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+            }
 
         }
     [Fact]
