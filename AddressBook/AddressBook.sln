@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillenniumERPWinForms", "Mi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MillenniumERP", "..\MillenniumERPWPF\MillenniumERP\MillenniumERP.csproj", "{FB262120-371A-47F0-A14A-DAD4189FE03B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ERP_Core", "ERP_Core2\ERP_Core.csproj", "{B098DC27-9685-440D-9D4C-81D287595028}"
-EndProject
 Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "MillenniumReports", "..\MillenniumReports\MillenniumReports\MillenniumReports.rptproj", "{476320CC-6DAD-4A49-9AAF-19D139660ECE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssWebApi2", "..\lssWebApi2\lssWebApi2.csproj", "{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}"
@@ -19,8 +17,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssUnitTests", "..\lssUnitT
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests", "lssXUnitTests\lssXUnitTests.csproj", "{0669D715-43BC-4C86-B9B8-306BD6FEA132}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular2", "..\lssAngular2\lssAngular2.csproj", "{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests2", "..\lssXUnit3\lssXUnitTests2.csproj", "{668C306F-0601-4BF7-8207-4E2B37BC5340}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -50,12 +46,6 @@ Global
 		{FB262120-371A-47F0-A14A-DAD4189FE03B}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{FB262120-371A-47F0-A14A-DAD4189FE03B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB262120-371A-47F0-A14A-DAD4189FE03B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B098DC27-9685-440D-9D4C-81D287595028}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B098DC27-9685-440D-9D4C-81D287595028}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B098DC27-9685-440D-9D4C-81D287595028}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{B098DC27-9685-440D-9D4C-81D287595028}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{B098DC27-9685-440D-9D4C-81D287595028}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B098DC27-9685-440D-9D4C-81D287595028}.Release|Any CPU.Build.0 = Release|Any CPU
 		{476320CC-6DAD-4A49-9AAF-19D139660ECE}.Debug|Any CPU.ActiveCfg = Debug
 		{476320CC-6DAD-4A49-9AAF-19D139660ECE}.Debug|Any CPU.Build.0 = Debug
 		{476320CC-6DAD-4A49-9AAF-19D139660ECE}.Debug|Any CPU.Deploy.0 = Debug
@@ -83,12 +73,6 @@ Global
 		{0669D715-43BC-4C86-B9B8-306BD6FEA132}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{0669D715-43BC-4C86-B9B8-306BD6FEA132}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0669D715-43BC-4C86-B9B8-306BD6FEA132}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E3865DA6-3A92-45FF-A9A6-8070C7D7B5B9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{668C306F-0601-4BF7-8207-4E2B37BC5340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{668C306F-0601-4BF7-8207-4E2B37BC5340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{668C306F-0601-4BF7-8207-4E2B37BC5340}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU

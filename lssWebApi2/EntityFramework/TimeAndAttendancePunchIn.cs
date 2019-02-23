@@ -31,6 +31,9 @@ namespace lssWebApi2.EntityFramework
         public string JobCode { get; set; }
         public string TransferJobCode { get; set; }
         public long? TransferSupervisorId { get; set; }
+        public long? TaskStatusXrefId { get; set; }
+        public string TaskStatus { get; set; }
+        public string Account { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual TimeAndAttendanceShift Shift { get; set; }
