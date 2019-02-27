@@ -7,7 +7,7 @@ namespace ERP_Core2.Interfaces
         IFluentTimeAndAttendanceQuery Query();
         ITimeAndAttendance AddPunchIn(TimeAndAttendancePunchIn taPunchin);
         ITimeAndAttendance DeletePunchIn(TimeAndAttendancePunchIn taPunchin);
-        ITimeAndAttendance UpdatePunchIn(TimeAndAttendancePunchIn taPunchin);
+        ITimeAndAttendance UpdatePunchIn(TimeAndAttendancePunchIn taPunchin,int mealDeduction);
         ITimeAndAttendance Apply();
     }
 }

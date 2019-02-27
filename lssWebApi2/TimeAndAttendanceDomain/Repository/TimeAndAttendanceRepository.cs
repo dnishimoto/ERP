@@ -105,8 +105,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
     }
     public class TimeAndAttendanceTimeView
     {
-        public DateTime PunchinDate { get; set; }
-        public String PunchinDateTime { get; set; }
+        public DateTime PunchDate { get; set; }
+        public String PunchDateTime { get; set; }
     }
     public static class Utilities
     {
@@ -154,7 +154,191 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             string workDayDateTime = BuildLongDate(workDay);
 
             TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, workDay, workDayDateTime, hoursDuration: hours, minutesDuration: minutes);
+
+            Task<Udc> statusTask = GetUdc("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
+            Task.WaitAll(statusTask);
+            retTA.TaskStatusXrefId = statusTask.Result.XrefId;
+            retTA.TaskStatus = statusTask.Result.KeyCode;
             return retTA;
+        }
+        private string ReverseDate(Object pattern)
+        {
+            string sYear, sMonth, sDay;
+            DateTime dDate;
+
+            try
+            {
+                if (String.IsNullOrEmpty(pattern.ToString()) == true)
+                {
+                    return ("");
+                }
+                else if (pattern.ToString() == "")
+                {
+                    return ("");
+                }
+
+                sYear = pattern.ToString().Substring(0, 4);
+                sMonth = pattern.ToString().Substring(4, 2);
+                sDay = pattern.ToString().Substring(6, 2);
+
+                dDate = DateTime.Parse(sMonth + "/" + sDay + "/" + sYear);
+                return (dDate.ToString("MM/dd/yyyy"));
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
+        private string FormatTime(string hours, string minutes, string seconds)
+        {
+            int temp;
+            string retVal = "";
+
+            if (hours != "") {
+                if (Int32.Parse(hours) >= 13)
+                {
+                    temp = Int32.Parse(hours) - 12;
+                    retVal = temp.ToString() + ":" + minutes + ":" + seconds + " PM";
+                }
+                else if (Int32.Parse(hours) == 12)
+                {
+                    retVal = Int32.Parse(hours) + ":" + minutes + ":" + seconds + " PM";
+                }
+                else
+                {
+                    if (Int32.Parse(hours) < 1)
+                    {
+                        temp = Int32.Parse(hours) + 12;
+                        retVal = temp.ToString() + ":" + minutes + ":" + seconds + " AM";
+                    }
+                    else
+                    {
+                        retVal = Int32.Parse(hours) + ":" + minutes + ":" + seconds + " AM";
+                    }
+
+                }
+            }
+            return (retVal);
+        }
+        private string ReverseTranslateShort24hr(string pattern)
+        {
+            string retVal;
+            string hours;
+            string minutes;
+            string seconds;
+
+            hours = pattern.ToString().Substring(0, 2);
+            minutes = pattern.ToString().Substring(2, 2);
+            seconds = "00";
+
+            retVal = FormatTime(hours, minutes, seconds);
+
+            return (retVal);
+        }
+        private string ReverseTranslate24hr(object pattern)
+        {
+            string retVal = "";
+            string year;
+            string month;
+            string day;
+            string hours;
+            string minutes;
+            string seconds;
+
+            if (String.IsNullOrEmpty(pattern.ToString()))
+            {
+                return (retVal);
+            }
+
+            year = pattern.ToString().Substring(0, 4);
+            month = pattern.ToString().Substring(4, 2);
+            day = pattern.ToString().Substring(6, 2);
+            hours = pattern.ToString().Substring(8, 2);
+            minutes = pattern.ToString().Substring(10, 2);
+            seconds = pattern.ToString().Substring(12, 2);
+
+            retVal = FormatTime(hours, minutes, seconds);
+
+            return (retVal);
+        }
+        private async Task<int> GetDuration(string punchinString, string punchOutString, int mealDeduction)
+        {
+
+            
+            int minutes = 0;
+            string timeIn, timeOut;
+            bool standardToDayLightSaving = false;
+            bool dayLightSavingToStandard = false;
+            DateTime fromTime;
+            DateTime toTime;
+
+            try
+            {
+                timeIn = ReverseDate(punchinString) + " " + ReverseTranslate24hr(punchinString);
+                fromTime = DateTime.Parse(timeIn);
+                timeOut = ReverseDate(punchOutString) + " " + ReverseTranslate24hr(punchOutString);
+                toTime = DateTime.Parse(timeOut);
+                if (timeIn.Trim() != "" && timeOut.Trim() != "")
+                {
+                    minutes = (int) (toTime-fromTime).TotalMinutes;
+                    DateTime mst = toTime;
+
+                    TimeAndAttendanceSetup setup = await GetTimeAndAttendanceTimeZone();
+
+                    TimeZoneInfo localTime = TimeZoneInfo.FindSystemTimeZoneById(setup.TimeZone); //TimeZoneInfo.Local.StandardName
+
+                    TimeSpan offset = localTime.GetUtcOffset(mst);
+
+                    mst = DateTime.Now.ToUniversalTime().AddHours(offset.Hours).ToUniversalTime();
+
+                    if (localTime.IsDaylightSavingTime(fromTime) == true &&
+                        localTime.IsDaylightSavingTime(toTime) == false)
+                    {
+                        dayLightSavingToStandard = true;
+                    }
+
+                    if (localTime.IsDaylightSavingTime(fromTime) == false &&
+                        localTime.IsDaylightSavingTime(toTime) == true)
+                    {
+                        standardToDayLightSaving = true;
+                    }
+
+                    if (dayLightSavingToStandard) { minutes += 60; }
+
+                    if (standardToDayLightSaving) { minutes += 60; }
+
+                }
+
+                minutes = minutes - mealDeduction;
+
+                return (minutes);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+
+        }
+        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId, DateTime asOfDate)
+        {
+            try
+            {
+                Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+
+
+                TimeAndAttendancePunchIn item = await (from e in _dbContext.TimeAndAttendancePunchIn
+                                                       where e.EmployeeId == employeeId
+                                                       && e.PunchinDate == asOfDate
+                                                       && e.TaskStatusXrefId == taskStatusQuery.XrefId
+                                                       select e
+                                    ).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
+
+                return item;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
         public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
         {
@@ -168,7 +352,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 List<TimeAndAttendancePunchIn> list = await (from e in _dbContext.TimeAndAttendancePunchIn
                                                              where e.EmployeeId == employeeId
-                                                             && e.PunchinDate >= asOfDate
+                                                             && e.PunchinDate == asOfDate
                                                              && e.TaskStatusXrefId == taskStatusQuery.XrefId
                                                              select e
                                     ).ToListAsync<TimeAndAttendancePunchIn>();
@@ -278,7 +462,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                     //retTA.TransferJobCode
                     //retTA.TransferSupervisorId
                 }
-                
+
 
                 return (retTA);
             }
@@ -295,7 +479,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
 
-                TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, currentTime.PunchinDate, currentTime.PunchinDateTime, hoursDuration: 0, minutesDuration: 0);
+                TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, currentTime.PunchDate, currentTime.PunchDateTime, hoursDuration: 0, minutesDuration: 0);
 
                 return retTA;
 
@@ -325,7 +509,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 mst = DateTime.Now.ToUniversalTime().AddHours(offset.Hours).ToUniversalTime();
 
-                utcTime.PunchinDate = mst;
+                utcTime.PunchDate = mst;
 
                 string year = mst.Year.ToString();
                 string month = Utilities.Right("0" + mst.Month.ToString(), 2);
@@ -334,7 +518,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 string minutes = Utilities.Right("0" + mst.Minute.ToString(), 2);
                 string seconds = Utilities.Right("0" + mst.Second.ToString(), 2);
 
-                utcTime.PunchinDateTime = year + month + day + hours + minutes + seconds;
+                utcTime.PunchDateTime = year + month + day + hours + minutes + seconds;
                 return (utcTime);
             }
             catch (Exception ex)
@@ -546,6 +730,44 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
+        }
+        private double GetHours(int duration)
+        {
+            double retVal = 0;
+            retVal = duration / 60;
+            return (retVal);
+        }
+        public async Task<CreateProcessStatus> UpdatePunchin(TimeAndAttendancePunchIn taPunchin,int mealDeduction)
+        {
+
+            try
+            {
+                //long timePunchinId = 0;
+                long? employeeId = taPunchin.EmployeeId;
+                string punchinDateTime = taPunchin.PunchinDateTime;
+
+                TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
+
+                int minutesDuration = await GetDuration(punchinDateTime, currentTime.PunchDateTime, mealDeduction);
+                //double hours = GetHours(minutesDuration);
+
+                taPunchin.DurationInMinutes = minutesDuration;
+                taPunchin.MealDurationInMinutes = mealDeduction;
+                taPunchin.PunchoutDate = currentTime.PunchDate;
+                taPunchin.PunchoutDateTime = currentTime.PunchDateTime;
+                                        
+                
+                UpdateObject(taPunchin);
+                return CreateProcessStatus.Update;
+                      
+               
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }       
+           
+            
         }
         public async Task<CreateProcessStatus> AddPunchin(TimeAndAttendancePunchIn taPunchin)
         {

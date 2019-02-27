@@ -52,17 +52,19 @@ namespace ERP_Core2.FluentAPI
             }
         }
 
-        public ITimeAndAttendance UpdatePunchIn(TimeAndAttendancePunchIn taPunchin)
+        public ITimeAndAttendance UpdatePunchIn(TimeAndAttendancePunchIn taPunchin,int mealDeduction)
         {
             try
             {
-                unitOfWork.timeAndAttendanceRepository.UpdateObject(taPunchin);
-                processStatus = CreateProcessStatus.Update;
+                Task<CreateProcessStatus> statusTask = Task.Run(async()=>await unitOfWork.timeAndAttendanceRepository.UpdatePunchin(taPunchin,mealDeduction));
+                Task.WaitAll(statusTask);
+                processStatus = statusTask.Result;
                 return this as ITimeAndAttendance;
 
             }
             catch (Exception ex)
             {
+                processStatus = CreateProcessStatus.Failed;
                 throw new Exception(GetMyMethodName(), ex);
             }
         }

@@ -33,6 +33,43 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
+
+        public async Task TestPunchOut()
+        {
+            long employeeId = 1;
+            UnitOfWork unitOfWork = new UnitOfWork();
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+            TimeAndAttendancePunchIn taPunchin=null;
+
+            DateTime asOfDate = DateTime.Now;
+
+            string account = "1200.215";
+            int mealDeduction = 0;
+
+            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+
+            if (isOpen == false)
+            {
+                 taPunchin= await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+
+                taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+            }
+
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId, asOfDate);
+
+            Thread.Sleep(60000);
+
+            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin,mealDeduction).Apply();
+
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(taPunchin.TimePunchinId);
+
+            Assert.NotNull(taPunchin.PunchinDate);
+
+           // taMod.TimeAndAttendance.DeletePunchIn(taPunchin).Apply();
+
+        }
+        [Fact]
         public async Task TestAddTimeByDuration()
         {
             //No UTC lookup time
@@ -41,7 +78,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             int hours = 9;
             int minutes = 0;
-            DateTime workDay = DateTime.Parse("2/22/2019");
+            DateTime workDay = DateTime.Now;
             string account = "1200.215";
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
@@ -334,19 +371,20 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
-        public void TestUpdateTAPunchin()
+        public async Task TestUpdateTAPunchin()
         {
             long timePunchinId = 3;
             //UnitOfWork unitOfWork = new UnitOfWork();
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            TimeAndAttendancePunchIn taPunchinLookUp = taMod.TimeAndAttendance.Query().GetPunchInById(timePunchinId);
+            TimeAndAttendancePunchIn taPunchinLookUp = await taMod.TimeAndAttendance.Query().GetPunchInById(timePunchinId);
 
             taPunchinLookUp.DurationInMinutes = 480;
             taPunchinLookUp.MealDurationInMinutes = 30;
+            int mealDeduction = 0;
 
-             taMod.TimeAndAttendance.UpdatePunchIn(taPunchinLookUp).Apply();
+             taMod.TimeAndAttendance.UpdatePunchIn(taPunchinLookUp,mealDeduction).Apply();
        
 
             Assert.True(true);
