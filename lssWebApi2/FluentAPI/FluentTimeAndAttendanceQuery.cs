@@ -22,6 +22,10 @@ namespace ERP_Core2.FluentAPI
         {
             return await _unitOfWork.timeAndAttendanceRepository.BuildByTimeDuration(employeeId, hours, minutes, workDay, account);
         }
+        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId, DateTime asOfDate)
+        {
+            return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpen(employeeId, asOfDate);
+        }
         public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
         {
             return await _unitOfWork.timeAndAttendanceRepository.IsPunchOpen(employeeId,asOfDate);
@@ -62,12 +66,12 @@ namespace ERP_Core2.FluentAPI
 
         }
 
-        public TimeAndAttendancePunchIn GetPunchInById(long timePunchinId)
+        public async Task<TimeAndAttendancePunchIn> GetPunchInById(long timePunchinId)
         {
 
-            Task<TimeAndAttendancePunchIn> taPunchinTask = Task.Run(async () => await _unitOfWork.timeAndAttendanceRepository.GetObjectAsync(timePunchinId));
-            Task.WaitAll(taPunchinTask);
-            return taPunchinTask.Result;
+            TimeAndAttendancePunchIn taPunchinTask = await _unitOfWork.timeAndAttendanceRepository.GetObjectAsync(timePunchinId);
+
+            return taPunchinTask;
         }
 
         public List<TimeAndAttendanceView> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)
