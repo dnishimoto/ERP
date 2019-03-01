@@ -30,7 +30,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             this.EmployeeId = taPunchin.EmployeeId;
             this.EmployeeName = taPunchin.Employee.Address.Name;
             this.SupervisorId = taPunchin.SupervisorId;
-            this.SupervisorName = taPunchin.SupervisorNavigation.Address.Name;
+            this.SupervisorName = taPunchin.SupervisorNavigation?.Address?.Name;
             this.ProcessedDate = taPunchin.ProcessedDate;
             this.Note = taPunchin.Note;
             this.ShiftId = taPunchin.ShiftId;
@@ -42,7 +42,9 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             //this.PayCode = taPunchin.
             this.ScheduleId = taPunchin.ScheduleId;
             this.DurationInMinutes = taPunchin.DurationInMinutes;
-            this.MealDurationInMinutes = taPunchin.MealDurationInMinutes;
+            this.MealDurationInMinutes = taPunchin.MealDurationInMinutes??0;
+            this.AreaCode = taPunchin.AreaCode??"";
+            this.DepartmentCode = taPunchin.DepartmentCode??"";
         }
 
         public long? TimePunchinId { get; set; }
@@ -68,6 +70,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public long? ScheduleId { get; set; }
         public int? DurationInMinutes { get; set; }
         public int? MealDurationInMinutes { get; set; }
+        public string AreaCode { get; set; }
+        public string DepartmentCode { get; set; }
 
     }
 
@@ -261,6 +265,35 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
             return (retVal);
         }
+        private async Task<TimeAndAttendanceTimeView> GetTimeByMinuteDuration(string punchinString, int minutesDuration)
+        {
+            DateTime fromTime;
+            DateTime toTime;
+            string timeIn = "";
+            string timeOut = "";
+
+            try
+            {
+                timeIn = ReverseDate(punchinString) + " " + ReverseTranslate24hr(punchinString);
+                fromTime = DateTime.Parse(timeIn);
+
+                toTime = fromTime.AddMinutes(minutesDuration);
+
+                timeOut = GetPunchDateTime(toTime);
+
+                TimeAndAttendanceTimeView myTime = new TimeAndAttendanceTimeView();
+
+                myTime.PunchDate = toTime;
+                myTime.PunchDateTime = timeOut;
+
+                return myTime;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+
+        }
         private async Task<int> GetDuration(string punchinString, string punchOutString, int mealDeduction)
         {
 
@@ -319,6 +352,29 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
 
         }
+        public async Task<TimeAndAttendancePunchInView> GetPunchOpenView(long employeeId, DateTime asOfDate)
+        {
+            Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+
+
+            TimeAndAttendancePunchIn item = await (from e in _dbContext.TimeAndAttendancePunchIn
+                                                   where e.EmployeeId == employeeId
+                                                   && e.PunchinDate >= asOfDate
+                                                   && e.TaskStatusXrefId == taskStatusQuery.XrefId
+                                                   select e
+                                                   
+                                ).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
+
+            TimeAndAttendancePunchInView view = null;
+
+            if (item != null)
+            {
+                view = applicationViewFactory.MapTAPunchinView(item);
+            }
+                           
+                
+            return view;
+        }
         public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId, DateTime asOfDate)
         {
             try
@@ -328,7 +384,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 TimeAndAttendancePunchIn item = await (from e in _dbContext.TimeAndAttendancePunchIn
                                                        where e.EmployeeId == employeeId
-                                                       && e.PunchinDate == asOfDate
+                                                       && e.PunchinDate >= asOfDate
                                                        && e.TaskStatusXrefId == taskStatusQuery.XrefId
                                                        select e
                                     ).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
@@ -737,7 +793,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             retVal = duration / 60;
             return (retVal);
         }
-        public async Task<CreateProcessStatus> UpdatePunchin(TimeAndAttendancePunchIn taPunchin,int mealDeduction)
+        public async Task<CreateProcessStatus> UpdatePunchin(TimeAndAttendancePunchIn taPunchin,int mealDeduction,int manualElapsedHours= 0, int manualElapsedMinutes = 0)
         {
 
             try
@@ -745,18 +801,31 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 //long timePunchinId = 0;
                 long? employeeId = taPunchin.EmployeeId;
                 string punchinDateTime = taPunchin.PunchinDateTime;
-
-                TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
-
-                int minutesDuration = await GetDuration(punchinDateTime, currentTime.PunchDateTime, mealDeduction);
-                //double hours = GetHours(minutesDuration);
+                int minutesDuration = 0;
+                TimeAndAttendanceTimeView currentTime = null;
+                //Case 1 : Manual entry of punchout time based on minutes duration
+                if (manualElapsedHours != 0 || manualElapsedMinutes != 0)
+                {
+                    minutesDuration = manualElapsedHours * 60 + manualElapsedMinutes - mealDeduction;
+                    currentTime = await GetTimeByMinuteDuration(punchinDateTime, minutesDuration);
+                }
+                //Case 2 : User presses punchout
+                else
+                {
+                    currentTime= await GetUTCAdjustedTime();
+                    minutesDuration = await GetDuration(punchinDateTime, currentTime.PunchDateTime, mealDeduction);
+                }
+                taPunchin.PunchoutDate = currentTime.PunchDate;
+                taPunchin.PunchoutDateTime = currentTime.PunchDateTime;
 
                 taPunchin.DurationInMinutes = minutesDuration;
                 taPunchin.MealDurationInMinutes = mealDeduction;
-                taPunchin.PunchoutDate = currentTime.PunchDate;
-                taPunchin.PunchoutDateTime = currentTime.PunchDateTime;
-                                        
-                
+
+                Udc status = await GetUdc("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
+               
+                taPunchin.TaskStatusXrefId = status.XrefId;
+                taPunchin.TaskStatus = status.KeyCode;
+
                 UpdateObject(taPunchin);
                 return CreateProcessStatus.Update;
                       

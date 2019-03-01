@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
+import { ITimeAndAttendancePunchinView, IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
 
 
 
@@ -18,6 +18,10 @@ export class ApplicationService
       return ('reached');
       //return this.http.get
   }
+  getPunchOpen(employeeId: number, asOfDate: Date) {
+    return this.http.get<ITimeAndAttendancePunchinView>('/api/TimeAndAttendance/TAOpenPunch?employeeId='+employeeId+'&asOfDate='+asOfDate);
+  }
+
   updateAddressBookView(addressBookView: IAddressBookView) {
     return this.http.put('/api/AddressBook/', addressBookView);
   }

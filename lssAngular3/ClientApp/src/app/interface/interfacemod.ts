@@ -1,3 +1,32 @@
+export interface ITimeAndAttendancePunchinView {
+  timePunchinId: number;
+  punchinDate: Date;
+  punchinDateTime: string;
+  punchoutDateTime: string;
+  jobCodeXrefId: number;
+  jobCode: string;
+  approved: boolean;
+  employeeId: number;
+  employeeName: string;
+  supervisorId: number;
+  supervisorName: string;
+  processedDate: Date;
+  note: string;
+  shiftId: number;
+  scheduledToWork: boolean;
+  typeOfTimeUdcXrefId: number;
+  typeOfTime: string;
+  approvingAddressId: number;
+  payCodeXrefId: number;
+  payCode: string;
+  scheduleId: number;
+  durationInMinutes: number;
+  mealDurationInMinutes: number;
+  areaCode: string;
+  departmentCode: string;
+
+}
+
 export interface IAccountSummaryView {
   accountId: number;
   fiscalPeriod: number;
