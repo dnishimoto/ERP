@@ -23,7 +23,7 @@ using X.PagedList;
 namespace ERP_Core2.TimeAndAttendenceDomain
 {
 
- 
+
     public class UnitTestTimeAndAttendance
     {
         private readonly ITestOutputHelper output;
@@ -33,14 +33,69 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
+        public async Task TestGetPunchOpenView()
+        {
+            long employeeId = 1;
+            DateTime asOfDate = DateTime.Now;
+      
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+            TimeAndAttendancePunchInView view = null;
+            string account = "1200.215";
+            TimeAndAttendancePunchIn taPunchin = null;
 
-        public async Task TestPunchOut()
+            taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+            taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+
+            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId, asOfDate);
+
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(view.TimePunchinId??0);
+
+            taMod.TimeAndAttendance.DeletePunchIn(taPunchin).Apply();
+
+            Assert.True(view != null);
+           
+        }
+        [Fact]
+        public async Task TestAddbyElapsedTime()
         {
             long employeeId = 1;
             UnitOfWork unitOfWork = new UnitOfWork();
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
-            TimeAndAttendancePunchIn taPunchin=null;
+            TimeAndAttendancePunchIn taPunchin = null;
+
+            DateTime asOfDate = DateTime.Now;
+
+            string account = "1200.215";
+            int mealDeduction = 30;
+            int manual_elapsedHours = 12;
+            int manual_elapsedMinutes = 30;
+
+            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+
+            if (isOpen == false)
+            {
+                taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+
+                taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+            }
+
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId, asOfDate);
+
+            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction, manual_elapsedHours, manual_elapsedMinutes).Apply();
+
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(taPunchin.TimePunchinId);
+
+            Assert.NotNull(taPunchin.PunchinDate);
+        }
+        [Fact]
+        public async Task TestPunchOut()
+        {
+            long employeeId = 1;
+ 
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+            TimeAndAttendancePunchIn taPunchin = null;
 
             DateTime asOfDate = DateTime.Now;
 
@@ -51,7 +106,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             if (isOpen == false)
             {
-                 taPunchin= await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+                taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
 
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }
@@ -60,22 +115,22 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             Thread.Sleep(60000);
 
-            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin,mealDeduction).Apply();
+            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction).Apply();
 
             taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(taPunchin.TimePunchinId);
 
             Assert.NotNull(taPunchin.PunchinDate);
 
-           // taMod.TimeAndAttendance.DeletePunchIn(taPunchin).Apply();
+            // taMod.TimeAndAttendance.DeletePunchIn(taPunchin).Apply();
 
         }
+
         [Fact]
         public async Task TestAddTimeByDuration()
         {
             //No UTC lookup time
             long employeeId = 1;
-            UnitOfWork unitOfWork = new UnitOfWork();
-
+  
             int hours = 9;
             int minutes = 0;
             DateTime workDay = DateTime.Now;
@@ -95,7 +150,6 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         public async Task TestScheduledToWorkPunchin()
         {
             long employeeId = 1;
-            UnitOfWork unitOfWork = new UnitOfWork();
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
@@ -103,31 +157,31 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             string account = "1200.215";
 
-            bool isOpen= await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
 
             if (isOpen == false)
             {
-                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId,account);
+                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
 
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }
 
         }
-    [Fact]
-        public void TestMoveTo()
+        [Fact]
+        public async Task TestMoveTo()
         {
             int pageSize = 1;
             int pageNumber = 1;
             int employeeId = 3;
-       
+
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
- 
-            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId == employeeId && e.PunchinDate== DateTime.Parse("6/23/2018");
+
+            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId == employeeId && e.PunchinDate == DateTime.Parse("6/23/2018");
             Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
 
-            IPagedList<TimeAndAttendancePunchIn> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate,order, pageSize, pageNumber);
-           
+            IPagedList<TimeAndAttendancePunchIn> list = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
+
 
             /*
             UnitOfWork unitOfWork = new UnitOfWork();
@@ -147,8 +201,8 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             {
                 output.WriteLine($"{item.EmployeeId} Date: {item.PunchinDateTime} Duration: {item.DurationInMinutes}");
             }
-            Assert.True(list.PageCount>0);
-           
+            Assert.True(list.PageCount > 0);
+
         }
 
         [Fact]
@@ -159,10 +213,10 @@ namespace ERP_Core2.TimeAndAttendenceDomain
                 TypeOfPayEnum.DoubleOverTime,TypeOfPayEnum.TwoHalfTime
             };
 
-            string[] arrayTypeOfPay = Array.ConvertAll<TypeOfPayEnum, string>(listTypeOfPay.ToArray(),new Converter<TypeOfPayEnum, string>(EnumToString));
+            string[] arrayTypeOfPay = Array.ConvertAll<TypeOfPayEnum, string>(listTypeOfPay.ToArray(), new Converter<TypeOfPayEnum, string>(EnumToString));
 
             Assert.Contains("Regular", arrayTypeOfPay);
-                    
+
         }
         public static String EnumToString(TypeOfPayEnum element)
         {
@@ -182,7 +236,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
                 //no getawaiter
                 //  var item =(await unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).ExecuteAsync()).FirstOrDefault();
-                var item=await Task.FromResult(unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).FirstOrDefault<TimeAndAttendancePunchIn>());
+                var item = await Task.FromResult(unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).FirstOrDefault<TimeAndAttendancePunchIn>());
                 var item3 = await unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn.Where(e => e.EmployeeId == 3).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
                 //foreach (var item in query)
                 //{
@@ -193,7 +247,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             {
                 output.WriteLine($"{ex.InnerException}");
             }
-            
+
         }
 
         public static IEnumerable<object[]> TAGetData(int numTests)
@@ -214,39 +268,39 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         [MemberData(nameof(TAGetData), parameters: 3)]
 
 
-        public void TestTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
+        public async Task TestTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
         {
 
-           // long employeeId = 4;
+            // long employeeId = 4;
             //DateTime startDate = DateTime.Parse("10/12/2018");
             //DateTime endDate = DateTime.Now;
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            List<TimeAndAttendanceView> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByIdAndDate(employeeId,startDate, endDate);
+            List<TimeAndAttendanceView> list = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByIdAndDate(employeeId, startDate, endDate);
 
             if (list.Count > 0)
             {
                 Assert.True(true);
             }
 
-         }
+        }
         [Fact]
-        public void TestTimeAndAttendanceViewsByDate()
+        public async Task TestTimeAndAttendanceViewsByDate()
         {
             DateTime startDate = DateTime.Parse("10/12/2018");
             DateTime endDate = DateTime.Now;
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            List<TimeAndAttendanceView> list = taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(startDate,endDate);
+            List<TimeAndAttendanceView> list = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(startDate, endDate);
 
             if (list.Count > 0)
             {
                 Assert.True(true);
             }
 
-            }
+        }
 
 
         public class ScheduledToWorkData : IEnumerable<object[]>
@@ -263,43 +317,43 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         [Theory]
         [ClassData(typeof(ScheduledToWorkData))]
         //[InlineData("Schedule A",  "2/18/2019" ,  "2/22/2019" )]
-        public void TestAddScheduledToWork(string scheduleName,DateTime startDate, DateTime endDate,string payCode)
+        public void TestAddScheduledToWork(string scheduleName, DateTime startDate, DateTime endDate, string payCode)
         {
             int supervisorId = 2;
 
-            AddressBookModule abMod=new AddressBookModule();
+            AddressBookModule abMod = new AddressBookModule();
 
             List<EmployeeView> employeeViews = abMod.AddressBook.Query().GetEmployeesBySupervisorId(supervisorId);
 
 
             //string scheduleName = "Schedule A";
             //DateTime startDate = DateTime.Parse("2/11/2019");
-           // DateTime endDate = DateTime.Parse("2/15/2019");
+            // DateTime endDate = DateTime.Parse("2/15/2019");
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            TimeAndAttendanceScheduleView scheduleView = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e=>e.ScheduleName==scheduleName && e.StartDate==startDate && e.EndDate==endDate);
+            TimeAndAttendanceScheduleView scheduleView = taMod.TimeAndAttendanceSchedule.Query().GetScheduleByExpression(e => e.ScheduleName == scheduleName && e.StartDate == startDate && e.EndDate == endDate);
 
             IList<TimeAndAttendanceScheduledToWork> items = taMod.TimeAndAttendanceScheduleToWork.BuildScheduledToWork(scheduleView, employeeViews, payCode);
 
             taMod.TimeAndAttendanceScheduleToWork.AddScheduledToWork(items).Apply();
 
             Assert.True(items.Count > 0);
-            
+
         }
         [Fact]
         public void TestAddSchedule()
         {
             UnitOfWork unitOfWork = new UnitOfWork();
             long shiftId = 1;
-            Task<TimeAndAttendanceShift> shiftTask = Task.Run(async()=> await unitOfWork.timeAndAttendanceRepository.GetShiftById(shiftId));
+            Task<TimeAndAttendanceShift> shiftTask = Task.Run(async () => await unitOfWork.timeAndAttendanceRepository.GetShiftById(shiftId));
             Task.WaitAll(shiftTask);
             TimeAndAttendanceScheduleView view = new TimeAndAttendanceScheduleView();
 
 
             view.ScheduleName = "Schedule A";
-            view.StartDate = DateTime.Parse("2/18/2019"); 
-            view.EndDate = DateTime.Parse("2/22/2019"); 
+            view.StartDate = DateTime.Parse("2/18/2019");
+            view.EndDate = DateTime.Parse("2/22/2019");
 
             view.ShiftId = shiftTask.Result.ShiftId;
             view.ShiftName = shiftTask.Result.ShiftName;
@@ -366,7 +420,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             //TimeAndAttendancePunchIn taPunchinLookUp=  taMod.Query().GetPunchInById(timePunchinId);
 
             taMod.TimeAndAttendance.DeletePunchIn(taPunchinLookUp).Apply();
- 
+
             Assert.True(true);
 
         }
@@ -384,19 +438,19 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             taPunchinLookUp.MealDurationInMinutes = 30;
             int mealDeduction = 0;
 
-             taMod.TimeAndAttendance.UpdatePunchIn(taPunchinLookUp,mealDeduction).Apply();
-       
+            taMod.TimeAndAttendance.UpdatePunchIn(taPunchinLookUp, mealDeduction).Apply();
+
 
             Assert.True(true);
 
         }
         [Fact]
-        public void TestGetTAPunchin()
+        public async Task TestGetTAPunchin()
         {
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
             int employeeId = 3;
 
-            IList<TimeAndAttendancePunchInView> queryList = taMod.TimeAndAttendance.Query().GetTAPunchinByEmployeeId(employeeId);
+            IList<TimeAndAttendancePunchInView> queryList = await taMod.TimeAndAttendance.Query().GetTAPunchinByEmployeeId(employeeId);
 
             IList<TimeAndAttendancePunchInView> list = new List<TimeAndAttendancePunchInView>();
             foreach (var item in queryList)

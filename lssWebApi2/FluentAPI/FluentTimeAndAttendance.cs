@@ -52,11 +52,11 @@ namespace ERP_Core2.FluentAPI
             }
         }
 
-        public ITimeAndAttendance UpdatePunchIn(TimeAndAttendancePunchIn taPunchin,int mealDeduction)
+        public ITimeAndAttendance UpdatePunchIn(TimeAndAttendancePunchIn taPunchin,int mealDeduction,int manualElapsedHours=0, int manualElapsedMinutes=0)
         {
             try
             {
-                Task<CreateProcessStatus> statusTask = Task.Run(async()=>await unitOfWork.timeAndAttendanceRepository.UpdatePunchin(taPunchin,mealDeduction));
+                Task<CreateProcessStatus> statusTask = Task.Run(async()=>await unitOfWork.timeAndAttendanceRepository.UpdatePunchin(taPunchin,mealDeduction,manualElapsedHours,manualElapsedMinutes));
                 Task.WaitAll(statusTask);
                 processStatus = statusTask.Result;
                 return this as ITimeAndAttendance;

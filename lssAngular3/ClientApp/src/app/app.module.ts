@@ -20,7 +20,7 @@ import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpen
 import { IncomeComponent } from './income-webapi/income-webapi.component';
 import { AddressBookComponent, AddressBookChildComponent } from './addressbook/addressbook.component'
 import { AddressBookDetailComponent } from './addressbook/addressbookdetail.component';
-
+import { PunchComponent } from './punch/punch.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +40,7 @@ import { AddressBookDetailComponent } from './addressbook/addressbookdetail.comp
     AddressBookComponent,
     AddressBookChildComponent,
     AddressBookDetailComponent,
+    PunchComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

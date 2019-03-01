@@ -34,6 +34,8 @@ namespace lssWebApi2.EntityFramework
         public long? TaskStatusXrefId { get; set; }
         public string TaskStatus { get; set; }
         public string Account { get; set; }
+        public string AreaCode { get; set; }
+        public string DepartmentCode { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual TimeAndAttendanceShift Shift { get; set; }

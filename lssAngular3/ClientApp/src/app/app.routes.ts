@@ -11,6 +11,7 @@ import { PersonalExpenseComponent } from './personalExpense-webapi/personalexpen
 import { IncomeComponent } from './income-webapi/income-webapi.component';
 import { AddressBookComponent } from './addressbook/addressbook.component';
 import {AddressBookDetailComponent } from './addressbook/addressbookdetail.component';
+import { PunchComponent } from './punch/punch.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
@@ -25,4 +26,5 @@ export const routes: Routes = [
   { path: 'app-financials', component: IncomeStatementComponent },
   { path: 'app-addressbook', component: AddressBookComponent},
   { path: 'app-addressbookdetail/:id', component: AddressBookDetailComponent },
+  { path: 'app-punch', component: PunchComponent}
 ];
