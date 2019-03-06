@@ -27,13 +27,13 @@ namespace ERP_Core2.FluentAPI
             return await _unitOfWork.timeAndAttendanceRepository.GetUTCAdjustedTime();
         }
         
-        public async Task<TimeAndAttendancePunchInView> GetPunchOpenView(long employeeId, DateTime asOfDate)
+        public async Task<TimeAndAttendancePunchInView> GetPunchOpenView(long employeeId)
         {
-            return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpenView(employeeId, asOfDate);
+            return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpenView(employeeId);
         }
-        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId, DateTime asOfDate)
+        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId)
         {
-            return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpen(employeeId, asOfDate);
+            return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpen(employeeId);
         }
         
         public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
@@ -71,7 +71,12 @@ namespace ERP_Core2.FluentAPI
             return retItem;
 
         }
-
+        public async Task<TimeAndAttendancePunchInView> GetPunchInByIdView(long timePunchinId)
+        {
+            TimeAndAttendancePunchInView view = await _unitOfWork.timeAndAttendanceRepository.GetPunchInByIdView(timePunchinId);
+            
+            return view;
+        }
         public async Task<TimeAndAttendancePunchIn> GetPunchInById(long timePunchinId)
         {
 

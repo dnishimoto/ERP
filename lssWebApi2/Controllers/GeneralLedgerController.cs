@@ -34,7 +34,7 @@ namespace lssWebApi2.Controllers
         }
         [Route("IncomeShortView")]
         [HttpPost]
-        public void PostIncome([FromBody] IncomeShortView incomeShortView)
+        public bool PostIncome([FromBody] IncomeShortView incomeShortView)
         {
             int addressId = 1;
          
@@ -51,7 +51,7 @@ namespace lssWebApi2.Controllers
 
             bool result = ledgerMod.CreateIncomeAndCash(glView);
 
-
+            return result;
 
         }
         [Route("IncomeViews")]

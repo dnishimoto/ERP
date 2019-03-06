@@ -47,8 +47,9 @@ namespace lssAngular2.Controllers
             }
 
         }
-        public async Task PostAsync<T>( string apiPath, T myObject)
+        public async Task<TOut> PostAsync<T,TOut>( string apiPath, T myObject)  where T : class
         {
+            TOut view = default(TOut);
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(_baseurl);
@@ -65,10 +66,11 @@ namespace lssAngular2.Controllers
                 if (Res.IsSuccessStatusCode)
                 {
                     var Response = Res.Content.ReadAsStringAsync().Result;
-                   
 
+                    view = JsonConvert.DeserializeObject<TOut>(Response);
                 }
 
+                return view;
             }
 
         }

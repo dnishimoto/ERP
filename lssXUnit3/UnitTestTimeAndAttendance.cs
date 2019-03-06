@@ -33,6 +33,18 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
         }
         [Fact]
+        public async Task TestGetPunchOpenView2()
+        {
+            long employeeId = 1;
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+            TimeAndAttendancePunchInView view = null;
+
+            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId);
+
+
+        }
+
+        [Fact]
         public async Task TestGetPunchOpenView()
         {
             long employeeId = 1;
@@ -46,7 +58,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
             taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
 
-            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId, asOfDate);
+            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId);
 
             taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(view.TimePunchinId??0);
 
@@ -80,7 +92,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }
 
-            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId, asOfDate);
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId);
 
             taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction, manual_elapsedHours, manual_elapsedMinutes).Apply();
 
@@ -111,7 +123,7 @@ namespace ERP_Core2.TimeAndAttendenceDomain
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }
 
-            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId, asOfDate);
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId);
 
             Thread.Sleep(60000);
 

@@ -1,8 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ITimeAndAttendancePunchinView, IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
-
+import { ITimeAndAttendanceParam, ITimeAndAttendancePunchinView, IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
+//import { ConfigurationService } from "./configuration/configuration.service";
 
 
 @Injectable()
@@ -18,8 +18,16 @@ export class ApplicationService
       return ('reached');
       //return this.http.get
   }
-  getPunchOpen(employeeId: number, asOfDate: Date) {
-    return this.http.get<ITimeAndAttendancePunchinView>('/api/TimeAndAttendance/TAOpenPunch?employeeId='+employeeId+'&asOfDate='+asOfDate);
+  postTAPunchout(param: ITimeAndAttendanceParam) {
+
+    return this.http.post<ITimeAndAttendancePunchinView>('/api/TimeAndAttendance/TAPunchout', param);
+  }
+  postTAPunchin(param: ITimeAndAttendanceParam) {
+ 
+    return this.http.post<ITimeAndAttendancePunchinView>('/api/TimeAndAttendance/TAPunchin',param);
+}
+  getPunchOpen(employeeId: number) {
+    return this.http.get<ITimeAndAttendancePunchinView>('api/TimeAndAttendance/TAOpenPunch/'+employeeId);
   }
 
   updateAddressBookView(addressBookView: IAddressBookView) {
@@ -59,7 +67,6 @@ export class ApplicationService
     return this.http.get<IIncomeView[]>('/api/GeneralLedger/IncomeViews');
   }
   postIncome(income: PostIncomeView) {
-    alert(JSON.stringify(income))
     return this.http.post('/api/GeneralLedger/IncomeShortView', income);
   }
   getIncomeStatementViews(fiscalYear: number) {

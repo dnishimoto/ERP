@@ -34,6 +34,7 @@
   <ItemGroup>
     <None Remove="ClientApp\src\app\app.routes.ts" />
     <None Remove="ClientApp\src\app\application.service.ts" />
+    <None Remove="ClientApp\src\app\configuration.service.ts" />
     <None Remove="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
     <None Remove="ClientApp\src\app\interface\interfacemod.ts" />
     <None Remove="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />
@@ -46,6 +47,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\app.routes.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\application.service.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\configuration\configuration.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\interfacemod.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />

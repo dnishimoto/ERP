@@ -1,3 +1,15 @@
+
+export class TimeAndAttendanceParam {
+  employeeId: number;
+  account: string;
+  mealDeduction: number;
+}
+
+export interface ITimeAndAttendanceParam {
+  employeeId: number;
+  account: string;
+  mealDeduction: number;
+}
 export interface ITimeAndAttendancePunchinView {
   timePunchinId: number;
   punchinDate: Date;
