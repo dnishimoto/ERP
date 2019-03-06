@@ -27,9 +27,9 @@ namespace lssWebApi2.Controllers
         }
         //[HttpGet("{FilterTimeAndAttendance}")]
         [HttpPost]
-        [Route("TAPunchout/{employeeId}/{mealdeduction}")]
+        [Route("TAPunchout")]
         [ProducesResponseType(typeof(TimeAndAttendancePunchInView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdatePunch(long employeeId,int mealDeduction)
+        public async Task<IActionResult> UpdatePunch([FromBody]TimeAndAttendanceParam param)
         {
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
@@ -38,45 +38,46 @@ namespace lssWebApi2.Controllers
             TimeAndAttendanceTimeView currentTime = await taMod.TimeAndAttendance.Query().GetUTCAdjustedTime();
             DateTime asOfDate = currentTime.PunchDate;
 
-            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId, asOfDate);
+            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(param.employeeId);
 
-            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction).Apply();
+            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, param.mealDeduction).Apply();
 
             TimeAndAttendancePunchInView view = null;
-            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId, asOfDate);
-
+            //view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(param.employeeId);
+            view = await taMod.TimeAndAttendance.Query().GetPunchInByIdView(taPunchin.TimePunchinId);
+                
             return Ok(view);
 
         }
         [HttpPost]
-        [Route("TAPunchin/{employeeId}/{account}")]
+        [Route("TAPunchin")]
         [ProducesResponseType(typeof(TimeAndAttendancePunchInView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> CreatePunchin(long employeeId, string account)
+        public async Task<IActionResult> CreatePunchin([FromBody]TimeAndAttendanceParam param)
         {
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
-            TimeAndAttendancePunchIn taPunchin = null;
+            TimeAndAttendancePunchIn taPunchin = null; 
 
             TimeAndAttendanceTimeView currentTime = await taMod.TimeAndAttendance.Query().GetUTCAdjustedTime();
             DateTime asOfDate = currentTime.PunchDate;
 
-            taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+            taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(param.employeeId, param.account);
             taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
                        
             TimeAndAttendancePunchInView view = null;
-            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId, asOfDate);
+            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(param.employeeId);
 
             return Ok(view);
 
         }
+        [Route("TAOpenPunch/{employeeId}")]
         [HttpGet]
-        [Route("TAOpenPunch")]
         [ProducesResponseType(typeof(TimeAndAttendancePunchInView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetOpenPunch(long employeeId, DateTime asOfDate)
+        public async Task<IActionResult> GetOpenPunch(long employeeId)
         {
        
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
             TimeAndAttendancePunchInView view = null;
-            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId, asOfDate);
+            view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId);
             return Ok(view);
         }
         [HttpGet]

@@ -58,7 +58,7 @@ namespace lssWebApi2.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("Payment")]
-        public void PostPayment([FromBody] PersonalBudgetView budget)
+        public bool PostPayment([FromBody] PersonalBudgetView budget)
         {
           
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
@@ -117,11 +117,11 @@ namespace lssWebApi2.Controllers
             bool result2 = ledgerMod.CreateCashPayment(glCashView);
 
 
-           // GeneralLedgerView glCashViewLookup =
-           //ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glCashView.DocNumber, glCashView.DocType);
+            // GeneralLedgerView glCashViewLookup =
+            //ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glCashView.DocNumber, glCashView.DocType);
 
 
-            
+            return result2;
 
         }
 

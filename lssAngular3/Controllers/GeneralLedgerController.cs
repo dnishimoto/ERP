@@ -43,7 +43,7 @@ namespace lssAngular2.Controllers
         public async Task PostIncomeView([FromBody]IncomeShortView income)
         {
             DataService ds = new DataService(this._baseUrl);
-            await ds.PostAsync<IncomeShortView>("api/GeneralLedger/IncomeShortView", income);
+            bool result=await ds.PostAsync<IncomeShortView,bool>("api/GeneralLedger/IncomeShortView", income);
         }
         [Route("IncomeViews")]
         [HttpGet]

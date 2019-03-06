@@ -68,7 +68,7 @@ namespace lssAngular2.Controllers
         {
            //string info=string.Format("{0}", budget.Account);
             DataService ds = new DataService(this._baseUrl);
-            await ds.PostAsync<PersonalBudgetView>("api/budget/Payment",budget);
+            bool result=await ds.PostAsync<PersonalBudgetView,bool>("api/budget/Payment",budget);
 
 
         }
