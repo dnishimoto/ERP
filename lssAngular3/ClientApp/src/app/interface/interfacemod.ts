@@ -1,14 +1,23 @@
-
+export interface ITimeAndAttendanceViewContainer {
+  pageNumber: number;
+  pageSize: number;
+  totalItemCount: number;
+  items: ITimeAndAttendancePunchinView[];
+}
 export class TimeAndAttendanceParam {
   employeeId: number;
   account: string;
   mealDeduction: number;
+  pageNumber: number;
+  pageSize: number;
 }
 
 export interface ITimeAndAttendanceParam {
   employeeId: number;
   account: string;
   mealDeduction: number;
+  pageNumber: number;
+  pageSize: number;
 }
 export interface ITimeAndAttendancePunchinView {
   timePunchinId: number;

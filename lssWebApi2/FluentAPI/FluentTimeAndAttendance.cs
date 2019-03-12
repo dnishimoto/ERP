@@ -33,7 +33,7 @@ namespace ERP_Core2.FluentAPI
         {
             return unitOfWork.timeAndAttendanceRepository.GetPunchDateTime(punchinDate);
         }
-      
+        
         public ITimeAndAttendance AddPunchIn(TimeAndAttendancePunchIn taPunchin)
         {
 

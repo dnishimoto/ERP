@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ITimeAndAttendanceParam, ITimeAndAttendancePunchinView, IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
+import { ITimeAndAttendanceViewContainer,ITimeAndAttendanceParam, ITimeAndAttendancePunchinView, IAddressBookView, IIncomeStatementView, IIncomeView, IPersonalBudgetView, IAccountReceivableFlatView,IAccountSummaryView,IChartOfAccountView ,IGeneralLedgerView,IBudgetView, PostIncomeView } from './interface/interfaceMod';
 //import { ConfigurationService } from "./configuration/configuration.service";
 
 
@@ -18,6 +18,9 @@ export class ApplicationService
       return ('reached');
       //return this.http.get
   }
+  getTAGrid(param: ITimeAndAttendanceParam) {
+    return this.http.get<ITimeAndAttendanceViewContainer>('/api/TimeAndAttendance/TAPunchPage/'+param.employeeId+'/'+param.pageNumber+'/'+param.pageSize);
+  }
   postTAPunchout(param: ITimeAndAttendanceParam) {
 
     return this.http.post<ITimeAndAttendancePunchinView>('/api/TimeAndAttendance/TAPunchout', param);
@@ -25,7 +28,8 @@ export class ApplicationService
   postTAPunchin(param: ITimeAndAttendanceParam) {
  
     return this.http.post<ITimeAndAttendancePunchinView>('/api/TimeAndAttendance/TAPunchin',param);
-}
+  }
+
   getPunchOpen(employeeId: number) {
     return this.http.get<ITimeAndAttendancePunchinView>('api/TimeAndAttendance/TAOpenPunch/'+employeeId);
   }

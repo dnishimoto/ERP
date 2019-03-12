@@ -45,13 +45,18 @@ namespace ERP_Core2.FluentAPI
 
             return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId,account);
         }
-        public async Task<IPagedList<TimeAndAttendancePunchIn>> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
+        public TimeAndAttendancePunchInView MapToView(TimeAndAttendancePunchIn item)
+        {
+            TimeAndAttendancePunchInView view = _unitOfWork.timeAndAttendanceRepository.MapToView(item);
+            return view;
+        }
+        public async Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {
             try
             {
-                IPagedList<TimeAndAttendancePunchIn> list = await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
+                TimeAndAttendanceViewContainer container = await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
 
-                return list;
+                return container;
             }
             catch (Exception ex)
             {
