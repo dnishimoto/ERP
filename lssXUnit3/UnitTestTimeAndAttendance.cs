@@ -192,28 +192,15 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId == employeeId && e.PunchinDate == DateTime.Parse("6/23/2018");
             Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
 
-            IPagedList<TimeAndAttendancePunchIn> list = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
+            TimeAndAttendanceViewContainer container = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
 
-
-            /*
-            UnitOfWork unitOfWork = new UnitOfWork();
-            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId > 0;
-            Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
-
-            var query = unitOfWork.timeAndAttendanceRepository._dbContext.TimeAndAttendancePunchIn
-                .Where(predicate).OrderBy(order).Select(e => e);
- 
-            var list = query.ToPagedList(pageNumber, pageSize);
-
-            int count = list.PageCount;
-
-            */
-            //foreach (var item in list)
-            foreach (var item in list)
+           
+            foreach (var item in container.items)
             {
                 output.WriteLine($"{item.EmployeeId} Date: {item.PunchinDateTime} Duration: {item.DurationInMinutes}");
             }
-            Assert.True(list.PageCount > 0);
+            Assert.True(container.TotalItemCount > 0);
+          
 
         }
 

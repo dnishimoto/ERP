@@ -18,15 +18,16 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
     public class TimeAndAttendancePunchInView
     {
-        public TimeAndAttendancePunchInView(){}
+        public TimeAndAttendancePunchInView() { }
         public TimeAndAttendancePunchInView(TimeAndAttendancePunchIn taPunchin)
         {
             this.TimePunchinId = taPunchin.TimePunchinId;
             this.PunchinDate = taPunchin.PunchinDate;
+            this.PunchoutDate = taPunchin.PunchoutDate;
             this.PunchinDateTime = taPunchin.PunchinDateTime;
             this.PunchoutDateTime = taPunchin.PunchoutDateTime;
             this.JobCodeXrefId = taPunchin.JobCodeXrefId;
-            //this.JobCode = taPunchin.
+            this.JobCode = taPunchin.JobCode;
             this.Approved = taPunchin.Approved;
             this.EmployeeId = taPunchin.EmployeeId;
             this.EmployeeName = taPunchin.Employee.Address.Name;
@@ -40,16 +41,17 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             this.TypeOfTime = taPunchin.TypeOfTimeUdcXref.Value;
             this.ApprovingAddressId = taPunchin.ApprovingAddressId;
             this.PayCodeXrefId = taPunchin.PayCodeXrefId;
-            //this.PayCode = taPunchin.
+            this.PayCode = taPunchin.PayCode;
             this.ScheduleId = taPunchin.ScheduleId;
-            this.DurationInMinutes = taPunchin.DurationInMinutes;
-            this.MealDurationInMinutes = taPunchin.MealDurationInMinutes??0;
-            this.AreaCode = taPunchin.AreaCode??"";
-            this.DepartmentCode = taPunchin.DepartmentCode??"";
+            this.DurationInMinutes = taPunchin.DurationInMinutes??0;
+            this.MealDurationInMinutes = taPunchin.MealDurationInMinutes ?? 0;
+            this.AreaCode = taPunchin.AreaCode ?? "";
+            this.DepartmentCode = taPunchin.DepartmentCode ?? "";
         }
 
         public long? TimePunchinId { get; set; }
         public DateTime? PunchinDate { get; set; }
+        public DateTime? PunchoutDate { get; set; }
         public string PunchinDateTime { get; set; }
         public string PunchoutDateTime { get; set; }
         public long? JobCodeXrefId { get; set; }
@@ -119,6 +121,17 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public string account { get; set; }
         public int mealDeduction { get; set; }
     }
+    public class TimeAndAttendanceViewContainer
+    {
+        
+        public TimeAndAttendanceViewContainer() {
+            items = new List<TimeAndAttendancePunchInView>();
+        }
+        public List<TimeAndAttendancePunchInView> items { get; set; }
+        public int PageNumber { get; set; }
+        public int PageSize { get; set; }
+        public int TotalItemCount {get;set;}
+}
     public static class Utilities
     {
         public static string Right(this string sValue, int iMaxLength)
@@ -150,13 +163,30 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<IPagedList<TimeAndAttendancePunchIn>> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
+        public TimeAndAttendancePunchInView MapToView(TimeAndAttendancePunchIn item)
+        {
+            TimeAndAttendancePunchInView view = applicationViewFactory.MapTAPunchinView(item);
+            return view;
+        }
+        public async Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
         {
             IEnumerable<TimeAndAttendancePunchIn> query = _dbContext.TimeAndAttendancePunchIn
-                          .Where(predicate).OrderBy(order).Select(e => e);
+                          .Where(predicate).OrderByDescending(order).Select(e => e);
 
             IPagedList<TimeAndAttendancePunchIn> list = await query.ToPagedListAsync(pageNumber, pageSize);
-            return list;
+
+            TimeAndAttendanceViewContainer container = new TimeAndAttendanceViewContainer();
+            container.PageNumber = pageNumber;
+            container.PageSize = pageSize;
+            container.TotalItemCount = list.TotalItemCount;
+
+            foreach (var item in list)
+            {
+                TimeAndAttendancePunchInView view = MapToView(item);
+                container.items.Add(view);
+            }
+            //await Task.Yield();
+            return container;
 
         }
         public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, DateTime workDay, string account)

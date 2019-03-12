@@ -6,6 +6,7 @@ using ERP_Core2.TimeAndAttendanceDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -26,6 +27,28 @@ namespace lssWebApi2.Controllers
             return "reached";
         }
         //[HttpGet("{FilterTimeAndAttendance}")]
+        [HttpGet]
+        [Route("TAPunchPage/{employeeId}/{pageNumber}/{pageSize}")]
+        //[ProducesResponseType(typeof(TimeAndAttendanceViewContainer), StatusCodes.Status200OK)]
+        //public async Task<IActionResult> GetTimeAndAttendanceByPage(long employeeId,int pageNumber,int pageSize)
+        public async Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceByPage(long employeeId, int pageNumber, int pageSize)
+        {
+            //int pageSize = 1;
+            //int pageNumber = 1;
+            //int employeeId = 3;
+
+            TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
+
+            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId == employeeId;
+            Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
+
+            TimeAndAttendanceViewContainer container = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
+
+            return (container);
+
+            //return Ok(container);
+        }
+
         [HttpPost]
         [Route("TAPunchout")]
         [ProducesResponseType(typeof(TimeAndAttendancePunchInView), StatusCodes.Status200OK)]

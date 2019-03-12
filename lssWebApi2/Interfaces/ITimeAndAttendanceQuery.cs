@@ -23,9 +23,11 @@ namespace ERP_Core2.Interfaces
 
         Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate);
         Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate);
-        Task<IPagedList<TimeAndAttendancePunchIn>> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber);
+        Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber);
 
         Task<TimeAndAttendanceTimeView> GetUTCAdjustedTime();
+
+        TimeAndAttendancePunchInView MapToView(TimeAndAttendancePunchIn item);
 
     }
 
