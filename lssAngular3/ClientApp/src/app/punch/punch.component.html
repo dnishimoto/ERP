@@ -1,0 +1,153 @@
+<h1>Punch </h1>
+
+<p *ngIf="!isLoaded"><em>Loading...</em></p>
+
+
+<div class=“container-fluid”>
+
+  <div id="punch-container">
+    <div class="row">
+      <div class="col-xs-12">
+        <button type="button" class="btn btn-default" (click)="punchIn()">Punchin</button>
+
+        <button type="button" class="btn btn-default" (click)="punchOut()">Punchout</button>
+
+        <button type="button" class="btn btn-default" (click)="queryPunchOut()">Get Punchout</button>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-4">
+
+        <form class="punchinPanel" #punchinForm="ngForm" *ngIf="punchView">
+          <ul class="flex-outer">
+            <li>
+              <label for="name">Employee Id</label>
+              <p>
+                <span>{{punchView.employeeId}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Employee Name</label>
+              <p>
+                <span>{{punchView.employeeName}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Punchin Date</label>
+              <p>
+                <span>{{punchView.punchinDate}}</span>
+              </p>
+            </li>
+
+            <li>
+              <label for="name">Punchout Date</label>
+              <p>
+                <span>{{punchView.punchoutDate}}</span>
+              </p>
+            </li>
+
+            <li>
+              <label for="name">Job Code</label>
+              <p>
+                <span>{{punchView.jobCode}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Supervisor Name</label>
+              <p>
+                <span>{{punchView.supervisorName}}</span>
+              </p>
+            </li>
+
+            <li>
+              <label for="name">Supervisor Name</label>
+              <p>
+                <span>{{punchView.note}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Scheduled to Work</label>
+              <p>
+                <span>{{punchView.scheduledToWork}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Type of Time</label>
+              <p>
+                <span>{{punchView.typeOfTime}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Pay Code</label>
+              <p>
+                <span>{{punchView.payCode}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Duration in Minutes</label>
+              <p>
+                <span>{{punchView.durationInMinutes}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Meal Duration in Minutes</label>
+              <p>
+                <span>{{punchView.mealDurationInMinutes}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Area Code</label>
+              <p>
+                <span>{{punchView.areaCode}}</span>
+              </p>
+            </li>
+            <li>
+              <label for="name">Department Code</label>
+              <p>
+                <span>{{punchView.departmentCode}}</span>
+              </p>
+            </li>
+
+          </ul>
+        </form>
+
+        <div *ngIf="!punchView"><em>No Results</em></div>
+
+      </div>
+      <div class="col-xs-8">
+        <div *ngIf="container">
+          <div class="grid-container" *ngFor="let item of container.items">
+
+            <div class="grid-item">
+              {{item.punchinDate| date:'mediumDate'}}
+            </div>
+            <div class="grid-item">
+              {{item.punchoutDate| date:'mediumDate'}}
+            </div>
+            <div class="grid-item">
+              {{item.jobCode}}
+            </div>
+            <div class="grid-item">
+              {{item.payCode}}
+            </div>
+            <div class="grid-item">
+              {{item.note}}
+            </div>
+            <div class="grid-item">
+              {{item.durationInMinutes}}
+            </div>
+            <div class="grid-item">
+              {{item.mealDurationInMinutes}}
+            </div>
+            <div class="grid-item">
+              <a class="btn btn-primary" (click)="onPunchByDuration(item.timePunchinId)">Punch Out</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
