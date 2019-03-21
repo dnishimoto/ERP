@@ -11,11 +11,6 @@ Project("{F14B399A-7131-4C87-9E4B-1186C45EF12D}") = "MillenniumReports", "..\Mil
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssWebApi2", "..\lssWebApi2\lssWebApi2.csproj", "{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssUnitTests", "..\lssUnitTests\lssUnitTests\lssUnitTests.csproj", "{567AF387-E448-435D-ACA6-FE5C37D7F072}"
-	ProjectSection(ProjectDependencies) = postProject
-		{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3} = {89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests", "lssXUnitTests\lssXUnitTests.csproj", "{0669D715-43BC-4C86-B9B8-306BD6FEA132}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests2", "..\lssXUnit3\lssXUnitTests2.csproj", "{668C306F-0601-4BF7-8207-4E2B37BC5340}"
@@ -24,8 +19,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssXUnitTests2", "..\lssXUn
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular3", "..\lssAngular3\lssAngular3.csproj", "{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular4", "..\lssAngular4\lssAngular4.csproj", "{F9A610D4-7365-4156-A5E2-8C3B946F43F0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,12 +54,6 @@ Global
 		{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89A91C9D-D5EC-4F18-89D1-E4A08B1B86B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{567AF387-E448-435D-ACA6-FE5C37D7F072}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{567AF387-E448-435D-ACA6-FE5C37D7F072}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{567AF387-E448-435D-ACA6-FE5C37D7F072}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{567AF387-E448-435D-ACA6-FE5C37D7F072}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{567AF387-E448-435D-ACA6-FE5C37D7F072}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{567AF387-E448-435D-ACA6-FE5C37D7F072}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0669D715-43BC-4C86-B9B8-306BD6FEA132}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0669D715-43BC-4C86-B9B8-306BD6FEA132}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0669D715-43BC-4C86-B9B8-306BD6FEA132}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
@@ -85,12 +72,6 @@ Global
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B449ABF-F803-4219-BBBD-E4AA4C14B0DE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
-		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9A610D4-7365-4156-A5E2-8C3B946F43F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

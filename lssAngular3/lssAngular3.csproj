@@ -37,6 +37,7 @@
     <None Remove="ClientApp\src\app\configuration.service.ts" />
     <None Remove="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
     <None Remove="ClientApp\src\app\interface\interfacemod.ts" />
+    <None Remove="ClientApp\src\app\modal.service.ts" />
     <None Remove="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />
   </ItemGroup>
 
@@ -50,6 +51,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\configuration\configuration.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\generalledger-webapi\financials.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\interface\interfacemod.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\modal.service.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\nav-menu\nav-addressbook.component.ts" />
   </ItemGroup>
 
@@ -81,7 +83,7 @@
   </Target>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <TypeScriptTarget>ES5</TypeScriptTarget>
+    <TypeScriptTarget>ES2015</TypeScriptTarget>
     <TypeScriptJSXEmit>None</TypeScriptJSXEmit>
     <TypeScriptModuleKind>AMD</TypeScriptModuleKind>
     <TypeScriptCompileOnSaveEnabled>True</TypeScriptCompileOnSaveEnabled>

@@ -6,19 +6,22 @@
 
 #punch-container {
   width: 900px;
-  
 }
+
 .grid-container {
   display: grid;
-  grid-template-columns: 50px 100px 100px 50px 50px 100px 100px auto auto;
-  grid-column-gap: 10px;
+  grid-template-columns: 80px 80px 50px 50px 100px 50px 50px auto;
+  grid-column-gap: 5px;
   background-color: #2196F3;
   //padding: 10px;
 }
+
 .grid-item {
   background-color: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(0, 0, 0, 0.8);
-  padding: 2px;
-  font-size: 10px;
+  //padding: 2px;
+  font-size: .8em;
   text-align: center;
 }
+
+

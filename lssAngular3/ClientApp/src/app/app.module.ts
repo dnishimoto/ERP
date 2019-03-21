@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import {  NgModule, APP_INITIALIZER } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { routes } from './app.routes'
@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { FilterAcctPipe } from './shared/pipes/acct-filter.pipe';
 import { ApplicationService } from './application.service';
+//import { ModalService } from './modal.service';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
@@ -22,6 +23,8 @@ import { AddressBookComponent, AddressBookChildComponent } from './addressbook/a
 import { AddressBookDetailComponent } from './addressbook/addressbookdetail.component';
 import { PunchComponent } from './punch/punch.component';
 import { ConfigurationService } from "./configuration/configuration.service";
+//import { PunchDurationModalComponent } from './punch/punch-duration-modal-component';
+//import { ModalModule } from 'ng2-modal-module';
 
 const appInitializerFn = (appConfig: ConfigurationService) => {
 
@@ -52,16 +55,18 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
     AddressBookChildComponent,
     AddressBookDetailComponent,
     PunchComponent
+    //,PunchDurationModalComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    //ModalModule,
     RouterModule.forRoot(routes
     )
   ],
   providers: [ApplicationService,
-
+    //ModalService,
     ConfigurationService,
 
     {
@@ -78,6 +83,7 @@ const appInitializerFn = (appConfig: ConfigurationService) => {
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
 export function getBaseUrl() {
 
   return document.getElementsByTagName('base')[0].href;

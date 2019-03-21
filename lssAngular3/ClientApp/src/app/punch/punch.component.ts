@@ -2,6 +2,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { ITimeAndAttendancePunchinView, ITimeAndAttendanceParam, TimeAndAttendanceParam, ITimeAndAttendanceViewContainer } from '../interface/interfaceMod';
 import { ApplicationService } from '../application.service';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router'
 
 @Component({
   selector: 'app-punch-webapi',
@@ -19,6 +20,10 @@ export class PunchComponent implements OnInit {
   public container: ITimeAndAttendanceViewContainer;
   public param: ITimeAndAttendanceParam;
   public isLoaded: boolean = false;
+
+  constructor( private myApp: ApplicationService, private router: Router) {}
+
+
   queryPunchOut() {
     this.queryPunch();
   }
@@ -84,13 +89,11 @@ export class PunchComponent implements OnInit {
   onPunchByDuration(timePunchinId:number) {
  //   this.title = id.toString();
    // this.router.navigate(['app-addressbookdetail', id]);
-    alert(timePunchinId)
+    //alert(timePunchinId)
+    this.router.navigate(['ngbd-modal-content', timePunchinId]);
   }
 
-  constructor(
-     private myApp: ApplicationService) {
- 
-  }
+
   ngOnInit() {
     //this.myApp.getPEChartOfAccountList().subscribe(
       //result => { this.punch = result },
