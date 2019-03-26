@@ -18,9 +18,9 @@ namespace ERP_Core2.FluentAPI
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, DateTime workDay, string account)
+        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account)
         {
-            return await _unitOfWork.timeAndAttendanceRepository.BuildByTimeDuration(employeeId, hours, minutes, workDay, account);
+            return await _unitOfWork.timeAndAttendanceRepository.BuildByTimeDuration(employeeId, hours, minutes, mealDurationInMinutes, workDay, account);
         }
         public async Task<TimeAndAttendanceTimeView> GetUTCAdjustedTime()
         {
@@ -36,14 +36,14 @@ namespace ERP_Core2.FluentAPI
             return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpen(employeeId);
         }
         
-        public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
+        public async Task<TimeAndAttendancePunchIn> IsPunchOpen(long employeeId, DateTime asOfDate)
         {
             return await _unitOfWork.timeAndAttendanceRepository.IsPunchOpen(employeeId,asOfDate);
         }
-        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId,string account)
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId,string account,DateTime punchDate)
         {
 
-            return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId,account);
+            return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId,account,punchDate);
         }
         public TimeAndAttendancePunchInView MapToView(TimeAndAttendancePunchIn item)
         {

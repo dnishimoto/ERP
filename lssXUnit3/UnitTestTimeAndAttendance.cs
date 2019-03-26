@@ -55,11 +55,11 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             string account = "1200.215";
             TimeAndAttendancePunchIn taPunchin = null;
 
-            taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+            taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account,asOfDate);
             taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
 
             view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(employeeId);
-
+            
             taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(view.TimePunchinId??0);
 
             taMod.TimeAndAttendance.DeletePunchIn(taPunchin).Apply();
@@ -83,16 +83,16 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             int manual_elapsedHours = 12;
             int manual_elapsedMinutes = 30;
 
-            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+            TimeAndAttendancePunchIn openTA = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
 
-            if (isOpen == false)
+            if (openTA == null)
             {
-                taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+                taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account, asOfDate);
 
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }
 
-            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId);
+            //taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId);
 
             taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction, manual_elapsedHours, manual_elapsedMinutes).Apply();
 
@@ -114,20 +114,28 @@ namespace ERP_Core2.TimeAndAttendenceDomain
             string account = "1200.215";
             int mealDeduction = 0;
 
-            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+            TimeAndAttendancePunchIn openTA = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
 
-            if (isOpen == false)
+            if (openTA == null)
             {
-                taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+                taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account, asOfDate);
 
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
+
+                Thread.Sleep(60000);
+                taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction).Apply();
+            }
+            else
+            {
+                Thread.Sleep(60000);
+                taMod.TimeAndAttendance.UpdatePunchIn(openTA, mealDeduction).Apply();
             }
 
-            taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId);
+            //taPunchin = await taMod.TimeAndAttendance.Query().GetPunchOpen(employeeId);
 
-            Thread.Sleep(60000);
+           
 
-            taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, mealDeduction).Apply();
+            
 
             taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(taPunchin.TimePunchinId);
 
@@ -145,15 +153,16 @@ namespace ERP_Core2.TimeAndAttendenceDomain
   
             int hours = 9;
             int minutes = 0;
+            int mealDurationInMinutes = 0;
             DateTime workDay = DateTime.Now;
             string account = "1200.215";
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
-            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, workDay);
+            TimeAndAttendancePunchIn openTA = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, workDay);
 
-            if (isOpen != false)
+            if (openTA !=null)
             {
-                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildByTimeDuration(employeeId, hours, minutes, workDay, account);
+                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildByTimeDuration(employeeId, hours, minutes, mealDurationInMinutes, workDay, account);
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }
 
@@ -165,15 +174,17 @@ namespace ERP_Core2.TimeAndAttendenceDomain
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            DateTime asOfDate = DateTime.Now;
+            //DateTime asOfDate = DateTime.Now;
+
+            TimeAndAttendanceTimeView currentTime = await taMod.TimeAndAttendance.Query().GetUTCAdjustedTime();
 
             string account = "1200.215";
 
-            bool isOpen = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, asOfDate);
+            TimeAndAttendancePunchIn openTA = await taMod.TimeAndAttendance.Query().IsPunchOpen(employeeId, currentTime.PunchDate);
 
-            if (isOpen == false)
+            if (openTA==null)
             {
-                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account);
+                TimeAndAttendancePunchIn taPunchin = await taMod.TimeAndAttendance.Query().BuildPunchin(employeeId, account, currentTime.PunchDate);
 
                 taMod.TimeAndAttendance.AddPunchIn(taPunchin).Apply();
             }

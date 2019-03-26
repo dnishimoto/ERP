@@ -117,9 +117,12 @@ namespace ERP_Core2.TimeAndAttendanceDomain
     }
     public class TimeAndAttendanceParam
     {
-        public long employeeId { get; set; }
-        public string account { get; set; }
-        public int mealDeduction { get; set; }
+        public long EmployeeId { get; set; }
+        public string Account { get; set; }
+        public int MealDeduction { get; set; }
+        public DateTime AsOfDate { get; set; }
+        public int Manual_ElapsedHours { get; set; }
+        public int Manual_ElapsedMinutes { get; set; }
     }
     public class TimeAndAttendanceViewContainer
     {
@@ -189,12 +192,12 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             return container;
 
         }
-        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, DateTime workDay, string account)
+        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account)
         {
 
             string workDayDateTime = BuildLongDate(workDay);
 
-            TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, workDay, workDayDateTime, hoursDuration: hours, minutesDuration: minutes);
+            TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, workDay, workDayDateTime, hoursDuration: hours, minutesDuration: minutes,mealDurationInMinutes: mealDurationInMinutes);
 
             Task<Udc> statusTask = GetUdc("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
             Task.WaitAll(statusTask);
@@ -453,9 +456,9 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate)
+        public async Task<TimeAndAttendancePunchIn> IsPunchOpen(long employeeId, DateTime asOfDate)
         {
-            bool retVal = false;
+            //bool retVal = false;
 
             try
             {
@@ -463,18 +466,19 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
 
 
-                List<TimeAndAttendancePunchIn> list = await (from e in _dbContext.TimeAndAttendancePunchIn
+                TimeAndAttendancePunchIn TAPunch = await (from e in _dbContext.TimeAndAttendancePunchIn
                                                              where e.EmployeeId == employeeId
-                                                             && e.PunchinDate == asOfDate
+                                                             && e.PunchinDate >= asOfDate
+                                                             && e.PunchoutDate<=asOfDate
                                                              && e.TaskStatusXrefId == taskStatusQuery.XrefId
                                                              select e
-                                    ).ToListAsync<TimeAndAttendancePunchIn>();
+                                    ).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
 
-                retVal = list.Any(e => e.EmployeeId == employeeId);
+                //retVal = list.Any(e => e.EmployeeId == employeeId);
 
 
 
-                return retVal;
+                return TAPunch;
             }
             catch (Exception ex)
             {
@@ -493,7 +497,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
         }
 
-        private async Task<TimeAndAttendancePunchIn> GetTimeAndAttendancePunchIn(long employeeId, string account, DateTime punchinDate, string punchinDateTime, int hoursDuration, int minutesDuration)
+        private async Task<TimeAndAttendancePunchIn> GetTimeAndAttendancePunchIn(long employeeId, string account, DateTime punchinDate, string punchinDateTime, int hoursDuration, int minutesDuration,int mealDurationInMinutes)
         {
             try
             {
@@ -501,9 +505,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 Task<TimeAndAttendanceScheduledToWork> queryTask = (from a in _dbContext.TimeAndAttendanceScheduledToWork
                                                                     where a.EmployeeId == employeeId
-                                                                    && a.StartDate >= punchinDate
-                                                                    && a.EndDate <= punchinDate
-
+                                                                    && a.StartDate == punchinDate
+                                                                   
                                                                     select a).FirstOrDefaultAsync<TimeAndAttendanceScheduledToWork>();
 
                 Task<SupervisorEmployees> supQueryTask = (from a in _dbContext.SupervisorEmployees
@@ -526,6 +529,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 retTA.Account = account;
                 int total_minutesDuration = hoursDuration * 60 + minutesDuration;
                 retTA.DurationInMinutes = total_minutesDuration;
+                retTA.MealDurationInMinutes = mealDurationInMinutes;
 
                 if (taskStatusTask.Result != null)
                 {
@@ -585,14 +589,16 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
 
         }
-        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId, string account)
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId, string account,DateTime punchDate)
         {
             try
             {
 
-                TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
+                //TimeAndAttendanceTimeView currentTime = await GetUTCAdjustedTime();
 
-                TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, currentTime.PunchDate, currentTime.PunchDateTime, hoursDuration: 0, minutesDuration: 0);
+                string punchDateTime = GetPunchDateTime(punchDate);
+
+                TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, punchDate, punchDateTime, hoursDuration: 0, minutesDuration: 0, mealDurationInMinutes:0);
 
                 return retTA;
 

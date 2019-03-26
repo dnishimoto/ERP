@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Sql_Server_Scripts\dbo.AccountBalance.Table.sql" />
     <None Remove="Sql_Server_Scripts\dbo.AccountReceivableView.View.sql" />
     <None Remove="Sql_Server_Scripts\dbo.AcctPay.Table.sql" />
@@ -188,6 +192,7 @@
 
   <ItemGroup>
     <Folder Include="ContractsDomain\Repository\" />
+    <Folder Include="WorkOrder\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
     <Folder Include="SalesOrderManagementDomain\Repository\" />
     <Folder Include="wwwroot\" />
@@ -201,12 +206,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
     <PackageReference Include="X.PagedList" Version="7.6.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
 </Project>
