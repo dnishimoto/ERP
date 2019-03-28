@@ -16,6 +16,21 @@ namespace ERP_Core2.ProjectManagementDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
+        public async Task<IQueryable<ProjectManagementWorkOrder>> GetWorkOrdersByProjectId(long projectId)
+        {
+            try
+            {
+                var list = await (from workorders in _dbContext.ProjectManagementWorkOrder
+
+                                  where (workorders.ProjectId == projectId)
+                                  select workorders).ToListAsync<ProjectManagementWorkOrder>();
+
+                return list.AsQueryable<ProjectManagementWorkOrder>();
+            }
+            catch (Exception ex) {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<IQueryable<ProjectManagementProject>> GetMilestones(long projectId)
         {
             try
@@ -44,15 +59,6 @@ namespace ERP_Core2.ProjectManagementDomain
 
 
         }
-        /*
-        public async Task<IQueryable<ProjectManagementMilestone>> GetMilestones(int projectId)
-        {
-           
-            var list = await base.GetObjectsQueryable(e => e.ProjectId == projectId, "ProjectManagmentMilestone").ToListAsync();
-
-            return list.AsQueryable<ProjectManagementMilestone>();
-           
-        }
-        */
+      
     }
 }
