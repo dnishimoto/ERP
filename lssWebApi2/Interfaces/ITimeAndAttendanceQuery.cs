@@ -10,13 +10,13 @@ namespace ERP_Core2.Interfaces
 {
     public interface IFluentTimeAndAttendanceQuery
     {
-        Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId,string account);
+        Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId,string account,DateTime punchDate);
         Task<TimeAndAttendancePunchIn> GetPunchInById(long timePunchinId);
         Task<TimeAndAttendancePunchInView> GetPunchInByIdView(long timePunchinId);
-        Task<bool> IsPunchOpen(long employeeId, DateTime asOfDate);
+        Task<TimeAndAttendancePunchIn> IsPunchOpen(long employeeId, DateTime asOfDate);
         Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId);
         Task<TimeAndAttendancePunchInView> GetPunchOpenView(long employeeId);
-        Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, DateTime workDay, string account);
+        Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account);
 
         Task<IList<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(long employeeId);
         TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate);

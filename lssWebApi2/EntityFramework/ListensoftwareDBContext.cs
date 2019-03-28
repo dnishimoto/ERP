@@ -85,6 +85,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<ProjectManagementProject> ProjectManagementProject { get; set; }
         public virtual DbSet<ProjectManagementTask> ProjectManagementTask { get; set; }
         public virtual DbSet<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
+        public virtual DbSet<ProjectManagementWorkOrder> ProjectManagementWorkOrder { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrder { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
@@ -1433,6 +1434,39 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.Version)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+            modelBuilder.Entity<ProjectManagementWorkOrder>(entity =>
+            {
+                entity.HasKey(e => e.WorkOrderId);
+
+                entity.Property(e => e.Description)
+                                  .HasMaxLength(100)
+                                  .IsUnicode(false);
+
+                entity.Property(e => e.AccountNumber)
+                                   .HasMaxLength(50)
+                                   .IsUnicode(false);
+
+                entity.Property(e => e.Instructions)
+                                   .HasMaxLength(2000)
+                                   .IsUnicode(false);
+
+                entity.Property(e => e.Status)
+                                   .HasMaxLength(20)
+                                   .IsUnicode(false);
+                entity.Property(e => e.Location)
+                                   .HasMaxLength(200)
+                                   .IsUnicode(false);
+
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.ProjectManagementWorkOrders)
+                    .HasForeignKey(d => d.ProjectId)
+                    .HasConstraintName("FK_ProjectManagementWorkOrder_ProjectManagementWorkOrder");
             });
 
             modelBuilder.Entity<ProjectManagementTask>(entity =>

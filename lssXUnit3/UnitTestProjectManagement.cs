@@ -27,7 +27,7 @@ namespace ERP_Core2.ProjectManagementDomain
             long milestoneId = 1;
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementMilestones> query = await pmMod.GetTasksByMilestoneId(milestoneId);
+            IQueryable<ProjectManagementMilestones> query = await pmMod.ProjectManagement.Query().GetTasksByMilestoneId(milestoneId);
 
             int count = 0;
             foreach (var item in query)
@@ -41,14 +41,28 @@ namespace ERP_Core2.ProjectManagementDomain
             Assert.True(count > 0);
         }
 
+        [Fact]
+        public async Task TestGetWorkOrdersByProjectId()
+        {
+            int projectId = 1;
 
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            IQueryable<ProjectManagementWorkOrder> query = await pmMod.ProjectManagement.Query().GetWorkOrdersByProjectId(projectId);
+
+            foreach (var item in query)
+            {
+                output.WriteLine($"{item.Description}");
+            }
+            Assert.True(query.Count() > 0);
+        }
         [Fact]
             public async Task TestGetMileStonesByProjectId()
             {
             int projectId = 1;
 
             ProjectManagementModule pmMod = new ProjectManagementModule();
-            IQueryable<ProjectManagementProject> query = await pmMod.GetMilestones(projectId);
+            IQueryable<ProjectManagementProject> query = await pmMod.ProjectManagement.Query().GetMilestones(projectId);
             int count = 0;
             foreach (var item in query)
             {
@@ -68,7 +82,7 @@ namespace ERP_Core2.ProjectManagementDomain
 
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementTask> query = await pmMod.GetTasksByProjectId(projectId);
+            IQueryable<ProjectManagementTask> query = await pmMod.ProjectManagement.Query().GetTasksByProjectId(projectId);
 
             int count = 0;
             foreach (var item in query)
