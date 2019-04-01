@@ -11,15 +11,65 @@ using Xunit.Abstractions;
 
 namespace ERP_Core2.ProjectManagementDomain
 {
- 
-        public class UnitTestProjectManagement
-        {
-           
-            private readonly ITestOutputHelper output;
+
+    public class UnitTestProjectManagement
+    {
+
+        private readonly ITestOutputHelper output;
 
         public UnitTestProjectManagement(ITestOutputHelper output)
         {
             this.output = output;
+        }
+        [Fact]
+        public async Task TestCreateProjecttoWorkOrder()
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            NextNumber nnProject = await pmMod.ProjectManagement.Query().GetProjectNumber();
+
+            ProjectManagementProject newProject = new ProjectManagementProject()
+            {
+                ProjectName = "Test Project",
+                Version = "1",
+                Description = "Test Project Description",
+                EstimatedStartDate = DateTime.Parse("4/1/2019"),
+                EstimatedHours = 10,
+                EstimatedEndDate = DateTime.Parse("4/1/2019"),
+                EstimatedDays = 1,
+                ProjectNumber = nnProject.NextNumberValue
+            };
+
+            pmMod.ProjectManagement.AddProject(newProject).Apply();
+
+            ProjectManagementProject project = await pmMod.ProjectManagement.Query().GetProjectByNumber(nnProject.NextNumberValue);
+
+            long projectId = project.ProjectId;
+
+            NextNumber nnWorkOrder = await pmMod.ProjectManagement.Query().GetWorkOrderNumber();
+
+            ProjectManagementWorkOrder newWorkOrder = new ProjectManagementWorkOrder()
+            {
+                WorkOrderNumber = nnWorkOrder.NextNumberValue,
+                Description = "Test Work Order",
+                StartDate = DateTime.Parse("4/1/2019"),
+                EndDate = DateTime.Parse("4/1/2019"),
+                EstimatedAmount = 100,
+                EstimatedHours = 10,
+                AccountNumber = "Test Account",
+                Instructions = "Test Instructions",
+                ProjectId = projectId,
+                Status = "Open",
+                Location = "Test Location"
+            };
+
+            pmMod.ProjectManagement.AddWorkOrder(newWorkOrder).Apply();
+
+            ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderByNumber(nnWorkOrder.NextNumberValue);
+
+            //ProjectManagementMilestones mileStone = new ProjectManagementMilestones();
+
+
         }
         [Fact]
         public async Task TestGetTasksByMilestoneId()
@@ -57,8 +107,8 @@ namespace ERP_Core2.ProjectManagementDomain
             Assert.True(query.Count() > 0);
         }
         [Fact]
-            public async Task TestGetMileStonesByProjectId()
-            {
+        public async Task TestGetMileStonesByProjectId()
+        {
             int projectId = 1;
 
             ProjectManagementModule pmMod = new ProjectManagementModule();
@@ -72,8 +122,8 @@ namespace ERP_Core2.ProjectManagementDomain
                     count++;
                 }
             }
-            Assert.True(count>0);
-            }
+            Assert.True(count > 0);
+        }
 
         [Fact]
         public async Task TestGetTasksByProjectId()
@@ -87,10 +137,10 @@ namespace ERP_Core2.ProjectManagementDomain
             int count = 0;
             foreach (var item in query)
             {
-                
-                    output.WriteLine($"Task Name: {item.Wbs} {item.TaskName}");
-                    count++;
-              
+
+                output.WriteLine($"Task Name: {item.Wbs} {item.TaskName}");
+                count++;
+
             }
             Assert.True(count > 0);
         }//end function

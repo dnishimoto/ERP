@@ -8,6 +8,7 @@ namespace lssWebApi2.EntityFramework
     public partial class ProjectManagementWorkOrder
     {
         public long WorkOrderId { get; set; }
+        public long? WorkOrderNumber { get; set; }
         public string Description { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

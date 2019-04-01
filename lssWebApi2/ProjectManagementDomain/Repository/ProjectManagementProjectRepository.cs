@@ -16,6 +16,22 @@ namespace ERP_Core2.ProjectManagementDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
+        public async Task<ProjectManagementProject> GetProjectByNumber(long projectNumber)
+        {
+            try
+            {
+                var query = await(from project in _dbContext.ProjectManagementProject
+
+                                 where (project.ProjectNumber==projectNumber)
+                                 select project).FirstOrDefaultAsync<ProjectManagementProject>();
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<IQueryable<ProjectManagementWorkOrder>> GetWorkOrdersByProjectId(long projectId)
         {
             try
