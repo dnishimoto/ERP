@@ -25,6 +25,7 @@ using ERP_Core2.TimeAndAttendanceDomain.Repository;
 using ERP_Core2.ChartOfAccountsDomain;
 using ERP_Core2.BudgetDomain;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ProjectManagementDomain.Repository;
 
 namespace ERP_Core2.Services
 {
@@ -39,6 +40,7 @@ namespace ERP_Core2.Services
         public ScheduleEventRepository scheduleEventRepository => new ScheduleEventRepository(db);
         public ProjectManagementProjectRepository projectManagementProjectRepository => new ProjectManagementProjectRepository(db);
         public ProjectManagementMilestoneRepository projectManagementMilestoneRepository => new ProjectManagementMilestoneRepository(db);
+        public ProjectManagementWorkOrderRepository projectManagementWorkOrderRepository => new ProjectManagementWorkOrderRepository(db);
         public SupervisorRepository supervisorRepository => new SupervisorRepository(db);
         public UDCRepository udcRepository => new UDCRepository(db);
         public EmployeeRepository employeeRepository => new EmployeeRepository(db);

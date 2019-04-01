@@ -25,6 +25,9 @@ namespace lssWebApi2.EntityFramework
         public decimal? Cost { get; set; }
         public int? ActualDays { get; set; }
         public int? EstimatedDays { get; set; }
+        public decimal? BudgetAmount { get; set; }
+        public decimal? BudgetHours { get; set; }
+        public long? ProjectNumber { get; set; }
 
         public virtual ICollection<ProjectManagementMilestones> ProjectManagementMilestones { get; set; }
         public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }

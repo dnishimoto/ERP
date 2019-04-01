@@ -1,5 +1,6 @@
 ﻿using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -52,6 +53,39 @@ namespace lssWebApi2.FluentAPI
                 throw new Exception("GetTasksByProjectId", ex);
             }
         }
+        public async Task<NextNumber> GetProjectNumber()
+        {
+            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.Project.ToString());
+        }
+        public async Task<NextNumber> GetWorkOrderNumber()
+        {
+            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.WorkOrder.ToString());
+        }
+        public async Task<ProjectManagementProject> GetProjectByNumber(long projectNumber)
+        {
+            try
+            {
+                ProjectManagementProject project = await _unitOfWork.projectManagementProjectRepository.GetProjectByNumber(projectNumber);
+                return project;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetProjectByNumber", ex);
+            }
+        }
+        public async Task<ProjectManagementWorkOrder> GetWorkOrderByNumber(long workOrderNumber)
+        {
+            try
+            {
+                ProjectManagementWorkOrder workOrder = await _unitOfWork.projectManagementWorkOrderRepository.GetWorkOrderByNumber(workOrderNumber);
+                return workOrder;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetWorkOrderByNumber", ex);
+            }
+        }
+
         public async Task<IQueryable<ProjectManagementWorkOrder>> GetWorkOrdersByProjectId(long projectId)
         {
             try

@@ -12,5 +12,9 @@ namespace lssWebApi2.Interfaces
         Task<IQueryable<ProjectManagementProject>> GetMilestones(long projectId);
         Task<IQueryable<ProjectManagementTask>> GetTasksByProjectId(long projectId);
         Task<IQueryable<ProjectManagementWorkOrder>> GetWorkOrdersByProjectId(long projectId);
+        Task<NextNumber> GetProjectNumber();
+        Task<ProjectManagementProject> GetProjectByNumber(long projectNumber);
+        Task<ProjectManagementWorkOrder> GetWorkOrderByNumber(long workOrderNumber);
+        Task<NextNumber> GetWorkOrderNumber();
     }
 }
