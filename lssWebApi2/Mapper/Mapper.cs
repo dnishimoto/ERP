@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Mapper
+namespace ERP_Core2.AutoMapper
 {
     public class Mapper : AbstractErrorHandling
     {

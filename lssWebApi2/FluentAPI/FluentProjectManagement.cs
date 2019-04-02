@@ -38,10 +38,37 @@ namespace lssWebApi2.FluentAPI
             return this as IFluentProjectManagement;
             
         }
+        public IFluentProjectManagement DeleteProject(ProjectManagementProject deleteProject)
+        {
+            unitOfWork.projectManagementProjectRepository.DeleteObject(deleteProject);
+            processStatus = CreateProcessStatus.Delete;
+
+            return this as IFluentProjectManagement;
+        }
+
+        public IFluentProjectManagement UpdateProject(ProjectManagementProject updateProject)
+        {
+            unitOfWork.projectManagementProjectRepository.UpdateObject(updateProject);
+            processStatus = CreateProcessStatus.Update;
+
+            return this as IFluentProjectManagement;
+        }
         public IFluentProjectManagement AddWorkOrder(ProjectManagementWorkOrder newWorkOrder)
         {
             unitOfWork.projectManagementWorkOrderRepository.AddObject(newWorkOrder);
             processStatus = CreateProcessStatus.Insert;
+            return this as IFluentProjectManagement;
+        }
+        public IFluentProjectManagement DeleteWorkOrder(ProjectManagementWorkOrder deleteWorkOrder)
+        {
+            unitOfWork.projectManagementWorkOrderRepository.DeleteObject(deleteWorkOrder);
+            processStatus = CreateProcessStatus.Delete;
+            return this as IFluentProjectManagement;
+        }
+        public IFluentProjectManagement UpdateWorkOrder(ProjectManagementWorkOrder updateWorkOrder)
+        {
+            unitOfWork.projectManagementWorkOrderRepository.UpdateObject(updateWorkOrder);
+            processStatus = CreateProcessStatus.Update;
             return this as IFluentProjectManagement;
         }
     }

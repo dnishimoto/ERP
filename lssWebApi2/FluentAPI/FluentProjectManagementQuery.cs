@@ -73,6 +73,30 @@ namespace lssWebApi2.FluentAPI
                 throw new Exception("GetProjectByNumber", ex);
             }
         }
+        public async Task<ProjectManagementProject> GetProjectById(long projectId)
+        {
+            try
+            {
+                ProjectManagementProject project = await _unitOfWork.projectManagementProjectRepository.GetProjectById(projectId);
+                return project;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetProjectById", ex);
+            }
+        }
+        public async Task<ProjectManagementWorkOrder> GetWorkOrderById(long workOrderId)
+        {
+            try
+            {
+                ProjectManagementWorkOrder workOrder = await _unitOfWork.projectManagementWorkOrderRepository.GetWorkOrderById(workOrderId);
+                return workOrder;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetWorkOrderById", ex);
+            }
+        }
         public async Task<ProjectManagementWorkOrder> GetWorkOrderByNumber(long workOrderNumber)
         {
             try

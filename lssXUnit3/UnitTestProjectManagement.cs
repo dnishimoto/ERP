@@ -46,6 +46,14 @@ namespace ERP_Core2.ProjectManagementDomain
 
             long projectId = project.ProjectId;
 
+            project.Description = "Test Project Description Update";
+
+            pmMod.ProjectManagement.UpdateProject(project).Apply();
+
+            project = await pmMod.ProjectManagement.Query().GetProjectById(projectId);
+
+            Assert.Contains(project.Description, "Test Project Description Update");
+
             NextNumber nnWorkOrder = await pmMod.ProjectManagement.Query().GetWorkOrderNumber();
 
             ProjectManagementWorkOrder newWorkOrder = new ProjectManagementWorkOrder()
@@ -66,6 +74,20 @@ namespace ERP_Core2.ProjectManagementDomain
             pmMod.ProjectManagement.AddWorkOrder(newWorkOrder).Apply();
 
             ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderByNumber(nnWorkOrder.NextNumberValue);
+
+            long workOrderId = workOrder.WorkOrderId;
+
+            workOrder.Description = "Test Work Order Description Update";
+
+            pmMod.ProjectManagement.UpdateWorkOrder(workOrder).Apply();
+            
+            workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderById(workOrderId);
+
+            Assert.Contains(workOrder.Description, "Test Work Order Description Update");
+
+            pmMod.ProjectManagement.DeleteWorkOrder(workOrder).Apply();
+
+            pmMod.ProjectManagement.DeleteProject(project).Apply();
 
             //ProjectManagementMilestones mileStone = new ProjectManagementMilestones();
 
