@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ERP_Core2.AddressBookDomain;
 
 namespace lssWebApi2.FluentAPI
 {
@@ -53,9 +54,17 @@ namespace lssWebApi2.FluentAPI
                 throw new Exception("GetTasksByProjectId", ex);
             }
         }
+       // public async Task<EmployeeView> GetEmployeeByWorkOrderId(long workOrderId)
+        //{
+        //    return await _unitOfWork.projectManagementWorkOrderRepository.GetEmployeeByWorkOrderId(workOrderId);
+        //}
         public async Task<NextNumber> GetProjectNumber()
         {
             return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.Project.ToString());
+        }
+        public async Task<NextNumber> GetMileStoneNumber()
+        {
+            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.Milestone.ToString());
         }
         public async Task<NextNumber> GetWorkOrderNumber()
         {

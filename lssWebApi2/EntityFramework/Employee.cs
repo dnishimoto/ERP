@@ -9,6 +9,7 @@ namespace lssWebApi2.EntityFramework
         {
             CustomerClaim = new HashSet<CustomerClaim>();
             ProjectManagementTaskToEmployee = new HashSet<ProjectManagementTaskToEmployee>();
+            ProjectManagementWorkOrderToEmployee = new HashSet<ProjectManagementWorkOrderToEmployee>();
             ScheduleEvent = new HashSet<ScheduleEvent>();
             SupervisorEmployees = new HashSet<SupervisorEmployees>();
             TimeAndAttendancePunchIn = new HashSet<TimeAndAttendancePunchIn>();
@@ -28,6 +29,7 @@ namespace lssWebApi2.EntityFramework
         public virtual Udc JobTitleXref { get; set; }
         public virtual ICollection<CustomerClaim> CustomerClaim { get; set; }
         public virtual ICollection<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
+        public virtual ICollection<ProjectManagementWorkOrderToEmployee> ProjectManagementWorkOrderToEmployee { get; set; }
         public virtual ICollection<ScheduleEvent> ScheduleEvent { get; set; }
         public virtual ICollection<SupervisorEmployees> SupervisorEmployees { get; set; }
         public virtual ICollection<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }

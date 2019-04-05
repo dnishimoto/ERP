@@ -15,6 +15,9 @@ namespace lssWebApi2.Interfaces
         IFluentProjectManagement AddWorkOrder(ProjectManagementWorkOrder newWorkOrder);
         IFluentProjectManagement UpdateWorkOrder(ProjectManagementWorkOrder updateWorkOrder);
         IFluentProjectManagement DeleteWorkOrder(ProjectManagementWorkOrder deleteWorkOrder);
+        IFluentProjectManagement AddWorkOrderEmployee(List<ProjectManagementWorkOrderToEmployee> list);
+        IFluentProjectManagement DeleteWorkOrderToEmployee(List<ProjectManagementWorkOrderToEmployee> list);
+        IFluentProjectManagement AddMileStone(ProjectManagementMilestones mileStone);
         IFluentProjectManagement Apply();
     }
 }

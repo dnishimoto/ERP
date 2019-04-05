@@ -22,6 +22,27 @@ namespace ERP_Core2.ProjectManagementDomain
             this.output = output;
         }
         [Fact]
+        public async Task TestWoToEmployee()
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            ProjectManagementWorkOrderToEmployee woToEmployee = new ProjectManagementWorkOrderToEmployee()
+            {
+                EmployeeId = 1,
+                WorkOrderId = 2
+            };
+            List<ProjectManagementWorkOrderToEmployee> list = new List<ProjectManagementWorkOrderToEmployee>();
+
+            list.Add(woToEmployee);
+            pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
+
+            //List<Employee> employeeList =
+                //pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(woToEmployee.WorkOrderId);
+            pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
+
+
+        }
+        [Fact]
         public async Task TestCreateProjecttoWorkOrder()
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
@@ -84,6 +105,29 @@ namespace ERP_Core2.ProjectManagementDomain
             workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderById(workOrderId);
 
             Assert.Contains(workOrder.Description, "Test Work Order Description Update");
+
+            NextNumber nnMileStone = await pmMod.ProjectManagement.Query().GetMileStoneNumber();
+
+            ProjectManagementMilestones mileStone = new ProjectManagementMilestones() {
+
+                MileStoneNumber = nnMileStone.NextNumberValue,
+                MilestoneName = "Test Milestone",
+                ProjectId = projectId,
+                EstimatedHours = 1.1M,
+                ActualDays = 1,
+                EstimatedDays = 1,
+                ActualHours = 1.2M,
+                ActualStartDate = DateTime.Now,
+                ActualEndDate = DateTime.Now,
+                EstimatedStartDate = DateTime.Now.AddDays(-7), 
+                EstimatedEndDate = DateTime.Now.AddDays(-1),
+                Cost =100.1M,
+                Wbs ="1.1"
+            };
+
+            pmMod.ProjectManagement.AddMileStone(mileStone).Apply();
+
+            pmMod.ProjectManagement.DeleteMileStone(mileStone).Apply();
 
             pmMod.ProjectManagement.DeleteWorkOrder(workOrder).Apply();
 

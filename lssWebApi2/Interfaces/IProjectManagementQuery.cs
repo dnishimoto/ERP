@@ -18,5 +18,6 @@ namespace lssWebApi2.Interfaces
         Task<ProjectManagementWorkOrder> GetWorkOrderById(long workOrderId);
         Task<ProjectManagementProject> GetProjectById(long projectId);
         Task<NextNumber> GetWorkOrderNumber();
+        Task<NextNumber> GetMileStoneNumber();
     }
 }
