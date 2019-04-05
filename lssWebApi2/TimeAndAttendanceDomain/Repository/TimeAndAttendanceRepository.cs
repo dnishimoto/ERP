@@ -7,7 +7,6 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using lssWebApi2.Mapper;
 
 using lssWebApi2.EntityFramework;
 using X.PagedList;

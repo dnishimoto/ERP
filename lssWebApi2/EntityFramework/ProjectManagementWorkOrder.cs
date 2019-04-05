@@ -7,6 +7,11 @@ namespace lssWebApi2.EntityFramework
 {
     public partial class ProjectManagementWorkOrder
     {
+        public ProjectManagementWorkOrder()
+        {
+            ProjectManagementWorkOrderToEmployee = new HashSet<ProjectManagementWorkOrderToEmployee>();
+        }
+
         public long WorkOrderId { get; set; }
         public long? WorkOrderNumber { get; set; }
         public string Description { get; set; }
@@ -23,5 +28,8 @@ namespace lssWebApi2.EntityFramework
         public string Location { get; set; }
 
         public virtual ProjectManagementProject Project { get; set; }
+        public virtual ICollection<ProjectManagementWorkOrderToEmployee> ProjectManagementWorkOrderToEmployee { get; set; }
+        
+
     }
 }

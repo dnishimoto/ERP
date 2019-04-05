@@ -41,6 +41,7 @@ namespace ERP_Core2.Services
         public ProjectManagementProjectRepository projectManagementProjectRepository => new ProjectManagementProjectRepository(db);
         public ProjectManagementMilestoneRepository projectManagementMilestoneRepository => new ProjectManagementMilestoneRepository(db);
         public ProjectManagementWorkOrderRepository projectManagementWorkOrderRepository => new ProjectManagementWorkOrderRepository(db);
+        public ProjectManagementWorkOrderToEmployeeRepository projectManagementWorkOrderToEmployeeRepository => new ProjectManagementWorkOrderToEmployeeRepository(db);
         public SupervisorRepository supervisorRepository => new SupervisorRepository(db);
         public UDCRepository udcRepository => new UDCRepository(db);
         public EmployeeRepository employeeRepository => new EmployeeRepository(db);
@@ -87,7 +88,14 @@ namespace ERP_Core2.Services
         
         public void CommitChanges()
         {
-            db.SaveChanges();
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message + ' ' + ex.InnerException);
+            }
         }
     }
 }

@@ -10,7 +10,14 @@ namespace lssWebApi2.Interfaces
     {
         IFluentProjectManagementQuery Query();
         IFluentProjectManagement AddProject(ProjectManagementProject newProject);
+        IFluentProjectManagement DeleteProject(ProjectManagementProject deleteProject);
+        IFluentProjectManagement UpdateProject(ProjectManagementProject updateProject);
         IFluentProjectManagement AddWorkOrder(ProjectManagementWorkOrder newWorkOrder);
+        IFluentProjectManagement UpdateWorkOrder(ProjectManagementWorkOrder updateWorkOrder);
+        IFluentProjectManagement DeleteWorkOrder(ProjectManagementWorkOrder deleteWorkOrder);
+        IFluentProjectManagement AddWorkOrderEmployee(List<ProjectManagementWorkOrderToEmployee> list);
+        IFluentProjectManagement DeleteWorkOrderToEmployee(List<ProjectManagementWorkOrderToEmployee> list);
+        IFluentProjectManagement AddMileStone(ProjectManagementMilestones mileStone);
         IFluentProjectManagement Apply();
     }
 }

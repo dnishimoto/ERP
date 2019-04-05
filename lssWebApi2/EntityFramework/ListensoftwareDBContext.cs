@@ -86,6 +86,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<ProjectManagementTask> ProjectManagementTask { get; set; }
         public virtual DbSet<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
         public virtual DbSet<ProjectManagementWorkOrder> ProjectManagementWorkOrder { get; set; }
+        public virtual DbSet<ProjectManagementWorkOrderToEmployee> ProjectManagementWorkOrderToEmployee { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrder { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
@@ -1532,6 +1533,21 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_ProjectManagementTaskToEmployee_ProjectManagementTask");
             });
 
+            modelBuilder.Entity<ProjectManagementWorkOrderToEmployee>(entity =>
+            {
+                entity.HasKey(e => e.WorkOrderToEmployeeId);
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.ProjectManagementWorkOrderToEmployee)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .HasConstraintName("FK_ProjectManagementWorkOrderToEmployee_ProjectManagementWorkOrder");
+
+
+                entity.HasOne(d => d.WorkOrder)
+                    .WithMany(p => p.ProjectManagementWorkOrderToEmployee)
+                    .HasForeignKey(d => d.WorkOrderId)
+                    .HasConstraintName("FK_ProjectManagementWorkOrderToEmployee_Employee");
+            });
             modelBuilder.Entity<PurchaseOrder>(entity =>
             {
                 entity.Property(e => e.AmountPaid).HasColumnType("money");

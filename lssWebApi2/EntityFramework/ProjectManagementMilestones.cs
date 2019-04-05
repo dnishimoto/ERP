@@ -11,6 +11,7 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long MilestoneId { get; set; }
+        public long MileStoneNumber { get; set; }
         public string MilestoneName { get; set; }
         public long? ProjectId { get; set; }
         public decimal? EstimatedHours { get; set; }
