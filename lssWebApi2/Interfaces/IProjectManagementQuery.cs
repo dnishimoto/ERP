@@ -1,4 +1,5 @@
-﻿using lssWebApi2.EntityFramework;
+﻿using ERP_Core2.AddressBookDomain;
+using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +20,6 @@ namespace lssWebApi2.Interfaces
         Task<ProjectManagementProject> GetProjectById(long projectId);
         Task<NextNumber> GetWorkOrderNumber();
         Task<NextNumber> GetMileStoneNumber();
+        Task<IEnumerable<EmployeeView>> GetEmployeeByWorkOrderId(long workOrderId);
     }
 }
