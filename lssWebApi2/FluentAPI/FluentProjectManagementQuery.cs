@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.AddressBookDomain;
+using System.Collections;
 
 namespace lssWebApi2.FluentAPI
 {
@@ -16,6 +17,11 @@ namespace lssWebApi2.FluentAPI
         public FluentProjectManagementQuery(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+        }
+        public async Task<IEnumerable<EmployeeView>> GetEmployeeByWorkOrderId(long workOrderId)
+        {
+            IEnumerable<EmployeeView> views = await _unitOfWork.projectManagementWorkOrderToEmployeeRepository.GetEmployeeByWorkOrderId(workOrderId);
+            return views;
         }
         public async Task<IQueryable<ProjectManagementMilestones>> GetTasksByMilestoneId(long milestoneId)
         {

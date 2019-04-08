@@ -1,4 +1,5 @@
 ﻿
+using ERP_Core2.AddressBookDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using System;
@@ -36,8 +37,12 @@ namespace ERP_Core2.ProjectManagementDomain
             list.Add(woToEmployee);
             pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
 
-            //List<Employee> employeeList =
-                //pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(woToEmployee.WorkOrderId);
+            IEnumerable<EmployeeView> employeeList =
+                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(woToEmployee.WorkOrderId);
+            foreach (var item in employeeList)
+            {
+                output.WriteLine($"{item.EmployeeName}");
+            }
             pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
 
 
@@ -126,6 +131,27 @@ namespace ERP_Core2.ProjectManagementDomain
             };
 
             pmMod.ProjectManagement.AddMileStone(mileStone).Apply();
+
+
+            ProjectManagementWorkOrderToEmployee woToEmployee = new ProjectManagementWorkOrderToEmployee()
+            {
+                EmployeeId = 1,
+                WorkOrderId = workOrderId
+            };
+            List<ProjectManagementWorkOrderToEmployee> list = new List<ProjectManagementWorkOrderToEmployee>();
+
+            list.Add(woToEmployee);
+            pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
+
+            IEnumerable<EmployeeView> employeeList =
+                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(woToEmployee.WorkOrderId);
+            foreach (var item in employeeList)
+            {
+                output.WriteLine($"{item.EmployeeName}");
+            }
+            Assert.True(employeeList.Count() > 0);
+
+            pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
 
             pmMod.ProjectManagement.DeleteMileStone(mileStone).Apply();
 
