@@ -7,24 +7,41 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.ProjectManagementDomain
 {
-    public class ProjectManagementTaskRepository : Repository<ProjectManagementTask>
+    public class ProjectManagementMilestoneView
+    {
+        public long MilestoneId { get; set; }
+        public long MileStoneNumber { get; set; }
+        public string MilestoneName { get; set; }
+        public long? ProjectId { get; set; }
+        public decimal? EstimatedHours { get; set; }
+        public int? ActualDays { get; set; }
+        public int? EstimatedDays { get; set; }
+        public decimal? ActualHours { get; set; }
+        public DateTime? ActualStartDate { get; set; }
+        public DateTime? ActualEndDate { get; set; }
+        public DateTime? EstimatedStartDate { get; set; }
+        public DateTime? EstimatedEndDate { get; set; }
+        public decimal? Cost { get; set; }
+        public string Wbs { get; set; }
+    }
+    public class ProjectManagementMilestoneRepository : Repository<ProjectManagementMilestones>
     {
         ListensoftwaredbContext _dbContext;
-        public ProjectManagementTaskRepository(DbContext db) : base(db)
+        public ProjectManagementMilestoneRepository(DbContext db) : base(db)
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
 
-        public async Task<IQueryable<ProjectManagementTask>> GetEmployeeByTaskId(int taskId)
+        public async Task<IQueryable<ProjectManagementMilestones>> GetTasksByMilestoneId(long milestoneId)
         {
             try
             {
-                var list = await base.GetObjectsQueryable(e => e.TaskId == taskId, "").ToListAsync();
+                var list = await base.GetObjectsQueryable(e => e.MilestoneId == milestoneId, "ProjectManagementTasks").ToListAsync();
 
-                return list.AsQueryable<ProjectManagementTask>();
+                return list.AsQueryable<ProjectManagementMilestones>();
+          
             }
-            catch(Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
     }

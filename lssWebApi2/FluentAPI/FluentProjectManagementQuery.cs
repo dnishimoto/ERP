@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.AddressBookDomain;
 using System.Collections;
+using ERP_Core2.ProjectManagementDomain;
 
 namespace lssWebApi2.FluentAPI
 {
@@ -47,7 +48,14 @@ namespace lssWebApi2.FluentAPI
                 throw new Exception("GetMilestones", ex);
             }
         }
-
+        public async Task<ProjectManagementMilestoneView> MaptoMilestoneView(ProjectManagementMilestones inputObject)
+        {
+            return await _unitOfWork.projectManagementProjectRepository.MaptoMilestoneView(inputObject);
+        }
+        public async Task<ProjectManagementTaskView> MaptoTaskView(ProjectManagementTask inputObject)
+        {
+            return await _unitOfWork.projectManagementProjectRepository.MaptoTaskView(inputObject);
+        }
         public async Task<IQueryable<ProjectManagementTask>> GetTasksByProjectId(long projectId)
         {
             try
