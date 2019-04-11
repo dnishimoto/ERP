@@ -28,12 +28,37 @@ namespace ERP_Core2.ProjectManagementDomain
         public decimal? BudgetHours { get; set; }
         public long? ProjectNumber { get; set; }
     }
-    public class ProjectManagementProjectRepository: Repository<ProjectManagementProject>
+    public class ProjectManagementProjectRepository: Repository<ProjectManagementProject> 
     {
         ListensoftwaredbContext _dbContext;
         public ProjectManagementProjectRepository(DbContext db) : base(db)
         {
             _dbContext = (ListensoftwaredbContext)db;
+        }
+        /*
+        public async Task<TOutput> MaptoView<TOutput,TInput>(TInput inputObject)
+        {
+
+            Mapper mapper = new Mapper();
+
+            TOutput view = mapper.Map<TInput>(inputObject);
+            return view;
+        }
+        */
+        public async Task<ProjectManagementMilestoneView> MaptoMilestoneView(ProjectManagementMilestones inputObject)
+        {
+            Mapper mapper = new Mapper();
+            ProjectManagementMilestoneView view = mapper.Map<ProjectManagementMilestoneView>(inputObject);
+            return view;
+        }
+        public async Task<ProjectManagementTaskView> MaptoTaskView(ProjectManagementTask inputObject)
+        {
+
+            Mapper mapper = new Mapper();
+            mapper.dictAdditionalFields.Clear();
+            mapper.dictAdditionalFields.Add(nameof(ProjectManagementTaskView.ProjectName), "Project." + nameof(ProjectManagementProject.ProjectName));
+            ProjectManagementTaskView view = mapper.Map<ProjectManagementTaskView>(inputObject);
+            return view;
         }
         public async Task<ProjectManagementProjectView> GetProjectViewById(long projectId)
         {
