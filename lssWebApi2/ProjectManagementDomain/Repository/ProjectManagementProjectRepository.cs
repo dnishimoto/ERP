@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ProjectManagementDomain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.ProjectManagementDomain
@@ -45,10 +46,32 @@ namespace ERP_Core2.ProjectManagementDomain
             return view;
         }
         */
+        public async Task<ProjectManagementProjectView> MapToProjectView(ProjectManagementProject inputObject)
+        {
+            Mapper mapper = new Mapper();
+            ProjectManagementProjectView view = mapper.Map<ProjectManagementProjectView>(inputObject);
+            await Task.Yield();
+            return view;
+        }
+        public async Task<ProjectManagementTaskView> MapToTaskView(ProjectManagementTask inputObject)
+        {
+            Mapper mapper = new Mapper();
+            ProjectManagementTaskView view = mapper.Map<ProjectManagementTaskView>(inputObject);
+            await Task.Yield();
+            return view;
+        }
+        public async Task<ProjectManagementWorkOrderView> MapToWorkOrderView(ProjectManagementWorkOrder inputObject)
+        {
+            Mapper mapper = new Mapper();
+            ProjectManagementWorkOrderView view = mapper.Map<ProjectManagementWorkOrderView>(inputObject);
+            await Task.Yield();
+            return view;
+        }
         public async Task<ProjectManagementMilestoneView> MaptoMilestoneView(ProjectManagementMilestones inputObject)
         {
             Mapper mapper = new Mapper();
             ProjectManagementMilestoneView view = mapper.Map<ProjectManagementMilestoneView>(inputObject);
+            await Task.Yield();
             return view;
         }
         public async Task<ProjectManagementTaskView> MaptoTaskView(ProjectManagementTask inputObject)
@@ -58,6 +81,7 @@ namespace ERP_Core2.ProjectManagementDomain
             mapper.dictAdditionalFields.Clear();
             mapper.dictAdditionalFields.Add(nameof(ProjectManagementTaskView.ProjectName), "Project." + nameof(ProjectManagementProject.ProjectName));
             ProjectManagementTaskView view = mapper.Map<ProjectManagementTaskView>(inputObject);
+            await Task.Yield();
             return view;
         }
         public async Task<ProjectManagementProjectView> GetProjectViewById(long projectId)
