@@ -97,6 +97,18 @@ namespace lssWebApi2.FluentAPI
         {
             return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.WorkOrder.ToString());
         }
+        public async Task<ProjectManagementMilestones> GetMileStoneByNumber(long mileStoneNumber)
+        {
+            try
+            {
+                ProjectManagementMilestones milestone = await _unitOfWork.projectManagementProjectRepository.GetMileStoneByNumber(mileStoneNumber);
+                return milestone;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetMileStoneByNumber", ex);
+            }
+        }
         public async Task<ProjectManagementProject> GetProjectByNumber(long projectNumber)
         {
             try

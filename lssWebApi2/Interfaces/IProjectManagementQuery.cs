@@ -28,5 +28,6 @@ namespace lssWebApi2.Interfaces
         Task<ProjectManagementWorkOrderView> MapToWorkOrderView(ProjectManagementWorkOrder inputObject);
         Task<ProjectManagementTaskView> MapToTaskView(ProjectManagementTask inputObject);
         Task<ProjectManagementProjectView> MapToProjectView(ProjectManagementProject inputObject);
+        Task<ProjectManagementMilestones> GetMileStoneByNumber(long mileStoneNumber);
     }
 }
