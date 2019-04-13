@@ -23,6 +23,25 @@ namespace lssWebApi2.Controllers
             return new string[] { "value1", "value2" };
         }
         [HttpPost]
+        [Route("CreateMilestone")]
+        [ProducesResponseType(typeof(ProjectManagementMilestoneView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateMilestone([FromBody]ProjectManagementMilestones milestone)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            NextNumber nnMileStone = await pmMod.ProjectManagement.Query().GetMileStoneNumber();
+
+            milestone.MileStoneNumber = nnMileStone.NextNumberValue;
+      
+            pmMod.ProjectManagement.AddMileStone(milestone).Apply();
+
+            ProjectManagementMilestones queryMilestone = await pmMod.ProjectManagement.Query().GetMileStoneByNumber(milestone.MileStoneNumber??0);
+
+            ProjectManagementMilestoneView view = await pmMod.ProjectManagement.Query().MaptoMilestoneView(queryMilestone);
+
+            return Ok(view);
+        }
+        [HttpPost]
         [Route("CreateWorkOrderToEmployee")]
         [ProducesResponseType(typeof(List<EmployeeView>), StatusCodes.Status200OK)]
         public async Task<IActionResult> CreateWorkOrderToEmployee([FromBody]List<ProjectManagementWorkOrderToEmployee> list)
