@@ -36,7 +36,7 @@ namespace ERP_Core2.ProjectManagementDomain
         {
             try
             {
-                var list = await base.GetObjectsQueryable(e => e.MilestoneId == milestoneId, "ProjectManagementTasks").ToListAsync();
+                var list = await base.GetObjectsQueryable(e => e.MilestoneId == milestoneId, nameof(ProjectManagementTask)).ToListAsync();
 
                 return list.AsQueryable<ProjectManagementMilestones>();
           

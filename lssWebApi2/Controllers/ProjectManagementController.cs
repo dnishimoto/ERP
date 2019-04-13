@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.ProjectManagementDomain;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ProjectManagementDomain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,65 @@ namespace lssWebApi2.Controllers
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
+        }
+        [HttpPost]
+        [Route("CreateProject")]
+        [ProducesResponseType(typeof(ProjectManagementProjectView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateProject([FromBody] ProjectManagementProject newProject)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            NextNumber nnProject = await pmMod.ProjectManagement.Query().GetProjectNumber();
+
+            newProject.ProjectNumber = nnProject.NextNumberValue;
+      
+            pmMod.ProjectManagement.AddProject(newProject).Apply();
+
+            ProjectManagementProject projectSaved = await pmMod.ProjectManagement.Query().GetProjectByNumber(nnProject.NextNumberValue);
+
+            ProjectManagementProjectView view = await pmMod.ProjectManagement.Query().MapToProjectView(projectSaved);
+
+            return Ok(view);
+
+        }
+        [HttpGet]
+        [Route("GetTasksByMilestoneId/{milestoneId}")]
+        [ProducesResponseType(typeof(List<ProjectManagementTaskView>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetTasksByMilestoneId(long milestoneId)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            IQueryable<ProjectManagementMilestones> query = await pmMod.ProjectManagement.Query().GetTasksByMilestoneId(milestoneId);
+
+            List<ProjectManagementTaskView> list = new List<ProjectManagementTaskView>();
+
+       
+            foreach (var item in query)
+            {
+                foreach (var task in item.ProjectManagementTask)
+                {
+                    ProjectManagementTaskView view = await pmMod.ProjectManagement.Query().MapToTaskView(task);
+                    list.Add(view);
+                }
+            }
+            return Ok(list);
+        }
+        [HttpGet]
+        [ProducesResponseType(typeof(List<ProjectManagementMilestoneView>), StatusCodes.Status200OK)]
+        [Route("GetWorkOrdersByProjectId/{projectId}")]
+        public async Task<IActionResult> GetWorkOrdersByProjectId(long projectId)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            IQueryable<ProjectManagementWorkOrder> query = await pmMod.ProjectManagement.Query().GetWorkOrdersByProjectId(projectId);
+
+            List<ProjectManagementWorkOrderView> list = new List<ProjectManagementWorkOrderView>();
+            foreach (var workOrder in query)
+            {
+                ProjectManagementWorkOrderView view = await pmMod.ProjectManagement.Query().MapToWorkOrderView(workOrder);
+                list.Add(view);
+            }
+            return Ok(list);
         }
         [HttpGet]
         [Route("GetMilestonesByProjectId/{projectId}")]
