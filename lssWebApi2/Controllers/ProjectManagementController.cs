@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ERP_Core2.AddressBookDomain;
 using ERP_Core2.ProjectManagementDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain.Repository;
@@ -20,6 +21,47 @@ namespace lssWebApi2.Controllers
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
+        }
+        [HttpPost]
+        [Route("CreateWorkOrderToEmployee")]
+        [ProducesResponseType(typeof(List<EmployeeView>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateWorkOrderToEmployee([FromBody]List<ProjectManagementWorkOrderToEmployee> list)
+        {
+            List<EmployeeView> retList = null;
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            if (list.Count()>0)
+            {
+                long workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
+                pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
+
+                IEnumerable<EmployeeView> query =
+                    await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId);
+
+                retList = new List<EmployeeView>(query);
+
+            }
+            return Ok(retList);
+        }
+        [HttpPost]
+        [Route("CreateWorkOrder")]
+        [ProducesResponseType(typeof(ProjectManagementWorkOrderView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> CreateWorkOrder([FromBody]ProjectManagementWorkOrder newWorkOrder)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+
+            NextNumber nnWorkOrder = await pmMod.ProjectManagement.Query().GetWorkOrderNumber();
+
+            newWorkOrder.WorkOrderNumber = nnWorkOrder.NextNumberValue;
+           
+
+            pmMod.ProjectManagement.AddWorkOrder(newWorkOrder).Apply();
+
+            ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderByNumber(nnWorkOrder.NextNumberValue);
+
+            ProjectManagementWorkOrderView view = await pmMod.ProjectManagement.Query().MapToWorkOrderView(workOrder);
+
+            return Ok(view);
         }
         [HttpPost]
         [Route("CreateProject")]
