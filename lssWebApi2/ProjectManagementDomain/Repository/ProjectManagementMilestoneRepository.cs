@@ -31,7 +31,38 @@ namespace ERP_Core2.ProjectManagementDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
+        public async Task<ProjectManagementMilestones> GetMileStoneById(long mileStoneId)
+        {
+            try
+            {
+                var query = await (from milestone in _dbContext.ProjectManagementMilestones
 
+                                   where (milestone.MilestoneId == mileStoneId)
+                                   select milestone).FirstOrDefaultAsync<ProjectManagementMilestones>();
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
+        public async Task<ProjectManagementMilestones> GetMileStoneByNumber(long mileStoneNumber)
+        {
+            try
+            {
+                var query = await (from milestone in _dbContext.ProjectManagementMilestones
+
+                                   where (milestone.MileStoneNumber == mileStoneNumber)
+                                   select milestone).FirstOrDefaultAsync<ProjectManagementMilestones>();
+
+                return query;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+        }
         public async Task<IQueryable<ProjectManagementMilestones>> GetTasksByMilestoneId(long milestoneId)
         {
             try

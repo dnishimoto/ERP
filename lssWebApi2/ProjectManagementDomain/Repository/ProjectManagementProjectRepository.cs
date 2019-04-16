@@ -120,22 +120,7 @@ namespace ERP_Core2.ProjectManagementDomain
             }
 
         }
-        public async Task<ProjectManagementMilestones> GetMileStoneByNumber(long mileStoneNumber)
-        {
-            try
-            {
-                var query = await (from milestone in _dbContext.ProjectManagementMilestones
-
-                                   where (milestone.MileStoneNumber == mileStoneNumber)
-                                   select milestone).FirstOrDefaultAsync<ProjectManagementMilestones>();
-
-                return query;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
+      
         public async Task<ProjectManagementProject> GetProjectByNumber(long projectNumber)
         {
             try
