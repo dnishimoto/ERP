@@ -29,5 +29,6 @@ namespace lssWebApi2.Interfaces
         Task<ProjectManagementTaskView> MapToTaskView(ProjectManagementTask inputObject);
         Task<ProjectManagementProjectView> MapToProjectView(ProjectManagementProject inputObject);
         Task<ProjectManagementMilestones> GetMileStoneByNumber(long mileStoneNumber);
+        Task<ProjectManagementMilestones> GetMileStoneById(long mileStoneId);
     }
 }

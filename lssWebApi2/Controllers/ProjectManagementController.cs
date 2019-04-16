@@ -22,6 +22,66 @@ namespace lssWebApi2.Controllers
         {
             return new string[] { "value1", "value2" };
         }
+
+        
+        [HttpDelete]
+        [Route("DeleteWorkOrderToEmployee")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteWorkOrderToEmployee([FromBody]List<ProjectManagementWorkOrderToEmployee> list)
+        {
+            try
+            {
+                ProjectManagementModule pmMod = new ProjectManagementModule();
+                if (list.Count()>0)
+                {
+                    long workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
+                    pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
+                }
+                return Ok(true);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+                 
+        [HttpDelete]
+        [Route("DeleteWorkOrder/{workOrderId}")]
+        [ProducesResponseType(typeof(ProjectManagementWorkOrderView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteWorkOrder(long workOrderId)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+            ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderById(workOrderId);
+            ProjectManagementWorkOrderView view = await pmMod.ProjectManagement.Query().MapToWorkOrderView(workOrder);
+            pmMod.ProjectManagement.DeleteWorkOrder(workOrder).Apply();
+            return Ok(view);
+        }
+       
+        [HttpDelete]
+        [Route("DeleteMilestone/{milestoneId}")]
+        [ProducesResponseType(typeof(ProjectManagementProjectView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteMilestone(long milestoneId)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+            ProjectManagementMilestones milestone = await pmMod.ProjectManagement.Query().GetMileStoneById(milestoneId);
+            ProjectManagementMilestoneView view = await pmMod.ProjectManagement.Query().MaptoMilestoneView(milestone);
+            pmMod.ProjectManagement.DeleteMileStone(milestone).Apply();
+            return Ok(view);
+        }
+      
+        [HttpDelete]
+        [Route("DeleteProject/{projectId}")]
+        [ProducesResponseType(typeof(ProjectManagementProjectView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteProject(long projectId)
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+            ProjectManagementProject project = await pmMod.ProjectManagement.Query().GetProjectById(projectId);
+            ProjectManagementProjectView view = await pmMod.ProjectManagement.Query().MapToProjectView(project);
+            pmMod.ProjectManagement.DeleteProject(project).Apply();
+           
+            return Ok(view);
+        }
+
         [HttpPost]
         [Route("CreateMilestone")]
         [ProducesResponseType(typeof(ProjectManagementMilestoneView), StatusCodes.Status200OK)]
