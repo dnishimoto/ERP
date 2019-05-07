@@ -7,6 +7,8 @@ using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using ERP_Core2.ItemMasterDomain;
+using ERP_Core2.ChartOfAccountsDomain;
 
 namespace ERP_Core2.InventoryDomain
 {
@@ -32,6 +34,12 @@ namespace ERP_Core2.InventoryDomain
         public int? Quantity { get; set; }
         public decimal? ExtendedPrice { get; set; }
         public long? DistributionAccountId { get; set; }
+
+        public ItemMasterView ItemMasterView { get; set; }
+        public ChartOfAccountView DistributionAccountView { get; set; }
+        public PackingSlipDetailView PackingSlipDetailView { get; set; }
+       
+
     }
     public class InventoryRepository: Repository<Inventory>
     {
@@ -41,6 +49,15 @@ namespace ERP_Core2.InventoryDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<Inventory> GetInventoryById(long inventoryId) {
+            try
+            {
+                Inventory item = await _dbContext.Inventory.FindAsync(inventoryId);
+                return item;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<CreateProcessStatus> CreateInventoryByPackingSlipView(PackingSlipView view)
         {

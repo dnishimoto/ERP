@@ -76,6 +76,18 @@ namespace ERP_Core2.PackingSlipDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
+        public async Task<PackingSlipDetail> GetPackingSlipDetailById(long? packingSlipDetailId) {
+            try {
+                if (packingSlipDetailId != null)
+                {
+                    PackingSlipDetail item = await _dbContext.PackingSlipDetail.FindAsync(packingSlipDetailId.Value);
+                    return item;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<PackingSlipView> GetPackingSlipViewBySlipDocument(string slipDocument)
         {
             try
