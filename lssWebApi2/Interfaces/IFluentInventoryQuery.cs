@@ -14,5 +14,8 @@ namespace lssWebApi2.Interfaces
         Task<PackingSlipDetail> GetPackingSlipDetailById(long? packingSlipId);
         Task<ChartOfAccts> GetDistributionAccountById(long? accountId);
         Task<InventoryView> GetInventoryViewbyId(long inventoryId);
+        Task<NextNumber> GetInventoryNextNumber();
+        Task<Inventory> MapToInventoryEntity(InventoryView inputObject);
+        Task<Inventory> GetInventoryByNumber(long inventoryNumber);
     }
 }

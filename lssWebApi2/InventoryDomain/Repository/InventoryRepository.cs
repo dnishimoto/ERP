@@ -34,6 +34,8 @@ namespace ERP_Core2.InventoryDomain
         public int? Quantity { get; set; }
         public decimal? ExtendedPrice { get; set; }
         public long? DistributionAccountId { get; set; }
+        public string Branch { get; set; }
+        public long InventoryNumber { get; set; }
 
         public ItemMasterView ItemMasterView { get; set; }
         public ChartOfAccountView DistributionAccountView { get; set; }
@@ -49,6 +51,16 @@ namespace ERP_Core2.InventoryDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<Inventory> GetInventoryByNumber(long inventoryNumber)
+        {
+            try
+            {
+                Inventory inventory = await _dbContext.Inventory.Where(m => m.InventoryNumber == inventoryNumber).FirstOrDefaultAsync<Inventory>();
+                return inventory;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
         }
         public async Task<Inventory> GetInventoryById(long inventoryId) {
             try

@@ -5,6 +5,7 @@ using ERP_Core2.ItemMasterDomain;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,21 @@ namespace lssWebApi2.FluentAPI
         public FluentInventoryQuery() { }
         public FluentInventoryQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
+        public async Task<NextNumber> GetInventoryNextNumber()
+        {
+            return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfNextNumber.InventoryNumber.ToString());
+        }
+        public async Task<Inventory> MapToInventoryEntity(InventoryView inputObject)
+        {
+            Mapper mapper = new Mapper();
+            Inventory inventory = mapper.Map<Inventory>(inputObject);
+            await Task.Yield();
+            return inventory;
+        }
+        public async Task<Inventory> GetInventoryByNumber(long inventoryNumber)
+        {
+            return await _unitOfWork.inventoryRepository.GetInventoryByNumber(inventoryNumber);
+        }
         public async Task<InventoryView> GetInventoryViewbyId(long inventoryId)
         {
             Inventory inventory = await GetInventoryById(inventoryId);
