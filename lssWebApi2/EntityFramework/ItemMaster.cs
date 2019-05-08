@@ -22,6 +22,7 @@ namespace lssWebApi2.EntityFramework
         public string Description2 { get; set; }
         public string ItemNumber { get; set; }
         public decimal? UnitPrice { get; set; }
+        public string Branch { get; set; }
 
         public virtual ICollection<Inventory> Inventory { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }

@@ -66,6 +66,15 @@ namespace ERP_Core2.ChartOfAccountsDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<ChartOfAccts> GetChartOfAccountById(long? accountId)
+        {
+            if (accountId != null)
+            {
+                ChartOfAccts item = await _dbContext.ChartOfAccts.FindAsync(accountId.Value);
+                return item;
+            }
+            return null;
+        }
         public List<ChartOfAccountView> GetChartOfAccountViewsByAccount(string companyNumber, string busUnit, string objectNumber, string subsidiary)
         {
             try

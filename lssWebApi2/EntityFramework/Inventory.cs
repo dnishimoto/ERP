@@ -14,6 +14,8 @@ namespace lssWebApi2.EntityFramework
         public long? DistributionAccountId { get; set; }
         public long? PackingSlipDetailId { get; set; }
         public long ItemId { get; set; }
+        public string Branch { get; set; }
+        public long InventoryNumber { get; set; }
 
         public virtual ItemMaster Item { get; set; }
 

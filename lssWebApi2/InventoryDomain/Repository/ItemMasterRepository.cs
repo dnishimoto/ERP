@@ -29,9 +29,10 @@ namespace ERP_Core2.ItemMasterDomain
         public string Description2 { get; set; }
         public string ItemNumber { get; set; }
         public decimal? UnitPrice { get; set; }
+        public string Branch { get; set; }
 
     }
-    public class ItemMasterRepository: Repository<ItemMaster>
+    public class ItemMasterRepository : Repository<ItemMaster>
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
@@ -39,6 +40,17 @@ namespace ERP_Core2.ItemMasterDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+       
+        public async Task<ItemMaster> GetItemMasterById(long itemId)
+        {
+            try { 
+            ItemMaster item = await _dbContext.ItemMaster.FindAsync(itemId);
+            return item;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+
         }
         public async Task<bool> CreateItemMaster(ItemMaster itemMaster)
         {

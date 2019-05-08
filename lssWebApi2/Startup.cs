@@ -36,6 +36,7 @@ namespace lssWebApi2
                 //.SetBasePath(basePath) 
                 .AddJsonFile("appsettings.json")
                  .Build();
+           
             var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
 
             services.AddDbContext<ListensoftwaredbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString));
