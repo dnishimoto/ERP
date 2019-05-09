@@ -25,6 +25,7 @@ namespace ERP_Core2.InventoryDomain
             this.Quantity = inventory.Quantity;
             this.ExtendedPrice = inventory.ExtendedPrice;
             this.DistributionAccountId = inventory.DistributionAccountId;
+            this.PackingSlipDetailId = inventory.PackingSlipDetailId;
     }
         public long InventoryId { get; set; }
         public long ItemId { get; set; }
@@ -36,6 +37,7 @@ namespace ERP_Core2.InventoryDomain
         public long? DistributionAccountId { get; set; }
         public string Branch { get; set; }
         public long InventoryNumber { get; set; }
+        public long? PackingSlipDetailId { get; set; }
 
         public ItemMasterView ItemMasterView { get; set; }
         public ChartOfAccountView DistributionAccountView { get; set; }
@@ -52,7 +54,7 @@ namespace ERP_Core2.InventoryDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public async Task<Inventory> GetInventoryByNumber(long inventoryNumber)
+         public async Task<Inventory> GetInventoryByNumber(long inventoryNumber)
         {
             try
             {

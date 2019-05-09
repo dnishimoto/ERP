@@ -17,5 +17,6 @@ namespace lssWebApi2.Interfaces
         Task<NextNumber> GetInventoryNextNumber();
         Task<Inventory> MapToInventoryEntity(InventoryView inputObject);
         Task<Inventory> GetInventoryByNumber(long inventoryNumber);
+        Task<InventoryView> GetInventoryViewByNumber(long inventoryNumber);
     }
 }
