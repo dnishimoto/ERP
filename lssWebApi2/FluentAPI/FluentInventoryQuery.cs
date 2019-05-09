@@ -20,6 +20,19 @@ namespace lssWebApi2.FluentAPI
         public FluentInventoryQuery() { }
         public FluentInventoryQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
+        public async Task<InventoryView> GetInventoryViewByNumber(long inventoryNumber)
+        {
+            Inventory inventory=await _unitOfWork.inventoryRepository.GetInventoryByNumber(inventoryNumber);
+            InventoryView view = await MapToInventoryView(inventory);
+
+            if (inventory != null)
+            {
+                view=await SetViewDependencies(view);
+            }
+
+            return view;
+        }
+
         public async Task<NextNumber> GetInventoryNextNumber()
         {
             return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfNextNumber.InventoryNumber.ToString());
@@ -42,26 +55,28 @@ namespace lssWebApi2.FluentAPI
 
             if (inventory != null)
             {
-                Task<ItemMaster> itemMasterTask = GetItemMasterById(inventory.ItemId);
-                Task<ChartOfAccts> accountTask = GetDistributionAccountById(inventory.DistributionAccountId);
-                Task<PackingSlipDetail> packingSlipDetailTask = GetPackingSlipDetailById(inventory.PackingSlipDetailId);
-
-                Task.WaitAll(itemMasterTask, accountTask, packingSlipDetailTask);
-
-                ItemMaster itemMaster = await itemMasterTask;
-                ChartOfAccts distributionAccount = await accountTask;
-                PackingSlipDetail packingSlipDetail = await packingSlipDetailTask;
-
-                if (itemMaster!=null) view.ItemMasterView= await MapToItemMasterView(itemMaster);
-                if (distributionAccount!=null) view.DistributionAccountView = await MapToChartAccountView(await accountTask);
-                if (packingSlipDetail!=null) view.PackingSlipDetailView = await MapToPackingSlipDetailView(await packingSlipDetailTask);
-
-    }
-
-           
-
+                view=await SetViewDependencies(view);
+            }
+               
             return view;
 
+        }
+        public async Task<InventoryView> SetViewDependencies(InventoryView view)
+        {
+            Task<ItemMaster> itemMasterTask = GetItemMasterById(view.ItemId);
+            Task<ChartOfAccts> accountTask = GetDistributionAccountById(view.DistributionAccountId);
+            Task<PackingSlipDetail> packingSlipDetailTask = GetPackingSlipDetailById(view.PackingSlipDetailId);
+
+            Task.WaitAll(itemMasterTask, accountTask, packingSlipDetailTask);
+
+            ItemMaster itemMaster = await itemMasterTask;
+            ChartOfAccts distributionAccount = await accountTask;
+            PackingSlipDetail packingSlipDetail = await packingSlipDetailTask;
+
+            if (itemMaster != null) view.ItemMasterView = await MapToItemMasterView(itemMaster);
+            if (distributionAccount != null) view.DistributionAccountView = await MapToChartAccountView(await accountTask);
+            if (packingSlipDetail != null) view.PackingSlipDetailView = await MapToPackingSlipDetailView(await packingSlipDetailTask);
+            return view;
         }
 
         public async Task<ChartOfAccountView> MapToChartAccountView(ChartOfAccts inputObject)
