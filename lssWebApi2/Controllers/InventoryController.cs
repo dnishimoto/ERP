@@ -45,34 +45,39 @@ namespace lssWebApi2.Controllers
             return Ok(newView);
 
         }
-        /*
+        
         [HttpDelete]
+        [Route("View")]
+        [ProducesResponseType(typeof(InventoryView), StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteInventory(InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
-            invMod.Inventory.DeleteInventory(newInventory).Apply();
-            return view;
+            Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
+            invMod.Inventory.DeleteInventory(inventory).Apply();
+           
+             return Ok(view);
         }
+     
         [HttpPut]
+        [Route("View")]
+        [ProducesResponseType(typeof(InventoryView), StatusCodes.Status200OK)]
         public async Task<IActionResult> UpdateInventory(InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
 
-            newInventory.Description = "Testing inventory update";
+            Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
 
    
-            invMod.Inventory.UpdateInventory(newInventory).Apply();
+            invMod.Inventory.UpdateInventory(inventory).Apply();
 
-            InventoryView updateView = await invMod.Inventory.Query().GetInventoryViewbyId(newInventory.InventoryId);
+            InventoryView updateView = await invMod.Inventory.Query().GetInventoryViewbyId(inventory.InventoryId);
 
-          
-
-          
-            Inventory lookupInventory = await invMod.Inventory.Query().GetInventoryById(view.InventoryId);
-            return lookupInventory;
+            InventoryView retView = await invMod.Inventory.Query().GetInventoryViewByNumber(inventory.InventoryNumber);
+         
+            return Ok(retView);
 
         }
-        */
+    
         [HttpGet]
         [Route("View/{inventoryId}")]
         [ProducesResponseType(typeof(InventoryView), StatusCodes.Status200OK)]
