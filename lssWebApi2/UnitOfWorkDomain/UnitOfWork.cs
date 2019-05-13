@@ -26,6 +26,7 @@ using ERP_Core2.ChartOfAccountsDomain;
 using ERP_Core2.BudgetDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain.Repository;
+using lssWebApi2.InventoryDomain.Repository;
 
 namespace ERP_Core2.Services
 {
@@ -64,6 +65,7 @@ namespace ERP_Core2.Services
         public PurchaseOrderRepository purchaseOrderRepository => new PurchaseOrderRepository(db);
         public PackingSlipRepository packingSlipRepository => new PackingSlipRepository(db);
         public InventoryRepository inventoryRepository => new InventoryRepository(db);
+        public AssetsRepository assetsRepository => new AssetsRepository(db);
         public SupplierInvoiceRepository supplierInvoiceRepository => new SupplierInvoiceRepository(db);
         public SupplierLedgerRepository supplierLedgerRepository => new SupplierLedgerRepository(db);
         public NextNumberRepository nextNumberRepository => new NextNumberRepository(db);
