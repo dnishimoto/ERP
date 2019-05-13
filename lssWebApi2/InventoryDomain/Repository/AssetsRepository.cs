@@ -1,9 +1,16 @@
-﻿using System;
+﻿using ERP_Core2.AbstractFactory;
+using ERP_Core2.Services;
+using lssWebApi2.EntityFramework;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace lssWebApi2.EntityFramework
+namespace lssWebApi2.InventoryDomain.Repository
 {
-    public partial class Assets
+
+    public class AssetsView
     {
         public long AssetId { get; set; }
         public long AssetNumber { get; set; }
@@ -26,7 +33,23 @@ namespace lssWebApi2.EntityFramework
         public string GenericLocationLevel2 { get; set; }
         public string GenericLocationLevel3 { get; set; }
 
-        public virtual Udc EquipmentStatusXref { get; set; }
-
+    }
+    public class AssetsRepository: Repository<Assets>
+    {
+        public ListensoftwaredbContext _dbContext;
+        private ApplicationViewFactory applicationViewFactory;
+        public AssetsRepository(DbContext db) : base(db)
+        {
+            _dbContext = (ListensoftwaredbContext)db;
+            applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<Assets> GetAssetsByNumber(long assetNumber)
+        {
+            return await _dbContext.Assets.Where(m => m.AssetNumber == assetNumber).FirstOrDefaultAsync<Assets>();
+        }
+        public async Task<Assets> GetAssetsById(long assetId)
+        {
+            return await _dbContext.Assets.FindAsync(assetId);
+        }
     }
 }

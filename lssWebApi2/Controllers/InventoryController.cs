@@ -64,18 +64,10 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> UpdateInventory(InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
-
             Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
-
-   
             invMod.Inventory.UpdateInventory(inventory).Apply();
-
             InventoryView updateView = await invMod.Inventory.Query().GetInventoryViewbyId(inventory.InventoryId);
-
-            InventoryView retView = await invMod.Inventory.Query().GetInventoryViewByNumber(inventory.InventoryNumber);
-         
-            return Ok(retView);
-
+            return Ok(updateView);
         }
     
         [HttpGet]
@@ -85,7 +77,6 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> GetInventoryView(long inventoryId)
         {
             InventoryModule invMod = new InventoryModule();
-      
             InventoryView view = await invMod.Inventory.Query().GetInventoryViewbyId(inventoryId);
             return Ok(view);
         }
