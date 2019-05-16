@@ -1672,8 +1672,6 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<SalesOrder>(entity =>
             {
-                entity.Property(e => e.ActualPickupDate).HasColumnType("datetime");
-
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.FreightAmount).HasColumnType("decimal(18, 4)");
@@ -1692,13 +1690,7 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ScheduledPickupDate).HasColumnType("datetime");
-
                 entity.Property(e => e.TakenBy).HasMaxLength(10);
-
-                entity.Property(e => e.TransactionDate).HasColumnType("date");
-
-                entity.Property(e => e.UnitOfMeasure).HasMaxLength(10);
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.SalesOrder)
@@ -1711,6 +1703,12 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.GrossWeight).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.GrossWeightUnitOfMeasure)
+                                .HasMaxLength(25)
+                                .IsUnicode(false);
+
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
                     .IsUnicode(false);
@@ -1719,7 +1717,41 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.ScheduledShipDate).HasColumnType("ScheduledShipDate");
+                entity.Property(e => e.PromisedDate).HasColumnType("PromisedDate");
+                entity.Property(e => e.ShippedDate).HasColumnType("ShippedDate");
+                entity.Property(e => e.InvoiceDate).HasColumnType("InvoiceDate");
+                entity.Property(e => e.GLDate).HasColumnType("GLDate");
+           
+                entity.Property(e=>e.UnitVolume).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.UnitVolumeUnitOfMeasurement)
+                                  .HasMaxLength(50)
+                                  .IsUnicode(false);
+
+                entity.Property(e => e.PaymentTerms)
+                                 .HasMaxLength(20)
+                                 .IsUnicode(false);
+
+                entity.Property(e => e.PaymentInstrument)
+                                 .HasMaxLength(50)
+                                 .IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                                 .HasMaxLength(50)
+                                 .IsUnicode(false);
+                                          
+
+                entity.Property(e => e.LotSerial)
+                               .HasMaxLength(50)
+                               .IsUnicode(false);
+
+                entity.Property(e => e.BusUnit)
+                            .HasMaxLength(10)
+                            .IsUnicode(false);
+
+                entity.Property(e => e.CompanyNumber)
+                            .HasMaxLength(10)
+                            .IsUnicode(false);
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.SalesOrderDetail)
@@ -1737,6 +1769,8 @@ namespace lssWebApi2.EntityFramework
             modelBuilder.Entity<ScheduleEvent>(entity =>
             {
                 entity.Property(e => e.EventDateTime).HasColumnType("datetime");
+
+                
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.ScheduleEvent)

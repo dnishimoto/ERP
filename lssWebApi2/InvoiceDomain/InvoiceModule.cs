@@ -13,7 +13,7 @@ namespace ERP_Core2.InvoiceDomain
     {
         public FluentInvoice Invoice = new FluentInvoice();
         public FluentInvoiceDetail InvoiceDetail = new FluentInvoiceDetail();
-        public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable();
+        public FluentAccountsReceivable AccountsReceivable = new FluentAccountsReceivable();
         public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
 
         public bool PostInvoiceAndDetailToAcctRec(InvoiceView invoiceView)

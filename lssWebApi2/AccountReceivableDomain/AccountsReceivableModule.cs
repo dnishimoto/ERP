@@ -14,7 +14,7 @@ namespace ERP_Core2.AccountsReceivableDomain
     public class AccountsReceivableModule : AbstractModule
     {
 
-        public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable();
+        public FluentAccountsReceivable AccountsReceivable = new FluentAccountsReceivable();
         public FluentCustomerCashPayment CustomerCashPayment = new FluentCustomerCashPayment();
 
         public bool CreateCustomerCashPayment(GeneralLedgerView ledgerView)
