@@ -27,6 +27,7 @@ using ERP_Core2.BudgetDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain.Repository;
 using lssWebApi2.InventoryDomain.Repository;
+using lssWebApi2.SalesOrderManagementDomain.Repository;
 
 namespace ERP_Core2.Services
 {
@@ -69,6 +70,8 @@ namespace ERP_Core2.Services
         public SupplierInvoiceRepository supplierInvoiceRepository => new SupplierInvoiceRepository(db);
         public SupplierLedgerRepository supplierLedgerRepository => new SupplierLedgerRepository(db);
         public NextNumberRepository nextNumberRepository => new NextNumberRepository(db);
+        public SalesOrderRepository salesOrderRepository => new SalesOrderRepository(db);
+        public SalesOrderDetailRepository salesOrderDetailRepository => new SalesOrderDetailRepository(db);
         public UnitOfWork()
         {
             /*

@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Interfaces;
+using lssWebApi2.SalesOrderManagementDomain.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -40,8 +42,14 @@ namespace lssWebApi2
             var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
 
             services.AddDbContext<ListensoftwaredbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString));
-      
+
+            services.AddTransient<ISalesOrderRepository, SalesOrderRepository>();
+            services.AddTransient<ISalesOrderDetailRepository, SalesOrderDetailRepository>();
+
+
         }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

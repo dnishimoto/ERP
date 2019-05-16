@@ -15,7 +15,7 @@ namespace ERP_Core2.GeneralLedgerDomain
     public class GeneralLedgerModule
     {
         public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
-        public FluentChartOfAccounts ChartOfAccounts = new FluentChartOfAccounts();
+        public FluentChartOfAccount ChartOfAccounts = new FluentChartOfAccount();
         public FluentNextNumber nn = new FluentNextNumber();
         public FluentAddressBook AddressBook = new FluentAddressBook();
         public FluentUDC UDC = new FluentUDC();

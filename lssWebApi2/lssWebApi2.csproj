@@ -194,7 +194,6 @@
     <Folder Include="ContractsDomain\Repository\" />
     <Folder Include="WorkOrder\" />
     <Folder Include="PurchaseOrderDomain\Repository\" />
-    <Folder Include="SalesOrderManagementDomain\Repository\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
