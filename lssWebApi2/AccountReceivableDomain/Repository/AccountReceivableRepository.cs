@@ -9,6 +9,7 @@ using ERP_Core2.InvoicesDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AccountReceivableDomain.Repository;
 
 namespace ERP_Core2.AccountsReceivableDomain
 {
@@ -83,7 +84,7 @@ namespace ERP_Core2.AccountsReceivableDomain
         public decimal? GLAmount { get; set; }
 
     }
-    public class AccountReceivableRepository : Repository<AcctRec>
+    public class AccountReceivableRepository : Repository<AcctRec>, IAccountReceivableRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.CustomerDomain.Repository;
 
 namespace ERP_Core2.CustomerDomain
 {
@@ -164,7 +165,7 @@ namespace ERP_Core2.CustomerDomain
         public IList<LocationAddressView> LocationAddress { get; set; }
         public EmailView AccountEmail { get; set; }
     }
-    public class CustomerRepository : Repository<Customer>
+    public class CustomerRepository : Repository<Customer>, ICustomerRepository
     {
         private ApplicationViewFactory applicationViewFactory;
 
