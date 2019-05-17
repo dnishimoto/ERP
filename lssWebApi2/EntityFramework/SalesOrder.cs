@@ -20,6 +20,7 @@ namespace lssWebApi2.EntityFramework
         public decimal? FreightAmount { get; set; }
         public string PaymentInstrument { get; set; }
         public string PaymentTerms { get; set; }
+        public string Note { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }

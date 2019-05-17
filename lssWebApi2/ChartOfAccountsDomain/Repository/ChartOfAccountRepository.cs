@@ -1,5 +1,6 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.Services;
+using lssWebApi2.ChartOfAccountsDomain.Repository;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -57,7 +58,7 @@ namespace ERP_Core2.ChartOfAccountsDomain
         public string CompanyName { get; set; }
         public int Level { get; set; }
     }
-    public class ChartOfAccountRepository : Repository<ChartOfAccts>
+    public class ChartOfAccountRepository : Repository<ChartOfAccts>, IChartOfAccountRepository
     {
         private ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

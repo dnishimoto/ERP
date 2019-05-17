@@ -1681,16 +1681,20 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.OrderType)
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PaymentInstrument).HasMaxLength(10);
+                entity.Property(e => e.PaymentInstrument).HasMaxLength(20);
+
+                entity.Property(e => e.Note)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.PaymentTerms)
                     .HasMaxLength(10)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TakenBy).HasMaxLength(10);
+                entity.Property(e => e.TakenBy).HasMaxLength(50);
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.SalesOrder)

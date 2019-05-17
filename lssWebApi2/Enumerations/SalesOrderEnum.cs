@@ -1,13 +1,15 @@
-﻿using lssWebApi2.FluentAPI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace lssWebApi2.SalesOrderManagementDomain
 {
-    public class SalesOrderModule
+    public enum SalesOrderEnum
     {
-        public FluentSalesOrder SalesOrder = new FluentSalesOrder();
+        CASH_SALES,
+        RUSH_ORDER,
+        CONSIGNMENT_FILLUP ,
+        CONSIGNMENT_ISSUE   
     }
 }
