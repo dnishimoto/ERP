@@ -1191,6 +1191,12 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
+                entity.Property(e => e.WeightUnitOfMeasure)
+                 .HasMaxLength(50)
+                 .IsUnicode(false);
+
+                entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
+
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
             });
 
@@ -1718,7 +1724,7 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.UnitOfMeasure)
-                    .HasMaxLength(10)
+                    .HasMaxLength(25)
                     .IsUnicode(false);
 
                 entity.Property(e => e.ScheduledShipDate).HasColumnType("ScheduledShipDate");

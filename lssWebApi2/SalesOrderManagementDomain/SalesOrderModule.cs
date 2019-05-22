@@ -9,5 +9,6 @@ namespace lssWebApi2.SalesOrderManagementDomain
     public class SalesOrderModule
     {
         public FluentSalesOrder SalesOrder = new FluentSalesOrder();
+        public FluentSalesOrderDetail SalesOrderDetail = new FluentSalesOrderDetail();
     }
 }

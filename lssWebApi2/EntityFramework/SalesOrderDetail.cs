@@ -27,11 +27,11 @@ namespace lssWebApi2.EntityFramework
         public long? PurchaseOrderDetailId { get; set; }
         public long? PickListId { get; set; }
         public long? PickListDetailId { get; set; }
-        public DateTime ScheduledShipDate { get; set; }
-        public DateTime PromisedDate { get; set; }
-        public DateTime ShippedDate { get; set; }
-        public DateTime InvoiceDate { get; set; }
-        public DateTime GLDate { get; set; }
+        public DateTime? ScheduledShipDate { get; set; }
+        public DateTime? PromisedDate { get; set; }
+        public DateTime? ShippedDate { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public DateTime? GLDate { get; set; }
         public decimal? GrossWeight { get; set; }
         public string GrossWeightUnitOfMeasure { get; set; }
         public decimal? UnitVolume { get; set; }

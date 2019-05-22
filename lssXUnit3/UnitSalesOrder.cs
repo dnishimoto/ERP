@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using System.Linq;
 
 /*
  
@@ -38,52 +39,94 @@ namespace lssXUnit3
         {
             Func<int, Func<int, int>> curriedAdd = x => y => x + y;
             int b = curriedAdd(2)(3);
-           
+
             output.WriteLine($"{b} ");
 
         }
         [Fact]
         public async Task TestAddUpdatDeleteSalesOrder()
         {
-            SalesOrderModule SalesOrderMod = new SalesOrderModule();
+            SalesOrderModule salesOrderMod = new SalesOrderModule();
 
-            Udc orderType = await SalesOrderMod.SalesOrder.Query().GetUdc("ORDER_TYPE", SalesOrderEnum.CASH_SALES.ToString());
-            Udc paymentTerms = await SalesOrderMod.SalesOrder.Query().GetUdc("PAYMENTTERMS", PaymentTermsEnum.Net_2_10_30.ToString());
-            NextNumber nnSalesOrder = await SalesOrderMod.SalesOrder.Query().GetSalesOrderNextNumber();
-          
+            Udc orderType = await salesOrderMod.SalesOrder.Query().GetUdc("ORDER_TYPE", SalesOrderEnum.CASH_SALES.ToString());
+            Udc paymentTerms = await salesOrderMod.SalesOrder.Query().GetUdc("PAYMENTTERMS", PaymentTermsEnum.Net_2_10_30.ToString());
+            NextNumber nnSalesOrder = await salesOrderMod.SalesOrder.Query().GetSalesOrderNextNumber();
+
             SalesOrderView view = new SalesOrderView()
             {
-                Taxes =0,
-                Amount =0,
-                OrderType =orderType.KeyCode.ToString(),
-                CustomerId =2,
-                TakenBy ="David Nishimoto",
-                FreightAmount =0,
-                PaymentInstrument="Check" ,
-                PaymentTerms =paymentTerms.KeyCode.ToString()
+                Taxes = 0,
+                Amount = 0,
+                OrderType = orderType.KeyCode.ToString(),
+                CustomerId = 2,
+                TakenBy = "David Nishimoto",
+                FreightAmount = 0,
+                PaymentInstrument = "Check",
+                PaymentTerms = paymentTerms.KeyCode.ToString()
+            };
+
+            List<SalesOrderDetailView> detailViews = new List<SalesOrderDetailView>() {
+                new SalesOrderDetailView(){
+                ItemId=11,
+                Description ="Flower Bent Rod",
+                Quantity =4,
+                QuantityOpen =4,
+                Amount= 31.52M,
+                AmountOpen =31.52M,
+                UnitOfMeasure ="Each",
+                UnitPrice =7.88M,
+                AccountId =5,
+                ScheduledShipDate =DateTime.Parse("5/21/2019"),
+                PromisedDate =DateTime.Parse("5/23/2019"),
+                GLDate =DateTime.Parse("5/21/2019"),
+                InvoiceDate=(DateTime?) null,
+                ShippedDate=(DateTime?) null,
+                GrossWeight = 4.1000M*4M,
+                GrossWeightUnitOfMeasure = "LBS",
+                //UnitVolume { get; set; }
+                //UnitVolumeUnitOfMeasurement { get; set; }
+                BusUnit ="700",
+                CompanyNumber ="1000",
+                LineNumber=1
+                }
             };
 
 
             view.OrderNumber = nnSalesOrder.NextNumberValue.ToString();
 
-            SalesOrder SalesOrder = await SalesOrderMod.SalesOrder.Query().MapToSalesOrderEntity(view);
+            SalesOrder SalesOrder = await salesOrderMod.SalesOrder.Query().MapToSalesOrderEntity(view);
 
-            SalesOrderMod.SalesOrder.AddSalesOrder(SalesOrder).Apply();
+            salesOrderMod.SalesOrder.AddSalesOrder(SalesOrder).Apply();
 
-            SalesOrder newSalesOrder = await SalesOrderMod.SalesOrder.Query().GetSalesOrderByNumber(view.OrderNumber);
+            SalesOrder newSalesOrder = await salesOrderMod.SalesOrder.Query().GetSalesOrderByNumber(view.OrderNumber);
 
             Assert.NotNull(newSalesOrder);
 
             newSalesOrder.Note = "sales order note test";
 
-            SalesOrderMod.SalesOrder.UpdateSalesOrder(newSalesOrder).Apply();
+            salesOrderMod.SalesOrder.UpdateSalesOrder(newSalesOrder).Apply();
 
-            SalesOrderView updateView = await SalesOrderMod.SalesOrder.Query().GetSalesOrderViewById(newSalesOrder.SalesOrderId);
+            SalesOrderView updateView = await salesOrderMod.SalesOrder.Query().GetSalesOrderViewById(newSalesOrder.SalesOrderId);
 
             Assert.Same(updateView.Note, "sales order note test");
+            
+            detailViews.ForEach(m => m.SalesOrderId = newSalesOrder.SalesOrderId);
 
-            SalesOrderMod.SalesOrder.DeleteSalesOrder(newSalesOrder).Apply();
-            SalesOrder lookupSalesOrder = await SalesOrderMod.SalesOrder.Query().GetSalesOrderById(view.SalesOrderId);
+            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToSalesOrderDetailEntity(detailViews);
+
+            salesOrderMod.SalesOrderDetail.AddSalesOrderDetails(salesOrderDetails).Apply();
+
+            salesOrderDetails.ForEach(m => m.Description += " Updated");
+
+            salesOrderMod.SalesOrderDetail.UpdateSalesOrderDetails(salesOrderDetails).Apply();
+
+            List<SalesOrderDetail> listDetails = await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(newSalesOrder.SalesOrderId);
+
+            Assert.True(listDetails.Any(m => m.Description.Contains("Updated")));
+
+            salesOrderMod.SalesOrderDetail.DeleteSalesOrderDetails(listDetails).Apply();
+
+            salesOrderMod.SalesOrder.DeleteSalesOrder(newSalesOrder).Apply();
+            SalesOrder lookupSalesOrder = await salesOrderMod.SalesOrder.Query().GetSalesOrderById(view.SalesOrderId);
 
             Assert.Null(lookupSalesOrder);
         }
