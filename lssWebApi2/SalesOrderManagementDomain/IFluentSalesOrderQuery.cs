@@ -15,5 +15,6 @@ namespace lssWebApi2.Interfaces
         Task<SalesOrder> GetSalesOrderByNumber(string orderNumber);
         Task<SalesOrderView> GetSalesOrderViewById(long salesOrderId);
         Task<SalesOrder> GetSalesOrderById(long salesOrderId);
+ 
     }
 }

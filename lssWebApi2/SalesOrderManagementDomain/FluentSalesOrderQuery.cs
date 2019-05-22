@@ -29,6 +29,7 @@ namespace lssWebApi2.FluentAPI
             await Task.Yield();
             return outObject;
         }
+    
         public async Task<SalesOrder> GetSalesOrderByNumber(string orderNumber)
         {
             return await _unitOfWork.salesOrderRepository.GetSalesOrderByNumber(orderNumber);
