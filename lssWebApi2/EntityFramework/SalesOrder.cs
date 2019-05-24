@@ -11,8 +11,9 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long SalesOrderId { get; set; }
-        public decimal? Taxes {get; set; }
+        public decimal? Taxes { get; set; }
         public decimal? Amount { get; set; }
+        public decimal? AmountOpen { get; set; }
         public string OrderNumber { get; set; }
         public string OrderType { get; set; }
         public long CustomerId { get; set; }

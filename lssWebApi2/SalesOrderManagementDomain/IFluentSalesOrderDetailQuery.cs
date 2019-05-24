@@ -12,5 +12,7 @@ namespace lssWebApi2.SalesOrderManagementDomain
         Task<SalesOrderDetail> MapToSalesOrderDetailEntity(SalesOrderDetailView inputObject);
         Task<List<SalesOrderDetail>> MapToSalesOrderDetailEntity(List<SalesOrderDetailView> inputObjects);
         Task<List<SalesOrderDetail>> GetDetailsBySalesOrderId(long salesOrderId);
+        Task<List<SalesOrderDetailView>> GetDetailViewsBySalesOrderId(long salesOrderId);
+        Task<SalesOrderDetailView> MapToSalesOrderDetailView(SalesOrderDetail inputObject);
     }
 }

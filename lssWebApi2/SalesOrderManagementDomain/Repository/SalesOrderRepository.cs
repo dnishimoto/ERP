@@ -11,9 +11,16 @@ namespace lssWebApi2.SalesOrderManagementDomain.Repository
 {
     public class SalesOrderView
     {
+        public SalesOrderView() {
+            if (SalesOrderDetailViews == null)
+            {
+                SalesOrderDetailViews = new List<SalesOrderDetailView>();
+            }
+        }
         public long SalesOrderId { get; set; }
         public decimal? Taxes { get; set; }
         public decimal? Amount { get; set; }
+        public decimal? AmountOpen { get; set; }
         public string OrderNumber { get; set; }
         public string OrderType { get; set; }
         public long CustomerId { get; set; }
@@ -22,6 +29,7 @@ namespace lssWebApi2.SalesOrderManagementDomain.Repository
         public string PaymentInstrument { get; set; }
         public string PaymentTerms { get; set; }
         public string Note { get; set; }
+        public List<SalesOrderDetailView> SalesOrderDetailViews { get; set; }
     }
     public class SalesOrderRepository :  Repository<SalesOrder> , ISalesOrderRepository
     {

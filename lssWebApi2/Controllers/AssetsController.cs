@@ -17,7 +17,7 @@ namespace lssWebApi2.Controllers
         [HttpPost]
         [Route("View")]
         [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddAssets(AssetsView view)
+        public async Task<IActionResult> AddAssets([FromBody]AssetsView view)
         {
             AssetsModule invMod = new AssetsModule();
 
@@ -39,7 +39,7 @@ namespace lssWebApi2.Controllers
         [HttpDelete]
         [Route("View")]
         [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteAssets(AssetsView view)
+        public async Task<IActionResult> DeleteAssets([FromBody]AssetsView view)
         {
             AssetsModule invMod = new AssetsModule();
             Assets Assets = await invMod.Assets.Query().MapToAssetsEntity(view);
@@ -51,7 +51,7 @@ namespace lssWebApi2.Controllers
         [HttpPut]
         [Route("View")]
         [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateAssets(AssetsView view)
+        public async Task<IActionResult> UpdateAssets([FromBody]AssetsView view)
         {
             AssetsModule invMod = new AssetsModule();
 

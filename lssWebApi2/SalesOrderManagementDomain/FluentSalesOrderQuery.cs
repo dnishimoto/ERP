@@ -19,8 +19,25 @@ namespace lssWebApi2.FluentAPI
         public async Task<Udc> GetUdc(string productCode, string keyCode) {
             return await _unitOfWork.salesOrderRepository.GetUdc(productCode, keyCode);
         }
+        public SalesOrder SumAmounts(SalesOrder salesOrder,List<SalesOrderDetail> salesOrderDetails)
+        {
+            decimal? amount = salesOrderDetails.Sum(e => e.Amount);
+            decimal? amountOpen = salesOrderDetails.Sum(e => e.AmountOpen);
+
+            salesOrder.Amount = amount;
+            salesOrder.AmountOpen = amountOpen;
+
+            return salesOrder;
+        }
         public async Task<NextNumber> GetSalesOrderNextNumber() {
             return await _unitOfWork.salesOrderRepository.GetNextNumber("SalesOrderNumber");
+        }
+        public async Task<SalesOrderView> MapToSalesOrderView(SalesOrder inputObject)
+        {
+            Mapper mapper = new Mapper();
+            SalesOrderView outObject = mapper.Map<SalesOrderView>(inputObject);
+            await Task.Yield();
+            return outObject;
         }
         public async Task<SalesOrder> MapToSalesOrderEntity(SalesOrderView inputObject)
         {

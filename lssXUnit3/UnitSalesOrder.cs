@@ -103,6 +103,8 @@ namespace lssXUnit3
 
             newSalesOrder.Note = "sales order note test";
 
+            SalesOrderView newSalesOrderView = await salesOrderMod.SalesOrder.Query().MapToSalesOrderView(newSalesOrder);
+
             salesOrderMod.SalesOrder.UpdateSalesOrder(newSalesOrder).Apply();
 
             SalesOrderView updateView = await salesOrderMod.SalesOrder.Query().GetSalesOrderViewById(newSalesOrder.SalesOrderId);
@@ -120,6 +122,8 @@ namespace lssXUnit3
             salesOrderMod.SalesOrderDetail.UpdateSalesOrderDetails(salesOrderDetails).Apply();
 
             List<SalesOrderDetail> listDetails = await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(newSalesOrder.SalesOrderId);
+
+            List<SalesOrderDetailView> listDetailViews= await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
 
             Assert.True(listDetails.Any(m => m.Description.Contains("Updated")));
 

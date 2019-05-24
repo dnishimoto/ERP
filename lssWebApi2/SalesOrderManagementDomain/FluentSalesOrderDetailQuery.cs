@@ -35,11 +35,31 @@ namespace lssWebApi2.SalesOrderManagementDomain
             await Task.Yield();
             return outObject;
         }
+        public async Task<SalesOrderDetailView> MapToSalesOrderDetailView(SalesOrderDetail inputObject)
+        {
+            Mapper mapper = new Mapper();
+            SalesOrderDetailView outObject = mapper.Map<SalesOrderDetailView>(inputObject);
+            await Task.Yield();
+            return outObject;
+        }
 
 
         public async Task<List<SalesOrderDetail>> GetDetailsBySalesOrderId(long salesOrderId)
         {
             return await _unitOfWork.salesOrderDetailRepository.GetDetailsBySalesOrderId(salesOrderId);
         }
+        public async Task<List<SalesOrderDetailView>> GetDetailViewsBySalesOrderId(long salesOrderId)
+        {
+            List<SalesOrderDetailView> listViews = new List<SalesOrderDetailView>();
+            List<SalesOrderDetail> list = await _unitOfWork.salesOrderDetailRepository.GetDetailsBySalesOrderId(salesOrderId);
+            foreach (var item in list)
+            {
+                listViews.Add(await MapToSalesOrderDetailView(item));
+            }
+
+            return listViews;
+       
+
+        }
     }
-}
+} 
