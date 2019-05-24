@@ -1678,7 +1678,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<SalesOrder>(entity =>
             {
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.Amount).HasColumnType("money");
+                entity.Property(e => e.AmountOpen).HasColumnType("money");
 
                 entity.Property(e => e.FreightAmount).HasColumnType("decimal(18, 4)");
 

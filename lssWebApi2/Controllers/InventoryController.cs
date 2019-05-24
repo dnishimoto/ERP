@@ -17,7 +17,7 @@ namespace lssWebApi2.Controllers
         [HttpPost]
         [Route("View")]
         [ProducesResponseType(typeof(InventoryView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddInventory(InventoryView view)
+        public async Task<IActionResult> AddInventory([FromBody]InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
             //InventoryView view = new InventoryView()
@@ -49,7 +49,7 @@ namespace lssWebApi2.Controllers
         [HttpDelete]
         [Route("View")]
         [ProducesResponseType(typeof(InventoryView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteInventory(InventoryView view)
+        public async Task<IActionResult> DeleteInventory([FromBody]InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
             Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
@@ -61,7 +61,7 @@ namespace lssWebApi2.Controllers
         [HttpPut]
         [Route("View")]
         [ProducesResponseType(typeof(InventoryView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateInventory(InventoryView view)
+        public async Task<IActionResult> UpdateInventory([FromBody]InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
             Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
