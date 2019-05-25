@@ -15,7 +15,11 @@ namespace lssWebApi2.SalesOrderManagementDomain
         public FluentSalesOrderDetailQuery() { }
         public FluentSalesOrderDetailQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
-        public async Task<List<SalesOrderDetail>> MapToSalesOrderDetailEntity(List<SalesOrderDetailView> inputObjects)
+        public async Task<NextNumber>GetNextNumber()
+        {
+            return await _unitOfWork.salesOrderDetailRepository.GetNextNumber("SalesOrderDetailNumber");
+        }
+        public async Task<List<SalesOrderDetail>> MapToEntity(List<SalesOrderDetailView> inputObjects)
         {
             List<SalesOrderDetail> list = new List<SalesOrderDetail>();
             Mapper mapper = new Mapper();
@@ -28,14 +32,14 @@ namespace lssWebApi2.SalesOrderManagementDomain
             return list;
 
         }
-        public async Task<SalesOrderDetail> MapToSalesOrderDetailEntity(SalesOrderDetailView inputObject)
+        public async Task<SalesOrderDetail> MapToEntity(SalesOrderDetailView inputObject)
         {
             Mapper mapper = new Mapper();
             SalesOrderDetail outObject = mapper.Map<SalesOrderDetail>(inputObject);
             await Task.Yield();
             return outObject;
         }
-        public async Task<SalesOrderDetailView> MapToSalesOrderDetailView(SalesOrderDetail inputObject)
+        public async Task<SalesOrderDetailView> MapToView(SalesOrderDetail inputObject)
         {
             Mapper mapper = new Mapper();
             SalesOrderDetailView outObject = mapper.Map<SalesOrderDetailView>(inputObject);
@@ -54,12 +58,22 @@ namespace lssWebApi2.SalesOrderManagementDomain
             List<SalesOrderDetail> list = await _unitOfWork.salesOrderDetailRepository.GetDetailsBySalesOrderId(salesOrderId);
             foreach (var item in list)
             {
-                listViews.Add(await MapToSalesOrderDetailView(item));
+                listViews.Add(await MapToView(item));
             }
 
             return listViews;
-       
+        }
+        public async Task<SalesOrderDetailView> GetViewById(long salesOrderDetailId)
+        {
+            SalesOrderDetail detailItem = await _unitOfWork.salesOrderDetailRepository.GetEntityById(salesOrderDetailId);
 
+            return await MapToView(detailItem);
+        }
+        public async Task<SalesOrderDetailView> GetViewByNumber(long salesOrderDetailNumber)
+        {
+            SalesOrderDetail detailItem = await _unitOfWork.salesOrderDetailRepository.GetEntityByNumber(salesOrderDetailNumber);
+
+            return await MapToView(detailItem);
         }
     }
 } 

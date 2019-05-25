@@ -38,7 +38,7 @@ namespace lssWebApi2.Controllers
 
             SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().MapToSalesOrderEntity(view);
 
-            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToSalesOrderDetailEntity(view.SalesOrderDetailViews);
+            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity(view.SalesOrderDetailViews);
 
             salesOrder = salesOrderMod.SalesOrder.Query().SumAmounts(salesOrder, salesOrderDetails);
 
@@ -94,7 +94,7 @@ namespace lssWebApi2.Controllers
 
             detailViews.ForEach(m => m.SalesOrderId = newSalesOrder.SalesOrderId);
 
-            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToSalesOrderDetailEntity(detailViews);
+            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity(detailViews);
 
             salesOrderMod.SalesOrderDetail.AddSalesOrderDetails(salesOrderDetails).Apply();
 
