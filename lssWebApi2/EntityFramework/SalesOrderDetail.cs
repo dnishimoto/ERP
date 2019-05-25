@@ -7,6 +7,7 @@ namespace lssWebApi2.EntityFramework
     {
         public long SalesOrderDetailId { get; set; }
         public long SalesOrderId { get; set; }
+        public long SalesOrderDetailNumber { get; set; }
         public long ItemId { get; set; }
         public string Description { get; set; }
         public long? Quantity { get; set; }

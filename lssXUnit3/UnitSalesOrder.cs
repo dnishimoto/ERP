@@ -113,7 +113,7 @@ namespace lssXUnit3
             
             detailViews.ForEach(m => m.SalesOrderId = newSalesOrder.SalesOrderId);
 
-            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToSalesOrderDetailEntity(detailViews);
+            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity(detailViews);
 
             salesOrderMod.SalesOrderDetail.AddSalesOrderDetails(salesOrderDetails).Apply();
 

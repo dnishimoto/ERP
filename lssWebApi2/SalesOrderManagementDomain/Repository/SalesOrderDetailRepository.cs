@@ -13,6 +13,7 @@ namespace lssWebApi2.SalesOrderManagementDomain.Repository
     {
         public long SalesOrderDetailId { get; set; }
         public long SalesOrderId { get; set; }
+        public long SalesOrderDetailNumber { get; set; }
         public long ItemId { get; set; }
         public string Description { get; set; }
         public long? Quantity { get; set; }
@@ -57,6 +58,16 @@ namespace lssWebApi2.SalesOrderManagementDomain.Repository
         public SalesOrderDetailRepository(DbContext db) : base(db)
         {
             _dbContext = (ListensoftwaredbContext)db;
+        }
+        public async Task<SalesOrderDetail>GetEntityById(long salesOrderDetailId)
+        {
+            return await _dbContext.FindAsync<SalesOrderDetail>();
+        }
+        public async Task<SalesOrderDetail> GetEntityByNumber(long salesOrderDetailNumber)
+        {
+            var query = await (from detail in _dbContext.SalesOrderDetail
+                               where detail.SalesOrderDetailNumber == salesOrderDetailNumber select detail).FirstOrDefaultAsync<SalesOrderDetail>();
+            return query;
         }
         public async Task<List<SalesOrderDetail>> GetDetailsBySalesOrderId(long salesOrderId)
         {
