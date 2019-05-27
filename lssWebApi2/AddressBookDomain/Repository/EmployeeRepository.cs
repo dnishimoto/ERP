@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.Services;
+using lssWebApi2.AddressBookDomain.Repository;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +31,7 @@ namespace ERP_Core2.AddressBookDomain
     }
  
 
-    public class EmployeeRepository : Repository<Employee>
+    public class EmployeeRepository : Repository<Employee>, IEmployeeRepository
     {
         private ApplicationViewFactory applicationViewFactory;
       

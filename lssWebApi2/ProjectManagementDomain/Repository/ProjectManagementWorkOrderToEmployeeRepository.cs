@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace lssWebApi2.ProjectManagementDomain.Repository
 {
-    public class ProjectManagementWorkOrderToEmployeeRepository : Repository<ProjectManagementWorkOrderToEmployee>
+    public class ProjectManagementWorkOrderToEmployeeRepository : Repository<ProjectManagementWorkOrderToEmployee>, IProjectManagementWorkOrderToEmployeeRepository
     {
         ListensoftwaredbContext _dbContext;
         public ProjectManagementWorkOrderToEmployeeRepository(DbContext db) : base(db)

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.InventoryDomain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.ItemMasterDomain
@@ -32,7 +33,7 @@ namespace ERP_Core2.ItemMasterDomain
         public string Branch { get; set; }
 
     }
-    public class ItemMasterRepository : Repository<ItemMaster>
+    public class ItemMasterRepository : Repository<ItemMaster>,IItemMasterRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

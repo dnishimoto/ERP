@@ -10,6 +10,7 @@ using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using lssWebApi2.GeneralLedgerDomain.Repository;
 
 namespace ERP_Core2.GeneralLedgerDomain
 {
@@ -127,7 +128,7 @@ namespace ERP_Core2.GeneralLedgerDomain
       }
     
 
-    public class GeneralLedgerRepository : Repository<GeneralLedger>
+    public class GeneralLedgerRepository : Repository<GeneralLedger>, IGeneralLedgerRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

@@ -8,6 +8,7 @@ using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.GeneralLedgerDomain.Repository;
 
 namespace ERP_Core2.CustomerLedgerDomain
 {
@@ -76,7 +77,7 @@ namespace ERP_Core2.CustomerLedgerDomain
         public int FiscalYear { get; set; }
     }
 
-    public class SupplierLedgerRepository : Repository<SupplierLedger>
+    public class SupplierLedgerRepository : Repository<SupplierLedger>, ISupplierLedgerRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

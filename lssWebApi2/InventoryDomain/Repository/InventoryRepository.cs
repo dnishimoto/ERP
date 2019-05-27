@@ -9,6 +9,7 @@ using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using ERP_Core2.ItemMasterDomain;
 using ERP_Core2.ChartOfAccountsDomain;
+using lssWebApi2.InventoryDomain.Repository;
 
 namespace ERP_Core2.InventoryDomain
 {
@@ -45,7 +46,7 @@ namespace ERP_Core2.InventoryDomain
        
 
     }
-    public class InventoryRepository: Repository<Inventory>
+    public class InventoryRepository: Repository<Inventory>, IInventoryRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

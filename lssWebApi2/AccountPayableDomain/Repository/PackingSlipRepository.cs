@@ -11,6 +11,7 @@ using ERP_Core2.GeneralLedgerDomain;
 using static ERP_Core2.AccountPayableDomain.AccountPayableModule;
 using ERP_Core2.AccountPayableDomain;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AccountPayableDomain.Repository;
 
 namespace ERP_Core2.PackingSlipDomain
 {
@@ -62,11 +63,8 @@ namespace ERP_Core2.PackingSlipDomain
         public string UnitOfMeasure { get; set; }
         public string Description { get; set; }
     }
-
-
-
-
-    public class PackingSlipRepository: Repository<PackingSlip>
+       
+    public class PackingSlipRepository: Repository<PackingSlip>, IPackingSlipRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

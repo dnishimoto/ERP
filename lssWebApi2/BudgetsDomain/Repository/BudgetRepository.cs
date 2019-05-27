@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
+using lssWebApi2.BudgetsDomain.Repository;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -90,7 +91,7 @@ namespace ERP_Core2.BudgetDomain
         public decimal? PaymentHours { get; set; }
         public DateTime GLDate { get; set; }
     }
-    public class BudgetRepository : Repository<Budget>
+    public class BudgetRepository : Repository<Budget>, IBudgetRepository
     {
         ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();

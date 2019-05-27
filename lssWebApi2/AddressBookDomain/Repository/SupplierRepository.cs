@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
+using lssWebApi2.AddressBookDomain.Repository;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,7 +36,7 @@ namespace ERP_Core2.AddressBookDomain
     }
  
 
-    public class SupplierRepository : Repository<Supplier>
+    public class SupplierRepository : Repository<Supplier>, ISupplierRepository
     {
         private ApplicationViewFactory applicationViewFactory;
       

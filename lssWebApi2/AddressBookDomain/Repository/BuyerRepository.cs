@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AddressBookDomain.Repository;
 
 namespace ERP_Core2.AddressBookDomain
 { 
@@ -26,7 +27,8 @@ namespace ERP_Core2.AddressBookDomain
     public string BuyerTitle { get; set; }
 }
 
-public class BuyerRepository : Repository<Buyer> {
+public class BuyerRepository : Repository<Buyer>, IBuyerRepository
+    {
         private ApplicationViewFactory applicationViewFactory;
 
         ListensoftwaredbContext _dbContext;

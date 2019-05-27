@@ -11,6 +11,7 @@ using System.Reflection;
 using lssWebApi2.EntityFramework;
 using X.PagedList;
 using lssWebApi2.Enumerations;
+using lssWebApi2.TimeAndAttendanceDomain.Repository;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {
@@ -156,7 +157,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
     }
 
-    public class TimeAndAttendanceRepository : Repository<TimeAndAttendancePunchIn>
+    public class TimeAndAttendanceRepository : Repository<TimeAndAttendancePunchIn>,ITimeAndAttendanceRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

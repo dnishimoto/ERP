@@ -8,6 +8,7 @@ using ERP_Core2.GeneralLedgerDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.GeneralLedgerDomain.Repository;
 
 namespace ERP_Core2.CustomerLedgerDomain
 {
@@ -75,7 +76,7 @@ namespace ERP_Core2.CustomerLedgerDomain
         public string CheckNumber { get; set; }
     }
 
-    public class CustomerLedgerRepository : Repository<CustomerLedger>
+    public class CustomerLedgerRepository : Repository<CustomerLedger>, ICustomerLedgerRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

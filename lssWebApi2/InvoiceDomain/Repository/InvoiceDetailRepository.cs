@@ -7,6 +7,7 @@ using ERP_Core2.InvoicesDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.InvoiceDomain.Repository;
 
 namespace ERP_Core2.InvoiceDetailsDomain
 {
@@ -53,7 +54,7 @@ namespace ERP_Core2.InvoiceDetailsDomain
         public long? InvoiceDetailId { get; set; }
         public string ExtendedDescription { get; set; }
     }
-    public class InvoiceDetailRepository : Repository<InvoiceDetail>
+    public class InvoiceDetailRepository : Repository<InvoiceDetail>, IInvoiceDetailRepository
     {
         public ListensoftwaredbContext _dbContext;
         public ApplicationViewFactory applicationViewFactory;

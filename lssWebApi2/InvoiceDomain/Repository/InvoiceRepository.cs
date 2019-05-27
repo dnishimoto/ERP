@@ -8,6 +8,7 @@ using ERP_Core2.InvoiceDetailsDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.InvoiceDomain.Repository;
 
 namespace ERP_Core2.InvoicesDomain
 {
@@ -97,7 +98,7 @@ namespace ERP_Core2.InvoicesDomain
         public string AddressType { get; set; }
 
     }
-    public class InvoiceRepository : Repository<Invoice>
+    public class InvoiceRepository : Repository<Invoice>,IInvoiceRepository
     {
         public ListensoftwaredbContext _dbContext;
         public ApplicationViewFactory applicationViewFactory;

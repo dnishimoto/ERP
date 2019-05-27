@@ -29,7 +29,7 @@ namespace ERP_Core2.ProjectManagementDomain
         public decimal? BudgetHours { get; set; }
         public long? ProjectNumber { get; set; }
     }
-    public class ProjectManagementProjectRepository: Repository<ProjectManagementProject> 
+    public class ProjectManagementProjectRepository: Repository<ProjectManagementProject> , IProjectManagementProjectRepository
     {
         ListensoftwaredbContext _dbContext;
         public ProjectManagementProjectRepository(DbContext db) : base(db)
