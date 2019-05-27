@@ -26,7 +26,7 @@ namespace lssWebApi2.ProjectManagementDomain.Repository
         public string Status { get; set; }
         public string Location { get; set; }
     }
-    public class ProjectManagementWorkOrderRepository : Repository<ProjectManagementWorkOrder>
+    public class ProjectManagementWorkOrderRepository : Repository<ProjectManagementWorkOrder>, IProjectManagementWorkOrderRepository
     {
         ListensoftwaredbContext _dbContext;
         public ProjectManagementWorkOrderRepository(DbContext db) : base(db)

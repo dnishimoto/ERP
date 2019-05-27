@@ -7,6 +7,7 @@ using ERP_Core2.CustomerDomain;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AddressBookDomain.Repository;
 
 namespace ERP_Core2.AddressBookDomain
 {
@@ -38,7 +39,7 @@ namespace ERP_Core2.AddressBookDomain
 
 
 
-    public class LocationAddressRepository : Repository<LocationAddress>
+    public class LocationAddressRepository : Repository<LocationAddress>, ILocationAddressRepository
     {
         private ApplicationViewFactory applicationViewFactory;
 

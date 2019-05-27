@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AddressBookDomain.Repository;
 
 namespace ERP_Core2.AddressBookDomain
 {
@@ -22,8 +23,8 @@ namespace ERP_Core2.AddressBookDomain
         public string CarrierType { get; set; }
     }
 
-        public class CarrierRepository : Repository<Carrier>
-        {
+        public class CarrierRepository : Repository<Carrier>, ICarrierRepository
+    {
             private ApplicationViewFactory applicationViewFactory;
 
             ListensoftwaredbContext _dbContext;

@@ -7,6 +7,7 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AccountPayableDomain.Repository;
 
 namespace ERP_Core2.PurchaseOrderDomain
 {
@@ -116,7 +117,7 @@ namespace ERP_Core2.PurchaseOrderDomain
 
 
 
-    public class PurchaseOrderRepository : Repository<PurchaseOrder>
+    public class PurchaseOrderRepository : Repository<PurchaseOrder>, IPurchaseOrderRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

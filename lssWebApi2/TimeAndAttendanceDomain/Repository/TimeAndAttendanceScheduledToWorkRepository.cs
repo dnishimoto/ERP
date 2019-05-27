@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using lssWebApi2;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.TimeAndAttendanceDomain.Repository;
 
 namespace ERP_Core2.TimeAndAttendanceDomain.Repository
 {
@@ -52,7 +53,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain.Repository
             public string WorkedJobCode { get; set; }
 
     }
-    public class TimeAndAttendanceScheduledToWorkRepository : Repository<TimeAndAttendanceScheduledToWork>
+    public class TimeAndAttendanceScheduledToWorkRepository : Repository<TimeAndAttendanceScheduledToWork>, ITimeAndAttendanceScheduledToWorkRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;

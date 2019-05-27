@@ -6,6 +6,7 @@ using ERP_Core2.Services;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
+using lssWebApi2.AddressBookDomain.Repository;
 
 namespace ERP_Core2.AddressBookDomain
 {
@@ -29,7 +30,8 @@ namespace ERP_Core2.AddressBookDomain
         public string Password { get; set; }
     }
 
-    public class EmailRepository : Repository<Emails> {
+    public class EmailRepository : Repository<Emails>, IEmailRepository
+      {
         private ApplicationViewFactory applicationViewFactory;
 
         ListensoftwaredbContext _dbContext;

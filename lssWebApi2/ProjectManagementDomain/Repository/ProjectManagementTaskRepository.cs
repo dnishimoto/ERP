@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ProjectManagementDomain.Repository;
 using Microsoft.EntityFrameworkCore;
 
 namespace ERP_Core2.ProjectManagementDomain
@@ -32,7 +33,7 @@ namespace ERP_Core2.ProjectManagementDomain
 
         public string ProjectName { get; set; }
     }
-    public class ProjectManagementTaskRepository : Repository<ProjectManagementTask>
+    public class ProjectManagementTaskRepository : Repository<ProjectManagementTask>,IProjectManagementTaskRepository
     {
         ListensoftwaredbContext _dbContext;
         public ProjectManagementTaskRepository(DbContext db) : base(db)

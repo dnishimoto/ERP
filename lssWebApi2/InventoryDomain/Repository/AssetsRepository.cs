@@ -34,7 +34,7 @@ namespace lssWebApi2.InventoryDomain.Repository
         public string GenericLocationLevel3 { get; set; }
 
     }
-    public class AssetsRepository: Repository<Assets>
+    public class AssetsRepository: Repository<Assets>, IAssetRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
