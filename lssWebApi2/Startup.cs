@@ -45,6 +45,7 @@ namespace lssWebApi2
 
             services.AddTransient<ISalesOrderRepository, SalesOrderRepository>();
             services.AddTransient<ISalesOrderDetailRepository, SalesOrderDetailRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
 
 
         }

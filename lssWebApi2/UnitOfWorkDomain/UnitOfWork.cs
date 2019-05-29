@@ -72,8 +72,11 @@ namespace ERP_Core2.Services
         public NextNumberRepository nextNumberRepository => new NextNumberRepository(db);
         public SalesOrderRepository salesOrderRepository => new SalesOrderRepository(db);
         public SalesOrderDetailRepository salesOrderDetailRepository => new SalesOrderDetailRepository(db);
+
+        public CommentRepository commentRepository=>new CommentRepository(db);
         public UnitOfWork()
         {
+            
             /*
             db.Database.Connection.Open();
             if (db.Database.Connection.State == ConnectionState.Open)
