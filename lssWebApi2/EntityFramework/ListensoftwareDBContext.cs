@@ -8,6 +8,7 @@ namespace lssWebApi2.EntityFramework
 {
     public partial class ListensoftwaredbContext : DbContext
     {
+
         public ListensoftwaredbContext()
 
         {
@@ -38,6 +39,7 @@ namespace lssWebApi2.EntityFramework
 
             }
         }
+
         public virtual DbSet<TimeAndAttendanceSetup> TimeAndAttendanceSetup { get; set; }
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }
@@ -59,6 +61,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<Carrier> Carrier { get; set; }
         public virtual DbSet<ChartOfAccts> ChartOfAccts { get; set; }
         public virtual DbSet<Company> Company { get; set; }
+        public virtual DbSet<Comment> Comment { get; set; }
         public virtual DbSet<Contract> Contract { get; set; }
         public virtual DbSet<ContractContent> ContractContent { get; set; }
         public virtual DbSet<ContractInvoice> ContractInvoice { get; set; }
@@ -110,9 +113,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShift { get; set; }
         public virtual DbSet<Udc> Udc { get; set; }
 
-       
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+       protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountBalance>(entity =>
             {
@@ -751,6 +752,24 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_ChartOfAccts_Company");
             });
 
+            modelBuilder.Entity<Comment>(entity =>
+            {
+                entity.HasKey(e => e.CommentId);
+
+                entity.HasIndex(e => e.EntityId)
+                  .HasName("IDX_Entity");
+
+                entity.Property(e => e.EntityId).HasColumnType("bigint");
+
+                entity.Property(e => e.EntityType)
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
+
+                entity.Property(e => e.CommentContent)
+                        .HasMaxLength(2000)
+                        .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Company>(entity =>
             {
                 entity.Property(e => e.CompanyCity)
@@ -1277,7 +1296,7 @@ namespace lssWebApi2.EntityFramework
             modelBuilder.Entity<NextNumber>(entity =>
             {
                 entity.Property(e => e.NextNumberName)
-                    .HasMaxLength(20)
+                    .HasMaxLength(30)
                     .IsUnicode(false);
 
                 entity.Property(e => e.NextNumberValue).HasDefaultValueSql("((1))");
