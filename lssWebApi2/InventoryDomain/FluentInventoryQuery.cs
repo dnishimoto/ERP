@@ -35,7 +35,7 @@ namespace lssWebApi2.FluentAPI
 
         public async Task<NextNumber> GetInventoryNextNumber()
         {
-            return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfNextNumber.InventoryNumber.ToString());
+            return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfNextNumberEnum.InventoryNumber.ToString());
         }
         public async Task<Inventory> MapToInventoryEntity(InventoryView inputObject)
         {

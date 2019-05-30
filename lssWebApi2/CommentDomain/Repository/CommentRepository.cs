@@ -23,7 +23,7 @@ public class CommentRepository : Repository<Comment>, ICommentRepository
 
     public async Task<Comment> GetEntityById(long commentId)
     {
-        return await _dbContext.FindAsync<Comment>();
+        return await _dbContext.FindAsync<Comment>(commentId);
     }
 
     public void SetDb(DbContext db)

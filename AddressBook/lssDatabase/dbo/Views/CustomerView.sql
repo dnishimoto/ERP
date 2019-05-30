@@ -6,9 +6,9 @@ SELECT Customer.CustomerId, Customer.AddressId, AddressBook.Name,
 LocationAddress.LocationId, LocationAddress.[Address Line 1], 
 LocationAddress.[Address Line 2], LocationAddress.City, LocationAddress.State, 
                   LocationAddress.Zipcode, LocationAddress.Country, LocationAddress.TypeXRefId, 
-phones.phonenumber,
-phones.phonetype,
-emails.email,
+phones.Phonenumber,
+phones.Phonetype,
+emails.Email,
 locationType_udc.value locationType
 FROM     Customer INNER JOIN
                   LocationAddress ON Customer.AddressId = LocationAddress.AddressId LEFT OUTER JOIN

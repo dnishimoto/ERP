@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Controllers;
+using lssWebApi2.Enumerations;
 
 namespace ERP_Core2.BudgetDomain
 {
@@ -47,7 +48,7 @@ namespace ERP_Core2.BudgetDomain
         {
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            NextNumber nn = await unitOfWork.accountPayableRepository.GetNextNumber("PackingSlipNumber");
+            NextNumber nn = await unitOfWork.accountPayableRepository.GetNextNumber(TypeOfNextNumberEnum.PackingSlipNumber.ToString());
 
             if (nn.NextNumberValue > 0) { Assert.True(true); }
         }
