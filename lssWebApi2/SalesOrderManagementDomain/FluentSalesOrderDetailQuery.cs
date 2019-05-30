@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using lssWebApi2.SalesOrderManagementDomain.Repository;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace lssWebApi2.SalesOrderManagementDomain
 
         public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.salesOrderDetailRepository.GetNextNumber("SalesOrderDetailNumber");
+            return await _unitOfWork.salesOrderDetailRepository.GetNextNumber(TypeOfNextNumberEnum.SalesOrderDetailNumber.ToString());
         }
         public async Task<List<SalesOrderDetail>> MapToEntity(List<SalesOrderDetailView> inputObjects)
         {

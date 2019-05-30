@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
 using lssWebApi2.SalesOrderManagementDomain.Repository;
 using System;
@@ -30,7 +31,7 @@ namespace lssWebApi2.FluentAPI
             return salesOrder;
         }
         public async Task<NextNumber> GetSalesOrderNextNumber() {
-            return await _unitOfWork.salesOrderRepository.GetNextNumber("SalesOrderNumber");
+            return await _unitOfWork.salesOrderRepository.GetNextNumber(TypeOfNextNumberEnum.SalesOrderNumber.ToString());
         }
         public async Task<SalesOrderView> MapToSalesOrderView(SalesOrder inputObject)
         {

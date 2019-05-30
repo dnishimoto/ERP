@@ -87,15 +87,15 @@ namespace lssWebApi2.FluentAPI
         //}
         public async Task<NextNumber> GetProjectNumber()
         {
-            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.Project.ToString());
+            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfNextNumberEnum.Project.ToString());
         }
         public async Task<NextNumber> GetMileStoneNumber()
         {
-            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.Milestone.ToString());
+            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfNextNumberEnum.Milestone.ToString());
         }
         public async Task<NextNumber> GetWorkOrderNumber()
         {
-            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfProjectManagement.WorkOrder.ToString());
+            return await _unitOfWork.projectManagementProjectRepository.GetNextNumber(TypeOfNextNumberEnum.WorkOrder.ToString());
         }
         public async Task<ProjectManagementMilestones> GetMileStoneById(long mileStoneId)
         {

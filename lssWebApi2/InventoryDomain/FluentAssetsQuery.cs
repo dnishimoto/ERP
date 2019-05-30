@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
 using lssWebApi2.InventoryDomain.Repository;
 using System;
@@ -18,7 +19,7 @@ namespace lssWebApi2.FluentAPI
 
         public async Task<NextNumber> GetAssetsNextNumber()
         {
-            return await _unitOfWork.assetsRepository.GetNextNumber("AssetsNumber");
+            return await _unitOfWork.assetsRepository.GetNextNumber(TypeOfNextNumberEnum.AssetsNumber.ToString());
         }
         public async Task<Assets> MapToAssetsEntity(AssetsView inputObject)
         {

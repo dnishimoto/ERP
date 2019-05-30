@@ -5,11 +5,7 @@ using System.Threading.Tasks;
 
 namespace lssWebApi2.Enumerations
 {
-    public enum TypeOfNextNumber
-    {
-        InventoryNumber
-    }
-    public enum TypeOfProjectManagement
+    public enum TypeOfProjectManagementEnum
     {
         Project,
         Milestone,

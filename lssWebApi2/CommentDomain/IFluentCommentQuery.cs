@@ -11,4 +11,6 @@ public interface IFluentCommentQuery
     Task<NextNumber> GetNextNumber();
     Task<CommentView> GetViewById(long commentId);
     Task<CommentView> GetViewByNumber(long commentNumber);
+    Task<Comment> GetEntityById(long commentId);
+    Task<Comment> GetEntityByNumber(long commentNumber);
 }

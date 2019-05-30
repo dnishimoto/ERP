@@ -12,22 +12,12 @@ BEGIN
     SET NOCOUNT ON
 
 	select
-	[Id] 
+	[AddressId] 
 	,[Name]
 	,[FirstName]
 	,[LastName] 
-	,[Company] 
-	,[CellPhone]
-	,[MailingCity]
-	,[MailingState]
-	,[MailingAddress]
-	,[MailingZipcode]
-	,[BillingCity] 
-	,[BillingState] 
-	,[BillingZipcode]
-	,[BillingAddress]
-from [dbo].[AddressBook]
-where [Id]=@Id
+	from [dbo].[AddressBook]
+where [AddressId]=@Id
 
 
 END
