@@ -2,6 +2,7 @@ using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class CommentView
 {
