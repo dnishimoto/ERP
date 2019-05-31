@@ -17,10 +17,6 @@ namespace lssWebApi2.EntityFramework
         public decimal? AmountOpen { get; set; }
         public string UnitOfMeasure { get; set; }
         public decimal? UnitPrice { get; set; }
-        public long? InvoiceDetailId { get; set; }
-        public long? InvoiceId { get; set; }
-        public long? ShipmentId { get; set; }
-        public long? ShipmentDetailId { get; set; }
         public long? AccountId { get; set; }
         public long? BuyerId { get; set; }
         public long? CarrierId { get; set; }
@@ -42,7 +38,6 @@ namespace lssWebApi2.EntityFramework
         public string BusUnit { get; set; }
         public string CompanyNumber { get; set; }
         public long? LineNumber { get; set; }
-        public long? ShippedToAddressId { get; set; }
         public string PaymentTerms { get; set; }
         public string PaymentInstrument { get; set; }
  
