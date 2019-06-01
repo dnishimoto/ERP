@@ -7,6 +7,7 @@ namespace lssWebApi2.EntityFramework
     {
         public long ShipmentDetailId { get; set; }
         public long ShipmentId { get; set; }
+        public long ShipmentDetailNumber { get; set; }
         public long ItemId { get; set; }
         public int? Quantity { get; set; }
         public decimal? Amount { get; set; }
