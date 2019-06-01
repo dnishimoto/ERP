@@ -11,6 +11,7 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long ShipmentId { get; set; }
+        public long ShipmentNumber { get; set; }
         public DateTime? ShipmentDate { get; set; }
         public long CustomerId { get; set; }
         public long CarrierId { get; set; }

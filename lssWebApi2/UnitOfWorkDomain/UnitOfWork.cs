@@ -28,6 +28,7 @@ using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain.Repository;
 using lssWebApi2.InventoryDomain.Repository;
 using lssWebApi2.SalesOrderManagementDomain.Repository;
+using lssWebApi2.ShipmentsDomain;
 
 namespace ERP_Core2.Services
 {
@@ -74,6 +75,8 @@ namespace ERP_Core2.Services
         public SalesOrderDetailRepository salesOrderDetailRepository => new SalesOrderDetailRepository(db);
 
         public CommentRepository commentRepository=>new CommentRepository(db);
+        public ShipmentsDetailRepository shipmentsDetailRepository => new ShipmentsDetailRepository(db);
+        public ShipmentsRepository shipmentsRepository => new ShipmentsRepository(db);
         public UnitOfWork()
         {
             

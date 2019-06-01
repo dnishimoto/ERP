@@ -20,7 +20,9 @@ namespace lssWebApi2.Enumerations
         AssetsNumber,
         SalesOrderNumber,
         SalesOrderDetailNumber,
-        CommentNumber
+        CommentNumber,
+        ShipmentsNumber,
+        ShipmentsDetailNumber
     }
 
 }
