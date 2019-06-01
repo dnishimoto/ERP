@@ -14,7 +14,6 @@ namespace lssWebApi2.Controllers
     [Route("api/[controller]")]
     public class CommentController : Controller
     {
-        // GET: api/<contr
         [HttpPost]
         [Route("View")]
         [ProducesResponseType(typeof(CommentView), StatusCodes.Status200OK)]
@@ -79,7 +78,7 @@ namespace lssWebApi2.Controllers
             CommentView view = await invMod.Comment.Query().GetViewById(commentId);
             return Ok(view);
         }
-
+        // GET: api/<controller>
         [HttpGet]
         public IEnumerable<string> Get()
         {

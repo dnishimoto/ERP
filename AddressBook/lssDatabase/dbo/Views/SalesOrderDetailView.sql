@@ -14,5 +14,5 @@ SELECT SalesOrderDetail.[SalesOrderDetailID]
 	  ,SalesOrder.OrderType
   FROM SalesOrder SalesOrder
   left join [dbo].[SalesOrderDetail] SalesOrderDetail on SalesOrder.SalesOrderID=SalesOrderDetail.SalesOrderID
- 
+
   
