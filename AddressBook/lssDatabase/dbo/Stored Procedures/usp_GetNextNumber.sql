@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[usp_GetNextNumber]( @NextNumberName as varchar(20))
+﻿CREATE PROCEDURE [dbo].[usp_GetNextNumber]( @NextNumberName as varchar(30))
 as
 begin
 begin transaction

@@ -19,5 +19,7 @@ namespace lssWebApi2.ShipmentsDomain
 
         Task<ShipmentsDetail> GetEntityById(long shipmentDetailId);
         Task<ShipmentsDetail> GetEntityByNumber(long shipmentDetailNumber);
+
+        Task<List<ShipmentsDetail>> CreateShipmentsDetailBySalesOrder(ShipmentCreationView shipmentCreation);
     }
 }

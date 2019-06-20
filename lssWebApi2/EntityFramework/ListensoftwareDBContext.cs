@@ -1697,6 +1697,7 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<SalesOrder>(entity =>
             {
+                entity.HasKey(e => e.SalesOrderId);
                 entity.Property(e => e.Amount).HasColumnType("money");
                 entity.Property(e => e.AmountOpen).HasColumnType("money");
 
@@ -1792,8 +1793,9 @@ namespace lssWebApi2.EntityFramework
                 entity.HasOne(d => d.SalesOrder)
                     .WithMany(p => p.SalesOrderDetail)
                     .HasForeignKey(d => d.SalesOrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_SalesOrderDetail_SalesOrder");
+                   
             });
 
             modelBuilder.Entity<ScheduleEvent>(entity =>
@@ -1894,11 +1896,22 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.HasKey(e => e.ShipmentId);
 
+                entity.Property(e => e.OrderNumber)
+                 .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e=>e.OrderType).HasMaxLength(20)
+                    .IsUnicode(false); 
+
                 entity.Property(e => e.ActualWeight).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.BillableWeight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.WeightUOM)
+                 .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.CodAmount).HasColumnType("decimal(18, 4)");
 
@@ -1929,9 +1942,12 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.HasKey(e => e.ShipmentDetailId);
 
-                entity.Property(e => e.ShipmentDetailId).ValueGeneratedNever();
+                entity.Property(e => e.Note)
+                   .HasMaxLength(2000)
+                   .IsUnicode(false);
 
-                entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.Amount).HasColumnType("money");
+                entity.Property(e => e.AmountShipped).HasColumnType("money");
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.ShipmentsDetail)

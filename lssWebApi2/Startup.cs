@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Interfaces;
-using lssWebApi2.SalesOrderManagementDomain.Repository;
+using lssWebApi2.SalesOrderDomain.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;

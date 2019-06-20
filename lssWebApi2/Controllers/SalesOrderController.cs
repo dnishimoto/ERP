@@ -4,8 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
-using lssWebApi2.SalesOrderManagementDomain;
-using lssWebApi2.SalesOrderManagementDomain.Repository;
+using lssWebApi2.SalesOrderDomain;
+using lssWebApi2.SalesOrderDomain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +36,7 @@ namespace lssWebApi2.Controllers
         {
             SalesOrderModule salesOrderMod = new SalesOrderModule();
 
-            SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().MapToSalesOrderEntity(view);
+            SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().MapToEntity(view);
 
             List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity(view.SalesOrderDetailViews);
 
@@ -61,11 +61,11 @@ namespace lssWebApi2.Controllers
 
             salesOrderMod.SalesOrderDetail.DeleteSalesOrderDetails(salesOrderDetails).Apply();
 
-            SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().GetSalesOrderById(salesOrderId);
+            SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().GetEntityById(salesOrderId);
 
             salesOrderMod.SalesOrder.DeleteSalesOrder(salesOrder).Apply();
 
-            SalesOrderView view = await salesOrderMod.SalesOrder.Query().MapToSalesOrderView(salesOrder);
+            SalesOrderView view = await salesOrderMod.SalesOrder.Query().MapToView(salesOrder);
             view.SalesOrderDetailViews = listDetailViews;
 
             return Ok(view);
@@ -82,15 +82,15 @@ namespace lssWebApi2.Controllers
 
             Udc orderType = await salesOrderMod.SalesOrder.Query().GetUdc("ORDER_TYPE", SalesOrderEnum.CASH_SALES.ToString());
             Udc paymentTerms = await salesOrderMod.SalesOrder.Query().GetUdc("PAYMENTTERMS", PaymentTermsEnum.Net_2_10_30.ToString());
-            NextNumber nnSalesOrder = await salesOrderMod.SalesOrder.Query().GetSalesOrderNextNumber();
+            NextNumber nnSalesOrder = await salesOrderMod.SalesOrder.Query().GetNextNumber();
 
             view.OrderNumber = nnSalesOrder.NextNumberValue.ToString();
 
-            SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().MapToSalesOrderEntity(view);
+            SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().MapToEntity(view);
 
             salesOrderMod.SalesOrder.AddSalesOrder(salesOrder).Apply();
 
-            SalesOrder newSalesOrder = await salesOrderMod.SalesOrder.Query().GetSalesOrderByNumber(view.OrderNumber);
+            SalesOrder newSalesOrder = await salesOrderMod.SalesOrder.Query().GetEntityByNumber(view.OrderNumber);
 
             detailViews.ForEach(m => m.SalesOrderId = newSalesOrder.SalesOrderId);
 
@@ -102,7 +102,7 @@ namespace lssWebApi2.Controllers
 
             salesOrderMod.SalesOrder.UpdateSalesOrder(newSalesOrder).Apply();
  
-            SalesOrderView newSalesOrderView = await salesOrderMod.SalesOrder.Query().MapToSalesOrderView(newSalesOrder);
+            SalesOrderView newSalesOrderView = await salesOrderMod.SalesOrder.Query().MapToView(newSalesOrder);
 
             List<SalesOrderDetailView> listDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
 

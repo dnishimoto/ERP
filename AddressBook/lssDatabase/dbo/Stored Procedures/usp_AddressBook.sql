@@ -1,9 +1,4 @@
 ﻿
--- =============================================
--- Author:      <Author, , Name>
--- Create Date: <Create Date, , >
--- Description: <Description, , >
--- =============================================
 CREATE PROCEDURE [dbo].[usp_AddressBook]( @Id as BigInt)
 AS
 BEGIN
