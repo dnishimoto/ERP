@@ -14,5 +14,6 @@ public interface IFluentShipments
      	IFluentShipments UpdateShipmentss(List<Shipments> newObjects);
         IFluentShipments AddShipmentss(List<Shipments> newObjects);
         IFluentShipments DeleteAllShipments(List<Shipments> deleteObjects);
+
     }
 }

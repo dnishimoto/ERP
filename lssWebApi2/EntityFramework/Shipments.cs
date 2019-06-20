@@ -29,6 +29,9 @@ namespace lssWebApi2.EntityFramework
         public long? VendorInvoiceId { get; set; }
         public decimal? VendorShippingCost { get; set; }
         public decimal? VendorHandlingCost { get; set; }
+        public string OrderNumber { get; set; }
+        public string OrderType { get; set; }
+        public string WeightUOM { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }

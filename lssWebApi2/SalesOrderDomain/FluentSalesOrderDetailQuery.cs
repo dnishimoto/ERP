@@ -2,13 +2,13 @@
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
-using lssWebApi2.SalesOrderManagementDomain.Repository;
+using lssWebApi2.SalesOrderDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.SalesOrderManagementDomain
+namespace lssWebApi2.SalesOrderDomain
 {
     public class FluentSalesOrderDetailQuery : IFluentSalesOrderDetailQuery
     {
@@ -51,12 +51,12 @@ namespace lssWebApi2.SalesOrderManagementDomain
 
         public async Task<List<SalesOrderDetail>> GetDetailsBySalesOrderId(long salesOrderId)
         {
-            return await _unitOfWork.salesOrderDetailRepository.GetDetailsBySalesOrderId(salesOrderId);
+            return await _unitOfWork.salesOrderDetailRepository.GetEntitiesBySalesOrderId(salesOrderId);
         }
         public async Task<List<SalesOrderDetailView>> GetDetailViewsBySalesOrderId(long salesOrderId)
         {
             List<SalesOrderDetailView> listViews = new List<SalesOrderDetailView>();
-            List<SalesOrderDetail> list = await _unitOfWork.salesOrderDetailRepository.GetDetailsBySalesOrderId(salesOrderId);
+            List<SalesOrderDetail> list = await _unitOfWork.salesOrderDetailRepository.GetEntitiesBySalesOrderId(salesOrderId);
             foreach (var item in list)
             {
                 listViews.Add(await MapToView(item));

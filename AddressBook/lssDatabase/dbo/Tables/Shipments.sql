@@ -17,7 +17,12 @@
     [VendorInvoiceId]       BIGINT          NULL,
     [VendorShippingCost]    DECIMAL (18, 4) NULL,
     [VendorHandlingCost]    DECIMAL (18, 4) NULL,
+    [OrderNumber]           VARCHAR (20)    NOT NULL,
+    [OrderType]             VARCHAR (20)    NOT NULL,
+    [WeightUOM]             VARCHAR (20)    NOT NULL,
     CONSTRAINT [PK_Shipments] PRIMARY KEY CLUSTERED ([ShipmentId] ASC),
     CONSTRAINT [FK_Shipments_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId])
 );
+
+
 

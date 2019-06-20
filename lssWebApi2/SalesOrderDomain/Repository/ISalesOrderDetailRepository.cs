@@ -8,7 +8,7 @@ namespace lssWebApi2.Interfaces
 {
     public interface ISalesOrderDetailRepository
     {
-        Task<List<SalesOrderDetail>> GetDetailsBySalesOrderId(long salesOrderId);
+        Task<List<SalesOrderDetail>> GetEntitiesBySalesOrderId(long salesOrderId);
         Task<SalesOrderDetail> GetEntityById(long salesOrderDetailId);
         Task<SalesOrderDetail> GetEntityByNumber(long salesOrderDetailNumber);
     }

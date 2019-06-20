@@ -1,11 +1,11 @@
 ﻿using lssWebApi2.EntityFramework;
-using lssWebApi2.SalesOrderManagementDomain.Repository;
+using lssWebApi2.SalesOrderDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.SalesOrderManagementDomain
+namespace lssWebApi2.SalesOrderDomain
 {
     public interface IFluentSalesOrderDetailQuery
     {

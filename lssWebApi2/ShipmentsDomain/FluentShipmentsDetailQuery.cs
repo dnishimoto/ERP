@@ -49,6 +49,10 @@ namespace lssWebApi2.ShipmentsDomain
         {
             return await _unitOfWork.shipmentsDetailRepository.GetEntitiesByShipmentId(shipmentId);
         }
+        public async Task<List<ShipmentsDetail>> CreateShipmentsDetailBySalesOrder(ShipmentCreationView shipmentCreation)
+        {
+            return await _unitOfWork.shipmentsDetailRepository.CreateShipmentsDetailBySalesOrder(shipmentCreation);
+        }
         public async Task<List<ShipmentsDetailView>> GetViewsByShipmentId(long shipmentId)
         {
             List<ShipmentsDetailView> listViews = new List<ShipmentsDetailView>();

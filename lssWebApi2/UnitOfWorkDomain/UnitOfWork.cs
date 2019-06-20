@@ -27,7 +27,7 @@ using ERP_Core2.BudgetDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain.Repository;
 using lssWebApi2.InventoryDomain.Repository;
-using lssWebApi2.SalesOrderManagementDomain.Repository;
+using lssWebApi2.SalesOrderDomain.Repository;
 using lssWebApi2.ShipmentsDomain;
 
 namespace ERP_Core2.Services

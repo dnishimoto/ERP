@@ -12,6 +12,7 @@ using lssWebApi2.EntityFramework;
 using X.PagedList;
 using lssWebApi2.Enumerations;
 using lssWebApi2.TimeAndAttendanceDomain.Repository;
+using lssWebApi2.AbstractFactory;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {
@@ -124,17 +125,14 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public int Manual_ElapsedHours { get; set; }
         public int Manual_ElapsedMinutes { get; set; }
     }
-    public class TimeAndAttendanceViewContainer
+    public class TimeAndAttendanceViewContainer: AbstractViewContainer
     {
         
         public TimeAndAttendanceViewContainer() {
             items = new List<TimeAndAttendancePunchInView>();
         }
         public List<TimeAndAttendancePunchInView> items { get; set; }
-        public int PageNumber { get; set; }
-        public int PageSize { get; set; }
-        public int TotalItemCount {get;set;}
-}
+    }
     public static class Utilities
     {
         public static string Right(this string sValue, int iMaxLength)
@@ -325,6 +323,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 myTime.PunchDate = toTime;
                 myTime.PunchDateTime = timeOut;
+
+                await Task.Yield();
 
                 return myTime;
             }

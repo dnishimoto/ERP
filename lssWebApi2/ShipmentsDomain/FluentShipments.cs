@@ -21,6 +21,7 @@ public class FluentShipments :IFluentShipments
             { unitOfWork.CommitChanges(); }
             return this as IFluentShipments;
         }
+     
         public IFluentShipments AddShipmentss(List<Shipments> newObjects)
         {
             unitOfWork.shipmentsRepository.AddObjects(newObjects);

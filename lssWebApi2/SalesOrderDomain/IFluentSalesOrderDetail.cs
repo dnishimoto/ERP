@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.SalesOrderManagementDomain
+namespace lssWebApi2.SalesOrderDomain
 {
     public interface IFluentSalesOrderDetail
     {
