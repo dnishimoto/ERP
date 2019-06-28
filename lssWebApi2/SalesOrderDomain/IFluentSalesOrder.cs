@@ -13,5 +13,6 @@ namespace lssWebApi2.Interfaces
         IFluentSalesOrder AddSalesOrder(SalesOrder salesOrder);
         IFluentSalesOrder UpdateSalesOrder(SalesOrder salesOrder);
         IFluentSalesOrder DeleteSalesOrder(SalesOrder salesOrder);
+        IFluentSalesOrder UpdateSalesOrderAmountByShipmentsDetail(Shipments shipments, decimal? amount);
     }
 }

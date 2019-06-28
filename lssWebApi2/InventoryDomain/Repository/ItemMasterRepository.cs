@@ -21,7 +21,12 @@ namespace ERP_Core2.ItemMasterDomain
             this.Description2 = itemMaster.Description2;
             this.ItemNumber = itemMaster.ItemNumber;
             this.UnitPrice = itemMaster.UnitPrice;
-    }
+            this.Branch = itemMaster.Branch;
+            this.Weight = itemMaster.Weight;
+            this.WeightUnitOfMeasure = itemMaster.WeightUnitOfMeasure;
+            this.Volume = itemMaster.Volume;
+            this.VolumeUnitOfMeasure = itemMaster.VolumeUnitOfMeasure;
+        }
 
         public long ItemId { get; set; }
         public string Description { get; set; }
@@ -31,7 +36,10 @@ namespace ERP_Core2.ItemMasterDomain
         public string ItemNumber { get; set; }
         public decimal? UnitPrice { get; set; }
         public string Branch { get; set; }
-
+        public decimal? Weight { get; set; }
+        public string WeightUnitOfMeasure { get; set; }
+        public decimal? Volume { get; set; }
+        public string VolumeUnitOfMeasure { get; set; }
     }
     public class ItemMasterRepository : Repository<ItemMaster>,IItemMasterRepository
     {

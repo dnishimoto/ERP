@@ -7,6 +7,7 @@ using lssWebApi2.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace lssWebApi2.ShipmentsDomain
 {
@@ -16,6 +17,16 @@ namespace lssWebApi2.ShipmentsDomain
         public FluentShipmentsQuery() { }
         public FluentShipmentsQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
+        public async Task<Shipments> CalculatedAmountsByDetails(Shipments shipments, List<ShipmentsDetail> shipmentsDetails)
+        {
+            decimal? amount = 0;
+
+            amount = shipmentsDetails.Sum(e => e.Amount);
+            shipments.Amount = amount;
+         
+            await Task.Yield();
+            return shipments;
+        }
         public async Task<Shipments> MapToEntity(ShipmentsView inputObject)
         {
             Mapper mapper = new Mapper();

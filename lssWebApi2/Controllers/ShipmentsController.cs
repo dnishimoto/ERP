@@ -19,19 +19,36 @@ namespace lssWebApi2.Controllers
         [HttpPost]
         [Route("View")]
         [ProducesResponseType(typeof(ShipmentsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddShipments([FromBody]ShipmentsView view)
+        public async Task<IActionResult> AddShipments([FromBody]ShipmentCreationView shipmentCreation)
         {
-            ShipmentsModule invMod = new ShipmentsModule();
+            ShipmentsModule ShipmentsMod = new ShipmentsModule();
 
-            NextNumber nnShipments = await invMod.Shipments.Query().GetNextNumber();
+            Shipments newShipments = await ShipmentsMod.Shipments.Query().CreateShipmentBySalesOrder(shipmentCreation);
 
-            view.ShipmentNumber = nnShipments.NextNumberValue;
+            List<ShipmentsDetail> newShipmentsDetails = await ShipmentsMod.ShipmentsDetail.Query().CreateShipmentsDetailBySalesOrder(shipmentCreation);
 
-            Shipments shipments = await invMod.Shipments.Query().MapToEntity(view);
+            newShipments = await ShipmentsMod.Shipments.Query().CalculatedAmountsByDetails(newShipments, newShipmentsDetails);
 
-            invMod.Shipments.AddShipments(shipments).Apply();
 
-            ShipmentsView newView = await invMod.Shipments.Query().GetViewByNumber(view.ShipmentNumber);
+            //TODO Calculate the amount, duty, taxes, shipping cost
+            //decimal taxes = await ShipmentsMod.Shipments.Query().CalculateTaxes(newShipments);
+            //decimal shippingCost = await ShipmentsMod.Shipments.Query().CalculateShippingCost(newShipments);
+            //decimal codCost=await ShipmentsMod.Shipments.Query().CalculateCodCost(newShipments);
+            //decimal duty=await ShipmentsMod.Shipments.Query().CalculateDuty(newShipments);
+
+            ShipmentsMod.Shipments.AddShipments(newShipments).Apply();
+
+            Shipments lookupShipments = await ShipmentsMod.Shipments.Query().GetEntityByNumber(newShipments.ShipmentNumber);
+
+            newShipmentsDetails.ForEach(m => m.ShipmentId = lookupShipments.ShipmentId);
+
+            ShipmentsMod.ShipmentsDetail.AddShipmentsDetails(newShipmentsDetails).Apply();
+
+            ShipmentsMod.SalesOrderDetail.UpdateSalesOrderDetailByShipmentsDetail(newShipmentsDetails).Apply();
+
+            ShipmentsMod.SalesOrder.UpdateSalesOrderAmountByShipmentsDetail(newShipments, newShipmentsDetails.Sum(e => e.Amount)).Apply();
+
+            ShipmentsView newView = await ShipmentsMod.Shipments.Query().GetViewByNumber(newShipments.ShipmentNumber);
 
 
             return Ok(newView);

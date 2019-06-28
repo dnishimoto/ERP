@@ -24,6 +24,16 @@ namespace lssWebApi2.FluentAPI
             { unitOfWork.CommitChanges(); }
             return this as IFluentSalesOrder;
         }
+        public IFluentSalesOrder UpdateSalesOrderAmountByShipmentsDetail(Shipments shipments, decimal? amount)
+        {
+            Task<SalesOrder> salesOrderTask = Task.Run(async () => await unitOfWork.salesOrderRepository.GetEntityById(shipments.SalesOrderId??0));
+            Task.WaitAll(salesOrderTask);
+            SalesOrder salesOrder = salesOrderTask.Result;
+            salesOrder.Amount = amount;
+            unitOfWork.salesOrderRepository.UpdateObject(salesOrder);
+            this.processStatus = CreateProcessStatus.Update;
+            return this as IFluentSalesOrder;
+        }
         public IFluentSalesOrder AddSalesOrder(SalesOrder newObject) {
             unitOfWork.salesOrderRepository.AddObject(newObject);
             this.processStatus = CreateProcessStatus.Insert;

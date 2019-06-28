@@ -16,5 +16,6 @@ namespace lssWebApi2.SalesOrderDomain
         IFluentSalesOrderDetail UpdateSalesOrderDetails(List<SalesOrderDetail> newObjects);
         IFluentSalesOrderDetail AddSalesOrderDetails(List<SalesOrderDetail> newObjects);
         IFluentSalesOrderDetail DeleteSalesOrderDetails(List<SalesOrderDetail> deleteObjects);
+        IFluentSalesOrderDetail UpdateSalesOrderDetailByShipmentsDetail(IEnumerable<ShipmentsDetail> shipmentsDetails);
     }
 }

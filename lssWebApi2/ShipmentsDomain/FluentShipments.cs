@@ -2,6 +2,7 @@
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using System;
 using System.Collections.Generic;
 
 namespace lssWebApi2.ShipmentsDomain
@@ -17,9 +18,16 @@ public class FluentShipments :IFluentShipments
             return new FluentShipmentsQuery(unitOfWork) as IFluentShipmentsQuery;
         }
         public IFluentShipments Apply() {
-            if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)
-            { unitOfWork.CommitChanges(); }
-            return this as IFluentShipments;
+            try
+            {
+                if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)
+                { unitOfWork.CommitChanges(); }
+                return this as IFluentShipments;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
      
         public IFluentShipments AddShipmentss(List<Shipments> newObjects)

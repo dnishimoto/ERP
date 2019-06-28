@@ -24,6 +24,8 @@ namespace lssWebApi2.ShipmentsDomain
         public ShipmentCreationView() { ItemsAdjustedQuantityShipped = new List<ItemsAdjustedQuantityShippedStruct>(); }
         public long SalesOrderId { get; set; }
         public decimal? ActualWeight { get; set; }
+        public decimal? CalculatedWeight { get; set; }
+        public decimal? CalculatedVolume { get; set; }
         public decimal? BillableWeight { get; set; }
         public decimal Amount { get; set; }
         public decimal CodAmount { get; set; }
@@ -71,6 +73,7 @@ namespace lssWebApi2.ShipmentsDomain
         public string OrderNumber { get; set; }
         public string OrderType { get; set; }
         public string WeightUOM { get; set; }
+        public long? SalesOrderId { get; set; }
         public List<ShipmentsDetailView> ShipmentsDetailViews { get; set; }
     }
     public class ShipmentsRepository : Repository<Shipments>, IShipmentsRepository
@@ -100,36 +103,42 @@ namespace lssWebApi2.ShipmentsDomain
         public async Task<Shipments> CreateShipmentBySalesOrder(ShipmentCreationView shipmentCreation)
         {
 
-            SalesOrder salesOrder = await GetSalesOrderById(shipmentCreation.SalesOrderId);
-
-            NextNumber nnShipments = await GetNextNumber();
-            Shipments shipment = new Shipments()
+            try
             {
-                CustomerId = salesOrder.CustomerId,
-                OrderNumber =salesOrder.OrderNumber,
-                OrderType =salesOrder.OrderType,
-                Duty = shipmentCreation.Duty,
-                Tax = shipmentCreation.Tax,
-                ShippingCost = shipmentCreation.ShippingCost,
-                Amount = shipmentCreation.Amount,
-                CodAmount= shipmentCreation.CodAmount,
-                ShipmentNumber = nnShipments.NextNumberValue,
-                ActualWeight = shipmentCreation.ActualWeight,
-                BillableWeight = shipmentCreation.BillableWeight,
-                ShippedFromLocationId = shipmentCreation.ShippedFromLocationId,
-                ShippedToLocationId = shipmentCreation.ShippedToLocationId,
-                TrackingNumber = shipmentCreation.TrackingNumber,
-                WeightUOM = shipmentCreation.WeightUOM,
-                ShipmentDate = DateTime.Now,
-                CarrierId = shipmentCreation.CarrierId
-            };
+                SalesOrder salesOrder = await GetSalesOrderById(shipmentCreation.SalesOrderId);
+
+                NextNumber nnShipments = await GetNextNumber();
+                Shipments shipment = new Shipments()
+                {
+                    CustomerId = salesOrder.CustomerId,
+                    OrderNumber = salesOrder.OrderNumber,
+                    OrderType = salesOrder.OrderType,
+                    Duty = shipmentCreation.Duty,
+                    Tax = shipmentCreation.Tax,
+                    ShippingCost = shipmentCreation.ShippingCost,
+                    Amount = shipmentCreation.Amount,
+                    CodAmount = shipmentCreation.CodAmount,
+                    ShipmentNumber = nnShipments.NextNumberValue,
+                    ActualWeight = shipmentCreation.ActualWeight,
+                    BillableWeight = shipmentCreation.BillableWeight,
+                    ShippedFromLocationId = shipmentCreation.ShippedFromLocationId,
+                    ShippedToLocationId = shipmentCreation.ShippedToLocationId,
+                    TrackingNumber = shipmentCreation.TrackingNumber,
+                    WeightUOM = shipmentCreation.WeightUOM,
+                    ShipmentDate = DateTime.Now,
+                    CarrierId = shipmentCreation.CarrierId,
+                    SalesOrderId = shipmentCreation.SalesOrderId
+                };
 
 
 
-            return shipment;
-           
-
-        }
+                return shipment;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
+       }
      
         public async Task<NextNumber> GetNextNumber()
         {

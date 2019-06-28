@@ -32,6 +32,7 @@ namespace lssWebApi2.EntityFramework
         public string OrderNumber { get; set; }
         public string OrderType { get; set; }
         public string WeightUOM { get; set; }
+        public long? SalesOrderId { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }
