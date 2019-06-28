@@ -113,7 +113,7 @@ namespace lssWebApi2.SalesOrderDomain.Repository
 
         {
 
-            return await _dbContext.FindAsync<SalesOrderDetail>();
+            return await _dbContext.FindAsync<SalesOrderDetail>(salesOrderDetailId);
 
         }
 

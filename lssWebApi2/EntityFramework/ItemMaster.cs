@@ -25,6 +25,8 @@ namespace lssWebApi2.EntityFramework
         public string Branch { get; set; }
         public decimal? Weight { get; set; }
         public string WeightUnitOfMeasure { get; set; }
+        public decimal? Volume { get; set; }
+        public string VolumeUnitOfMeasure { get; set; }
 
         public virtual ICollection<Inventory> Inventory { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }

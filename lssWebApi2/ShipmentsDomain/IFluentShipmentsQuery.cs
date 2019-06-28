@@ -19,6 +19,8 @@ namespace lssWebApi2.ShipmentsDomain
         Task<PageListViewContainer<ShipmentsView>> GetViewsByPage(Func<Shipments, bool> predicate, Func<Shipments, object> order, int pageSize, int pageNumber);
         Task<Shipments> CreateShipmentBySalesOrder(ShipmentCreationView shipmentCreation);
 
+        Task<Shipments> CalculatedAmountsByDetails(Shipments shipments, List<ShipmentsDetail> details);
+
 
     }
 }

@@ -113,7 +113,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShift { get; set; }
         public virtual DbSet<Udc> Udc { get; set; }
 
-       protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AccountBalance>(entity =>
             {
@@ -1217,6 +1217,12 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
+
+                entity.Property(e => e.Volume).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.VolumeUnitOfMeasure)
+                  .HasMaxLength(50)
+                  .IsUnicode(false);
             });
 
             modelBuilder.Entity<LocationAddress>(entity =>
@@ -1541,7 +1547,7 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.StatusXrefId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProjectManagementTask_UDC");
-               
+
             });
 
             modelBuilder.Entity<ProjectManagementTaskToEmployee>(entity =>
@@ -1732,6 +1738,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<SalesOrderDetail>(entity =>
             {
+                entity.HasKey(e => e.SalesOrderDetailId);
+
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
@@ -1753,8 +1761,8 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.ShippedDate).HasColumnType("ShippedDate");
                 entity.Property(e => e.InvoiceDate).HasColumnType("InvoiceDate");
                 entity.Property(e => e.GLDate).HasColumnType("GLDate");
-           
-                entity.Property(e=>e.UnitVolume).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.UnitVolume).HasColumnType("decimal(18, 4)");
                 entity.Property(e => e.UnitVolumeUnitOfMeasurement)
                                   .HasMaxLength(50)
                                   .IsUnicode(false);
@@ -1770,7 +1778,7 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.Location)
                                  .HasMaxLength(50)
                                  .IsUnicode(false);
-                                          
+
 
                 entity.Property(e => e.LotSerial)
                                .HasMaxLength(50)
@@ -1795,14 +1803,14 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.SalesOrderId)
                     .OnDelete(DeleteBehavior.Cascade)
                     .HasConstraintName("FK_SalesOrderDetail_SalesOrder");
-                   
+
             });
 
             modelBuilder.Entity<ScheduleEvent>(entity =>
             {
                 entity.Property(e => e.EventDateTime).HasColumnType("datetime");
 
-                
+
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.ScheduleEvent)
@@ -1900,8 +1908,9 @@ namespace lssWebApi2.EntityFramework
                  .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e=>e.OrderType).HasMaxLength(20)
-                    .IsUnicode(false); 
+          
+                entity.Property(e => e.OrderType).HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ActualWeight).HasColumnType("decimal(18, 4)");
 
@@ -1948,12 +1957,25 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.Amount).HasColumnType("money");
                 entity.Property(e => e.AmountShipped).HasColumnType("money");
+                entity.Property(e => e.UnitPrice).HasColumnType("money");
+                entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
+                entity.Property(e => e.ShippedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.WeightUnitOfMeasure)
+                  .HasMaxLength(50)
+                  .IsUnicode(false);
+
+                entity.Property(e => e.Volume).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.VolumeUnitOfMeasure)
+                  .HasMaxLength(50)
+                  .IsUnicode(false);
 
                 entity.HasOne(d => d.Item)
-                    .WithMany(p => p.ShipmentsDetail)
-                    .HasForeignKey(d => d.ItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ShipmentsDetail_ItemMaster");
+                            .WithMany(p => p.ShipmentsDetail)
+                            .HasForeignKey(d => d.ItemId)
+                            .OnDelete(DeleteBehavior.ClientSetNull)
+                            .HasConstraintName("FK_ShipmentsDetail_ItemMaster");
 
                 entity.HasOne(d => d.Shipment)
                     .WithMany(p => p.ShipmentsDetail)
@@ -2271,51 +2293,51 @@ namespace lssWebApi2.EntityFramework
 
 
 
-           
-
-        modelBuilder.Entity<TimeAndAttendanceScheduledToWork>(entity =>
-            {
-                entity.HasKey(e => e.ScheduledToWorkId);
-
-                entity.Property(e => e.EmployeeName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.EndDate).HasColumnType("date");
-
-                entity.Property(e => e.EndDateTime)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.ScheduleName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
-
-                entity.Property(e => e.StartDate).HasColumnType("date");
-
-                entity.Property(e => e.StartDateTime)
-                    .HasMaxLength(20)
-                    .IsUnicode(false);
-
-                entity.HasOne(d => d.Shift)
-                  .WithMany(p => p.TimeAndAttendanceScheduledToWork)
-                  .HasForeignKey(d => d.ShiftId)
-                  .OnDelete(DeleteBehavior.ClientSetNull)
-                  .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceShift");
 
 
-                entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.TimeAndAttendanceScheduledToWork)
-                    .HasForeignKey(d => d.EmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_Employee");
+            modelBuilder.Entity<TimeAndAttendanceScheduledToWork>(entity =>
+                {
+                    entity.HasKey(e => e.ScheduledToWorkId);
 
-                entity.HasOne(d => d.Schedule)
-                    .WithMany(p => p.TimeAndAttendanceScheduledToWork)
-                    .HasForeignKey(d => d.ScheduleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceSchedule");
-            });
+                    entity.Property(e => e.EmployeeName)
+                        .HasMaxLength(255)
+                        .IsUnicode(false);
+
+                    entity.Property(e => e.EndDate).HasColumnType("date");
+
+                    entity.Property(e => e.EndDateTime)
+                        .HasMaxLength(20)
+                        .IsUnicode(false);
+
+                    entity.Property(e => e.ScheduleName)
+                        .HasMaxLength(255)
+                        .IsUnicode(false);
+
+                    entity.Property(e => e.StartDate).HasColumnType("date");
+
+                    entity.Property(e => e.StartDateTime)
+                        .HasMaxLength(20)
+                        .IsUnicode(false);
+
+                    entity.HasOne(d => d.Shift)
+                      .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                      .HasForeignKey(d => d.ShiftId)
+                      .OnDelete(DeleteBehavior.ClientSetNull)
+                      .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceShift");
+
+
+                    entity.HasOne(d => d.Employee)
+                        .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                        .HasForeignKey(d => d.EmployeeId)
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_Employee");
+
+                    entity.HasOne(d => d.Schedule)
+                        .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                        .HasForeignKey(d => d.ScheduleId)
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceSchedule");
+                });
 
             modelBuilder.Entity<TimeAndAttendanceShift>(entity =>
             {

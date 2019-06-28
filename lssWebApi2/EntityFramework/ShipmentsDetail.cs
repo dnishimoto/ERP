@@ -16,6 +16,14 @@ namespace lssWebApi2.EntityFramework
         public decimal? AmountShipped { get; set; }
         public string Note { get; set; }
 
+        public decimal? UnitPrice { get; set; }
+        public decimal? Weight { get; set; }
+        public string WeightUnitOfMeasure { get; set; }
+
+        public decimal? Volume { get; set; }
+        public string VolumeUnitOfMeasure { get; set; }
+        public DateTime? ShippedDate { get; set; }
+
         public virtual ItemMaster Item { get; set; }
         public virtual Shipments Shipment { get; set; }
 

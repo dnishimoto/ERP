@@ -18,6 +18,31 @@ namespace lssWebApi2.SalesOrderDomain
         {
             return new FluentSalesOrderDetailQuery(unitOfWork) as IFluentSalesOrderDetailQuery;
         }
+        public IFluentSalesOrderDetail UpdateSalesOrderDetailByShipmentsDetail(IEnumerable<ShipmentsDetail> shipmentsDetails)
+        {
+            try
+            {
+                foreach (var item in shipmentsDetails)
+                {
+                    Task<SalesOrderDetail> detailTask = Task.Run(async () => await unitOfWork.salesOrderDetailRepository.GetEntityById(item.SalesOrderDetailId));
+                    Task.WaitAll(detailTask);
+
+                    SalesOrderDetail detail = detailTask.Result;
+                    detail.ShippedDate = item.ShippedDate;
+                    detail.QuantityShipped = item.QuantityShipped;
+                    detail.QuantityOpen = item.Quantity - item.QuantityShipped;
+                    detail.AmountOpen = item.Amount = item.AmountShipped;
+
+                    unitOfWork.salesOrderDetailRepository.UpdateObject(detail);
+                    this.processStatus = CreateProcessStatus.Update;
+                }
+                return this as IFluentSalesOrderDetail;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public IFluentSalesOrderDetail Apply()
         {
             if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)

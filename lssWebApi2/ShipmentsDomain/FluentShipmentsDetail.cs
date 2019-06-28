@@ -1,6 +1,7 @@
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using System;
 using System.Collections.Generic;
 
 namespace lssWebApi2.ShipmentsDomain
@@ -18,9 +19,16 @@ namespace lssWebApi2.ShipmentsDomain
         }
         public IFluentShipmentsDetail Apply()
         {
-            if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)
-            { unitOfWork.CommitChanges(); }
-            return this as IFluentShipmentsDetail;
+            try
+            {
+                if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)
+                { unitOfWork.CommitChanges(); }
+                return this as IFluentShipmentsDetail;
+            }
+            catch (Exception ex)
+            {
+                throw new System.Exception(ex.Message);
+            }
         }
         public IFluentShipmentsDetail AddShipmentsDetails(List<ShipmentsDetail> newObjects)
         {

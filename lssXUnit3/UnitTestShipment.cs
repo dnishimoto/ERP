@@ -134,7 +134,7 @@ namespace lssXUnit3
             CarrierId =2
        
   
-    };
+          };
 
             foreach (var item in soListDetails)
             {
@@ -146,15 +146,20 @@ namespace lssXUnit3
                 shipmentCreation.ItemsAdjustedQuantityShipped.Add(newItem);
             }
 
-        
-
-
             ShipmentsModule ShipmentsMod = new ShipmentsModule();
            
             Shipments newShipments = await ShipmentsMod.Shipments.Query().CreateShipmentBySalesOrder(shipmentCreation);
 
             List<ShipmentsDetail> newShipmentsDetails = await ShipmentsMod.ShipmentsDetail.Query().CreateShipmentsDetailBySalesOrder(shipmentCreation);
+          
+            newShipments =await ShipmentsMod.Shipments.Query().CalculatedAmountsByDetails(newShipments,newShipmentsDetails);
+
+
             //TODO Calculate the amount, duty, taxes, shipping cost
+            //decimal taxes = await ShipmentsMod.Shipments.Query().CalculateTaxes(newShipments);
+            //decimal shippingCost = await ShipmentsMod.Shipments.Query().CalculateShippingCost(newShipments);
+            //decimal codCost=await ShipmentsMod.Shipments.Query().CalculateCodCost(newShipments);
+            //decimal duty=await ShipmentsMod.Shipments.Query().CalculateDuty(newShipments);
 
             ShipmentsMod.Shipments.AddShipments(newShipments).Apply();
 
@@ -162,6 +167,16 @@ namespace lssXUnit3
 
             Assert.NotNull(lookupShipments);
 
+            newShipmentsDetails.ForEach(m => m.ShipmentId = lookupShipments.ShipmentId);
+
+            ShipmentsMod.ShipmentsDetail.AddShipmentsDetails(newShipmentsDetails).Apply();
+
+            ShipmentsMod.SalesOrderDetail.UpdateSalesOrderDetailByShipmentsDetail(newShipmentsDetails).Apply();
+
+            ShipmentsMod.SalesOrder.UpdateSalesOrderAmountByShipmentsDetail(newShipments, newShipmentsDetails.Sum(e => e.Amount)).Apply();
+
+
+   
             ShipmentsView newShipmentsView = await ShipmentsMod.Shipments.Query().MapToView(lookupShipments);
 
             lookupShipments.TrackingNumber = "123";
@@ -172,27 +187,15 @@ namespace lssXUnit3
 
             Assert.Same(updateShipmentsView.TrackingNumber, "123");
 
-            //List<ShipmentsDetail> newShipmentsDetails = await ShipmentsMod.ShipmentsDetail.Query().MapToEntity(newShipmentView.ShipmentsDetailViews);
 
-            newShipmentsDetails.ForEach(m => m.ShipmentId = lookupShipments.ShipmentId);
-
-            foreach (var item in newShipmentsDetails)
-            {
-                NextNumber nn = await ShipmentsMod.ShipmentsDetail.Query().GetNextNumber();
-                item.ShipmentDetailNumber = nn.NextNumberValue;
-            }
-     
-            //List<ShipmentsDetail> ShipmentsDetails = await ShipmentsMod.ShipmentsDetail.Query().MapToEntity(detailViews);
-
-            ShipmentsMod.ShipmentsDetail.AddShipmentsDetails(newShipmentsDetails).Apply();
-            
             newShipmentsDetails.ForEach(m => m.AmountShipped = 10);
+            newShipmentsDetails.ForEach(m => m.QuantityShipped = 1);
 
             ShipmentsMod.ShipmentsDetail.UpdateShipmentsDetails(newShipmentsDetails).Apply();
 
             //Test Paging
 
-            lssWebApi2.AbstractFactory.PageListViewContainer<ShipmentsView> container = await ShipmentsMod.Shipments.Query().GetViewsByPage(predicate: e => e.Amount==10, order: e => e.Amount, pageSize: 1, pageNumber: 1);
+            lssWebApi2.AbstractFactory.PageListViewContainer<ShipmentsView> container = await ShipmentsMod.Shipments.Query().GetViewsByPage(predicate: e => e.TrackingNumber == "123", order: e => e.Amount, pageSize: 1, pageNumber: 1);
 
             Assert.True(container.Items.Count > 0);
 
@@ -200,8 +203,6 @@ namespace lssXUnit3
             List<ShipmentsDetail> listShipmentDetails = await ShipmentsMod.ShipmentsDetail.Query().GetEntitiesByShipmentId(newShipments.ShipmentId);
 
             List<ShipmentsDetailView> listShipmentDetailViews= await ShipmentsMod.ShipmentsDetail.Query().GetViewsByShipmentId(newShipments.ShipmentId);
-
-            Assert.True(listShipmentDetails.Any(m => m.Note.Contains("Updated")));
 
             ShipmentsMod.ShipmentsDetail.DeleteShipmentsDetails(listShipmentDetails).Apply();
 
