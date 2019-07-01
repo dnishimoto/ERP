@@ -11,8 +11,8 @@ using System.Reflection;
 using lssWebApi2.EntityFramework;
 using X.PagedList;
 using lssWebApi2.Enumerations;
-using lssWebApi2.TimeAndAttendanceDomain.Repository;
 using lssWebApi2.AbstractFactory;
+using lssWebApi2.TimeAndAttendanceDomain;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {

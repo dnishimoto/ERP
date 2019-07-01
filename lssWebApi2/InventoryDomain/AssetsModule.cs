@@ -1,4 +1,5 @@
-﻿using lssWebApi2.FluentAPI;
+﻿using ERP_Core2.InventoryDomain;
+using lssWebApi2.FluentAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;

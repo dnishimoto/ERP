@@ -9,7 +9,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.PagedList;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public class FluentTimeAndAttendanceQuery : IFluentTimeAndAttendanceQuery
     {

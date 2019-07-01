@@ -1037,6 +1037,27 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Equipment>(entity => {
+                entity.HasKey(e => e.EquipmentId);
+
+                entity.Property(e => e.Model).HasMaxLength(100).IsUnicode(false);
+                entity.Property(e => e.Make).HasMaxLength(50).IsUnicode(false);
+                entity.Property(e => e.VIN).HasMaxLength(100).IsUnicode(false);
+                entity.Property(e => e.Description).HasMaxLength(2000).IsUnicode(false);
+                entity.Property(e => e.SaleOption).HasMaxLength(20).IsUnicode(false);
+                entity.Property(e => e.LocationCity).HasMaxLength(100).IsUnicode(false);
+
+                entity.Property(e => e.LocationState).HasMaxLength(2).IsUnicode(false);
+                entity.Property(e => e.Category1).HasMaxLength(20).IsUnicode(false);
+                entity.Property(e => e.Category2).HasMaxLength(20).IsUnicode(false);
+                entity.Property(e => e.Category3).HasMaxLength(20).IsUnicode(false);
+
+                entity.Property(e => e.YearPurchased).HasColumnType("int");
+                entity.Property(e => e.PurchasePrice).HasColumnType("money");
+                entity.Property(e => e.CurrentAppraisalPrice).HasColumnType("money");
+                entity.Property(e => e.SalesPrice).HasColumnType("money");
+
+            });
             modelBuilder.Entity<GeneralLedger>(entity =>
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
@@ -2178,7 +2199,7 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<TaxRatesByCode>(entity =>
             {
-                entity.HasKey(e => e.TaxId);
+                entity.HasKey(e => e.TaxRatesByCodeId);
 
                 entity.Property(e => e.State)
                     .HasMaxLength(2)
@@ -2189,6 +2210,7 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.TaxRate).HasColumnType("money");
+                entity.Property(e => e.TaxRatesByCodeNumber).HasColumnType("bigint");
             });
 
             modelBuilder.Entity<TimeAndAttendancePunchIn>(entity =>

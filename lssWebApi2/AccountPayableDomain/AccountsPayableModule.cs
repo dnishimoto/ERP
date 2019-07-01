@@ -2,6 +2,7 @@
 using ERP_Core2.AddressBookDomain;
 using ERP_Core2.FluentAPI;
 using ERP_Core2.GeneralLedgerDomain;
+using ERP_Core2.InventoryDomain;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.PurchaseOrderDomain;
 using ERP_Core2.Services;

@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.PagedList;
 
-namespace ERP_Core2.Interfaces
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public interface IFluentTimeAndAttendanceQuery
     {

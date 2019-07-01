@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.TimeAndAttendanceDomain.Repository
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public interface ITimeAndAttendanceRepository
     {

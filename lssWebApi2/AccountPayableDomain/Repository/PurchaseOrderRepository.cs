@@ -168,7 +168,7 @@ namespace ERP_Core2.PurchaseOrderDomain
                 purchaseOrderView.GrossAmount = grossAmount;
                 purchaseOrderView.AmountPaid = 0;
 
-                TaxRatesByCode tax = await base.GetTaxRateByCode(purchaseOrderView.TaxCode1);
+                TaxRatesByCode tax = await base.GetTaxRatesByCode(purchaseOrderView.TaxCode1);
                 purchaseOrderView.Tax = grossAmount * tax.TaxRate;
 
                 PurchaseOrder po = new PurchaseOrder();

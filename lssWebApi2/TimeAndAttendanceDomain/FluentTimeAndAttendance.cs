@@ -6,7 +6,7 @@ using lssWebApi2.EntityFramework;
 using System;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public class FluentTimeAndAttendance : AbstractModule, IFluentTimeAndAttendance
     {

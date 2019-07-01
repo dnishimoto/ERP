@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.SalesOrderDomain;
-using lssWebApi2.SalesOrderDomain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

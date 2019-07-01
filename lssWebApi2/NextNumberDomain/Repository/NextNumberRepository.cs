@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using lssWebApi2;
 using lssWebApi2.EntityFramework;
 
-namespace ERP_Core2.TimeAndAttendanceDomain.Repository
+namespace ERP_Core2.NextNumberDomain
 {
     
     public class NextNumberRepository : Repository<NextNumber>

@@ -304,7 +304,7 @@ namespace ERP_Core2.Services
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<TaxRatesByCode> GetTaxRateByCode(string TaxCode)
+        public async Task<TaxRatesByCode> GetTaxRatesByCode(string TaxCode)
         {
             try
             {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.Interfaces
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public interface IFluentTimeAndAttendanceSchedule
     {

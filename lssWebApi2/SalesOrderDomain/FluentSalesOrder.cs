@@ -1,13 +1,12 @@
 ﻿using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.SalesOrderDomain
 {
     public class FluentSalesOrder :IFluentSalesOrder
     {

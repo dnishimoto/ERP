@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using System;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public class FluentTimeAndAttendanceScheduledToWork : AbstractModule, IFluentTimeAndAttendanceScheduledToWork
     {

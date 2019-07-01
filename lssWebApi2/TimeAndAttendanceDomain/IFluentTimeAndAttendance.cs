@@ -1,6 +1,6 @@
 ﻿using lssWebApi2.EntityFramework;
 
-namespace ERP_Core2.Interfaces
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public interface IFluentTimeAndAttendance
     {

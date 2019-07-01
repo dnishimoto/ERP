@@ -1,6 +1,5 @@
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.ShipmentsDomain.Repository;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -3,7 +3,6 @@ using ERP_Core2.Services;
 using lssWebApi2.AbstractFactory;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Interfaces;
-using lssWebApi2.SalesOrderDomain.Repository;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +10,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using X.PagedList;
 
-namespace lssWebApi2.SalesOrderDomain.Repository
+namespace lssWebApi2.SalesOrderDomain
 {
     public class SalesOrderView
     {

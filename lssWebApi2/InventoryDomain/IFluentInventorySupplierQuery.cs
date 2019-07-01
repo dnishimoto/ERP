@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace ERP_Core2.InventoryDomain
 {
     public interface IFluentInventorySupplierQuery
     {

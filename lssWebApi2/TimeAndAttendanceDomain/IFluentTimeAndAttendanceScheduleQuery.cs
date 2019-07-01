@@ -3,7 +3,7 @@ using lssWebApi2.EntityFramework;
 using System;
 using System.Linq.Expressions;
 
-namespace ERP_Core2.Interfaces
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public interface IFluentTimeAndAttendanceScheduleQuery
     {

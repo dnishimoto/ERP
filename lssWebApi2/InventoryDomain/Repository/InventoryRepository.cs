@@ -9,7 +9,7 @@ using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using ERP_Core2.ItemMasterDomain;
 using ERP_Core2.ChartOfAccountsDomain;
-using lssWebApi2.InventoryDomain.Repository;
+using lssWebApi2.InventoryDomain;
 
 namespace ERP_Core2.InventoryDomain
 {

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.InventoryDomain.Repository
+namespace lssWebApi2.InventoryDomain
 {
 
     public class AssetsView

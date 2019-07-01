@@ -20,15 +20,16 @@ using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.InventoryDomain;
 using ERP_Core2.SupplierInvoicesDomain;
 using ERP_Core2.TimeAndAttendanceDomain;
-using static ERP_Core2.TimeAndAttendanceDomain.TimeAndAttendanceScheduleView;
-using ERP_Core2.TimeAndAttendanceDomain.Repository;
 using ERP_Core2.ChartOfAccountsDomain;
 using ERP_Core2.BudgetDomain;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.ProjectManagementDomain.Repository;
-using lssWebApi2.InventoryDomain.Repository;
-using lssWebApi2.SalesOrderDomain.Repository;
+using lssWebApi2.ProjectManagementDomain;
+using lssWebApi2.InventoryDomain;
 using lssWebApi2.ShipmentsDomain;
+using ERP_Core2.NextNumberDomain;
+using lssWebApi2.CommentDomain;
+using ERP_Core2.TaxRatesByCodeDomain;
+using lssWebApi2.SalesOrderDomain;
 
 namespace ERP_Core2.Services
 {
@@ -77,6 +78,8 @@ namespace ERP_Core2.Services
         public CommentRepository commentRepository=>new CommentRepository(db);
         public ShipmentsDetailRepository shipmentsDetailRepository => new ShipmentsDetailRepository(db);
         public ShipmentsRepository shipmentsRepository => new ShipmentsRepository(db);
+        public TaxRatesByCodeRepository taxRatesByCodeRepository => new TaxRatesByCodeRepository(db);
+
         public UnitOfWork()
         {
             
