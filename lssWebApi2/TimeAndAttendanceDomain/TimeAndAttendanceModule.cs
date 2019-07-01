@@ -1,10 +1,7 @@
 ﻿using ERP_Core2.FluentAPI;
 
-namespace ERP_Core2.TimeAndAttendanceDomain
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
-
-
-
     public class TimeAndAttendanceModule 
     {
         public FluentTimeAndAttendance TimeAndAttendance = new FluentTimeAndAttendance();

@@ -7,7 +7,7 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public class FluentTimeAndAttendanceScheduleQuery : AbstractModule, IFluentTimeAndAttendanceScheduleQuery
     {

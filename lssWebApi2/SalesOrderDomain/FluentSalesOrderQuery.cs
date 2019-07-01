@@ -3,14 +3,12 @@ using ERP_Core2.Services;
 using lssWebApi2.AbstractFactory;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
-using lssWebApi2.Interfaces;
-using lssWebApi2.SalesOrderDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.SalesOrderDomain
 {
     public class FluentSalesOrderQuery:IFluentSalesOrderQuery
     {

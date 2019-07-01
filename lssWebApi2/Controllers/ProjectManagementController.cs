@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using ERP_Core2.AddressBookDomain;
 using ERP_Core2.ProjectManagementDomain;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.ProjectManagementDomain.Repository;
+using lssWebApi2.ProjectManagementDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

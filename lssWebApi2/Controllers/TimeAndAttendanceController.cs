@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.TimeAndAttendanceDomain;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.TimeAndAttendanceDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;

@@ -6,7 +6,7 @@ using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using lssWebApi2.TimeAndAttendanceDomain.Repository;
+using lssWebApi2.TimeAndAttendanceDomain;
 
 namespace ERP_Core2.TimeAndAttendanceDomain
 {

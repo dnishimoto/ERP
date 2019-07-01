@@ -6,7 +6,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.ProjectManagementDomain
+namespace lssWebApi2.ProjectManagementDomain
 {
     public class ProjectManagementModule : AbstractModule
     {

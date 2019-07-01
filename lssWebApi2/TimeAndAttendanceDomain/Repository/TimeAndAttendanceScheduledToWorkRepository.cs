@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using lssWebApi2;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.TimeAndAttendanceDomain.Repository;
+using lssWebApi2.TimeAndAttendanceDomain;
 
-namespace ERP_Core2.TimeAndAttendanceDomain.Repository
+namespace ERP_Core2.TimeAndAttendanceDomain
 {
     public class TimeAndAttendanceScheduledToWorkView
     {

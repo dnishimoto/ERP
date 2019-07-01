@@ -3,7 +3,7 @@ using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.ShipmentsDomain.Repository
+namespace lssWebApi2.ShipmentsDomain
 {
 
     public interface IShipmentsDetailRepository

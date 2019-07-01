@@ -1,13 +1,12 @@
 ﻿using ERP_Core2.AddressBookDomain;
 using ERP_Core2.ProjectManagementDomain;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.ProjectManagementDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.ProjectManagementDomain
 {
     public interface IFluentProjectManagementQuery
     {

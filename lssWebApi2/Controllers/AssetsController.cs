@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.InventoryDomain;
-using lssWebApi2.InventoryDomain.Repository;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

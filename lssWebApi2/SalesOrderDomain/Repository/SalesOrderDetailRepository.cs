@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 
 
-namespace lssWebApi2.SalesOrderDomain.Repository
+namespace lssWebApi2.SalesOrderDomain
 
 {
 

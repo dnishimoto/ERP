@@ -22,7 +22,8 @@ namespace lssWebApi2.Enumerations
         SalesOrderDetailNumber,
         CommentNumber,
         ShipmentsNumber,
-        ShipmentsDetailNumber
+        ShipmentsDetailNumber,
+        TaxRatesByCodeNumber
     }
 
 }

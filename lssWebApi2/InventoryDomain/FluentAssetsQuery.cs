@@ -3,13 +3,13 @@ using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
-using lssWebApi2.InventoryDomain.Repository;
+using lssWebApi2.InventoryDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.FluentAPI
+namespace ERP_Core2.InventoryDomain
 {
     public class FluentAssetsQuery : IFluentAssetsQuery
     {

@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using ERP_Core2.AddressBookDomain;
 using System.Collections;
 using ERP_Core2.ProjectManagementDomain;
-using lssWebApi2.ProjectManagementDomain.Repository;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.ProjectManagementDomain
 {
     public class FluentProjectManagementQuery : IFluentProjectManagementQuery
     {

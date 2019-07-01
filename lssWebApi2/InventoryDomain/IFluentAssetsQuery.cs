@@ -1,11 +1,11 @@
 ﻿using lssWebApi2.EntityFramework;
-using lssWebApi2.InventoryDomain.Repository;
+using lssWebApi2.InventoryDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace ERP_Core2.InventoryDomain
 {
     public interface IFluentAssetsQuery
     {

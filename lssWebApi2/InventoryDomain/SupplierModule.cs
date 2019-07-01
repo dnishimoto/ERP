@@ -1,6 +1,7 @@
 ﻿using ERP_Core2.AbstractFactory;
 using ERP_Core2.AccountPayableDomain;
 using ERP_Core2.AddressBookDomain;
+using ERP_Core2.InventoryDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.FluentAPI;
