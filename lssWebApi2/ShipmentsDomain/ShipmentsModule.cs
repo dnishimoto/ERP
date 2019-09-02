@@ -1,4 +1,5 @@
-﻿using lssWebApi2.FluentAPI;
+﻿using ERP_Core2.TaxRatesByCodeDomain;
+using lssWebApi2.FluentAPI;
 using lssWebApi2.SalesOrderDomain;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace lssWebApi2.ShipmentsDomain
         public FluentShipmentsDetail ShipmentsDetail = new FluentShipmentsDetail();
         public FluentSalesOrderDetail SalesOrderDetail = new FluentSalesOrderDetail();
         public FluentSalesOrder SalesOrder = new FluentSalesOrder();
+        public FluentTaxRatesByCode TaxRatesByCode = new FluentTaxRatesByCode();
     }
 }

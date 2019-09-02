@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace lssWebApi2.EntityFramework
 {
+
     public partial class ListensoftwaredbContext : DbContext
     {
-
         public ListensoftwaredbContext()
 
         {
@@ -40,7 +40,6 @@ namespace lssWebApi2.EntityFramework
             }
         }
 
-        public virtual DbSet<TimeAndAttendanceSetup> TimeAndAttendanceSetup { get; set; }
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }
         public virtual DbSet<AcctRec> AcctRec { get; set; }
@@ -60,8 +59,8 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<Buyer> Buyer { get; set; }
         public virtual DbSet<Carrier> Carrier { get; set; }
         public virtual DbSet<ChartOfAccts> ChartOfAccts { get; set; }
-        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Comment> Comment { get; set; }
+        public virtual DbSet<Company> Company { get; set; }
         public virtual DbSet<Contract> Contract { get; set; }
         public virtual DbSet<ContractContent> ContractContent { get; set; }
         public virtual DbSet<ContractInvoice> ContractInvoice { get; set; }
@@ -77,11 +76,23 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<InvoiceDetail> InvoiceDetail { get; set; }
         public virtual DbSet<ItemMaster> ItemMaster { get; set; }
         public virtual DbSet<LocationAddress> LocationAddress { get; set; }
-        public virtual DbSet<MigrationHistory> MigrationHistory { get; set; }
         public virtual DbSet<NetTerms> NetTerms { get; set; }
         public virtual DbSet<NextNumber> NextNumber { get; set; }
         public virtual DbSet<PackingSlip> PackingSlip { get; set; }
         public virtual DbSet<PackingSlipDetail> PackingSlipDetail { get; set; }
+        public virtual DbSet<PayRollDeductionLiabilities> PayRollDeductionLiabilities { get; set; }
+        public virtual DbSet<PayRollEarnings> PayRollEarnings { get; set; }
+        public virtual DbSet<PayRollEmployeeBenefit> PayRollEmployeeBenefit { get; set; }
+        public virtual DbSet<PayRollEmployeeSequence> PayRollEmployeeSequence { get; set; }
+        public virtual DbSet<PayRollGroup> PayRollGroup { get; set; }
+        public virtual DbSet<PayRollInsurance> PayRollInsurance { get; set; }
+        public virtual DbSet<PayRollLedger> PayRollLedger { get; set; }
+        public virtual DbSet<PayRollPaySequence> PayRollPaySequence { get; set; }
+        public virtual DbSet<PayRollTotals> PayRollTotals { get; set; }
+        public virtual DbSet<PayRollTransactionControl> PayRollTransactionControl { get; set; }
+        public virtual DbSet<PayRollTransactionTypes> PayRollTransactionTypes { get; set; }
+        public virtual DbSet<PayRollTransactionsByEmployee> PayRollTransactionsByEmployee { get; set; }
+        public virtual DbSet<PayRollW4> PayRollW4 { get; set; }
         public virtual DbSet<Phones> Phones { get; set; }
         public virtual DbSet<Poquote> Poquote { get; set; }
         public virtual DbSet<ProjectManagementMilestones> ProjectManagementMilestones { get; set; }
@@ -110,11 +121,16 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<TimeAndAttendancePunchIn> TimeAndAttendancePunchIn { get; set; }
         public virtual DbSet<TimeAndAttendanceSchedule> TimeAndAttendanceSchedule { get; set; }
         public virtual DbSet<TimeAndAttendanceScheduledToWork> TimeAndAttendanceScheduledToWork { get; set; }
+        public virtual DbSet<TimeAndAttendanceSetup> TimeAndAttendanceSetup { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShift { get; set; }
         public virtual DbSet<Udc> Udc { get; set; }
 
+      
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasAnnotation("ProductVersion", "2.2.0-rtm-35687");
+
             modelBuilder.Entity<AccountBalance>(entity =>
             {
                 entity.Property(e => e.AccountBalanceType)
@@ -122,6 +138,8 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.Hours).HasColumnType("decimal(18, 2)");
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.AccountBalance)
@@ -240,6 +258,8 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.DiscountDueDate).HasColumnType("date");
 
+                entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.Gldate)
                     .HasColumnName("GLDate")
                     .HasColumnType("date");
@@ -347,7 +367,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<AddressBook>(entity =>
             {
-                entity.HasKey(e => e.AddressId);
+                entity.HasKey(e => e.AddressId)
+                    .HasName("PK__AddressB__091C2AFB3585974A");
 
                 entity.Property(e => e.CategoryCodeChar1)
                     .HasMaxLength(50)
@@ -416,7 +437,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<AspNetUserLogins>(entity =>
             {
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey, e.UserId });
+                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey, e.UserId })
+                    .HasName("PK_dbo.AspNetUserLogins");
 
                 entity.HasIndex(e => e.UserId)
                     .HasName("IX_UserId");
@@ -435,7 +457,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<AspNetUserRoles>(entity =>
             {
-                entity.HasKey(e => new { e.UserId, e.RoleId });
+                entity.HasKey(e => new { e.UserId, e.RoleId })
+                    .HasName("PK_dbo.AspNetUserRoles");
 
                 entity.HasIndex(e => e.RoleId)
                     .HasName("IX_RoleId");
@@ -491,6 +514,8 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Depreciation).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
                     .IsUnicode(false);
@@ -521,6 +546,10 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.OriginalCost).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ReplacementCost).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.SerialNumber)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -543,6 +572,8 @@ namespace lssWebApi2.EntityFramework
             modelBuilder.Entity<Budget>(entity =>
             {
                 entity.Property(e => e.ActualAmount).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.ActualsAsOfDate).HasColumnType("date");
 
@@ -636,6 +667,8 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.ActualAmount).HasColumnType("decimal(18, 4)");
 
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.BudgetAmount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.BudgetHours).HasColumnType("decimal(18, 1)");
@@ -679,7 +712,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<ChartOfAccts>(entity =>
             {
-                entity.HasKey(e => e.AccountId);
+                entity.HasKey(e => e.AccountId)
+                    .HasName("PK__chartOfA__349DA5A6F015CCF2");
 
                 entity.Property(e => e.Account)
                     .HasMaxLength(30)
@@ -754,20 +788,15 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<Comment>(entity =>
             {
-                entity.HasKey(e => e.CommentId);
+                entity.HasIndex(e => new { e.EntityId, e.EntityType })
+                    .HasName("IDX_Entity");
 
-                entity.HasIndex(e => e.EntityId)
-                  .HasName("IDX_Entity");
-
-                entity.Property(e => e.EntityId).HasColumnType("bigint");
+                entity.Property(e => e.CommentContent).IsUnicode(false);
 
                 entity.Property(e => e.EntityType)
-                        .HasMaxLength(50)
-                        .IsUnicode(false);
-
-                entity.Property(e => e.CommentContent)
-                        .HasMaxLength(2000)
-                        .IsUnicode(false);
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Company>(entity =>
@@ -1037,27 +1066,6 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
             });
 
-            modelBuilder.Entity<Equipment>(entity => {
-                entity.HasKey(e => e.EquipmentId);
-
-                entity.Property(e => e.Model).HasMaxLength(100).IsUnicode(false);
-                entity.Property(e => e.Make).HasMaxLength(50).IsUnicode(false);
-                entity.Property(e => e.VIN).HasMaxLength(100).IsUnicode(false);
-                entity.Property(e => e.Description).HasMaxLength(2000).IsUnicode(false);
-                entity.Property(e => e.SaleOption).HasMaxLength(20).IsUnicode(false);
-                entity.Property(e => e.LocationCity).HasMaxLength(100).IsUnicode(false);
-
-                entity.Property(e => e.LocationState).HasMaxLength(2).IsUnicode(false);
-                entity.Property(e => e.Category1).HasMaxLength(20).IsUnicode(false);
-                entity.Property(e => e.Category2).HasMaxLength(20).IsUnicode(false);
-                entity.Property(e => e.Category3).HasMaxLength(20).IsUnicode(false);
-
-                entity.Property(e => e.YearPurchased).HasColumnType("int");
-                entity.Property(e => e.PurchasePrice).HasColumnType("money");
-                entity.Property(e => e.CurrentAppraisalPrice).HasColumnType("money");
-                entity.Property(e => e.SalesPrice).HasColumnType("money");
-
-            });
             modelBuilder.Entity<GeneralLedger>(entity =>
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
@@ -1111,6 +1119,10 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<Inventory>(entity =>
             {
+                entity.Property(e => e.Branch)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Description)
                     .HasMaxLength(100)
                     .IsUnicode(false);
@@ -1210,6 +1222,10 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.HasKey(e => e.ItemId);
 
+                entity.Property(e => e.Branch)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CommodityCode)
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -1231,19 +1247,19 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.WeightUnitOfMeasure)
-                 .HasMaxLength(50)
-                 .IsUnicode(false);
-
-                entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
-
                 entity.Property(e => e.UnitPrice).HasColumnType("money");
 
                 entity.Property(e => e.Volume).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.VolumeUnitOfMeasure)
-                  .HasMaxLength(50)
-                  .IsUnicode(false);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.WeightUnitOfMeasure)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<LocationAddress>(entity =>
@@ -1293,26 +1309,11 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_LocationAddress_UDCType");
             });
 
-            modelBuilder.Entity<MigrationHistory>(entity =>
-            {
-                entity.HasKey(e => new { e.MigrationId, e.ContextKey });
-
-                entity.ToTable("__MigrationHistory");
-
-                entity.Property(e => e.MigrationId).HasMaxLength(150);
-
-                entity.Property(e => e.ContextKey).HasMaxLength(300);
-
-                entity.Property(e => e.Model).IsRequired();
-
-                entity.Property(e => e.ProductVersion)
-                    .IsRequired()
-                    .HasMaxLength(32);
-            });
-
             modelBuilder.Entity<NetTerms>(entity =>
             {
                 entity.HasKey(e => e.NetTermId);
+
+                entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.NetTerms1)
                     .HasColumnName("NetTerms")
@@ -1376,6 +1377,187 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.PackingSlipId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PackingSlipDetail_PackingSlip");
+            });
+
+            modelBuilder.Entity<PayRollDeductionLiabilities>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.DeductionLiabilitiesType)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LimitAmount).HasColumnType("money");
+
+                entity.Property(e => e.Percentage).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<PayRollEarnings>(entity =>
+            {
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EarningType)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollEmployeeBenefit>(entity =>
+            {
+                entity.HasKey(e => e.PayrollEmployeeBenefitsId);
+
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.BenefitCode)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Frequency)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Percentage).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<PayRollEmployeeSequence>(entity =>
+            {
+                entity.HasKey(e => e.EmployeePaySequenceId);
+
+                entity.Property(e => e.PayRollBeginDate).HasColumnType("date");
+
+                entity.Property(e => e.PayRollEndDate).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<PayRollGroup>(entity =>
+            {
+                entity.Property(e => e.Description)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollInsurance>(entity =>
+            {
+                entity.Property(e => e.PayRollInsuranceId).ValueGeneratedNever();
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EligibleAmount).HasColumnType("money");
+
+                entity.Property(e => e.InsuranceCode)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Rate).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<PayRollLedger>(entity =>
+            {
+                entity.Property(e => e.PayrollLedgerId).HasColumnName("PayrollLedgerID");
+
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.PaidDate).HasColumnType("date");
+
+                entity.Property(e => e.PayPeriodBegin).HasColumnType("datetime");
+
+                entity.Property(e => e.PayPeriodEnd).HasColumnType("datetime");
+
+                entity.Property(e => e.PayRollType)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TransactionType)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollPaySequence>(entity =>
+            {
+                entity.Property(e => e.Frequency)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PayRollBeginDate).HasColumnType("date");
+
+                entity.Property(e => e.PayRollEndDate).HasColumnType("date");
+            });
+
+            modelBuilder.Entity<PayRollTotals>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.DeductionLiabilitiesType)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EarningType)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollTransactionControl>(entity =>
+            {
+                entity.Property(e => e.CompanyCode)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description).IsUnicode(false);
+
+                entity.Property(e => e.PayRollType)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RateAmount).HasColumnType("money");
+
+                entity.Property(e => e.RateType)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollTransactionTypes>(entity =>
+            {
+                entity.HasKey(e => e.PayRollTransactionId)
+                    .HasName("PK_PayRollTransactionControl");
+
+                entity.Property(e => e.Description)
+                    .IsRequired()
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollTransactionsByEmployee>(entity =>
+            {
+                entity.Property(e => e.AdditionalAmount).HasColumnType("money");
+
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.TaxPercentOfGross).HasColumnType("money");
+            });
+
+            modelBuilder.Entity<PayRollW4>(entity =>
+            {
+                entity.Property(e => e.PayRollW4id).HasColumnName("PayRollW4Id");
+
+                entity.Property(e => e.PayFrequency)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<Phones>(entity =>
@@ -1443,9 +1625,15 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.ActualEndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.ActualStartDate).HasColumnType("datetime");
 
+                entity.Property(e => e.Cost).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.EstimatedEndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EstimatedHours).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.EstimatedStartDate).HasColumnType("datetime");
 
@@ -1470,13 +1658,23 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.ActualEndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.ActualStartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.BudgetAmount).HasColumnType("money");
+
+                entity.Property(e => e.BudgetHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Cost).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(2000)
                     .IsUnicode(false);
 
                 entity.Property(e => e.EstimatedEndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EstimatedHours).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.EstimatedStartDate).HasColumnType("datetime");
 
@@ -1487,39 +1685,6 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.Version)
                     .HasMaxLength(50)
                     .IsUnicode(false);
-            });
-            modelBuilder.Entity<ProjectManagementWorkOrder>(entity =>
-            {
-                entity.HasKey(e => e.WorkOrderId);
-
-                entity.Property(e => e.Description)
-                                  .HasMaxLength(100)
-                                  .IsUnicode(false);
-
-                entity.Property(e => e.AccountNumber)
-                                   .HasMaxLength(50)
-                                   .IsUnicode(false);
-
-                entity.Property(e => e.Instructions)
-                                   .HasMaxLength(2000)
-                                   .IsUnicode(false);
-
-                entity.Property(e => e.Status)
-                                   .HasMaxLength(20)
-                                   .IsUnicode(false);
-                entity.Property(e => e.Location)
-                                   .HasMaxLength(200)
-                                   .IsUnicode(false);
-
-
-                entity.Property(e => e.StartDate).HasColumnType("datetime");
-
-                entity.Property(e => e.EndDate).HasColumnType("datetime");
-
-                entity.HasOne(d => d.Project)
-                    .WithMany(p => p.ProjectManagementWorkOrders)
-                    .HasForeignKey(d => d.ProjectId)
-                    .HasConstraintName("FK_ProjectManagementWorkOrder_ProjectManagementWorkOrder");
             });
 
             modelBuilder.Entity<ProjectManagementTask>(entity =>
@@ -1532,13 +1697,21 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.ActualEndDate).HasColumnType("datetime");
 
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.ActualStartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Cost).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(2000)
                     .IsUnicode(false);
 
+                entity.Property(e => e.EstimatedCost).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.EstimatedEndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EstimatedHours).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.EstimatedStartDate).HasColumnType("datetime");
 
@@ -1568,7 +1741,6 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.StatusXrefId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_ProjectManagementTask_UDC");
-
             });
 
             modelBuilder.Entity<ProjectManagementTaskToEmployee>(entity =>
@@ -1586,6 +1758,49 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_ProjectManagementTaskToEmployee_ProjectManagementTask");
             });
 
+            modelBuilder.Entity<ProjectManagementWorkOrder>(entity =>
+            {
+                entity.HasKey(e => e.WorkOrderId);
+
+                entity.Property(e => e.AccountNumber)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ActualAmount).HasColumnType("money");
+
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.EstimatedAmount).HasColumnType("money");
+
+                entity.Property(e => e.EstimatedHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Instructions)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Project)
+                    .WithMany(p => p.ProjectManagementWorkOrder)
+                    .HasForeignKey(d => d.ProjectId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ProjectManagementWorkOrder_ProjectManagementWorkOrder");
+            });
+
             modelBuilder.Entity<ProjectManagementWorkOrderToEmployee>(entity =>
             {
                 entity.HasKey(e => e.WorkOrderToEmployeeId);
@@ -1593,14 +1808,14 @@ namespace lssWebApi2.EntityFramework
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.ProjectManagementWorkOrderToEmployee)
                     .HasForeignKey(d => d.EmployeeId)
-                    .HasConstraintName("FK_ProjectManagementWorkOrderToEmployee_ProjectManagementWorkOrder");
-
+                    .HasConstraintName("FK_ProjectManagementWorkOrderToEmployee_Employee");
 
                 entity.HasOne(d => d.WorkOrder)
                     .WithMany(p => p.ProjectManagementWorkOrderToEmployee)
                     .HasForeignKey(d => d.WorkOrderId)
-                    .HasConstraintName("FK_ProjectManagementWorkOrderToEmployee_Employee");
+                    .HasConstraintName("FK_ProjectManagementWorkOrderToEmployee_ProjectManagementWorkOrder");
             });
+
             modelBuilder.Entity<PurchaseOrder>(entity =>
             {
                 entity.Property(e => e.AmountPaid).HasColumnType("money");
@@ -1724,11 +1939,17 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<SalesOrder>(entity =>
             {
-                entity.HasKey(e => e.SalesOrderId);
+                entity.HasIndex(e => e.OrderNumber)
+                    .HasName("IX_SalesOrder")
+                    .IsUnique();
+
                 entity.Property(e => e.Amount).HasColumnType("money");
+
                 entity.Property(e => e.AmountOpen).HasColumnType("money");
 
                 entity.Property(e => e.FreightAmount).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.Note).IsUnicode(false);
 
                 entity.Property(e => e.OrderNumber)
                     .HasMaxLength(20)
@@ -1738,17 +1959,19 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.PaymentInstrument).HasMaxLength(20);
-
-                entity.Property(e => e.Note)
-                    .HasMaxLength(2000)
+                entity.Property(e => e.PaymentInstrument)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
                 entity.Property(e => e.PaymentTerms)
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TakenBy).HasMaxLength(50);
+                entity.Property(e => e.TakenBy)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Taxes).HasColumnType("money");
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.SalesOrder)
@@ -1759,59 +1982,67 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<SalesOrderDetail>(entity =>
             {
-                entity.HasKey(e => e.SalesOrderDetailId);
-
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
-                entity.Property(e => e.GrossWeight).HasColumnType("decimal(18, 4)");
-                entity.Property(e => e.GrossWeightUnitOfMeasure)
-                                .HasMaxLength(25)
-                                .IsUnicode(false);
+                entity.Property(e => e.AmountOpen).HasColumnType("money");
+
+                entity.Property(e => e.BusUnit)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompanyNumber)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Gldate)
+                    .HasColumnName("GLDate")
+                    .HasColumnType("datetime");
+
+                entity.Property(e => e.GrossWeight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.GrossWeightUnitOfMeasure)
+                    .HasMaxLength(25)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.InvoiceDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Location)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LotSerial)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PaymentInstrument)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PaymentTerms)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PromisedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ScheduledShipDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ShippedDate).HasColumnType("datetime");
+
                 entity.Property(e => e.UnitOfMeasure)
                     .HasMaxLength(25)
                     .IsUnicode(false);
 
-                entity.Property(e => e.ScheduledShipDate).HasColumnType("ScheduledShipDate");
-                entity.Property(e => e.PromisedDate).HasColumnType("PromisedDate");
-                entity.Property(e => e.ShippedDate).HasColumnType("ShippedDate");
-                entity.Property(e => e.InvoiceDate).HasColumnType("InvoiceDate");
-                entity.Property(e => e.GLDate).HasColumnType("GLDate");
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.UnitVolume).HasColumnType("decimal(18, 4)");
+
                 entity.Property(e => e.UnitVolumeUnitOfMeasurement)
-                                  .HasMaxLength(50)
-                                  .IsUnicode(false);
-
-                entity.Property(e => e.PaymentTerms)
-                                 .HasMaxLength(20)
-                                 .IsUnicode(false);
-
-                entity.Property(e => e.PaymentInstrument)
-                                 .HasMaxLength(50)
-                                 .IsUnicode(false);
-
-                entity.Property(e => e.Location)
-                                 .HasMaxLength(50)
-                                 .IsUnicode(false);
-
-
-                entity.Property(e => e.LotSerial)
-                               .HasMaxLength(50)
-                               .IsUnicode(false);
-
-                entity.Property(e => e.BusUnit)
-                            .HasMaxLength(10)
-                            .IsUnicode(false);
-
-                entity.Property(e => e.CompanyNumber)
-                            .HasMaxLength(10)
-                            .IsUnicode(false);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.SalesOrderDetail)
@@ -1822,16 +2053,13 @@ namespace lssWebApi2.EntityFramework
                 entity.HasOne(d => d.SalesOrder)
                     .WithMany(p => p.SalesOrderDetail)
                     .HasForeignKey(d => d.SalesOrderId)
-                    .OnDelete(DeleteBehavior.Cascade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SalesOrderDetail_SalesOrder");
-
             });
 
             modelBuilder.Entity<ScheduleEvent>(entity =>
             {
                 entity.Property(e => e.EventDateTime).HasColumnType("datetime");
-
-
 
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.ScheduleEvent)
@@ -1853,7 +2081,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<ServiceInformation>(entity =>
             {
-                entity.HasKey(e => e.ServiceId);
+                entity.HasKey(e => e.ServiceId)
+                    .HasName("PK__ServiceI__C51BB00AAC530496");
 
                 entity.Property(e => e.AddOns)
                     .HasMaxLength(1000)
@@ -1925,27 +2154,25 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.HasKey(e => e.ShipmentId);
 
-                entity.Property(e => e.OrderNumber)
-                 .HasMaxLength(20)
-                    .IsUnicode(false);
-
-          
-                entity.Property(e => e.OrderType).HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.ActualWeight).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.BillableWeight).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.WeightUOM)
-                 .HasMaxLength(20)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.CodAmount).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.Duty).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.OrderNumber)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.OrderType)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.ShipmentDate).HasColumnType("datetime");
 
@@ -1961,6 +2188,12 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.VendorShippingCost).HasColumnType("decimal(18, 4)");
 
+                entity.Property(e => e.WeightUom)
+                    .IsRequired()
+                    .HasColumnName("WeightUOM")
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
                 entity.HasOne(d => d.Customer)
                     .WithMany(p => p.Shipments)
                     .HasForeignKey(d => d.CustomerId)
@@ -1970,33 +2203,36 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<ShipmentsDetail>(entity =>
             {
-                entity.HasKey(e => e.ShipmentDetailId);
-
-                entity.Property(e => e.Note)
-                   .HasMaxLength(2000)
-                   .IsUnicode(false);
+                entity.HasKey(e => e.ShipmentDetailId)
+                    .HasName("PK_ShipmentDetail");
 
                 entity.Property(e => e.Amount).HasColumnType("money");
+
                 entity.Property(e => e.AmountShipped).HasColumnType("money");
-                entity.Property(e => e.UnitPrice).HasColumnType("money");
-                entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.Note).IsUnicode(false);
+
                 entity.Property(e => e.ShippedDate).HasColumnType("datetime");
 
-                entity.Property(e => e.WeightUnitOfMeasure)
-                  .HasMaxLength(50)
-                  .IsUnicode(false);
+                entity.Property(e => e.UnitPrice).HasColumnType("money");
 
                 entity.Property(e => e.Volume).HasColumnType("decimal(18, 4)");
 
                 entity.Property(e => e.VolumeUnitOfMeasure)
-                  .HasMaxLength(50)
-                  .IsUnicode(false);
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Weight).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.WeightUnitOfMeasure)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.HasOne(d => d.Item)
-                            .WithMany(p => p.ShipmentsDetail)
-                            .HasForeignKey(d => d.ItemId)
-                            .OnDelete(DeleteBehavior.ClientSetNull)
-                            .HasConstraintName("FK_ShipmentsDetail_ItemMaster");
+                    .WithMany(p => p.ShipmentsDetail)
+                    .HasForeignKey(d => d.ItemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ShipmentsDetail_ItemMaster");
 
                 entity.HasOne(d => d.Shipment)
                     .WithMany(p => p.ShipmentsDetail)
@@ -2007,7 +2243,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<ShippedToAddresses>(entity =>
             {
-                entity.HasKey(e => e.ShippedToAddressId);
+                entity.HasKey(e => e.ShippedToAddressId)
+                    .HasName("PK_ShipToAddresses");
 
                 entity.Property(e => e.ShipToAddressLine1)
                     .HasMaxLength(100)
@@ -2032,6 +2269,14 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<Supervisor>(entity =>
             {
+                entity.Property(e => e.Area)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DepartmentCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.SupervisorCode)
                     .HasMaxLength(20)
                     .IsUnicode(false);
@@ -2199,8 +2444,6 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<TaxRatesByCode>(entity =>
             {
-                entity.HasKey(e => e.TaxRatesByCodeId);
-
                 entity.Property(e => e.State)
                     .HasMaxLength(2)
                     .IsUnicode(false);
@@ -2210,12 +2453,23 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.TaxRate).HasColumnType("money");
-                entity.Property(e => e.TaxRatesByCodeNumber).HasColumnType("bigint");
             });
 
             modelBuilder.Entity<TimeAndAttendancePunchIn>(entity =>
             {
                 entity.HasKey(e => e.TimePunchinId);
+
+                entity.Property(e => e.Account)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.AreaCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.DepartmentCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.JobCode)
                     .HasMaxLength(20)
@@ -2252,6 +2506,12 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.PunchoutDateTime)
                     .HasMaxLength(14)
                     .IsUnicode(false);
+
+                entity.Property(e => e.TaskStatus)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TaskStatusXrefId).HasColumnName("TaskStatusXRefId");
 
                 entity.Property(e => e.TransferJobCode)
                     .HasMaxLength(20)
@@ -2313,53 +2573,67 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_TimeAndAttendanceSchedule_TimeAndAttendanceShift");
             });
 
-
-
-
-
             modelBuilder.Entity<TimeAndAttendanceScheduledToWork>(entity =>
-                {
-                    entity.HasKey(e => e.ScheduledToWorkId);
+            {
+                entity.HasKey(e => e.ScheduledToWorkId);
 
-                    entity.Property(e => e.EmployeeName)
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
+                entity.Property(e => e.EmployeeName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
-                    entity.Property(e => e.EndDate).HasColumnType("date");
+                entity.Property(e => e.EndDate).HasColumnType("date");
 
-                    entity.Property(e => e.EndDateTime)
-                        .HasMaxLength(20)
-                        .IsUnicode(false);
+                entity.Property(e => e.EndDateTime)
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
 
-                    entity.Property(e => e.ScheduleName)
-                        .HasMaxLength(255)
-                        .IsUnicode(false);
+                entity.Property(e => e.JobCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
-                    entity.Property(e => e.StartDate).HasColumnType("date");
+                entity.Property(e => e.PayCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
-                    entity.Property(e => e.StartDateTime)
-                        .HasMaxLength(20)
-                        .IsUnicode(false);
+                entity.Property(e => e.ScheduleName)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
-                    entity.HasOne(d => d.Shift)
-                      .WithMany(p => p.TimeAndAttendanceScheduledToWork)
-                      .HasForeignKey(d => d.ShiftId)
-                      .OnDelete(DeleteBehavior.ClientSetNull)
-                      .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceShift");
+                entity.Property(e => e.StartDate).HasColumnType("date");
 
+                entity.Property(e => e.StartDateTime)
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
 
-                    entity.HasOne(d => d.Employee)
-                        .WithMany(p => p.TimeAndAttendanceScheduledToWork)
-                        .HasForeignKey(d => d.EmployeeId)
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_Employee");
+                entity.Property(e => e.WorkedJobCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
 
-                    entity.HasOne(d => d.Schedule)
-                        .WithMany(p => p.TimeAndAttendanceScheduledToWork)
-                        .HasForeignKey(d => d.ScheduleId)
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceSchedule");
-                });
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_Employee");
+
+                entity.HasOne(d => d.Schedule)
+                    .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                    .HasForeignKey(d => d.ScheduleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceSchedule");
+
+                entity.HasOne(d => d.Shift)
+                    .WithMany(p => p.TimeAndAttendanceScheduledToWork)
+                    .HasForeignKey(d => d.ShiftId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TimeAndAttendanceScheduledToWork_TimeAndAttendanceShift");
+            });
+
+            modelBuilder.Entity<TimeAndAttendanceSetup>(entity =>
+            {
+                entity.Property(e => e.TimeZone)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
 
             modelBuilder.Entity<TimeAndAttendanceShift>(entity =>
             {
@@ -2376,7 +2650,8 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<Udc>(entity =>
             {
-                entity.HasKey(e => e.XrefId);
+                entity.HasKey(e => e.XrefId)
+                    .HasName("PK__UDC__B9604F3957BD8349");
 
                 entity.ToTable("UDC");
 
@@ -2395,9 +2670,9 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
             });
 
-            OnModelCreatingPartial(modelBuilder);
+            OnModelCreatingExt(modelBuilder);
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+        partial void OnModelCreatingExt(ModelBuilder modelBuilder);
     }
 }

@@ -1,7 +1,6 @@
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.SalesOrderDomain;
-using lssWebApi2.SalesOrderDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

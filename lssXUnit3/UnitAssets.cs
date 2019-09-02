@@ -4,7 +4,6 @@ using ERP_Core2.InventoryDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.InventoryDomain;
-using lssWebApi2.InventoryDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;

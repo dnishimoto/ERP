@@ -55,8 +55,8 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public int? ShiftStartTime { get; set; }
         public int? ShiftEndTime { get; set; }
         public string ScheduleGroup { get; set; }
-        public int DurationHours { get; set; }
-        public int DurationMinutes { get; set; }
+        public int? DurationHours { get; set; }
+        public int? DurationMinutes { get; set; }
         public bool? Monday{ get; set; }
         public bool? Tuesday { get; set; }
         public bool? Wednesday { get; set; }

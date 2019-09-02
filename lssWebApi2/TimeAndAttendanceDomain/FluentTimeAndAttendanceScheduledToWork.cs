@@ -54,15 +54,15 @@ namespace lssWebApi2.TimeAndAttendanceDomain
 
                     DateTime scheduleStartDate = scheduleView.StartDate ?? DateTime.Now;
                     DateTime currentDate = scheduleStartDate.AddDays(i);
-                    int durationHours = scheduleView.DurationHours;
-                    int durationMinutes = scheduleView.DurationMinutes;
+                    int ?durationHours = scheduleView.DurationHours??0;
+                    int ?durationMinutes = scheduleView.DurationMinutes??0;
 
                     int shiftStartTime = scheduleView.ShiftStartTime ?? 0;
                     int shiftEndTime = scheduleView.ShiftEndTime ?? 0;
 
 
                     DateTime startDate = unitOfWork.timeAndAttendanceRepository.BuildShortDate(currentDate, shiftStartTime);
-                    DateTime endDate = unitOfWork.timeAndAttendanceRepository.AddTimeShortDate(startDate, durationHours, durationMinutes);
+                    DateTime endDate = unitOfWork.timeAndAttendanceRepository.AddTimeShortDate(startDate, durationHours??0, durationMinutes??0);
 
                     string startDateTime = unitOfWork.timeAndAttendanceRepository.BuildLongDate(currentDate, shiftStartTime);
                     string endDateTime = unitOfWork.timeAndAttendanceRepository.BuildLongDate(endDate);

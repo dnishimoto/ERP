@@ -11,7 +11,6 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long MilestoneId { get; set; }
-        public long? MileStoneNumber { get; set; }
         public string MilestoneName { get; set; }
         public long? ProjectId { get; set; }
         public decimal? EstimatedHours { get; set; }
@@ -24,6 +23,7 @@ namespace lssWebApi2.EntityFramework
         public DateTime? EstimatedEndDate { get; set; }
         public decimal? Cost { get; set; }
         public string Wbs { get; set; }
+        public long? MileStoneNumber { get; set; }
 
         public virtual ProjectManagementProject Project { get; set; }
         public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }

@@ -2,6 +2,7 @@
 using ERP_Core2.AddressBookDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ProjectManagementDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +38,10 @@ namespace ERP_Core2.ProjectManagementDomain
             list.Add(woToEmployee);
             pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
 
+            long? workOrderId = woToEmployee.WorkOrderId ?? 0;
+
             IEnumerable<EmployeeView> employeeList =
-                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(woToEmployee.WorkOrderId);
+                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId??0);
             foreach (var item in employeeList)
             {
                 output.WriteLine($"{item.EmployeeName}");
@@ -143,8 +146,10 @@ namespace ERP_Core2.ProjectManagementDomain
             list.Add(woToEmployee);
             pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
 
+            long ? workOrderId2 = woToEmployee.WorkOrderId ?? 0;
+
             IEnumerable<EmployeeView> employeeList =
-                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(woToEmployee.WorkOrderId);
+                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId2??0);
             foreach (var item in employeeList)
             {
                 output.WriteLine($"{item.EmployeeName}");

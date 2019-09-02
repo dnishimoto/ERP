@@ -124,7 +124,6 @@ namespace lssWebApi2.ShipmentsDomain
                     ShippedFromLocationId = shipmentCreation.ShippedFromLocationId,
                     ShippedToLocationId = shipmentCreation.ShippedToLocationId,
                     TrackingNumber = shipmentCreation.TrackingNumber,
-                    WeightUOM = shipmentCreation.WeightUOM,
                     ShipmentDate = DateTime.Now,
                     CarrierId = shipmentCreation.CarrierId,
                     SalesOrderId = shipmentCreation.SalesOrderId

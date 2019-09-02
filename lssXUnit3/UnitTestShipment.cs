@@ -1,16 +1,15 @@
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.ShipmentsDomain;
-using lssWebApi2.ShipmentsDomain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using System.Linq;
-using lssWebApi2.SalesOrderDomain.Repository;
 using lssWebApi2.SalesOrderDomain;
 using lssWebApi2.AbstractFactory;
+using ERP_Core2.TaxRatesByCodeDomain;
 
 /*
  
@@ -141,7 +140,7 @@ namespace lssXUnit3
                 var newItem = new ItemsAdjustedQuantityShippedStruct() {
                     SalesOrderDetailId = item.SalesOrderDetailId,
                     AdjustedQuantityShipped = item.Quantity ?? 0,
-                    AdjustedAmountShipped=item.Amount??0
+                    AdjustedAmountShipped=item.Amount
                 };
                 shipmentCreation.ItemsAdjustedQuantityShipped.Add(newItem);
             }
@@ -154,9 +153,11 @@ namespace lssXUnit3
           
             newShipments =await ShipmentsMod.Shipments.Query().CalculatedAmountsByDetails(newShipments,newShipmentsDetails);
 
+            TaxRatesByCodeView lookupTaxesByCode = await ShipmentsMod.TaxRatesByCode.Query().GetViewByCode(TypeofTaxRatesByCode.StateTaxUT.ToString());
 
-            //TODO Calculate the amount, duty, taxes, shipping cost
-            //decimal taxes = await ShipmentsMod.Shipments.Query().CalculateTaxes(newShipments);
+            newShipments.Tax = newShipments.Amount * lookupTaxesByCode.TaxRate;
+
+            //TODO Calculate the codCost, duty, shipping cost
             //decimal shippingCost = await ShipmentsMod.Shipments.Query().CalculateShippingCost(newShipments);
             //decimal codCost=await ShipmentsMod.Shipments.Query().CalculateCodCost(newShipments);
             //decimal duty=await ShipmentsMod.Shipments.Query().CalculateDuty(newShipments);
