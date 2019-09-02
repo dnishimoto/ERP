@@ -9,6 +9,10 @@
     [Branch]              VARCHAR (50)    NULL,
     [Weight]              DECIMAL (18, 4) NULL,
     [WeightUnitOfMeasure] VARCHAR (50)    NULL,
+    [Volume]              DECIMAL (18, 4) NULL,
+    [VolumeUnitOfMeasure] VARCHAR (50)    NULL,
     CONSTRAINT [PK_ItemMaster] PRIMARY KEY CLUSTERED ([ItemId] ASC)
 );
+
+
 
