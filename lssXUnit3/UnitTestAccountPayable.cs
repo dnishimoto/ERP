@@ -12,7 +12,6 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 using ERP_Core2.PurchaseOrderDomain;
-using static ERP_Core2.PurchaseOrderDomain.PurchaseOrderRepository;
 using ERP_Core2.AccountsPayableDomain;
 using ERP_Core2.PackingSlipDomain;
 using ERP_Core2.SupplierInvoicesDomain;

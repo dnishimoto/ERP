@@ -17,6 +17,8 @@ namespace lssWebApi2.EntityFramework
         public long? JobTitleXrefId { get; set; }
         public long? ParentSupervisorId { get; set; }
         public bool? IsActive { get; set; }
+        public string Area { get; set; }
+        public string DepartmentCode { get; set; }
 
         public virtual AddressBook Address { get; set; }
         public virtual Udc JobTitleXref { get; set; }

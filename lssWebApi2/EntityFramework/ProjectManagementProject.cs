@@ -9,7 +9,7 @@ namespace lssWebApi2.EntityFramework
         {
             ProjectManagementMilestones = new HashSet<ProjectManagementMilestones>();
             ProjectManagementTask = new HashSet<ProjectManagementTask>();
-            ProjectManagementWorkOrders = new HashSet<ProjectManagementWorkOrder>();
+            ProjectManagementWorkOrder = new HashSet<ProjectManagementWorkOrder>();
         }
 
         public long ProjectId { get; set; }
@@ -31,7 +31,7 @@ namespace lssWebApi2.EntityFramework
 
         public virtual ICollection<ProjectManagementMilestones> ProjectManagementMilestones { get; set; }
         public virtual ICollection<ProjectManagementTask> ProjectManagementTask { get; set; }
-        public virtual ICollection<ProjectManagementWorkOrder> ProjectManagementWorkOrders { get; set; }
+        public virtual ICollection<ProjectManagementWorkOrder> ProjectManagementWorkOrder { get; set; }
 
     }
 }

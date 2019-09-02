@@ -30,7 +30,13 @@ namespace ERP_Core2.TaxRatesByCodeDomain
         {
             return await _dbContext.FindAsync<TaxRatesByCode>(TaxRatesByCodeId);
         }
-
+        public async Task<TaxRatesByCode> GetEntityByCode(string taxCode)
+        {
+            var query = await (from detail in _dbContext.TaxRatesByCode
+                               where detail.TaxCode == taxCode
+                               select detail).FirstOrDefaultAsync<TaxRatesByCode>();
+            return query;
+        }
         public async Task<TaxRatesByCode> GetEntityByNumber(long TaxRatesByCodeNumber)
         {
             var query = await (from detail in _dbContext.TaxRatesByCode

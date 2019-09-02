@@ -34,7 +34,7 @@ namespace lssWebApi2.Controllers
                 ProjectManagementModule pmMod = new ProjectManagementModule();
                 if (list.Count()>0)
                 {
-                    long workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
+                    //long ? workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
                     pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
                 }
                 return Ok(true);
@@ -111,11 +111,11 @@ namespace lssWebApi2.Controllers
 
             if (list.Count()>0)
             {
-                long workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
+                long ? workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
                 pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
 
                 IEnumerable<EmployeeView> query =
-                    await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId);
+                    await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId??0);
 
                 retList = new List<EmployeeView>(query);
 

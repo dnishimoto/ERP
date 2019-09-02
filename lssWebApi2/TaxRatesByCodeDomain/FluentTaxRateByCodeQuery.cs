@@ -1,6 +1,7 @@
 using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -45,7 +46,7 @@ namespace ERP_Core2.TaxRatesByCodeDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.taxRatesByCodeRepository.GetNextNumber("TaxRatesByCodeNumber");
+            return await _unitOfWork.taxRatesByCodeRepository.GetNextNumber(TypeOfNextNumberEnum.TaxRatesByCodeNumber.ToString());
         }
         public async Task<TaxRatesByCodeView> GetViewById(long TaxRatesByCodeId)
         {
@@ -56,6 +57,13 @@ namespace ERP_Core2.TaxRatesByCodeDomain
         public async Task<TaxRatesByCodeView> GetViewByNumber(long taxRatesByCodeNumber)
         {
             TaxRatesByCode detailItem = await _unitOfWork.taxRatesByCodeRepository.GetEntityByNumber(taxRatesByCodeNumber);
+
+            return await MapToView(detailItem);
+        }
+
+        public async Task<TaxRatesByCodeView> GetViewByCode(string code)
+        {
+            TaxRatesByCode detailItem = await _unitOfWork.taxRatesByCodeRepository.GetEntityByCode(code);
 
             return await MapToView(detailItem);
         }

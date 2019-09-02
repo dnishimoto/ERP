@@ -166,5 +166,20 @@
     <Build Include="dbo\User Defined Types\AccountRegistrationTableType.sql" />
     <Build Include="dbo\Tables\WorkFlow.sql" />
     <Build Include="dbo\Views\CarrierView.sql" />
+    <Build Include="dbo\Tables\PayRollW4.sql" />
+    <Build Include="dbo\Tables\PayRollTransactionTypes.sql" />
+    <Build Include="dbo\Tables\PayRollTransactionsByEmployee.sql" />
+    <Build Include="dbo\Tables\PayRollTransactionControl.sql" />
+    <Build Include="dbo\Tables\PayRollTotals.sql" />
+    <Build Include="dbo\Tables\PayRollPaySequence.sql" />
+    <Build Include="dbo\Tables\PayRollLedger.sql" />
+    <Build Include="dbo\Tables\PayRollInsurance.sql" />
+    <Build Include="dbo\Tables\PayRollGroup.sql" />
+    <Build Include="dbo\Tables\PayRollEmployeeSequence.sql" />
+    <Build Include="dbo\Tables\PayRollEmployeeBenefit.sql" />
+    <Build Include="dbo\Tables\PayRollEarnings.sql" />
+    <Build Include="dbo\Tables\PayRollDeductionLiabilities.sql" />
+    <Build Include="dbo\Tables\HumanResourcesSalary.sql" />
+    <Build Include="dbo\Tables\Equipment.sql" />
   </ItemGroup>
 </Project>

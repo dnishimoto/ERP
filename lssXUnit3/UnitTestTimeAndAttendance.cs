@@ -1,7 +1,6 @@
 ﻿using ERP_Core2.AddressBookDomain;
 
 using ERP_Core2.TimeAndAttendanceDomain;
-using ERP_Core2.TimeAndAttendanceDomain.Repository;
 using ERP_Core2.ScheduleEventsDomain;
 using ERP_Core2.Services;
 using System;
@@ -19,6 +18,7 @@ using System.Collections;
 using System.Linq.Expressions;
 using lssWebApi2.Enumerations;
 using X.PagedList;
+using lssWebApi2.TimeAndAttendanceDomain;
 
 namespace ERP_Core2.TimeAndAttendenceDomain
 {

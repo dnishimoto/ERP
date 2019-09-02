@@ -11,7 +11,6 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long TaskId { get; set; }
-        public long? TaskNumber { get; set; }
         public string Wbs { get; set; }
         public string TaskName { get; set; }
         public string Description { get; set; }
@@ -30,7 +29,7 @@ namespace lssWebApi2.EntityFramework
         public long ProjectId { get; set; }
         public string AccountNumber { get; set; }
         public long? WorkOrderId { get; set; }
-
+        public long? TaskNumber { get; set; }
 
         public virtual ProjectManagementMilestones MileStone { get; set; }
         public virtual ProjectManagementProject Project { get; set; }

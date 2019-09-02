@@ -11,7 +11,10 @@ namespace ERP_Core2.TaxRatesByCodeDomain
 
         Task<TaxRatesByCodeView> MapToView(TaxRatesByCode inputObject);
         Task<NextNumber> GetNextNumber();
-        Task<TaxRatesByCodeView> GetViewById(long TaxRatesByCodeId);
-        Task<TaxRatesByCodeView> GetViewByNumber(long TaxRatesByCodeNumber);
+        Task<TaxRatesByCodeView> GetViewById(long taxRatesByCodeId);
+        Task<TaxRatesByCodeView> GetViewByNumber(long taxRatesByCodeNumber);
+        Task<TaxRatesByCodeView> GetViewByCode(string code);
+        Task<TaxRatesByCode> GetEntityById(long taxRatesByCodeId);
+        Task<TaxRatesByCode> GetEntityByNumber(long taxRatesByCodeNumber);
     }
 }

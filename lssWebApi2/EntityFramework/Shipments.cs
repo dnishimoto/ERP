@@ -11,7 +11,6 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long ShipmentId { get; set; }
-        public long ShipmentNumber { get; set; }
         public DateTime? ShipmentDate { get; set; }
         public long CustomerId { get; set; }
         public long CarrierId { get; set; }
@@ -31,8 +30,9 @@ namespace lssWebApi2.EntityFramework
         public decimal? VendorHandlingCost { get; set; }
         public string OrderNumber { get; set; }
         public string OrderType { get; set; }
-        public string WeightUOM { get; set; }
+        public string WeightUom { get; set; }
         public long? SalesOrderId { get; set; }
+        public long ShipmentNumber { get; set; }
 
         public virtual Customer Customer { get; set; }
         public virtual ICollection<ShipmentsDetail> ShipmentsDetail { get; set; }

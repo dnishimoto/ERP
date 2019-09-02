@@ -6,7 +6,6 @@ namespace lssWebApi2.EntityFramework
     public partial class Assets
     {
         public long AssetId { get; set; }
-        public long AssetNumber { get; set; }
         public string AssetCode { get; set; }
         public string TagCode { get; set; }
         public string ClassCode { get; set; }
@@ -25,6 +24,7 @@ namespace lssWebApi2.EntityFramework
         public string GenericLocationLevel1 { get; set; }
         public string GenericLocationLevel2 { get; set; }
         public string GenericLocationLevel3 { get; set; }
+        public long AssetNumber { get; set; }
 
         public virtual Udc EquipmentStatusXref { get; set; }
 

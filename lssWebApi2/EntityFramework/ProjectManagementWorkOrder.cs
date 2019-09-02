@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace lssWebApi2.EntityFramework
 {
@@ -13,7 +11,6 @@ namespace lssWebApi2.EntityFramework
         }
 
         public long WorkOrderId { get; set; }
-        public long? WorkOrderNumber { get; set; }
         public string Description { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -26,10 +23,10 @@ namespace lssWebApi2.EntityFramework
         public long ProjectId { get; set; }
         public string Status { get; set; }
         public string Location { get; set; }
+        public long? WorkOrderNumber { get; set; }
 
         public virtual ProjectManagementProject Project { get; set; }
         public virtual ICollection<ProjectManagementWorkOrderToEmployee> ProjectManagementWorkOrderToEmployee { get; set; }
-        
 
     }
 }

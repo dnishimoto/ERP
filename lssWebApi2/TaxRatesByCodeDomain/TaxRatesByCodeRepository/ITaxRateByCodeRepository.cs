@@ -8,6 +8,7 @@ namespace ERP_Core2.TaxRatesByCodeDomain
     {
         Task<TaxRatesByCode> GetEntityById(long _TaxRatesByCodeId);
         Task<TaxRatesByCode> GetEntityByNumber(long TaxRatesByCodeNumber);
+        Task<TaxRatesByCode> GetEntityByCode(string taxCode);
 
     }
 }
