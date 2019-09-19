@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "lssAngular3", "..\lssAngula
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "lssDatabase", "lssDatabase\lssDatabase.sqlproj", "{46DB8E61-F5F7-41DD-BBAC-1C441A707F15}"
 EndProject
+Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "PowerShellProject", "..\PowerShellProject\PowerShellProject\PowerShellProject.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,12 @@ Global
 		{46DB8E61-F5F7-41DD-BBAC-1C441A707F15}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{46DB8E61-F5F7-41DD-BBAC-1C441A707F15}.Release|Any CPU.Build.0 = Release|Any CPU
 		{46DB8E61-F5F7-41DD-BBAC-1C441A707F15}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

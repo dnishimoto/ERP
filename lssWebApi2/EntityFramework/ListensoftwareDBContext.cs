@@ -6,40 +6,8 @@ using Microsoft.Extensions.Configuration;
 
 namespace lssWebApi2.EntityFramework
 {
-
     public partial class ListensoftwaredbContext : DbContext
     {
-        public ListensoftwaredbContext()
-
-        {
-
-        }
-
-        public ListensoftwaredbContext(DbContextOptions<ListensoftwaredbContext> options)
-
-            : base(options)
-
-        {
-
-        }
-
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var directoryPath = Directory.GetCurrentDirectory();
-
-                IConfigurationRoot configuration = new ConfigurationBuilder()
-                       .SetBasePath(directoryPath)
-                       .AddJsonFile("appsettings.json")
-                       .Build();
-                var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
-                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
-
-            }
-        }
-
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AcctPay> AcctPay { get; set; }
         public virtual DbSet<AcctRec> AcctRec { get; set; }
@@ -70,7 +38,9 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<Emails> Emails { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<Equations> Equations { get; set; }
+        public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedger { get; set; }
+        public virtual DbSet<HumanResourcesSalary> HumanResourcesSalary { get; set; }
         public virtual DbSet<Inventory> Inventory { get; set; }
         public virtual DbSet<Invoice> Invoice { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetail { get; set; }
@@ -124,8 +94,35 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<TimeAndAttendanceSetup> TimeAndAttendanceSetup { get; set; }
         public virtual DbSet<TimeAndAttendanceShift> TimeAndAttendanceShift { get; set; }
         public virtual DbSet<Udc> Udc { get; set; }
+        public ListensoftwaredbContext()
 
-      
+        {
+
+        }
+
+        public ListensoftwaredbContext(DbContextOptions<ListensoftwaredbContext> options)
+
+            : base(options)
+
+        {
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                var directoryPath = Directory.GetCurrentDirectory();
+
+                IConfigurationRoot configuration = new ConfigurationBuilder()
+                       .SetBasePath(directoryPath)
+                       .AddJsonFile("appsettings.json")
+                       .Build();
+                var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
+                optionsBuilder.UseLazyLoadingProxies().UseSqlServer(connectionString);
+
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -1066,6 +1063,54 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
             });
 
+            modelBuilder.Entity<Equipment>(entity =>
+            {
+                entity.Property(e => e.Category1)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Category2)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Category3)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CurrentAppraisalPrice).HasColumnType("money");
+
+                entity.Property(e => e.Description).IsUnicode(false);
+
+                entity.Property(e => e.LocationCity)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.LocationState)
+                    .HasMaxLength(2)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Make)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Model)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PurchasePrice).HasColumnType("money");
+
+                entity.Property(e => e.SaleOption)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.SalesPrice).HasColumnType("money");
+
+                entity.Property(e => e.Vin)
+                    .HasColumnName("VIN")
+                    .HasMaxLength(200)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<GeneralLedger>(entity =>
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
@@ -1115,6 +1160,15 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.AddressId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_GeneralLedger_AddressBook");
+            });
+
+            modelBuilder.Entity<HumanResourcesSalary>(entity =>
+            {
+                entity.Property(e => e.AnnualizedSalary).HasColumnType("money");
+
+                entity.Property(e => e.EffectiveDate).HasColumnType("date");
+
+                entity.Property(e => e.HourlyRate).HasColumnType("money");
             });
 
             modelBuilder.Entity<Inventory>(entity =>
