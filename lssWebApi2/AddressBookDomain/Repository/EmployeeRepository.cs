@@ -19,6 +19,7 @@ namespace ERP_Core2.AddressBookDomain
             this.EmployeeTitle = employee.JobTitleXref.Value;
             this.EmployeeStatus = employee.EmploymentStatusXref.Value;
             this.JobCode = employee.JobTitleXref.KeyCode;
+            this.PayRollGroupCode = employee.PayRollGroupCode;
 
 
         }
@@ -28,6 +29,7 @@ namespace ERP_Core2.AddressBookDomain
         public string EmployeeTitle { get; set; }
         public string EmployeeStatus { get; set; }
         public string JobCode { get; set; }
+        public int? PayRollGroupCode { get; set; }
     }
  
 

@@ -23,6 +23,7 @@ namespace lssWebApi2.EntityFramework
         public DateTime? HiredDate { get; set; }
         public DateTime? TerminationDate { get; set; }
         public string TaxIdentification { get; set; }
+        public int? PayRollGroupCode { get; set; }
 
         public virtual AddressBook Address { get; set; }
         public virtual Udc EmploymentStatusXref { get; set; }

@@ -30,6 +30,7 @@ using ERP_Core2.NextNumberDomain;
 using lssWebApi2.CommentDomain;
 using ERP_Core2.TaxRatesByCodeDomain;
 using lssWebApi2.SalesOrderDomain;
+using ERP_Core2.PayRollDomain;
 
 namespace ERP_Core2.Services
 {
@@ -79,6 +80,7 @@ namespace ERP_Core2.Services
         public ShipmentsDetailRepository shipmentsDetailRepository => new ShipmentsDetailRepository(db);
         public ShipmentsRepository shipmentsRepository => new ShipmentsRepository(db);
         public TaxRatesByCodeRepository taxRatesByCodeRepository => new TaxRatesByCodeRepository(db);
+        public PayRollGroupRepository payRollGroupRepository => new PayRollGroupRepository(db);
 
         public UnitOfWork()
         {
