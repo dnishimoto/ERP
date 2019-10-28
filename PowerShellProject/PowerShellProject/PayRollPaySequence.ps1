@@ -20,9 +20,10 @@ if ($result -eq $false)
 New-Item -ItemType directory -Path $path
 }
 
-$class="PayRollGroup"; ###_xx_
-$concrete="payRollGroup"; ###_yy_
+$class="PayRollPaySequence"; ###_xx_
+$concrete="payRollPaySequence"; ###_yy_
 $domain="PayRollDomain"; ##_dd_
+$modulename="PayRollPaySequence"; ###_zz_
 
 #################################################################################
 
@@ -64,6 +65,7 @@ using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
+using System;
 
 namespace ERP_Core2._dd_
 {
@@ -80,7 +82,7 @@ namespace ERP_Core2._dd_
         {
             return await _dbContext.FindAsync<_xx_>(_yy_Id);
         }
-         public async Task<_xx_> GetEntityByNumber(long_yy_Number)
+         public async Task<_xx_> GetEntityByNumber(long _yy_Number)
         {
             var query = await (from detail in _dbContext._xx_
                                where detail._xx_Number == _yy_Number
@@ -337,9 +339,9 @@ public async Task<_xx_> GetEntityById(long _yy_Id)
             return await _unitOfWork._yy_Repository.GetEntityById(_yy_Id);
 
         }
- public async Task<_xx_View> GetEntityByNumber(long _yy_Number)
+ public async Task<_xx_> GetEntityByNumber(long _yy_Number)
         {
-            return _unitOfWork._yy_Repository.GetEntityByNumber(_yy_Number);
+            return await _unitOfWork._yy_Repository.GetEntityByNumber(_yy_Number);
         }
 }
 }
@@ -377,7 +379,8 @@ public interface IFluent_xx_Query
     
         Task<_xx_View> MapToView(_xx_ inputObject);
         Task<NextNumber> GetNextNumber();
-	Task_xx_> GetEntityById(long _yy_Id);
+	Task<_xx_> GetEntityById(long _yy_Id);
+	  Task<_xx_> GetEntityByNumber(long _yy_Number);
 	Task<_xx_View> GetViewById(long _yy_Id);
 	Task<_xx_View> GetViewByNumber(long _yy_Number);
 }
@@ -551,7 +554,7 @@ namespace ERP_Core2._dd_
 
         private readonly ITestOutputHelper output;
 
-        public Uni_xx_(ITestOutputHelper output)
+        public Unit_xx_(ITestOutputHelper output)
         {
             this.output = output;
         }
@@ -566,13 +569,13 @@ namespace ERP_Core2._dd_
                     _xx_Code=99
 
             };
-            NextNumber nnNextNumber = await _xx_Mod._xx_Query().GetNextNumber();
+            NextNumber nnNextNumber = await _xx_Mod._xx_.Query().GetNextNumber();
 
             view._xx_Number = nnNextNumber.NextNumberValue;
 
             _xx_ _yy_ = await _xx_Mod._xx_.Query().MapToEntity(view);
 
-            _xx_Mod.PayRollGroup.Add_xx_(_yy_).Apply();
+            _xx_Mod._zz_.Add_xx_(_yy_).Apply();
 
             _xx_ new_xx_ = await _xx_Mod._xx_.Query().GetEntityByNumber(view._xx_Number);
 
@@ -580,19 +583,15 @@ namespace ERP_Core2._dd_
 
             new_xx_.Description = '_xx_ Test Update';
 
-            _xx_Mod.PayRollGroup.Update_xx_(new_xx_).Apply();
+            _xx_Mod._zz_.Update_xx_(new_xx_).Apply();
 
-            _xx_View updateView = await _xx_Mod_xx_.Query().GetViewById(new_xx_._xx_Id);
+            _xx_View updateView = await _xx_Mod._xx_.Query().GetViewById(new_xx_._xx_Id);
 
             Assert.Same(updateView.Description, '_xx_ Test Update');
             int code = 99;
            
 
-           _xx_View lookupByCode = await _xx_Mod._xx_.Query().GetViewByCode(code);
-
-            Assert.NotNull(lookupByCode);
-
-            _xx_Mod._xx_.Delete_xx_(new_xx_).Apply();
+                   _xx_Mod._zz_.Delete_xx_(new_xx_).Apply();
             _xx_ lookup_xx_= await _xx_Mod._xx_.Query().GetEntityById(view._xx_Id);
 
             Assert.Null(lookup_xx_);
@@ -607,6 +606,7 @@ namespace ERP_Core2._dd_
 $content9=$content9 -replace "_xx_", $class
 $content9=$content9 -replace "_yy_", $concrete
 $content9=$content9 -replace "_dd_", $domain
+$content9=$content9 -replace "_zz_", $module_name
 
 $fileName9="Unit_xx_.cs"
 $fileName9=$fileName9 -replace "_xx_", $class

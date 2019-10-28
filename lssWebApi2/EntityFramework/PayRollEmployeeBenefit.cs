@@ -12,6 +12,7 @@ namespace lssWebApi2.EntityFramework
         public long TransactionCode { get; set; }
         public decimal? Percentage { get; set; }
         public string Frequency { get; set; }
+        public int? BenefitOption { get; set; }
 
     }
 }

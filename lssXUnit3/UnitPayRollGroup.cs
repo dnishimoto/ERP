@@ -1,13 +1,7 @@
 ﻿
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.InventoryDomain;
-using ERP_Core2.Services;
-using ERP_Core2.TaxRatesByCodeDomain;
-using lssWebApi2.CommentDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.PayRollDomain;
-using lssWebApi2.TaxRatesByCodeDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
