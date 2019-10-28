@@ -81,6 +81,7 @@ namespace ERP_Core2.Services
         public ShipmentsRepository shipmentsRepository => new ShipmentsRepository(db);
         public TaxRatesByCodeRepository taxRatesByCodeRepository => new TaxRatesByCodeRepository(db);
         public PayRollGroupRepository payRollGroupRepository => new PayRollGroupRepository(db);
+        public PayRollPaySequenceRepository payRollPaySequenceRepository => new PayRollPaySequenceRepository(db);
 
         public UnitOfWork()
         {

@@ -12,6 +12,8 @@ namespace lssWebApi2.EntityFramework
         public decimal? RateAmount { get; set; }
         public string RateType { get; set; }
         public int PayRollTransactionCode { get; set; }
+        public decimal? UpperLimit1 { get; set; }
+        public decimal? UpperLimit2 { get; set; }
 
     }
 }

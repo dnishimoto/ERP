@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace lssWebApi2.PayRollDomain
 {
-    public class _xx_Module : AbstractModule
+    public class PayRollPaySequenceModule : AbstractModule
     {
-        public Fluent_xx_ _xx_ = new Fluent_xx_();
+        public FluentPayRollPaySequence PayRollPaySequence = new FluentPayRollPaySequence();
     }
 }

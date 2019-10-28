@@ -7,6 +7,9 @@
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
     <Name>PowerShellProject</Name>
+    <PackageEntryPoint>PayrollTransactionControl.ps1</PackageEntryPoint>
+    <DotNetVersion>v4.7.2</DotNetVersion>
+    <PackageType>Console</PackageType>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,6 +29,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="PayRollPaySequence.ps1" />
     <Compile Include="PowerShellProject.ps1" />
     <Compile Include="repo_extract.ps1" />
     <Compile Include="template_comment.ps1" />
