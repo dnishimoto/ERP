@@ -6,6 +6,7 @@ namespace ERP_Core2.PayRollDomain
 public interface IPayRollPaySequenceRepository
     {
         Task<PayRollPaySequence> GetEntityById(long _payRollPaySequenceId);
-        long GetMaxSequenceNumber();
+        long GetMaxPaySequenceByGroupCode(long payRollGroupCode);
+        Task<PayRollPaySequence> GetCurrentPaySequenceByGroupCode(long payRollGroupCode);
     }
 }

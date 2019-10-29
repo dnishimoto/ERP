@@ -1,4 +1,4 @@
-   
+
 
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
@@ -20,34 +20,44 @@ namespace ERP_Core2.PayRollDomain
         public long PayRollPaySequenceNumber { get; set; }
 
     }
-    public class PayRollPaySequenceRepository: Repository<PayRollPaySequence>, IPayRollPaySequenceRepository
+    public class PayRollPaySequenceRepository : Repository<PayRollPaySequence>, IPayRollPaySequenceRepository
     {
         ListensoftwaredbContext _dbContext;
         public PayRollPaySequenceRepository(DbContext db) : base(db)
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
-    
- 
-  public async Task<PayRollPaySequence>GetEntityById(long payRollPaySequenceId)
+
+
+        public async Task<PayRollPaySequence> GetEntityById(long payRollPaySequenceId)
         {
             return await _dbContext.FindAsync<PayRollPaySequence>(payRollPaySequenceId);
         }
-  public async Task<PayRollPaySequence> GetEntityByNumber(long payRollPaySequenceNumber)
+        public async Task<PayRollPaySequence> GetEntityByNumber(long payRollPaySequenceNumber)
         {
             var query = await (from detail in _dbContext.PayRollPaySequence
                                where detail.PayRollPaySequenceNumber == payRollPaySequenceNumber
                                select detail).FirstOrDefaultAsync<PayRollPaySequence>();
             return query;
         }
-        public long GetMaxSequenceNumber()
+        public long GetMaxPaySequenceByGroupCode(long payRollGroupCode)
         {
-            var query= (from u in _dbContext.PayRollPaySequence
-             orderby u.PaySequence descending
-             select u.PaySequence).Take(1);
+            var query = (from u in _dbContext.PayRollPaySequence
+                         where u.PayRollGroupCode == payRollGroupCode
+                         orderby u.PaySequence descending
+                         select u.PaySequence).Take(1);
 
             return query.FirstOrDefault();
-            
+
         }
-  }
+        public async Task<PayRollPaySequence> GetCurrentPaySequenceByGroupCode(long payRollGroupCode)
+        {
+            var query = await (from u in _dbContext.PayRollPaySequence
+                               where u.PayRollGroupCode == payRollGroupCode
+                               orderby u.PaySequence descending
+                               select u).Take(1).FirstOrDefaultAsync<PayRollPaySequence>();
+
+            return query;
+        }
+    }
 }

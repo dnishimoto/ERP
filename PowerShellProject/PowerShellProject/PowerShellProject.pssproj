@@ -30,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="PayRollPaySequence.ps1" />
+    <Compile Include="PayRollTotals.ps1" />
     <Compile Include="PowerShellProject.ps1" />
     <Compile Include="repo_extract.ps1" />
     <Compile Include="template_comment.ps1" />

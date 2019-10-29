@@ -46,7 +46,7 @@ namespace ERP_Core2.PayRollDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.payRollPaySequenceRepository.GetNextNumber("PayRollPaySequenceNumber");
+            return await _unitOfWork.payRollPaySequenceRepository.GetNextNumber(TypeOfPayRoll.PayRollPaySequenceNumber.ToString());
         }
         public async Task<PayRollPaySequenceView> GetViewById(long payRollPaySequenceId)
         {
@@ -70,9 +70,15 @@ namespace ERP_Core2.PayRollDomain
         {
             return await _unitOfWork.payRollPaySequenceRepository.GetEntityByNumber(payRollPaySequenceNumber);
         }
-        public long GetMaxSequenceNumber()
+        public long GetMaxPaySequenceByGroupCode(long payRollGroupCode)
         {
-            return  _unitOfWork.payRollPaySequenceRepository.GetMaxSequenceNumber();
+            return _unitOfWork.payRollPaySequenceRepository.GetMaxPaySequenceByGroupCode(payRollGroupCode);
+        }
+        public async Task<PayRollPaySequenceView> GetCurrentPaySequenceByGroupCode(long payRollGroupCode)
+        {
+            var results = await _unitOfWork.payRollPaySequenceRepository.GetCurrentPaySequenceByGroupCode(payRollGroupCode);
+
+            return await MapToView(results);
         }
     }
 }
