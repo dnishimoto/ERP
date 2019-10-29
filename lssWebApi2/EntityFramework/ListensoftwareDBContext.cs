@@ -1619,6 +1619,9 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
 
+                entity.Property(e => e.PayRollBeginDate).HasColumnType("datetime");
+                entity.Property(e => e.PayRollEndDate).HasColumnType("datetime");
+
                 entity.Property(e => e.DeductionLiabilitiesType)
                     .HasMaxLength(10)
                     .IsUnicode(false);

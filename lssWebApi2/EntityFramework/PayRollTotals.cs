@@ -14,6 +14,9 @@ namespace lssWebApi2.EntityFramework
         public decimal? Amount { get; set; }
         public int PayRollGroupCode { get; set; }
         public long PaySeqence { get; set; }
+        public DateTime PayRollBeginDate { get; set; }
+        public DateTime PayRollEndDate { get; set; }
+        public long PayRollTotalsNumber { get; set; }
 
     }
 }

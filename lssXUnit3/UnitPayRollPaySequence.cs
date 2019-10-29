@@ -25,16 +25,16 @@ namespace ERP_Core2.PayRollDomain
         public async Task TestAddUpdatDelete()
         {
             PayRollPaySequenceModule PayRollPaySequenceMod = new PayRollPaySequenceModule();
-
+            int payRollGroupCode = 1;
            PayRollPaySequenceView view = new PayRollPaySequenceView()
             {
                    PayRollBeginDate = DateTime.Parse("9/9/2019")
                    ,PayRollEndDate= DateTime.Parse("9/13/2019")
-                   ,PayRollGroupCode = 1
+                   ,PayRollGroupCode =  payRollGroupCode
                    ,Frequency="Bi-Weekly"
 
             };
-            long maxSequencenumber = PayRollPaySequenceMod.PayRollPaySequence.Query().GetMaxSequenceNumber();
+            long maxSequencenumber = PayRollPaySequenceMod.PayRollPaySequence.Query().GetMaxPaySequenceByGroupCode(payRollGroupCode);
 
             view.PaySequence = maxSequencenumber + 1;
 
