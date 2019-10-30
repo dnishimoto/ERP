@@ -8,8 +8,8 @@ namespace lssWebApi2.Enumerations
     public enum TypeOfPayRoll
     {
         PayRollTotalsNumber,
-        PayRollPaySequenceNumber
-
+        PayRollPaySequenceNumber,
+        PayRollTransactionTypesNumber,
+        PayRollTransactionControlNumber
     }
-
 }

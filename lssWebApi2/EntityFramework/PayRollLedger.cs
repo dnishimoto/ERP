@@ -7,7 +7,7 @@ namespace lssWebApi2.EntityFramework
     {
         public long PayrollLedgerId { get; set; }
         public long EmployeeId { get; set; }
-        public long TransactionCode { get; set; }
+        public long PayRollTransactionCode { get; set; }
         public string PayRollType { get; set; }
         public decimal Amount { get; set; }
         public DateTime PaidDate { get; set; }
