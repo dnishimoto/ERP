@@ -1656,7 +1656,7 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<PayRollTransactionTypes>(entity =>
             {
-                entity.HasKey(e => e.PayRollTransactionId)
+                entity.HasKey(e => e.PayRollTransactionTypesId)
                     .HasName("PK_PayRollTransactionControl");
 
                 entity.Property(e => e.Description)

@@ -83,6 +83,8 @@ namespace ERP_Core2.Services
         public PayRollGroupRepository payRollGroupRepository => new PayRollGroupRepository(db);
         public PayRollPaySequenceRepository payRollPaySequenceRepository => new PayRollPaySequenceRepository(db);
         public PayRollTotalsRepository payRollTotalsRepository => new PayRollTotalsRepository(db);
+        public PayRollTransactionTypesRepository payRollTransactionTypesRepository => new PayRollTransactionTypesRepository(db);
+        public PayRollTransactionControlRepository payRollTransactionControlRepository => new PayRollTransactionControlRepository(db);
         public UnitOfWork()
         {
             
