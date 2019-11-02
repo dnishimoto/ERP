@@ -3,6 +3,7 @@ using ERP_Core2.PayRollDomain;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -20,4 +21,6 @@ public interface IFluentPayRollPaySequenceQuery
     Task<PayRollPaySequenceView> GetViewByNumber(long payRollPaySequenceNumber);
     long GetMaxPaySequenceByGroupCode(long payRollGroupCode);
     Task<PayRollPaySequenceView> GetCurrentPaySequenceByGroupCode(long payRollGroupCode);
+    Task<PayRollPaySequenceView> GetByDateRangeAndCode(
+                    DateTime payRollBeginDate, DateTime payRollEndDate, int payRollGroupCode);
 }

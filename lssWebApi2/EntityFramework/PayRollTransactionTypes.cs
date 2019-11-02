@@ -9,5 +9,6 @@ namespace lssWebApi2.EntityFramework
         public int PayRollTranactionCode { get; set; }
         public string Description { get; set; }
         public long PayRollTransactionTypesNumber { get; set; }
+
     }
 }

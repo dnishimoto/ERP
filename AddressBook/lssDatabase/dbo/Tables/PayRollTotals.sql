@@ -8,6 +8,11 @@
     [Amount]                   MONEY        NULL,
     [PayRollGroupCode]         INT          NOT NULL,
     [PaySeqence]               BIGINT       NOT NULL,
+    [PayRollBeginDate]         DATE         NOT NULL,
+    [PayRollEndDate]           DATE         NOT NULL,
+    [PayRollTotalsNumber]      BIGINT       NOT NULL,
     CONSTRAINT [PK_PayRollTotals] PRIMARY KEY CLUSTERED ([PayRollTotalsId] ASC)
 );
+
+
 

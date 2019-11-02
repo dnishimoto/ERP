@@ -6,6 +6,9 @@
     [TransactionCode]           BIGINT       NOT NULL,
     [Percentage]                MONEY        NULL,
     [Frequency]                 VARCHAR (50) NOT NULL,
+    [BenefitOption]             INT          NULL,
     CONSTRAINT [PK_PayRollEmployeeBenefit] PRIMARY KEY CLUSTERED ([PayrollEmployeeBenefitsId] ASC)
 );
+
+
 
