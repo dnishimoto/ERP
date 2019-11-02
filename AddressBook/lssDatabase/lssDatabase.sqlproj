@@ -181,5 +181,10 @@
     <Build Include="dbo\Tables\PayRollDeductionLiabilities.sql" />
     <Build Include="dbo\Tables\HumanResourcesSalary.sql" />
     <Build Include="dbo\Tables\Equipment.sql" />
+    <Build Include="dbo\Tables\PayRollEmployeeEarnings.sql" />
+    <Build Include="dbo\Tables\PayRollEmployeeDeductionLiabilities.sql" />
+    <Build Include="dbo\Tables\PayRollCurrentPaySequence.sql" />
+    <Build Include="dbo\Tables\PayRollBenefitOption.sql" />
+    <Build Include="dbo\Views\TableColumnsView.sql" />
   </ItemGroup>
 </Project>

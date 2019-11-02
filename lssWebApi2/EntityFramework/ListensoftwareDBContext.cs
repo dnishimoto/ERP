@@ -51,13 +51,13 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<PackingSlip> PackingSlip { get; set; }
         public virtual DbSet<PackingSlipDetail> PackingSlipDetail { get; set; }
         public virtual DbSet<PayRollBenefitOption> PayRollBenefitOption { get; set; }
+        public virtual DbSet<PayRollCurrentPaySequence> PayRollCurrentPaySequence { get; set; }
         public virtual DbSet<PayRollDeductionLiabilities> PayRollDeductionLiabilities { get; set; }
         public virtual DbSet<PayRollEarnings> PayRollEarnings { get; set; }
         public virtual DbSet<PayRollEmployeeBenefit> PayRollEmployeeBenefit { get; set; }
         public virtual DbSet<PayRollEmployeeDeductionLiabilities> PayRollEmployeeDeductionLiabilities { get; set; }
         public virtual DbSet<PayRollEmployeeEarnings> PayRollEmployeeEarnings { get; set; }
         public virtual DbSet<PayRollEmployeeSequence> PayRollEmployeeSequence { get; set; }
-        public virtual DbSet<PayRollEmployeeTransactions> PayRollEmployeeTransactions { get; set; }
         public virtual DbSet<PayRollGroup> PayRollGroup { get; set; }
         public virtual DbSet<PayRollInsurance> PayRollInsurance { get; set; }
         public virtual DbSet<PayRollLedger> PayRollLedger { get; set; }
@@ -65,6 +65,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<PayRollTotals> PayRollTotals { get; set; }
         public virtual DbSet<PayRollTransactionControl> PayRollTransactionControl { get; set; }
         public virtual DbSet<PayRollTransactionTypes> PayRollTransactionTypes { get; set; }
+        public virtual DbSet<PayRollTransactionsByEmployee> PayRollTransactionsByEmployee { get; set; }
         public virtual DbSet<PayRollW4> PayRollW4 { get; set; }
         public virtual DbSet<Phones> Phones { get; set; }
         public virtual DbSet<Poquote> Poquote { get; set; }
@@ -1382,7 +1383,7 @@ namespace lssWebApi2.EntityFramework
             modelBuilder.Entity<NextNumber>(entity =>
             {
                 entity.Property(e => e.NextNumberName)
-                    .HasMaxLength(30)
+                    .HasMaxLength(255)
                     .IsUnicode(false);
 
                 entity.Property(e => e.NextNumberValue).HasDefaultValueSql("((1))");
@@ -1444,6 +1445,18 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.PayRollBenefitOption1).HasColumnName("PayRollBenefitOption");
+            });
+
+            modelBuilder.Entity<PayRollCurrentPaySequence>(entity =>
+            {
+                entity.Property(e => e.Frequency)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PayRollBeginDate).HasColumnType("date");
+
+                entity.Property(e => e.PayRollEndDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<PayRollDeductionLiabilities>(entity =>
@@ -1542,18 +1555,6 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.PayRollEndDate).HasColumnType("date");
             });
 
-            modelBuilder.Entity<PayRollEmployeeTransactions>(entity =>
-            {
-                entity.HasKey(e => e.PayRollTransactionsByEmployeeId)
-                    .HasName("PK_PayRollTransactionsByEmployee");
-
-                entity.Property(e => e.AdditionalAmount).HasColumnType("money");
-
-                entity.Property(e => e.Amount).HasColumnType("money");
-
-                entity.Property(e => e.TaxPercentOfGross).HasColumnType("money");
-            });
-
             modelBuilder.Entity<PayRollGroup>(entity =>
             {
                 entity.Property(e => e.Description)
@@ -1582,7 +1583,7 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<PayRollLedger>(entity =>
             {
-                entity.Property(e => e.PayrollLedgerId).HasColumnName("PayrollLedgerID");
+                entity.Property(e => e.PayRollLedgerId).HasColumnName("PayRollLedgerID");
 
                 entity.Property(e => e.Amount).HasColumnType("money");
 
@@ -1597,14 +1598,21 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.TransactionType)
-                    .IsRequired()
-                    .HasMaxLength(50)
+                entity.Property(e => e.ReversingEntry)
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdateEntry)
+                    .HasMaxLength(1)
                     .IsUnicode(false);
             });
 
             modelBuilder.Entity<PayRollPaySequence>(entity =>
             {
+                entity.HasIndex(e => new { e.PaySequence, e.PayRollBeginDate, e.PayRollEndDate, e.PayRollGroupCode })
+                    .HasName("PayRollPaySequenceConstraint")
+                    .IsUnique();
+
                 entity.Property(e => e.Frequency)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -1619,9 +1627,6 @@ namespace lssWebApi2.EntityFramework
             {
                 entity.Property(e => e.Amount).HasColumnType("money");
 
-                entity.Property(e => e.PayRollBeginDate).HasColumnType("datetime");
-                entity.Property(e => e.PayRollEndDate).HasColumnType("datetime");
-
                 entity.Property(e => e.DeductionLiabilitiesType)
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -1629,6 +1634,10 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.EarningType)
                     .HasMaxLength(10)
                     .IsUnicode(false);
+
+                entity.Property(e => e.PayRollBeginDate).HasColumnType("date");
+
+                entity.Property(e => e.PayRollEndDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<PayRollTransactionControl>(entity =>
@@ -1656,12 +1665,23 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<PayRollTransactionTypes>(entity =>
             {
-                entity.HasKey(e => e.PayRollTransactionTypesId)
-                    .HasName("PK_PayRollTransactionControl");
-
                 entity.Property(e => e.Description)
                     .IsRequired()
+                    .HasMaxLength(255)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<PayRollTransactionsByEmployee>(entity =>
+            {
+                entity.Property(e => e.AdditionalAmount).HasColumnType("money");
+
+                entity.Property(e => e.Amount).HasColumnType("money");
+
+                entity.Property(e => e.PayRollType)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TaxPercentOfGross).HasColumnType("money");
             });
 
             modelBuilder.Entity<PayRollW4>(entity =>

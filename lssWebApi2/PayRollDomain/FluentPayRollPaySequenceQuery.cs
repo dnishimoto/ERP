@@ -2,6 +2,7 @@ using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -79,6 +80,11 @@ namespace ERP_Core2.PayRollDomain
             var results = await _unitOfWork.payRollPaySequenceRepository.GetCurrentPaySequenceByGroupCode(payRollGroupCode);
 
             return await MapToView(results);
+        }
+        public async Task<PayRollPaySequenceView> GetByDateRangeAndCode(
+                    DateTime payRollBeginDate, DateTime payRollEndDate, int payRollGroupCode)
+        {
+            return await MapToView(await _unitOfWork.payRollPaySequenceRepository.GetByDateRangeAndCode(payRollBeginDate, payRollEndDate, payRollGroupCode));
         }
     }
 }

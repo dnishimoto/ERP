@@ -22,6 +22,47 @@ namespace ERP_Core2.PayRollDomain
             this.output = output;
         }
         [Fact]
+        public async Task TestGetByDateRangeandCode()
+        {
+            PayRollPaySequenceModule PayRollPaySequenceMod = new PayRollPaySequenceModule();
+            DateTime payRollBeginDate = DateTime.Parse("9/9/2000");
+            DateTime payRollEndDate = DateTime.Parse("9/13/2000");
+            int payRollGroupCode = 1;
+
+            PayRollPaySequenceView view = new PayRollPaySequenceView()
+            {
+                PayRollBeginDate = payRollBeginDate
+                 ,
+                PayRollEndDate = payRollEndDate
+                 ,
+                PayRollGroupCode = payRollGroupCode
+                 ,
+                Frequency = "Bi-Weekly"
+
+            };
+            long maxSequencenumber = PayRollPaySequenceMod.PayRollPaySequence.Query().GetMaxPaySequenceByGroupCode(payRollGroupCode);
+
+            view.PaySequence = maxSequencenumber + 1;
+
+            NextNumber nnNextNumber = await PayRollPaySequenceMod.PayRollPaySequence.Query().GetNextNumber();
+
+            view.PayRollPaySequenceNumber = nnNextNumber.NextNumberValue;
+
+            PayRollPaySequence payRollPaySequence = await PayRollPaySequenceMod.PayRollPaySequence.Query().MapToEntity(view);
+            PayRollPaySequenceMod.PayRollPaySequence.AddPayRollPaySequence(payRollPaySequence).Apply();
+            
+            PayRollPaySequenceView viewTest = await PayRollPaySequenceMod.PayRollPaySequence.Query().GetByDateRangeAndCode(
+                    payRollBeginDate,payRollEndDate,payRollGroupCode);
+
+            Assert.NotNull(viewTest);
+
+            PayRollPaySequence newPayRollPaySequence = await PayRollPaySequenceMod.PayRollPaySequence.Query().GetEntityById(viewTest.PayRollPaySequenceId);
+
+            PayRollPaySequenceMod.PayRollPaySequence.DeletePayRollPaySequence(newPayRollPaySequence).Apply();
+            PayRollPaySequence lookupPayRollPaySequence = await PayRollPaySequenceMod.PayRollPaySequence.Query().GetEntityById(view.PayRollPaySequenceId);
+
+        }
+        [Fact]
         public async Task TestAddUpdatDelete()
         {
             PayRollPaySequenceModule PayRollPaySequenceMod = new PayRollPaySequenceModule();

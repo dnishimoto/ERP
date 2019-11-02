@@ -14,6 +14,7 @@ namespace lssWebApi2.EntityFramework
         public int PayRollTransactionCode { get; set; }
         public decimal? UpperLimit1 { get; set; }
         public decimal? UpperLimit2 { get; set; }
-        public long PayRollTransactionControlNumber { get; set; }
+        public long? PayRollTransactionControlNumber { get; set; }
+
     }
 }

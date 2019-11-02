@@ -59,5 +59,15 @@ namespace ERP_Core2.PayRollDomain
 
             return query;
         }
+        public async Task<PayRollPaySequence> GetByDateRangeAndCode(DateTime payRollBeginDate, DateTime payRollEndDate, int payRollGroupCode)
+        {
+            var query = await (from detail in _dbContext.PayRollPaySequence
+                               where detail.PayRollBeginDate == payRollBeginDate
+                               && detail.PayRollEndDate == payRollEndDate
+                               && detail.PayRollGroupCode == payRollGroupCode
+                               select detail
+                                ).FirstOrDefaultAsync<PayRollPaySequence>();
+            return query;
+        }
     }
 }
