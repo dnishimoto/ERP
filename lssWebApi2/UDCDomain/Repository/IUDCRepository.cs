@@ -9,5 +9,6 @@ namespace lssWebApi2.UDCDomain.Repository
     public interface IUDCRepository
     {
         Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode);
+        Task<Udc> GetEntityById(long xrefId);
     }
 }

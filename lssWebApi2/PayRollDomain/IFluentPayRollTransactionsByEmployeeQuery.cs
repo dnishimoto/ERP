@@ -19,4 +19,5 @@ public interface IFluentPayRollTransactionsByEmployeeQuery
 	Task<PayRollTransactionsByEmployeeView> GetViewById(long payRollTransactionsByEmployeeId);
 	Task<PayRollTransactionsByEmployeeView> GetViewByNumber(long payRollTransactionsByEmployeeNumber);
     Task<List<PayRollTransactionsByEmployeeView>> GetTransactionsByEmployeeViews(long employee);
+    Task<PayRollTransactionsByEmployee> GetEntityByEmployeeAndTransactionCodeAndType(long employee, int payRollTransactionCode, string transactionType);
 }

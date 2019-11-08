@@ -13,14 +13,13 @@ namespace ERP_Core2.Interfaces
         BuyerView GetBuyerByBuyerId(long buyerId);
         CarrierView GetCarrierByCarrierId(long carrierId);
         SupplierView GetSupplierBySupplierId(long supplierId);
-        EmployeeView GetEmployeeByEmployeeId(long employeeId);
-        List<EmployeeView> GetEmployeesBySupervisorId(long supervisorId);
+    
         SupervisorView GetSupervisorBySupervisorId(long supervisorId);
         List<Phones> GetPhonesByAddressId(long addressId);
         List<Emails> GetEmailsByAddressId(long addressId);
         List<AddressBookView> GetAddressBookByName(string name);
-        AddressBook GetAddressBookByAddressId(long addressId);
-        AddressBookView GetAddressBookViewByAddressId(long addressId);
+        AddressBook GetEntityById(long addressId);
+        AddressBookView GetViewById(long addressId);
         IQueryable<AddressBook> GetAddressBooksByExpression(Expression<Func<AddressBook, bool>> predicate);
     }
 }

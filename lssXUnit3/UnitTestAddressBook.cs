@@ -52,28 +52,7 @@ namespace ERP_Core2.AddressBookDomain
            Assert.True(supplierView.SupplierId != null);
 
         }
-        [Fact]
-        public void TestGetEmployeeByEmployeeId()
-        {
-            int employeeId = 3;
-            AddressBookModule abMod = new AddressBookModule();
-            EmployeeView employeeView = abMod.AddressBook.Query().GetEmployeeByEmployeeId(employeeId);
-
-            Assert.True(employeeView.EmployeeId != null);
-        }
-        [Fact]
-        public void TestGetEmployeesBySupervisorId()
-        {
-            
-            int supervisorId = 1;
-            AddressBookModule abMod = new AddressBookModule();
-
-            List<EmployeeView> list = abMod.AddressBook.Query().GetEmployeesBySupervisorId(supervisorId);
-
-         
-            Assert.True(list.Count>0);
-            
-        }
+      
         [Fact]
         public void TestGetSupervisorBySupervisorId()
         {
@@ -233,7 +212,7 @@ namespace ERP_Core2.AddressBookDomain
 
             //unitOfWork.addressBookRepository.UpdateObject(addressBook);
             //unitOfWork.CommitChanges();
-            AddressBook addressBook2=abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
+            AddressBook addressBook2=abMod.AddressBook.Query().GetEntityById(addressId);
     
             string name = addressBook2.FirstName;
 
@@ -245,7 +224,7 @@ namespace ERP_Core2.AddressBookDomain
             //unitOfWork.addressBookRepository.UpdateObject(addressBook2);
             //unitOfWork.CommitChanges();
 
-            AddressBook addressBook3 = abMod.AddressBook.Query().GetAddressBookByAddressId(addressId);
+            AddressBook addressBook3 = abMod.AddressBook.Query().GetEntityById(addressId);
 
            name = addressBook3.FirstName;
 

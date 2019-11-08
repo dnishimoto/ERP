@@ -16,7 +16,9 @@ namespace lssWebApi2.AddressBookDomain.Repository
          List<Emails> GetEmailsByAddressId(long addressId);
          Task<CreateProcessStatus> CreateAddressBook(CustomerView customerView);
          List<AddressBookView> GetAddressBookByName(string name);
-         Task<AddressBookView> GetAddressBookViewByAddressId(long addressId);
-         Task<AddressBook> GetAddressBookByAddressId(long addressId);
+         Task<AddressBookView> GetViewById(long addressId);
+        //Task<AddressBook> GetAddressBookByAddressId(long addressId);
+        Task<AddressBook> GetEntityById(long employeeId);
     }
+
 }

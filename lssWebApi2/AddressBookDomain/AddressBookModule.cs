@@ -8,6 +8,7 @@ namespace ERP_Core2.AddressBookDomain
     {
 
         public FluentAddressBook AddressBook = new FluentAddressBook();
+        public FluentEmployee Employee = new FluentEmployee();
    
     }
 }

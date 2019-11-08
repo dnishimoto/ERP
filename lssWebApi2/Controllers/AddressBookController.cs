@@ -17,7 +17,7 @@ namespace lssWebApi2.Controllers
         public AddressBookView Get(long id)
         {
             AddressBookModule abMod = new AddressBookModule();
-            AddressBookView addressBookView = abMod.AddressBook.Query().GetAddressBookViewByAddressId(id);
+            AddressBookView addressBookView = abMod.AddressBook.Query().GetViewById(id);
             return (addressBookView);
         }
         [Route("People")]

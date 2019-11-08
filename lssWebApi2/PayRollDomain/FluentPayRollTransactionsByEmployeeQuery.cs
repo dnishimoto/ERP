@@ -77,5 +77,9 @@ public async Task<PayRollTransactionsByEmployee> GetEntityById(long payRollTrans
             list.ForEach(async e => views.Add(await MapToView(e)));
             return views;
         }
+        public async Task<PayRollTransactionsByEmployee> GetEntityByEmployeeAndTransactionCodeAndType(long employee, int payRollTransactionCode, string transactionType)
+        {
+            return await _unitOfWork.payRollTransactionsByEmployeeRepository.GetObjectAsyncByPredicate(e => e.Employee == employee && e.PayRollTransactionCode == payRollTransactionCode && e.TransactionType == transactionType);
+        }
 }
 }

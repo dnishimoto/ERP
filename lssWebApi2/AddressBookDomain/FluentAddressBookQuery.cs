@@ -16,7 +16,7 @@ namespace ERP_Core2.FluentAPI
         protected UnitOfWork _unitOfWork;
         public FluentAddressBookQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
-
+        
         public BuyerView GetBuyerByBuyerId(long buyerId)
         {
             try
@@ -59,35 +59,8 @@ namespace ERP_Core2.FluentAPI
             }
 
         }
-        public EmployeeView GetEmployeeByEmployeeId(long employeeId)
-        {
-            try
-            {
-                Task<EmployeeView> resultTask = Task.Run(async() => await _unitOfWork.employeeRepository.GetEmployeeViewByEmployeeId(employeeId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
-
-        }
-        public List<EmployeeView> GetEmployeesBySupervisorId(long supervisorId)
-        {
-            try
-            {
-                Task<List<EmployeeView>> resultTask = Task.Run(() => _unitOfWork.supervisorRepository.GetEmployeesBySupervisorId(supervisorId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
-        }
+     
+       
         public SupervisorView GetSupervisorBySupervisorId(long supervisorId)
         {
             try
@@ -144,11 +117,11 @@ namespace ERP_Core2.FluentAPI
             }
 
         }
-        public AddressBookView GetAddressBookViewByAddressId(long addressId)
+        public AddressBookView GetViewById(long addressId)
         {
             try
             {
-                Task<AddressBookView> resultTask = Task.Run(async () => await _unitOfWork.addressBookRepository.GetAddressBookViewByAddressId(addressId));
+                Task<AddressBookView> resultTask = Task.Run(async () => await _unitOfWork.addressBookRepository.GetViewById(addressId));
                 Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
@@ -157,11 +130,11 @@ namespace ERP_Core2.FluentAPI
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public AddressBook GetAddressBookByAddressId(long addressId)
+        public AddressBook GetEntityById(long addressId)
         {
             try
             {
-                Task<AddressBook> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId));
+                Task<AddressBook> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetEntityById(addressId));
                 Task.WaitAll(resultTask);
                 return resultTask.Result;
             }
@@ -184,7 +157,7 @@ namespace ERP_Core2.FluentAPI
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-
         }
+       
     }
 }

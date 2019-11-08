@@ -10,5 +10,7 @@ namespace lssWebApi2.PayRollDomain
     public class PayRollTransactionControlModule : AbstractModule
     {
         public FluentPayRollTransactionControl PayRollTransactionControl = new FluentPayRollTransactionControl();
+        public FluentPayRollEarnings PayRollEarnings = new FluentPayRollEarnings();
+        public FluentPayRollDeductionLiabilities PayRollDeductionLiabilities = new FluentPayRollDeductionLiabilities();
     }
 }

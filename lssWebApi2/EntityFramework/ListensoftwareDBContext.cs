@@ -37,6 +37,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<CustomerLedger> CustomerLedger { get; set; }
         public virtual DbSet<Emails> Emails { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<EmployeeSalary> EmployeeSalary { get; set; }
         public virtual DbSet<Equations> Equations { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
         public virtual DbSet<GeneralLedger> GeneralLedger { get; set; }
@@ -1020,6 +1021,12 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.HiredDate).HasColumnType("date");
 
+                entity.Property(e => e.HourlyRate).HasColumnType("money");
+
+                entity.Property(e => e.Salary).HasColumnType("money");
+
+                entity.Property(e => e.SalaryPerPayPeriod).HasColumnType("money");
+
                 entity.Property(e => e.TaxIdentification)
                     .HasMaxLength(50)
                     .IsUnicode(false);
@@ -1043,6 +1050,15 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.JobTitleXrefId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__Employee__JobTit__48EFCE0F");
+            });
+
+            modelBuilder.Entity<EmployeeSalary>(entity =>
+            {
+                entity.Property(e => e.AnnualSalary).HasColumnType("money");
+
+                entity.Property(e => e.EndEffectiveDate).HasColumnType("date");
+
+                entity.Property(e => e.StartEffectiveDate).HasColumnType("date");
             });
 
             modelBuilder.Entity<Equations>(entity =>
@@ -1602,6 +1618,11 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(1)
                     .IsUnicode(false);
 
+                entity.Property(e => e.TransactionType)
+                    .IsRequired()
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.UpdateEntry)
                     .HasMaxLength(1)
                     .IsUnicode(false);
@@ -1682,6 +1703,10 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.TaxPercentOfGross).HasColumnType("money");
+
+                entity.Property(e => e.TransactionType)
+                    .HasMaxLength(1)
+                    .IsUnicode(false);
             });
 
             modelBuilder.Entity<PayRollW4>(entity =>
