@@ -24,7 +24,7 @@ namespace ERP_Core2.PayRollDomain
         public long PayRollTransactionsByEmployeeNumber { get; set; }
         public string PayRollType { get; set; }
         public string TransactionType { get; set; }
-        
+    
     }
     public class PayRollTransactionsByEmployeeRepository: Repository<PayRollTransactionsByEmployee>, IPayRollTransactionsByEmployeeRepository
     {

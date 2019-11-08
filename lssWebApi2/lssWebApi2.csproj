@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Enumerations\TypeOfAddressBook" />
     <None Remove="Sql_Server_Scripts\dbo.AccountBalance.Table.sql" />
     <None Remove="Sql_Server_Scripts\dbo.AccountReceivableView.View.sql" />
     <None Remove="Sql_Server_Scripts\dbo.AcctPay.Table.sql" />
@@ -106,6 +107,10 @@
     <None Remove="Sql_Server_Scripts\dbo.usp_GetNextNumber.StoredProcedure.sql" />
     <None Remove="Sql_Server_Scripts\dbo.usp_RollupGeneralLedgerBalance.StoredProcedure.sql" />
     <None Remove="Sql_Server_Scripts\dbo.__MigrationHistory.Table.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Enumerations\TypeOfAddressBook" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,6 +15,7 @@ namespace lssWebApi2.EntityFramework
         public decimal? LimitAmount { get; set; }
         public int? BenefitOption { get; set; }
         public string Frequency { get; set; }
+        public long PayRollEmployeeDeductionLiabilitiesNumber { get; set; }
 
     }
 }

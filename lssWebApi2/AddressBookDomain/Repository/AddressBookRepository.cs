@@ -150,8 +150,11 @@ namespace ERP_Core2.AddressBookDomain
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-
-        public async Task<AddressBookView> GetAddressBookViewByAddressId(long addressId)
+        public async Task<AddressBook> GetEntityById(long employeeId)
+        {
+            return await _dbContext.FindAsync<AddressBook>(employeeId);
+        }
+        public async Task<AddressBookView> GetViewById(long addressId)
         {
             try
             {
@@ -164,6 +167,7 @@ namespace ERP_Core2.AddressBookDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
+        /*
         public async Task<AddressBook> GetAddressBookByAddressId(long addressId)
         {
             try
@@ -175,6 +179,7 @@ namespace ERP_Core2.AddressBookDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
+        */
 
         public class Phone
         {

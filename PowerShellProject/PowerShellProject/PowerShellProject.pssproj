@@ -29,7 +29,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Employee.ps1" />
+    <Compile Include="myModule.psm1" />
     <Compile Include="PayRollCurrentPaySequence.ps1" />
+    <Compile Include="PayRollDeductionLiabilities.ps1" />
+    <Compile Include="PayRollEarnings.ps1" />
+    <Compile Include="PayRollEmployeeDeductionLiabilities.ps1" />
     <Compile Include="PayRollLedger.ps1" />
     <Compile Include="PayRollPaySequence.ps1" />
     <Compile Include="PayRollTotals.ps1" />

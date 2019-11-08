@@ -12,6 +12,7 @@ namespace lssWebApi2.EntityFramework
         public string Description { get; set; }
         public string DeductionLiabilitiesType { get; set; }
         public decimal? LimitAmount { get; set; }
+        public long PayRollDeductionLiabilitiesNumber { get; set; }
 
     }
 }

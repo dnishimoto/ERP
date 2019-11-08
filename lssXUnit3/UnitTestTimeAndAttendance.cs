@@ -327,13 +327,13 @@ namespace ERP_Core2.TimeAndAttendenceDomain
         [Theory]
         [ClassData(typeof(ScheduledToWorkData))]
         //[InlineData("Schedule A",  "2/18/2019" ,  "2/22/2019" )]
-        public void TestAddScheduledToWork(string scheduleName, DateTime startDate, DateTime endDate, string payCode)
+        public async Task TestAddScheduledToWork(string scheduleName, DateTime startDate, DateTime endDate, string payCode)
         {
             int supervisorId = 2;
 
             AddressBookModule abMod = new AddressBookModule();
 
-            List<EmployeeView> employeeViews = abMod.AddressBook.Query().GetEmployeesBySupervisorId(supervisorId);
+            List<EmployeeView> employeeViews =  await abMod.Employee.Query().GetViewsBySupervisorId(supervisorId);
 
 
             //string scheduleName = "Schedule A";

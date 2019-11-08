@@ -9,6 +9,7 @@ namespace lssWebApi2.EntityFramework
         public int EarningCode { get; set; }
         public string Description { get; set; }
         public string EarningType { get; set; }
+        public long PayRollEarningsNumber { get; set; }
 
     }
 }

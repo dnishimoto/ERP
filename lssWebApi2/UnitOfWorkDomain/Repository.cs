@@ -340,6 +340,15 @@ namespace ERP_Core2.Services
                 Task<T> result = _dbContext.Set<T>().FindAsync(id);
                 return await result;
         }
+        public async Task<T> GetObjectAsyncByPredicate(Expression<Func<T, bool>> predicate)
+        {
+            try
+            {
+                T result = await _dbContext.Set<T>().Where(predicate).FirstOrDefaultAsync<T>();
+                return result;
+            }
+            catch (Exception ex) { throw new Exception(ex.Message); }
+        }
         public IQueryable<T> GetObjectsQueryable(Expression<Func<T, bool>> predicate,string includeTable="")
         {
             IQueryable<T> result = _dbContext.Set<T>().Where(predicate);

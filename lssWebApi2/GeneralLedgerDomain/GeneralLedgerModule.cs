@@ -41,7 +41,7 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                 //Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE","PV");
                 //AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
-                AddressBook addressBook = AddressBook.Query().GetAddressBookByAddressId(glView.AddressId);
+                AddressBook addressBook = AddressBook.Query().GetEntityById(glView.AddressId);
 
 
             
@@ -100,7 +100,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                 ChartOfAccts coa2 = ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
                 Udc udcLedgerType = UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
                 Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
-                AddressBook addressBook = AddressBook.Query().GetAddressBookByAddressId(glView.AddressId);
+                AddressBook addressBook = AddressBook.Query().GetEntityById(glView.AddressId);
 
                 glView.DocNumber = -1;
                 glView.DocType = udcDocType.KeyCode;
@@ -159,7 +159,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                 ChartOfAccts coaCash = ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
                 Udc udcLedgerType = UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
                 Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
-                AddressBook addressBook = AddressBook.Query().GetAddressBookByAddressId(glCashView.AddressId);
+                AddressBook addressBook = AddressBook.Query().GetEntityById(glCashView.AddressId);
 
                 glCashView.AccountId = coaCash.AccountId;
                 glCashView.DebitAmount = 0;
@@ -213,7 +213,7 @@ namespace ERP_Core2.GeneralLedgerDomain
               
                 Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
                
-                AddressBook addressBook = AddressBook.Query().GetAddressBookByAddressId(glView.AddressId);
+                AddressBook addressBook = AddressBook.Query().GetEntityById(glView.AddressId);
                 glView.DocType = udcDocType.KeyCode;
                 glView.AccountId = coa.AccountId;
                 glView.LedgerType = udcLedgerType.KeyCode;

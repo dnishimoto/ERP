@@ -24,6 +24,10 @@ namespace lssWebApi2.EntityFramework
         public DateTime? TerminationDate { get; set; }
         public string TaxIdentification { get; set; }
         public int? PayRollGroupCode { get; set; }
+        public decimal? Salary { get; set; }
+        public decimal? HourlyRate { get; set; }
+        public decimal? SalaryPerPayPeriod { get; set; }
+        public long EmployeeNumber { get; set; }
 
         public virtual AddressBook Address { get; set; }
         public virtual Udc EmploymentStatusXref { get; set; }

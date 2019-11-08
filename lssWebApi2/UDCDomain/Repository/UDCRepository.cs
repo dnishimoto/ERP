@@ -16,6 +16,10 @@ namespace ERP_Core2.ScheduleEventsDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
+        public async Task<Udc> GetEntityById(long xrefId)
+        {
+            return await _dbContext.FindAsync<Udc>(xrefId);
+        }
         public async Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode)
         {
             try

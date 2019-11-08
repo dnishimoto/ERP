@@ -22,13 +22,13 @@ namespace ERP_Core2.AbstractFactory
     public abstract partial class AbstractFactory
     {
         public abstract SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor);
-        public abstract EmployeeView MapEmployeeView(Employee employee);
         public abstract SupplierView MapSupplierView(Supplier supplier);
         public abstract CarrierView MapCarrierView(Carrier carrier);
     }
     //Customer Domain
     public abstract partial class AbstractFactory
     {
+        public abstract void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView, string payCode);
         public abstract BuyerView MapBuyerView(Buyer buyer);
         public abstract InvoiceView MapInvoiceView(Invoice invoice);
         public abstract InvoiceDetailView MapInvoiceDetails(InvoiceDetail invoiceDetail);
@@ -66,7 +66,6 @@ namespace ERP_Core2.AbstractFactory
         public abstract SupplierLedgerView MapSupplierLedgerView(SupplierLedger supplierLedger);
         public abstract void MapSupplierLedgerEntity(ref SupplierLedger supplierLedger, SupplierLedgerView view);
         public abstract void MapTimeAndAttendanceScheduleEntity(ref TimeAndAttendanceSchedule schedule, TimeAndAttendanceScheduleView view);
-        public abstract void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView,string payCode);
         public abstract TimeAndAttendanceScheduleView MapTimeAndAttendanceScheduleView(TimeAndAttendanceSchedule item);
         public abstract void MapBudgetRangeEntity(ref BudgetRange budgetRange, BudgetRangeView view);
         public abstract BudgetRangeView MapBudgetRangeView(BudgetRange budgetRange);
@@ -103,14 +102,40 @@ namespace ERP_Core2.AbstractFactory
     //Address Book
     public partial class ApplicationViewFactory : AbstractFactory
     {
+        public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView, string payCode)
+
+        {
+
+            scheduledToWork.EmployeeId =  employeeView.EmployeeId;
+
+            scheduledToWork.EmployeeName = employeeView.EmployeeName;
+
+            scheduledToWork.ScheduleId = scheduleView.ScheduleId;
+
+            scheduledToWork.ScheduleName = scheduleView.ScheduleName;
+
+            scheduledToWork.StartDate = dayView.StartDate;
+
+            scheduledToWork.EndDate = dayView.EndDate;
+
+            scheduledToWork.StartDateTime = dayView.StartDateTime;
+
+            scheduledToWork.EndDateTime = dayView.EndDateTime;
+
+            scheduledToWork.ShiftId = scheduleView.ShiftId ?? 0;
+
+            scheduledToWork.JobCode = employeeView.JobCode;
+
+            scheduledToWork.WorkedJobCode = employeeView.JobCode;
+
+            scheduledToWork.PayCode = payCode;
+
+        }
         public override SupervisorView MapSupervisorView(Supervisor supervisor, Supervisor parentSupervisor)
         {
             return new SupervisorView(supervisor, parentSupervisor);
         }
-        public override EmployeeView MapEmployeeView(Employee employee)
-        {
-            return new EmployeeView(employee);
-        }
+
         public override SupplierView MapSupplierView(Supplier supplier)
         {
             return new SupplierView(supplier);
@@ -368,21 +393,7 @@ namespace ERP_Core2.AbstractFactory
 
             schedule.ScheduleGroup = view.ScheduleGroup;
         }
-        public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView, string payCode)
-        {
-            scheduledToWork.EmployeeId = employeeView.EmployeeId ?? 0;
-            scheduledToWork.EmployeeName = employeeView.EmployeeName;
-            scheduledToWork.ScheduleId = scheduleView.ScheduleId;
-            scheduledToWork.ScheduleName = scheduleView.ScheduleName;
-            scheduledToWork.StartDate = dayView.StartDate;
-            scheduledToWork.EndDate = dayView.EndDate;
-            scheduledToWork.StartDateTime = dayView.StartDateTime;
-            scheduledToWork.EndDateTime = dayView.EndDateTime;
-            scheduledToWork.ShiftId = scheduleView.ShiftId??0;
-            scheduledToWork.JobCode = employeeView.JobCode;
-            scheduledToWork.WorkedJobCode = employeeView.JobCode;
-            scheduledToWork.PayCode = payCode;
-        }
+        
         public override void MapBudgetRangeEntity(ref BudgetRange budgetRange, BudgetRangeView view)
         {
             budgetRange.RangeId = view.RangeId;

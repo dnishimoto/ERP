@@ -244,7 +244,7 @@ public class Fluent_xx_ :IFluent_xx_
             { unitOfWork.CommitChanges(); }
             return this as IFluent_xx_;
 		    }
-            catch (Exception ex) { throw new Exception("Apply", ex); }
+            catch (Exception ex) { throw new Exception(""Apply"", ex); }
         }
         public IFluent_xx_ Add_xx_s(List<_xx_> newObjects)
         {

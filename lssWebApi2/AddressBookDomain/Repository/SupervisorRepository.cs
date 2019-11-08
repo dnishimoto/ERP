@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ERP_Core2.AbstractFactory;
+using ERP_Core2.AutoMapper;
 using ERP_Core2.Services;
 using lssWebApi2.AddressBookDomain.Repository;
 using lssWebApi2.EntityFramework;
@@ -63,7 +64,15 @@ namespace ERP_Core2.AddressBookDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-    
+
+        private async Task<EmployeeView> MapEmployeeView(Employee inputObject)
+        {
+            Mapper mapper = new Mapper();
+            EmployeeView outObject = mapper.Map<EmployeeView>(inputObject);
+            await Task.Yield();
+            return outObject;
+        }
+
         public List<EmployeeView> GetEmployeesBySupervisorId(long supervisorId)
         {
             try
@@ -79,8 +88,12 @@ namespace ERP_Core2.AddressBookDomain
                 List<EmployeeView> list = new List<EmployeeView>();
                 foreach (var item in resultList)
                 {
-                    list.Add(applicationViewFactory.MapEmployeeView(item));
+                    Task<EmployeeView> viewTask = Task.Run(async () =>  await MapEmployeeView(item));
+                    Task.WaitAll(viewTask);
+
+                    list.Add(viewTask.Result);
                 }
+
 
                 return list;
             }

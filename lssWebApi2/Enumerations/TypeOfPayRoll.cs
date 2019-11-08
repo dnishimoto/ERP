@@ -13,6 +13,9 @@ namespace lssWebApi2.Enumerations
         PayRollTransactionControlNumber,
         PayRollTransactionsByEmployeeNumber,
         PayRollLedgerNumber,
-        PayRollCurrentPaySequenceNumber
+        PayRollCurrentPaySequenceNumber,
+        PayRollDeductionLiabilitiesNumber,
+        PayRollEmployeeDeductionLiabilitiesNumber,
+        PayRollEarningsNumber
     }
 }
