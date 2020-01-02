@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.AbstractFactory
+namespace lssWebApi2.AbstractFactory
 {
     public abstract class AbstractErrorHandling
     {

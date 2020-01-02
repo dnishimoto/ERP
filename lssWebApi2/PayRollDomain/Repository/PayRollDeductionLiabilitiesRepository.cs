@@ -1,6 +1,6 @@
    
 
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
     public class  PayRollDeductionLiabilitiesView
     {
@@ -47,22 +47,7 @@ namespace ERP_Core2.PayRollDomain
 			}
 			catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-		 public async Task<List<PayRollDeductionLiabilities>> GetObjectsQueryable(Expression<Func<PayRollDeductionLiabilities, bool>> predicate,string include)
-       {
-            try
-            {
-                var resultList = base.GetObjectsQueryable(predicate, include);
-
-                List <PayRollDeductionLiabilities> list = new List<PayRollDeductionLiabilities>();
-                foreach (var item in resultList)
-                {
-                    list.Add(item);
-                }
-                await Task.Yield();
-                return list;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
+		
         public async Task<PayRollDeductionLiabilities> GetEntityByDeductionLiabiltiesCode(int deductionLiabilitiesCode, string deductionLiabilitiesType)
 
         {

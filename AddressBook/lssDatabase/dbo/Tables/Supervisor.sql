@@ -7,8 +7,11 @@
     [IsActive]           BIT          NULL,
     [Area]               VARCHAR (20) NULL,
     [DepartmentCode]     VARCHAR (20) NULL,
+    [SupervisorNumber]   BIGINT       NOT NULL,
     CONSTRAINT [PK__Supervisor__091C2AFB7C8C5421] PRIMARY KEY CLUSTERED ([SupervisorId] ASC),
     CONSTRAINT [FK_Supervisor_AddressBook] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressBook] ([AddressId]),
     CONSTRAINT [FK_Supervisor_UDC] FOREIGN KEY ([JobTitleXrefId]) REFERENCES [dbo].[UDC] ([XRefId])
 );
+
+
 

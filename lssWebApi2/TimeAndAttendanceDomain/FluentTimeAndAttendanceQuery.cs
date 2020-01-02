@@ -1,6 +1,4 @@
-﻿using ERP_Core2.Interfaces;
-using ERP_Core2.Services;
-using ERP_Core2.TimeAndAttendanceDomain;
+﻿using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -8,17 +6,41 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using X.PagedList;
+using lssWebApi2.MapperAbstract;
+using lssWebApi2.AbstractFactory;
 
 namespace lssWebApi2.TimeAndAttendanceDomain
 {
-    public class FluentTimeAndAttendanceQuery : IFluentTimeAndAttendanceQuery
+    public class FluentTimeAndAttendanceQuery : MapperAbstract<TimeAndAttendancePunchIn, TimeAndAttendancePunchInView>, IFluentTimeAndAttendanceQuery
     {
         private UnitOfWork _unitOfWork;
         public FluentTimeAndAttendanceQuery(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account)
+        public async Task<PageListViewContainer<TimeAndAttendancePunchInView>>  GetViewsByPage(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate, Expression<Func<TimeAndAttendancePunchIn, object>> order, int pageSize, int pageNumber)
+        {
+
+            var query = _unitOfWork.timeAndAttendanceRepository.GetEntitiesByExpression(predicate);
+            query = query.OrderByDescending(order).Select(e => e);
+
+            IPagedList<TimeAndAttendancePunchIn> list = await query.ToPagedListAsync(pageNumber, pageSize);
+
+            PageListViewContainer < TimeAndAttendancePunchInView > container = new PageListViewContainer<TimeAndAttendancePunchInView> ();
+            container.PageNumber = pageNumber;
+            container.PageSize = pageSize;
+            container.TotalItemCount = list.TotalItemCount;
+
+            foreach (var item in list)
+            {
+                TimeAndAttendancePunchInView view =await MapToView(item);
+                container.Items.Add(view);
+            }
+            //await Task.Yield();
+            return container;
+
+        }
+        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long ? employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account)
         {
             return await _unitOfWork.timeAndAttendanceRepository.BuildByTimeDuration(employeeId, hours, minutes, mealDurationInMinutes, workDay, account);
         }
@@ -27,46 +49,73 @@ namespace lssWebApi2.TimeAndAttendanceDomain
             return await _unitOfWork.timeAndAttendanceRepository.GetUTCAdjustedTime();
         }
         
-        public async Task<TimeAndAttendancePunchInView> GetPunchOpenView(long employeeId)
+        public async Task<TimeAndAttendancePunchInView> GetPunchOpenView(long ? employeeId)
         {
-            return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpenView(employeeId);
+            return await MapToView(await _unitOfWork.timeAndAttendanceRepository.GetPunchOpen(employeeId));
         }
-        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId)
+        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long ? employeeId)
         {
             return await _unitOfWork.timeAndAttendanceRepository.GetPunchOpen(employeeId);
         }
         
-        public async Task<TimeAndAttendancePunchIn> IsPunchOpen(long employeeId, DateTime asOfDate)
+        public async Task<TimeAndAttendancePunchIn> IsPunchOpen(long ? employeeId, DateTime asOfDate)
         {
             return await _unitOfWork.timeAndAttendanceRepository.IsPunchOpen(employeeId,asOfDate);
         }
-        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId,string account,DateTime punchDate)
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long ? employeeId,string account,DateTime punchDate)
         {
 
             return await _unitOfWork.timeAndAttendanceRepository.BuildPunchin(employeeId,account,punchDate);
         }
-        public TimeAndAttendancePunchInView MapToView(TimeAndAttendancePunchIn item)
+        public override async Task<TimeAndAttendancePunchIn> MapToEntity(TimeAndAttendancePunchInView inputObject)
         {
-            TimeAndAttendancePunchInView view = _unitOfWork.timeAndAttendanceRepository.MapToView(item);
-            return view;
+
+            TimeAndAttendancePunchIn outObject = mapper.Map<TimeAndAttendancePunchIn>(inputObject);
+            await Task.Yield();
+            return outObject;
         }
-        public async Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
+
+        public override async Task<List<TimeAndAttendancePunchIn>> MapToEntity(List<TimeAndAttendancePunchInView> inputObjects)
         {
-            try
-            {
-                TimeAndAttendanceViewContainer container = await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
+            List<TimeAndAttendancePunchIn> list = new List<TimeAndAttendancePunchIn>();
 
-                return container;
-            }
-            catch (Exception ex)
+            foreach (var item in inputObjects)
             {
-                throw new Exception("GetTimeAndAttendanceViewsByPage", ex);
+                TimeAndAttendancePunchIn outObject = mapper.Map<TimeAndAttendancePunchIn>(item);
+                list.Add(outObject);
             }
+            await Task.Yield();
+            return list;
 
         }
+
+        public override async Task<TimeAndAttendancePunchInView> MapToView(TimeAndAttendancePunchIn inputObject)
+        {
+
+            TimeAndAttendancePunchInView outObject = mapper.Map<TimeAndAttendancePunchInView>(inputObject);
+
+            Task<Employee> employeeTask =  _unitOfWork.employeeRepository.GetEntityById(inputObject.EmployeeId);
+            Task<Udc> udcTypeOfPayTask =  _unitOfWork.udcRepository.GetEntityById(inputObject.TypeOfTimeUdcXrefId);
+            Task<Supervisor> supervisorTask =  _unitOfWork.supervisorRepository.GetEntityById(inputObject.SupervisorId);
+            Task.WaitAll(employeeTask, udcTypeOfPayTask, supervisorTask);
+
+            Task<AddressBook> addressBookEmployeeTask =  _unitOfWork.addressBookRepository.GetEntityById(employeeTask.Result.AddressId);
+              Task<AddressBook> addressBookSupervisorTask = _unitOfWork.addressBookRepository.GetEntityById(supervisorTask.Result.AddressId);
+            Task.WaitAll(addressBookEmployeeTask, addressBookSupervisorTask);
+
+            outObject.EmployeeName = addressBookEmployeeTask.Result.Name;
+            outObject.SupervisorName = addressBookSupervisorTask.Result.Name;
+            outObject.TypeOfTime = udcTypeOfPayTask.Result.Value;
+
+            await Task.Yield();
+
+            return outObject;
+        }
+
+      
         public TimeAndAttendancePunchIn GetPunchInByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)
         {
-            var query = _unitOfWork.timeAndAttendanceRepository.GetObjectsQueryable(predicate) as IQueryable<TimeAndAttendancePunchIn>;
+            var query = _unitOfWork.timeAndAttendanceRepository.GetEntitiesByExpression(predicate) as IQueryable<TimeAndAttendancePunchIn>;
             TimeAndAttendancePunchIn retItem = null;
             foreach (var item in query)
             {
@@ -76,37 +125,45 @@ namespace lssWebApi2.TimeAndAttendanceDomain
             return retItem;
 
         }
-        public async Task<TimeAndAttendancePunchInView> GetPunchInByIdView(long timePunchinId)
+        public override async Task<TimeAndAttendancePunchInView> GetViewById(long ? timePunchinId)
         {
-            TimeAndAttendancePunchInView view = await _unitOfWork.timeAndAttendanceRepository.GetPunchInByIdView(timePunchinId);
+            TimeAndAttendancePunchInView view = await MapToView(await _unitOfWork.timeAndAttendanceRepository.GetEntityById(timePunchinId));
             
             return view;
         }
-        public async Task<TimeAndAttendancePunchIn> GetPunchInById(long timePunchinId)
+        public override async Task<TimeAndAttendancePunchIn> GetEntityById(long ? timePunchinId)
         {
 
-            TimeAndAttendancePunchIn taPunchinTask = await _unitOfWork.timeAndAttendanceRepository.GetObjectAsync(timePunchinId);
+            TimeAndAttendancePunchIn taPunchinTask = await _unitOfWork.timeAndAttendanceRepository.GetEntityById(timePunchinId);
 
             return taPunchinTask;
         }
 
-        public async Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)
+        public async Task<IList<TimeAndAttendanceView>> GetViewsByDate(DateTime startDate, DateTime endDate)
         {
-            List<TimeAndAttendanceView> taPunchin =  await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByDate(startDate, endDate);
+            IList<TimeAndAttendanceView> taPunchin =  await _unitOfWork.timeAndAttendanceRepository.GetViewsByDate(startDate, endDate);
             
             return taPunchin;
         }
-        public async Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
+        public async Task<IList<TimeAndAttendanceView>> GetViewsByIdAndDate(long ? employeeId, DateTime startDate, DateTime endDate)
         {
-            List<TimeAndAttendanceView> taPunchin =  await _unitOfWork.timeAndAttendanceRepository.GetTimeAndAttendanceViewsByIdAndDate(employeeId, startDate, endDate);
+            IList<TimeAndAttendanceView> taPunchin =  await _unitOfWork.timeAndAttendanceRepository.GetViewsByIdAndDate(employeeId, startDate, endDate);
            
          
             return taPunchin;
         }
-        public async Task<IList<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(long employeeId)
+        public async Task<IList<TimeAndAttendancePunchInView>> GetEntitiesByEmployeeId(long ? employeeId)
         {
-            IList<TimeAndAttendancePunchInView> result =  await _unitOfWork.timeAndAttendanceRepository.GetTAPunchinByEmployeeId(employeeId);
-            return result;
+            IList<TimeAndAttendancePunchIn> list = await _unitOfWork.timeAndAttendanceRepository.GetEntitiesByEmployeeId(employeeId);
+
+            IList<TimeAndAttendancePunchInView> views = new List<TimeAndAttendancePunchInView>();
+
+            foreach (var item in list)
+            {
+                views.Add(await MapToView(item));
+            }
+
+            return views;
         }
     }
 }

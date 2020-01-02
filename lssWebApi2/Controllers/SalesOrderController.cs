@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
+using lssWebApi2.SalesOrderDetailDomain;
 using lssWebApi2.SalesOrderDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -37,7 +38,7 @@ namespace lssWebApi2.Controllers
 
             SalesOrder salesOrder = await salesOrderMod.SalesOrder.Query().MapToEntity(view);
 
-            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity(view.SalesOrderDetailViews);
+            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity((view.SalesOrderDetailViews).ToList<SalesOrderDetailView>());
 
             salesOrder = salesOrderMod.SalesOrder.Query().SumAmounts(salesOrder, salesOrderDetails);
 
@@ -55,8 +56,8 @@ namespace lssWebApi2.Controllers
         {
             SalesOrderModule salesOrderMod = new SalesOrderModule();
 
-            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(salesOrderId);
-            List<SalesOrderDetailView> listDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(salesOrderId);
+            List<SalesOrderDetail> salesOrderDetails = (await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(salesOrderId)).ToList<SalesOrderDetail>();
+            IList<SalesOrderDetailView> listDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(salesOrderId);
 
             salesOrderMod.SalesOrderDetail.DeleteSalesOrderDetails(salesOrderDetails).Apply();
 
@@ -77,7 +78,7 @@ namespace lssWebApi2.Controllers
         {
             SalesOrderModule salesOrderMod = new SalesOrderModule();
 
-            List<SalesOrderDetailView> detailViews = view.SalesOrderDetailViews;
+            List<SalesOrderDetailView> detailViews = view.SalesOrderDetailViews.ToList<SalesOrderDetailView>();
 
             Udc orderType = await salesOrderMod.SalesOrder.Query().GetUdc("ORDER_TYPE", SalesOrderEnum.CASH_SALES.ToString());
             Udc paymentTerms = await salesOrderMod.SalesOrder.Query().GetUdc("PAYMENTTERMS", PaymentTermsEnum.Net_2_10_30.ToString());
@@ -103,7 +104,7 @@ namespace lssWebApi2.Controllers
  
             SalesOrderView newSalesOrderView = await salesOrderMod.SalesOrder.Query().MapToView(newSalesOrder);
 
-            List<SalesOrderDetailView> listDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
+            List<SalesOrderDetailView> listDetailViews = (await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId)).ToList<SalesOrderDetailView>();
 
             newSalesOrderView.SalesOrderDetailViews = listDetailViews;
 

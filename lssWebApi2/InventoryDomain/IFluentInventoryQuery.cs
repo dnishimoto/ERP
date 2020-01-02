@@ -1,22 +1,21 @@
-﻿using ERP_Core2.InventoryDomain;
+﻿using lssWebApi2.InventoryDomain;
 using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.InventoryDomain
+namespace lssWebApi2.InventoryDomain
 {
     public interface IFluentInventoryQuery
     {
-        Task<ItemMaster> GetItemMasterById(long itemId);
-        Task<Inventory> GetInventoryById(long inventoryId);
-        Task<PackingSlipDetail> GetPackingSlipDetailById(long? packingSlipId);
-        Task<ChartOfAccts> GetDistributionAccountById(long? accountId);
-        Task<InventoryView> GetInventoryViewbyId(long inventoryId);
+        Task<Inventory> GetEntityById(long ? inventoryId);
+        Task<InventoryView> GetViewById(long? inventoryId);
         Task<NextNumber> GetInventoryNextNumber();
-        Task<Inventory> MapToInventoryEntity(InventoryView inputObject);
+        Task<Inventory> MapToEntity(InventoryView inputObject);
+        Task<InventoryView> MapToView(Inventory inputObject);
         Task<Inventory> GetInventoryByNumber(long inventoryNumber);
         Task<InventoryView> GetInventoryViewByNumber(long inventoryNumber);
+        Task<List<Inventory>> MapToEntity(List<InventoryView> inputObjects);
     }
 }

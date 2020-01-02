@@ -1,51 +1,109 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.Interfaces;
-using ERP_Core2.PurchaseOrderDomain;
-using ERP_Core2.Services;
-using System;
+using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System;
+using lssWebApi2.PurchaseOrderDomain;
+using lssWebApi2.Enumerations;
 using System.Threading.Tasks;
+using lssWebApi2.AutoMapper;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.PurchaseOrderDomain
 {
-    public class FluentPurchaseOrder : AbstractErrorHandling, IFluentPurchaseOrder
+
+public class FluentPurchaseOrder :IFluentPurchaseOrder
     {
+ private UnitOfWork unitOfWork = new UnitOfWork();
         private CreateProcessStatus processStatus;
-        UnitOfWork unitOfWork = new UnitOfWork();
 
-        public IFluentPurchaseOrder Apply()
+        public FluentPurchaseOrder() { }
+        public IFluentPurchaseOrderQuery Query()
         {
-            if ((processStatus == CreateProcessStatus.Insert) || (processStatus == CreateProcessStatus.Update) || (processStatus == CreateProcessStatus.Delete))
+            return new FluentPurchaseOrderQuery(unitOfWork) as IFluentPurchaseOrderQuery;
+        }
+        private PurchaseOrder MapToEntity(PurchaseOrderView inputObject)
+        {
+            Mapper mapper = new Mapper();
+            PurchaseOrder outObject = mapper.Map<PurchaseOrder>(inputObject);
+            return outObject;
+        }
+        public IFluentPurchaseOrder CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView)
+        {
+            decimal amount = 0;
+            try
+
             {
-                unitOfWork.CommitChanges();
+                //check if PO exists
+                Task<PurchaseOrder> purchaseOrderTask = Task.Run(async () => await unitOfWork.purchaseOrderRepository.GetEntityByOrderNumber(purchaseOrderView.Ponumber));
+                Task.WaitAll(purchaseOrderTask);
+
+                if (purchaseOrderTask.Result != null) { processStatus= CreateProcessStatus.AlreadyExists; return this as IFluentPurchaseOrder; }
+
+
+                foreach (var detail in purchaseOrderView.PurchaseOrderDetailViews)
+                {
+                    amount += detail.Amount ?? 0;
+                }
+                purchaseOrderView.Amount = amount;
+                purchaseOrderView.AmountPaid = 0;
+
+                Task<TaxRatesByCode> taxTask = Task.Run(async()=>await unitOfWork.purchaseOrderRepository.GetTaxRatesByCode(purchaseOrderView.TaxCode1));
+                Task.WaitAll(taxTask);
+                purchaseOrderView.Tax = amount * taxTask.Result.TaxRate;
+
+                PurchaseOrder po = MapToEntity(purchaseOrderView);
+
+                AddPurchaseOrder(po);
+
+                return this as IFluentPurchaseOrder;
             }
+            catch (Exception ex) { throw new Exception("CreatePurchaseOrderByView", ex); }
+        }
+
+        public IFluentPurchaseOrder Apply() {
+			try{
+            if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)
+            { unitOfWork.CommitChanges(); }
+            return this as IFluentPurchaseOrder;
+		    }
+            catch (Exception ex) { throw new Exception("Apply", ex); }
+        }
+        public IFluentPurchaseOrder AddPurchaseOrders(List<PurchaseOrder> newObjects)
+        {
+            unitOfWork.purchaseOrderRepository.AddObjects(newObjects);
+            this.processStatus = CreateProcessStatus.Insert;
+            return this as IFluentPurchaseOrder;
+        }
+        public IFluentPurchaseOrder UpdatePurchaseOrders(List<PurchaseOrder> newObjects)
+        {
+            foreach (var item in newObjects)
+            {
+                unitOfWork.purchaseOrderRepository.UpdateObject(item);
+            }
+            this.processStatus = CreateProcessStatus.Update;
+            return this as IFluentPurchaseOrder;
+        }
+        public IFluentPurchaseOrder AddPurchaseOrder(PurchaseOrder newObject) {
+            unitOfWork.purchaseOrderRepository.AddObject(newObject);
+            this.processStatus = CreateProcessStatus.Insert;
+            return this as IFluentPurchaseOrder;
+        }
+        public IFluentPurchaseOrder UpdatePurchaseOrder(PurchaseOrder updateObject) {
+            unitOfWork.purchaseOrderRepository.UpdateObject(updateObject);
+            this.processStatus = CreateProcessStatus.Update;
             return this as IFluentPurchaseOrder;
 
         }
-        public IFluentPurchaseOrder CreateAcctPayByPurchaseOrderNumber(PurchaseOrderView purchaseOrderView)
-        {
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.accountPayableRepository.CreateAcctPayByPurchaseOrderView(purchaseOrderView));
-            Task.WaitAll(resultTask);
-            processStatus = resultTask.Result;
+        public IFluentPurchaseOrder DeletePurchaseOrder(PurchaseOrder deleteObject) {
+            unitOfWork.purchaseOrderRepository.DeleteObject(deleteObject);
+            this.processStatus = CreateProcessStatus.Delete;
             return this as IFluentPurchaseOrder;
         }
-        public IFluentPurchaseOrder CreatePurchaseOrder(PurchaseOrderView purchaseOrderView)
+   	public IFluentPurchaseOrder DeletePurchaseOrders(List<PurchaseOrder> deleteObjects)
         {
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.purchaseOrderRepository.CreatePurchaseOrderByView(purchaseOrderView));
-            Task.WaitAll(resultTask);
-            processStatus = resultTask.Result;
+            unitOfWork.purchaseOrderRepository.DeleteObjects(deleteObjects);
+            this.processStatus = CreateProcessStatus.Delete;
             return this as IFluentPurchaseOrder;
         }
-        public IFluentPurchaseOrder CreatePurchaseOrderDetails(PurchaseOrderView purchaseOrderView)
-        {
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.purchaseOrderRepository.CreatePurchaseOrderDetailsByView(purchaseOrderView));
-            Task.WaitAll(resultTask);
-            processStatus = resultTask.Result;
-            return this as IFluentPurchaseOrder;
-        }
-
     }
 }

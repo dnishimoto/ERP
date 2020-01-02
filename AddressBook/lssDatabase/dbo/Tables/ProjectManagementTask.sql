@@ -20,8 +20,10 @@
     [WorkOrderId]        BIGINT          NULL,
     [TaskNumber]         BIGINT          NULL,
     CONSTRAINT [PK_ProjectManagementTask] PRIMARY KEY CLUSTERED ([TaskId] ASC),
-    CONSTRAINT [FK_ProjectManagementTask_ProjectManagementMilestones] FOREIGN KEY ([MileStoneId]) REFERENCES [dbo].[ProjectManagementMilestones] ([MilestoneId]),
+    CONSTRAINT [FK_ProjectManagementTask_ProjectManagementMilestones] FOREIGN KEY ([MileStoneId]) REFERENCES [dbo].[ProjectManagementMilestone] ([MilestoneId]),
     CONSTRAINT [FK_ProjectManagementTask_ProjectManagementProject] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[ProjectManagementProject] ([ProjectId]),
     CONSTRAINT [FK_ProjectManagementTask_UDC] FOREIGN KEY ([StatusXrefId]) REFERENCES [dbo].[UDC] ([XRefId])
 );
+
+
 

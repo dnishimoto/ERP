@@ -5,26 +5,24 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using ERP_Core2.PurchaseOrderDomain;
-using ERP_Core2.AccountsPayableDomain;
-using ERP_Core2.PackingSlipDomain;
-using ERP_Core2.SupplierInvoicesDomain;
-using ERP_Core2.GeneralLedgerDomain;
+using lssWebApi2.PurchaseOrderDomain;
+using lssWebApi2.PackingSlipDomain;
+using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.InventoryDomain;
+using lssWebApi2.SupplierDomain;
+using lssWebApi2.SupplierInvoiceDomain;
 
-namespace ERP_Core2.AccountPayableDomain
+namespace lssWebApi2.AccountPayableDomain
 {
 
     public class UnitTestAccountPayable
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
         public UnitTestAccountPayable(ITestOutputHelper output)
@@ -39,17 +37,15 @@ namespace ERP_Core2.AccountPayableDomain
             string poNumber = "PO-2";
 
             AccountPayableModule acctPayablesMod = new AccountPayableModule();
-            UnitOfWork unitOfWork = new UnitOfWork();
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
-            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
-            ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "210", "");
+            long? addressId = await acctPayablesMod.AddressBook.Query().GetAddressIdByCustomerId(customerId);
 
-            AcctPay acctPay = acctPayablesMod.AccountPayable.Query().GetAcctPayByPONumber(poNumber);
-           // AcctPay acctPay = await unitOfWork.accountPayableRepository.GetAcctPayByPONumber(poNumber);
+            ChartOfAccount coa = await acctPayablesMod.ChartOfAccount.Query().GetEntity("1000", "1200", "210", "");
 
+            AccountPayable acctPay = await acctPayablesMod.AccountPayable.Query().GetAcctPayByPONumber(poNumber);
 
-            SupplierInvoice supplierInvoice = await unitOfWork.supplierInvoiceRepository.GetSupplierInvoiceByPONumber(poNumber);
+            SupplierInvoice supplierInvoice = await acctPayablesMod.SupplierInvoice.Query().GetEntityByPONumber(poNumber);
 
             if (coa == null || acctPay == null || supplierInvoice == null)
             {
@@ -76,22 +72,22 @@ namespace ERP_Core2.AccountPayableDomain
             ledgerView.FiscalYear = 2018;
             ledgerView.CheckNumber = "113";
 
-            bool result = acctPayablesMod.CreateAccountPayable(ledgerView);
-     
+            acctPayablesMod.CreateAccountPayable(ledgerView);
+            acctPayablesMod.AccountPayable.Apply();
 
-            Assert.True(result);
+            Assert.True(true);
                
         }
         [Fact]
         public async Task TestReceiveSupplierInvoice()
         {
-            long supplierId = 3;
+            long? supplierId = 3;
+            SupplierModule supplierMod = new SupplierModule();
 
-            UnitOfWork unitOfWork = new UnitOfWork();
 
             try
             {
-                SupplierView supplierView = await unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
+                SupplierView supplierView = await supplierMod.Supplier.Query().GetViewById(supplierId??0);
 
                 string json = @"{
             ""SupplierId"" : " + supplierView.SupplierId + @",
@@ -153,7 +149,8 @@ namespace ERP_Core2.AccountPayableDomain
                 SupplierInvoiceView supplierInvoiceView = JsonConvert.DeserializeObject<SupplierInvoiceView>(json);
 
                 AccountPayableModule apMod = new AccountPayableModule();
-                bool result = apMod.CreateSupplierInvoice(supplierInvoiceView);
+               apMod.CreateSupplierInvoice(supplierInvoiceView);
+                apMod.AccountPayable.Apply();
 
        
                    
@@ -167,10 +164,11 @@ namespace ERP_Core2.AccountPayableDomain
 
             try
             {
-                UnitOfWork unitOfWork = new UnitOfWork();
 
-                SupplierView supplierView = await unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId);
-                Udc slipTypeUDC = await unitOfWork.supplierRepository.GetUdc("PACKINGSLIP_TYPE", "INBOUND");
+                SupplierModule supplierMod = new SupplierModule();
+
+                SupplierView supplierView = await supplierMod.Supplier.Query().GetViewById(supplierId);
+                Udc slipTypeUDC = await supplierMod.Udc.Query().GetUdc("PACKINGSLIP_TYPE", "INBOUND");
 
 
 
@@ -229,10 +227,10 @@ namespace ERP_Core2.AccountPayableDomain
                 PackingSlipView packingSlipView = JsonConvert.DeserializeObject<PackingSlipView>(json);
 
                 AccountPayableModule apMod = new AccountPayableModule();
-                bool result = apMod.CreatePackingSlip(packingSlipView);
-
+                 apMod.CreatePackingSlip(packingSlipView);
+                apMod.AccountPayable.Apply();
                            
-                Assert.True(result);
+                Assert.True(true);
             }
             catch (Exception ex) { }
 
@@ -240,16 +238,19 @@ namespace ERP_Core2.AccountPayableDomain
         [Fact]
         public async Task TestCreatePurchaseOrder()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
+            SupplierModule supplierMod = new SupplierModule();
 
             ItemMaster itemMaster = new ItemMaster();
-            itemMaster.ItemNumber = "P2001Test";
+            itemMaster.ItemCode = "P2001Test";
+            itemMaster.Branch = "700";
             itemMaster.Description = "Highlighter - 3 Color";
             itemMaster.UnitOfMeasure = "Sets";
             itemMaster.UnitPrice = 6M;
 
-            bool result = await unitOfWork.itemMasterRepository.CreateItemMaster(itemMaster);
-            if (result) { unitOfWork.CommitChanges(); }
+            supplierMod.ItemMaster.CreateItemMaster(itemMaster);
+            supplierMod.ItemMaster.Apply();
+
+        
             AddressBook addressBook = new AddressBook();
             addressBook.CompanyName = "Sample Company Part Ltd";
             addressBook.Name = "";
@@ -262,44 +263,38 @@ namespace ERP_Core2.AccountPayableDomain
             locationAddress.Zipcode = "3000";
             locationAddress.Country = "Australia";
 
-            Emails email = new Emails();
+            EmailEntity email = new EmailEntity();
             email.Email = "SampleCompany@Party.com";
             email.LoginEmail = true;
             email.Password = "123";
 
 
-            //SupplierView supplierView = await unitOfWork.supplierRepository.CreateSupplierByAddressBook(addressBook, locationAddress, email);
 
-            SupplierModule supplierModule = new SupplierModule();
+           supplierMod.CreateSupplierProfile(addressBook, email,locationAddress);
+        
+            SupplierView supplierView = await supplierMod.Supplier.Query().GetViewByEmail(email);
 
-            bool result2 = supplierModule.CreateSupplier(addressBook, email,locationAddress);
+            ChartOfAccount coa = await supplierMod.ChartOfAccount.Query().GetEntity("1000", "1200", "240", "");
 
-           
-            SupplierView supplierView = supplierModule.Supplier.Query().GetSupplierViewByEmail(email);
-            //supplierModule.CreateSupplierByAddressBook(addressBook, locationAddress, email);
-
-
-            ChartOfAccts coa = await unitOfWork.supplierRepository.GetChartofAccount("1000", "1200", "240", "");
-
-            Company company = await unitOfWork.supplierRepository.GetCompany();
+            Company company = await supplierMod.ChartOfAccount.Query().GetCompany();
 
             ItemMaster[] itemMasterLookup = new ItemMaster[5];
 
-            itemMasterLookup[0] = await unitOfWork.itemMasterRepository.GetObjectAsync(5);
-            itemMasterLookup[1] = await unitOfWork.itemMasterRepository.GetObjectAsync(6);
-            itemMasterLookup[2] = await unitOfWork.itemMasterRepository.GetObjectAsync(7);
-            itemMasterLookup[3] = await unitOfWork.itemMasterRepository.GetObjectAsync(8);
-            itemMasterLookup[4] = await unitOfWork.itemMasterRepository.GetObjectAsync(9);
+            itemMasterLookup[0] = await supplierMod.ItemMaster.Query().GetEntityById(5);
+            itemMasterLookup[1] = await supplierMod.ItemMaster.Query().GetEntityById(6);
+            itemMasterLookup[2] = await supplierMod.ItemMaster.Query().GetEntityById(7);
+            itemMasterLookup[3] = await supplierMod.ItemMaster.Query().GetEntityById(8);
+            itemMasterLookup[4] = await supplierMod.ItemMaster.Query().GetEntityById(9);
 
-            Udc udcAcctPayDocType = await unitOfWork.accountPayableRepository.GetUdc("AcctPayDocType", "STD");
+            Udc udcAcctPayDocType = await supplierMod.Udc.Query().GetUdc("AcctPayDocType", "STD");
 
             string json = @"{
             ""DocType"" : """ + udcAcctPayDocType.KeyCode + @""",
             ""PaymentTerms"" : ""Net 30"",
             ""GLDate"" : """ + DateTime.Parse("7/30/2018") + @""",
             ""AccountId"" :" + coa.AccountId + @",
-            ""SupplierId"" :" + (supplierView.SupplierId ?? 0).ToString() + @",
-            ""SupplierName"" :""" + supplierView.CompanyName + @""",
+            ""SupplierId"" :" + (supplierView.SupplierId).ToString() + @",
+            ""SupplierName"" :""" + supplierView.SupplierName + @""",
             ""Description"" :""Back to School Inventory"",
             ""PONumber"" :""PO-2"",
             ""TakenBy"" : ""David Nishimoto"",
@@ -384,10 +379,11 @@ namespace ERP_Core2.AccountPayableDomain
 
 
             AccountPayableModule apMod = new AccountPayableModule();
-            bool result3 = apMod.CreatePurchaseOrder(purchaseOrderView);
+            apMod.CreateByPurchaseOrderView(purchaseOrderView);
+            apMod.AccountPayable.Apply();
 
         
-            Assert.True(result3);
+            Assert.True(true);
         }
 
     }

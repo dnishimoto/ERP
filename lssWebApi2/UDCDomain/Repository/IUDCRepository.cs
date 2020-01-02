@@ -1,14 +1,17 @@
-﻿using lssWebApi2.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace lssWebApi2.UDCDomain.Repository
+
+using lssWebApi2.EntityFramework;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+using System;
+using System.Linq;
+
+namespace lssWebApi2.UDCDomain
 {
-    public interface IUDCRepository
+public interface IUdcRepository
     {
-        Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode);
-        Task<Udc> GetEntityById(long xrefId);
+        Task<Udc> GetEntityById(long  ? udcId);
+	       Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode);
     }
 }

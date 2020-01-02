@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 
     public class UnitPayRollEarnings
@@ -29,7 +29,7 @@ namespace ERP_Core2.PayRollDomain
             int earningCode = 1;
             string earningType = "E";
             PayRollEarningsView view = await PayRollEarningsMod.PayRollEarnings.Query().GetViewByEarningCode(earningCode,earningType);
-            Assert.Null(view);
+            Assert.NotNull(view);
         }
         [Fact]
         public async Task TestAddUpdatDelete()

@@ -1,20 +1,22 @@
-﻿using ERP_Core2.AutoMapper;
-using ERP_Core2.ChartOfAccountsDomain;
-using ERP_Core2.InventoryDomain;
-using ERP_Core2.ItemMasterDomain;
-using ERP_Core2.PackingSlipDomain;
-using ERP_Core2.Services;
+﻿using lssWebApi2.AutoMapper;
+using lssWebApi2.ChartOfAccountsDomain;
+using lssWebApi2.InventoryDomain;
+using lssWebApi2.ItemMasterDomain;
+using lssWebApi2.PackingSlipDetailDomain;
+using lssWebApi2.PackingSlipDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
+using lssWebApi2.MapperAbstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.InventoryDomain
+namespace lssWebApi2.InventoryDomain
 {
-    public class FluentInventoryQuery : IFluentInventoryQuery
+    public class FluentInventoryQuery : MapperAbstract<Inventory,InventoryView>, IFluentInventoryQuery
     {
         private UnitOfWork _unitOfWork = null;
         public FluentInventoryQuery() { }
@@ -23,7 +25,7 @@ namespace ERP_Core2.InventoryDomain
         public async Task<InventoryView> GetInventoryViewByNumber(long inventoryNumber)
         {
             Inventory inventory=await _unitOfWork.inventoryRepository.GetInventoryByNumber(inventoryNumber);
-            InventoryView view = await MapToInventoryView(inventory);
+            InventoryView view = await MapToView(inventory);
 
             if (inventory != null)
             {
@@ -35,23 +37,36 @@ namespace ERP_Core2.InventoryDomain
 
         public async Task<NextNumber> GetInventoryNextNumber()
         {
-            return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfNextNumberEnum.InventoryNumber.ToString());
+            return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfInventory.InventoryNumber.ToString());
         }
-        public async Task<Inventory> MapToInventoryEntity(InventoryView inputObject)
+        public override async Task<Inventory> MapToEntity(InventoryView inputObject)
         {
-            Mapper mapper = new Mapper();
+       
             Inventory inventory = mapper.Map<Inventory>(inputObject);
             await Task.Yield();
             return inventory;
+        }
+        public override async Task<List<Inventory>> MapToEntity(List<InventoryView> inputObjects)
+        {
+            List<Inventory> list = new List<Inventory>();
+
+            foreach (var item in inputObjects)
+            {
+                Inventory outObject = mapper.Map<Inventory>(item);
+                list.Add(outObject);
+            }
+            await Task.Yield();
+            return list;
+
         }
         public async Task<Inventory> GetInventoryByNumber(long inventoryNumber)
         {
             return await _unitOfWork.inventoryRepository.GetInventoryByNumber(inventoryNumber);
         }
-        public async Task<InventoryView> GetInventoryViewbyId(long inventoryId)
+        public override async Task<InventoryView> GetViewById(long ? inventoryId)
         {
-            Inventory inventory = await GetInventoryById(inventoryId);
-            InventoryView view = await MapToInventoryView(inventory);
+            Inventory inventory = await GetEntityById(inventoryId);
+            InventoryView view = await MapToView(inventory);
 
             if (inventory != null)
             {
@@ -63,71 +78,39 @@ namespace ERP_Core2.InventoryDomain
         }
         public async Task<InventoryView> SetViewDependencies(InventoryView view)
         {
-            Task<ItemMaster> itemMasterTask = GetItemMasterById(view.ItemId);
-            Task<ChartOfAccts> accountTask = GetDistributionAccountById(view.DistributionAccountId);
-            Task<PackingSlipDetail> packingSlipDetailTask = GetPackingSlipDetailById(view.PackingSlipDetailId);
-
-            Task.WaitAll(itemMasterTask, accountTask, packingSlipDetailTask);
+            Task<ItemMaster> itemMasterTask = _unitOfWork.itemMasterRepository.GetEntityById(view.ItemId);
+            Task<ChartOfAccount> accountTask = _unitOfWork.chartOfAccountRepository.GetEntityById(view.DistributionAccountId);
+        
+            Task.WaitAll(itemMasterTask, accountTask);
 
             ItemMaster itemMaster = await itemMasterTask;
-            ChartOfAccts distributionAccount = await accountTask;
-            PackingSlipDetail packingSlipDetail = await packingSlipDetailTask;
+            ChartOfAccount distributionAccount = await accountTask;
 
-            if (itemMaster != null) view.ItemMasterView = await MapToItemMasterView(itemMaster);
-            if (distributionAccount != null) view.DistributionAccountView = await MapToChartAccountView(await accountTask);
-            if (packingSlipDetail != null) view.PackingSlipDetailView = await MapToPackingSlipDetailView(await packingSlipDetailTask);
-            return view;
-        }
+            FluentItemMaster fluentItemMaster = new FluentItemMaster();
+            FluentChartOfAccount fluentChartOfAccount = new FluentChartOfAccount();
 
-        public async Task<ChartOfAccountView> MapToChartAccountView(ChartOfAccts inputObject)
-        {
-            Mapper mapper = new Mapper();
-            ChartOfAccountView view = mapper.Map<ChartOfAccountView>(inputObject);
-            await Task.Yield();
-            return view;
-        }
-        public async Task<PackingSlipDetailView> MapToPackingSlipDetailView(PackingSlipDetail inputObject)
-        {
-            Mapper mapper = new Mapper();
-            PackingSlipDetailView view = mapper.Map<PackingSlipDetailView>(inputObject);
-            await Task.Yield();
-            return view;
+
+            if (itemMaster != null) view.ItemMasterView = await fluentItemMaster.Query().MapToView(itemMaster);
+            if (distributionAccount != null) view.DistributionAccountView = await fluentChartOfAccount.Query().MapToView(await accountTask);
+              return view;
         }
 
-        public async Task<ItemMasterView> MapToItemMasterView(ItemMaster inputObject)
+    
+      
+
+        
+        public override async Task<InventoryView> MapToView(Inventory inputObject)
         {
-            Mapper mapper = new Mapper();
-            ItemMasterView view = mapper.Map<ItemMasterView>(inputObject);
-            await Task.Yield();
-            return view;
-        }
-        public async Task<InventoryView> MapToInventoryView(Inventory inputObject)
-        {
-            
-            Mapper mapper = new Mapper();
             InventoryView view = mapper.Map<InventoryView>(inputObject);
             await Task.Yield();
             return view;
         }
 
-        public async Task<ItemMaster> GetItemMasterById(long itemId) {
-            try
-            {
-                return await _unitOfWork.itemMasterRepository.GetItemMasterById(itemId);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
+       
+        public override async Task<Inventory> GetEntityById(long ? inventoryId) {
+            return await _unitOfWork.inventoryRepository.GetEntityById(inventoryId);
         }
-        public async Task<Inventory> GetInventoryById(long inventoryId) {
-            return await _unitOfWork.inventoryRepository.GetInventoryById(inventoryId);
-        }
-        public async Task<PackingSlipDetail> GetPackingSlipDetailById(long? packingSlipId){
-            return await _unitOfWork.packingSlipRepository.GetPackingSlipDetailById(packingSlipId);
-        }
-        public async Task<ChartOfAccts> GetDistributionAccountById(long? accountId) {
-            return await _unitOfWork.chartOfAccountRepository.GetChartOfAccountById(accountId);
-        }
+      
+       
     }
 }

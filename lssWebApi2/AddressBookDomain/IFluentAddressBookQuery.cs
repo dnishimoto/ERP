@@ -1,25 +1,26 @@
-﻿using ERP_Core2.AddressBookDomain;
+﻿using lssWebApi2.AddressBookDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using lssWebApi2.EntityFramework;
 using System.Threading.Tasks;
+using lssWebApi2.AbstractFactory;
 
-namespace ERP_Core2.Interfaces
+namespace lssWebApi2.Interfaces
 {
     public interface IFluentAddressBookQuery
     {
-        BuyerView GetBuyerByBuyerId(long buyerId);
-        CarrierView GetCarrierByCarrierId(long carrierId);
-        SupplierView GetSupplierBySupplierId(long supplierId);
-    
-        SupervisorView GetSupervisorBySupervisorId(long supervisorId);
-        List<Phones> GetPhonesByAddressId(long addressId);
-        List<Emails> GetEmailsByAddressId(long addressId);
-        List<AddressBookView> GetAddressBookByName(string name);
-        AddressBook GetEntityById(long addressId);
-        AddressBookView GetViewById(long addressId);
+       
+        Task<List<AddressBookView>> GetAddressBookByName(string namePattern);
+        Task<AddressBook> GetEntityById(long ? addressId);
+        Task<AddressBookView> GetViewById(long? addressId);
         IQueryable<AddressBook> GetAddressBooksByExpression(Expression<Func<AddressBook, bool>> predicate);
+        Task<long> GetAddressIdByCustomerId(long? customerId);
+        Task<AddressBook> GetAddressBookbyEmail(string email);
+        Task<AddressBook> MapToEntity(AddressBookView inputObject);
+        Task<List<AddressBook>> MapToEntity(List<AddressBookView> inputObjects);
+        Task<AddressBookView> MapToView(AddressBook inputObject);
+        Task<PageListViewContainer<AddressBookView>> GetViewsByPage(Expression<Func<AddressBook, bool>> predicate, Expression<Func<AddressBook, object>> order, int pageSize, int pageNumber);
     }
 }

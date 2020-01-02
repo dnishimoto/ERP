@@ -1,0 +1,2 @@
+Copy-Item -Path "C:\users\owner\source\repos\MillenniumERP\lssWebApi2\*" -Destination "f:\lssWebApi2" -Recurse -Force
+Copy-Item -Path "C:\users\owner\source\repos\MillenniumERP\lssXUnit3\*" -Destination "f:\lssXUnit3" -Recurse -Force

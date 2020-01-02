@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 

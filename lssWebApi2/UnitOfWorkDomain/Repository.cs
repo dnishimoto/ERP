@@ -1,4 +1,4 @@
-﻿using ERP_Core2.CustomerDomain;
+﻿using lssWebApi2.CustomerDomain;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -13,7 +13,7 @@ using System.Data.Common;
 using System.Data;
 using lssWebApi2;
 
-namespace ERP_Core2.Services
+namespace lssWebApi2.Services
 {
     public static class EF_Extension
     {
@@ -65,7 +65,8 @@ namespace ERP_Core2.Services
             }
             catch (Exception ex)
             {
-                return null;
+                throw new Exception("SqlQuery", ex);
+
             }
         }
 
@@ -173,26 +174,26 @@ namespace ERP_Core2.Services
             */
 
         }
-        public String BuildLongDate(DateTime myDate)
+        public String BuildLongDate(DateTime ? myDate)
         {
             String year, month, day = "";
             string hour, minute = "";
             try
             {
-                year = myDate.Year.ToString();
-                month = myDate.Month.ToString().PadLeft(2, '0');
-                day = myDate.Day.ToString().PadLeft(2, '0');
+                year = myDate?.Year.ToString();
+                month = myDate?.Month.ToString().PadLeft(2, '0');
+                day = myDate?.Day.ToString().PadLeft(2, '0');
 
 
-                if (myDate.TimeOfDay.ToString()== "PM")
+                if (myDate?.TimeOfDay.ToString()== "PM")
                 {
-                    hour = (myDate.Hour + 12).ToString().PadLeft(2,'0');
+                    hour = (myDate?.Hour + 12).ToString().PadLeft(2,'0');
                 }
                 else
                 {
-                    hour = myDate.Hour.ToString().PadLeft(2,'0');
+                    hour = myDate?.Hour.ToString().PadLeft(2,'0');
                 }
-                minute = myDate.Minute.ToString().PadLeft(2, '0');
+                minute = myDate?.Minute.ToString().PadLeft(2, '0');
 
                 return year + month + day + hour + minute + "00";
             }
@@ -206,8 +207,9 @@ namespace ERP_Core2.Services
             TimeSpan time = new TimeSpan(0, durationHours, durationMinutes, 0);
             return currentDate.Add(time);
         }
-        public DateTime BuildShortDate(DateTime currentDate, int shiftTime)
+        public DateTime BuildShortDate(DateTime currentDate, string stringShiftTime)
         {
+            int shiftTime = Int32.Parse(stringShiftTime);
             int hour = shiftTime / 100;
             int minute = shiftTime - (hour * 100);
 
@@ -215,18 +217,19 @@ namespace ERP_Core2.Services
             TimeSpan time = new TimeSpan(0, hour, minute, 0);
             return currentDate.Add(time);           
         }
-        public String BuildLongDate(DateTime myDate, int hours)
+        public String BuildLongDate(DateTime ? myDate, String stringHours )
         {
             try
             {
+                int hours = Int32.Parse(stringHours);
 
                 String year, month, day = "";
                 string myLongTime = "0" + hours + "00";
                 myLongTime = myLongTime.Substring(myLongTime.Length - 6);
 
-                year = myDate.Year.ToString();
-                month = myDate.Month.ToString().PadLeft(2, '0');
-                day = myDate.Day.ToString().PadLeft(2, '0');
+                year = myDate?.Year.ToString();
+                month = myDate?.Month.ToString().PadLeft(2, '0');
+                day = myDate?.Day.ToString().PadLeft(2, '0');
 
                 //longHours = myDate.Hour.ToString().PadLeft(2, '0');
                 //minutes = myDate.Minute.ToString().PadLeft(2, '0');
@@ -239,21 +242,7 @@ namespace ERP_Core2.Services
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<AddressBook> GetAddressBookByCustomerView(CustomerView customerView)
-        {
-            try
-            {
-                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
-                var query = await (from e in _dbListensoftwaredbContext.AddressBook
-                                   join f in _dbListensoftwaredbContext.Emails on e.AddressId equals f.AddressId
-                                   where e.Name == customerView.CustomerName &&
-                                   f.Email == customerView.AccountEmail.EmailText
-                                   && f.LoginEmail == true
-                                   select e).FirstOrDefaultAsync<AddressBook>();
-                return query;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
+       
         public async Task<Company> GetCompany()
         {
             try
@@ -269,19 +258,19 @@ namespace ERP_Core2.Services
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<ChartOfAccts> GetChartofAccount(string company, string busUnit, string objectNumber, string subsidiary)
+        public async Task<ChartOfAccount> GetChartofAccount(string companyCode, string busUnit, string objectNumber, string subsidiary)
         {
             try
             {
                 ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
 
 
-                ChartOfAccts chartOfAcct = await (from e in _dbListensoftwaredbContext.ChartOfAccts
-                                                 where e.CompanyNumber == company
+                ChartOfAccount chartOfAcct = await (from e in _dbListensoftwaredbContext.ChartOfAccount
+                                                 where e.CompanyCode == companyCode
                                                  && e.BusUnit == busUnit
                                                  && e.ObjectNumber == objectNumber
                                                  && (e.Subsidiary ?? "") == subsidiary
-                                                 select e).FirstOrDefaultAsync<ChartOfAccts>();
+                                                 select e).FirstOrDefaultAsync<ChartOfAccount>();
 
                 return chartOfAcct;
             }
@@ -289,21 +278,7 @@ namespace ERP_Core2.Services
             { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<long> GetAddressIdByCustomerId(long ? customerId)
-        {
-            try
-            {
-                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
-
-                Customer customer = await (from e in _dbListensoftwaredbContext.Customer
-                                           where e.CustomerId == customerId
-                                           select e).FirstOrDefaultAsync<Customer>();
-
-                return customer.AddressId;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-
-        }
+  
         public async Task<TaxRatesByCode> GetTaxRatesByCode(string TaxCode)
         {
             try
@@ -349,6 +324,7 @@ namespace ERP_Core2.Services
             }
             catch (Exception ex) { throw new Exception(ex.Message); }
         }
+        /*
         public IQueryable<T> GetObjectsQueryable(Expression<Func<T, bool>> predicate,string includeTable="")
         {
             IQueryable<T> result = _dbContext.Set<T>().Where(predicate);
@@ -360,6 +336,7 @@ namespace ERP_Core2.Services
             
                 return result;
         }
+        */
        
         public void DeleteObject(T dataObject)
         {

@@ -1,6 +1,6 @@
-using ERP_Core2.AutoMapper;
-using ERP_Core2.PayRollDomain;
-using ERP_Core2.Services;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.PayRollDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using System.Collections.Generic;

@@ -1,10 +1,11 @@
-using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.Services;
+using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 using System;
+using lssWebApi2.Enumerations;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 
 public class FluentPayRollEarnings :IFluentPayRollEarnings

@@ -1,7 +1,7 @@
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 
-namespace ERP_Core2.TaxRatesByCodeDomain
+namespace lssWebApi2.TaxRatesByCodeDomain
 {
     public interface IFluentTaxRatesByCode
     {

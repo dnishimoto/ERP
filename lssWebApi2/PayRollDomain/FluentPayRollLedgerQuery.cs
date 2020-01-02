@@ -1,11 +1,11 @@
-using ERP_Core2.AutoMapper;
-using ERP_Core2.Services;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 public class FluentPayRollLedgerQuery:IFluentPayRollLedgerQuery
     {
@@ -71,9 +71,9 @@ public async Task<PayRollLedger> GetEntityById(long payRollLedgerId)
             return await _unitOfWork.payRollLedgerRepository.GetEntityByNumber(payRollLedgerNumber);
         }
 
-        public async Task<List<PayRollLedger>> GetEntitiesByPaySequence(long employee, long paySequence)
+        public async Task<IList<PayRollLedger>> GetEntitiesByPaySequence(long employee, long paySequence)
         {
-            List<PayRollLedger> list = await _unitOfWork.payRollLedgerRepository.GetEntitiesByPaySequence(e => e.EmployeeId == employee && e.PaySequence == paySequence,"");
+            IList<PayRollLedger> list = await _unitOfWork.payRollLedgerRepository.GetEntitiesByPaySequence(e => e.EmployeeId == employee && e.PaySequence == paySequence);
 
             return list;
         }

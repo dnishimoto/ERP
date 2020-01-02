@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using lssWebApi2.AddressBookDomain;
-using ERP_Core2.AddressBookDomain;
+using lssWebApi2.EmployeeDomain;
 
 namespace lssWebApi2.Controllers
 {

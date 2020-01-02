@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.ProjectManagementDomain;
-using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain;
+using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using lssWebApi2.ProjectManagementWorkOrderDomain;
+using lssWebApi2.ProjectManagementTaskDomain;
+using lssWebApi2.EmployeeDomain;
+using lssWebApi2.ProjectManagementMilestoneDomain;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -35,8 +37,9 @@ namespace lssWebApi2.Controllers
                 if (list.Count()>0)
                 {
                     //long ? workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
-                    pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
+                    pmMod.WorkOrderToEmployee.DeleteProjectManagementWorkOrderToEmployees(list).Apply();
                 }
+                await Task.Yield();
                 return Ok(true);
             }
             catch (Exception ex)
@@ -51,9 +54,9 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> DeleteWorkOrder(long workOrderId)
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
-            ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderById(workOrderId);
-            ProjectManagementWorkOrderView view = await pmMod.ProjectManagement.Query().MapToWorkOrderView(workOrder);
-            pmMod.ProjectManagement.DeleteWorkOrder(workOrder).Apply();
+            ProjectManagementWorkOrder workOrder = await pmMod.WorkOrder.Query().GetEntityById(workOrderId);
+            ProjectManagementWorkOrderView view = await pmMod.WorkOrder.Query().MapToView(workOrder);
+            pmMod.WorkOrder.DeleteProjectManagementWorkOrder(workOrder).Apply();
             return Ok(view);
         }
        
@@ -63,9 +66,9 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> DeleteMilestone(long milestoneId)
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
-            ProjectManagementMilestones milestone = await pmMod.ProjectManagement.Query().GetMileStoneById(milestoneId);
-            ProjectManagementMilestoneView view = await pmMod.ProjectManagement.Query().MaptoMilestoneView(milestone);
-            pmMod.ProjectManagement.DeleteMileStone(milestone).Apply();
+            ProjectManagementMilestone milestone = await pmMod.Milestone.Query().GetEntityById(milestoneId);
+            ProjectManagementMilestoneView view = await pmMod.Milestone.Query().MapToView(milestone);
+            pmMod.Milestone.DeleteProjectManagementMilestone(milestone).Apply();
             return Ok(view);
         }
       
@@ -75,9 +78,9 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> DeleteProject(long projectId)
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
-            ProjectManagementProject project = await pmMod.ProjectManagement.Query().GetProjectById(projectId);
-            ProjectManagementProjectView view = await pmMod.ProjectManagement.Query().MapToProjectView(project);
-            pmMod.ProjectManagement.DeleteProject(project).Apply();
+            ProjectManagementProject project = await pmMod.Project.Query().GetEntityById(projectId);
+            ProjectManagementProjectView view = await pmMod.Project.Query().MapToView(project);
+            pmMod.Project.DeleteProject(project).Apply();
            
             return Ok(view);
         }
@@ -85,19 +88,19 @@ namespace lssWebApi2.Controllers
         [HttpPost]
         [Route("CreateMilestone")]
         [ProducesResponseType(typeof(ProjectManagementMilestoneView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> CreateMilestone([FromBody]ProjectManagementMilestones milestone)
+        public async Task<IActionResult> CreateMilestone([FromBody]ProjectManagementMilestone milestone)
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            NextNumber nnMileStone = await pmMod.ProjectManagement.Query().GetMileStoneNumber();
+            NextNumber nnMileStone = await pmMod.Milestone.Query().GetNextNumber();
 
             milestone.MileStoneNumber = nnMileStone.NextNumberValue;
       
-            pmMod.ProjectManagement.AddMileStone(milestone).Apply();
+            pmMod.Milestone.AddProjectManagementMilestone(milestone).Apply();
 
-            ProjectManagementMilestones queryMilestone = await pmMod.ProjectManagement.Query().GetMileStoneByNumber(milestone.MileStoneNumber??0);
+            ProjectManagementMilestone queryMilestone = await pmMod.Milestone.Query().GetEntityByNumber(milestone.MileStoneNumber??0);
 
-            ProjectManagementMilestoneView view = await pmMod.ProjectManagement.Query().MaptoMilestoneView(queryMilestone);
+            ProjectManagementMilestoneView view = await pmMod.Milestone.Query().MapToView(queryMilestone);
 
             return Ok(view);
         }
@@ -112,10 +115,10 @@ namespace lssWebApi2.Controllers
             if (list.Count()>0)
             {
                 long ? workOrderId = list.FirstOrDefault<ProjectManagementWorkOrderToEmployee>().WorkOrderId;
-                pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
+                pmMod.WorkOrderToEmployee.AddProjectManagementWorkOrderToEmployees(list).Apply();
 
                 IEnumerable<EmployeeView> query =
-                    await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId??0);
+                    await pmMod.Employee.Query().GetEntitiesByWorkOrderId(workOrderId??0);
 
                 retList = new List<EmployeeView>(query);
 
@@ -129,16 +132,16 @@ namespace lssWebApi2.Controllers
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            NextNumber nnWorkOrder = await pmMod.ProjectManagement.Query().GetWorkOrderNumber();
+            NextNumber nnWorkOrder = await pmMod.WorkOrder.Query().GetNextNumber();
 
             newWorkOrder.WorkOrderNumber = nnWorkOrder.NextNumberValue;
            
 
-            pmMod.ProjectManagement.AddWorkOrder(newWorkOrder).Apply();
+            pmMod.WorkOrder.AddProjectManagementWorkOrder(newWorkOrder).Apply();
 
-            ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderByNumber(nnWorkOrder.NextNumberValue);
+            ProjectManagementWorkOrder workOrder = await pmMod.WorkOrder.Query().GetEntityByNumber(nnWorkOrder.NextNumberValue);
 
-            ProjectManagementWorkOrderView view = await pmMod.ProjectManagement.Query().MapToWorkOrderView(workOrder);
+            ProjectManagementWorkOrderView view = await pmMod.WorkOrder.Query().MapToView(workOrder);
 
             return Ok(view);
         }
@@ -149,15 +152,15 @@ namespace lssWebApi2.Controllers
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            NextNumber nnProject = await pmMod.ProjectManagement.Query().GetProjectNumber();
+            NextNumber nnProject = await pmMod.Project.Query().GetNextNumber();
 
             newProject.ProjectNumber = nnProject.NextNumberValue;
       
-            pmMod.ProjectManagement.AddProject(newProject).Apply();
+            pmMod.Project.AddProject(newProject).Apply();
 
-            ProjectManagementProject projectSaved = await pmMod.ProjectManagement.Query().GetProjectByNumber(nnProject.NextNumberValue);
+            ProjectManagementProject projectSaved = await pmMod.Project.Query().GetEntityByNumber(nnProject.NextNumberValue);
 
-            ProjectManagementProjectView view = await pmMod.ProjectManagement.Query().MapToProjectView(projectSaved);
+            ProjectManagementProjectView view = await pmMod.Project.Query().MapToView(projectSaved);
 
             return Ok(view);
 
@@ -169,18 +172,16 @@ namespace lssWebApi2.Controllers
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementMilestones> query = await pmMod.ProjectManagement.Query().GetTasksByMilestoneId(milestoneId);
+            IQueryable<ProjectManagementTask> query = await pmMod.Task.Query().GetEntitiesByMilestoneId(milestoneId);
 
             List<ProjectManagementTaskView> list = new List<ProjectManagementTaskView>();
 
        
             foreach (var item in query)
             {
-                foreach (var task in item.ProjectManagementTask)
-                {
-                    ProjectManagementTaskView view = await pmMod.ProjectManagement.Query().MapToTaskView(task);
+                      ProjectManagementTaskView view = await pmMod.Task.Query().MapToView(item);
                     list.Add(view);
-                }
+
             }
             return Ok(list);
         }
@@ -191,12 +192,12 @@ namespace lssWebApi2.Controllers
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementWorkOrder> query = await pmMod.ProjectManagement.Query().GetWorkOrdersByProjectId(projectId);
+            IQueryable<ProjectManagementWorkOrder> query = await pmMod.WorkOrder.Query().GetEntitiesByProjectId(projectId);
 
             List<ProjectManagementWorkOrderView> list = new List<ProjectManagementWorkOrderView>();
             foreach (var workOrder in query)
             {
-                ProjectManagementWorkOrderView view = await pmMod.ProjectManagement.Query().MapToWorkOrderView(workOrder);
+                ProjectManagementWorkOrderView view = await pmMod.WorkOrder.Query().MapToView(workOrder);
                 list.Add(view);
             }
             return Ok(list);
@@ -207,17 +208,16 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> GetMilestonesByProjectId(long projectId)
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
-            IQueryable<ProjectManagementProject> query = await pmMod.ProjectManagement.Query().GetMilestones(projectId);
+            IQueryable<ProjectManagementMilestone> query = await pmMod.Milestone.Query().GetEntitiesByProjectId(projectId);
             int count = 0;
             List<ProjectManagementMilestoneView> list = new List<ProjectManagementMilestoneView>();
             foreach (var item in query)
             {
-                foreach (ProjectManagementMilestones milestone in item.ProjectManagementMilestones)
-                {
-                    ProjectManagementMilestoneView view = await pmMod.ProjectManagement.Query().MaptoMilestoneView(milestone);
+                
+                    ProjectManagementMilestoneView view = await pmMod.Milestone.Query().MapToView(item);
                     count++;
                     list.Add(view);
-                }
+            
             }
             return Ok(list);
         }
@@ -230,14 +230,14 @@ namespace lssWebApi2.Controllers
 
         ProjectManagementModule pmMod = new ProjectManagementModule();
 
-        IQueryable<ProjectManagementTask> query = await pmMod.ProjectManagement.Query().GetTasksByProjectId(projectId);
+        IQueryable<ProjectManagementTask> query = await pmMod.Task.Query().GetEntitiesByProjectId(projectId);
 
         int count = 0;
             List<ProjectManagementTaskView> list = new List<ProjectManagementTaskView>();
             foreach (var item in query)
             {
 
-                ProjectManagementTaskView view = await pmMod.ProjectManagement.Query().MaptoTaskView(item);
+                ProjectManagementTaskView view = await pmMod.Task.Query().MapToView(item);
                 count++;
                 list.Add(view);
 

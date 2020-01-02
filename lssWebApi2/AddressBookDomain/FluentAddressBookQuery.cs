@@ -1,73 +1,74 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.Interfaces;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
+﻿using lssWebApi2.AbstractFactory;
+using lssWebApi2.Interfaces;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.MapperAbstract;
+using X.PagedList;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.FluentAPI
 {
-    public class FluentAddressBookQuery : AbstractModule, IFluentAddressBookQuery
+    public class FluentAddressBookQuery : MapperAbstract<AddressBook,AddressBookView>, IFluentAddressBookQuery
     {
         protected UnitOfWork _unitOfWork;
         public FluentAddressBookQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
-        
-        public BuyerView GetBuyerByBuyerId(long buyerId)
+        public override async Task<AddressBook> MapToEntity(AddressBookView inputObject)
         {
-            try
-            {
-                Task<BuyerView> resultTask = Task.Run(async() => await _unitOfWork.buyerRepository.GetBuyerViewByBuyerId(buyerId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
+            AddressBook outObject = mapper.Map<AddressBook>(inputObject);
+            await Task.Yield();
+            return outObject;
         }
-        public CarrierView GetCarrierByCarrierId(long carrierId)
-        {
-            try
-            {
-                Task<CarrierView> resultTask = Task.Run(async() => await _unitOfWork.carrierRepository.GetCarrierViewByCarrierId(carrierId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
 
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-        public SupplierView GetSupplierBySupplierId(long supplierId)
+        public override async Task<List<AddressBook>> MapToEntity(List<AddressBookView> inputObjects)
         {
-
-            try
+            List<AddressBook> list = new List<AddressBook>();
+            foreach (var item in inputObjects)
             {
-                Task<SupplierView> resultTask = Task.Run(async () => await _unitOfWork.supplierRepository.GetSupplierViewBySupplierId(supplierId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
+                AddressBook outObject = mapper.Map<AddressBook>(item);
+                list.Add(outObject);
             }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
+            await Task.Yield();
+            return list;
 
         }
-     
-       
-        public SupervisorView GetSupervisorBySupervisorId(long supervisorId)
+
+       public override async Task<AddressBookView> MapToView(AddressBook inputObject)
+        {
+            AddressBookView outObject = mapper.Map<AddressBookView>(inputObject);
+            await Task.Yield();
+            return outObject;
+        }
+
+        public async Task<PageListViewContainer<AddressBookView>> GetViewsByPage(Expression<Func<AddressBook, bool>> predicate, Expression<Func<AddressBook, object>> order, int pageSize, int pageNumber)
         {
             try
             {
-                Task<SupervisorView> resultTask = Task.Run(async() => await _unitOfWork.supervisorRepository.GetSupervisorBySupervisorId(supervisorId));
-                //Task.WaitAll(resultTask);
-                return resultTask.Result;
+                var query = _unitOfWork.addressBookRepository.GetEntitiesByExpression(predicate);
+                query = query.OrderByDescending(order).Select(e => e);
+
+                IPagedList<AddressBook> list = await query.ToPagedListAsync(pageNumber, pageSize);
+
+                PageListViewContainer<AddressBookView> container = new PageListViewContainer<AddressBookView>();
+                container.PageNumber = pageNumber;
+                container.PageSize = pageSize;
+                container.TotalItemCount = list.TotalItemCount;
+
+
+                foreach (var item in list)
+                {
+                    AddressBookView view = await MapToView(item);
+                    container.Items.Add(view);
+                }
+
+                //await Task.Yield();
+                return container;
             }
             catch (Exception ex)
             {
@@ -75,72 +76,50 @@ namespace ERP_Core2.FluentAPI
             }
 
         }
-        public List<Phones> GetPhonesByAddressId(long addressId)
-        {
-            try
-            {
-                Task<List<Phones>> resultTask = Task.Run(() => _unitOfWork.addressBookRepository.GetPhonesByAddressId(addressId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
 
-            }
-        }
-        public List<Emails> GetEmailsByAddressId(long addressId)
+        public async Task<List<AddressBookView>> GetAddressBookByName(string namePattern)
         {
             try
             {
-                Task<List<Emails>> resultTask = Task.Run(() => _unitOfWork.addressBookRepository.GetEmailsByAddressId(addressId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
+               List<AddressBook> list= _unitOfWork.addressBookRepository.GetEntityByName(namePattern);
+                List<AddressBookView>views=new List<AddressBookView>();
+
+                list.ForEach(async e => views.Add(await MapToView(e)));
+
+                await Task.Yield();
+
+                return views;
             }
             catch (Exception ex)
             {
-                throw new Exception(GetMyMethodName(), ex);
+                throw new Exception("GetAddressBookByName", ex);
             }
 
         }
-        public List<AddressBookView> GetAddressBookByName(string namePattern)
+        public override async Task<AddressBookView> GetViewById(long ? addressId)
         {
             try
             {
-                List<AddressBookView>list = _unitOfWork.addressBookRepository.GetAddressBookByName(namePattern);
-               
-                return list;
+                AddressBookView result =  await MapToView(await _unitOfWork.addressBookRepository.GetEntityById(addressId));
+             
+                return result;
             }
             catch (Exception ex)
             {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
-        }
-        public AddressBookView GetViewById(long addressId)
-        {
-            try
-            {
-                Task<AddressBookView> resultTask = Task.Run(async () => await _unitOfWork.addressBookRepository.GetViewById(addressId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
+                throw new Exception("GetViewById", ex);
             }
         }
-        public AddressBook GetEntityById(long addressId)
+        public override async Task<AddressBook> GetEntityById(long ? addressId)
         {
             try
             {
-                Task<AddressBook> resultTask = Task.Run(async() => await _unitOfWork.addressBookRepository.GetEntityById(addressId));
-                Task.WaitAll(resultTask);
-                return resultTask.Result;
+                AddressBook result =  await _unitOfWork.addressBookRepository.GetEntityById(addressId);
+              
+                return result;
             }
             catch (Exception ex)
             {
-                throw new Exception(GetMyMethodName(), ex);
+                throw new Exception("GetEntityById", ex);
             }
 
         }
@@ -150,14 +129,21 @@ namespace ERP_Core2.FluentAPI
             try
             {
                 //queryableAddressBook = 
-                return _unitOfWork.addressBookRepository.GetObjectsQueryable(predicate) as IQueryable<AddressBook>;
+                return _unitOfWork.addressBookRepository.GetEntitiesByExpression(predicate);
                 //return this as IAddressBookQuery;
             }
             catch (Exception ex)
             {
-                throw new Exception(GetMyMethodName(), ex);
+                throw new Exception("GetAddressBooksByExpression", ex);
             }
         }
-       
+        public async Task<long> GetAddressIdByCustomerId(long? customerId)
+        {
+            return await _unitOfWork.addressBookRepository.GetAddressIdByCustomerId(customerId);
+        }
+        public async Task<AddressBook> GetAddressBookbyEmail(string email)
+        {
+            return await _unitOfWork.addressBookRepository.GetEntityByAccountEmail(email);
+        }
     }
 }

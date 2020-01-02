@@ -1,10 +1,5 @@
 ﻿
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.InventoryDomain;
-using ERP_Core2.Services;
-using lssWebApi2.CommentDomain;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.InventoryDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +8,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.CommentDomain
+namespace lssWebApi2.CommentDomain
 {
 
     public class UnitComment

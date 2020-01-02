@@ -1,4 +1,4 @@
-﻿using ERP_Core2.AbstractFactory;
+﻿using lssWebApi2.AbstractFactory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,22 +6,30 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.AutoMapper
+namespace lssWebApi2.AutoMapper
 {
     public class Mapper : AbstractErrorHandling
     {
-        public Dictionary<string, string> dictAdditionalFields;
+        public Dictionary<string, string> dictSpecialMapping;
         public Mapper()
         {
-            dictAdditionalFields = new Dictionary<string, string>();
+            dictSpecialMapping = new Dictionary<string, string>();
         }
         private bool HasClassField(string fieldName, object entityObject)
         {
             bool retVal = false;
             Type t = entityObject.GetType();
-            PropertyInfo propertyInfo = t.GetProperty(fieldName);
-            if (propertyInfo != null) retVal = true;
 
+            
+            PropertyInfo propertyInfo = t.GetProperty(fieldName);
+            if (propertyInfo != null)
+            {
+                if (propertyInfo.GetIndexParameters().Length == 0)
+                {
+                    retVal = true;
+                }
+             }
+ 
             return retVal;
         }
         public T Map<T>(Object entityObject) where T : class, new()
@@ -49,13 +57,11 @@ namespace ERP_Core2.AutoMapper
                     }
                     else
                     {
-                        if (dictAdditionalFields.ContainsKey(viewFieldProperty.Name))
+                        if (dictSpecialMapping.ContainsKey(viewFieldProperty.Name))
                         {
-                            string entityName = dictAdditionalFields[viewFieldProperty.Name];
+                            string entityName = dictSpecialMapping[viewFieldProperty.Name];
                             string[] elements = entityName.Split(".");
-
-                            
-
+  
                             if (entityName.Contains('.'))
                             {
                                 //class.fieldname pattern

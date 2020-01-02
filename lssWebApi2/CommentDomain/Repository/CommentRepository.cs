@@ -1,4 +1,4 @@
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -24,7 +24,7 @@ namespace lssWebApi2.CommentDomain
             _dbContext = (ListensoftwaredbContext)db;
         }
 
-        public async Task<Comment> GetEntityById(long commentId)
+        public async Task<Comment> GetEntityById(long ? commentId)
         {
             return await _dbContext.FindAsync<Comment>(commentId);
         }

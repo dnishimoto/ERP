@@ -1,33 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.Services;
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.PackingSlipDomain;
-using ERP_Core2.AccountPayableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AbstractFactory;
+using lssWebApi2.PackingSlipDomain;
+using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using ERP_Core2.ItemMasterDomain;
-using ERP_Core2.ChartOfAccountsDomain;
+using lssWebApi2.ItemMasterDomain;
+using lssWebApi2.ChartOfAccountsDomain;
 using lssWebApi2.InventoryDomain;
+using lssWebApi2.PackingSlipDetailDomain;
+using System.Linq.Expressions;
 
-namespace ERP_Core2.InventoryDomain
+namespace lssWebApi2.InventoryDomain
 {
     public class InventoryView
     {
-        public InventoryView() { }
-        public InventoryView(Inventory inventory)
-        {
-            this.InventoryId = inventory.InventoryId;
-            this.ItemId = inventory.ItemId;
-            this.Description = inventory.Description;
-            this.Remarks = inventory.Remarks;
-            this.UnitOfMeasure = inventory.UnitOfMeasure;
-            this.Quantity = inventory.Quantity;
-            this.ExtendedPrice = inventory.ExtendedPrice;
-            this.DistributionAccountId = inventory.DistributionAccountId;
-            this.PackingSlipDetailId = inventory.PackingSlipDetailId;
-    }
+       
         public long InventoryId { get; set; }
         public long ItemId { get; set; }
         public string Description { get; set; }
@@ -42,9 +32,7 @@ namespace ERP_Core2.InventoryDomain
 
         public ItemMasterView ItemMasterView { get; set; }
         public ChartOfAccountView DistributionAccountView { get; set; }
-        public PackingSlipDetailView PackingSlipDetailView { get; set; }
-       
-
+  
     }
     public class InventoryRepository: Repository<Inventory>, IInventoryRepository
     {
@@ -65,7 +53,7 @@ namespace ERP_Core2.InventoryDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<Inventory> GetInventoryById(long inventoryId) {
+        public async Task<Inventory> GetEntityById(long ? inventoryId) {
             try
             {
                 Inventory item = await _dbContext.Inventory.FindAsync(inventoryId);
@@ -74,33 +62,7 @@ namespace ERP_Core2.InventoryDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<CreateProcessStatus> CreateInventoryByPackingSlipView(PackingSlipView view)
-        {
-            int count = 0;
-            try
-            {
-                foreach (var item in view.PackingSlipDetailViews)
-                {
-                    var query = await (from e in _dbContext.Inventory
-                                       where e.ItemId == item.ItemId
-                                       && e.PackingSlipDetailId==item.PackingSlipDetailId
-                                       select e).FirstOrDefaultAsync<Inventory>();
-                    if (query == null)
-                    {
-                        Inventory inventory = new Inventory();
-
-                        applicationViewFactory.MapPackingSlipIntoInventoryEntity(ref inventory, item);
-
-                        AddObject(inventory);
-                        count++;
-                   
-                    }
-                }
-                if (count == 0) { return CreateProcessStatus.AlreadyExists; } else { return CreateProcessStatus.Insert; }
-
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
+       
         public async Task<bool> UpdateInventory(Inventory inventory)
         {
             try
@@ -130,6 +92,12 @@ namespace ERP_Core2.InventoryDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
      
+        }
+        public async Task<Inventory> FindEntityByExpression(Expression<Func<Inventory, bool>> predicate)
+        {
+            IQueryable<Inventory> result = _dbContext.Set<Inventory>().Where(predicate);
+
+            return await result.FirstOrDefaultAsync<Inventory>();
         }
     }
 }

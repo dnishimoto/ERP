@@ -5,20 +5,20 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.AbstractFactory;
 
-namespace ERP_Core2.GeneralLedgerDomain
+namespace lssWebApi2.GeneralLedgerDomain
 {
     
        public class UnitTestGeneralLedger
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
         public UnitTestGeneralLedger(ITestOutputHelper output)
@@ -27,21 +27,31 @@ namespace ERP_Core2.GeneralLedgerDomain
 
         }
         [Fact]
-        public void TestIncomeStatementViews()
+        public async Task TestGeneralLedgerPaging()
+        {
+            long generalLedgerId = 1;
+            GeneralLedgerModule glMod = new GeneralLedgerModule();
+
+            PageListViewContainer<GeneralLedgerView> container = await glMod.GeneralLedger.Query().GetViewsByPage(predicate: e => e.GeneralLedgerId == generalLedgerId, order: e => e.GeneralLedgerId, pageSize: 1, pageNumber: 1);
+
+            Assert.True(container.TotalItemCount > 0);
+        }
+        [Fact]
+        public async Task TestIncomeStatementViews()
         {
             GeneralLedgerModule glMod = new GeneralLedgerModule();
-            IList<IncomeStatementView> list = glMod.GeneralLedger.Query().GetIncomeStatementViews(2018);
+            IList<IncomeStatementView> list = await glMod.GeneralLedger.Query().GetIncomeStatementViews(2018);
             foreach (var item in list)
             {
                 System.Diagnostics.Debug.WriteLine($"{item.Description}{item.Amount}");
             }
         }
         [Fact]
-        public void TestIncomeViews()
+        public async Task TestIncomeViews()
         {
 
             GeneralLedgerModule glMod = new GeneralLedgerModule();
-            IList<IncomeView> list = glMod.GeneralLedger.Query().GetIncomeViews();
+            IList<IncomeView> list =await glMod.GeneralLedger.Query().GetIncomeViews();
 
             foreach (var item in list)
             {
@@ -78,13 +88,11 @@ namespace ERP_Core2.GeneralLedgerDomain
             }
         }
         [Fact]
-        public void TestCreatePersonalExpenseAndPayment()
+        public async Task TestCreatePersonalExpenseAndPayment()
         {
  
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
-            //UnitOfWork unitOfWork = new UnitOfWork();
             long addressId = 1;
-            //long expenseDocumentNumber = 19;
             decimal expense = 768M;
             GeneralLedgerView glView = new GeneralLedgerView();
            
@@ -104,10 +112,10 @@ namespace ERP_Core2.GeneralLedgerDomain
             //glView.FiscalPeriod = 9;
             //glView.FiscalYear = 2018;
 
-            bool result1=ledgerMod.CreatePersonalExpense(glView);
+            bool result1=await ledgerMod.CreatePersonalExpense(glView);
 
             GeneralLedgerView glViewLookup =
-             ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glView.DocNumber, glView.DocType);
+             await ledgerMod.GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
 
             //ChartOfAccts coaCash = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "101", "");
 
@@ -131,17 +139,17 @@ namespace ERP_Core2.GeneralLedgerDomain
             //glCashView.FiscalPeriod = 9;
             //glCashView.FiscalYear = 2018;
 
-            bool result2=ledgerMod.CreateCashPayment(glCashView);
+            bool result2=await ledgerMod.CreateCashPayment(glCashView);
           
            
             GeneralLedgerView glCashViewLookup =
-           ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glCashView.DocNumber, glCashView.DocType);
+           await ledgerMod.GeneralLedger.Query().GetViewByDocNumber(glCashView.DocNumber, glCashView.DocType);
 
             Assert.True(glCashViewLookup != null&& glViewLookup !=null);
         }
 
         [Fact]
-        public void TestCreateIncomeRevenue()
+        public async Task TestCreateIncomeRevenue()
         {
             int addressId = 1;
             decimal income = 2800M;
@@ -167,11 +175,9 @@ namespace ERP_Core2.GeneralLedgerDomain
             //glView.FiscalYear = 2018;
             glView.CheckNumber = "T2";
 
-            bool result = ledgerMod.CreateIncomeAndCash(glView);
+            bool result = await ledgerMod.CreateIncomeAndCash(glView);
 
-         
-
-         
+          
             Assert.True(result);
         }
      

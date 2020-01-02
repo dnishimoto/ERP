@@ -9,8 +9,11 @@
     [BenefitOption]                       INT          NULL,
     [PayRollTransactionsByEmployeeNumber] BIGINT       NULL,
     [PayRollType]                         VARCHAR (20) NULL,
+    [TransactionType]                     VARCHAR (1)  NULL,
     CONSTRAINT [PK_PayRollTransactionsByEmployee] PRIMARY KEY CLUSTERED ([PayRollTransactionsByEmployeeId] ASC)
 );
+
+
 
 
 

@@ -7,7 +7,6 @@
     [Amount]                      DECIMAL (18, 4) NOT NULL,
     [UnitOfMeasure]               VARCHAR (25)    NULL,
     [UnitPrice]                   DECIMAL (18, 4) NULL,
-    [BuyerId]                     BIGINT          NULL,
     [ScheduledShipDate]           DATETIME        NULL,
     [PromisedDate]                DATETIME        NULL,
     [GrossWeight]                 DECIMAL (18, 4) NULL,
@@ -17,7 +16,7 @@
     [LotSerial]                   VARCHAR (50)    NULL,
     [BusUnit]                     VARCHAR (10)    NULL,
     [LineNumber]                  BIGINT          NULL,
-    [CompanyNumber]               VARCHAR (10)    NULL,
+    [CompanyCode]                 VARCHAR (10)    NULL,
     [CarrierId]                   BIGINT          NULL,
     [InvoiceDate]                 DATETIME        NULL,
     [GLDate]                      DATETIME        NULL,
@@ -38,4 +37,6 @@
     CONSTRAINT [FK_SalesOrderDetail_ItemMaster] FOREIGN KEY ([ItemId]) REFERENCES [dbo].[ItemMaster] ([ItemId]),
     CONSTRAINT [FK_SalesOrderDetail_SalesOrder] FOREIGN KEY ([SalesOrderId]) REFERENCES [dbo].[SalesOrder] ([SalesOrderId])
 );
+
+
 

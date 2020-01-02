@@ -29,6 +29,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="AccountReceivableFee.ps1" />
+    <Compile Include="AccountReceivableInterest.ps1" />
+    <Compile Include="AccountsPayable.ps1" />
+    <Compile Include="Asset.ps1" />
+    <Compile Include="Budget.ps1" />
+    <Compile Include="BudgetNote.ps1" />
+    <Compile Include="BudgetRange.ps1" />
+    <Compile Include="Buyer.ps1" />
+    <Compile Include="Carrier.ps1" />
+    <Compile Include="Company.ps1" />
+    <Compile Include="CopyToBackup.ps1" />
+    <Compile Include="Equipment.ps1" />
+    <Compile Include="InvoiceDetail.ps1" />
+    <Compile Include="ItemMaster.ps1" />
+    <Compile Include="LocationAddress.ps1" />
+    <Compile Include="PackingDetailSlip.ps1" />
+    <Compile Include="PackingSlip.ps1" />
+    <Compile Include="Phones.ps1" />
+    <Compile Include="POQuote.ps1" />
+    <Compile Include="ProjectManagementMilestone.ps1" />
+    <Compile Include="ProjectManagementProject.ps1" />
+    <Compile Include="ProjectManagementTask.ps1" />
+    <Compile Include="ProjectManagementTaskToEmployee.ps1" />
+    <Compile Include="ProjectManagementWorkOrder.ps1" />
+    <Compile Include="ServiceInformation.ps1" />
+    <Compile Include="ServiceInformationInvoice.ps1" />
+    <Compile Include="TimeAndAttendanceSchedule.ps1" />
+    <Compile Include="TimeAndAttendanceScheduledToWork.ps1" />
+    <Compile Include="TimeAndAttendanceSetup.ps1" />
+    <Compile Include="TimeAndAttendanceShift.ps1" />
+    <Compile Include="PurchaseOrder.ps1" />
+    <Compile Include="PurchaseOrderDetail.ps1" />
+    <Compile Include="SalesOrderDetail.ps1" />
+    <Compile Include="Supervisor.ps1" />
+    <Compile Include="Customer.ps1" />
+    <Compile Include="CustomerClaim.ps1" />
+    <Compile Include="Contract.ps1" />
+    <Compile Include="CustomerLedger.ps1" />
+    <Compile Include="Email.ps1" />
     <Compile Include="Employee.ps1" />
     <Compile Include="myModule.psm1" />
     <Compile Include="PayRollCurrentPaySequence.ps1" />
@@ -41,8 +80,12 @@
     <Compile Include="PayRollTransactionControl.ps1" />
     <Compile Include="PayRollTransactionsByEmployee.ps1" />
     <Compile Include="PayRollTransactionTypes.ps1" />
-    <Compile Include="PowerShellProject.ps1" />
     <Compile Include="repo_extract.ps1" />
+    <Compile Include="ScheduleEvent.ps1" />
+    <Compile Include="Supplier.ps1" />
+    <Compile Include="SupplierInvoice.ps1" />
+    <Compile Include="SupplierInvoiceDetail.ps1" />
+    <Compile Include="SupplierLedger.ps1" />
     <Compile Include="template_comment.ps1" />
     <Compile Include="template_equipment.ps1" />
     <Compile Include="template_generator.ps1" />
@@ -50,6 +93,7 @@
     <Compile Include="template_shipmentDetail.ps1" />
     <Compile Include="template_shipments.ps1" />
     <Compile Include="template_taxratebycode.ps1" />
+    <Compile Include="UDC.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />

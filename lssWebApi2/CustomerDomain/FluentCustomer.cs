@@ -1,104 +1,85 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.Interfaces;
-using ERP_Core2.Services;
-using System;
-using System.Threading.Tasks;
-using ERP_Core2.CustomerDomain;
-using ERP_Core2.AddressBookDomain;
+using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
+using System.Collections.Generic;
+using System;
+using lssWebApi2.Enumerations;
+using lssWebApi2.Interfaces;
+using lssWebApi2.FluentAPI;
+using System.Threading.Tasks;
+using lssWebApi2.AutoMapper;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.CustomerDomain
 {
-    public class FluentCustomer : AbstractModule, IFluentCustomer
+
+public class FluentCustomer :IFluentCustomer
     {
-        public UnitOfWork unitOfWork = new UnitOfWork();
-        CreateProcessStatus processStatus;
-        public FluentCustomerQuery _query;
+ private UnitOfWork unitOfWork = new UnitOfWork();
+        private CreateProcessStatus processStatus;
 
-
+        public FluentCustomer() { }
         public IFluentCustomerQuery Query()
         {
-            _query = new FluentCustomerQuery();
-            return _query as IFluentCustomerQuery;
+            return new FluentCustomerQuery(unitOfWork) as IFluentCustomerQuery;
         }
-
-        public IFluentCustomer CreateCustomerEmail(CustomerView customerView)
+        public IFluentCustomer CreateCustomerByView(CustomerView view)
         {
-            Task<AddressBook> lookupAddressBookTask = Task.Run(() => unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView));
-            Task.WaitAll(lookupAddressBookTask);
-            customerView.AddressId = lookupAddressBookTask.Result.AddressId;
-
-            if (customerView.AddressId > 0)
-            {
-                EmailView emailView = new EmailView();
-                emailView.AddressId = customerView.AddressId;
-                emailView.EmailText = customerView.AccountEmail.EmailText;
-                emailView.LoginEmail = customerView.AccountEmail.LoginEmail;
-                emailView.Password = customerView.AccountEmail.Password;
-
-                Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.emailRepository.CreateEmail(emailView));
-                processStatus = resultTask.Result;
-            }
-            else
-            {
-                processStatus = CreateProcessStatus.Failed;
-            }
-
+            Task<Customer> customerTask = Task.Run(async()=>await MapToEntity(view));
+            Task.WaitAll(customerTask);
+            AddCustomer(customerTask.Result);
             return this as IFluentCustomer;
         }
-        public IFluentCustomer CreateCustomer(CustomerView customerView)
+        private async Task<Customer> MapToEntity(CustomerView inputObject)
         {
-            try
-            {
-                Task<AddressBook> lookupAddressBookTask = Task.Run(() => unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView));
-                Task.WaitAll(lookupAddressBookTask);
-                customerView.AddressId = lookupAddressBookTask.Result.AddressId;
-
-
-                Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.customerRepository.CreateCustomer(customerView));
-                Task.WaitAll(resultTask);
-
-                processStatus = resultTask.Result;
-
-                return this as IFluentCustomer;
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
+            Mapper mapper = new Mapper();
+            Customer outObject = mapper.Map<Customer>(inputObject);
+            await Task.Yield();
+            return outObject;
         }
-        public IFluentCustomer CreateCustomerLocationAddress(CustomerView customerView)
+        public IFluentCustomer Apply() {
+			try{
+            if (this.processStatus == CreateProcessStatus.Insert || this.processStatus == CreateProcessStatus.Update || this.processStatus == CreateProcessStatus.Delete)
+            { unitOfWork.CommitChanges(); }
+            return this as IFluentCustomer;
+		    }
+            catch (Exception ex) { throw new Exception("Apply", ex); }
+        }
+        public IFluentCustomer AddCustomers(List<Customer> newObjects)
         {
-            Task<AddressBook> lookupAddressBookTask = Task.Run(() => unitOfWork.addressBookRepository.GetAddressBookByCustomerView(customerView));
-            Task.WaitAll(lookupAddressBookTask);
-
-            customerView.AddressId = lookupAddressBookTask.Result.AddressId;
-
-            Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.locationAddressRepository.CreateLocationUsingCustomer(customerView));
-            Task.WaitAll(resultTask);
-
+            unitOfWork.customerRepository.AddObjects(newObjects);
+            this.processStatus = CreateProcessStatus.Insert;
+            return this as IFluentCustomer;
+        }
+        public IFluentCustomer UpdateCustomers(List<Customer> newObjects)
+        {
+            foreach (var item in newObjects)
+            {
+                unitOfWork.customerRepository.UpdateObject(item);
+            }
+            this.processStatus = CreateProcessStatus.Update;
+            return this as IFluentCustomer;
+        }
+        public IFluentCustomer AddCustomer(Customer newObject) {
+            unitOfWork.customerRepository.AddObject(newObject);
+            this.processStatus = CreateProcessStatus.Insert;
+            return this as IFluentCustomer;
+        }
+        public IFluentCustomer UpdateCustomer(Customer updateObject) {
+            unitOfWork.customerRepository.UpdateObject(updateObject);
+            this.processStatus = CreateProcessStatus.Update;
             return this as IFluentCustomer;
 
         }
-        public IFluentCustomer CreateAddressBook(CustomerView customerView)
-        {
-
-            Task<CreateProcessStatus> statusTask = Task.Run(() => unitOfWork.addressBookRepository.CreateAddressBook(customerView));
-            Task.WaitAll(statusTask);
-            processStatus = statusTask.Result;
+        public IFluentCustomer DeleteCustomer(Customer deleteObject) {
+            unitOfWork.customerRepository.DeleteObject(deleteObject);
+            this.processStatus = CreateProcessStatus.Delete;
             return this as IFluentCustomer;
         }
-        public IFluentCustomer Apply()
+   	public IFluentCustomer DeleteCustomers(List<Customer> deleteObjects)
         {
-            if ((processStatus == CreateProcessStatus.Insert) || (processStatus == CreateProcessStatus.Update) || (processStatus == CreateProcessStatus.Delete))
-            {
-                unitOfWork.CommitChanges();
-            }
+            unitOfWork.customerRepository.DeleteObjects(deleteObjects);
+            this.processStatus = CreateProcessStatus.Delete;
             return this as IFluentCustomer;
-
         }
-
     }
 }

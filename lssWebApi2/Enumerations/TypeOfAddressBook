@@ -7,6 +7,6 @@ namespace lssWebApi2.Enumerations
 {
     public enum TypeOfAddressBook
     {
-        EmployeeNumber
+		AddressBookNumber
     }
 }

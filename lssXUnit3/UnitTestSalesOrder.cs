@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 using System.Linq;
+using lssWebApi2.SalesOrderDetailDomain;
+using lssWebApi2.AbstractFactory;
 
 /*
  
@@ -82,7 +84,7 @@ namespace lssXUnit3
                 //UnitVolume { get; set; }
                 //UnitVolumeUnitOfMeasurement { get; set; }
                 BusUnit ="700",
-                CompanyNumber ="1000",
+                CompanyCode ="1000",
                 LineNumber=1
                 }
             };
@@ -131,9 +133,9 @@ namespace lssXUnit3
            // Assert.True(container.items.Count > 0);
 
 
-            List<SalesOrderDetail> listDetails = await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(newSalesOrder.SalesOrderId);
+            List<SalesOrderDetail> listDetails = (await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(newSalesOrder.SalesOrderId)).ToList<SalesOrderDetail>();
 
-            List<SalesOrderDetailView> listDetailViews= await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
+            List<SalesOrderDetailView> listDetailViews= (await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId)).ToList<SalesOrderDetailView>();
 
             Assert.True(listDetails.Any(m => m.Description.Contains("Updated")));
 
@@ -155,6 +157,16 @@ namespace lssXUnit3
 
             Assert.NotNull(view);
 
+        }
+        [Fact]
+        public async Task TestSalesOrderPaging()
+        {
+            SalesOrderModule salesOrderMod = new SalesOrderModule();
+            long? salesOrderId = 69;
+
+            PageListViewContainer<SalesOrderView>  container = await salesOrderMod.SalesOrder.Query().GetViewsByPage(predicate: e => e.SalesOrderId==salesOrderId, order: e => e.SalesOrderId, pageSize: 1, pageNumber: 1);
+
+            Assert.True(container.TotalItemCount > 0);
         }
     }
 }

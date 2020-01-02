@@ -2,7 +2,7 @@ using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.TaxRatesByCodeDomain
+namespace lssWebApi2.TaxRatesByCodeDomain
 {
     public interface IFluentTaxRatesByCodeQuery
     {
@@ -11,10 +11,10 @@ namespace ERP_Core2.TaxRatesByCodeDomain
 
         Task<TaxRatesByCodeView> MapToView(TaxRatesByCode inputObject);
         Task<NextNumber> GetNextNumber();
-        Task<TaxRatesByCodeView> GetViewById(long taxRatesByCodeId);
+        Task<TaxRatesByCodeView> GetViewById(long ? taxRatesByCodeId);
         Task<TaxRatesByCodeView> GetViewByNumber(long taxRatesByCodeNumber);
         Task<TaxRatesByCodeView> GetViewByCode(string code);
-        Task<TaxRatesByCode> GetEntityById(long taxRatesByCodeId);
+        Task<TaxRatesByCode> GetEntityById(long ? taxRatesByCodeId);
         Task<TaxRatesByCode> GetEntityByNumber(long taxRatesByCodeNumber);
     }
 }

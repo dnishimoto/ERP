@@ -2,42 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.Services;
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.GeneralLedgerDomain;
-using ERP_Core2.InvoicesDomain;
-using ERP_Core2.AccountPayableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AbstractFactory;
+using lssWebApi2.GeneralLedgerDomain;
+using lssWebApi2.InvoicesDomain;
+using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using lssWebApi2.AccountReceivableDomain.Repository;
+using lssWebApi2.Enumerations;
 
-namespace ERP_Core2.AccountsReceivableDomain
+namespace lssWebApi2.AccountsReceivableDomain
 {
-    public class AccountReceiveableView
+    public class AccountReceivableView
     {
-        public AccountReceiveableView() { }
-        public AccountReceiveableView(AcctRec acctRec)
-        {
-            this.AcctRecId = acctRec.AcctRecId;
-            this.OpenAmount = acctRec.OpenAmount;
-            this.DiscountDueDate = acctRec.DiscountDueDate;
-            this.PaymentDueDate = acctRec.PaymentDueDate;
-            this.GLDate = acctRec.Gldate;
-            this.InvoiceId = acctRec.InvoiceId;
-            this.InvoiceNumber = acctRec.Invoice.InvoiceNumber;
-            this.CreateDate = acctRec.CreateDate;
-            this.DocNumber = acctRec.DocNumber;
-            this.Remarks = acctRec.Remarks;
-            this.PaymentTerms = acctRec.PaymentTerms;
-            this.CustomerId = acctRec.CustomerId;
-            this.CustomerName = acctRec.Customer.Address.Name;
-            this.PurchaseOrderId = acctRec.PurchaseOrderId ?? 0;
-            this.Description = acctRec.Description;
-            this.AcctRecDocTypeXRefId = acctRec.AcctRecDocTypeXrefId;
-            this.DocType = acctRec.AcctRecDocTypeXref.Value;
-            this.Amount = acctRec.Amount;
-            this.AccountId = acctRec.AccountId;
-        }
+        
         public long? AcctRecId { get; set; }
         public decimal? Amount { get; set; }
         public decimal? OpenAmount { get; set; }
@@ -45,7 +24,7 @@ namespace ERP_Core2.AccountsReceivableDomain
         public DateTime? PaymentDueDate { get; set; }
         public DateTime? GLDate { get; set; }
         public long? InvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public string InvoiceDocument { get; set; }
         public DateTime? CreateDate { get; set; }
         public long? DocNumber { get; set; }
         public string Remarks { get; set; }
@@ -57,6 +36,8 @@ namespace ERP_Core2.AccountsReceivableDomain
         public long? AcctRecDocTypeXRefId { get; set; }
         public string DocType { get; set; }
         public long? AccountId { get; set; }
+        public long AccountReceivableNumber { get; set; }
+
     }
     public class AccountReceivableFlatView
     {
@@ -64,7 +45,7 @@ namespace ERP_Core2.AccountsReceivableDomain
         public DateTime? GLDate { get; set; }
         public long? AcctRecId { get; set; }
         public long? InvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public string InvoiceDocument { get; set; }
         public string InvoiceDescription { get; set; }
         public long? DocNumber { get; set; }
         public string AcctRecDocType { get; set; }
@@ -82,9 +63,10 @@ namespace ERP_Core2.AccountsReceivableDomain
         public string Account { get; set; }
         public string CoaDescription { get; set; }
         public decimal? GLAmount { get; set; }
+        public long AccountReceivableNumber { get; set; }
 
     }
-    public class AccountReceivableRepository : Repository<AcctRec>, IAccountReceivableRepository
+    public class AccountReceivableRepository : Repository<AccountReceivable>, IAccountReceivableRepository
     {
         public ListensoftwaredbContext _dbContext;
         private ApplicationViewFactory applicationViewFactory;
@@ -93,11 +75,30 @@ namespace ERP_Core2.AccountsReceivableDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<AccountReceivable> GetEntityById(long? accountReceivableId)
+        {
+            try
+            {
+                return await _dbContext.FindAsync<AccountReceivable>(accountReceivableId);
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+
+        public IQueryable<AccountReceivable> GetQueryableByCustomerId(long? customerId)
+        {
+            IQueryable<AccountReceivable> query =
+
+                          (from e in _dbContext.AccountReceivable
+                           where e.CustomerId == customerId
+                           && e.OpenAmount > 0
+                           select e);
+            return query;
+        }
         public bool HasLateFee(long? acctRecId)
         {
             try
             {
-                bool status = (from e in _dbContext.AcctRecFee
+                bool status = (from e in _dbContext.AccountReceivable
                                where e.AcctRecId == acctRecId
                                select e).Any();
 
@@ -106,70 +107,13 @@ namespace ERP_Core2.AccountsReceivableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<CreateProcessStatus> AdjustOpenAmount(AccountReceivableFlatView view)
-        {
-            try
-            {
-                var gl_query = await (from e in _dbContext.GeneralLedger
-                                      where e.DocNumber == view.DocNumber
-                                      && e.DocType == "PV"
-                                      && e.LedgerType == "AA"
-
-                                      group e by e.DocNumber
-                                          into g
-
-                                      select new { AmountPaid = g.Sum(e => e.Amount) }
-                                          ).FirstOrDefaultAsync();
-
-                var fee_query = await (from e in _dbContext.AcctRecFee
-                                       where e.AcctRecId == view.AcctRecId
-                                       group e by e.AcctRecId
-                                                into pg
-                                       select new { FeeAmount = pg.Sum(e => e.FeeAmount??0) }
-                                        ).FirstOrDefaultAsync();
-
-                AcctRec acctRec = await (from e in _dbContext.AcctRec
-                                         where e.AcctRecId == view.AcctRecId
-                                         select e
-                                    ).FirstOrDefaultAsync<AcctRec>();
-
-                acctRec.OpenAmount = acctRec.Amount + fee_query.FeeAmount - gl_query.AmountPaid;
-                acctRec.LateFee = fee_query.FeeAmount;
-
-                _dbContext.Set<AcctRec>().Update(acctRec);
-
-                return CreateProcessStatus.Update;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-        public async Task<CreateProcessStatus> CreateLateFee(AccountReceivableFlatView view)
-        {
-            try
-            {
-                AcctRecFee acctRecFee = new AcctRecFee();
-
-                applicationViewFactory.MapAcctRecFeeEntity(ref acctRecFee, view);
-
-                Udc feeUDC = await GetUdc("FEES", "TWO_WEEK_LATE");
-
-
-                acctRecFee.FeeAmount = Decimal.Parse(feeUDC.Value);
-
-                _dbContext.Set<AcctRecFee>().Add(acctRecFee);
-
-                return CreateProcessStatus.Insert;
-            }
-            catch (Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
-        }
+     
+       
         public bool IsPaymentLate(long? invoiceId, DateTime asOfDate)
         {
             try
             {
-                bool status = (from e in _dbContext.AcctRec
+                bool status = (from e in _dbContext.AccountReceivable
                                where e.InvoiceId == invoiceId
                                && DateTime.Parse(e.PaymentDueDate.ToString()).AddDays(15) < asOfDate
                                select e).Any();
@@ -179,11 +123,11 @@ namespace ERP_Core2.AccountsReceivableDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public List<AccountReceivableFlatView> GetOpenAcctRec()
+        public async Task<IList<AccountReceivableFlatView>> GetOpenAcctRec()
         {
             try
             {
-                List<AccountReceivableFlatView> list = (from ar in _dbContext.AcctRec
+                IList<AccountReceivableFlatView> list = await (from ar in _dbContext.AccountReceivable
                                                         join inv in _dbContext.Invoice
                                                             on ar.InvoiceId equals inv.InvoiceId
                                                         join cust in _dbContext.Customer
@@ -194,7 +138,7 @@ namespace ERP_Core2.AccountsReceivableDomain
                                                             on cust.AddressId equals abCust.AddressId
                                                         join la in _dbContext.LocationAddress
                                                             on abCust.AddressId equals la.AddressId
-                                                        join coa in _dbContext.ChartOfAccts
+                                                        join coa in _dbContext.ChartOfAccount
                                                             on ar.AccountId equals coa.AccountId
                                                         where ar.OpenAmount > 0
                                                         select new AccountReceivableFlatView
@@ -203,7 +147,7 @@ namespace ERP_Core2.AccountsReceivableDomain
                                                             GLDate = ar.Gldate,
                                                             AcctRecId = ar.AcctRecId,
                                                             InvoiceId = ar.InvoiceId,
-                                                            InvoiceNumber = inv.InvoiceNumber,
+                                                            InvoiceDocument = inv.InvoiceDocument,
                                                             InvoiceDescription = inv.Description,
                                                             DocNumber = ar.DocNumber,
                                                             AcctRecDocType = ar.AcctRecDocType,
@@ -221,18 +165,20 @@ namespace ERP_Core2.AccountsReceivableDomain
                                                             Account = coa.Account,
                                                             CoaDescription = coa.Description,
                                                             GLAmount = _dbContext.GeneralLedger.Where(e => e.AccountId == ar.AccountId && e.DocNumber == ar.DocNumber).Sum(e => (decimal?)e.Amount)
-                                                        }).ToList<AccountReceivableFlatView>();
+                                                        }).ToListAsync<AccountReceivableFlatView>();
                 return list;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<AcctRec> GetAcctRecByDocNumber(long docNumber)
+        public async Task<AccountReceivable> GetAcctRecByDocNumber(long docNumber)
         {
             try
             {
-                List<AcctRec> list = await GetObjectsQueryable(e => e.DocNumber == docNumber).ToListAsync<AcctRec>();
-                AcctRec acctRec = list[0];
+                List<AccountReceivable> list = await (from detail in _dbContext.AccountReceivable
+                                                      where detail.DocNumber==docNumber
+                                                      select detail).ToListAsync<AccountReceivable>();
+                AccountReceivable acctRec = list[0];
 
                 return acctRec;
 
@@ -241,154 +187,22 @@ namespace ERP_Core2.AccountsReceivableDomain
             { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public async Task<CreateProcessStatus> UpdateReceivableByCashLedger(GeneralLedgerView ledgerView)
-        {
-
-            try
-            {
-                List<AcctRec> list = await GetObjectsQueryable(e => e.DocNumber == ledgerView.DocNumber).ToListAsync<AcctRec>();
-                AcctRec acctRec = list[0];
-
-
-                if (acctRec != null)
-                {
-
-                    //Find the General Ledger Cash Amount by Doc Number
-                    var query = await (from e in _dbContext.GeneralLedger
-                                       where e.DocNumber == ledgerView.DocNumber
-                                       && e.DocType == "PV"
-                                       && e.LedgerType == "AA"
-                                       && e.AccountId == ledgerView.AccountId
-                                       group e by e.DocNumber
-                                       into g
-
-                                       select new { AmountPaid = g.Sum(e => e.Amount) }
-                                       ).FirstOrDefaultAsync();
-
-
-                    decimal? cash = query?.AmountPaid ?? 0;
-                    acctRec.DebitAmount = cash;
-                    acctRec.OpenAmount = acctRec.Amount - acctRec.DebitAmount;
-                    decimal discountAmount = acctRec.Amount * acctRec.DiscountPercent ?? 0;
-                    //Check for Discount Dates
-                    if (
-                        (acctRec.DiscountDueDate <= ledgerView.GLDate)
-                        &&
-((acctRec.DebitAmount + discountAmount) == acctRec.Amount)
-                        )
-                    {
-                        acctRec.OpenAmount = acctRec.Amount - (acctRec.DebitAmount + discountAmount);
-
-                    }
-                    UpdateObject(acctRec);
-                    return CreateProcessStatus.Update;
-                }
-                return CreateProcessStatus.Failed;
-            }
-            catch (Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
-        }
-        public async Task<AccountReceiveableView> GetAccountReceivableViewByInvoiceId(long? invoiceId)
+        
+        public async Task<AccountReceivable> GetEntityByInvoiceId(long? invoiceId)
         {
             try
             {
-                var query = await (from a in _dbContext.AcctRec
+                var query = await (from a in _dbContext.AccountReceivable
                                    where a.InvoiceId == invoiceId
-                                   select a).FirstOrDefaultAsync<AcctRec>();
+                                   select a).FirstOrDefaultAsync<AccountReceivable>();
 
-                if (query != null)
-                {
-                    AccountReceiveableView view = applicationViewFactory.MapAccountReceivableView(query);
-                    return view;
-                }
-                return null;
+                return query;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<CreateProcessStatus> CreateAcctRecFromInvoice(InvoiceView invoiceView)
-        {
-            try
-            {
-                Invoice invoice = await (from e in _dbContext.Invoice
-                                         where e.InvoiceNumber == invoiceView.InvoiceNumber
-                                         select e).FirstOrDefaultAsync<Invoice>();
-
-                if (invoice != null)
-                {
-                    long? invoiceId = invoice.InvoiceId;
-
-                    var query = await (from a in _dbContext.AcctRec
-                                       where a.InvoiceId == invoice.InvoiceId
-                                       select a).FirstOrDefaultAsync<AcctRec>();
-
-                    if (query == null)
-                    {
-                        Udc udc = await base.GetUdc("ACCTRECDOCTYPE", "INV");
-
-                        NextNumber nextNumber = await base.GetNextNumber("DocNumber");
-
-                        ChartOfAccts chartOfAcct = await base.GetChartofAccount("1000", "1200", "120", "");
-
-                        AcctRec acctRec = new AcctRec();
-                        acctRec.InvoiceId = invoice.InvoiceId;
-                        acctRec.DiscountDueDate = invoice.DiscountDueDate;
-                        acctRec.Gldate = DateTime.Now.Date;
-                        acctRec.CreateDate = DateTime.Now.Date;
-                        acctRec.DocNumber = nextNumber.NextNumberValue;
-                        acctRec.Remarks = invoice.Description;
-                        acctRec.PaymentTerms = invoice.PaymentTerms;
-                        acctRec.CustomerId = invoice.CustomerId;
-                        //PurchaseOrderId 
-                        acctRec.Description = invoice.Description;
-                        acctRec.AcctRecDocTypeXrefId = udc.XrefId;
-                        acctRec.AccountId = chartOfAcct.AccountId;
-                        acctRec.Amount = invoice.Amount;
-                        acctRec.OpenAmount = invoice.Amount;
-                        acctRec.DebitAmount = 0;
-                        acctRec.CreditAmount = invoice.Amount;
-
-                        AddObject(acctRec);
-                        return CreateProcessStatus.Insert;
-                    }
-
-                }
-
-                return CreateProcessStatus.AlreadyExists;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
-        public async Task<CreateProcessStatus> UpdateAcct(AcctRec acctRec)
-        {
-            try
-            {
-                var query = await GetObjectAsync(acctRec.AcctRecId);
-
-                AcctRec acctRecBase = query;
-
-
-
-                UpdateObject(acctRecBase);
-                return CreateProcessStatus.Update;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
-        }
-        public CreateProcessStatus DeleteAcctRec(AcctRec acctRec)
-        {
-            try
-            {
-                DeleteObject(acctRec);
-                return CreateProcessStatus.Delete;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
-        }
+      
+    
+       
     }
 }

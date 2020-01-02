@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 
     public class UnitPayRollLedger
@@ -62,14 +62,14 @@ namespace ERP_Core2.PayRollDomain
             PayRollLedgerMod.PayRollLedger.AddPayRollLedgers(listNewLedgers).Apply();
 
 
-            List<PayRollLedger> list = await PayRollLedgerMod.PayRollLedger.Query().GetEntitiesByPaySequence(employee, payCurrentSequenceView.PaySequence);
+            List<PayRollLedger> list = (await PayRollLedgerMod.PayRollLedger.Query().GetEntitiesByPaySequence(employee, payCurrentSequenceView.PaySequence)).ToList<PayRollLedger>();
             list.ForEach(e => e.Amount+= 10M);
             decimal total = 0M;
             list.ForEach(e => total += e.Amount);
 
             PayRollLedgerMod.PayRollLedger.UpdatePayRollLedgers(list).Apply();
 
-            List<PayRollLedger> listUpdate = await PayRollLedgerMod.PayRollLedger.Query().GetEntitiesByPaySequence(employee, payCurrentSequenceView.PaySequence);
+            List<PayRollLedger> listUpdate = (await PayRollLedgerMod.PayRollLedger.Query().GetEntitiesByPaySequence(employee, payCurrentSequenceView.PaySequence)).ToList<PayRollLedger>();
             decimal totalUpdate = 0M;
             listUpdate.ForEach(e => totalUpdate += e.Amount);
             if (total != totalUpdate) Assert.True(false);

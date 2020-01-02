@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.AccountsReceivableDomain;
+using lssWebApi2.AccountsReceivableDomain;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -16,10 +16,10 @@ namespace lssWebApi2.Controllers
         [HttpGet]
         [Route("OpenReceivables")]
         //http://localhost:61612/api/AccountReceivable/OpenReceivables
-        public List<AccountReceivableFlatView> GetReceivables()
+        public async Task<IList<AccountReceivableFlatView>> GetReceivables()
         {
-            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
-            List<AccountReceivableFlatView> list = acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            AccountReceivableModule acctRecMod = new AccountReceivableModule();
+            IList<AccountReceivableFlatView> list = await acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
             return list;
         }
 

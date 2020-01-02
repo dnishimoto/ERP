@@ -5,19 +5,23 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
-using ERP_Core2.InvoicesDomain;
-using ERP_Core2.AccountsReceivableDomain;
+using lssWebApi2.InvoicesDomain;
+using lssWebApi2.AccountsReceivableDomain;
 using Newtonsoft.Json;
 using System;
 using System.Data.SqlClient;
 using System.Data;
-using ERP_Core2.InvoiceDetailsDomain;
-using ERP_Core2.CustomerLedgerDomain;
+using lssWebApi2.CustomerLedgerDomain;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.CustomerClaimDomain;
+using lssWebApi2.ContractDomain;
+using lssWebApi2.ScheduleEventDomain;
+using lssWebApi2.InvoiceDetailDomain;
+using lssWebApi2.LocationAddressDomain;
 
 namespace ERP_Core.CustomerDomain
 {
@@ -64,7 +68,6 @@ namespace ERP_Core.CustomerDomain
 
     public class UnitTestCustomer
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
         private IList<string> listCheck = new List<string>();
         public UnitTestCustomer(ITestOutputHelper output)
@@ -123,14 +126,14 @@ namespace ERP_Core.CustomerDomain
             return entityCollection;
         }
         [Fact]
-        public void TestGetCustomerLedgersByCustomerId()
+        public async Task TestGetCustomerLedgersByCustomerId()
         {
             long customerId = 9;
             CustomerModule custMod = new CustomerModule();
-            IList<CustomerLedgerView> list = custMod
-            .Customer
+            IList<CustomerLedgerView> list = await custMod
+            .CustomerLedger
             .Query()
-            .GetCustomerLedgers(customerId);
+            .GetViewsByCustomerId(customerId);
    
             foreach (var item in list)
             {
@@ -220,16 +223,16 @@ namespace ERP_Core.CustomerDomain
 
                 CustomerModule custMod = new CustomerModule();
 
-                bool result = custMod.CreateCustomer(customerView);
+                 custMod.Customer.CreateCustomerByView(customerView);
+                custMod.Customer.Apply();
                
-
-                Assert.True(result);
+                Assert.True(true);
             }
             catch (Exception ex)
             { throw new Exception("TestCreateCustomerAccount", ex); }
         }
         [Fact]
-        public void TestGetAccountReceivablesByCustomerId()
+        public async Task TestGetAccountReceivablesByCustomerId()
         {
             long customerId = 3;
             //UnitOfWork unitOfWork = new UnitOfWork();
@@ -238,17 +241,17 @@ namespace ERP_Core.CustomerDomain
 
             //IList<AccountReceiveableView> list =  custMod.GetAccountReceivablesByCustomerId(customerId);
 
-            IList<AccountReceiveableView> list=custMod
-               .Customer
+            IList<AccountReceivableView> list=await custMod
+               .AccountsReceivable
                .Query()
-                   .GetAccountReceivables(customerId);
+                  .GetAccountReceivableViewsByCustomerId(customerId);
          
 
             List<string> collection = new List<string>();
-            foreach (AccountReceiveableView accountReceiveableView in list)
+            foreach (AccountReceivableView accountReceiveableView in list)
             {
-                output.WriteLine($"{accountReceiveableView.InvoiceNumber}");
-                collection.Add(accountReceiveableView.InvoiceNumber.ToUpper());
+                output.WriteLine($"{accountReceiveableView.InvoiceDocument}");
+                collection.Add(accountReceiveableView.InvoiceDocument.ToUpper());
             }
             bool results = collection.Any(s => s.Contains("INV-02"));
             Assert.True(results);
@@ -304,15 +307,15 @@ namespace ERP_Core.CustomerDomain
 
         }
         [Fact]
-        public void TestGetCustomerClaimsByCustomerId()
+        public async Task TestGetCustomerClaimsByCustomerId()
         {
             int customerId = 2;
 
             CustomerModule custMod = new CustomerModule();
-            IList<CustomerClaimView> list = custMod
-              .Customer
+            IList<CustomerClaimView> list = await custMod
+              .CustomerClaim
               .Query()
-                  .GetCustomerClaims(customerId);
+                  .GetCustomerClaimsByCustomerId(customerId);
    
 
             List<string> collection = new List<string>();
@@ -326,19 +329,19 @@ namespace ERP_Core.CustomerDomain
             Assert.True(results);
         }
         [Fact]
-        public void TestGetContractsByCustomerId()
+        public async Task TestGetContractsByCustomerId()
         {
-            long customerId = 2;
+            long? customerId = 2;
             long? contractId = 1;
 
             //UnitOfWork unitOfWork = new UnitOfWork();
 
             CustomerModule custMod = new CustomerModule();
 
-            IList<ContractView> list = custMod
-                .Customer
+            IList<ContractView> list = await custMod
+                .Contract
                 .Query()
-                .GetContracts(customerId, contractId ?? 0);
+                .GetContractsByCustomerId(customerId??0, contractId ?? 0);
 
             List<string> collection = new List<string>();
             foreach (var item in list)
@@ -352,38 +355,38 @@ namespace ERP_Core.CustomerDomain
             Assert.True(results);
         }
         [Fact]
-        public void TestGetEmailByCustomerId()
+        public async Task TestGetEmailByCustomerId()
         {
-            int customerId = 3;
+            long ? customerId = 3;
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            IList<EmailView> list = custMod
-                .Customer
+            IList<EmailEntityView> list = await custMod
+                .Email
                 .Query()
-                .GetEmails(customerId);
+                .GetEmailsViewsByCustomerId(customerId);
         
              List<string> collection = new List<string>();
 
             foreach (var item in list)
             {
-                output.WriteLine($"{item.EmailText}");
-                collection.Add(item.EmailText.ToUpper());
+                output.WriteLine($"{item.Email}");
+                collection.Add(item.Email.ToUpper());
             }
             bool results = collection.Any(s => s.Contains("DNISHIMOTO@LISTENSOFTWARE.COM"));
             Assert.True(results);
         }
         [Fact]
-        public void TestGetPhoneByCustomerId()
+        public async Task TestGetPhoneByCustomerId()
         {
-            int customerId = 3;
+            long ? customerId = 3;
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod= new CustomerModule();
-            IList<PhoneView> list = custMod
-              .Customer
+            IList<PhoneEntityView> list = await custMod
+              .Phone
               .Query()
-              .GetPhones(customerId);
+              .GetPhoneEntityViewsByCustomerId(customerId);
 
             List<string> collection = new List<string>();
 
@@ -397,16 +400,16 @@ namespace ERP_Core.CustomerDomain
             Assert.True(results);
         }
         [Fact]
-        public void TestGetLocationAddressByCustomerId()
+        public async Task TestGetLocationAddressByCustomerId()
         {
-            int customerId = 3;
+            long ? customerId = 3;
 
             // UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            IList<LocationAddressView> list = custMod
-              .Customer
+            IList<LocationAddressView> list = await custMod
+              .LocationAddress
               .Query()
-              .GetLocationAddress(customerId);
+              .GetLocationAddressViewsByCustomerId(customerId);
 
                List<string> collection = new List<string>();
 
@@ -419,7 +422,7 @@ namespace ERP_Core.CustomerDomain
             Assert.True(results);
         }
         [Fact]
-        public void TestGetScheduleEventsByCustomerId()
+        public async Task TestGetScheduleEventsByCustomerId()
         {
             long customerId = 1;
             long? serviceId = 3;
@@ -427,10 +430,10 @@ namespace ERP_Core.CustomerDomain
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
-            IList<ScheduleEventView> list = custMod
-              .Customer
+            IList<ScheduleEventView> list = await custMod
+              .ScheduleEvent
               .Query()
-              .GetScheduleEvent(customerId,serviceId??0);
+              .GetViewsByCustomerId(customerId,serviceId??0);
 
             List<string> collection = new List<string>();
             foreach (var item in list)
@@ -443,20 +446,20 @@ namespace ERP_Core.CustomerDomain
             Assert.True(results);
         }
         [Fact]
-        public void TestGetInvoicesByCustomerId()
+        public async Task TestGetInvoicesByCustomerId()
         {
-            int customerId = 2;
-            int? invoiceId = 5;
+            long customerId = 2;
+            long? invoiceId = 5;
             //int? invoiceId = null;
 
             //UnitOfWork unitOfWork = new UnitOfWork();
             CustomerModule custMod = new CustomerModule();
 
 
-            IList<InvoiceView> list = custMod
-              .Customer
+            IList<InvoiceView> list = await custMod
+              .Invoice
               .Query()
-              .GetInvoices(customerId, invoiceId);
+              .GetInvoiceViewsByCustomerId(customerId, invoiceId);
 
 
             List<string> collection = new List<string>();

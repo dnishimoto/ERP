@@ -1,4 +1,5 @@
 ﻿using lssWebApi2.FluentAPI;
+using lssWebApi2.SalesOrderDetailDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

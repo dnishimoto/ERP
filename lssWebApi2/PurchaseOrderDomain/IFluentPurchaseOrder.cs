@@ -1,17 +1,22 @@
-﻿using ERP_Core2.PurchaseOrderDomain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ERP_Core2.Interfaces
-{
-    public interface IFluentPurchaseOrder
+
+using lssWebApi2.EntityFramework;
+using System.Collections.Generic;
+using lssWebApi2.PurchaseOrderDomain;
+
+namespace lssWebApi2.PurchaseOrderDomain
+{ 
+
+public interface IFluentPurchaseOrder
     {
-        IFluentPurchaseOrder CreateAcctPayByPurchaseOrderNumber(PurchaseOrderView purchaseOrderView);
-        IFluentPurchaseOrder CreatePurchaseOrder(PurchaseOrderView purchaseOrderView);
-        IFluentPurchaseOrder CreatePurchaseOrderDetails(PurchaseOrderView purchaseOrderView);
+        IFluentPurchaseOrderQuery Query();
         IFluentPurchaseOrder Apply();
+        IFluentPurchaseOrder AddPurchaseOrder(PurchaseOrder purchaseOrder);
+        IFluentPurchaseOrder UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
+        IFluentPurchaseOrder DeletePurchaseOrder(PurchaseOrder purchaseOrder);
+     	IFluentPurchaseOrder UpdatePurchaseOrders(List<PurchaseOrder> newObjects);
+        IFluentPurchaseOrder AddPurchaseOrders(List<PurchaseOrder> newObjects);
+        IFluentPurchaseOrder DeletePurchaseOrders(List<PurchaseOrder> deleteObjects);
+        IFluentPurchaseOrder CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView);
     }
 }

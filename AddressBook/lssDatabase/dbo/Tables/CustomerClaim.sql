@@ -9,12 +9,15 @@
     [ProcessedDate]        DATE          NULL,
     [CreatedDate]          DATE          CONSTRAINT [DF_CustomerClaim_CreatedDate] DEFAULT (getdate()) NULL,
     [ContractId]           BIGINT        NULL,
+    [CustomerClaimNumber]  BIGINT        NULL,
     CONSTRAINT [PK_CustomerClaim] PRIMARY KEY CLUSTERED ([ClaimId] ASC),
     CONSTRAINT [FK_CustomerClaim_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId]),
     CONSTRAINT [FK_CustomerClaim_Employee] FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employee] ([EmployeeId]),
     CONSTRAINT [FK_CustomerClaim_UDC] FOREIGN KEY ([ClassificationXRefId]) REFERENCES [dbo].[UDC] ([XRefId]),
     CONSTRAINT [FK_CustomerClaim_UDC1] FOREIGN KEY ([GroupIdXrefId]) REFERENCES [dbo].[UDC] ([XRefId])
 );
+
+
 
 
 GO

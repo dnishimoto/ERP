@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.Enumerations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ERP_Core2.TaxRatesByCodeDomain;
 using lssWebApi2.TaxRatesByCodeDomain;
 
 

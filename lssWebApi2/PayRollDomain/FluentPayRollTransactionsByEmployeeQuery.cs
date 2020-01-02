@@ -1,11 +1,11 @@
-using ERP_Core2.AutoMapper;
-using ERP_Core2.Services;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 public class FluentPayRollTransactionsByEmployeeQuery:IFluentPayRollTransactionsByEmployeeQuery
     {
@@ -70,11 +70,13 @@ public async Task<PayRollTransactionsByEmployee> GetEntityById(long payRollTrans
         {
             return await _unitOfWork.payRollTransactionsByEmployeeRepository.GetEntityByNumber(payRollTransactionsByEmployeeNumber);
         }
-        public async Task<List<PayRollTransactionsByEmployeeView>> GetTransactionsByEmployeeViews(long employee)
+        public async Task<List<PayRollTransactionsByEmployeeView>> GetTransactionsByEmployeeViews(long employeeId)
         {
-            List<PayRollTransactionsByEmployee> list = await _unitOfWork.payRollTransactionsByEmployeeRepository.GetObjectsQueryable(e => e.Employee == employee, "");
+            var query =  _unitOfWork.payRollTransactionsByEmployeeRepository.GetEntitiesByExpression(e => e.Employee == employeeId);
             List<PayRollTransactionsByEmployeeView> views = new List<PayRollTransactionsByEmployeeView>();
-            list.ForEach(async e => views.Add(await MapToView(e)));
+            foreach (var item in query) {
+                views.Add(await MapToView(item));
+            }
             return views;
         }
         public async Task<PayRollTransactionsByEmployee> GetEntityByEmployeeAndTransactionCodeAndType(long employee, int payRollTransactionCode, string transactionType)

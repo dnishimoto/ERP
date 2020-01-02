@@ -3,7 +3,7 @@
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 { 
 
 public interface IFluentPayRollTransactionTypes

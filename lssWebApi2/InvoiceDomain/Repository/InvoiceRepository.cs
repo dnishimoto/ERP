@@ -2,45 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.Services;
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.InvoiceDetailsDomain;
-using ERP_Core2.AccountPayableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AbstractFactory;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using lssWebApi2.InvoiceDomain.Repository;
+using System.Linq.Expressions;
+using lssWebApi2.InvoiceDetailDomain;
 
-namespace ERP_Core2.InvoicesDomain
+namespace lssWebApi2.InvoicesDomain
 {
     public class InvoiceView
     {
-        public InvoiceView()
-        {
-            InvoiceDetailViews = new List<InvoiceDetailView>();
-        }
-        public InvoiceView(Invoice invoice)
-        {
-            this.InvoiceId = invoice.InvoiceId;
-            this.InvoiceNumber = invoice.InvoiceNumber;
-            this.InvoiceDate = invoice.InvoiceDate;
-            this.Amount = invoice.Amount;
-            this.CustomerId = invoice.Customer.CustomerId;
-            this.CustomerName = invoice.Customer.Address.Name;
-            this.Description = invoice.Description;
-            this.TaxAmount = invoice.TaxAmount;
-            this.PaymentDueDate = invoice.PaymentDueDate;
-            this.DiscountAmount = invoice.DiscountAmount;
-            this.PaymentTerms = invoice.PaymentTerms;
-            this.CompanyId = invoice.Company.CompanyId;
-            this.CompanyName = invoice.Company.CompanyName;
-            this.CompanyStreet = invoice.Company.CompanyStreet;
-            this.CompanyCity = invoice.Company.CompanyCity;
-            this.CompanyZipcode = invoice.Company.CompanyZipcode;
-            this.DiscountDueDate = invoice.DiscountDueDate;
-            this.FreightCost = invoice.FreightCost;
-            InvoiceDetailViews = new List<InvoiceDetailView>();
-
-        }
         public long? CompanyId { get; set; }
         public string CompanyName { get; set; }
         public string CompanyStreet { get; set; }
@@ -48,7 +21,7 @@ namespace ERP_Core2.InvoicesDomain
         public string CompanyState { get; set; }
         public string CompanyZipcode { get; set; }
         public long? InvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public string InvoiceDocument { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public decimal? Amount { get; set; }
         public long? CustomerId { get; set; }
@@ -60,12 +33,17 @@ namespace ERP_Core2.InvoicesDomain
         public decimal? DiscountAmount { get; set; }
         public decimal? FreightCost { get; set; }
         public string PaymentTerms { get; set; }
+        public long InvoiceNumber { get; set; }
+        public long? PurchaseOrderId { get; set; }
+        public long? SupplierId { get; set; }
         public IList<InvoiceDetailView> InvoiceDetailViews { get; set; }
+
+        public string SupplierName { get; set; }
     }
     public class InvoiceFlatView
     {
         public long? InvoiceId { get; set; }
-        public string InvoiceNumber { get; set; }
+        public string InvoiceCode { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public decimal? InvoiceAmount { get; set; }
         public string InvoiceDescription { get; set; }
@@ -73,7 +51,7 @@ namespace ERP_Core2.InvoicesDomain
         public DateTime? InvoicePaymentDueDate { get; set; }
         public string InvoicePaymentTerms { get; set; }
         public long IM_ItemId { get; set; }
-        public string IM_ItemNumber { get; set; }
+        public string IM_ItemCode { get; set; }
         public string IM_Description { get; set; }
         public decimal? ID_UnitPrice { get; set; }
         public string ID_UnitOfMeasure { get; set; }
@@ -96,6 +74,8 @@ namespace ERP_Core2.InvoicesDomain
         public string State { get; set; }
         public string Zipcode { get; set; }
         public string AddressType { get; set; }
+        public long InvoiceNumber { get; set; }
+
 
     }
     public class InvoiceRepository : Repository<Invoice>,IInvoiceRepository
@@ -107,6 +87,43 @@ namespace ERP_Core2.InvoicesDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<IQueryable<Invoice>> GetQueryableByCustomerId(long ? customerId)
+        {
+            var query = (from invoice in _dbContext.Invoice
+                         join customer in _dbContext.Customer
+                                   on invoice.CustomerId equals customer.CustomerId
+                         where customer.CustomerId == customerId
+                         select invoice);
+            await Task.Yield();
+            return query;
+        }
+        public async Task<Invoice> GetEntityById(long ? invoiceId)
+        {
+            try
+            {
+                return await _dbContext.FindAsync<Invoice>(invoiceId);
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public async Task<Invoice> GetEntityByNumber(long ?invoiceNumber)
+        {
+            try
+            {
+                var query = await (from detail in _dbContext.Invoice
+                                   where detail.InvoiceNumber == invoiceNumber
+                                   select detail).FirstOrDefaultAsync<Invoice>();
+                return query;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+        
+        public async Task<Invoice> FindEntityByExpression(Expression<Func<Invoice, bool>> predicate)
+        {
+            IQueryable<Invoice> result = _dbContext.Set<Invoice>().Where(predicate);
+
+            return await result.FirstOrDefaultAsync<Invoice>();
+        }
+
         public List<InvoiceFlatView> GetInvoicesByDate(DateTime startInvoiceDate, DateTime endInvoiceDate)
         {
             try
@@ -142,7 +159,7 @@ namespace ERP_Core2.InvoicesDomain
                             InvoicePaymentDueDate = invoice.PaymentDueDate,
                             InvoicePaymentTerms = invoice.PaymentTerms,
                             IM_ItemId = itemMaster.ItemId,
-                            IM_ItemNumber = itemMaster.ItemNumber,
+                            IM_ItemCode = itemMaster.ItemCode,
                             IM_Description = itemMaster.Description,
                             ID_UnitPrice = invoiceDetail.UnitPrice,
                             ID_UnitOfMeasure= invoiceDetail.UnitOfMeasure,
@@ -172,37 +189,25 @@ namespace ERP_Core2.InvoicesDomain
              }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<Invoice> GetInvoiceByInvoiceNumber(string invoiceNumber)
+        public async Task<Invoice> GetEntityByInvoiceDocument(string invoiceDocument)
         {
             try
             {
                 Invoice invoice = await (from a in _dbContext.Invoice
-                                         where a.InvoiceNumber == invoiceNumber
+                                         where a.InvoiceDocument == invoiceDocument
                                          select a).FirstOrDefaultAsync<Invoice>();
                 return invoice;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<CreateProcessStatus> CreateInvoiceByView(InvoiceView invoiceView)
+        public async Task<Invoice> FindEntityByInvoiceDocument(string invoiceDocument)
         {
-            try
-            {
-                Invoice invoice = new Invoice();
+            var query = await (from a in _dbContext.Invoice
+                               where a.InvoiceDocument == invoiceDocument
+                               select a).FirstOrDefaultAsync<Invoice>();
+            return query;
 
-                applicationViewFactory.MapInvoiceEntity(ref invoice, invoiceView);
-
-                var query = await (from a in _dbContext.Invoice
-                                   where a.InvoiceNumber == invoice.InvoiceNumber
-                                   select a).FirstOrDefaultAsync<Invoice>();
-                if (query == null)
-                {
-                    AddObject(invoice);
-                    return CreateProcessStatus.Insert;
-                }
-                return CreateProcessStatus.AlreadyExists;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
 
         public async Task<bool> AddInvoice(Invoice invoice)

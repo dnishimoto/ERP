@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.SalesOrderDetailDomain;
 using lssWebApi2.SalesOrderDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

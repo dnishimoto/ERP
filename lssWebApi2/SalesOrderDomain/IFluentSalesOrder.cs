@@ -13,6 +13,6 @@ namespace lssWebApi2.SalesOrderDomain
         IFluentSalesOrder AddSalesOrder(SalesOrder salesOrder);
         IFluentSalesOrder UpdateSalesOrder(SalesOrder salesOrder);
         IFluentSalesOrder DeleteSalesOrder(SalesOrder salesOrder);
-        IFluentSalesOrder UpdateSalesOrderAmountByShipmentsDetail(Shipments shipments, decimal? amount);
+        IFluentSalesOrder UpdateSalesOrderAmountByShipmentsDetail(Shipment shipments, decimal? amount);
     }
 }

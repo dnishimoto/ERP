@@ -1,6 +1,7 @@
 ﻿
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ScheduleEventDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.ScheduleEventsDomain
+namespace lssWebApi2.ScheduleEventsDomain
 {
     enum GenderType { Male, Female }
 
@@ -134,7 +135,7 @@ namespace ERP_Core2.ScheduleEventsDomain
 
             ScheduleEventModule seMod = new ScheduleEventModule();
 
-            IQueryable<ScheduleEvent> query = await seMod.GetScheduleEventsByEmployeeId(employeeId);
+            IQueryable<ScheduleEvent> query = await seMod.ScheduleEvent.Query().GetViewsByEmployeeId(employeeId);
      
             IList<ScheduleEvent> list = new List<ScheduleEvent>();
             foreach (var item in query)

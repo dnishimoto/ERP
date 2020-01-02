@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.InventoryDomain;
-using lssWebApi2.EntityFramework;
 using lssWebApi2.InventoryDomain;
+using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -35,7 +34,7 @@ namespace lssWebApi2.Controllers
 
             view.InventoryNumber = nnInventory.NextNumberValue;
 
-            Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
+            Inventory inventory = await invMod.Inventory.Query().MapToEntity(view);
 
             invMod.Inventory.AddInventory(inventory).Apply();
 
@@ -52,7 +51,7 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> DeleteInventory([FromBody]InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
-            Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
+            Inventory inventory = await invMod.Inventory.Query().MapToEntity(view);
             invMod.Inventory.DeleteInventory(inventory).Apply();
            
              return Ok(view);
@@ -64,9 +63,9 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> UpdateInventory([FromBody]InventoryView view)
         {
             InventoryModule invMod = new InventoryModule();
-            Inventory inventory = await invMod.Inventory.Query().MapToInventoryEntity(view);
+            Inventory inventory = await invMod.Inventory.Query().MapToEntity(view);
             invMod.Inventory.UpdateInventory(inventory).Apply();
-            InventoryView updateView = await invMod.Inventory.Query().GetInventoryViewbyId(inventory.InventoryId);
+            InventoryView updateView = await invMod.Inventory.Query().GetViewById(inventory.InventoryId);
             return Ok(updateView);
         }
     
@@ -77,7 +76,7 @@ namespace lssWebApi2.Controllers
         public async Task<IActionResult> GetInventoryView(long inventoryId)
         {
             InventoryModule invMod = new InventoryModule();
-            InventoryView view = await invMod.Inventory.Query().GetInventoryViewbyId(inventoryId);
+            InventoryView view = await invMod.Inventory.Query().GetViewById(inventoryId);
             return Ok(view);
         }
     }

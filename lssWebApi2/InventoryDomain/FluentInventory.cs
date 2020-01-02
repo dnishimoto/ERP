@@ -1,14 +1,17 @@
-﻿using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.InventoryDomain;
-using ERP_Core2.Services;
+﻿using lssWebApi2.AbstractFactory;
+using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.InventoryDomain;
+using lssWebApi2.PackingSlipDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.InventoryDomain
+namespace lssWebApi2.InventoryDomain
 {
     public class FluentInventory : IFluentInventory
     {
@@ -16,10 +19,39 @@ namespace ERP_Core2.InventoryDomain
 
         private UnitOfWork unitOfWork = new UnitOfWork();
         private CreateProcessStatus processStatus;
-
+        private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
+            
         public FluentInventory()
         {
 
+        }
+
+        public IFluentInventory CreateInventoryByPackingSlipView(PackingSlipView view)
+        {
+            int count = 0;
+            try
+            {
+                foreach (var item in view.PackingSlipDetailViews)
+                {
+
+
+                    Task<Inventory> inventoryTask = Task.Run(async () => await unitOfWork.inventoryRepository.FindEntityByExpression(e => e.ItemId == item.ItemId && e.PackingSlipDetailId == item.PackingSlipDetailId));
+                    Task.WaitAll(inventoryTask);
+                    if (inventoryTask.Result == null)
+                    {
+                        Inventory inventory = new Inventory();
+
+                        applicationViewFactory.MapPackingSlipIntoInventoryEntity(ref inventory, item);
+
+                        AddInventory(inventory);
+                        count++;
+
+                    }
+                }
+                if (count == 0) { processStatus=CreateProcessStatus.AlreadyExists; return this as IFluentInventory; } else { return this as IFluentInventory; }
+
+            }
+            catch (Exception ex) { throw new Exception("CreateInventoryByPackingSlipView", ex); }
         }
 
         public IFluentInventoryQuery Query()

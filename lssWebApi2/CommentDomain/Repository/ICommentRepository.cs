@@ -6,7 +6,7 @@ namespace lssWebApi2.CommentDomain
 {
     public interface ICommentRepository
     {
-        Task<Comment> GetEntityById(long _commentId);
+        Task<Comment> GetEntityById(long ? commentId);
         Task<Comment> GetEntityByNumber(long commentNumber);
     }
 }

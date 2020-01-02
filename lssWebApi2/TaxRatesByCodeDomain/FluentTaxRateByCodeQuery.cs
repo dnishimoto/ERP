@@ -1,30 +1,31 @@
-using ERP_Core2.AutoMapper;
-using ERP_Core2.Services;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
+using lssWebApi2.MapperAbstract;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.TaxRatesByCodeDomain
+namespace lssWebApi2.TaxRatesByCodeDomain
 {
-    public class FluentTaxRatesByCodeQuery : IFluentTaxRatesByCodeQuery
+    public class FluentTaxRatesByCodeQuery : MapperAbstract<TaxRatesByCode,TaxRatesByCodeView>,IFluentTaxRatesByCodeQuery
     {
         private UnitOfWork _unitOfWork = null;
         public FluentTaxRatesByCodeQuery() { }
         public FluentTaxRatesByCodeQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
-        public async Task<TaxRatesByCode> MapToEntity(TaxRatesByCodeView inputObject)
+        public override async Task<TaxRatesByCode> MapToEntity(TaxRatesByCodeView inputObject)
         {
-            Mapper mapper = new Mapper();
+
             TaxRatesByCode outObject = mapper.Map<TaxRatesByCode>(inputObject);
             await Task.Yield();
             return outObject;
         }
 
-        public async Task<List<TaxRatesByCode>> MapToEntity(List<TaxRatesByCodeView> inputObjects)
+        public override async Task<List<TaxRatesByCode>> MapToEntity(List<TaxRatesByCodeView> inputObjects)
         {
             List<TaxRatesByCode> list = new List<TaxRatesByCode>();
-            Mapper mapper = new Mapper();
+
             foreach (var item in inputObjects)
             {
                 TaxRatesByCode outObject = mapper.Map<TaxRatesByCode>(item);
@@ -35,9 +36,9 @@ namespace ERP_Core2.TaxRatesByCodeDomain
 
         }
 
-        public async Task<TaxRatesByCodeView> MapToView(TaxRatesByCode inputObject)
+        public override async Task<TaxRatesByCodeView> MapToView(TaxRatesByCode inputObject)
         {
-            Mapper mapper = new Mapper();
+
             TaxRatesByCodeView outObject = mapper.Map<TaxRatesByCodeView>(inputObject);
             await Task.Yield();
             return outObject;
@@ -48,7 +49,7 @@ namespace ERP_Core2.TaxRatesByCodeDomain
         {
             return await _unitOfWork.taxRatesByCodeRepository.GetNextNumber(TypeOfNextNumberEnum.TaxRatesByCodeNumber.ToString());
         }
-        public async Task<TaxRatesByCodeView> GetViewById(long TaxRatesByCodeId)
+        public override async Task<TaxRatesByCodeView> GetViewById(long ? TaxRatesByCodeId)
         {
             TaxRatesByCode detailItem = await _unitOfWork.taxRatesByCodeRepository.GetEntityById(TaxRatesByCodeId);
 
@@ -68,7 +69,7 @@ namespace ERP_Core2.TaxRatesByCodeDomain
             return await MapToView(detailItem);
         }
 
-        public async Task<TaxRatesByCode> GetEntityById(long taxRatesByCodeId)
+        public override async Task<TaxRatesByCode> GetEntityById(long ? taxRatesByCodeId)
         {
             return await _unitOfWork.taxRatesByCodeRepository.GetEntityById(taxRatesByCodeId);
 
