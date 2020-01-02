@@ -1,44 +1,22 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.Services;
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.AccountsReceivableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AbstractFactory;
+using lssWebApi2.AccountsReceivableDomain;
 using System.Data.SqlClient;
-using ERP_Core2.AccountPayableDomain;
+using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using lssWebApi2.GeneralLedgerDomain.Repository;
+using lssWebApi2.AutoMapper;
 
-namespace ERP_Core2.GeneralLedgerDomain
+namespace lssWebApi2.GeneralLedgerDomain
 {
     public class GeneralLedgerView
     {
-        public GeneralLedgerView() { }
-        public GeneralLedgerView(GeneralLedger generalLedger)
-        {
-            this.GeneralLedgerId = generalLedger.GeneralLedgerId;
-            this.DocNumber = generalLedger.DocNumber;
-            this.DocType = generalLedger.DocType;
-            this.Amount = generalLedger.Amount;
-            this.Hours = generalLedger.Units;
-            this.LedgerType = generalLedger.LedgerType;
-            this.GLDate = generalLedger.Gldate;
-            this.AccountId = generalLedger.AccountId;
-            this.CreatedDate = generalLedger.CreatedDate;
-            this.AddressId = generalLedger.AddressId;
-            this.Comment = generalLedger.Comment;
-            this.DebitAmount = generalLedger.DebitAmount;
-            this.CreditAmount = generalLedger.CreditAmount;
-            this.FiscalPeriod = generalLedger.FiscalPeriod ?? 0;
-            this.FiscalYear = generalLedger.FiscalYear ?? 0;
-            this.CheckNumber = generalLedger.CheckNumber;
-            this.PurchaseOrderNumber = generalLedger.PurchaseOrderNumber;
-            this.Units = generalLedger.Units;
-        }
-
         public long GeneralLedgerId { get; set; }
         public long? SupplierId { get; set; }
         public long? CustomerId { get; set; }
@@ -92,14 +70,6 @@ namespace ERP_Core2.GeneralLedgerDomain
 
         private List<GeneralLedgerView> _ledgers = new List<GeneralLedgerView>();
 
-        public AccountSummaryView()
-        {
-            // if (ledgers == null)
-            //{
-            //    ledgers = new List<GeneralLedger>();
-            // }
-        }
-
         public long AccountId { get; set; }
         public int? FiscalPeriod { get; set; }
         public int? FiscalYear { get; set; }
@@ -117,7 +87,7 @@ namespace ERP_Core2.GeneralLedgerDomain
     }
     public class IncomeStatementView
     {
-       
+
         public string Account { get; set; }
         public string Description { get; set; }
         public int? FiscalPeriod { get; set; }
@@ -125,8 +95,8 @@ namespace ERP_Core2.GeneralLedgerDomain
         public decimal Amount { get; set; }
         public DateTime GLDate { get; set; }
 
-      }
-    
+    }
+
 
     public class GeneralLedgerRepository : Repository<GeneralLedger>, IGeneralLedgerRepository
     {
@@ -138,39 +108,82 @@ namespace ERP_Core2.GeneralLedgerDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-
-        public async Task<List<IncomeStatementView>> GetIncomeStatementView(long fiscalYear)
+        public IQueryable<GeneralLedger> GetEntitiesByExpression(Expression<Func<GeneralLedger, bool>> predicate)
         {
-            List<IncomeStatementView> list = await (from coa in _dbContext.ChartOfAccts
-                                              join gl in _dbContext.GeneralLedger
-                                              on coa.AccountId equals gl.AccountId into glLeftJoin
-                                              from gl in glLeftJoin.DefaultIfEmpty()
-                                              where (new string[] { "300", "310", "502" }).Contains(coa.ObjectNumber)
-                                              && gl.FiscalYear == fiscalYear
-                                              orderby coa.Account
-                                              select
-                                              (
-                                              new IncomeStatementView
-                                              {
-                                                  Account = coa.Account,
-                                                  Description = coa.Description,
-                                                  FiscalPeriod = gl.FiscalPeriod == null ? DateTime.Now.Month : gl.FiscalPeriod,
-                                                  FiscalYear = gl.FiscalYear == null ? DateTime.Now.Year : gl.FiscalYear,
-                                                  Amount = gl.Amount,
-                                                  GLDate = gl.Gldate == null ? DateTime.Now : gl.Gldate,
-                                                     //select new { Amount = pg.Select(f => f.Amount).Sum() }
-                                                             
+            var result = _dbContext.Set<GeneralLedger>().Where(predicate);
+
+            return result;
+        }
+
+        public async Task<GeneralLedger> FindEntityByExpression(Expression<Func<GeneralLedger, bool>> predicate)
+        {
+            IQueryable<GeneralLedger> result = _dbContext.Set<GeneralLedger>().Where(predicate);
+
+            return await result.FirstOrDefaultAsync<GeneralLedger>();
+        }
+        public async Task<IList<GeneralLedger>> FindEntitiesByExpression(Expression<Func<GeneralLedger, bool>> predicate)
+        {
+            IQueryable<GeneralLedger> result = _dbContext.Set<GeneralLedger>().Where(predicate);
+
+            return await result.ToListAsync<GeneralLedger>();
+        }
+        public async Task<Decimal> GetGLAmountByDocNumber(long ? docNumber)
+
+            {
+            var gl_query = await (from e in _dbContext.GeneralLedger
+                                      where e.DocNumber == docNumber
+                                      && e.DocType == "PV"
+                                      && e.LedgerType == "AA"
+
+                                      group e by e.DocNumber
+                                          into g
+
+                                      select new { AmountPaid = g.Sum(e => e.Amount) }
+                                          ).FirstOrDefaultAsync();
+            return gl_query.AmountPaid;
+
+}
+        public async Task<GeneralLedger> GetEntityById(long? generalLedgerId)
+        {
+            try
+            {
+                return await _dbContext.FindAsync<GeneralLedger>(generalLedgerId);
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+
+        public async Task<IList<IncomeStatementView>> GetIncomeStatementView(long fiscalYear)
+        {
+            IList<IncomeStatementView> list = await (from coa in _dbContext.ChartOfAccount
+                                                    join gl in _dbContext.GeneralLedger
+                                                    on coa.AccountId equals gl.AccountId into glLeftJoin
+                                                    from gl in glLeftJoin.DefaultIfEmpty()
+                                                    where (new string[] { "300", "310", "502" }).Contains(coa.ObjectNumber)
+                                                    && gl.FiscalYear == fiscalYear
+                                                    orderby coa.Account
+                                                    select
+                                                    (
+                                                    new IncomeStatementView
+                                                    {
+                                                        Account = coa.Account,
+                                                        Description = coa.Description,
+                                                        FiscalPeriod = gl.FiscalPeriod == null ? DateTime.Now.Month : gl.FiscalPeriod,
+                                                        FiscalYear = gl.FiscalYear == null ? DateTime.Now.Year : gl.FiscalYear,
+                                                        Amount = gl.Amount,
+                                                        GLDate = gl.Gldate == null ? DateTime.Now : gl.Gldate,
+                                                  //select new { Amount = pg.Select(f => f.Amount).Sum() }
+
 
                                               })
             ).ToListAsync<IncomeStatementView>();
 
             return list;
         }
-        public async Task<List<IncomeView>> GetIncomeViews()
+        public async Task<IList<IncomeView>> GetIncomeViews()
         {
             try
             {
-                List<IncomeView> list = await (from coa in _dbContext.ChartOfAccts
+                IList<IncomeView> list = await (from coa in _dbContext.ChartOfAccount
                                                join gl in _dbContext.GeneralLedger
                                                    on coa.AccountId equals gl.AccountId
                                                join ab in _dbContext.AddressBook
@@ -197,6 +210,13 @@ namespace ERP_Core2.GeneralLedgerDomain
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
+        private GeneralLedgerView MapToView(GeneralLedger inputObject)
+        {
+            Mapper mapper = new Mapper();
+            GeneralLedgerView outObject = mapper.Map<GeneralLedgerView>(inputObject);
+
+            return outObject;
+        }
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try
@@ -205,7 +225,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                              where (e.LedgerType == "AA" && e.DocType == "PV" && e.FiscalYear == fiscalYear)
                              group e by e.AccountId into pg
 
-                             join f in _dbContext.ChartOfAccts
+                             join f in _dbContext.ChartOfAccount
                                  on pg.Key equals f.AccountId
 
                              select new
@@ -232,7 +252,7 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                     foreach (var ledger in item.Ledgers.OrderByDescending(i => i.Gldate))
                     {
-                        GeneralLedgerView glView = applicationViewFactory.MapGeneralLedgerView(ledger);
+                        GeneralLedgerView glView = MapToView(ledger);
                         view.ledgers.Add(glView);
                     }
 
@@ -244,36 +264,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<CreateProcessStatus> CreateLedgerFromView(GeneralLedgerView view)
-        {
-            try
-            {
-                GeneralLedger ledger = new GeneralLedger();
-
-                var query = await (from e in _dbContext.GeneralLedger
-                                   where e.AccountId == view.AccountId
-                                   && e.Amount == view.Amount
-                                   && e.Gldate == view.GLDate
-                                   && e.DocNumber == view.DocNumber
-                                   && e.CheckNumber == view.CheckNumber
-                                   select e
-                             ).FirstOrDefaultAsync<GeneralLedger>();
-
-                if (query == null)
-                {
-
-                    applicationViewFactory.MapGeneralLedgerEntity(ref ledger, view);
-
-                    AddObject(ledger);
-
-                    return CreateProcessStatus.Insert;
-                }
-                return CreateProcessStatus.AlreadyExists;
-            }
-            catch (Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
-
-        }
+     
         public async Task<bool> UpdateBalanceByAccountId(long? accountId, int? fiscalYear, int? fiscalPeriod, string docType)
         {
 
@@ -293,28 +284,7 @@ namespace ERP_Core2.GeneralLedgerDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<GeneralLedgerView> GetLedgerViewById(long generalLedgerId)
-        {
-            GeneralLedgerView view;
-            try
-            {
-                var query = await (from a in _dbContext.GeneralLedger
-                                   where a.GeneralLedgerId == generalLedgerId
-                                   select a).FirstOrDefaultAsync<GeneralLedger>();
-                if (query != null)
-                {
-                    view = applicationViewFactory.MapGeneralLedgerView(query);
-                }
-                else
-                {
-                    view = new GeneralLedgerView();
-                }
-                return view;
-            }
-            catch (Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
-        }
-        public async Task<GeneralLedgerView> GetLedgerByDocNumber(long? docNumber, string docType)
+        public async Task<GeneralLedger> GetEntityByDocNumber(long? docNumber, string docType)
         {
             try
             {
@@ -323,84 +293,44 @@ namespace ERP_Core2.GeneralLedgerDomain
                                    && a.DocType == docType
                                    select a).FirstOrDefaultAsync<GeneralLedger>();
 
-                GeneralLedgerView view = applicationViewFactory.MapGeneralLedgerView(query);
-                return view;
+
+                return query;
             }
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public async Task<CreateProcessStatus> CreateLedgerFromReceiveable(AccountReceiveableView accountReceivableView)
+        public async Task<GeneralLedger> FindEntityByDocNumber(long? docNumber)
         {
             try
             {
                 var query = await (from a in _dbContext.GeneralLedger
-                                   where a.DocNumber == accountReceivableView.DocNumber
+                                   where a.DocNumber == docNumber
                                    select a).FirstOrDefaultAsync<GeneralLedger>();
-
-                if (query == null)
-                {
-                    long addressId = await base.GetAddressIdByCustomerId(accountReceivableView.CustomerId);
-                    //Revenue Account
-                    ChartOfAccts chartOfAcct = await base.GetChartofAccount("1000", "1200", "250", "");
-
-                    GeneralLedger ledger = new GeneralLedger();
-                    ledger.DocNumber = accountReceivableView.DocNumber ?? 0;
-                    ledger.DocType = "OV";
-                    ledger.Amount = accountReceivableView.Amount ?? 0;
-                    ledger.LedgerType = "AA";
-                    ledger.Gldate = DateTime.Now.Date;
-                    ledger.FiscalPeriod = DateTime.Now.Date.Month;
-                    ledger.FiscalYear = DateTime.Now.Date.Year;
-                    ledger.AccountId = chartOfAcct.AccountId;
-                    ledger.CreatedDate = DateTime.Now.Date;
-                    ledger.AddressId = addressId;
-                    ledger.Comment = accountReceivableView.Remarks;
-                    ledger.DebitAmount = 0.0M;
-                    ledger.CreditAmount = accountReceivableView.Amount ?? 0;
-                    AddObject(ledger);
-                    return CreateProcessStatus.Insert;
-
-                }
-                return CreateProcessStatus.Failed;
+                return query;
             }
             catch (Exception ex)
             {
                 throw new Exception(GetMyMethodName(), ex);
             }
-
         }
-
-        public async Task<CreateProcessStatus> UpdateGeneralLedger(GeneralLedger generalLedger)
+        public async Task<GeneralLedger> FindEntityByView(GeneralLedgerView view)
         {
             try
             {
-                var query = await GetObjectAsync(generalLedger.GeneralLedgerId);
-
-                GeneralLedger generalLedgerBase = query;
-
-
-
-                UpdateObject(generalLedgerBase);
-                return CreateProcessStatus.Update;
+                var query = await (from e in _dbContext.GeneralLedger
+                                   where e.AccountId == view.AccountId
+                                   && e.Amount == view.Amount
+                                   && e.Gldate == view.GLDate
+                                   && e.DocNumber == view.DocNumber
+                                   && e.CheckNumber == view.CheckNumber
+                                   select e
+                            ).FirstOrDefaultAsync<GeneralLedger>();
+                return query;
             }
             catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
+            { throw new Exception(GetMyMethodName(), ex); }
         }
-        public CreateProcessStatus DeleteGeneralLedger(GeneralLedger generalLedger)
-        {
-            try
-            {
-                DeleteObject(generalLedger);
-                return CreateProcessStatus.Delete;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
 
-        }
+
     }
 }

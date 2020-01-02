@@ -1,12 +1,12 @@
 
 
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
     public class PayRollGroupView
     {

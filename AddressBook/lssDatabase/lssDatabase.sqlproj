@@ -74,18 +74,12 @@
     <Build Include="dbo\Tables\PackingSlip.sql" />
     <Build Include="dbo\Tables\ProjectManagementProject.sql" />
     <Build Include="dbo\Tables\ItemMaster.sql" />
-    <Build Include="dbo\Tables\ProjectManagementMilestones.sql" />
     <Build Include="dbo\Tables\SalesOrder.sql" />
     <Build Include="dbo\Tables\Invoice.sql" />
     <Build Include="dbo\Tables\NextNumber.sql" />
-    <Build Include="dbo\Tables\AcctRecInterest.sql" />
-    <Build Include="dbo\Tables\Emails.sql" />
     <Build Include="dbo\Tables\ProjectManagementTaskToEmployee.sql" />
     <Build Include="dbo\Tables\Comment.sql" />
     <Build Include="dbo\Tables\SupplierInvoiceDetail.sql" />
-    <Build Include="dbo\Tables\AcctRec.sql" />
-    <Build Include="dbo\Tables\Phones.sql" />
-    <Build Include="dbo\Tables\AcctRecFee.sql" />
     <Build Include="dbo\Tables\ServiceInformation.sql" />
     <Build Include="dbo\Tables\SupplierInvoice.sql" />
     <Build Include="dbo\Tables\ProjectManagementTask.sql" />
@@ -94,7 +88,6 @@
     <Build Include="dbo\Tables\PurchaseOrderDetail.sql" />
     <Build Include="dbo\Tables\TimeAndAttendancePunchIn.sql" />
     <Build Include="dbo\Tables\ServiceInformationInvoice.sql" />
-    <Build Include="dbo\Tables\ContractContent.sql" />
     <Build Include="dbo\Tables\ContractInvoice.sql" />
     <Build Include="dbo\Tables\TimeAndAttendanceSchedule.sql" />
     <Build Include="dbo\Tables\TimeAndAttendanceSetup.sql" />
@@ -108,10 +101,7 @@
     <Build Include="dbo\Tables\Employee.sql" />
     <Build Include="dbo\Tables\ShippedToAddresses.sql" />
     <Build Include="dbo\Tables\TimeAndAttendanceShift.sql" />
-    <Build Include="dbo\Tables\ChartOfAccts.sql" />
-    <Build Include="dbo\Tables\ShipmentsDetail.sql" />
     <Build Include="dbo\Tables\Contract.sql" />
-    <Build Include="dbo\Tables\Shipments.sql" />
     <Build Include="dbo\Tables\CustomerLedger.sql" />
     <Build Include="dbo\Tables\ProjectManagementWorkOrder.sql" />
     <Build Include="dbo\Tables\BudgetSnapShot.sql" />
@@ -129,7 +119,6 @@
     <Build Include="dbo\Tables\AcctPay.sql" />
     <Build Include="dbo\Tables\Supplier.sql" />
     <Build Include="dbo\Tables\Inventory.sql" />
-    <Build Include="dbo\Tables\Assets.sql" />
     <Build Include="dbo\Tables\PackingSlipDetail.sql" />
     <Build Include="dbo\Tables\AspNetRoles.sql" />
     <Build Include="dbo\Tables\AspNetUserRoles.sql" />
@@ -186,5 +175,18 @@
     <Build Include="dbo\Tables\PayRollCurrentPaySequence.sql" />
     <Build Include="dbo\Tables\PayRollBenefitOption.sql" />
     <Build Include="dbo\Views\TableColumnsView.sql" />
+    <Build Include="dbo\Tables\ShipmentDetail.sql" />
+    <Build Include="dbo\Tables\Shipment.sql" />
+    <Build Include="dbo\Tables\EmployeeSalary.sql" />
+    <Build Include="dbo\Tables\EmailEntity.sql" />
+    <Build Include="dbo\Tables\ChartOfAccount.sql" />
+    <Build Include="dbo\Tables\Asset.sql" />
+    <Build Include="dbo\Tables\AccountReceivableInterest.sql" />
+    <Build Include="dbo\Tables\AccountReceivableFee.sql" />
+    <Build Include="dbo\Tables\AccountReceivable.sql" />
+    <Build Include="dbo\Tables\AccountPayable.sql" />
+    <Build Include="dbo\Tables\ProjectManagementMilestone.sql" />
+    <Build Include="dbo\Tables\PhoneEntity.sql" />
+    <Build Include="dbo\Tables\ContractItem.sql" />
   </ItemGroup>
 </Project>

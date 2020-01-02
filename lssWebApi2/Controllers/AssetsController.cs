@@ -15,20 +15,20 @@ namespace lssWebApi2.Controllers
     {
         [HttpPost]
         [Route("View")]
-        [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddAssets([FromBody]AssetsView view)
+        [ProducesResponseType(typeof(AssetView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddAssets([FromBody]AssetView view)
         {
-            AssetsModule invMod = new AssetsModule();
+            AssetModule invMod = new AssetModule();
 
-            NextNumber nnAssets = await invMod.Assets.Query().GetAssetsNextNumber();
+            NextNumber nnAssets = await invMod.Asset.Query().GetAssetNextNumber();
 
             view.AssetNumber = nnAssets.NextNumberValue;
 
-            Assets Assets = await invMod.Assets.Query().MapToAssetsEntity(view);
+            Asset Assets = await invMod.Asset.Query().MapToEntity(view);
 
-            invMod.Assets.AddAssets(Assets).Apply();
+            invMod.Asset.AddAsset(Assets).Apply();
 
-            AssetsView newView = await invMod.Assets.Query().GetAssetViewByNumber(view.AssetNumber);
+            AssetView newView = await invMod.Asset.Query().GetAssetViewByNumber(view.AssetNumber);
 
 
             return Ok(newView);
@@ -37,31 +37,31 @@ namespace lssWebApi2.Controllers
 
         [HttpDelete]
         [Route("View")]
-        [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteAssets([FromBody]AssetsView view)
+        [ProducesResponseType(typeof(AssetView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteAssets([FromBody]AssetView view)
         {
-            AssetsModule invMod = new AssetsModule();
-            Assets Assets = await invMod.Assets.Query().MapToAssetsEntity(view);
-            invMod.Assets.DeleteAssets(Assets).Apply();
+            AssetModule invMod = new AssetModule();
+            Asset Assets = await invMod.Asset.Query().MapToEntity(view);
+            invMod.Asset.DeleteAsset(Assets).Apply();
 
             return Ok(view);
         }
 
         [HttpPut]
         [Route("View")]
-        [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateAssets([FromBody]AssetsView view)
+        [ProducesResponseType(typeof(AssetView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateAssets([FromBody]AssetView view)
         {
-            AssetsModule invMod = new AssetsModule();
+            AssetModule invMod = new AssetModule();
 
-            Assets Assets = await invMod.Assets.Query().MapToAssetsEntity(view);
+            Asset Assets = await invMod.Asset.Query().MapToEntity(view);
 
 
-            invMod.Assets.UpdateAssets(Assets).Apply();
+            invMod.Asset.UpdateAsset(Assets).Apply();
 
-            AssetsView updateView = await invMod.Assets.Query().GetAssetsViewById(Assets.AssetId);
+            AssetView updateView = await invMod.Asset.Query().GetViewById(Assets.AssetId);
 
-            AssetsView retView = await invMod.Assets.Query().GetAssetsViewById(Assets.AssetId);
+            AssetView retView = await invMod.Asset.Query().GetViewById(Assets.AssetId);
 
             return Ok(retView);
 
@@ -69,13 +69,13 @@ namespace lssWebApi2.Controllers
 
         [HttpGet]
         [Route("View/{AssetsId}")]
-        [ProducesResponseType(typeof(AssetsView), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(AssetView), StatusCodes.Status200OK)]
 
         public async Task<IActionResult> GetAssetsView(long AssetsId)
         {
-            AssetsModule invMod = new AssetsModule();
+            AssetModule invMod = new AssetModule();
 
-            AssetsView view = await invMod.Assets.Query().GetAssetsViewById(AssetsId);
+            AssetView view = await invMod.Asset.Query().GetViewById(AssetsId);
             return Ok(view);
         }
     }

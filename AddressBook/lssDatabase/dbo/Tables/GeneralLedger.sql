@@ -18,6 +18,8 @@
     [Units]               DECIMAL (18, 4) NULL,
     CONSTRAINT [PK__generalL__3214EC07AC773B83] PRIMARY KEY CLUSTERED ([GeneralLedgerId] ASC),
     CONSTRAINT [FK_GeneralLedger_AddressBook] FOREIGN KEY ([AddressId]) REFERENCES [dbo].[AddressBook] ([AddressId]),
-    CONSTRAINT [FK_GeneralLedger_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccts] ([AccountId])
+    CONSTRAINT [FK_GeneralLedger_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccount] ([AccountId])
 );
+
+
 

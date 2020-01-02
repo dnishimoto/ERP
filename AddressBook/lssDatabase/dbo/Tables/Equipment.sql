@@ -14,6 +14,9 @@
     [Category1]             VARCHAR (20)  NULL,
     [Category2]             VARCHAR (20)  NULL,
     [Category3]             VARCHAR (20)  NULL,
+    [EquipmentNumber]       BIGINT        NOT NULL,
     CONSTRAINT [PK_Equipment] PRIMARY KEY CLUSTERED ([EquipmentId] ASC)
 );
+
+
 

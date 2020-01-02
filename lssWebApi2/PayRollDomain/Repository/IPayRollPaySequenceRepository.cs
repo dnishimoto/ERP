@@ -2,7 +2,7 @@ using lssWebApi2.EntityFramework;
 using System;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 public interface IPayRollPaySequenceRepository
     {

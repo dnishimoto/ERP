@@ -5,19 +5,18 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 
-namespace ERP_Core2.ChartOfAccountsDomain
+namespace lssWebApi2.ChartOfAccountsDomain
 {
     
        public class UnitTestChartOfAccounts
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
         public UnitTestChartOfAccounts(ITestOutputHelper output)
@@ -26,35 +25,35 @@ namespace ERP_Core2.ChartOfAccountsDomain
 
         }
         [Fact]
-        public void TestGetExpenseCoa()
+        public async Task TestGetExpenseCoa()
         {
             ChartOfAccountModule coaMod = new ChartOfAccountModule();
             string company = "1000";
             string busUnit = "1200";
             string objectNumber = "502";
-            List<ChartOfAccountView> list = coaMod.ChartOfAccount.Query().GetChartOfAccountViewsByAccount(company, busUnit, objectNumber, "");
+            IList<ChartOfAccountView> list = await coaMod.ChartOfAccount.Query().GetViewsByAccount(company, busUnit, objectNumber, "");
             if (list.Count == 0)
             {
                 Assert.True(false);
             }
         }
         [Fact]
-        public void TestGetAccountsByIds()
+        public async Task TestGetAccountsByIds()
         {
             long [] acctIds = { 3, 4, 5 };
             ChartOfAccountModule coaMod = new ChartOfAccountModule();
-            List<ChartOfAccountView> list = coaMod.ChartOfAccount.Query().GetChartOfAccountViewsByIds(acctIds);
+            IList<ChartOfAccountView> list = await coaMod.ChartOfAccount.Query().GetViewsByIds(acctIds);
             if (list.Count > 0)
             { Assert.True(true); }
         }
         [Fact]
-        public void TestCreateAccountModel()
+        public async Task TestCreateAccountModel()
         {
 
             ChartOfAccountModule coaMod = new ChartOfAccountModule();
-            coaMod.ChartOfAccount.CreateChartOfAccountModel().Apply();
+            bool result= await coaMod.ChartOfAccount.CreateChartOfAccountModel();
 
-            Assert.True(true);
+            Assert.True(result);
         }
      
     }

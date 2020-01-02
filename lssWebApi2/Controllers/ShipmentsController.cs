@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.Enumerations;
 using lssWebApi2.ShipmentsDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,16 +16,16 @@ namespace lssWebApi2.Controllers
     {
         [HttpPost]
         [Route("View")]
-        [ProducesResponseType(typeof(ShipmentsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> AddShipments([FromBody]ShipmentCreationView shipmentCreation)
+        [ProducesResponseType(typeof(ShipmentView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddShipments([FromBody]ShipmentView shipmentCreation)
         {
-            ShipmentsModule ShipmentsMod = new ShipmentsModule();
+            ShipmentModule ShipmentsMod = new ShipmentModule();
 
-            Shipments newShipments = await ShipmentsMod.Shipments.Query().CreateShipmentBySalesOrder(shipmentCreation);
+            Shipment newShipment = await ShipmentsMod.Shipment.Query().GetShipmentBySalesOrder(shipmentCreation);
 
-            List<ShipmentsDetail> newShipmentsDetails = await ShipmentsMod.ShipmentsDetail.Query().CreateShipmentsDetailBySalesOrder(shipmentCreation);
+            List<ShipmentDetail> newShipmentsDetails = await ShipmentsMod.ShipmentDetail.Query().GetShipmentDetailBySalesOrder(shipmentCreation);
 
-            newShipments = await ShipmentsMod.Shipments.Query().CalculatedAmountsByDetails(newShipments, newShipmentsDetails);
+            newShipment = await ShipmentsMod.Shipment.Query().CalculatedAmountsByDetails(newShipment, newShipmentsDetails);
 
 
             //TODO Calculate the amount, duty, taxes, shipping cost
@@ -35,19 +34,19 @@ namespace lssWebApi2.Controllers
             //decimal codCost=await ShipmentsMod.Shipments.Query().CalculateCodCost(newShipments);
             //decimal duty=await ShipmentsMod.Shipments.Query().CalculateDuty(newShipments);
 
-            ShipmentsMod.Shipments.AddShipments(newShipments).Apply();
+            ShipmentsMod.Shipment.AddShipment(newShipment).Apply();
 
-            Shipments lookupShipments = await ShipmentsMod.Shipments.Query().GetEntityByNumber(newShipments.ShipmentNumber);
+            Shipment lookupShipments = await ShipmentsMod.Shipment.Query().GetEntityByNumber(newShipment.ShipmentNumber);
 
             newShipmentsDetails.ForEach(m => m.ShipmentId = lookupShipments.ShipmentId);
 
-            ShipmentsMod.ShipmentsDetail.AddShipmentsDetails(newShipmentsDetails).Apply();
+            ShipmentsMod.ShipmentDetail.AddShipmentDetails(newShipmentsDetails).Apply();
 
             ShipmentsMod.SalesOrderDetail.UpdateSalesOrderDetailByShipmentsDetail(newShipmentsDetails).Apply();
 
-            ShipmentsMod.SalesOrder.UpdateSalesOrderAmountByShipmentsDetail(newShipments, newShipmentsDetails.Sum(e => e.Amount)).Apply();
+            ShipmentsMod.SalesOrder.UpdateSalesOrderAmountByShipmentsDetail(newShipment, newShipmentsDetails.Sum(e => e.Amount)).Apply();
 
-            ShipmentsView newView = await ShipmentsMod.Shipments.Query().GetViewByNumber(newShipments.ShipmentNumber);
+            ShipmentView newView = await ShipmentsMod.Shipment.Query().GetViewByNumber(newShipment.ShipmentNumber);
 
 
             return Ok(newView);
@@ -56,29 +55,29 @@ namespace lssWebApi2.Controllers
 
         [HttpDelete]
         [Route("View")]
-        [ProducesResponseType(typeof(ShipmentsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> DeleteShipments([FromBody]ShipmentsView view)
+        [ProducesResponseType(typeof(ShipmentView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> DeleteShipments([FromBody]ShipmentView view)
         {
-            ShipmentsModule invMod = new ShipmentsModule();
-            Shipments shipments = await invMod.Shipments.Query().MapToEntity(view);
-            invMod.Shipments.DeleteShipments(shipments).Apply();
+            ShipmentModule invMod = new ShipmentModule();
+            Shipment shipments = await invMod.Shipment.Query().MapToEntity(view);
+            invMod.Shipment.DeleteShipment(shipments).Apply();
 
             return Ok(view);
         }
 
         [HttpPut]
         [Route("View")]
-        [ProducesResponseType(typeof(ShipmentsView), StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateShipments([FromBody]ShipmentsView view)
+        [ProducesResponseType(typeof(ShipmentView), StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateShipments([FromBody]ShipmentView view)
         {
-            ShipmentsModule invMod = new ShipmentsModule();
+            ShipmentModule invMod = new ShipmentModule();
 
-            Shipments shipments = await invMod.Shipments.Query().MapToEntity(view);
+            Shipment shipment = await invMod.Shipment.Query().MapToEntity(view);
 
 
-            invMod.Shipments.UpdateShipments(shipments).Apply();
+            invMod.Shipment.UpdateShipment(shipment).Apply();
 
-            ShipmentsView retView = await invMod.Shipments.Query().GetViewById(shipments.ShipmentId);
+            ShipmentView retView = await invMod.Shipment.Query().GetViewById(shipment.ShipmentId);
 
 
             return Ok(retView);
@@ -87,13 +86,13 @@ namespace lssWebApi2.Controllers
 
         [HttpGet]
         [Route("View/{ShipmentsId}")]
-        [ProducesResponseType(typeof(ShipmentsView), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ShipmentView), StatusCodes.Status200OK)]
 
         public async Task<IActionResult> GetShipmentsView(long shipmentsId)
         {
-            ShipmentsModule invMod = new ShipmentsModule();
+            ShipmentModule invMod = new ShipmentModule();
 
-            ShipmentsView view = await invMod.Shipments.Query().GetViewById(shipmentsId);
+            ShipmentView view = await invMod.Shipment.Query().GetViewById(shipmentsId);
             return Ok(view);
         }
     }

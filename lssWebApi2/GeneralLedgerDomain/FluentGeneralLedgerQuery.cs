@@ -1,29 +1,84 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.GeneralLedgerDomain;
-using ERP_Core2.Interfaces;
-using ERP_Core2.Services;
+﻿using lssWebApi2.AbstractFactory;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.GeneralLedgerDomain;
+using lssWebApi2.Interfaces;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.MapperAbstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using X.PagedList;
 
-namespace ERP_Core2.FluentAPI
+namespace lssWebApi2.FluentAPI
 {
-    public class FluentGeneralLedgerQuery : AbstractErrorHandling, IFluentGeneralLedgerQuery
+    public class FluentGeneralLedgerQuery : MapperAbstract<GeneralLedger,GeneralLedgerView>, IFluentGeneralLedgerQuery
     {
         UnitOfWork _unitOfWork = null;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
         public FluentGeneralLedgerQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
-        public List<IncomeStatementView> GetIncomeStatementViews(long fiscalYear)
+        public override async Task<GeneralLedger> GetEntityById(long? generalLedgerId)
         {
-            Task<List<IncomeStatementView>> viewsTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetIncomeStatementView(fiscalYear));
-            Task.WaitAll(viewsTask);
-            return viewsTask.Result;
+            return await _unitOfWork.generalLedgerRepository.GetEntityById(generalLedgerId);
+        }
+        public override async Task<GeneralLedgerView> GetViewById(long? generalLedgerId)
+        {
+            return await MapToView(await _unitOfWork.generalLedgerRepository.GetEntityById(generalLedgerId));
+        }
+        public async Task<IList<IncomeStatementView>> GetIncomeStatementViews(long fiscalYear)
+        {
+            IList<IncomeStatementView> views =  await _unitOfWork.generalLedgerRepository.GetIncomeStatementView(fiscalYear);
+            return views;
           }
+        public override async Task<GeneralLedger> MapToEntity(GeneralLedgerView inputObject)
+        {
+        
+            GeneralLedger outObject = mapper.Map<GeneralLedger>(inputObject);
+            await Task.Yield();
+            return outObject;
+        }
+
+        public override async Task<List<GeneralLedger>> MapToEntity(List<GeneralLedgerView> inputObjects)
+        {
+            List<GeneralLedger> list = new List<GeneralLedger>();
+       
+            foreach (var item in inputObjects)
+            {
+                GeneralLedger outObject = mapper.Map<GeneralLedger>(item);
+                list.Add(outObject);
+            }
+            await Task.Yield();
+            return list;
+
+        }
+
+       public override async Task<GeneralLedgerView> MapToView(GeneralLedger inputObject)
+        {
+   
+            GeneralLedgerView outObject = mapper.Map<GeneralLedgerView>(inputObject);
+
+            await Task.Yield();
+
+            return outObject;
+        }
+        public async Task<GeneralLedgerView> GetViewByDocNumber(long? docNumber, string docType)
+        {
+         
+            try
+            {
+                GeneralLedger entity = await _unitOfWork.generalLedgerRepository.GetEntityByDocNumber(docNumber, docType);
+
+                GeneralLedgerView view = await MapToView(entity);
+                return view;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+        }
+
         public IEnumerable<AccountSummaryView> GetAccountSummaryByFiscalYearViews(long fiscalYear)
         {
             try
@@ -35,37 +90,52 @@ namespace ERP_Core2.FluentAPI
 
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public List<IncomeView> GetIncomeViews()
+        public async Task<IList<IncomeView>> GetIncomeViews()
         {
-            Task<List<IncomeView>> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetIncomeViews());
-            Task.WaitAll(viewTask);
-            return viewTask.Result;
+            IList<IncomeView> views =  await _unitOfWork.generalLedgerRepository.GetIncomeViews();
+            return views;
         }
-        public GeneralLedgerView GetLedgerViewById(long accountId)
+        public async Task<PageListViewContainer<GeneralLedgerView>> GetViewsByPage(Expression<Func<GeneralLedger, bool>> predicate, Expression<Func<GeneralLedger, object>> order, int pageSize, int pageNumber)
         {
             try
             {
-                Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerViewById(accountId));
-                Task.WaitAll(viewTask);
-                return viewTask.Result;
+                var query = _unitOfWork.generalLedgerRepository.GetEntitiesByExpression(predicate);
+                query = query.OrderByDescending(order).Select(e => e);
+
+                IPagedList<GeneralLedger> list = await query.ToPagedListAsync(pageNumber, pageSize);
+
+                PageListViewContainer<GeneralLedgerView> container = new PageListViewContainer<GeneralLedgerView>();
+                container.PageNumber = pageNumber;
+                container.PageSize = pageSize;
+                container.TotalItemCount = list.TotalItemCount;
+
+
+                foreach (var item in list)
+                {
+                    GeneralLedgerView view = await MapToView(item);
+                    container.Items.Add(view);
+                }
+
+                return container;
             }
             catch (Exception ex)
-  
-                { throw new Exception(GetMyMethodName(), ex); }
- 
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
 
         }
-        public GeneralLedgerView GetLedgerViewByExpression(Expression<Func<GeneralLedger, bool>> predicate)
+        public async Task<GeneralLedgerView> GetLedgerViewByExpression(Expression<Func<GeneralLedger, bool>> predicate)
         {
             try
             {
                 GeneralLedgerView view=null;
-                var query = _unitOfWork.generalLedgerRepository.GetObjectsQueryable(predicate) as IQueryable<GeneralLedger>;
 
-                GeneralLedger ledger = query.FirstOrDefault<GeneralLedger>();
+                GeneralLedger ledger = await _unitOfWork.generalLedgerRepository.FindEntityByExpression(predicate);
+
+
                 if (ledger!=null)
                 {
-                    view = applicationViewFactory.MapGeneralLedgerView(ledger);
+                    view = await MapToView(ledger);
                 }
                
                 return view;
@@ -74,17 +144,6 @@ namespace ERP_Core2.FluentAPI
 
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public GeneralLedgerView GetGeneralLedgerView(long docNumber, string docType)
-        {
-            try
-            {
-                Task<GeneralLedgerView> viewTask = Task.Run(async () => await _unitOfWork.generalLedgerRepository.GetLedgerByDocNumber(docNumber, docType));
-                Task.WaitAll(viewTask);
-                return viewTask.Result;
-            }
-            catch (Exception ex)
-
-            { throw new Exception(GetMyMethodName(), ex); }
-        }
+       
     }
 }

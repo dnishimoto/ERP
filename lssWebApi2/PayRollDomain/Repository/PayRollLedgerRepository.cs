@@ -1,6 +1,6 @@
 
 
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
     public class PayRollLedgerView
     {
@@ -50,14 +50,22 @@ namespace ERP_Core2.PayRollDomain
             return query;
         }
 
-        public async Task<List<PayRollLedger>> GetEntitiesByPaySequence(Expression<Func<PayRollLedger, bool>> predicate, string include)
+        public async Task<IQueryable<SalesOrder>> GetEntitiesByExpression(Expression<Func<SalesOrder, bool>> predicate)
+        {
+            IQueryable<SalesOrder> result = _dbContext.Set<SalesOrder>().Where(predicate).AsQueryable<SalesOrder>();
+            await Task.Yield();
+            return result;
+        }
+
+        public async Task<IList<PayRollLedger>> GetEntitiesByPaySequence(Expression<Func<PayRollLedger, bool>> predicate)
         {
             try
             {
-                var resultList = base.GetObjectsQueryable(predicate, include);
 
-                List<PayRollLedger> list = new List<PayRollLedger>();
-                await resultList.ForEachAsync(e => list.Add(e));
+                List<PayRollLedger> list = await _dbContext.Set <PayRollLedger> ().Where(predicate).ToListAsync<PayRollLedger>();
+
+                //List<PayRollLedger> list = new List<PayRollLedger>();
+                //await resultList.ForEachAsync(e => list.Add(e));
                 //foreach (var item in resultList)
                 //{
                 //    list.Add(item);

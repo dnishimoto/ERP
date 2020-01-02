@@ -5,25 +5,23 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using ERP_Core2.AccountsReceivableDomain;
-using ERP_Core2.GeneralLedgerDomain;
-using ERP_Core2.InvoicesDomain;
-using ERP_Core2.InvoiceDetailsDomain;
-using ERP_Core2.CustomerLedgerDomain;
-using ERP_Core2.Interfaces;
+using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.GeneralLedgerDomain;
+using lssWebApi2.InvoicesDomain;
+using lssWebApi2.InvoiceDetailDomain;
 
-namespace ERP_Core2.InvoiceDomain
+namespace lssWebApi2.InvoiceDomain
 {
     
        public class UnitTestInvoices
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+      
         private readonly ITestOutputHelper output;
 
         public UnitTestInvoices(ITestOutputHelper output)
@@ -51,7 +49,7 @@ namespace ERP_Core2.InvoiceDomain
 
                 InvoiceView invoiceView = new InvoiceView();
 
-                invoiceView.InvoiceNumber = "Inv-03";
+                invoiceView.InvoiceDocument = "Inv-03";
                 invoiceView.InvoiceDate = DateTime.Parse("8/10/2018");
                 invoiceView.Amount = 1500.0M;
                 invoiceView.CustomerId = 9;

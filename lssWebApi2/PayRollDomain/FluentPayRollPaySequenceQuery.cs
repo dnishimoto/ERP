@@ -1,12 +1,12 @@
-using ERP_Core2.AutoMapper;
-using ERP_Core2.Services;
+using lssWebApi2.AutoMapper;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
     public class FluentPayRollPaySequenceQuery : IFluentPayRollPaySequenceQuery
     {

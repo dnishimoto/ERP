@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[SupplierInvoice] (
     [SupplierInvoiceId]     BIGINT          IDENTITY (1, 1) NOT NULL,
-    [SupplierInvoiceNumber] VARCHAR (50)    NULL,
+    [SupplierInvoiceNumber] BIGINT          NOT NULL,
     [SupplierInvoiceDate]   DATE            NULL,
     [PONumber]              VARCHAR (50)    NULL,
     [Amount]                DECIMAL (18, 4) NULL,
@@ -12,7 +12,12 @@
     [SupplierId]            BIGINT          NOT NULL,
     [FreightCost]           DECIMAL (18, 4) NULL,
     [DiscountAmount]        DECIMAL (18, 4) NULL,
+    [InvoiceDocument]       VARCHAR (50)    NULL,
+    [PurchaseOrderId]       BIGINT          NOT NULL,
+    [InvoiceId]             BIGINT          NULL,
     CONSTRAINT [PK_SupplierInvoices] PRIMARY KEY CLUSTERED ([SupplierInvoiceId] ASC),
     CONSTRAINT [FK_SupplierInvoice_Supplier] FOREIGN KEY ([SupplierId]) REFERENCES [dbo].[Supplier] ([SupplierId])
 );
+
+
 

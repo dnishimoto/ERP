@@ -8,6 +8,9 @@
     [CompanyZipcode] VARCHAR (20)  NULL,
     [TaxCode1]       VARCHAR (20)  NULL,
     [TaxCode2]       VARCHAR (20)  NULL,
+    [CompanyNumber]  BIGINT        NULL,
     CONSTRAINT [PK_Company] PRIMARY KEY CLUSTERED ([CompanyId] ASC)
 );
+
+
 

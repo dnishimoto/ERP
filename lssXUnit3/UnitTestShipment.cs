@@ -9,7 +9,8 @@ using Xunit.Abstractions;
 using System.Linq;
 using lssWebApi2.SalesOrderDomain;
 using lssWebApi2.AbstractFactory;
-using ERP_Core2.TaxRatesByCodeDomain;
+using lssWebApi2.TaxRatesByCodeDomain;
+using lssWebApi2.SalesOrderDetailDomain;
 
 /*
  
@@ -30,7 +31,7 @@ namespace lssXUnit3
 
         }
 
-     
+
         [Fact]
         public async Task TestAddUpdatDeleteShipments()
         {
@@ -73,7 +74,7 @@ namespace lssXUnit3
                 //UnitVolume { get; set; }
                 //UnitVolumeUnitOfMeasurement { get; set; }
                 BusUnit ="700",
-                CompanyNumber ="1000",
+                CompanyCode ="1000",
                 LineNumber=1
                 }
             };
@@ -116,106 +117,80 @@ namespace lssXUnit3
             salesOrderMod.SalesOrderDetail.UpdateSalesOrderDetails(salesOrderDetails).Apply();
 
 
-            List<SalesOrderDetail> soListDetails = await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(newSalesOrder.SalesOrderId);
+            List<SalesOrderDetail> soListDetails = (await salesOrderMod.SalesOrderDetail.Query().GetDetailsBySalesOrderId(newSalesOrder.SalesOrderId)).ToList<SalesOrderDetail>();
 
 
             /************************************Shipments**************************/
+            ShipmentModule ShipmentMod = new ShipmentModule();
+            NextNumber nnShipment = await ShipmentMod.Shipment.Query().GetNextNumber();
 
-        ShipmentCreationView shipmentCreation = new ShipmentCreationView() {
-            SalesOrderId = newSalesOrder.SalesOrderId,
-            ActualWeight =100,
-            BillableWeight =100,
-            ShippedFromLocationId =3,
-            ShippedToLocationId =9,
-            TrackingNumber ="123",
-            WeightUOM="LBS",
-            ShipmentDate = DateTime.Now,
-            CarrierId =2
-       
-  
-          };
+            ShipmentView shipmentCreation = new ShipmentView() {
+                SalesOrderId = newSalesOrder.SalesOrderId,
+                ActualWeight = 100,
+                BillableWeight = 100,
+                ShippedFromLocationId = 3,
+                ShippedToLocationId = 9,
+                TrackingNumber = "123",
+                WeightUOM = "LBS",
+                ShipmentDate = DateTime.Now,
+                CarrierId = 2,
+                ShipmentNumber = nnShipment.NextNumberValue
 
+            };
+            shipmentCreation.ItemsAdjustedQuantityShipped =
+                new List<ItemsAdjustedQuantityShippedStruct>();
             foreach (var item in soListDetails)
             {
                 var newItem = new ItemsAdjustedQuantityShippedStruct() {
                     SalesOrderDetailId = item.SalesOrderDetailId,
                     AdjustedQuantityShipped = item.Quantity ?? 0,
-                    AdjustedAmountShipped=item.Amount
+                    AdjustedAmountShipped = item.Amount
                 };
                 shipmentCreation.ItemsAdjustedQuantityShipped.Add(newItem);
             }
 
-            ShipmentsModule ShipmentsMod = new ShipmentsModule();
-           
-            Shipments newShipments = await ShipmentsMod.Shipments.Query().CreateShipmentBySalesOrder(shipmentCreation);
 
-            List<ShipmentsDetail> newShipmentsDetails = await ShipmentsMod.ShipmentsDetail.Query().CreateShipmentsDetailBySalesOrder(shipmentCreation);
-          
-            newShipments =await ShipmentsMod.Shipments.Query().CalculatedAmountsByDetails(newShipments,newShipmentsDetails);
+            bool result = await ShipmentMod.CreateBySalesOrder(shipmentCreation);
 
-            TaxRatesByCodeView lookupTaxesByCode = await ShipmentsMod.TaxRatesByCode.Query().GetViewByCode(TypeofTaxRatesByCode.StateTaxUT.ToString());
+            Shipment lookupShipment = await ShipmentMod.Shipment.Query().GetEntityByNumber(shipmentCreation.ShipmentNumber);
 
-            newShipments.Tax = newShipments.Amount * lookupTaxesByCode.TaxRate;
+            lookupShipment.TrackingNumber = "123";
 
-            //TODO Calculate the codCost, duty, shipping cost
-            //decimal shippingCost = await ShipmentsMod.Shipments.Query().CalculateShippingCost(newShipments);
-            //decimal codCost=await ShipmentsMod.Shipments.Query().CalculateCodCost(newShipments);
-            //decimal duty=await ShipmentsMod.Shipments.Query().CalculateDuty(newShipments);
+            ShipmentMod.Shipment.UpdateShipment(lookupShipment).Apply();
 
-            ShipmentsMod.Shipments.AddShipments(newShipments).Apply();
-
-            Shipments lookupShipments = await ShipmentsMod.Shipments.Query().GetEntityByNumber(newShipments.ShipmentNumber);
-
-            Assert.NotNull(lookupShipments);
-
-            newShipmentsDetails.ForEach(m => m.ShipmentId = lookupShipments.ShipmentId);
-
-            ShipmentsMod.ShipmentsDetail.AddShipmentsDetails(newShipmentsDetails).Apply();
-
-            ShipmentsMod.SalesOrderDetail.UpdateSalesOrderDetailByShipmentsDetail(newShipmentsDetails).Apply();
-
-            ShipmentsMod.SalesOrder.UpdateSalesOrderAmountByShipmentsDetail(newShipments, newShipmentsDetails.Sum(e => e.Amount)).Apply();
-
-
-   
-            ShipmentsView newShipmentsView = await ShipmentsMod.Shipments.Query().MapToView(lookupShipments);
-
-            lookupShipments.TrackingNumber = "123";
-
-            ShipmentsMod.Shipments.UpdateShipments(newShipments).Apply();
-
-            ShipmentsView updateShipmentsView = await ShipmentsMod.Shipments.Query().GetViewById(newShipments.ShipmentId);
+            ShipmentView updateShipmentsView = await ShipmentMod.Shipment.Query().GetViewById(lookupShipment.ShipmentId);
 
             Assert.Same(updateShipmentsView.TrackingNumber, "123");
 
+            List<ShipmentDetail> listShipmentDetail = (await ShipmentMod.ShipmentDetail.Query().GetEntitiesByShipmentId(lookupShipment.ShipmentId)).ToList<ShipmentDetail>();
 
-            newShipmentsDetails.ForEach(m => m.AmountShipped = 10);
-            newShipmentsDetails.ForEach(m => m.QuantityShipped = 1);
+            listShipmentDetail.ForEach(m => m.AmountShipped = 10);
+            listShipmentDetail.ForEach(m => m.QuantityShipped = 1);
 
-            ShipmentsMod.ShipmentsDetail.UpdateShipmentsDetails(newShipmentsDetails).Apply();
+            ShipmentMod.ShipmentDetail.UpdateShipmentDetails(listShipmentDetail).Apply();
 
             //Test Paging
 
-            lssWebApi2.AbstractFactory.PageListViewContainer<ShipmentsView> container = await ShipmentsMod.Shipments.Query().GetViewsByPage(predicate: e => e.TrackingNumber == "123", order: e => e.Amount, pageSize: 1, pageNumber: 1);
+            //lssWebApi2.AbstractFactory.PageListViewContainer<ShipmentView> container = await ShipmentMod.Shipment.Query().GetViewsByPage(predicate: e => e.TrackingNumber == "123", order: e => e.Amount, pageSize: 1, pageNumber: 1);
 
-            Assert.True(container.Items.Count > 0);
+            //Assert.True(container.Items.Count > 0);
 
 
-            List<ShipmentsDetail> listShipmentDetails = await ShipmentsMod.ShipmentsDetail.Query().GetEntitiesByShipmentId(newShipments.ShipmentId);
+            List<ShipmentDetail> listShipmentDetails = (await ShipmentMod.ShipmentDetail.Query().GetEntitiesByShipmentId(lookupShipment.ShipmentId)).ToList<ShipmentDetail>();
 
-            List<ShipmentsDetailView> listShipmentDetailViews= await ShipmentsMod.ShipmentsDetail.Query().GetViewsByShipmentId(newShipments.ShipmentId);
+            IList<ShipmentDetailView> listShipmentDetailViews = await ShipmentMod.ShipmentDetail.Query().GetViewsByShipmentId(lookupShipment.ShipmentId);
 
-            ShipmentsMod.ShipmentsDetail.DeleteShipmentsDetails(listShipmentDetails).Apply();
+            ShipmentMod.ShipmentDetail.DeleteShipmentDetails(listShipmentDetails).Apply();
 
-            ShipmentsMod.Shipments.DeleteShipments(newShipments).Apply();
+            ShipmentMod.Shipment.DeleteShipment(lookupShipment).Apply();
 
-            Shipments lookup2Shipments = await ShipmentsMod.Shipments.Query().GetEntityById(newShipments.ShipmentId);
+            Shipment lookup2Shipments = await ShipmentMod.Shipment.Query().GetEntityById(lookupShipment.ShipmentId);
 
             Assert.Null(lookup2Shipments);
 
             /**********************remove sales Order detail******************************/
-        
-            List<SalesOrderDetailView> solistDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
+
+            IList<SalesOrderDetailView> solistDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
 
             Assert.True(soListDetails.Any(m => m.Description.Contains("Updated")));
 
@@ -230,13 +205,22 @@ namespace lssXUnit3
         [Fact]
         public async Task TestShipmentsView()
         {
-            ShipmentsModule invMod = new ShipmentsModule();
+            ShipmentModule invMod = new ShipmentModule();
 
             long ShipmentsId = 21;
-            ShipmentsView view = await invMod.Shipments.Query().GetViewById(ShipmentsId);
+            ShipmentView view = await invMod.Shipment.Query().GetViewById(ShipmentsId);
 
             Assert.NotNull(view);
 
         }
+        [Fact]
+        public async Task TestShipmentPaging()
+       {
+            ShipmentModule ShipmentMod = new ShipmentModule();
+            lssWebApi2.AbstractFactory.PageListViewContainer<ShipmentView> container = await ShipmentMod.Shipment.Query().GetViewsByPage(predicate: e => e.TrackingNumber == "123", order: e => e.Amount, pageSize: 1, pageNumber: 1);
+            Assert.True(container.Items.Count > 0);
+        }
+
+
     }
 }

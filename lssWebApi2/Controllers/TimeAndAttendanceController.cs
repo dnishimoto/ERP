@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.TimeAndAttendanceDomain;
-using lssWebApi2.EntityFramework;
 using lssWebApi2.TimeAndAttendanceDomain;
+using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using X.PagedList;
+using System.Linq.Expressions;
+using lssWebApi2.AbstractFactory;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,7 +33,7 @@ namespace lssWebApi2.Controllers
         [Route("TAPunchPage/{employeeId}/{pageNumber}/{pageSize}")]
         //[ProducesResponseType(typeof(TimeAndAttendanceViewContainer), StatusCodes.Status200OK)]
         //public async Task<IActionResult> GetTimeAndAttendanceByPage(long employeeId,int pageNumber,int pageSize)
-        public async Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceByPage(long employeeId, int pageNumber, int pageSize)
+        public async Task<PageListViewContainer<TimeAndAttendancePunchInView>> GetTimeAndAttendanceByPage(long employeeId, int pageNumber, int pageSize)
         {
             //int pageSize = 1;
             //int pageNumber = 1;
@@ -40,10 +41,10 @@ namespace lssWebApi2.Controllers
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            Func<TimeAndAttendancePunchIn, bool> predicate = e => e.EmployeeId == employeeId;
-            Func<TimeAndAttendancePunchIn, object> order = e => e.PunchinDateTime;
+            Expression<Func<TimeAndAttendancePunchIn, bool>> predicate = e => e.EmployeeId == employeeId;
+            Expression<Func<TimeAndAttendancePunchIn, object>> order = e => e.PunchinDateTime;
 
-            TimeAndAttendanceViewContainer container = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByPage(predicate, order, pageSize, pageNumber);
+            PageListViewContainer<TimeAndAttendancePunchInView> container = await taMod.TimeAndAttendance.Query().GetViewsByPage(predicate, order, pageSize, pageNumber);
 
             return (container);
 
@@ -69,9 +70,9 @@ namespace lssWebApi2.Controllers
             {
                taMod.TimeAndAttendance.UpdatePunchIn(openTA, param.MealDeduction, param.Manual_ElapsedHours, param.Manual_ElapsedMinutes).Apply();
 
-                taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(openTA.TimePunchinId);
+                taPunchin = await taMod.TimeAndAttendance.Query().GetEntityById(openTA.TimePunchinId);
 
-                view = taMod.TimeAndAttendance.Query().MapToView(taPunchin);
+                view = await taMod.TimeAndAttendance.Query().MapToView(taPunchin);
             }
             else
             {
@@ -83,9 +84,9 @@ namespace lssWebApi2.Controllers
 
                 taMod.TimeAndAttendance.UpdatePunchIn(taPunchin, param.MealDeduction, param.Manual_ElapsedHours, param.Manual_ElapsedMinutes).Apply();
 
-                taPunchin = await taMod.TimeAndAttendance.Query().GetPunchInById(taPunchin.TimePunchinId);
+                taPunchin = await taMod.TimeAndAttendance.Query().GetEntityById(taPunchin.TimePunchinId);
 
-                view = taMod.TimeAndAttendance.Query().MapToView(taPunchin);
+                view = await taMod.TimeAndAttendance.Query().MapToView(taPunchin);
             }
      
 
@@ -110,7 +111,7 @@ namespace lssWebApi2.Controllers
 
             TimeAndAttendancePunchInView view = null;
             //view = await taMod.TimeAndAttendance.Query().GetPunchOpenView(param.employeeId);
-            view = await taMod.TimeAndAttendance.Query().GetPunchInByIdView(taPunchin.TimePunchinId);
+            view = await taMod.TimeAndAttendance.Query().GetViewById(taPunchin.TimePunchinId);
 
             return Ok(view);
 
@@ -150,12 +151,12 @@ namespace lssWebApi2.Controllers
         [Route("TAViews")]
         //http://localhost:61612/api/TimeAndAttendance/TAViews?StartDate=10/1/2018&EndDate=10/14/2018
 
-        public async Task<List<TimeAndAttendanceView>> Get([FromQuery] FilterTimeAndAttendance filter)
+        public async Task<IList<TimeAndAttendanceView>> Get([FromQuery] FilterTimeAndAttendance filter)
         {
 
             TimeAndAttendanceModule taMod = new TimeAndAttendanceModule();
 
-            List<TimeAndAttendanceView> views = await taMod.TimeAndAttendance.Query().GetTimeAndAttendanceViewsByDate(filter.StartDate, filter.EndDate);
+            IList<TimeAndAttendanceView> views = await taMod.TimeAndAttendance.Query().GetViewsByDate(filter.StartDate, filter.EndDate);
 
             return views;
         }

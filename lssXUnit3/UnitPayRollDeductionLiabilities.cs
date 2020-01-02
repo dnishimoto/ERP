@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 
     public class UnitPayRollDeductionLiabilities

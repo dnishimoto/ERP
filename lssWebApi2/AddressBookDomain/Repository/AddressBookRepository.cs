@@ -2,39 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.CustomerDomain;
-using ERP_Core2.Services;
+using lssWebApi2.AbstractFactory;
+using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.CustomerDomain;
+using lssWebApi2.Services;
 using lssWebApi2.AddressBookDomain.Repository;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
-namespace ERP_Core2.AddressBookDomain
+namespace lssWebApi2.AddressBookDomain
 {
     public class AddressBookView
     {
-        public AddressBookView() { }
-        public AddressBookView(AddressBook item)
-        {
-            this.AddressId = item.AddressId;
-            this.Name = item.Name;
-            this.FirstName = item.FirstName;
-            this.LastName = item.LastName;
-            this.CompanyName = item.CompanyName;
-
-            this.CategoryCodeChar1 = item.CategoryCodeChar1;
-            this.CategoryCodeChar2 = item.CategoryCodeChar2;
-            this.CategoryCodeChar3 = item.CategoryCodeChar3;
-            this.CategoryCodeInt1 = item.CategoryCodeInt1;
-            this.CategoryCodeInt2 = item.CategoryCodeInt2;
-            this.CategoryCodeInt3 = item.CategoryCodeInt3;
-            this.CategoryCodeDate1 = item.CategoryCodeDate1;
-            this.CategoryCodeDate2 = item.CategoryCodeDate2;
-            this.CategoryCodeDate3 = item.CategoryCodeDate3;
-
-        }
-       
+          
         public long AddressId { get; set; }
         public string Name { get; set; }
         public string FirstName { get; set; }
@@ -62,64 +44,73 @@ namespace ERP_Core2.AddressBookDomain
             applicationViewFactory = new ApplicationViewFactory();
         }
 
-        public void MapAddressBookEntity(ref AddressBook addressBook, AddressBookView addressBookView)
+
+        public IQueryable<AddressBook> GetEntitiesByExpression(Expression<Func<AddressBook, bool>> predicate)
         {
-            applicationViewFactory.MapAddressBookEntity(ref addressBook, addressBookView);
+            //IQueryable<SalesOrder> result = _dbContext.Set<SalesOrder>().Where(predicate).AsQueryable<SalesOrder>();
+            var result = _dbContext.Set<AddressBook>().Where(predicate);
+            return result;
         }
-        public List<Phones> GetPhonesByAddressId(long addressId)
+
+        public async Task<AddressBook> GetEntityByCustomerId(long? customerId)
+        {
+            var query = await (from detail in _dbContext.AddressBook
+                               join customer in _dbContext.Customer
+                                on detail.AddressId equals customer.AddressId
+                               where customer.CustomerId == customerId
+                               select detail
+                               ).FirstOrDefaultAsync<AddressBook>();
+            return query;
+        }
+        public async Task<AddressBook> GetEntityByAccountEmail(string email)
+        {
+            AddressBook query = await (from e in _dbContext.AddressBook
+
+                                       join f in _dbContext.EmailEntity
+
+                                           on e.AddressId equals f.AddressId
+
+                                       where f.Email == email
+
+                                       && f.LoginEmail == true
+
+                                       select e).FirstOrDefaultAsync<AddressBook>();
+            return query;
+
+        }
+
+        public async Task<AddressBook> GetAddressBookByCustomerView(CustomerView customerView)
         {
             try
             {
-                var resultList = base.GetObjectsQueryable(e => e.AddressId == addressId, "phones").FirstOrDefault();
-
-                List<Phones> phoneList = new List<Phones>();
-                foreach (var item in resultList.Phones)
-                {
-                    phoneList.Add(item);
-                }
-                return phoneList;
+           
+                var query = await (from e in _dbContext.AddressBook
+                                   join f in _dbContext.EmailEntity on e.AddressId equals f.AddressId
+                                   where e.Name == customerView.CustomerName &&
+                                   f.Email == customerView.AccountEmail
+                                   && f.LoginEmail == true
+                                   select e).FirstOrDefaultAsync<AddressBook>();
+                return query;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        public List<Emails> GetEmailsByAddressId(long addressId)
+        public async Task<long> GetAddressIdByCustomerId(long? customerId)
         {
             try
             {
-                var resultList = base.GetObjectsQueryable(e => e.AddressId == addressId, "emails").FirstOrDefault();
+              
 
-                List<Emails> emailList = new List<Emails>();
-                foreach (var item in resultList.Emails)
-                {
-                    emailList.Add(item);
-                }
-                return emailList;
+                Customer customer = await (from e in _dbContext.Customer
+                                           where e.CustomerId == customerId
+                                           select e).FirstOrDefaultAsync<Customer>();
+
+                return customer.AddressId;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+
         }
 
-        public async Task<CreateProcessStatus> CreateAddressBook(CustomerView customerView)
-        {
-            try
-            {
-                AddressBook lookupAddressBook = await base.GetAddressBookByCustomerView(customerView);
-
-                if (lookupAddressBook == null)
-                {
-                    AddressBook addressBook = new AddressBook();
-
-                    applicationViewFactory.MapAddressBookEntity(ref addressBook, customerView);
-                    AddObject(addressBook);
-                    return CreateProcessStatus.Insert;
-                }
-
-                return CreateProcessStatus.AlreadyExists;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-        public List<AddressBookView> GetAddressBookByName(string name)
+        public List<AddressBook> GetEntityByName(string name)
         {
             try
             {
@@ -133,56 +124,42 @@ namespace ERP_Core2.AddressBookDomain
                 }
 
                           
-                List<AddressBookView> views = new List<AddressBookView>();
+                List<AddressBook> list = new List<AddressBook>();
 
                 foreach (var item in query)
                 {
                     if (item != null)
                     {
-                        AddressBookView abv = applicationViewFactory.MapAddressBookView((AddressBook)item);
-                        views.Add(abv);
+                        // AddressBookView abv = applicationViewFactory.MapAddressBookView((AddressBook)item);
+                        //views.Add(abv);
+                        list.Add(item);
                     }
                }
             
              
-                return views ;
+                return list ;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
 
         }
-        public async Task<AddressBook> GetEntityById(long employeeId)
+        public async Task<AddressBook> GetEntityById(long ? employeeId)
         {
             return await _dbContext.FindAsync<AddressBook>(employeeId);
         }
-        public async Task<AddressBookView> GetViewById(long addressId)
+
+        public async Task<AddressBook> FindEntityByAddressIdAndEmail(long addressId, string email)
         {
-            try
-            {
-
-                AddressBook ab = await GetObjectAsync(addressId);
-
-                AddressBookView view = applicationViewFactory.MapAddressBookView(ab);
-                
-                return view;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+            AddressBook query = await (from e in _dbContext.AddressBook
+                                       join f in _dbContext.EmailEntity
+                                           on e.AddressId equals f.AddressId
+                                       where f.Email == email
+                                       && f.LoginEmail == true
+                                       && e.AddressId==addressId
+                                       select e).FirstOrDefaultAsync<AddressBook>();
+            return query;
         }
-        /*
-        public async Task<AddressBook> GetAddressBookByAddressId(long addressId)
-        {
-            try
-            {
 
-                AddressBook ab = await GetObjectAsync(addressId);
-                                
-                return ab;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
-        */
+      
 
-        public class Phone
-        {
-        }
     }
 }

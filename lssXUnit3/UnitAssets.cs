@@ -1,9 +1,6 @@
 ﻿
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.InventoryDomain;
-using ERP_Core2.Services;
-using lssWebApi2.EntityFramework;
 using lssWebApi2.InventoryDomain;
+using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +9,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.AssetsDomain
+namespace lssWebApi2.AssetsDomain
 {
 
     public class UnitTestAssets
@@ -27,13 +24,13 @@ namespace ERP_Core2.AssetsDomain
         [Fact]
         public async Task TestAddUpdatDeleteAssets()
         {
-           AssetsModule assetsMod = new AssetsModule();
+           AssetModule assetsMod = new AssetModule();
 
 
-            Udc equipmentStatus = await assetsMod.Assets.Query().GetUdc("ASSETS_STATUS","InUse");
+            Udc equipmentStatus = await assetsMod.Asset.Query().GetUdc("ASSETS_STATUS","InUse");
 
 
-            AssetsView view = new AssetsView()
+            AssetView view = new AssetView()
             {
 
                 AssetCode = "12345",
@@ -55,43 +52,32 @@ namespace ERP_Core2.AssetsDomain
                 GenericLocationLevel2 ="",
                 GenericLocationLevel3 =""
     };
-            NextNumber nnAssets = await assetsMod.Assets.Query().GetAssetsNextNumber();
+            NextNumber nnAssets = await assetsMod.Asset.Query().GetAssetNextNumber();
 
             view.AssetNumber = nnAssets.NextNumberValue;
 
-            Assets Assets = await assetsMod.Assets.Query().MapToAssetsEntity(view);
+            Asset Asset = await assetsMod.Asset.Query().MapToEntity(view);
 
-            assetsMod.Assets.AddAssets(Assets).Apply();
+            assetsMod.Asset.AddAsset(Asset).Apply();
 
-            Assets newAssets = await assetsMod.Assets.Query().GetAssetsByNumber(view.AssetNumber);
+            Asset newAssets = await assetsMod.Asset.Query().GetAssetByNumber(view.AssetNumber);
 
             Assert.NotNull(newAssets);
 
             newAssets.Description = "Testing Assets update";
 
-            assetsMod.Assets.UpdateAssets(newAssets).Apply();
+            assetsMod.Asset.UpdateAsset(newAssets).Apply();
 
-            AssetsView updateView = await assetsMod.Assets.Query().GetAssetsViewById(newAssets.AssetId);
+            AssetView updateView = await assetsMod.Asset.Query().GetViewById(newAssets.AssetId);
 
             Assert.Same(updateView.Description, "Testing Assets update");
 
-            assetsMod.Assets.DeleteAssets(newAssets).Apply();
-            Assets lookupAssets = await assetsMod.Assets.Query().GetAssetsById(view.AssetId);
+            assetsMod.Asset.DeleteAsset(newAssets).Apply();
+            Asset lookupAssets = await assetsMod.Asset.Query().GetEntityById(view.AssetId);
 
             Assert.Null(lookupAssets);
         }
-        [Fact]
-        public async Task TestAssetsView()
-        {
-            AssetsModule invMod = new AssetsModule();
-
-            long AssetsId = 21;
-            AssetsView view = await invMod.Assets.Query().GetAssetsViewById(AssetsId);
-
-            Assert.NotNull(view);
-
-        }
-      
+            
 
     }
 }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.BudgetDomain;
-using ERP_Core2.GeneralLedgerDomain;
-using ERP_Core2.Services;
+using lssWebApi2.BudgetDomain;
+using lssWebApi2.GeneralLedgerDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,33 +17,33 @@ namespace lssWebApi2.Controllers
     {
         // GET: api/<controller>
         [HttpGet("{budgetId}")]
-        public BudgetView Get(long budgetId)
+        public async Task<BudgetView> Get(long budgetId)
         {
 
             BudgetModule budgetMod = new BudgetModule();
 
-            BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
+            BudgetView budgetView = await budgetMod.Budget.Query().GetBudgetView(budgetId);
 
             return budgetView;
         }
         [HttpGet]
-        public IEnumerable<BudgetView> Get()
+        public async Task<IEnumerable<BudgetView>> Get()
         {
      
 
             BudgetModule budgetMod = new BudgetModule();
 
-            IEnumerable<BudgetView> budgetViews = budgetMod.Budget.Query().GetBudgetViews();
+            IEnumerable<BudgetView> budgetViews = await budgetMod.Budget.Query().GetBudgetViews();
 
             return budgetViews;
 
         }
         [HttpGet]
         [Route("PersonalBudgetViews")]
-        public List<PersonalBudgetView> GetPersonalBudgetViews()
+        public async Task<IList<PersonalBudgetView>> GetPersonalBudgetViews()
         {
             BudgetModule budgetMod = new BudgetModule();
-            List<PersonalBudgetView> list = budgetMod.Budget.Query().GetPersonalBudgetViews();
+            IList<PersonalBudgetView> list = await budgetMod.Budget.Query().GetPersonalBudgetViews();
             return list;
 
         }
@@ -58,7 +58,7 @@ namespace lssWebApi2.Controllers
         // POST api/<controller>
         [HttpPost]
         [Route("Payment")]
-        public bool PostPayment([FromBody] PersonalBudgetView budget)
+        public async Task<bool> PostPayment([FromBody] PersonalBudgetView budget)
         {
           
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
@@ -88,7 +88,7 @@ namespace lssWebApi2.Controllers
             //glView.FiscalPeriod = budget.GLDate.Month;
             //glView.FiscalYear = budget.GLDate.Year;
 
-            bool result1 = ledgerMod.CreatePersonalExpense(glView);
+            bool result1 = await ledgerMod.CreatePersonalExpense(glView);
 
             //GeneralLedgerView glViewLookup =
             //ledgerMod.GeneralLedger.Query().GetGeneralLedgerView(glView.DocNumber, glView.DocType);
@@ -114,7 +114,7 @@ namespace lssWebApi2.Controllers
             //glCashView.FiscalPeriod = budget.GLDate.Month;
             //glCashView.FiscalYear = budget.GLDate.Year;
 
-            bool result2 = ledgerMod.CreateCashPayment(glCashView);
+            bool result2 = await  ledgerMod.CreateCashPayment(glCashView);
 
 
             // GeneralLedgerView glCashViewLookup =

@@ -1,16 +1,24 @@
-﻿using ERP_Core2.ChartOfAccountsDomain;
+﻿using lssWebApi2.ChartOfAccountsDomain;
 using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.ChartOfAccountsDomain
 {
     public interface IFluentChartOfAccountQuery
     {
-        List<ChartOfAccountView> GetChartOfAccountViewsByIds(long[] acctIds);
-        List<ChartOfAccountView> GetChartOfAccountViewsByAccount(string company, string busUnit, string objectNumber, string subsidiary);
-        ChartOfAccts GetChartofAccount(string company, string busUnit, string objectNumber, string subsidiary);
+        Task<IList<ChartOfAccountView>> GetViewsByIds(long[] accountIds);
+        Task<IList<ChartOfAccountView>> GetViewsByAccount(string company, string busUnit, string objectNumber, string subsidiary);
+        Task<ChartOfAccount> GetEntity(string company, string busUnit, string objectNumber, string subsidiary);
+        Task<Company> GetCompany();
+        Task<ChartOfAccount> GetEntityById(long ? accountId);
+        Task<ChartOfAccountView> GetViewById(long? accountId);
+        Task<ChartOfAccount> GetEntityByNumber(long accountNumber);
+        Task<ChartOfAccount> MapToEntity(ChartOfAccountView inputObject);
+        Task<List<ChartOfAccount>> MapToEntity(List<ChartOfAccountView> inputObjects);
+        Task<ChartOfAccountView> MapToView(ChartOfAccount inputObject);
+      
     }
 }

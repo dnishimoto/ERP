@@ -1,6 +1,6 @@
    
 
-using ERP_Core2.Services;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -9,7 +9,7 @@ using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
     public class PayRollTransactionsByEmployeeView
     {
@@ -33,9 +33,15 @@ namespace ERP_Core2.PayRollDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
-    
- 
-  public async Task<PayRollTransactionsByEmployee>GetEntityById(long payRollTransactionsByEmployeeId)
+        public IQueryable<PayRollTransactionsByEmployee> GetEntitiesByExpression(Expression<Func<PayRollTransactionsByEmployee, bool>> predicate)
+        {
+            //IQueryable<SalesOrder> result = _dbContext.Set<SalesOrder>().Where(predicate).AsQueryable<SalesOrder>();
+            var result = _dbContext.Set<PayRollTransactionsByEmployee>().Where(predicate);
+            return result;
+        }
+
+
+        public async Task<PayRollTransactionsByEmployee>GetEntityById(long payRollTransactionsByEmployeeId)
         {
             return await _dbContext.FindAsync<PayRollTransactionsByEmployee>(payRollTransactionsByEmployeeId);
         }
@@ -50,21 +56,6 @@ namespace ERP_Core2.PayRollDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-       public async Task<List<PayRollTransactionsByEmployee>> GetObjectsQueryable(Expression<Func<PayRollTransactionsByEmployee, bool>> predicate,string include)
-       {
-            try
-            {
-                var resultList = base.GetObjectsQueryable(predicate, include);
-
-                List < PayRollTransactionsByEmployee > list = new List<PayRollTransactionsByEmployee>();
-                foreach (var item in resultList)
-                {
-                    list.Add(item);
-                }
-                await Task.Yield();
-                return list;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
+     
   }
 }

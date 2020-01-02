@@ -1,12 +1,11 @@
 ﻿
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.InventoryDomain;
-using ERP_Core2.Services;
-using ERP_Core2.TaxRatesByCodeDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.InventoryDomain;
+using lssWebApi2.Services;
+using lssWebApi2.TaxRatesByCodeDomain;
 using lssWebApi2.CommentDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
-using lssWebApi2.TaxRatesByCodeDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.CommentDomain
+namespace lssWebApi2.CommentDomain
 {
 
     public class UnitTaxesByCode

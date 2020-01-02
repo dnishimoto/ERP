@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.GeneralLedgerDomain;
+using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,10 +15,10 @@ namespace lssWebApi2.Controllers
     {
         [Route("IncomeStatementAccounts/{fiscalYear}")]
         [HttpGet]
-        public string[] GetIncomeStatementAccounts(int fiscalYear)
+        public async Task<string[]> GetIncomeStatementAccounts(int fiscalYear)
         {
             GeneralLedgerModule glMod = new GeneralLedgerModule();
-            IList<IncomeStatementView> list = glMod.GeneralLedger.Query().GetIncomeStatementViews(fiscalYear);
+            IList<IncomeStatementView> list = await glMod.GeneralLedger.Query().GetIncomeStatementViews(fiscalYear);
 
             string[] accounts = list.GroupBy(e => e.Account).Select(e => e.Key).ToArray<string>();
 
@@ -26,15 +26,15 @@ namespace lssWebApi2.Controllers
         }
         [Route("IncomeStatementViews/{fiscalYear}")]
         [HttpGet]
-        public IList<IncomeStatementView> GetIncomeStatementView(int fiscalYear)
+        public async Task<IList<IncomeStatementView>> GetIncomeStatementView(int fiscalYear)
         {
             GeneralLedgerModule glMod = new GeneralLedgerModule();
-            IList<IncomeStatementView> list = glMod.GeneralLedger.Query().GetIncomeStatementViews(fiscalYear);
+            IList<IncomeStatementView> list = await glMod.GeneralLedger.Query().GetIncomeStatementViews(fiscalYear);
             return list;
         }
         [Route("IncomeShortView")]
         [HttpPost]
-        public bool PostIncome([FromBody] IncomeShortView incomeShortView)
+        public async Task<bool> PostIncome([FromBody] IncomeShortView incomeShortView)
         {
             int addressId = 1;
          
@@ -49,26 +49,26 @@ namespace lssWebApi2.Controllers
             glView.Comment = incomeShortView.Comment;
              glView.CheckNumber = incomeShortView.CheckNumber;
 
-            bool result = ledgerMod.CreateIncomeAndCash(glView);
+            bool result = await ledgerMod.CreateIncomeAndCash(glView);
 
             return result;
 
         }
         [Route("IncomeViews")]
         [HttpGet]
-        public List<IncomeView> GetIncomeViews()
+        public async Task<IList<IncomeView>> GetIncomeViews()
         {
             GeneralLedgerModule glMod = new GeneralLedgerModule();
-            List<IncomeView> list = glMod.GeneralLedger.Query().GetIncomeViews();
+            IList<IncomeView> list = await glMod.GeneralLedger.Query().GetIncomeViews();
             return list;
         }
               
         [Route("ById/{generalLedgerId}")]
         [HttpGet]
-        public GeneralLedgerView GetByAccountId(long generalLedgerId)
+        public async Task<GeneralLedgerView> GetByAccountId(long generalLedgerId)
         {
             GeneralLedgerModule glMod = new GeneralLedgerModule();
-            return glMod.GeneralLedger.Query().GetLedgerViewById(generalLedgerId);
+            return await glMod.GeneralLedger.Query().GetViewById(generalLedgerId);
         }
 
        

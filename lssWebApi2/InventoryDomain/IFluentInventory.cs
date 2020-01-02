@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.InventoryDomain
+namespace lssWebApi2.InventoryDomain
 {
     public interface IFluentInventory
     {

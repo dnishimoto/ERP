@@ -5,22 +5,22 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Controllers;
 using lssWebApi2.Enumerations;
+using lssWebApi2.BudgetRangeDomain;
 
-namespace ERP_Core2.BudgetDomain
+namespace lssWebApi2.BudgetDomain
 {
     
        public class UnitTestBudget
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
         
@@ -30,11 +30,11 @@ namespace ERP_Core2.BudgetDomain
 
         }
         [Fact]
-        public void TestPersonalBudgetViews()
+        public async Task TestPersonalBudgetViews()
         {
             BudgetModule budgetMod = new BudgetModule();
 
-            List<PersonalBudgetView> list = budgetMod.Budget.Query().GetPersonalBudgetViews();
+            IList<PersonalBudgetView> list = await budgetMod.Budget.Query().GetPersonalBudgetViews();
 
             if (list.Count > 0)
             {
@@ -48,32 +48,30 @@ namespace ERP_Core2.BudgetDomain
         {
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            NextNumber nn = await unitOfWork.accountPayableRepository.GetNextNumber(TypeOfNextNumberEnum.PackingSlipNumber.ToString());
+            NextNumber nn = await unitOfWork.accountPayableRepository.GetNextNumber(TypeOfPackingSlip.PackingSlipNumber.ToString());
 
             if (nn.NextNumberValue > 0) { Assert.True(true); }
         }
         [Fact]
-        public void TestGetBudget()
+        public async Task TestGetBudget()
         {
             long budgetId = 2;
      
               BudgetModule budgetMod = new BudgetModule();
 
-            BudgetView budgetView = budgetMod.Budget.Query().GetBudgetView(budgetId);
+            BudgetView budgetView = await budgetMod.Budget.Query().GetViewById(budgetId);
 
             if (budgetView != null) { Assert.True(true); }
         }
         [Fact]
         public async Task TestCreateBudget()
         {
-            UnitOfWork unitOfWork = new UnitOfWork();
-
-            BudgetModule budgetMod = new BudgetModule();
+             BudgetModule budgetMod = new BudgetModule();
 
             BudgetRangeView budgetRangeView = new BudgetRangeView();
 
             //personal mortgage
-            ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "502", "01");
+            ChartOfAccount coa = await budgetMod.ChartOfAccount.Query().GetEntity("1000", "1200", "502", "01");
             budgetRangeView.StartDate= DateTime.Parse("1/1/2018"); ;
             budgetRangeView.EndDate=DateTime.Parse("12/31/2018"); ;
 
@@ -81,7 +79,7 @@ namespace ERP_Core2.BudgetDomain
             budgetRangeView.GenCode = coa.GenCode;
             budgetRangeView.SubCode=coa.SubCode;
             budgetRangeView.CompanyCode=coa.Company.CompanyCode;
-            budgetRangeView.BusinessUnit=coa.BusUnit;
+            budgetRangeView.BusUnit=coa.BusUnit;
             budgetRangeView.ObjectNumber = coa.ObjectNumber;
             budgetRangeView.Subsidiary= coa.Subsidiary;
             budgetRangeView.AccountId=coa.AccountId;
@@ -90,11 +88,11 @@ namespace ERP_Core2.BudgetDomain
             BudgetView budgetView = new BudgetView();
             budgetMod.BudgetRange.CreateBudgetRange(budgetRangeView).Apply();
 
-            BudgetRangeView budgetRangeLookupView = budgetMod.BudgetRange.Query().GetBudgetRange(budgetRangeView.AccountId, budgetRangeView.StartDate, budgetRangeView.EndDate);
+            BudgetRangeView budgetRangeLookupView = await budgetMod.BudgetRange.Query().GetBudgetRange(budgetRangeView.AccountId, budgetRangeView.StartDate, budgetRangeView.EndDate);
 
             budgetMod.Budget.MapRangeToBudgetView(ref budgetView, budgetRangeLookupView);
 
-            BudgetActualsView budgetActualsView = budgetMod.Budget.Query().GetBudgetActualsView(budgetRangeLookupView);
+            BudgetActualsView budgetActualsView = await budgetMod.Budget.Query().GetBudgetActualsView(budgetRangeLookupView);
 
             budgetView.BudgetAmount = 768 * 12;
             budgetView.BudgetHours = 0;

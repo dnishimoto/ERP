@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using lssWebApi2.CommentDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Interfaces;
+using lssWebApi2.SalesOrderDetailDomain;
 using lssWebApi2.SalesOrderDomain;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,8 +43,8 @@ namespace lssWebApi2
            
             var connectionString = configuration.GetConnectionString("DbCoreConnectionString2");
 
-            services.AddDbContext<ListensoftwaredbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString));
-
+            //services.AddDbContext<ListensoftwaredbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(connectionString));
+            services.AddDbContext<ListensoftwaredbContext > (options => options.UseSqlServer(connectionString));
             services.AddTransient<ISalesOrderRepository, SalesOrderRepository>();
             services.AddTransient<ISalesOrderDetailRepository, SalesOrderDetailRepository>();
             services.AddTransient<ICommentRepository, CommentRepository>();

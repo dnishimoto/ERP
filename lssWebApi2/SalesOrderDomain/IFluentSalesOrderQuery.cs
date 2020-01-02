@@ -3,6 +3,7 @@ using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace lssWebApi2.SalesOrderDomain
@@ -12,11 +13,12 @@ namespace lssWebApi2.SalesOrderDomain
         Task<Udc> GetUdc(string productCode, string keyCode);
         Task<NextNumber> GetNextNumber();
         Task<SalesOrder> MapToEntity(SalesOrderView inputObject);
+        Task<List<SalesOrder>> MapToEntity(List<SalesOrderView> inputObjects);
         Task<SalesOrder> GetEntityByNumber(string orderNumber);
-        Task<SalesOrderView> GetViewById(long salesOrderId);
-        Task<SalesOrder> GetEntityById(long salesOrderId);
+        Task<SalesOrderView> GetViewById(long ? salesOrderId);
+        Task<SalesOrder> GetEntityById(long ? salesOrderId);
         Task<SalesOrderView> MapToView(SalesOrder inputObject);
         SalesOrder SumAmounts(SalesOrder salesOrder, List<SalesOrderDetail> salesOrderDetails);
-        Task<PageListViewContainer<SalesOrderView>> GetViewsByPage(Func<SalesOrder, bool> predicate, Func<SalesOrder, object> order, int pageSize, int pageNumber);
+        Task<PageListViewContainer<SalesOrderView>> GetViewsByPage(Expression<Func<SalesOrder, bool>> predicate, Expression<Func<SalesOrder, object>> order, int pageSize, int pageNumber);
     }
 }

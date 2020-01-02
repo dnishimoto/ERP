@@ -2,7 +2,6 @@
     [PurchaseOrderId]       BIGINT         IDENTITY (1, 1) NOT NULL,
     [DocType]               VARCHAR (20)   NULL,
     [PaymentTerms]          VARCHAR (10)   NULL,
-    [GrossAmount]           MONEY          NULL,
     [Remark]                VARCHAR (MAX)  NULL,
     [GLDate]                DATETIME       NULL,
     [AccountId]             BIGINT         NOT NULL,
@@ -26,8 +25,12 @@
     [ShippedToState]        VARCHAR (20)   NULL,
     [TaxCode1]              VARCHAR (20)   NULL,
     [TaxCode2]              VARCHAR (20)   NULL,
+    [PurchaseOrderNumber]   BIGINT         NOT NULL,
+    [Amount]                MONEY          NULL,
     CONSTRAINT [PK_PurchaseOrder] PRIMARY KEY CLUSTERED ([PurchaseOrderId] ASC),
-    CONSTRAINT [FK_PurchaseOrder_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccts] ([AccountId]),
+    CONSTRAINT [FK_PurchaseOrder_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccount] ([AccountId]),
     CONSTRAINT [FK_PurchaseOrder_Supplier] FOREIGN KEY ([SupplierId]) REFERENCES [dbo].[Supplier] ([SupplierId])
 );
+
+
 

@@ -8,8 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using lssWebApi2.EmployeeDomain;
 
-namespace ERP_Core2.AddressBookDomain
+namespace lssWebApi2.AddressBookDomain
 {
 
     public class UnitEmployee
@@ -29,7 +30,7 @@ namespace ERP_Core2.AddressBookDomain
             AddressBookModule abMod = new AddressBookModule();
             EmployeeView employeeView = await abMod.Employee.Query().GetViewById(employeeId);
 
-            Assert.True(employeeView.EmployeeId != null);
+            Assert.True(employeeView != null);
         }
         [Fact]
         public async Task TestGetEmployeesBySupervisorId()

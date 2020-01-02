@@ -1,6 +1,7 @@
-﻿using ERP_Core2.AccountPayableDomain;
-using ERP_Core2.Services;
+﻿using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Enumerations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,14 +24,12 @@ namespace lssWebApi2.SalesOrderDomain
             { unitOfWork.CommitChanges(); }
             return this as IFluentSalesOrder;
         }
-        public IFluentSalesOrder UpdateSalesOrderAmountByShipmentsDetail(Shipments shipments, decimal? amount)
+        public IFluentSalesOrder UpdateSalesOrderAmountByShipmentsDetail(Shipment shipments, decimal? amount)
         {
             Task<SalesOrder> salesOrderTask = Task.Run(async () => await unitOfWork.salesOrderRepository.GetEntityById(shipments.SalesOrderId??0));
             Task.WaitAll(salesOrderTask);
-            SalesOrder salesOrder = salesOrderTask.Result;
-            salesOrder.Amount = amount;
-            unitOfWork.salesOrderRepository.UpdateObject(salesOrder);
-            this.processStatus = CreateProcessStatus.Update;
+            salesOrderTask.Result.Amount = amount;
+            UpdateSalesOrder(salesOrderTask.Result);
             return this as IFluentSalesOrder;
         }
         public IFluentSalesOrder AddSalesOrder(SalesOrder newObject) {

@@ -1,5 +1,5 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.Services;
+﻿using lssWebApi2.AbstractFactory;
+using lssWebApi2.Services;
 using lssWebApi2.Interfaces;
 using System;
 using System.Collections.Generic;

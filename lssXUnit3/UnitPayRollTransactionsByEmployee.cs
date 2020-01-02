@@ -1,4 +1,5 @@
-using ERP_Core2.AddressBookDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.EmployeeDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.Enumerations;
 using lssWebApi2.PayRollDomain;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace ERP_Core2.PayRollDomain
+namespace lssWebApi2.PayRollDomain
 {
 
     public class UnitPayRollTransactionsByEmployee

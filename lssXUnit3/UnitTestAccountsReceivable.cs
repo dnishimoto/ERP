@@ -5,25 +5,19 @@ using System.Threading.Tasks;
 using Xunit;
 
 using Xunit.Abstractions;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
-using ERP_Core2.CustomerDomain;
+using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
-using ERP_Core2.AccountsReceivableDomain;
-using ERP_Core2.GeneralLedgerDomain;
-using ERP_Core2.InvoicesDomain;
-using ERP_Core2.InvoiceDetailsDomain;
-using ERP_Core2.CustomerLedgerDomain;
+using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ChartOfAccountsDomain;
 
-namespace ERP_Core2.AccountsReceivableDomain
+namespace lssWebApi2.AccountsReceivableDomain
 {
     
        public class UnitTestAccountsReceivable
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
         private readonly ITestOutputHelper output;
 
        
@@ -34,13 +28,13 @@ namespace ERP_Core2.AccountsReceivableDomain
 
         }
         [Fact]
-        public void UnitTestLatePayment()
+        public async Task UnitTestLatePayment()
         {
             DateTime asOfDate = DateTime.Now;
 
-            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
+            AccountReceivableModule acctRecMod = new AccountReceivableModule();
 
-            List<AccountReceivableFlatView> list = acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            IList<AccountReceivableFlatView> list = await acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
 
             foreach (var item in list)
             {
@@ -51,7 +45,7 @@ namespace ERP_Core2.AccountsReceivableDomain
 
                     if (statusFee == false)
                     {
-                        acctRecMod.AccountsReceivable.CreateLateFee(item).Apply();
+                        acctRecMod.AccountReceivableFee.CreateLateFee(item).Apply();
                         
                     }
                     acctRecMod.AccountsReceivable.AdjustOpenAmount(item).Apply();
@@ -62,10 +56,10 @@ namespace ERP_Core2.AccountsReceivableDomain
 
         }
        [Fact]
-        public void TestOpenAccountReceivables()
+        public async Task TestOpenAccountReceivables()
         {
-            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
-            List<AccountReceivableFlatView> list = acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            AccountReceivableModule acctRecMod = new AccountReceivableModule();
+            IList<AccountReceivableFlatView> list = await acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
             Assert.True(true);
         }
         [Fact]
@@ -73,11 +67,13 @@ namespace ERP_Core2.AccountsReceivableDomain
         {
             int customerId = 2;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
-            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
-            ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "101", "");
+            CustomerModule custMod = new CustomerModule();
+            long? addressId = await custMod.AddressBook.Query().GetAddressIdByCustomerId(customerId);
+
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+            ChartOfAccount coa = await coaMod.ChartOfAccount.Query().GetEntity("1000", "1200", "101", "");
 
             ledgerView.GeneralLedgerId = -1;
             ledgerView.DocNumber = 1;
@@ -96,8 +92,8 @@ namespace ERP_Core2.AccountsReceivableDomain
             ledgerView.CheckNumber = "113";
 
 
-            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
-            bool result=acctRecMod.CreateCustomerLedger(ledgerView);
+            AccountReceivableModule acctRecMod = new AccountReceivableModule();
+            bool result=await acctRecMod.CreateCustomerLedger(ledgerView);
 
               //bool result = await acctRec.CustomerCashPayment(ledgerView);
 
@@ -109,11 +105,15 @@ namespace ERP_Core2.AccountsReceivableDomain
         {
             int customerId = 2;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
+        
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
-            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
-            ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "101", "");
+            CustomerModule custMod = new CustomerModule();
+            long? addressId = await custMod.AddressBook.Query().GetAddressIdByCustomerId(customerId);
+
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+
+            ChartOfAccount coa = await coaMod.ChartOfAccount.Query().GetEntity("1000", "1200", "101", "");
 
             ledgerView.GeneralLedgerId = -1;
             ledgerView.DocNumber = 1;
@@ -131,20 +131,23 @@ namespace ERP_Core2.AccountsReceivableDomain
             ledgerView.FiscalYear = 2018;
             ledgerView.CheckNumber = "112";
 
-            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
-            bool result = acctRecMod.CreateCustomerLedger(ledgerView);
+            AccountReceivableModule acctRecMod = new AccountReceivableModule();
+            bool result = await acctRecMod.CreateCustomerLedger(ledgerView);
             Assert.True(result);
         }
         [Fact]
         public async Task TestCustomerCashPayment()
         {
-            int customerId = 9;
+            long ? customerId = 9;
 
-            UnitOfWork unitOfWork = new UnitOfWork();
             GeneralLedgerView ledgerView = new GeneralLedgerView();
 
-            long? addressId = await unitOfWork.customerRepository.GetAddressIdByCustomerId(customerId);
-            ChartOfAccts coa = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "101", "");
+            CustomerModule custMod = new CustomerModule();
+            long? addressId = await custMod.AddressBook.Query().GetAddressIdByCustomerId(customerId);
+
+            ChartOfAccountModule coaMod = new ChartOfAccountModule();
+
+             ChartOfAccount coa = await coaMod.ChartOfAccount.Query().GetEntity("1000", "1200", "101", "");
 
             ledgerView.GeneralLedgerId = -1;
             ledgerView.DocNumber = 12;
@@ -163,7 +166,7 @@ namespace ERP_Core2.AccountsReceivableDomain
             ledgerView.CheckNumber = "111";
 
 
-            AccountsReceivableModule acctRecMod = new AccountsReceivableModule();
+            AccountReceivableModule acctRecMod = new AccountReceivableModule();
 
             bool result = acctRecMod.CreateCustomerCashPayment(ledgerView);
           

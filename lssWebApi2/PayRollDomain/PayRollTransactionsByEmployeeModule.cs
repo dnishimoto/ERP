@@ -1,6 +1,5 @@
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.PayRollDomain;
+using lssWebApi2.AbstractFactory;
+using lssWebApi2.EmployeeDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

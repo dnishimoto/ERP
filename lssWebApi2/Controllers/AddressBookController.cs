@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.AddressBookDomain;
+using lssWebApi2.AddressBookDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,17 +14,17 @@ namespace lssWebApi2.Controllers
     public class AddressBookController : Controller
     {
         [HttpGet("{id}")]
-        public AddressBookView Get(long id)
+        public async Task<AddressBookView> Get(long id)
         {
             AddressBookModule abMod = new AddressBookModule();
-            AddressBookView addressBookView = abMod.AddressBook.Query().GetViewById(id);
+            AddressBookView addressBookView = await  abMod.AddressBook.Query().GetViewById(id);
             return (addressBookView);
         }
         [Route("People")]
-        public List<AddressBookView> GetPeople()
+        public async Task<IList<AddressBookView>> GetPeople()
         {
             AddressBookModule abMod = new AddressBookModule();
-            List<AddressBookView> list = abMod.AddressBook.Query().GetAddressBookByName("");
+            IList<AddressBookView> list = await abMod.AddressBook.Query().GetAddressBookByName("");
 
             return list;
         }
@@ -32,10 +32,10 @@ namespace lssWebApi2.Controllers
         [Route("People/{searchName}")]
         //[HttpGet("{searchName}")]
        
-        public List<AddressBookView> GetPeople(string searchName)
+        public async Task <IList<AddressBookView>> GetPeople(string searchName)
         {
              AddressBookModule abMod = new AddressBookModule();
-            List<AddressBookView> list = abMod.AddressBook.Query().GetAddressBookByName(searchName);
+            IList<AddressBookView> list = await abMod.AddressBook.Query().GetAddressBookByName(searchName);
 
             return list;
         }
@@ -49,13 +49,11 @@ namespace lssWebApi2.Controllers
 
         // PUT api/<controller>/5
         [HttpPut]
-        public void Put([FromBody]AddressBookView addressBookView)
+        public async Task Put([FromBody]AddressBookView addressBookView)
         {
             AddressBookModule abMod = new AddressBookModule();
-         
-            AddressBook addressBook = new AddressBook();
 
-            abMod.AddressBook.MapAddressBookEntity(ref addressBook, addressBookView);
+            AddressBook addressBook = await abMod.AddressBook.Query().MapToEntity(addressBookView);
 
             abMod.AddressBook.UpdateAddressBook(addressBook).Apply();
 

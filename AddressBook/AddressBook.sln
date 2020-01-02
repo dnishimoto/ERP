@@ -22,6 +22,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "lssDatabase", "lssDatabase\
 EndProject
 Project("{F5034706-568F-408A-B7B3-4D38C6DB8A32}") = "PowerShellProject", "..\PowerShellProject\PowerShellProject\PowerShellProject.pssproj", "{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp1", "..\consolePattern\ConsoleApp1\ConsoleApp1.csproj", "{7CCDB026-BC85-43CF-834E-56D5E48EF27E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,12 @@ Global
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CAFC0C6-A428-4D30-A9F9-700E829FEA51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CCDB026-BC85-43CF-834E-56D5E48EF27E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCDB026-BC85-43CF-834E-56D5E48EF27E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CCDB026-BC85-43CF-834E-56D5E48EF27E}.DebugLocal|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CCDB026-BC85-43CF-834E-56D5E48EF27E}.DebugLocal|Any CPU.Build.0 = Debug|Any CPU
+		{7CCDB026-BC85-43CF-834E-56D5E48EF27E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CCDB026-BC85-43CF-834E-56D5E48EF27E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

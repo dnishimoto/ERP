@@ -9,8 +9,11 @@
     [ProjectedHours]  DECIMAL (18, 1) NULL,
     [ProjectedAmount] DECIMAL (18, 4) NULL,
     [ActualsAsOfDate] DATE            NULL,
+    [BudgetNumber]    BIGINT          NOT NULL,
     CONSTRAINT [PK_Budget] PRIMARY KEY CLUSTERED ([BudgetId] ASC),
     CONSTRAINT [FK_Budget_BudgetRange] FOREIGN KEY ([RangeId]) REFERENCES [dbo].[BudgetRange] ([RangeId]),
-    CONSTRAINT [FK_Budget_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccts] ([AccountId])
+    CONSTRAINT [FK_Budget_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccount] ([AccountId])
 );
+
+
 

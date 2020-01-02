@@ -12,8 +12,11 @@
     [UpdateEntry]            VARCHAR (1)  NULL,
     [PayRollLedgerNumber]    BIGINT       NOT NULL,
     [PaySequence]            BIGINT       NOT NULL,
+    [TransactionType]        VARCHAR (1)  NOT NULL,
     CONSTRAINT [PK_PayRollLedger] PRIMARY KEY CLUSTERED ([PayRollLedgerID] ASC)
 );
+
+
 
 
 

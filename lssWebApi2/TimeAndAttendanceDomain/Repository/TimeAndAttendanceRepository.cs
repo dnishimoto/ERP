@@ -2,54 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.Services;
-using ERP_Core2.AbstractFactory;
-using ERP_Core2.AccountPayableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AbstractFactory;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
 using lssWebApi2.EntityFramework;
 using X.PagedList;
 using lssWebApi2.Enumerations;
-using lssWebApi2.AbstractFactory;
-using lssWebApi2.TimeAndAttendanceDomain;
+using System.Linq.Expressions;
 
-namespace ERP_Core2.TimeAndAttendanceDomain
+namespace lssWebApi2.TimeAndAttendanceDomain
 {
 
     public class TimeAndAttendancePunchInView
     {
-        public TimeAndAttendancePunchInView() { }
-        public TimeAndAttendancePunchInView(TimeAndAttendancePunchIn taPunchin)
-        {
-            this.TimePunchinId = taPunchin.TimePunchinId;
-            this.PunchinDate = taPunchin.PunchinDate;
-            this.PunchoutDate = taPunchin.PunchoutDate;
-            this.PunchinDateTime = taPunchin.PunchinDateTime;
-            this.PunchoutDateTime = taPunchin.PunchoutDateTime;
-            this.JobCodeXrefId = taPunchin.JobCodeXrefId;
-            this.JobCode = taPunchin.JobCode;
-            this.Approved = taPunchin.Approved;
-            this.EmployeeId = taPunchin.EmployeeId;
-            this.EmployeeName = taPunchin.Employee.Address.Name;
-            this.SupervisorId = taPunchin.SupervisorId;
-            this.SupervisorName = taPunchin.SupervisorNavigation?.Address?.Name;
-            this.ProcessedDate = taPunchin.ProcessedDate;
-            this.Note = taPunchin.Note;
-            this.ShiftId = taPunchin.ShiftId;
-            this.ScheduledToWork = taPunchin.ScheduledToWork;
-            this.TypeOfTimeUdcXrefId = taPunchin.TypeOfTimeUdcXrefId;
-            this.TypeOfTime = taPunchin.TypeOfTimeUdcXref.Value;
-            this.ApprovingAddressId = taPunchin.ApprovingAddressId;
-            this.PayCodeXrefId = taPunchin.PayCodeXrefId;
-            this.PayCode = taPunchin.PayCode;
-            this.ScheduleId = taPunchin.ScheduleId;
-            this.DurationInMinutes = taPunchin.DurationInMinutes??0;
-            this.MealDurationInMinutes = taPunchin.MealDurationInMinutes ?? 0;
-            this.AreaCode = taPunchin.AreaCode ?? "";
-            this.DepartmentCode = taPunchin.DepartmentCode ?? "";
-        }
-
         public long? TimePunchinId { get; set; }
         public DateTime? PunchinDate { get; set; }
         public DateTime? PunchoutDate { get; set; }
@@ -81,7 +48,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
     public class TimeAndAttendanceView
     {
-        public long TimePunchinId { get; set; }
+        public long ? TimePunchinId { get; set; }
         public DateTime? PunchinDate { get; set; }
         public DateTime? PunchoutDate { get; set; }
         public string PunchinDateTime { get; set; }
@@ -92,7 +59,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public long ApproverAddressId { get; set; }
         public string ApproverName { get; set; }
         public string EmployeeName { get; set; }
-        public long EmployeeId { get; set; }
+        public long? EmployeeId { get; set; }
         public long? ShiftId { get; set; }
         public string ShiftName { get; set; }
         public string ShiftType { get; set; }
@@ -125,14 +92,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
         public int Manual_ElapsedHours { get; set; }
         public int Manual_ElapsedMinutes { get; set; }
     }
-    public class TimeAndAttendanceViewContainer: AbstractViewContainer
-    {
-        
-        public TimeAndAttendanceViewContainer() {
-            items = new List<TimeAndAttendancePunchInView>();
-        }
-        public List<TimeAndAttendancePunchInView> items { get; set; }
-    }
+
     public static class Utilities
     {
         public static string Right(this string sValue, int iMaxLength)
@@ -164,33 +124,63 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
-        public TimeAndAttendancePunchInView MapToView(TimeAndAttendancePunchIn item)
+        public async Task<TimeAndAttendancePunchIn> GetEntityById(long? timePunchinId)
         {
-            TimeAndAttendancePunchInView view = applicationViewFactory.MapTAPunchinView(item);
-            return view;
+            return await _dbContext.TimeAndAttendancePunchIn.FindAsync(timePunchinId);
         }
-        public async Task<TimeAndAttendanceViewContainer> GetTimeAndAttendanceViewsByPage(Func<TimeAndAttendancePunchIn, bool> predicate, Func<TimeAndAttendancePunchIn, object> order, int pageSize, int pageNumber)
+
+        public IQueryable<TimeAndAttendancePunchIn> GetEntitiesByExpression(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate)
         {
-            IEnumerable<TimeAndAttendancePunchIn> query = _dbContext.TimeAndAttendancePunchIn
-                          .Where(predicate).OrderByDescending(order).Select(e => e);
+            var result =  _dbContext.Set<TimeAndAttendancePunchIn>().Where(predicate);
 
-            IPagedList<TimeAndAttendancePunchIn> list = await query.ToPagedListAsync(pageNumber, pageSize);
+            return result;
+        }
+        public async Task<IList<TimeAndAttendancePunchIn>> GetOpenEntitiesByEmployeeId(long? employeeId)
+        {
+            Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
 
-            TimeAndAttendanceViewContainer container = new TimeAndAttendanceViewContainer();
-            container.PageNumber = pageNumber;
-            container.PageSize = pageSize;
-            container.TotalItemCount = list.TotalItemCount;
 
-            foreach (var item in list)
+            IList<TimeAndAttendancePunchIn> list = await (from e in _dbContext.TimeAndAttendancePunchIn
+                                                          where e.EmployeeId == employeeId
+                                                          && e.PunchoutDate == null
+                                                          && e.TaskStatusXrefId == taskStatusQuery.XrefId
+                                                          select e
+
+                                ).ToListAsync<TimeAndAttendancePunchIn>();
+
+
+
+            return list;
+        }
+        public async Task<IList<TimeAndAttendancePunchIn>> GetEntitiesByEmployeeId(long  ? employeeId)
+
+        {
+
+            try
+
             {
-                TimeAndAttendancePunchInView view = MapToView(item);
-                container.items.Add(view);
+
+                var list = await (from detail in _dbContext.TimeAndAttendancePunchIn
+                                  where detail.EmployeeId==employeeId
+                                  select detail).ToListAsync<TimeAndAttendancePunchIn>();
+
+                 return list;
+
             }
-            //await Task.Yield();
-            return container;
+
+            catch (Exception ex)
+
+            {
+
+                throw new Exception(GetMyMethodName(), ex);
+
+            }
+
+
 
         }
-        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account)
+      
+        public async Task<TimeAndAttendancePunchIn> BuildByTimeDuration(long ? employeeId, int hours, int minutes, int mealDurationInMinutes, DateTime workDay, string account)
         {
 
             string workDayDateTime = BuildLongDate(workDay);
@@ -393,49 +383,10 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
         }
 
-        public async Task<TimeAndAttendancePunchInView> GetPunchInByIdView(long timePunchinId)
-        {
-            try
-            {
-                TimeAndAttendancePunchIn item = await GetObjectAsync(timePunchinId);
-                TimeAndAttendancePunchInView view = null;
+      
 
-                if (item != null)
-                {
-                    view = applicationViewFactory.MapTAPunchinView(item);
-                }
-                return view;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-        }
-
-        public async Task<TimeAndAttendancePunchInView> GetPunchOpenView(long employeeId)
-        {
-            Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
-
-
-            TimeAndAttendancePunchIn item = await (from e in _dbContext.TimeAndAttendancePunchIn
-                                                   where e.EmployeeId == employeeId
-                                                   && e.PunchoutDate==null
-                                                   && e.TaskStatusXrefId == taskStatusQuery.XrefId
-                                                   select e
-                                                   
-                                ).FirstOrDefaultAsync<TimeAndAttendancePunchIn>();
-
-            TimeAndAttendancePunchInView view = null;
-
-            if (item != null)
-            {
-                view = applicationViewFactory.MapTAPunchinView(item);
-            }
-                           
-                
-            return view;
-        }
-        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long employeeId)
+       
+        public async Task<TimeAndAttendancePunchIn> GetPunchOpen(long ? employeeId)
         {
             try
             {
@@ -456,7 +407,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<TimeAndAttendancePunchIn> IsPunchOpen(long employeeId, DateTime asOfDate)
+        public async Task<TimeAndAttendancePunchIn> IsPunchOpen(long ? employeeId, DateTime asOfDate)
         {
             //bool retVal = false;
 
@@ -497,7 +448,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
         }
 
-        private async Task<TimeAndAttendancePunchIn> GetTimeAndAttendancePunchIn(long employeeId, string account, DateTime punchinDate, string punchinDateTime, int hoursDuration, int minutesDuration,int mealDurationInMinutes)
+        private async Task<TimeAndAttendancePunchIn> GetTimeAndAttendancePunchIn(long ? employeeId, string account, DateTime punchinDate, string punchinDateTime, int hoursDuration, int minutesDuration,int mealDurationInMinutes)
         {
             try
             {
@@ -525,7 +476,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
 
                 retTA.PunchinDate = punchinDate;
                 retTA.PunchinDateTime = punchinDateTime;
-                retTA.EmployeeId = employeeId;
+                retTA.EmployeeId = employeeId??0;
                 retTA.Account = account;
                 int total_minutesDuration = hoursDuration * 60 + minutesDuration;
                 retTA.DurationInMinutes = total_minutesDuration;
@@ -589,7 +540,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
 
         }
-        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long employeeId, string account,DateTime punchDate)
+        public async Task<TimeAndAttendancePunchIn> BuildPunchin(long ? employeeId, string account,DateTime punchDate)
         {
             try
             {
@@ -645,11 +596,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByIdAndDate(long employeeId, DateTime startDate, DateTime endDate)
+        public async Task<IList<TimeAndAttendanceView>> GetViewsByIdAndDate(long ? employeeId, DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
+                IList<TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
                                                           where taPunchin.PunchinDate >= startDate
                                                           && taPunchin.PunchinDate <= endDate
                                                           && taPunchin.EmployeeId == employeeId
@@ -726,11 +677,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<List<TimeAndAttendanceView>> GetTimeAndAttendanceViewsByDate(DateTime startDate, DateTime endDate)
+        public async Task<IList<TimeAndAttendanceView>> GetViewsByDate(DateTime startDate, DateTime endDate)
         {
             try
             {
-                List<TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
+                IList<TimeAndAttendanceView> list = await (from taPunchin in _dbContext.TimeAndAttendancePunchIn
                                                           where taPunchin.PunchinDate >= startDate
                                                           && taPunchin.PunchinDate <= endDate
 
@@ -801,7 +752,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
             }
 
         }
-        public async Task<TimeAndAttendanceShift> GetShiftById(long shiftId)
+        public async Task<TimeAndAttendanceShift> GetShiftById(long ? shiftId)
         {
             try
             {
@@ -816,28 +767,7 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<List<TimeAndAttendancePunchInView>> GetTAPunchinByEmployeeId(long employeeId)
-        {
-            try
-            {
-                var list = await base.GetObjectsQueryable(e => e.EmployeeId == employeeId, "").ToListAsync();
-
-                List<TimeAndAttendancePunchInView> listView = new List<TimeAndAttendancePunchInView>();
-
-                foreach (var item in list)
-                {
-                    listView.Add(applicationViewFactory.MapTAPunchinView(item));
-                }
-
-
-                return listView;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(GetMyMethodName(), ex);
-            }
-
-        }
+      
         public CreateProcessStatus DeletePunchin(TimeAndAttendancePunchIn taPunchin)
         {
             try
@@ -931,11 +861,11 @@ namespace ERP_Core2.TimeAndAttendanceDomain
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public async Task<CreateProcessStatus> UpdateByTimePunchinId(long timePunchinId, int workDurationInMinutes, int mealDurationInMinutes)
+        public async Task<CreateProcessStatus> UpdateByTimePunchinId(long ? timePunchinId, int workDurationInMinutes, int mealDurationInMinutes)
         {
             try
             {
-                var query = await GetObjectAsync(timePunchinId);
+                var query = await GetObjectAsync(timePunchinId??0);
 
                 TimeAndAttendancePunchIn taPunchin = query;
                 taPunchin.DurationInMinutes = workDurationInMinutes;

@@ -1,6 +1,6 @@
 ﻿
-using ERP_Core2.AddressBookDomain;
-using ERP_Core2.Services;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ProjectManagementDomain;
 using System;
@@ -10,8 +10,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using lssWebApi2.EmployeeDomain;
+using lssWebApi2.ProjectManagementTaskDomain;
 
-namespace ERP_Core2.ProjectManagementDomain
+namespace lssWebApi2.ProjectManagementDomain
 {
 
     public class UnitTestProjectManagement
@@ -36,17 +38,17 @@ namespace ERP_Core2.ProjectManagementDomain
             List<ProjectManagementWorkOrderToEmployee> list = new List<ProjectManagementWorkOrderToEmployee>();
 
             list.Add(woToEmployee);
-            pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
+            pmMod.WorkOrderToEmployee.AddProjectManagementWorkOrderToEmployees(list).Apply();
 
-            long? workOrderId = woToEmployee.WorkOrderId ?? 0;
+            long? workOrderId = woToEmployee.WorkOrderId ;
 
             IEnumerable<EmployeeView> employeeList =
-                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId??0);
+                await pmMod.Employee.Query().GetEntitiesByWorkOrderId(workOrderId??0);
             foreach (var item in employeeList)
             {
                 output.WriteLine($"{item.EmployeeName}");
             }
-            pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
+            pmMod.WorkOrderToEmployee.DeleteProjectManagementWorkOrderToEmployees(list).Apply();
 
 
         }
@@ -55,7 +57,9 @@ namespace ERP_Core2.ProjectManagementDomain
         {
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            NextNumber nnProject = await pmMod.ProjectManagement.Query().GetProjectNumber();
+            NextNumber nnProject = await pmMod.Project.Query().GetNextNumber();
+
+
 
             ProjectManagementProject newProject = new ProjectManagementProject()
             {
@@ -69,21 +73,21 @@ namespace ERP_Core2.ProjectManagementDomain
                 ProjectNumber = nnProject.NextNumberValue
             };
 
-            pmMod.ProjectManagement.AddProject(newProject).Apply();
+            pmMod.Project.AddProject(newProject).Apply();
 
-            ProjectManagementProject project = await pmMod.ProjectManagement.Query().GetProjectByNumber(nnProject.NextNumberValue);
+            ProjectManagementProject project = await pmMod.Project.Query().GetEntityByNumber(nnProject.NextNumberValue);
 
             long projectId = project.ProjectId;
 
             project.Description = "Test Project Description Update";
 
-            pmMod.ProjectManagement.UpdateProject(project).Apply();
+            pmMod.Project.UpdateProject(project).Apply();
 
-            project = await pmMod.ProjectManagement.Query().GetProjectById(projectId);
+            project = await pmMod.Project.Query().GetEntityById(projectId);
 
             Assert.Contains(project.Description, "Test Project Description Update");
 
-            NextNumber nnWorkOrder = await pmMod.ProjectManagement.Query().GetWorkOrderNumber();
+            NextNumber nnWorkOrder = await pmMod.WorkOrder.Query().GetNextNumber();
 
             ProjectManagementWorkOrder newWorkOrder = new ProjectManagementWorkOrder()
             {
@@ -100,23 +104,23 @@ namespace ERP_Core2.ProjectManagementDomain
                 Location = "Test Location"
             };
 
-            pmMod.ProjectManagement.AddWorkOrder(newWorkOrder).Apply();
+            pmMod.WorkOrder.AddProjectManagementWorkOrder(newWorkOrder).Apply();
 
-            ProjectManagementWorkOrder workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderByNumber(nnWorkOrder.NextNumberValue);
+            ProjectManagementWorkOrder workOrder = await pmMod.WorkOrder.Query().GetEntityByNumber(nnWorkOrder.NextNumberValue);
 
             long workOrderId = workOrder.WorkOrderId;
 
             workOrder.Description = "Test Work Order Description Update";
 
-            pmMod.ProjectManagement.UpdateWorkOrder(workOrder).Apply();
+            pmMod.WorkOrder.UpdateProjectManagementWorkOrder(workOrder).Apply();
             
-            workOrder = await pmMod.ProjectManagement.Query().GetWorkOrderById(workOrderId);
+            workOrder = await pmMod.WorkOrder.Query().GetEntityById(workOrderId);
 
             Assert.Contains(workOrder.Description, "Test Work Order Description Update");
 
-            NextNumber nnMileStone = await pmMod.ProjectManagement.Query().GetMileStoneNumber();
+            NextNumber nnMileStone = await pmMod.Milestone.Query().GetNextNumber();
 
-            ProjectManagementMilestones mileStone = new ProjectManagementMilestones() {
+            ProjectManagementMilestone mileStone = new ProjectManagementMilestone() {
 
                 MileStoneNumber = nnMileStone.NextNumberValue,
                 MilestoneName = "Test Milestone",
@@ -133,8 +137,9 @@ namespace ERP_Core2.ProjectManagementDomain
                 Wbs ="1.1"
             };
 
-            pmMod.ProjectManagement.AddMileStone(mileStone).Apply();
+            pmMod.Milestone.AddProjectManagementMilestone(mileStone).Apply();
 
+            ProjectManagementMilestone milestoneLookup = await pmMod.Milestone.Query().GetEntityByNumber(nnMileStone.NextNumberValue);
 
             ProjectManagementWorkOrderToEmployee woToEmployee = new ProjectManagementWorkOrderToEmployee()
             {
@@ -144,28 +149,83 @@ namespace ERP_Core2.ProjectManagementDomain
             List<ProjectManagementWorkOrderToEmployee> list = new List<ProjectManagementWorkOrderToEmployee>();
 
             list.Add(woToEmployee);
-            pmMod.ProjectManagement.AddWorkOrderEmployee(list).Apply();
+            pmMod.WorkOrderToEmployee.AddProjectManagementWorkOrderToEmployees(list).Apply();
 
-            long ? workOrderId2 = woToEmployee.WorkOrderId ?? 0;
+            long  workOrderId2 = woToEmployee.WorkOrderId ;
 
             IEnumerable<EmployeeView> employeeList =
-                await pmMod.ProjectManagement.Query().GetEmployeeByWorkOrderId(workOrderId2??0);
+                await pmMod.Employee.Query().GetEntitiesByWorkOrderId(workOrderId2);
             foreach (var item in employeeList)
             {
                 output.WriteLine($"{item.EmployeeName}");
             }
             Assert.True(employeeList.Count() > 0);
 
-            pmMod.ProjectManagement.DeleteWorkOrderToEmployee(list).Apply();
+           pmMod.WorkOrderToEmployee.DeleteProjectManagementWorkOrderToEmployees(list).Apply();
 
-            pmMod.ProjectManagement.DeleteMileStone(mileStone).Apply();
+            pmMod.Milestone.DeleteProjectManagementMilestone(mileStone).Apply();
 
-            pmMod.ProjectManagement.DeleteWorkOrder(workOrder).Apply();
+            pmMod.WorkOrder.DeleteProjectManagementWorkOrder(workOrder).Apply();
 
-            pmMod.ProjectManagement.DeleteProject(project).Apply();
+            pmMod.Project.DeleteProject(project).Apply();
 
             //ProjectManagementMilestones mileStone = new ProjectManagementMilestones();
 
+
+        }
+        [Fact]
+        public async Task TestTaskToProjectRollup()
+        {
+            ProjectManagementModule pmMod = new ProjectManagementModule();
+            ProjectManagementProject project = await pmMod.Project.Query().GetEntityById(1);
+            ProjectManagementMilestone milestone = await pmMod.Milestone.Query().GetEntityById(1);
+            Udc udc = await pmMod.Udc.Query().GetEntityById(21);
+            ChartOfAccount account = await pmMod.ChartOfAccount.Query().GetEntityById(4);
+
+
+            ProjectManagementTaskView view = new ProjectManagementTaskView()
+            {
+                Wbs = "1.3",
+                TaskName = "test rollup",
+                Description = "task to project rollup",
+                EstimatedStartDate = DateTime.Parse("12/1/2019"),
+                EstimatedHours = 1,
+                EstimatedEndDate = DateTime.Parse("12/31/2019"),
+                ActualStartDate = DateTime.Parse("12/23/2019"),
+                ActualHours = 1,
+                ActualEndDate = DateTime.Parse("12/23/2020"),
+                Cost = 31,
+                MileStoneId = milestone.MilestoneId,
+                MilestoneName = milestone.MilestoneName,
+                StatusXrefId = udc.XrefId,
+                EstimatedCost = 29,
+                ActualDays = 1,
+                EstimatedDays = 1,
+                ProjectId = project.ProjectId,
+                AccountId = account.AccountId,
+                Account = account.Account,
+                ProjectName = project.ProjectName,
+
+
+            };
+
+            NextNumber nnNextNumber = await pmMod.ProjectManagementTask.Query().GetNextNumber();
+
+            view.TaskNumber = nnNextNumber.NextNumberValue;
+
+            ProjectManagementTask projectManagementTask = await pmMod.ProjectManagementTask.Query().MapToEntity(view);
+
+            pmMod.ProjectManagementTask.AddProjectManagementTask(projectManagementTask).Apply();
+
+
+            RollupTaskToProjectView rollup = await pmMod.Project.Query().GetTaskToProjectRollupViewById(milestone.MilestoneId);
+
+
+            ProjectManagementTask newProjectManagementTask = await pmMod.ProjectManagementTask.Query().GetEntityByNumber(view.TaskNumber);
+
+            if (rollup.Cost<3000) Assert.True(false);
+
+            pmMod.ProjectManagementTask.DeleteProjectManagementTask(newProjectManagementTask).Apply();
 
         }
         [Fact]
@@ -174,16 +234,15 @@ namespace ERP_Core2.ProjectManagementDomain
             long milestoneId = 1;
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementMilestones> query = await pmMod.ProjectManagement.Query().GetTasksByMilestoneId(milestoneId);
+            IQueryable<ProjectManagementTask> query = await pmMod.Task.Query().GetEntitiesByMilestoneId(milestoneId);
 
             int count = 0;
             foreach (var item in query)
             {
-                foreach (var task in item.ProjectManagementTask)
-                {
-                    output.WriteLine($"{task.TaskName}");
+                
+                    output.WriteLine($"{item.TaskName}");
                     count++;
-                }
+             
             }
             Assert.True(count > 0);
         }
@@ -195,7 +254,7 @@ namespace ERP_Core2.ProjectManagementDomain
 
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementWorkOrder> query = await pmMod.ProjectManagement.Query().GetWorkOrdersByProjectId(projectId);
+            IQueryable<ProjectManagementWorkOrder> query = await pmMod.WorkOrder.Query().GetEntitiesByProjectId(projectId);
 
             foreach (var item in query)
             {
@@ -209,15 +268,13 @@ namespace ERP_Core2.ProjectManagementDomain
             int projectId = 1;
 
             ProjectManagementModule pmMod = new ProjectManagementModule();
-            IQueryable<ProjectManagementProject> query = await pmMod.ProjectManagement.Query().GetMilestones(projectId);
+            IQueryable<ProjectManagementMilestone> query = await pmMod.Milestone.Query().GetEntitiesByProjectId(projectId);
             int count = 0;
             foreach (var item in query)
             {
-                foreach (var milestone in item.ProjectManagementMilestones)
-                {
-                    output.WriteLine($"{milestone.MilestoneName}");
+                   output.WriteLine($"{item.MilestoneName}");
                     count++;
-                }
+       
             }
             Assert.True(count > 0);
         }
@@ -229,7 +286,7 @@ namespace ERP_Core2.ProjectManagementDomain
 
             ProjectManagementModule pmMod = new ProjectManagementModule();
 
-            IQueryable<ProjectManagementTask> query = await pmMod.ProjectManagement.Query().GetTasksByProjectId(projectId);
+            IQueryable<ProjectManagementTask> query = await pmMod.Task.Query().GetEntitiesByProjectId(projectId);
 
             int count = 0;
             foreach (var item in query)

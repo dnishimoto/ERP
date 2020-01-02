@@ -13,7 +13,10 @@
     [Status]          VARCHAR (20)    NULL,
     [Location]        VARCHAR (200)   NULL,
     [WorkOrderNumber] BIGINT          NULL,
+    [AccountId]       BIGINT          NOT NULL,
     CONSTRAINT [PK_ProjectManagementWorkOrder] PRIMARY KEY CLUSTERED ([WorkOrderId] ASC),
     CONSTRAINT [FK_ProjectManagementWorkOrder_ProjectManagementWorkOrder] FOREIGN KEY ([ProjectId]) REFERENCES [dbo].[ProjectManagementProject] ([ProjectId])
 );
+
+
 

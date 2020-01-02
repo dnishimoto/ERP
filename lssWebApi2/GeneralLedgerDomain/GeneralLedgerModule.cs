@@ -1,15 +1,14 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.FluentAPI;
-using ERP_Core2.Services;
+﻿using lssWebApi2.FluentAPI;
+using lssWebApi2.UDCDomain;
+using lssWebApi2.ChartOfAccountsDomain;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.FluentAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ERP_Core2.GeneralLedgerDomain
+namespace lssWebApi2.GeneralLedgerDomain
 {
 
     public class GeneralLedgerModule
@@ -18,30 +17,30 @@ namespace ERP_Core2.GeneralLedgerDomain
         public FluentChartOfAccount ChartOfAccounts = new FluentChartOfAccount();
         public FluentNextNumber nn = new FluentNextNumber();
         public FluentAddressBook AddressBook = new FluentAddressBook();
-        public FluentUDC UDC = new FluentUDC();
+        public FluentUdc UDC = new FluentUdc();
 
-        public bool CreateIncomeAndCash(GeneralLedgerView glView)
+        public async Task<bool> CreateIncomeAndCash(GeneralLedgerView glView)
         {
             bool results = false;
-            results = CreateCash(glView);
-            results = results && CreateIncome(glView);
+            results = await CreateCash(glView);
+            results = results && await CreateIncome(glView);
             return results;
         }
 
-        public bool CreateIncome(GeneralLedgerView glView)
+        public async Task<bool> CreateIncome(GeneralLedgerView glView)
         {
             try
             {
                 //ChartOfAccts coa = await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "300", "");
-                ChartOfAccts coa = ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "300", "");
+                ChartOfAccount coa = await ChartOfAccounts.Query().GetEntity("1000", "1200", "300", "");
 
                 //Udc udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
-                Udc udcLedgerType =UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
-                Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
+                Udc udcLedgerType =await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+                Udc udcDocType = await UDC.Query().GetUdc("DOCTYPE", "PV");
 
                 //Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE","PV");
                 //AddressBook addressBook = await unitOfWork.addressBookRepository.GetAddressBookByAddressId(addressId);
-                AddressBook addressBook = AddressBook.Query().GetEntityById(glView.AddressId);
+                AddressBook addressBook = await AddressBook.Query().GetEntityById(glView.AddressId);
 
 
             
@@ -60,7 +59,7 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                 if (String.IsNullOrEmpty(glView.CheckNumber) ==false)
                 {
-                    glLookup=GeneralLedger.Query().GetLedgerViewByExpression(
+                    glLookup=await GeneralLedger.Query().GetLedgerViewByExpression(
                    e => e.AccountId == glView.AccountId
                    && e.AddressId == glView.AddressId
                    && e.Amount == glView.Amount
@@ -76,10 +75,9 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                     glView.DocNumber = nnObject.NextNumberValue;
 
-                    GeneralLedger.CreateGeneralLedger(glView).Apply();
+                    GeneralLedger.CreateGeneralLedgerByView(glView).Apply();
                     GeneralLedger.UpdateAccountBalances(glView);
-                    GeneralLedgerView glViewLookup =
-              GeneralLedger.Query().GetGeneralLedgerView(glView.DocNumber, glView.DocType);
+                    GeneralLedgerView glViewLookup =await GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
 
                     return (glViewLookup != null);
                 }
@@ -92,15 +90,15 @@ namespace ERP_Core2.GeneralLedgerDomain
             }
             catch (Exception ex) { throw new Exception("CreateCash", ex); }
         }
-        public bool CreateCash(GeneralLedgerView glView)
+        public async Task<bool> CreateCash(GeneralLedgerView glView)
         {
             try
             {
                 //cash
-                ChartOfAccts coa2 = ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
-                Udc udcLedgerType = UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
-                Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
-                AddressBook addressBook = AddressBook.Query().GetEntityById(glView.AddressId);
+                ChartOfAccount coa2 = await ChartOfAccounts.Query().GetEntity("1000", "1200", "101", "");
+                Udc udcLedgerType = await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+                Udc udcDocType = await UDC.Query().GetUdc("DOCTYPE", "PV");
+                AddressBook addressBook = await AddressBook.Query().GetEntityById(glView.AddressId);
 
                 glView.DocNumber = -1;
                 glView.DocType = udcDocType.KeyCode;
@@ -118,7 +116,7 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                 if (String.IsNullOrEmpty(glView.CheckNumber) == false)
                 {
-                    glLookup2 = GeneralLedger.Query().GetLedgerViewByExpression(
+                    glLookup2 = await GeneralLedger.Query().GetLedgerViewByExpression(
                    e => e.AccountId == glView.AccountId
                    && e.AddressId == glView.AddressId
                    && e.Amount == glView.Amount
@@ -134,11 +132,10 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                     glView.DocNumber = nnObject2.NextNumberValue;
 
-                    GeneralLedger.CreateGeneralLedger(glView).Apply();
+                    GeneralLedger.CreateGeneralLedgerByView(glView).Apply();
                     GeneralLedger.UpdateAccountBalances(glView);
 
-                    GeneralLedgerView glViewLookup =
-                        GeneralLedger.Query().GetGeneralLedgerView(glView.DocNumber, glView.DocType);
+                    GeneralLedgerView glViewLookup =await GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
 
                     return (glViewLookup != null);
                 }
@@ -152,14 +149,14 @@ namespace ERP_Core2.GeneralLedgerDomain
             }
             catch (Exception ex) { throw new Exception("CreateIncome", ex); }
         }
-        public bool CreateCashPayment(GeneralLedgerView glCashView)
+        public async Task<bool> CreateCashPayment(GeneralLedgerView glCashView)
         {
             try
             {
-                ChartOfAccts coaCash = ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
-                Udc udcLedgerType = UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
-                Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
-                AddressBook addressBook = AddressBook.Query().GetEntityById(glCashView.AddressId);
+                ChartOfAccount coaCash = await ChartOfAccounts.Query().GetEntity("1000", "1200", "101", "");
+                Udc udcLedgerType = await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+                Udc udcDocType = await UDC.Query().GetUdc("DOCTYPE", "PV");
+                AddressBook addressBook = await AddressBook.Query().GetEntityById(glCashView.AddressId);
 
                 glCashView.AccountId = coaCash.AccountId;
                 glCashView.DebitAmount = 0;
@@ -177,7 +174,7 @@ namespace ERP_Core2.GeneralLedgerDomain
 
                 if (glCashView.CheckNumber != null)
                 {
-                   glLookup= GeneralLedger.Query().GetLedgerViewByExpression(
+                   glLookup= await GeneralLedger.Query().GetLedgerViewByExpression(
                   e => e.AccountId == glCashView.AccountId
                   && e.AddressId == glCashView.AddressId
                   && e.Amount == glCashView.Amount
@@ -190,7 +187,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                 {
                     NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
                     glCashView.DocNumber = nnDocumentNumber.NextNumberValue;
-                    GeneralLedger.CreateGeneralLedger(glCashView).Apply();
+                    GeneralLedger.CreateGeneralLedgerByView(glCashView).Apply();
                     GeneralLedger.UpdateAccountBalances(glCashView);
                 }
                 else
@@ -202,18 +199,18 @@ namespace ERP_Core2.GeneralLedgerDomain
             catch (Exception ex) { throw new Exception("CreateCashPayment", ex); }
 
         }
-        public bool CreatePersonalExpense(GeneralLedgerView glView)
+        public async Task<bool> CreatePersonalExpense(GeneralLedgerView glView)
         {
             try
             {
 
              
-                ChartOfAccts coa = ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "502", "01");
-                Udc udcLedgerType = UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+                ChartOfAccount coa = await ChartOfAccounts.Query().GetEntity("1000", "1200", "502", "01");
+                Udc udcLedgerType = await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
               
-                Udc udcDocType = UDC.Query().GetUdc("DOCTYPE", "PV");
+                Udc udcDocType = await UDC.Query().GetUdc("DOCTYPE", "PV");
                
-                AddressBook addressBook = AddressBook.Query().GetEntityById(glView.AddressId);
+                AddressBook addressBook = await AddressBook.Query().GetEntityById(glView.AddressId);
                 glView.DocType = udcDocType.KeyCode;
                 glView.AccountId = coa.AccountId;
                 glView.LedgerType = udcLedgerType.KeyCode;
@@ -227,7 +224,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                 GeneralLedgerView glLookup = null;
                 if (glView.CheckNumber != null)
                 {
-                    glLookup = GeneralLedger.Query().GetLedgerViewByExpression(
+                    glLookup = await GeneralLedger.Query().GetLedgerViewByExpression(
                     e => e.AccountId == glView.AccountId
                     && e.AddressId == glView.AddressId
                     && e.Amount == glView.Amount
@@ -240,7 +237,7 @@ namespace ERP_Core2.GeneralLedgerDomain
                 {
                     NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
                     glView.DocNumber = nnDocumentNumber.NextNumberValue;
-                    GeneralLedger.CreateGeneralLedger(glView).Apply();
+                    GeneralLedger.CreateGeneralLedgerByView(glView).Apply();
                     GeneralLedger.UpdateAccountBalances(glView);
                 }
                 else

@@ -1,4 +1,4 @@
-﻿using ERP_Core2.TaxRatesByCodeDomain;
+﻿using lssWebApi2.TaxRatesByCodeDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;

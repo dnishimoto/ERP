@@ -8,23 +8,8 @@ namespace lssWebApi2.Enumerations
     public enum TypeOfNextNumberEnum
     {
         DocNumber,
-        ItemNumber,
-        InvoiceNumber,
-        PONumber,
-        PackingSlipNumber,
-        Project,
-        Milestone,
-        Task,
-        WorkOrder,
-        InventoryNumber,
-        AssetsNumber,
-        SalesOrderNumber,
-        SalesOrderDetailNumber,
-        CommentNumber,
-        ShipmentsNumber,
-        ShipmentsDetailNumber,
-        TaxRatesByCodeNumber,
-        PayRollGroupNumber
+        TaxRatesByCodeNumber
+        
     }
 
 }

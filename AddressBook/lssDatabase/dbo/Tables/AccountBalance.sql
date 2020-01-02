@@ -7,6 +7,8 @@
     [FiscalPeriod]       INT             NOT NULL,
     [AccountId]          BIGINT          NOT NULL,
     CONSTRAINT [PK_AccountBalance] PRIMARY KEY CLUSTERED ([AccountBalanceId] ASC),
-    CONSTRAINT [FK_AccountBalance_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccts] ([AccountId])
+    CONSTRAINT [FK_AccountBalance_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccount] ([AccountId])
 );
+
+
 

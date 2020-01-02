@@ -1,11 +1,12 @@
-﻿using ERP_Core2.AbstractFactory;
-using ERP_Core2.FluentAPI;
-using ERP_Core2.InvoicesDomain;
+﻿using lssWebApi2.AbstractFactory;
+using lssWebApi2.FluentAPI;
+using lssWebApi2.InvoiceDetailDomain;
+using lssWebApi2.InvoicesDomain;
 using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 
-namespace ERP_Core2.InvoiceDomain
+namespace lssWebApi2.InvoiceDomain
 {
 
 
@@ -13,7 +14,7 @@ namespace ERP_Core2.InvoiceDomain
     {
         public FluentInvoice Invoice = new FluentInvoice();
         public FluentInvoiceDetail InvoiceDetail = new FluentInvoiceDetail();
-        public FluentAccountsReceivable AccountsReceivable = new FluentAccountsReceivable();
+        public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable();
         public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
 
         public bool PostInvoiceAndDetailToAcctRec(InvoiceView invoiceView)
@@ -21,17 +22,19 @@ namespace ERP_Core2.InvoiceDomain
             try
             {
                 Invoice
-                    .CreateInvoice(invoiceView)
+                    .CreateInvoiceByView(invoiceView)
                     .Apply()
                     .MergeWithInvoiceNumber(ref invoiceView);
+
                 InvoiceDetail
-                    .CreateInvoiceDetails(invoiceView)
+                    .CreateInvoiceDetailsByInvoiceView(invoiceView)
                     .Apply();
                 AccountsReceivable
-                    .CreateAcctRecFromInvoice(invoiceView)
+                    .CreateAcctRecByInvoiceView(invoiceView)
                     .Apply();
+
                 GeneralLedger
-                    .CreateGeneralLedger(invoiceView)
+                    .CreateGeneralLedgerByInvoiceView(invoiceView)
                     .Apply()
                     .UpdateLedgerBalances();
                 return true;

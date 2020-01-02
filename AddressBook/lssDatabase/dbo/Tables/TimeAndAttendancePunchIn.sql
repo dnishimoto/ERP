@@ -31,10 +31,12 @@
     [AreaCode]              VARCHAR (20)  NULL,
     [DepartmentCode]        VARCHAR (20)  NULL,
     CONSTRAINT [PK_TimeAndAttendancePunchIn] PRIMARY KEY CLUSTERED ([TimePunchinId] ASC),
-    FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employee] ([EmployeeId]),
+    CONSTRAINT [FK__TimeAndAt__Emplo__4CC05EF3] FOREIGN KEY ([EmployeeId]) REFERENCES [dbo].[Employee] ([EmployeeId]),
     CONSTRAINT [FK_TimeAndAttendancePunchIn_Supervisor] FOREIGN KEY ([SupervisorId]) REFERENCES [dbo].[Supervisor] ([SupervisorId]),
     CONSTRAINT [FK_TimeAndAttendancePunchIn_TimeAndAttendanceSchedule] FOREIGN KEY ([SupervisorId]) REFERENCES [dbo].[TimeAndAttendanceSchedule] ([ScheduleId]),
     CONSTRAINT [FK_TimeAndAttendancePunchIn_TimeAndAttendanceShift] FOREIGN KEY ([ShiftId]) REFERENCES [dbo].[TimeAndAttendanceShift] ([ShiftId]),
     CONSTRAINT [FK_TimeAndAttendancePunchIn_UDC] FOREIGN KEY ([TypeOfTimeUdcXrefId]) REFERENCES [dbo].[UDC] ([XRefId])
 );
+
+
 
