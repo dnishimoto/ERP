@@ -23,9 +23,9 @@ public class FluentPackingSlipQuery:MapperAbstract<PackingSlip,PackingSlipView>,
             return outObject;
         }
 
-  public override async Task<List<PackingSlip>> MapToEntity(List<PackingSlipView> inputObjects)
+  public override async Task<IList<PackingSlip>> MapToEntity(IList<PackingSlipView> inputObjects)
         {
-            List<PackingSlip> list = new List<PackingSlip>();
+            IList<PackingSlip> list = new List<PackingSlip>();
 
             foreach (var item in inputObjects)
             {

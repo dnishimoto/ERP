@@ -22,9 +22,9 @@ namespace lssWebApi2.TaxRatesByCodeDomain
             return outObject;
         }
 
-        public override async Task<List<TaxRatesByCode>> MapToEntity(List<TaxRatesByCodeView> inputObjects)
+        public override async Task<IList<TaxRatesByCode>> MapToEntity(IList<TaxRatesByCodeView> inputObjects)
         {
-            List<TaxRatesByCode> list = new List<TaxRatesByCode>();
+            IList<TaxRatesByCode> list = new List<TaxRatesByCode>();
 
             foreach (var item in inputObjects)
             {

@@ -15,7 +15,7 @@ namespace lssWebApi2.Interfaces
         IFluentInvoice MergeWithInvoiceNumber(ref InvoiceView invoiceView);
         IFluentInvoice Apply();
         IFluentInvoice AddInvoice(List<Invoice> newObjects);
-        IFluentInvoice UpdateInvoice(List<Invoice> newObjects);
+        IFluentInvoice UpdateInvoice(IList<Invoice> newObjects);
         IFluentInvoice AddInvoice(Invoice newObject);
         IFluentInvoice UpdateInvoice(Invoice updateObject);
         IFluentInvoice DeleteInvoice(Invoice deleteObject);

@@ -13,12 +13,12 @@ namespace lssWebApi2.SalesOrderDomain
         Task<Udc> GetUdc(string productCode, string keyCode);
         Task<NextNumber> GetNextNumber();
         Task<SalesOrder> MapToEntity(SalesOrderView inputObject);
-        Task<List<SalesOrder>> MapToEntity(List<SalesOrderView> inputObjects);
+        Task<IList<SalesOrder>> MapToEntity(IList<SalesOrderView> inputObjects);
         Task<SalesOrder> GetEntityByNumber(string orderNumber);
         Task<SalesOrderView> GetViewById(long ? salesOrderId);
         Task<SalesOrder> GetEntityById(long ? salesOrderId);
         Task<SalesOrderView> MapToView(SalesOrder inputObject);
-        SalesOrder SumAmounts(SalesOrder salesOrder, List<SalesOrderDetail> salesOrderDetails);
+        SalesOrder SumAmounts(SalesOrder salesOrder, IList<SalesOrderDetail> salesOrderDetails);
         Task<PageListViewContainer<SalesOrderView>> GetViewsByPage(Expression<Func<SalesOrder, bool>> predicate, Expression<Func<SalesOrder, object>> order, int pageSize, int pageNumber);
     }
 }

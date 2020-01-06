@@ -10,7 +10,7 @@ using lssWebApi2.PayRollDomain;
 public interface IFluentPayRollEarningsQuery
 {
         Task<PayRollEarnings> MapToEntity(PayRollEarningsView inputObject);
-        Task<List<PayRollEarnings>> MapToEntity(List<PayRollEarningsView> inputObjects);
+        Task<IList<PayRollEarnings>> MapToEntity(IList<PayRollEarningsView> inputObjects);
     
         Task<PayRollEarningsView> MapToView(PayRollEarnings inputObject);
         Task<NextNumber> GetNextNumber();

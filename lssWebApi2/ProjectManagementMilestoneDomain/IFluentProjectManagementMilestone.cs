@@ -14,7 +14,7 @@ public interface IFluentProjectManagementMilestone
         IFluentProjectManagementMilestone AddProjectManagementMilestone(ProjectManagementMilestone projectManagementMilestone);
         IFluentProjectManagementMilestone UpdateProjectManagementMilestone(ProjectManagementMilestone projectManagementMilestone);
         IFluentProjectManagementMilestone DeleteProjectManagementMilestone(ProjectManagementMilestone projectManagementMilestone);
-     	IFluentProjectManagementMilestone UpdateProjectManagementMilestones(List<ProjectManagementMilestone> newObjects);
+     	IFluentProjectManagementMilestone UpdateProjectManagementMilestones(IList<ProjectManagementMilestone> newObjects);
         IFluentProjectManagementMilestone AddProjectManagementMilestones(List<ProjectManagementMilestone> newObjects);
         IFluentProjectManagementMilestone DeleteProjectManagementMilestones(List<ProjectManagementMilestone> deleteObjects);
     }

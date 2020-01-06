@@ -22,9 +22,9 @@ public class FluentItemMasterQuery:MapperAbstract<ItemMaster,ItemMasterView>,IFl
             return outObject;
         }
 
-  public override async Task<List<ItemMaster>> MapToEntity(List<ItemMasterView> inputObjects)
+  public override async Task<IList<ItemMaster>> MapToEntity(IList<ItemMasterView> inputObjects)
         {
-            List<ItemMaster> list = new List<ItemMaster>();
+            IList<ItemMaster> list = new List<ItemMaster>();
 
             foreach (var item in inputObjects)
             {

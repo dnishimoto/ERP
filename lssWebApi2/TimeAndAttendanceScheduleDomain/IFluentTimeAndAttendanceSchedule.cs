@@ -14,7 +14,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduleDomain
         IFluentTimeAndAttendanceSchedule AddTimeAndAttendanceSchedule(TimeAndAttendanceSchedule timeAndAttendanceSchedule);
         IFluentTimeAndAttendanceSchedule UpdateTimeAndAttendanceSchedule(TimeAndAttendanceSchedule timeAndAttendanceSchedule);
         IFluentTimeAndAttendanceSchedule DeleteTimeAndAttendanceSchedule(TimeAndAttendanceSchedule timeAndAttendanceSchedule);
-        IFluentTimeAndAttendanceSchedule UpdateTimeAndAttendanceSchedules(List<TimeAndAttendanceSchedule> newObjects);
+        IFluentTimeAndAttendanceSchedule UpdateTimeAndAttendanceSchedules(IList<TimeAndAttendanceSchedule> newObjects);
         IFluentTimeAndAttendanceSchedule AddTimeAndAttendanceSchedules(List<TimeAndAttendanceSchedule> newObjects);
         IFluentTimeAndAttendanceSchedule DeleteTimeAndAttendanceSchedules(List<TimeAndAttendanceSchedule> deleteObjects);
     }

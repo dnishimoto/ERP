@@ -14,7 +14,7 @@ public interface IFluentServiceInformation
         IFluentServiceInformation AddServiceInformation(ServiceInformation serviceInformation);
         IFluentServiceInformation UpdateServiceInformation(ServiceInformation serviceInformation);
         IFluentServiceInformation DeleteServiceInformation(ServiceInformation serviceInformation);
-     	IFluentServiceInformation UpdateServiceInformations(List<ServiceInformation> newObjects);
+     	IFluentServiceInformation UpdateServiceInformations(IList<ServiceInformation> newObjects);
         IFluentServiceInformation AddServiceInformations(List<ServiceInformation> newObjects);
         IFluentServiceInformation DeleteServiceInformations(List<ServiceInformation> deleteObjects);
     }

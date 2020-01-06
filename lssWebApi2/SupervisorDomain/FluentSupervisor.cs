@@ -33,7 +33,7 @@ public class FluentSupervisor :IFluentSupervisor
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentSupervisor;
         }
-        public IFluentSupervisor UpdateSupervisors(List<Supervisor> newObjects)
+        public IFluentSupervisor UpdateSupervisors(IList<Supervisor> newObjects)
         {
             foreach (var item in newObjects)
             {

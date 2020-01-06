@@ -20,7 +20,7 @@ namespace lssWebApi2.Interfaces
         IFluentGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView);
         IFluentGeneralLedgerQuery Query();
         IFluentGeneralLedger AddGeneralLedgers(List<GeneralLedger> newObjects);
-        IFluentGeneralLedger UpdateGeneralLedgers(List<GeneralLedger> newObjects);
+        IFluentGeneralLedger UpdateGeneralLedgers(IList<GeneralLedger> newObjects);
         IFluentGeneralLedger AddGeneralLedger(GeneralLedger newObject);
         IFluentGeneralLedger UpdateGeneralLedger(GeneralLedger updateObject);
         IFluentGeneralLedger DeleteGeneralLedger(GeneralLedger deleteObject);

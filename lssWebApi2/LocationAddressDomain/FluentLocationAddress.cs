@@ -77,7 +77,7 @@ namespace lssWebApi2.LocationAddressDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentLocationAddress;
         }
-        public IFluentLocationAddress UpdateLocationAddresses(List<LocationAddress> newObjects)
+        public IFluentLocationAddress UpdateLocationAddresses(IList<LocationAddress> newObjects)
         {
             foreach (var item in newObjects)
             {

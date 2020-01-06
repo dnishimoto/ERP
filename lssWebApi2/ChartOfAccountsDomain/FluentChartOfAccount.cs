@@ -37,7 +37,7 @@ namespace lssWebApi2.ChartOfAccountsDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentChartOfAccount;
         }
-        public IFluentChartOfAccount UpdateChartOfAccounts(List<ChartOfAccount> newObjects)
+        public IFluentChartOfAccount UpdateChartOfAccounts(IList<ChartOfAccount> newObjects)
         {
             foreach (var item in newObjects)
             {

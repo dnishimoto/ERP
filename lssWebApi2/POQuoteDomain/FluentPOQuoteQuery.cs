@@ -22,9 +22,9 @@ public class FluentPOQuoteQuery:MapperAbstract<Poquote,POQuoteView>,IFluentPOQuo
             return outObject;
         }
 
-  public override async Task<List<Poquote>> MapToEntity(List<POQuoteView> inputObjects)
+  public override async Task<IList<Poquote>> MapToEntity(IList<POQuoteView> inputObjects)
         {
-            List<Poquote> list = new List<Poquote>();
+            IList<Poquote> list = new List<Poquote>();
 
             foreach (var item in inputObjects)
             {

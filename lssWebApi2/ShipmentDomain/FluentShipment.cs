@@ -38,7 +38,7 @@ public class FluentShipment :IFluentShipment
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentShipment;
         }
-        public IFluentShipment UpdateShipments(List<Shipment> newObjects)
+        public IFluentShipment UpdateShipments(IList<Shipment> newObjects)
         {
             foreach (var item in newObjects)
             {

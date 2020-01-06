@@ -9,7 +9,7 @@ using lssWebApi2.ProjectManagementTaskToEmployeeDomain;
 public interface IFluentProjectManagementTaskToEmployeeQuery
 {
     Task<ProjectManagementTaskToEmployee> MapToEntity(ProjectManagementTaskToEmployeeView inputObject);
-    Task<List<ProjectManagementTaskToEmployee>> MapToEntity(List<ProjectManagementTaskToEmployeeView> inputObjects);
+    Task<IList<ProjectManagementTaskToEmployee>> MapToEntity(IList<ProjectManagementTaskToEmployeeView> inputObjects);
     Task<ProjectManagementTaskToEmployeeView> MapToView(ProjectManagementTaskToEmployee inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ProjectManagementTaskToEmployee> GetEntityById(long? projectManagementTaskToEmployeeId);

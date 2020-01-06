@@ -15,7 +15,7 @@ public interface IFluentInvoiceDetail
         IFluentInvoiceDetail AddInvoiceDetail(InvoiceDetail invoiceDetail);
         IFluentInvoiceDetail UpdateInvoiceDetail(InvoiceDetail invoiceDetail);
         IFluentInvoiceDetail DeleteInvoiceDetail(InvoiceDetail invoiceDetail);
-     	IFluentInvoiceDetail UpdateInvoiceDetails(List<InvoiceDetail> newObjects);
+     	IFluentInvoiceDetail UpdateInvoiceDetails(IList<InvoiceDetail> newObjects);
         IFluentInvoiceDetail AddInvoiceDetails(List<InvoiceDetail> newObjects);
         IFluentInvoiceDetail DeleteInvoiceDetails(List<InvoiceDetail> deleteObjects);
         IFluentInvoiceDetail CreateInvoiceDetailsByInvoiceView(InvoiceView invoiceView);

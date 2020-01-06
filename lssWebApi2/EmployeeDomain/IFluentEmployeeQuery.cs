@@ -11,7 +11,7 @@ namespace lssWebApi2.EmployeeDomain
     public interface IFluentEmployeeQuery
     {
         Task<Employee> MapToEntity(EmployeeView inputObject);
-        Task<List<Employee>> MapToEntity(List<EmployeeView> inputObjects);
+        Task<IList<Employee>> MapToEntity(IList<EmployeeView> inputObjects);
         Task<EmployeeView> MapToView(Employee inputObject);
         Task<NextNumber> GetNextNumber();
         Task<Employee> GetEntityById(long? employeeId);

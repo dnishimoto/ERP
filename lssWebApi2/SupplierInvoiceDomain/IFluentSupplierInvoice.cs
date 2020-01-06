@@ -13,7 +13,7 @@ public interface IFluentSupplierInvoice
         IFluentSupplierInvoice AddSupplierInvoice(SupplierInvoice supplierInvoice);
         IFluentSupplierInvoice UpdateSupplierInvoice(SupplierInvoice supplierInvoice);
         IFluentSupplierInvoice DeleteSupplierInvoice(SupplierInvoice supplierInvoice);
-     	IFluentSupplierInvoice UpdateSupplierInvoices(List<SupplierInvoice> newObjects);
+     	IFluentSupplierInvoice UpdateSupplierInvoices(IList<SupplierInvoice> newObjects);
         IFluentSupplierInvoice AddSupplierInvoices(List<SupplierInvoice> newObjects);
         IFluentSupplierInvoice DeleteSupplierInvoices(List<SupplierInvoice> deleteObjects);
     }

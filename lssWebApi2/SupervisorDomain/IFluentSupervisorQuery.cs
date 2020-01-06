@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentSupervisorQuery
 {
     Task<Supervisor> MapToEntity(SupervisorView inputObject);
-    Task<List<Supervisor>> MapToEntity(List<SupervisorView> inputObjects);
+    Task<IList<Supervisor>> MapToEntity(IList<SupervisorView> inputObjects);
     Task<SupervisorView> MapToView(Supervisor inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Supervisor> GetEntityById(long ? supervisorId);

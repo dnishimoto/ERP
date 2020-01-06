@@ -33,7 +33,7 @@ public class FluentBuyer :IFluentBuyer
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentBuyer;
         }
-        public IFluentBuyer UpdateBuyers(List<Buyer> newObjects)
+        public IFluentBuyer UpdateBuyers(IList<Buyer> newObjects)
         {
             foreach (var item in newObjects)
             {

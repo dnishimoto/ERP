@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentSupplierInvoiceDetailQuery
 {
     Task<SupplierInvoiceDetail> MapToEntity(SupplierInvoiceDetailView inputObject);
-    Task<List<SupplierInvoiceDetail>> MapToEntity(List<SupplierInvoiceDetailView> inputObjects);
+    Task<IList<SupplierInvoiceDetail>> MapToEntity(IList<SupplierInvoiceDetailView> inputObjects);
     Task<SupplierInvoiceDetailView> MapToView(SupplierInvoiceDetail inputObject);
     Task<NextNumber> GetNextNumber();
     Task<SupplierInvoiceDetail> GetEntityById(long ? supplierInvoiceDetailId);

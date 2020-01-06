@@ -70,7 +70,7 @@ public class FluentPackingSlip :IFluentPackingSlip
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPackingSlip;
         }
-        public IFluentPackingSlip UpdatePackingSlips(List<PackingSlip> newObjects)
+        public IFluentPackingSlip UpdatePackingSlips(IList<PackingSlip> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -21,9 +21,9 @@ public class FluentPayRollLedgerQuery:IFluentPayRollLedgerQuery
             return outObject;
         }
 
-  public async Task<List<PayRollLedger>> MapToEntity(List<PayRollLedgerView> inputObjects)
+  public async Task<IList<PayRollLedger>> MapToEntity(IList<PayRollLedgerView> inputObjects)
         {
-            List<PayRollLedger> list = new List<PayRollLedger>();
+            IList<PayRollLedger> list = new List<PayRollLedger>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

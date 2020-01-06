@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentPayRollCurrentPaySequenceQuery
 {
     Task<PayRollCurrentPaySequence> MapToEntity(PayRollCurrentPaySequenceView inputObject);
-    Task<List<PayRollCurrentPaySequence>> MapToEntity(List<PayRollCurrentPaySequenceView> inputObjects);
+    Task<IList<PayRollCurrentPaySequence>> MapToEntity(IList<PayRollCurrentPaySequenceView> inputObjects);
 
     Task<PayRollCurrentPaySequenceView> MapToView(PayRollCurrentPaySequence inputObject);
     Task<NextNumber> GetNextNumber();

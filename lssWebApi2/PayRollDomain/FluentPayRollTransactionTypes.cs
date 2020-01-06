@@ -28,7 +28,7 @@ public class FluentPayRollTransactionTypes :IFluentPayRollTransactionTypes
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollTransactionTypes;
         }
-        public IFluentPayRollTransactionTypes UpdatePayRollTransactionTypess(List<PayRollTransactionTypes> newObjects)
+        public IFluentPayRollTransactionTypes UpdatePayRollTransactionTypess(IList<PayRollTransactionTypes> newObjects)
         {
             foreach (var item in newObjects)
             {

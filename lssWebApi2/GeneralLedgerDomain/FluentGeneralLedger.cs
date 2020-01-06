@@ -150,7 +150,7 @@ namespace lssWebApi2.FluentAPI
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentGeneralLedger;
         }
-        public IFluentGeneralLedger UpdateGeneralLedgers(List<GeneralLedger> newObjects)
+        public IFluentGeneralLedger UpdateGeneralLedgers(IList<GeneralLedger> newObjects)
         {
             foreach (var item in newObjects)
             {

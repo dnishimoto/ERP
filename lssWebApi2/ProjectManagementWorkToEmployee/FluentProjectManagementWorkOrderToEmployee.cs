@@ -28,7 +28,7 @@ public class FluentProjectManagementWorkOrderToEmployee :IFluentProjectManagemen
             catch (Exception ex) { throw new Exception("Apply", ex); }
         }
         
-        public IFluentProjectManagementWorkOrderToEmployee UpdateProjectManagementWorkOrderToEmployees(List<ProjectManagementWorkOrderToEmployee> newObjects)
+        public IFluentProjectManagementWorkOrderToEmployee UpdateProjectManagementWorkOrderToEmployees(IList<ProjectManagementWorkOrderToEmployee> newObjects)
         {
             foreach (var item in newObjects)
             {

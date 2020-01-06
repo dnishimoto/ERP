@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentAccountPayableQuery
 {
     Task<AccountPayable> MapToEntity(AccountPayableView inputObject);
-    Task<List<AccountPayable>> MapToEntity(List<AccountPayableView> inputObjects);
+    Task<IList<AccountPayable>> MapToEntity(IList<AccountPayableView> inputObjects);
     Task<AccountPayableView> MapToView(AccountPayable inputObject);
     Task<NextNumber> GetNextNumber();
     Task<AccountPayable> GetEntityById(long ? accountPayableId);

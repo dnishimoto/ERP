@@ -37,9 +37,9 @@ namespace lssWebApi2.ProjectManagementMilestoneDomain
             return outObject;
         }
 
-        public override async Task<List<ProjectManagementMilestone>> MapToEntity(List<ProjectManagementMilestoneView> inputObjects)
+        public override async Task<IList<ProjectManagementMilestone>> MapToEntity(IList<ProjectManagementMilestoneView> inputObjects)
         {
-            List<ProjectManagementMilestone> list = new List<ProjectManagementMilestone>();
+            IList<ProjectManagementMilestone> list = new List<ProjectManagementMilestone>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentCustomerLedgerQuery
 {
     Task<CustomerLedger> MapToEntity(CustomerLedgerView inputObject);
-    Task<List<CustomerLedger>> MapToEntity(List<CustomerLedgerView> inputObjects);
+    Task<IList<CustomerLedger>> MapToEntity(IList<CustomerLedgerView> inputObjects);
     Task<CustomerLedgerView> MapToView(CustomerLedger inputObject);
     Task<NextNumber> GetNextNumber();
     Task<CustomerLedger> GetEntityById(long ? customerLedgerId);

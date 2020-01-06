@@ -158,7 +158,7 @@ namespace lssWebApi2.SupplierLedgerDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentSupplierLedger;
         }
-        public IFluentSupplierLedger UpdateSupplierLedgers(List<SupplierLedger> newObjects)
+        public IFluentSupplierLedger UpdateSupplierLedgers(IList<SupplierLedger> newObjects)
         {
             foreach (var item in newObjects)
             {

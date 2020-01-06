@@ -14,7 +14,7 @@ public interface IFluentPurchaseOrder
         IFluentPurchaseOrder AddPurchaseOrder(PurchaseOrder purchaseOrder);
         IFluentPurchaseOrder UpdatePurchaseOrder(PurchaseOrder purchaseOrder);
         IFluentPurchaseOrder DeletePurchaseOrder(PurchaseOrder purchaseOrder);
-     	IFluentPurchaseOrder UpdatePurchaseOrders(List<PurchaseOrder> newObjects);
+     	IFluentPurchaseOrder UpdatePurchaseOrders(IList<PurchaseOrder> newObjects);
         IFluentPurchaseOrder AddPurchaseOrders(List<PurchaseOrder> newObjects);
         IFluentPurchaseOrder DeletePurchaseOrders(List<PurchaseOrder> deleteObjects);
         IFluentPurchaseOrder CreatePurchaseOrderByView(PurchaseOrderView purchaseOrderView);

@@ -13,7 +13,7 @@ public interface IFluentUdc
         IFluentUdc AddUdc(Udc udc);
         IFluentUdc UpdateUdc(Udc udc);
         IFluentUdc DeleteUdc(Udc udc);
-     	IFluentUdc UpdateUdcs(List<Udc> newObjects);
+     	IFluentUdc UpdateUdcs(IList<Udc> newObjects);
         IFluentUdc AddUdcs(List<Udc> newObjects);
         IFluentUdc DeleteUdcs(List<Udc> deleteObjects);
     }

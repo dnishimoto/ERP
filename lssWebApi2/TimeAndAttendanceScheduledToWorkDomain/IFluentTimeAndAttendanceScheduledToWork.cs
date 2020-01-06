@@ -12,7 +12,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduledToWorkDomain
         IFluentTimeAndAttendanceScheduledToWork AddTimeAndAttendanceScheduledToWork(TimeAndAttendanceScheduledToWork timeAndAttendanceScheduledToWork);
         IFluentTimeAndAttendanceScheduledToWork UpdateTimeAndAttendanceScheduledToWork(TimeAndAttendanceScheduledToWork timeAndAttendanceScheduledToWork);
         IFluentTimeAndAttendanceScheduledToWork DeleteTimeAndAttendanceScheduledToWork(TimeAndAttendanceScheduledToWork timeAndAttendanceScheduledToWork);
-        IFluentTimeAndAttendanceScheduledToWork UpdateTimeAndAttendanceScheduledToWorks(List<TimeAndAttendanceScheduledToWork> newObjects);
+        IFluentTimeAndAttendanceScheduledToWork UpdateTimeAndAttendanceScheduledToWorks(IList<TimeAndAttendanceScheduledToWork> newObjects);
         IFluentTimeAndAttendanceScheduledToWork AddTimeAndAttendanceScheduledToWorks(List<TimeAndAttendanceScheduledToWork> newObjects);
         IFluentTimeAndAttendanceScheduledToWork DeleteTimeAndAttendanceScheduledToWorks(List<TimeAndAttendanceScheduledToWork> deleteObjects);
         IList<TimeAndAttendanceScheduledToWork> BuildScheduledToWork(TimeAndAttendanceScheduleView scheduleView, IList<EmployeeView> employeeViews,string payCode);

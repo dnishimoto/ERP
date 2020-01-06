@@ -33,7 +33,7 @@ public class FluentPayRollLedger :IFluentPayRollLedger
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollLedger;
         }
-        public IFluentPayRollLedger UpdatePayRollLedgers(List<PayRollLedger> newObjects)
+        public IFluentPayRollLedger UpdatePayRollLedgers(IList<PayRollLedger> newObjects)
         {
             foreach (var item in newObjects)
             {

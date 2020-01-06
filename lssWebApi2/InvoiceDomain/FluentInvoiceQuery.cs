@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using lssWebApi2.Enumerations;
 
 namespace lssWebApi2.FluentAPI
 {
@@ -28,17 +29,11 @@ namespace lssWebApi2.FluentAPI
             await Task.Yield();
             return outObject;
         }
-        private async Task<InvoiceDetailView> MapToInvoiceDetailView(InvoiceDetail inputObject)
-        {
 
-            InvoiceDetailView outObject = mapper.Map<InvoiceDetailView>(inputObject);
-            await Task.Yield();
-            return outObject;
-        }
 
-        public override async Task<List<Invoice>> MapToEntity(List<InvoiceView> inputObjects)
+        public override async Task<IList<Invoice>> MapToEntity(IList<InvoiceView> inputObjects)
         {
-            List<Invoice> list = new List<Invoice>();
+            IList<Invoice> list = new List<Invoice>();
 
             foreach (var item in inputObjects)
             {
@@ -53,20 +48,34 @@ namespace lssWebApi2.FluentAPI
         {
 
             InvoiceView outObject = mapper.Map<InvoiceView>(inputObject);
-            Supplier supplier = await _unitOfWork.supplierRepository.GetEntityById(inputObject.SupplierId);
-            AddressBook addressBook = await _unitOfWork.addressBookRepository.GetEntityById(supplier?.AddressId);
 
-            outObject.SupplierName = addressBook?.Name;
+            Task<Supplier> supplierTask =  _unitOfWork.supplierRepository.GetEntityById(inputObject?.SupplierId);
+            Task<Customer> customerTask =  _unitOfWork.customerRepository.GetEntityById(inputObject?.CustomerId);
+            Task.WaitAll(supplierTask, customerTask);
 
-            IList<InvoiceDetail> list = await _unitOfWork.invoiceDetailRepository.GetEntitiesByInvoiceId(inputObject.InvoiceId);
+            Task<AddressBook> addressBookSupplierTask =  _unitOfWork.addressBookRepository.GetEntityById(supplierTask.Result?.AddressId);
+            Task<AddressBook> addressBookCustomerTask = _unitOfWork.addressBookRepository.GetEntityById(customerTask.Result?.AddressId);
+            Task.WaitAll(addressBookSupplierTask,addressBookCustomerTask);
+
+            outObject.SupplierName = addressBookSupplierTask.Result?.Name;
+            outObject.CustomerName = addressBookCustomerTask.Result?.Name;
+
+            IList<InvoiceDetail> list = await _unitOfWork.invoiceDetailRepository.GetEntitiesByInvoiceId(inputObject?.InvoiceId);
             List<InvoiceDetailView> viewsList = new List<InvoiceDetailView>();
+
+            FluentInvoiceDetail fluentInvoiceDetail = new FluentInvoiceDetail();
+
             foreach (var item in list)
             {
-                viewsList.Add(await MapToInvoiceDetailView(item));
+                viewsList.Add(await fluentInvoiceDetail.Query().MapToView(item));
             }
             outObject.InvoiceDetailViews = viewsList;
             await Task.Yield();
             return outObject;
+        }
+        public async Task<NextNumber> GetNextNumber()
+        {
+            return await _unitOfWork.invoiceRepository.GetNextNumber(TypeOfInvoice.InvoiceNumber.ToString());
         }
         public override async Task<InvoiceView> GetViewById(long? invoiceId)
         {

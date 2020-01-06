@@ -10,7 +10,7 @@ namespace lssWebApi2.ShipmentsDomain
         IFluentShipmentDetail AddShipmentDetail(ShipmentDetail shipmentsDetail);
         IFluentShipmentDetail UpdateShipmentDetail(ShipmentDetail shipmentsDetail);
         IFluentShipmentDetail DeleteShipmentDetail(ShipmentDetail shipmentsDetail);
-        IFluentShipmentDetail UpdateShipmentDetails(List<ShipmentDetail> newObjects);
+        IFluentShipmentDetail UpdateShipmentDetails(IList<ShipmentDetail> newObjects);
         IFluentShipmentDetail AddShipmentDetails(List<ShipmentDetail> newObjects);
         IFluentShipmentDetail DeleteShipmentDetails(List<ShipmentDetail> deleteObjects);
     }

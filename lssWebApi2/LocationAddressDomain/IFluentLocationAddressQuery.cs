@@ -8,7 +8,7 @@ namespace lssWebApi2.LocationAddressDomain
     public interface IFluentLocationAddressQuery
     {
         Task<LocationAddress> MapToEntity(LocationAddressView inputObject);
-        Task<List<LocationAddress>> MapToEntity(List<LocationAddressView> inputObjects);
+        Task<IList<LocationAddress>> MapToEntity(IList<LocationAddressView> inputObjects);
         Task<LocationAddressView> MapToView(LocationAddress inputObject);
         Task<NextNumber> GetNextNumber();
         Task<LocationAddress> GetEntityById(long? locationAddressId);

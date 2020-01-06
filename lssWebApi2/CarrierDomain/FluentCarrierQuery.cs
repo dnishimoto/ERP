@@ -22,9 +22,9 @@ public class FluentCarrierQuery:MapperAbstract<Carrier,CarrierView>,IFluentCarri
             return outObject;
         }
 
-  public override async Task<List<Carrier>> MapToEntity(List<CarrierView> inputObjects)
+  public override async Task<IList<Carrier>> MapToEntity(IList<CarrierView> inputObjects)
         {
-            List<Carrier> list = new List<Carrier>();
+            IList<Carrier> list = new List<Carrier>();
          
             foreach (var item in inputObjects)
             {

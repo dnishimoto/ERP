@@ -13,7 +13,7 @@ public interface IFluentPayRollEarnings
         IFluentPayRollEarnings AddPayRollEarnings(PayRollEarnings payRollEarnings);
         IFluentPayRollEarnings UpdatePayRollEarnings(PayRollEarnings payRollEarnings);
         IFluentPayRollEarnings DeletePayRollEarnings(PayRollEarnings payRollEarnings);
-     	IFluentPayRollEarnings UpdatePayRollEarningss(List<PayRollEarnings> newObjects);
+     	IFluentPayRollEarnings UpdatePayRollEarningss(IList<PayRollEarnings> newObjects);
         IFluentPayRollEarnings AddPayRollEarningss(List<PayRollEarnings> newObjects);
         IFluentPayRollEarnings DeletePayRollEarningss(List<PayRollEarnings> deleteObjects);
     }

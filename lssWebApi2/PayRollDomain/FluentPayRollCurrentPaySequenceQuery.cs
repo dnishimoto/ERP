@@ -21,9 +21,9 @@ namespace lssWebApi2.PayRollDomain
             return outObject;
         }
 
-        public async Task<List<PayRollCurrentPaySequence>> MapToEntity(List<PayRollCurrentPaySequenceView> inputObjects)
+        public async Task<IList<PayRollCurrentPaySequence>> MapToEntity(IList<PayRollCurrentPaySequenceView> inputObjects)
         {
-            List<PayRollCurrentPaySequence> list = new List<PayRollCurrentPaySequence>();
+            IList<PayRollCurrentPaySequence> list = new List<PayRollCurrentPaySequence>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

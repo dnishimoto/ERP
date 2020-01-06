@@ -33,7 +33,7 @@ public class FluentServiceInformation :IFluentServiceInformation
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentServiceInformation;
         }
-        public IFluentServiceInformation UpdateServiceInformations(List<ServiceInformation> newObjects)
+        public IFluentServiceInformation UpdateServiceInformations(IList<ServiceInformation> newObjects)
         {
             foreach (var item in newObjects)
             {

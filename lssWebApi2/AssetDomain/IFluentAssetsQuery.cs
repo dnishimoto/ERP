@@ -11,7 +11,7 @@ namespace lssWebApi2.InventoryDomain
     {
         Task<NextNumber> GetAssetNextNumber();
         Task<Asset> MapToEntity(AssetView view);
-        Task<List<Asset>> MapToEntity(List<AssetView> inputObjects);
+        Task<IList<Asset>> MapToEntity(IList<AssetView> inputObjects);
         Task<AssetView> MapToView(Asset inputObject);
         Task<Asset> GetAssetByNumber(long assetNumber);
         Task<Asset> GetEntityById(long ? assetId);

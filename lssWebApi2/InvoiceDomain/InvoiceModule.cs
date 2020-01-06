@@ -5,6 +5,7 @@ using lssWebApi2.InvoicesDomain;
 using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
+using lssWebApi2.CustomerDomain;
 
 namespace lssWebApi2.InvoiceDomain
 {
@@ -16,6 +17,8 @@ namespace lssWebApi2.InvoiceDomain
         public FluentInvoiceDetail InvoiceDetail = new FluentInvoiceDetail();
         public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable();
         public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
+        public FluentCustomer Customer = new FluentCustomer();
+        public FluentAddressBook AddressBook = new FluentAddressBook();
 
         public bool PostInvoiceAndDetailToAcctRec(InvoiceView invoiceView)
         {

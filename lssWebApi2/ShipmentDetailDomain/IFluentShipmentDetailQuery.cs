@@ -8,7 +8,7 @@ namespace lssWebApi2.ShipmentsDomain
     public interface IFluentShipmentDetailQuery
     {
         Task<ShipmentDetail> MapToEntity(ShipmentDetailView inputObject);
-        Task<List<ShipmentDetail>> MapToEntity(List<ShipmentDetailView> inputObjects);
+        Task<IList<ShipmentDetail>> MapToEntity(IList<ShipmentDetailView> inputObjects);
         Task<IList<ShipmentDetail>> GetEntitiesByShipmentId(long ? shipmentId);
         Task<IList<ShipmentDetailView>> GetViewsByShipmentId(long ? shipmentId);
         Task<ShipmentDetailView> MapToView(ShipmentDetail inputObject);

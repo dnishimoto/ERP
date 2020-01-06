@@ -28,7 +28,7 @@ namespace lssWebApi2.TaxRatesByCodeDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentTaxRatesByCode;
         }
-        public IFluentTaxRatesByCode UpdateTaxRatesByCodes(List<TaxRatesByCode> newObjects)
+        public IFluentTaxRatesByCode UpdateTaxRatesByCodes(IList<TaxRatesByCode> newObjects)
         {
             foreach (var item in newObjects)
             {

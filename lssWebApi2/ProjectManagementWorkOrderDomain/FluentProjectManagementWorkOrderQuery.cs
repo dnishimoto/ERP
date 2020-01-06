@@ -40,9 +40,9 @@ public class FluentProjectManagementWorkOrderQuery:MapperAbstract<ProjectManagem
             return outObject;
         }
 
-  public override async Task<List<ProjectManagementWorkOrder>> MapToEntity(List<ProjectManagementWorkOrderView> inputObjects)
+  public override async Task<IList<ProjectManagementWorkOrder>> MapToEntity(IList<ProjectManagementWorkOrderView> inputObjects)
         {
-            List<ProjectManagementWorkOrder> list = new List<ProjectManagementWorkOrder>();
+            IList<ProjectManagementWorkOrder> list = new List<ProjectManagementWorkOrder>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

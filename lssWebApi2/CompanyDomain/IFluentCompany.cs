@@ -14,7 +14,7 @@ public interface IFluentCompany
         IFluentCompany AddCompany(Company company);
         IFluentCompany UpdateCompany(Company company);
         IFluentCompany DeleteCompany(Company company);
-     	IFluentCompany UpdateCompanys(List<Company> newObjects);
+     	IFluentCompany UpdateCompanys(IList<Company> newObjects);
         IFluentCompany AddCompanys(List<Company> newObjects);
         IFluentCompany DeleteCompanys(List<Company> deleteObjects);
     }

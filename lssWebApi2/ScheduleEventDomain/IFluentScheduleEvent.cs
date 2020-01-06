@@ -13,7 +13,7 @@ public interface IFluentScheduleEvent
         IFluentScheduleEvent AddScheduleEvent(ScheduleEvent scheduleEvent);
         IFluentScheduleEvent UpdateScheduleEvent(ScheduleEvent scheduleEvent);
         IFluentScheduleEvent DeleteScheduleEvent(ScheduleEvent scheduleEvent);
-     	IFluentScheduleEvent UpdateScheduleEvents(List<ScheduleEvent> newObjects);
+     	IFluentScheduleEvent UpdateScheduleEvents(IList<ScheduleEvent> newObjects);
         IFluentScheduleEvent AddScheduleEvents(List<ScheduleEvent> newObjects);
         IFluentScheduleEvent DeleteScheduleEvents(List<ScheduleEvent> deleteObjects);
     }

@@ -71,7 +71,7 @@ public class FluentInvoiceDetail :IFluentInvoiceDetail
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentInvoiceDetail;
         }
-        public IFluentInvoiceDetail UpdateInvoiceDetails(List<InvoiceDetail> newObjects)
+        public IFluentInvoiceDetail UpdateInvoiceDetails(IList<InvoiceDetail> newObjects)
         {
             foreach (var item in newObjects)
             {

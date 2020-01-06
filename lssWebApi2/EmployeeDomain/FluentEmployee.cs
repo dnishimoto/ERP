@@ -32,7 +32,7 @@ public class FluentEmployee :IFluentEmployee
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentEmployee;
         }
-        public IFluentEmployee UpdateEmployees(List<Employee> newObjects)
+        public IFluentEmployee UpdateEmployees(IList<Employee> newObjects)
         {
             foreach (var item in newObjects)
             {

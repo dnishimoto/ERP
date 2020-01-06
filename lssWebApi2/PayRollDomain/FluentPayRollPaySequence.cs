@@ -28,7 +28,7 @@ public class FluentPayRollPaySequence :IFluentPayRollPaySequence
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollPaySequence;
         }
-        public IFluentPayRollPaySequence UpdatePayRollPaySequences(List<PayRollPaySequence> newObjects)
+        public IFluentPayRollPaySequence UpdatePayRollPaySequences(IList<PayRollPaySequence> newObjects)
         {
             foreach (var item in newObjects)
             {

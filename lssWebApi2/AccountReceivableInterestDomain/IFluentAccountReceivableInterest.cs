@@ -14,7 +14,7 @@ public interface IFluentAccountReceivableInterest
         IFluentAccountReceivableInterest AddAccountReceivableInterest(AccountReceivableInterest accountReceivableInterest);
         IFluentAccountReceivableInterest UpdateAccountReceivableInterest(AccountReceivableInterest accountReceivableInterest);
         IFluentAccountReceivableInterest DeleteAccountReceivableInterest(AccountReceivableInterest accountReceivableInterest);
-     	IFluentAccountReceivableInterest UpdateAccountReceivableInterests(List<AccountReceivableInterest> newObjects);
+     	IFluentAccountReceivableInterest UpdateAccountReceivableInterests(IList<AccountReceivableInterest> newObjects);
         IFluentAccountReceivableInterest AddAccountReceivableInterests(List<AccountReceivableInterest> newObjects);
         IFluentAccountReceivableInterest DeleteAccountReceivableInterests(List<AccountReceivableInterest> deleteObjects);
     }

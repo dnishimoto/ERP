@@ -61,6 +61,7 @@ using lssWebApi2.TimeAndAttendanceSetupDomain;
 using lssWebApi2.TimeAndAttendanceScheduleDomain;
 using lssWebApi2.TimeAndAttendanceScheduledToWorkDomain;
 using lssWebApi2.ContractItemDomain;
+using lssWebApi2.ContractInvoiceDomain;
 
 namespace lssWebApi2.Services
 {
@@ -134,6 +135,7 @@ namespace lssWebApi2.Services
         public PayRollEarningsRepository payRollEarningsRepository => new PayRollEarningsRepository(_db);
         public PhoneRepository phoneRepository => new PhoneRepository(_db);
         public ContractRepository contractRepository => new ContractRepository(_db);
+        public ContractInvoiceRepository contractInvoiceRepository => new ContractInvoiceRepository(_db);
         public ContractItemRepository contractItemRepository => new ContractItemRepository(_db);
         public CustomerClaimRepository customerClaimRepository => new CustomerClaimRepository(_db);
         public SupplierInvoiceDetailRepository supplierInvoiceDetailRepository => new SupplierInvoiceDetailRepository(_db);

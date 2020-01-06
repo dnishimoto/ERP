@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentPhoneQuery
 {
     Task<PhoneEntity> MapToEntity(PhoneEntityView inputObject);
-    Task<List<PhoneEntity>> MapToEntity(List<PhoneEntityView> inputObjects);
+    Task<IList<PhoneEntity>> MapToEntity(IList<PhoneEntityView> inputObjects);
     Task<PhoneEntityView> MapToView(PhoneEntity inputObject);
     Task<NextNumber> GetNextNumber();
     Task<PhoneEntity> GetEntityById(long ? phonesId);

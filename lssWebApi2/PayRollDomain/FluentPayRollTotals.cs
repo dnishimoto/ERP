@@ -28,7 +28,7 @@ public class FluentPayRollTotals :IFluentPayRollTotals
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollTotals;
         }
-        public IFluentPayRollTotals UpdatePayRollTotalss(List<PayRollTotals> newObjects)
+        public IFluentPayRollTotals UpdatePayRollTotalss(IList<PayRollTotals> newObjects)
         {
             foreach (var item in newObjects)
             {

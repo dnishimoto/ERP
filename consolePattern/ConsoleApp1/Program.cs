@@ -1,134 +1,180 @@
-﻿using System;
+﻿using ConsoleApp1.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
+using System.Text.RegularExpressions;
+using NReco;
 
 namespace ConsoleApp1
 {
-    public abstract class StringDecorator
+    public interface ICustomerInfoByHeader : IEntity
     {
-        public abstract void Append(string inputString);
-        public abstract void Append(char inputChar);
-        public abstract override string ToString();
+        string customerCode { get; set; }
+        string companyName { get; set; }
+        string CurrentDate { get; set; }
     }
-    
-   
-    public class StringTypes : StringDecorator
+    public class CustomerInfoByHeader : ICustomerInfoByHeader
     {
-        private TextTypes _textTypes = null;
-        public StringTypes(TextTypes textTypes)
-        {
-            _textTypes = textTypes;
-        }
-        public override void Append(string inputString)
-        {
-            _textTypes.Append(inputString);
-        }
-        public override void Append(char inputChar)
-        {
-            _textTypes.Append(inputChar);
-        }
-        public override string ToString()
-        {
-            return _textTypes.ToString();
-        }
+        public string customerCode { get; set; }
+        public string companyName { get; set; }
+        public string CurrentDate { get; set; }
     }
-    public abstract class TextTypes
+    public interface IEntity
     {
-        protected StringBuilder sb = new StringBuilder();
-        protected char[] charList;
-        public virtual void Append(string inputString) { sb.Append(inputString); }
-        public virtual void Append(char val) { }
-        public abstract override string ToString();
-      
     }
-    public class charType : TextTypes
-    {
-        public override void Append(char val)
-        {
-            char[] tempBuffer;
 
-            int len = this.charList?.Length??0;
+    public interface IObservableAction : IEntity
+    {
+        string observed_action { get; set; }
+        string command_action { get; set; }
+        string targetByName { get; set; }
+    }
 
-            tempBuffer = new char[len + 1];
-            if (this.charList != null) {
-                    Array.Copy(this.charList, tempBuffer, len);
-                    tempBuffer[len ] = val;
-                    this.charList = new char[len + 1];
-                     Array.Copy(tempBuffer, this.charList, len +1);
-            }
-            else
+    public class ObservableAction : IObservableAction
+    {
+        public string observed_action { get; set; }
+        public string command_action { get; set; }
+        public string targetByName { get; set; }
+    }
+
+    public class Observer
+    {
+        Dictionary<object, Func<IObservableAction, bool>> _subscriberContainer = new Dictionary<object, Func<IObservableAction, bool>>();
+
+        public Observer()
+        {
+        }
+        public void SubscribeToMediator(IEntity entity, Func<IObservableAction, bool> callbackFunction)
+        {
+            _subscriberContainer.Add(entity, callbackFunction);
+        }
+        public void TransmitMessage(IObservableAction message)
+        {
+            foreach (KeyValuePair<object, Func<IObservableAction, bool>> item in _subscriberContainer)
             {
-                this.charList = new char[1];
-                this.charList[0] = val;
+                item.Value.Invoke(message);
             }
-           
-
-           
         }
-        public override string ToString()
-        {
-            return String.Join("+", this.charList);
-        }
-
     }
-    public class StringBuilderType : TextTypes
+    public interface IObservableMediator
     {
-     
-        public override string ToString()
+
+        bool MessageFromObservableMediator(IObservableAction message);
+
+    }
+
+    public interface IClassA: IEntity, IObservableMediator {
+        bool MessageFromObservableMediator(IObservableAction message);
+    }
+    public class ClassA: IClassA
+    {
+
+        private void ProcessCommands(IObservableAction message)
         {
-            return sb.ToString();
+            switch (message.command_action)
+            {
+                case "InsertData":
+                    break;
+            }
+
+        }
+        public bool MessageFromObservableMediator(IObservableAction message)
+        {
+            bool retVal = true;
+            string className = this.GetType().Name;
+
+            if (message.targetByName == "")
+            {
+                Console.WriteLine($"Class A: {message.observed_action}");
+                ProcessCommands(message);
+            }
+            else if (message.targetByName == className)
+            {
+                Console.WriteLine($"Class A: {message.observed_action}");
+                ProcessCommands(message);
+            }
+
+            return retVal;
         }
     }
+    public interface IClassB: IEntity, IObservableMediator
+    {
+       bool MessageFromObservableMediator(IObservableAction message);
+    }
+    public class ClassB: IClassB
+    {
+
+        private void ProcessCommands(IObservableAction message)
+        {
+            switch (message.command_action)
+            {
+                case "InsertData":
+                    break;
+            }
+
+        }
+        public bool MessageFromObservableMediator(IObservableAction message)
+        {
+            bool retVal = true;
+            string className = this.GetType().Name;
+
+            if (message.targetByName == "")
+            {
+                Console.WriteLine($"Class B: {message.observed_action}");
+                ProcessCommands(message);
+            }
+            else if (message.targetByName == className)
+            {
+                Console.WriteLine($"Class B: {message.observed_action}");
+                ProcessCommands(message);
+            }
+
+            return retVal;
+        }
+       
+    }
+
     class Program
     {
-        public static void MultidimensionalArray()
-        {
-            long[,] data = new long[2, 4]{
-            {1,2,3,4},
-            {7,8,9,10}
-            };
-
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    Console.Write("{0}",data[i,j]);
-                }
-                Console.WriteLine();
-
-            }
-            long[][] data2 = new long[2][]
-                {
-                    new long[4]{1,2,3,4},
-                    new long[4]{7,8,9,10}
-                };
-            for (int i = 0; i < 2; i++)
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    Console.Write("{0}", data2[i][j]);
-                }
-                Console.WriteLine();
-
-            }
-
-
-            string[] movieStars = new string[] {
-                "Harrison Ford",
-                "John Wayne",
-                "Elizabeth Taylor"
-            };
-            foreach (var item in movieStars)
-            {
-                Console.WriteLine("{0}",item);
-            }
-
-            char[] charList = new char[3] { 'a', 'b', 'c' };
-            Console.WriteLine("{0}", String.Join("+", charList));
-
-
-        }
+        
         static void Main(string[] args)
         {
+
+        Observer mediator = new Observer();
+
+            IClassA outputManager = new ClassA();
+            mediator.SubscribeToMediator(outputManager, outputManager.MessageFromObservableMediator);
+
+            IClassB dbManager = new ClassB();
+            mediator.SubscribeToMediator(dbManager, dbManager.MessageFromObservableMediator);
+
+            IObservableAction observedAction = new ObservableAction();
+            observedAction.observed_action = "Ready to Add";
+            observedAction.targetByName = nameof(ClassA);
+            observedAction.command_action = "InsertData";
+            mediator.TransmitMessage(observedAction);
+
+            /*
+
+            Equation equation1 = new Equation("$B1", "Sqrt($A1) + Cos($A2)");
+
+            SpreadsheetInJson ss = new SpreadsheetInJson();
+            ss.calcInfo += equation1.ParseExpression;
+
+            ss.RegisterEquation(equation1);
+
+            //Invokes the delegate
+            ss.NewValue("$A1", 4);
+            ss.NewValue("$A2", 4);
+
+            Console.WriteLine("{0}",equation1.GetExpression());
+            Console.WriteLine("{0}", ss.GetValue("$B1"));
+            */
+            //Console.WriteLine("{0}", ss.Squared(4));
+
+            /*
             StringTypes mystring = new StringTypes(new StringBuilderType());
             mystring.Append("Hello World");
             mystring.Append("Hello Boise");
@@ -142,10 +188,8 @@ namespace ConsoleApp1
 
             Console.WriteLine(myString2.ToString());
 
-
-
-
-            //MultidimensionalArray();
+            MDArray.MultidimensionalArray();
+            */
             Console.ReadLine();
         }
     }

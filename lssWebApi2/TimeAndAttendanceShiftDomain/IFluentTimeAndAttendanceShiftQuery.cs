@@ -13,7 +13,7 @@ public interface IFluentTimeAndAttendanceShiftQuery
 {
     Task<String> BuildLongDate(DateTime? date, String stringHours);
     Task<TimeAndAttendanceShift> MapToEntity(TimeAndAttendanceShiftView inputObject);
-    Task<List<TimeAndAttendanceShift>> MapToEntity(List<TimeAndAttendanceShiftView> inputObjects);
+    Task<IList<TimeAndAttendanceShift>> MapToEntity(IList<TimeAndAttendanceShiftView> inputObjects);
     Task<TimeAndAttendanceShiftView> MapToView(TimeAndAttendanceShift inputObject);
     Task<NextNumber> GetNextNumber();
     Task<TimeAndAttendanceShift> GetEntityById(long? timeAndAttendanceShiftId);

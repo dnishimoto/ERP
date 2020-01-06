@@ -7,7 +7,7 @@ namespace lssWebApi2.ContractItemDomain
   public interface IFluentContractItemQuery
   {
      Task<ContractItem> MapToEntity(ContractItemView inputObject);
-     Task<List<ContractItem>> MapToEntity(List<ContractItemView> inputObjects);
+     Task<IList<ContractItem>> MapToEntity(IList<ContractItemView> inputObjects);
      Task<ContractItemView> MapToView(ContractItem inputObject);
      Task<NextNumber> GetNextNumber();
 	 Task<ContractItem> GetEntityById(long ? contractItemId);

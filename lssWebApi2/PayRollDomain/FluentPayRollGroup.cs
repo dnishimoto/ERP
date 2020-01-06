@@ -28,7 +28,7 @@ public class FluentPayRollGroup :IFluentPayRollGroup
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollGroup;
         }
-        public IFluentPayRollGroup UpdatePayRollGroups(List<PayRollGroup> newObjects)
+        public IFluentPayRollGroup UpdatePayRollGroups(IList<PayRollGroup> newObjects)
         {
             foreach (var item in newObjects)
             {

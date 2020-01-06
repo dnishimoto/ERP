@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentPackingSlipDetailQuery
 {
         Task<PackingSlipDetail> MapToEntity(PackingSlipDetailView inputObject);
-        Task<List<PackingSlipDetail>> MapToEntity(List<PackingSlipDetailView> inputObjects);
+        Task<IList<PackingSlipDetail>> MapToEntity(IList<PackingSlipDetailView> inputObjects);
         Task<PackingSlipDetailView> MapToView(PackingSlipDetail inputObject);
         Task<NextNumber> GetNextNumber();
 	Task<PackingSlipDetail> GetEntityById(long ? packingSlipDetailId);

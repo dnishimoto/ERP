@@ -19,7 +19,7 @@ namespace lssWebApi2.Interfaces
         IFluentAccountReceivable AdjustOpenAmount(AccountReceivableFlatView view);
         IFluentAccountReceivableQuery Query();
         IFluentAccountReceivable AddAccountReceivablesByList(List<AccountReceivable> newObjects);
-        IFluentAccountReceivable UpdateAccountReceivablesByList(List<AccountReceivable> newObjects);
+        IFluentAccountReceivable UpdateAccountReceivablesByList(IList<AccountReceivable> newObjects);
         IFluentAccountReceivable AddAccountReceivable(AccountReceivable newObject);
         IFluentAccountReceivable UpdateAccountReceivable(AccountReceivable updateObject);
         IFluentAccountReceivable DeleteAccountReceivable(AccountReceivable deleteObject);

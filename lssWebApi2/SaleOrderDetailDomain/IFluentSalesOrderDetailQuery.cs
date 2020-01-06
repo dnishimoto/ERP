@@ -9,7 +9,7 @@ namespace lssWebApi2.SalesOrderDetailDomain
     public interface IFluentSalesOrderDetailQuery
     {
         Task<SalesOrderDetail> MapToEntity(SalesOrderDetailView inputObject);
-        Task<List<SalesOrderDetail>> MapToEntity(List<SalesOrderDetailView> inputObjects);
+        Task<IList<SalesOrderDetail>> MapToEntity(IList<SalesOrderDetailView> inputObjects);
         Task<IList<SalesOrderDetail>> GetDetailsBySalesOrderId(long ? salesOrderId);
         Task<IList<SalesOrderDetailView>> GetDetailViewsBySalesOrderId(long? salesOrderId);
         Task<SalesOrderDetailView> MapToView(SalesOrderDetail inputObject);

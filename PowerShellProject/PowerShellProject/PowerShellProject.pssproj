@@ -39,6 +39,7 @@
     <Compile Include="Buyer.ps1" />
     <Compile Include="Carrier.ps1" />
     <Compile Include="Company.ps1" />
+    <Compile Include="ContractInvoice.ps1" />
     <Compile Include="CopyToBackup.ps1" />
     <Compile Include="Equipment.ps1" />
     <Compile Include="InvoiceDetail.ps1" />

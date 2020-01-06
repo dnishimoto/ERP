@@ -14,7 +14,7 @@ public interface IFluentProjectManagementWorkOrderToEmployee
         IFluentProjectManagementWorkOrderToEmployee AddProjectManagementWorkOrderToEmployee(ProjectManagementWorkOrderToEmployee projectManagementWorkOrderToEmployee);
         IFluentProjectManagementWorkOrderToEmployee UpdateProjectManagementWorkOrderToEmployee(ProjectManagementWorkOrderToEmployee projectManagementWorkOrderToEmployee);
         IFluentProjectManagementWorkOrderToEmployee DeleteProjectManagementWorkOrderToEmployee(ProjectManagementWorkOrderToEmployee projectManagementWorkOrderToEmployee);
-     	IFluentProjectManagementWorkOrderToEmployee UpdateProjectManagementWorkOrderToEmployees(List<ProjectManagementWorkOrderToEmployee> newObjects);
+     	IFluentProjectManagementWorkOrderToEmployee UpdateProjectManagementWorkOrderToEmployees(IList<ProjectManagementWorkOrderToEmployee> newObjects);
         IFluentProjectManagementWorkOrderToEmployee AddProjectManagementWorkOrderToEmployees(List<ProjectManagementWorkOrderToEmployee> newObjects);
         IFluentProjectManagementWorkOrderToEmployee DeleteProjectManagementWorkOrderToEmployees(List<ProjectManagementWorkOrderToEmployee> deleteObjects);
     }

@@ -23,9 +23,9 @@ public class FluentProjectManagementWorkOrderToEmployeeQuery:MapperAbstract<Proj
             return outObject;
         }
 
-  public override async Task<List<ProjectManagementWorkOrderToEmployee>> MapToEntity(List<ProjectManagementWorkOrderToEmployeeView> inputObjects)
+  public override async Task<IList<ProjectManagementWorkOrderToEmployee>> MapToEntity(IList<ProjectManagementWorkOrderToEmployeeView> inputObjects)
         {
-            List<ProjectManagementWorkOrderToEmployee> list = new List<ProjectManagementWorkOrderToEmployee>();
+            IList<ProjectManagementWorkOrderToEmployee> list = new List<ProjectManagementWorkOrderToEmployee>();
             foreach (var item in inputObjects)
             {
                 ProjectManagementWorkOrderToEmployee outObject = mapper.Map<ProjectManagementWorkOrderToEmployee>(item);

@@ -23,9 +23,9 @@ public class FluentContractQuery:MapperAbstract<Contract,ContractView>,IFluentCo
             return outObject;
         }
 
-  public override async Task<List<Contract>> MapToEntity(List<ContractView> inputObjects)
+  public override async Task<IList<Contract>> MapToEntity(IList<ContractView> inputObjects)
         {
-            List<Contract> list = new List<Contract>();
+            IList<Contract> list = new List<Contract>();
          
             foreach (var item in inputObjects)
             {

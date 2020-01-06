@@ -22,9 +22,9 @@ public class FluentSupervisorQuery:MapperAbstract<Supervisor,SupervisorView>, IF
             return outObject;
         }
 
-  public override async Task<List<Supervisor>> MapToEntity(List<SupervisorView> inputObjects)
+  public override async Task<IList<Supervisor>> MapToEntity(IList<SupervisorView> inputObjects)
         {
-            List<Supervisor> list = new List<Supervisor>();
+            IList<Supervisor> list = new List<Supervisor>();
 
             foreach (var item in inputObjects)
             {

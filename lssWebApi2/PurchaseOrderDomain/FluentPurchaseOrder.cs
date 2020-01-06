@@ -74,7 +74,7 @@ public class FluentPurchaseOrder :IFluentPurchaseOrder
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPurchaseOrder;
         }
-        public IFluentPurchaseOrder UpdatePurchaseOrders(List<PurchaseOrder> newObjects)
+        public IFluentPurchaseOrder UpdatePurchaseOrders(IList<PurchaseOrder> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -13,7 +13,7 @@ public interface IFluentPayRollTransactionsByEmployee
         IFluentPayRollTransactionsByEmployee AddPayRollTransactionsByEmployee(PayRollTransactionsByEmployee payRollTransactionsByEmployee);
         IFluentPayRollTransactionsByEmployee UpdatePayRollTransactionsByEmployee(PayRollTransactionsByEmployee payRollTransactionsByEmployee);
         IFluentPayRollTransactionsByEmployee DeletePayRollTransactionsByEmployee(PayRollTransactionsByEmployee payRollTransactionsByEmployee);
-     	IFluentPayRollTransactionsByEmployee UpdatePayRollTransactionsByEmployees(List<PayRollTransactionsByEmployee> newObjects);
+     	IFluentPayRollTransactionsByEmployee UpdatePayRollTransactionsByEmployees(IList<PayRollTransactionsByEmployee> newObjects);
         IFluentPayRollTransactionsByEmployee AddPayRollTransactionsByEmployees(List<PayRollTransactionsByEmployee> newObjects);
         IFluentPayRollTransactionsByEmployee DeletePayRollTransactionsByEmployees(List<PayRollTransactionsByEmployee> deleteObjects);
     }

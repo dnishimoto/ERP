@@ -14,7 +14,7 @@ namespace lssWebApi2.BudgetDomain
         Task<BudgetView> GetBudgetView(long budgetId);
         Task<IList<PersonalBudgetView>> GetPersonalBudgetViews();
         Task<Budget> MapToEntity(BudgetView inputObject);
-        Task<List<Budget>> MapToEntity(List<BudgetView> inputObjects);
+        Task<IList<Budget>> MapToEntity(IList<BudgetView> inputObjects);
         Task<BudgetView> MapToView(Budget inputObject);
         Task<NextNumber> GetNextNumber();
         Task<Budget> GetEntityById(long ? budgetId);

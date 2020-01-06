@@ -33,7 +33,7 @@ public class FluentCustomerClaim :IFluentCustomerClaim
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentCustomerClaim;
         }
-        public IFluentCustomerClaim UpdateCustomerClaims(List<CustomerClaim> newObjects)
+        public IFluentCustomerClaim UpdateCustomerClaims(IList<CustomerClaim> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -33,7 +33,7 @@ public class FluentEquipment :IFluentEquipment
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentEquipment;
         }
-        public IFluentEquipment UpdateEquipments(List<Equipment> newObjects)
+        public IFluentEquipment UpdateEquipments(IList<Equipment> newObjects)
         {
             foreach (var item in newObjects)
             {

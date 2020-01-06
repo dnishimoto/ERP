@@ -14,7 +14,7 @@ public interface IFluentProjectManagementTaskToEmployee
         IFluentProjectManagementTaskToEmployee AddProjectManagementTaskToEmployee(ProjectManagementTaskToEmployee projectManagementTaskToEmployee);
         IFluentProjectManagementTaskToEmployee UpdateProjectManagementTaskToEmployee(ProjectManagementTaskToEmployee projectManagementTaskToEmployee);
         IFluentProjectManagementTaskToEmployee DeleteProjectManagementTaskToEmployee(ProjectManagementTaskToEmployee projectManagementTaskToEmployee);
-     	IFluentProjectManagementTaskToEmployee UpdateProjectManagementTaskToEmployees(List<ProjectManagementTaskToEmployee> newObjects);
+     	IFluentProjectManagementTaskToEmployee UpdateProjectManagementTaskToEmployees(IList<ProjectManagementTaskToEmployee> newObjects);
         IFluentProjectManagementTaskToEmployee AddProjectManagementTaskToEmployees(List<ProjectManagementTaskToEmployee> newObjects);
         IFluentProjectManagementTaskToEmployee DeleteProjectManagementTaskToEmployees(List<ProjectManagementTaskToEmployee> deleteObjects);
     }

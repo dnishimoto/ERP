@@ -26,9 +26,9 @@ namespace lssWebApi2.FluentAPI
             return outObject;
         }
 
-        public override async Task<List<AddressBook>> MapToEntity(List<AddressBookView> inputObjects)
+        public override async Task<IList<AddressBook>> MapToEntity(IList<AddressBookView> inputObjects)
         {
-            List<AddressBook> list = new List<AddressBook>();
+            IList<AddressBook> list = new List<AddressBook>();
             foreach (var item in inputObjects)
             {
                 AddressBook outObject = mapper.Map<AddressBook>(item);

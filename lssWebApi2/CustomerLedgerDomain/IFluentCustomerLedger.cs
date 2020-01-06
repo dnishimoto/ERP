@@ -14,7 +14,7 @@ public interface IFluentCustomerLedger
         IFluentCustomerLedger AddCustomerLedger(CustomerLedger customerLedger);
         IFluentCustomerLedger UpdateCustomerLedger(CustomerLedger customerLedger);
         IFluentCustomerLedger DeleteCustomerLedger(CustomerLedger customerLedger);
-     	IFluentCustomerLedger UpdateCustomerLedgers(List<CustomerLedger> newObjects);
+     	IFluentCustomerLedger UpdateCustomerLedgers(IList<CustomerLedger> newObjects);
         IFluentCustomerLedger AddCustomerLedgers(List<CustomerLedger> newObjects);
         IFluentCustomerLedger DeleteCustomerLedgers(List<CustomerLedger> deleteObjects);
         IFluentCustomerLedger CreateEntityByGeneralLedgerView(GeneralLedgerView ledgerView);

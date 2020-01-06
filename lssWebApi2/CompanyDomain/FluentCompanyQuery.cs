@@ -22,9 +22,9 @@ public class FluentCompanyQuery:MapperAbstract<Company,CompanyView>,IFluentCompa
             return outObject;
         }
 
-  public override async Task<List<Company>> MapToEntity(List<CompanyView> inputObjects)
+  public override async Task<IList<Company>> MapToEntity(IList<CompanyView> inputObjects)
         {
-            List<Company> list = new List<Company>();
+            IList<Company> list = new List<Company>();
            
             foreach (var item in inputObjects)
             {

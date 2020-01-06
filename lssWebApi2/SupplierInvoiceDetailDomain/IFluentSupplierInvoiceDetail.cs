@@ -14,7 +14,7 @@ public interface IFluentSupplierInvoiceDetail
         IFluentSupplierInvoiceDetail AddSupplierInvoiceDetail(SupplierInvoiceDetail supplierInvoiceDetail);
         IFluentSupplierInvoiceDetail UpdateSupplierInvoiceDetail(SupplierInvoiceDetail supplierInvoiceDetail);
         IFluentSupplierInvoiceDetail DeleteSupplierInvoiceDetail(SupplierInvoiceDetail supplierInvoiceDetail);
-     	IFluentSupplierInvoiceDetail UpdateSupplierInvoiceDetails(List<SupplierInvoiceDetail> newObjects);
+     	IFluentSupplierInvoiceDetail UpdateSupplierInvoiceDetails(IList<SupplierInvoiceDetail> newObjects);
         IFluentSupplierInvoiceDetail AddSupplierInvoiceDetails(List<SupplierInvoiceDetail> newObjects);
         IFluentSupplierInvoiceDetail DeleteSupplierInvoiceDetails(List<SupplierInvoiceDetail> deleteObjects);
         IFluentSupplierInvoiceDetail CreateSupplierInvoiceDetailsByView(SupplierInvoiceView view);

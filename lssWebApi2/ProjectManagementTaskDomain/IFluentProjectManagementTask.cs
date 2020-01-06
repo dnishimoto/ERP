@@ -14,7 +14,7 @@ public interface IFluentProjectManagementTask
         IFluentProjectManagementTask AddProjectManagementTask(ProjectManagementTask projectManagementTask);
         IFluentProjectManagementTask UpdateProjectManagementTask(ProjectManagementTask projectManagementTask);
         IFluentProjectManagementTask DeleteProjectManagementTask(ProjectManagementTask projectManagementTask);
-     	IFluentProjectManagementTask UpdateProjectManagementTasks(List<ProjectManagementTask> newObjects);
+     	IFluentProjectManagementTask UpdateProjectManagementTasks(IList<ProjectManagementTask> newObjects);
         IFluentProjectManagementTask AddProjectManagementTasks(List<ProjectManagementTask> newObjects);
         IFluentProjectManagementTask DeleteProjectManagementTasks(List<ProjectManagementTask> deleteObjects);
     }

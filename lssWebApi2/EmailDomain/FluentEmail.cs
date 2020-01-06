@@ -93,7 +93,7 @@ public class FluentEmail :IFluentEmail
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentEmail;
         }
-        public IFluentEmail UpdateEmailsByList(List<EmailEntity> newObjects)
+        public IFluentEmail UpdateEmailsByList(IList<EmailEntity> newObjects)
         {
             foreach (var item in newObjects)
             {

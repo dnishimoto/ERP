@@ -21,9 +21,9 @@ public class FluentPayRollTransactionTypesQuery:IFluentPayRollTransactionTypesQu
             return outObject;
         }
 
-  public async Task<List<PayRollTransactionTypes>> MapToEntity(List<PayRollTransactionTypesView> inputObjects)
+  public async Task<IList<PayRollTransactionTypes>> MapToEntity(IList<PayRollTransactionTypesView> inputObjects)
         {
-            List<PayRollTransactionTypes> list = new List<PayRollTransactionTypes>();
+            IList<PayRollTransactionTypes> list = new List<PayRollTransactionTypes>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

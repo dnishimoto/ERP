@@ -13,7 +13,7 @@ public interface IFluentEmployee
         IFluentEmployee AddEmployee(Employee employee);
         IFluentEmployee UpdateEmployee(Employee employee);
         IFluentEmployee DeleteEmployee(Employee employee);
-     	IFluentEmployee UpdateEmployees(List<Employee> newObjects);
+     	IFluentEmployee UpdateEmployees(IList<Employee> newObjects);
         IFluentEmployee AddEmployees(List<Employee> newObjects);
         IFluentEmployee DeleteEmployees(List<Employee> deleteObjects);
     }

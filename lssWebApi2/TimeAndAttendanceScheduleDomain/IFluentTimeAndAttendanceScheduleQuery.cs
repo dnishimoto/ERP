@@ -12,7 +12,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduleDomain
     {
         Task<PageListViewContainer<TimeAndAttendanceScheduleView>> GetViewsByPage(Expression<Func<TimeAndAttendanceSchedule, bool>> predicate, Expression<Func<TimeAndAttendanceSchedule, object>> order, int pageSize, int pageNumber);
         Task<TimeAndAttendanceSchedule> MapToEntity(TimeAndAttendanceScheduleView inputObject);
-        Task<List<TimeAndAttendanceSchedule>> MapToEntity(List<TimeAndAttendanceScheduleView> inputObjects);
+        Task<IList<TimeAndAttendanceSchedule>> MapToEntity(IList<TimeAndAttendanceScheduleView> inputObjects);
         Task<TimeAndAttendanceScheduleView> MapToView(TimeAndAttendanceSchedule inputObject);
         Task<TimeAndAttendanceScheduleView> GetViewById(long? timePunchinId);
         Task<TimeAndAttendanceSchedule> GetEntityById(long? timePunchinId);

@@ -33,7 +33,7 @@ public class FluentContractItem :IFluentContractItem
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentContractItem;
         }
-        public IFluentContractItem UpdateContractItems(List<ContractItem> newObjects)
+        public IFluentContractItem UpdateContractItems(IList<ContractItem> newObjects)
         {
             foreach (var item in newObjects)
             {

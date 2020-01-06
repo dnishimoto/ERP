@@ -10,7 +10,7 @@ namespace lssWebApi2.TaxRatesByCodeDomain
         IFluentTaxRatesByCode AddTaxRatesByCode(TaxRatesByCode TaxRatesByCode);
         IFluentTaxRatesByCode UpdateTaxRatesByCode(TaxRatesByCode TaxRatesByCode);
         IFluentTaxRatesByCode DeleteTaxRatesByCode(TaxRatesByCode TaxRatesByCode);
-        IFluentTaxRatesByCode UpdateTaxRatesByCodes(List<TaxRatesByCode> newObjects);
+        IFluentTaxRatesByCode UpdateTaxRatesByCodes(IList<TaxRatesByCode> newObjects);
         IFluentTaxRatesByCode AddTaxRatesByCodes(List<TaxRatesByCode> newObjects);
         IFluentTaxRatesByCode DeleteTaxRatesByCodes(List<TaxRatesByCode> deleteObjects);
     }

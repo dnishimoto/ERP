@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentItemMasterQuery
 {
     Task<ItemMaster> MapToEntity(ItemMasterView inputObject);
-    Task<List<ItemMaster>> MapToEntity(List<ItemMasterView> inputObjects);
+    Task<IList<ItemMaster>> MapToEntity(IList<ItemMasterView> inputObjects);
     Task<ItemMasterView> MapToView(ItemMaster inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ItemMaster> GetEntityById(long ? itemMasterId);

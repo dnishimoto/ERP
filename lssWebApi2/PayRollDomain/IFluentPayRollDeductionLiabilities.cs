@@ -13,7 +13,7 @@ public interface IFluentPayRollDeductionLiabilities
         IFluentPayRollDeductionLiabilities AddPayRollDeductionLiabilities(PayRollDeductionLiabilities payRollDeductionLiabilities);
         IFluentPayRollDeductionLiabilities UpdatePayRollDeductionLiabilities(PayRollDeductionLiabilities payRollDeductionLiabilities);
         IFluentPayRollDeductionLiabilities DeletePayRollDeductionLiabilities(PayRollDeductionLiabilities payRollDeductionLiabilities);
-     	IFluentPayRollDeductionLiabilities UpdatePayRollDeductionLiabilitiess(List<PayRollDeductionLiabilities> newObjects);
+     	IFluentPayRollDeductionLiabilities UpdatePayRollDeductionLiabilitiess(IList<PayRollDeductionLiabilities> newObjects);
         IFluentPayRollDeductionLiabilities AddPayRollDeductionLiabilitiess(List<PayRollDeductionLiabilities> newObjects);
         IFluentPayRollDeductionLiabilities DeletePayRollDeductionLiabilitiess(List<PayRollDeductionLiabilities> deleteObjects);
     }

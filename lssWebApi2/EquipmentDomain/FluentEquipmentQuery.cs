@@ -22,9 +22,9 @@ public class FluentEquipmentQuery:MapperAbstract<Equipment,EquipmentView>,IFluen
             return outObject;
         }
 
-  public override async Task<List<Equipment>> MapToEntity(List<EquipmentView> inputObjects)
+  public override async Task<IList<Equipment>> MapToEntity(IList<EquipmentView> inputObjects)
         {
-            List<Equipment> list = new List<Equipment>();
+            IList<Equipment> list = new List<Equipment>();
    
             foreach (var item in inputObjects)
             {

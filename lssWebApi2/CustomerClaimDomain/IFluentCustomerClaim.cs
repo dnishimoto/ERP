@@ -13,7 +13,7 @@ public interface IFluentCustomerClaim
         IFluentCustomerClaim AddCustomerClaim(CustomerClaim customerClaim);
         IFluentCustomerClaim UpdateCustomerClaim(CustomerClaim customerClaim);
         IFluentCustomerClaim DeleteCustomerClaim(CustomerClaim customerClaim);
-     	IFluentCustomerClaim UpdateCustomerClaims(List<CustomerClaim> newObjects);
+     	IFluentCustomerClaim UpdateCustomerClaims(IList<CustomerClaim> newObjects);
         IFluentCustomerClaim AddCustomerClaims(List<CustomerClaim> newObjects);
         IFluentCustomerClaim DeleteCustomerClaims(List<CustomerClaim> deleteObjects);
     }

@@ -13,7 +13,7 @@ public interface IFluentPayRollLedger
         IFluentPayRollLedger AddPayRollLedger(PayRollLedger payRollLedger);
         IFluentPayRollLedger UpdatePayRollLedger(PayRollLedger payRollLedger);
         IFluentPayRollLedger DeletePayRollLedger(PayRollLedger payRollLedger);
-     	IFluentPayRollLedger UpdatePayRollLedgers(List<PayRollLedger> newObjects);
+     	IFluentPayRollLedger UpdatePayRollLedgers(IList<PayRollLedger> newObjects);
         IFluentPayRollLedger AddPayRollLedgers(List<PayRollLedger> newObjects);
         IFluentPayRollLedger DeletePayRollLedgers(List<PayRollLedger> deleteObjects);
     }

@@ -33,7 +33,7 @@ public class FluentCarrier :IFluentCarrier
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentCarrier;
         }
-        public IFluentCarrier UpdateCarriers(List<Carrier> newObjects)
+        public IFluentCarrier UpdateCarriers(IList<Carrier> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -76,7 +76,7 @@ namespace lssWebApi2.BudgetRangeDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentBudgetRange;
         }
-        public IFluentBudgetRange UpdateBudgetRanges(List<BudgetRange> newObjects)
+        public IFluentBudgetRange UpdateBudgetRanges(IList<BudgetRange> newObjects)
         {
             foreach (var item in newObjects)
             {

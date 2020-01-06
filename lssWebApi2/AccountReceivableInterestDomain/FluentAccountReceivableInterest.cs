@@ -33,7 +33,7 @@ public class FluentAccountReceivableInterest :IFluentAccountReceivableInterest
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentAccountReceivableInterest;
         }
-        public IFluentAccountReceivableInterest UpdateAccountReceivableInterests(List<AccountReceivableInterest> newObjects)
+        public IFluentAccountReceivableInterest UpdateAccountReceivableInterests(IList<AccountReceivableInterest> newObjects)
         {
             foreach (var item in newObjects)
             {

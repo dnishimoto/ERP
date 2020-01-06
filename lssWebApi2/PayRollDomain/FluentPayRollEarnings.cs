@@ -32,7 +32,7 @@ public class FluentPayRollEarnings :IFluentPayRollEarnings
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollEarnings;
         }
-        public IFluentPayRollEarnings UpdatePayRollEarningss(List<PayRollEarnings> newObjects)
+        public IFluentPayRollEarnings UpdatePayRollEarningss(IList<PayRollEarnings> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentEquipmentQuery
 {
     Task<Equipment> MapToEntity(EquipmentView inputObject);
-    Task<List<Equipment>> MapToEntity(List<EquipmentView> inputObjects);
+    Task<IList<Equipment>> MapToEntity(IList<EquipmentView> inputObjects);
     Task<EquipmentView> MapToView(Equipment inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Equipment> GetEntityById(long ? equipmentId);

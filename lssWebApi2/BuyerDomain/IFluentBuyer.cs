@@ -13,7 +13,7 @@ public interface IFluentBuyer
         IFluentBuyer AddBuyer(Buyer buyer);
         IFluentBuyer UpdateBuyer(Buyer buyer);
         IFluentBuyer DeleteBuyer(Buyer buyer);
-     	IFluentBuyer UpdateBuyers(List<Buyer> newObjects);
+     	IFluentBuyer UpdateBuyers(IList<Buyer> newObjects);
         IFluentBuyer AddBuyers(List<Buyer> newObjects);
         IFluentBuyer DeleteBuyers(List<Buyer> deleteObjects);
     }

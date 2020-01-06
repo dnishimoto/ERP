@@ -39,7 +39,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduleDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentTimeAndAttendanceSchedule;
         }
-        public IFluentTimeAndAttendanceSchedule UpdateTimeAndAttendanceSchedules(List<TimeAndAttendanceSchedule> newObjects)
+        public IFluentTimeAndAttendanceSchedule UpdateTimeAndAttendanceSchedules(IList<TimeAndAttendanceSchedule> newObjects)
         {
             foreach (var item in newObjects)
             {

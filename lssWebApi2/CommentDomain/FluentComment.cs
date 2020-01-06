@@ -28,7 +28,7 @@ namespace lssWebApi2.CommentDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentComment;
         }
-        public IFluentComment UpdateComments(List<Comment> newObjects)
+        public IFluentComment UpdateComments(IList<Comment> newObjects)
         {
             foreach (var item in newObjects)
             {

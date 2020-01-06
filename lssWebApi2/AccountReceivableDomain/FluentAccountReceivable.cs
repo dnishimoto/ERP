@@ -171,7 +171,7 @@ namespace lssWebApi2.FluentAPI
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentAccountReceivable;
         }
-        public IFluentAccountReceivable UpdateAccountReceivablesByList(List<AccountReceivable> newObjects)
+        public IFluentAccountReceivable UpdateAccountReceivablesByList(IList<AccountReceivable> newObjects)
         {
             foreach (var item in newObjects)
             {

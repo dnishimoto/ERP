@@ -17,7 +17,7 @@ namespace lssWebApi2.ChartOfAccountsDomain
         Task<ChartOfAccountView> GetViewById(long? accountId);
         Task<ChartOfAccount> GetEntityByNumber(long accountNumber);
         Task<ChartOfAccount> MapToEntity(ChartOfAccountView inputObject);
-        Task<List<ChartOfAccount>> MapToEntity(List<ChartOfAccountView> inputObjects);
+        Task<IList<ChartOfAccount>> MapToEntity(IList<ChartOfAccountView> inputObjects);
         Task<ChartOfAccountView> MapToView(ChartOfAccount inputObject);
       
     }

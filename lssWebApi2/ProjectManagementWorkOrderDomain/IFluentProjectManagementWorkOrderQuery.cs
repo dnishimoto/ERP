@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public interface IFluentProjectManagementWorkOrderQuery
 {
     Task<ProjectManagementWorkOrder> MapToEntity(ProjectManagementWorkOrderView inputObject);
-    Task<List<ProjectManagementWorkOrder>> MapToEntity(List<ProjectManagementWorkOrderView> inputObjects);
+    Task<IList<ProjectManagementWorkOrder>> MapToEntity(IList<ProjectManagementWorkOrderView> inputObjects);
     Task<ProjectManagementWorkOrderView> MapToView(ProjectManagementWorkOrder inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ProjectManagementWorkOrder> GetEntityById(long? projectManagementWorkOrderId);

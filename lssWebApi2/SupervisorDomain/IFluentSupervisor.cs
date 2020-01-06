@@ -13,7 +13,7 @@ public interface IFluentSupervisor
         IFluentSupervisor AddSupervisor(Supervisor supervisor);
         IFluentSupervisor UpdateSupervisor(Supervisor supervisor);
         IFluentSupervisor DeleteSupervisor(Supervisor supervisor);
-     	IFluentSupervisor UpdateSupervisors(List<Supervisor> newObjects);
+     	IFluentSupervisor UpdateSupervisors(IList<Supervisor> newObjects);
         IFluentSupervisor AddSupervisors(List<Supervisor> newObjects);
         IFluentSupervisor DeleteSupervisors(List<Supervisor> deleteObjects);
     }

@@ -33,7 +33,7 @@ public class FluentUdc :IFluentUdc
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentUdc;
         }
-        public IFluentUdc UpdateUdcs(List<Udc> newObjects)
+        public IFluentUdc UpdateUdcs(IList<Udc> newObjects)
         {
             foreach (var item in newObjects)
             {

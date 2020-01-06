@@ -22,9 +22,9 @@ public class FluentInvoiceDetailQuery:MapperAbstract<InvoiceDetail,InvoiceDetail
             return outObject;
         }
 
-  public override async Task<List<InvoiceDetail>> MapToEntity(List<InvoiceDetailView> inputObjects)
+  public override async Task<IList<InvoiceDetail>> MapToEntity(IList<InvoiceDetailView> inputObjects)
         {
-            List<InvoiceDetail> list = new List<InvoiceDetail>();
+            IList<InvoiceDetail> list = new List<InvoiceDetail>();
 
             foreach (var item in inputObjects)
             {
@@ -42,13 +42,13 @@ public class FluentInvoiceDetailQuery:MapperAbstract<InvoiceDetail,InvoiceDetail
             InvoiceDetailView outObject = mapper.Map<InvoiceDetailView>(inputObject);
 
        
-            Task<ItemMaster> itemMasterTask = _unitOfWork.itemMasterRepository.GetEntityById(inputObject.ItemId);
-            Task<Invoice> invoiceTask =  _unitOfWork.invoiceRepository.GetEntityById(inputObject.InvoiceId);
+            Task<ItemMaster> itemMasterTask = _unitOfWork.itemMasterRepository.GetEntityById(inputObject?.ItemId);
+            Task<Invoice> invoiceTask =  _unitOfWork.invoiceRepository.GetEntityById(inputObject?.InvoiceId);
             Task.WaitAll(itemMasterTask, invoiceTask);
 
-            outObject.ItemDescription = itemMasterTask.Result.Description;
-            outObject.ItemDescription2 = itemMasterTask.Result.Description2;
-            outObject.InvoiceDocument = invoiceTask.Result.InvoiceDocument;
+            outObject.ItemDescription = itemMasterTask.Result?.Description;
+            outObject.ItemDescription2 = itemMasterTask.Result?.Description2;
+            outObject.InvoiceDocument = invoiceTask.Result?.InvoiceDocument;
                         
 
             await Task.Yield();

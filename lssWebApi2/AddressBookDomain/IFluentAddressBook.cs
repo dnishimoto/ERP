@@ -12,6 +12,7 @@ namespace lssWebApi2.Interfaces
         IFluentAddressBook AddAddressBook(AddressBook addressBook);
         IFluentAddressBook DeleteAddressBook(AddressBook addressBook);
         IFluentAddressBook AddAddressBooks(List<AddressBook> list);
+        IFluentAddressBook UpdateAddressBooks(IList<AddressBook> newObjects);
         IFluentAddressBook DeleteAddressBooks(List<AddressBook> list);
         IFluentAddressBook UpdateAddressBookByView(AddressBookView view);
         IFluentAddressBook CreateSupplierAddressBook(AddressBook addressBook, EmailEntity email);

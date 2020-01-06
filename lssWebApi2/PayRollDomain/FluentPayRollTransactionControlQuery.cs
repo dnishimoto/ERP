@@ -21,9 +21,9 @@ public class FluentPayRollTransactionControlQuery:IFluentPayRollTransactionContr
             return outObject;
         }
 
-  public async Task<List<PayRollTransactionControl>> MapToEntity(List<PayRollTransactionControlView> inputObjects)
+  public async Task<IList<PayRollTransactionControl>> MapToEntity(IList<PayRollTransactionControlView> inputObjects)
         {
-            List<PayRollTransactionControl> list = new List<PayRollTransactionControl>();
+            IList<PayRollTransactionControl> list = new List<PayRollTransactionControl>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

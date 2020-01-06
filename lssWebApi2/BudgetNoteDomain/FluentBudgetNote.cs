@@ -33,7 +33,7 @@ public class FluentBudgetNote :IFluentBudgetNote
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentBudgetNote;
         }
-        public IFluentBudgetNote UpdateBudgetNotes(List<BudgetNote> newObjects)
+        public IFluentBudgetNote UpdateBudgetNotes(IList<BudgetNote> newObjects)
         {
             foreach (var item in newObjects)
             {

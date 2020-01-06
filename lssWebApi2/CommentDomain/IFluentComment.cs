@@ -10,7 +10,7 @@ namespace lssWebApi2.CommentDomain
         IFluentComment AddComment(Comment comment);
         IFluentComment UpdateComment(Comment comment);
         IFluentComment DeleteComment(Comment comment);
-        IFluentComment UpdateComments(List<Comment> newObjects);
+        IFluentComment UpdateComments(IList<Comment> newObjects);
         IFluentComment AddComments(List<Comment> newObjects);
         IFluentComment DeleteComments(List<Comment> deleteObjects);
     }

@@ -14,7 +14,7 @@ public interface IFluentServiceInformationInvoice
         IFluentServiceInformationInvoice AddServiceInformationInvoice(ServiceInformationInvoice serviceInformationInvoice);
         IFluentServiceInformationInvoice UpdateServiceInformationInvoice(ServiceInformationInvoice serviceInformationInvoice);
         IFluentServiceInformationInvoice DeleteServiceInformationInvoice(ServiceInformationInvoice serviceInformationInvoice);
-     	IFluentServiceInformationInvoice UpdateServiceInformationInvoices(List<ServiceInformationInvoice> newObjects);
+     	IFluentServiceInformationInvoice UpdateServiceInformationInvoices(IList<ServiceInformationInvoice> newObjects);
         IFluentServiceInformationInvoice AddServiceInformationInvoices(List<ServiceInformationInvoice> newObjects);
         IFluentServiceInformationInvoice DeleteServiceInformationInvoices(List<ServiceInformationInvoice> deleteObjects);
     }

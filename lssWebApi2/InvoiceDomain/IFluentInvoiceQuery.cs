@@ -16,5 +16,8 @@ namespace lssWebApi2.Interfaces
         Task<Invoice> GetEntityById(long ? invoiceId);
         Task<Invoice> GetEntityByNumber(long invoiceNumber);
         Task<InvoiceView> MapToView(Invoice inputObject);
+        Task<IList<Invoice>> MapToEntity(IList<InvoiceView> inputObjects);
+        Task<Invoice> MapToEntity(InvoiceView inputObject);
+        Task<NextNumber> GetNextNumber();
     }
 }

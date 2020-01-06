@@ -55,7 +55,7 @@ namespace lssWebApi2.SalesOrderDetailDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentSalesOrderDetail;
         }
-        public IFluentSalesOrderDetail UpdateSalesOrderDetails(List<SalesOrderDetail> newObjects)
+        public IFluentSalesOrderDetail UpdateSalesOrderDetails(IList<SalesOrderDetail> newObjects)
         {
             foreach (var item in newObjects)
             {

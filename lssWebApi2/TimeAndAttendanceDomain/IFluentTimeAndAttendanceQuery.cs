@@ -13,7 +13,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
     {
         Task<PageListViewContainer<TimeAndAttendancePunchInView>> GetViewsByPage(Expression<Func<TimeAndAttendancePunchIn, bool>> predicate, Expression<Func<TimeAndAttendancePunchIn, object>> order, int pageSize, int pageNumber);
         Task<TimeAndAttendancePunchIn> MapToEntity(TimeAndAttendancePunchInView inputObject);
-        Task<List<TimeAndAttendancePunchIn>> MapToEntity(List<TimeAndAttendancePunchInView> inputObjects);
+        Task<IList<TimeAndAttendancePunchIn>> MapToEntity(IList<TimeAndAttendancePunchInView> inputObjects);
         Task<TimeAndAttendancePunchInView> MapToView(TimeAndAttendancePunchIn inputObject);
         Task<TimeAndAttendancePunchInView> GetViewById(long? timePunchinId);
         Task<TimeAndAttendancePunchIn> GetEntityById(long? timePunchinId);

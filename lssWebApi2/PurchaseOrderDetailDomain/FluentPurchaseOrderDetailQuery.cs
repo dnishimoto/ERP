@@ -22,9 +22,9 @@ public class FluentPurchaseOrderDetailQuery:MapperAbstract<PurchaseOrderDetail,P
             return outObject;
         }
 
-  public override async Task<List<PurchaseOrderDetail>> MapToEntity(List<PurchaseOrderDetailView> inputObjects)
+  public override async Task<IList<PurchaseOrderDetail>> MapToEntity(IList<PurchaseOrderDetailView> inputObjects)
         {
-            List<PurchaseOrderDetail> list = new List<PurchaseOrderDetail>();
+            IList<PurchaseOrderDetail> list = new List<PurchaseOrderDetail>();
 
             foreach (var item in inputObjects)
             {
