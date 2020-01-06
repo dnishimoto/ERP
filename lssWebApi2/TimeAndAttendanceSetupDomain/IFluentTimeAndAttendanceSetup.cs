@@ -12,7 +12,7 @@ namespace lssWebApi2.TimeAndAttendanceSetupDomain
         IFluentTimeAndAttendanceSetup AddTimeAndAttendanceSetup(TimeAndAttendanceSetup timeAndAttendanceSetup);
         IFluentTimeAndAttendanceSetup UpdateTimeAndAttendanceSetup(TimeAndAttendanceSetup timeAndAttendanceSetup);
         IFluentTimeAndAttendanceSetup DeleteTimeAndAttendanceSetup(TimeAndAttendanceSetup timeAndAttendanceSetup);
-        IFluentTimeAndAttendanceSetup UpdateTimeAndAttendanceSetups(List<TimeAndAttendanceSetup> newObjects);
+        IFluentTimeAndAttendanceSetup UpdateTimeAndAttendanceSetups(IList<TimeAndAttendanceSetup> newObjects);
         IFluentTimeAndAttendanceSetup AddTimeAndAttendanceSetups(List<TimeAndAttendanceSetup> newObjects);
         IFluentTimeAndAttendanceSetup DeleteTimeAndAttendanceSetups(List<TimeAndAttendanceSetup> deleteObjects);
     }

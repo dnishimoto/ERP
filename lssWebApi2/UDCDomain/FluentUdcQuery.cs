@@ -23,9 +23,9 @@ namespace lssWebApi2.UDCDomain
             return outObject;
         }
 
-        public override async Task<List<Udc>> MapToEntity(List<UdcView> inputObjects)
+        public override async Task<IList<Udc>> MapToEntity(IList<UdcView> inputObjects)
         {
-            List<Udc> list = new List<Udc>();
+            IList<Udc> list = new List<Udc>();
 
             foreach (var item in inputObjects)
             {

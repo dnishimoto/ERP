@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentCarrierQuery
 {
     Task<Carrier> MapToEntity(CarrierView inputObject);
-    Task<List<Carrier>> MapToEntity(List<CarrierView> inputObjects);
+    Task<IList<Carrier>> MapToEntity(IList<CarrierView> inputObjects);
     Task<CarrierView> MapToView(Carrier inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Carrier> GetEntityById(long ? carrierId);

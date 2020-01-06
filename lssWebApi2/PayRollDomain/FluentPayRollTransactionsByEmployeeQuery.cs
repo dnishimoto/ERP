@@ -21,9 +21,9 @@ public class FluentPayRollTransactionsByEmployeeQuery:IFluentPayRollTransactions
             return outObject;
         }
 
-  public async Task<List<PayRollTransactionsByEmployee>> MapToEntity(List<PayRollTransactionsByEmployeeView> inputObjects)
+  public async Task<IList<PayRollTransactionsByEmployee>> MapToEntity(IList<PayRollTransactionsByEmployeeView> inputObjects)
         {
-            List<PayRollTransactionsByEmployee> list = new List<PayRollTransactionsByEmployee>();
+            IList<PayRollTransactionsByEmployee> list = new List<PayRollTransactionsByEmployee>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

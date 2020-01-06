@@ -51,7 +51,7 @@ public class FluentItemMaster :IFluentItemMaster
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentItemMaster;
         }
-        public IFluentItemMaster UpdateItemMasters(List<ItemMaster> newObjects)
+        public IFluentItemMaster UpdateItemMasters(IList<ItemMaster> newObjects)
         {
             foreach (var item in newObjects)
             {

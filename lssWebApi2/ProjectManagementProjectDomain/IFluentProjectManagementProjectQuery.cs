@@ -9,7 +9,7 @@ namespace lssWebApi2.ProjectManagementDomain
     public interface IFluentProjectManagementProjectQuery
     {
         Task<ProjectManagementProject> MapToEntity(ProjectManagementProjectView inputObject);
-        Task<List<ProjectManagementProject>> MapToEntity(List<ProjectManagementProjectView> inputObjects);
+        Task<IList<ProjectManagementProject>> MapToEntity(IList<ProjectManagementProjectView> inputObjects);
         Task<ProjectManagementProjectView> MapToView(ProjectManagementProject inputObject);
         Task<NextNumber> GetNextNumber();
         Task<ProjectManagementProject> GetEntityById(long? projectManagementProjectId);

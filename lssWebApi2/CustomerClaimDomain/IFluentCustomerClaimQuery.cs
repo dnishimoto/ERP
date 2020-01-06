@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentCustomerClaimQuery
 {
     Task<CustomerClaim> MapToEntity(CustomerClaimView inputObject);
-    Task<List<CustomerClaim>> MapToEntity(List<CustomerClaimView> inputObjects);
+    Task<IList<CustomerClaim>> MapToEntity(IList<CustomerClaimView> inputObjects);
     Task<CustomerClaimView> MapToView(CustomerClaim inputObject);
     Task<NextNumber> GetNextNumber();
     Task<CustomerClaim> GetEntityById(long ? customerClaimId);

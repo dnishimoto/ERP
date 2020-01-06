@@ -156,6 +156,15 @@ namespace lssWebApi2.FluentAPI
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
+        public IFluentAddressBook UpdateAddressBooks(IList<AddressBook> newObjects)
+        {
+            foreach (var item in newObjects)
+            {
+                unitOfWork.addressBookRepository.UpdateObject(item);
+            }
+            this.processStatus = CreateProcessStatus.Update;
+            return this as IFluentAddressBook;
+        }
         public IFluentAddressBook DeleteAddressBooks(List<AddressBook> list)
         {
             try

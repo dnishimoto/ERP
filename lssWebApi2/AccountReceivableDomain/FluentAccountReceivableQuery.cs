@@ -53,9 +53,9 @@ namespace lssWebApi2.FluentAPI
         }
 
 
-        public override async Task<List<AccountReceivable>> MapToEntity(List<AccountReceivableView> inputObjects)
+        public override async Task<IList<AccountReceivable>> MapToEntity(IList<AccountReceivableView> inputObjects)
         {
-            List<AccountReceivable> list = new List<AccountReceivable>();
+            IList<AccountReceivable> list = new List<AccountReceivable>();
             foreach (var item in inputObjects)
             {
                 AccountReceivable outObject = mapper.Map<AccountReceivable>(item);

@@ -33,7 +33,7 @@ public class FluentTimeAndAttendanceSetup :IFluentTimeAndAttendanceSetup
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentTimeAndAttendanceSetup;
         }
-        public IFluentTimeAndAttendanceSetup UpdateTimeAndAttendanceSetups(List<TimeAndAttendanceSetup> newObjects)
+        public IFluentTimeAndAttendanceSetup UpdateTimeAndAttendanceSetups(IList<TimeAndAttendanceSetup> newObjects)
         {
             foreach (var item in newObjects)
             {

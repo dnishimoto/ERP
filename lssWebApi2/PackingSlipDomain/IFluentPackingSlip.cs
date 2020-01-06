@@ -14,7 +14,7 @@ public interface IFluentPackingSlip
         IFluentPackingSlip AddPackingSlip(PackingSlip packingSlip);
         IFluentPackingSlip UpdatePackingSlip(PackingSlip packingSlip);
         IFluentPackingSlip DeletePackingSlip(PackingSlip packingSlip);
-     	IFluentPackingSlip UpdatePackingSlips(List<PackingSlip> newObjects);
+     	IFluentPackingSlip UpdatePackingSlips(IList<PackingSlip> newObjects);
         IFluentPackingSlip AddPackingSlips(List<PackingSlip> newObjects);
         IFluentPackingSlip DeletePackingSlips(List<PackingSlip> deleteObjects);
         IFluentPackingSlip CreatePackingSlipByView(PackingSlipView view);

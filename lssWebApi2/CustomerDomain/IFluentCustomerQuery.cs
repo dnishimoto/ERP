@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 public interface IFluentCustomerQuery
 {
-        Task<Customer> MapToEntity(CustomerView inputObject);
-        Task<List<Customer>> MapToEntity(List<CustomerView> inputObjects);
-    
-        Task<CustomerView> MapToView(Customer inputObject);
-        Task<NextNumber> GetNextNumber();
-	Task<Customer> GetEntityById(long ? customerId);
-	  Task<Customer> GetEntityByNumber(long customerNumber);
-	Task<CustomerView> GetViewById(long ? customerId);
-	Task<CustomerView> GetViewByNumber(long customerNumber);
+    Task<Customer> MapToEntity(CustomerView inputObject);
+    Task<IList<Customer>> MapToEntity(IList<CustomerView> inputObjects);
+    Task<CustomerView> MapToView(Customer inputObject);
+    Task<NextNumber> GetNextNumber();
+    Task<Customer> GetEntityById(long? customerId);
+    Task<Customer> GetEntityByNumber(long customerNumber);
+    Task<CustomerView> GetViewById(long? customerId);
+    Task<CustomerView> GetViewByNumber(long customerNumber);
 }

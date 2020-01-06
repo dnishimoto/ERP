@@ -88,7 +88,7 @@ namespace lssWebApi2.ShipmentsDomain
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentShipmentDetail;
         }
-        public IFluentShipmentDetail UpdateShipmentDetails(List<ShipmentDetail> newObjects)
+        public IFluentShipmentDetail UpdateShipmentDetails(IList<ShipmentDetail> newObjects)
         {
             foreach (var item in newObjects)
             {

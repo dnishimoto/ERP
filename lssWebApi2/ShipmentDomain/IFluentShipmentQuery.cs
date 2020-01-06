@@ -10,7 +10,7 @@ namespace lssWebApi2.ShipmentsDomain
     public interface IFluentShipmentQuery
     {
         Task<Shipment> MapToEntity(ShipmentView inputObject);
-        Task<List<Shipment>> MapToEntity(List<ShipmentView> inputObjects);
+        Task<IList<Shipment>> MapToEntity(IList<ShipmentView> inputObjects);
         Task<ShipmentView> MapToView(Shipment inputObject);
         Task<NextNumber> GetNextNumber();
         Task<ShipmentView> GetViewById(long ? shipmentId);

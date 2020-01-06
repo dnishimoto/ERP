@@ -33,7 +33,7 @@ public class FluentPOQuote :IFluentPOQuote
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPOQuote;
         }
-        public IFluentPOQuote UpdatePOQuotes(List<Poquote> newObjects)
+        public IFluentPOQuote UpdatePOQuotes(IList<Poquote> newObjects)
         {
             foreach (var item in newObjects)
             {

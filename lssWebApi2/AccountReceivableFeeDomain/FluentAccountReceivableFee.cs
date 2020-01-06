@@ -59,7 +59,7 @@ public class FluentAccountReceivableFee :IFluentAccountReceivableFee
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentAccountReceivableFee;
         }
-        public IFluentAccountReceivableFee UpdateAccountReceivableFees(List<AccountReceivableFee> newObjects)
+        public IFluentAccountReceivableFee UpdateAccountReceivableFees(IList<AccountReceivableFee> newObjects)
         {
             foreach (var item in newObjects)
             {

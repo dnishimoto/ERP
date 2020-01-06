@@ -22,9 +22,9 @@ namespace lssWebApi2.CommentDomain
             return outObject;
         }
 
-        public override async Task<List<Comment>> MapToEntity(List<CommentView> inputObjects)
+        public override async Task<IList<Comment>> MapToEntity(IList<CommentView> inputObjects)
         {
-            List<Comment> list = new List<Comment>();
+            IList<Comment> list = new List<Comment>();
 
             foreach (var item in inputObjects)
             {

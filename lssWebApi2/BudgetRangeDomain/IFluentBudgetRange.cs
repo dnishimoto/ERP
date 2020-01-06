@@ -16,7 +16,7 @@ namespace lssWebApi2.BudgetRangeDomain
         IFluentBudgetRange AddBudgetRange(BudgetRange budgetRange);
         IFluentBudgetRange UpdateBudgetRange(BudgetRange budgetRange);
         IFluentBudgetRange DeleteBudgetRange(BudgetRange budgetRange);
-        IFluentBudgetRange UpdateBudgetRanges(List<BudgetRange> newObjects);
+        IFluentBudgetRange UpdateBudgetRanges(IList<BudgetRange> newObjects);
         IFluentBudgetRange AddBudgetRanges(List<BudgetRange> newObjects);
         IFluentBudgetRange DeleteBudgetRanges(List<BudgetRange> deleteObjects);
     }

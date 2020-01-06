@@ -14,7 +14,7 @@ public interface IFluentEquipment
         IFluentEquipment AddEquipment(Equipment equipment);
         IFluentEquipment UpdateEquipment(Equipment equipment);
         IFluentEquipment DeleteEquipment(Equipment equipment);
-     	IFluentEquipment UpdateEquipments(List<Equipment> newObjects);
+     	IFluentEquipment UpdateEquipments(IList<Equipment> newObjects);
         IFluentEquipment AddEquipments(List<Equipment> newObjects);
         IFluentEquipment DeleteEquipments(List<Equipment> deleteObjects);
     }

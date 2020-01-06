@@ -8,7 +8,7 @@ using lssWebApi2.ProjectManagementMilestoneDomain;
 public interface IFluentProjectManagementMilestoneQuery
 {
     Task<ProjectManagementMilestone> MapToEntity(ProjectManagementMilestoneView inputObject);
-    Task<List<ProjectManagementMilestone>> MapToEntity(List<ProjectManagementMilestoneView> inputObjects);
+    Task<IList<ProjectManagementMilestone>> MapToEntity(IList<ProjectManagementMilestoneView> inputObjects);
     Task<ProjectManagementMilestoneView> MapToView(ProjectManagementMilestone inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ProjectManagementMilestone> GetEntityById(long? projectManagementMilestoneId);

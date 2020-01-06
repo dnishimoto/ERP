@@ -59,7 +59,7 @@ public class FluentSupplier :IFluentSupplier
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentSupplier;
         }
-        public IFluentSupplier UpdateSuppliers(List<Supplier> newObjects)
+        public IFluentSupplier UpdateSuppliers(IList<Supplier> newObjects)
         {
             foreach (var item in newObjects)
             {

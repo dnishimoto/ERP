@@ -30,9 +30,9 @@ namespace lssWebApi2.SupplierLedgerDomain
             return outObject;
         }
 
-        public override async Task<List<SupplierLedger>> MapToEntity(List<SupplierLedgerView> inputObjects)
+        public override async Task<IList<SupplierLedger>> MapToEntity(IList<SupplierLedgerView> inputObjects)
         {
-            List<SupplierLedger> list = new List<SupplierLedger>();
+            IList<SupplierLedger> list = new List<SupplierLedger>();
 
             foreach (var item in inputObjects)
             {

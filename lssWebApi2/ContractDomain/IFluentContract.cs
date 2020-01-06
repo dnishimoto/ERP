@@ -13,7 +13,7 @@ public interface IFluentContract
         IFluentContract AddContract(Contract contract);
         IFluentContract UpdateContract(Contract contract);
         IFluentContract DeleteContract(Contract contract);
-     	IFluentContract UpdateContracts(List<Contract> newObjects);
+     	IFluentContract UpdateContracts(IList<Contract> newObjects);
         IFluentContract AddContracts(List<Contract> newObjects);
         IFluentContract DeleteContracts(List<Contract> deleteObjects);
     }

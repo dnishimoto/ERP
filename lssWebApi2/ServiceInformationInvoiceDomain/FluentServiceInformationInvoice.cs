@@ -33,7 +33,7 @@ public class FluentServiceInformationInvoice :IFluentServiceInformationInvoice
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentServiceInformationInvoice;
         }
-        public IFluentServiceInformationInvoice UpdateServiceInformationInvoices(List<ServiceInformationInvoice> newObjects)
+        public IFluentServiceInformationInvoice UpdateServiceInformationInvoices(IList<ServiceInformationInvoice> newObjects)
         {
             foreach (var item in newObjects)
             {

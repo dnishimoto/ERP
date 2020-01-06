@@ -57,7 +57,7 @@ namespace lssWebApi2.SalesOrderDomain
             }
 
         }
-        public SalesOrder SumAmounts(SalesOrder salesOrder,List<SalesOrderDetail> salesOrderDetails)
+        public SalesOrder SumAmounts(SalesOrder salesOrder,IList<SalesOrderDetail> salesOrderDetails)
         {
             decimal? amount = salesOrderDetails.Sum(e => e.Amount);
             decimal? amountOpen = salesOrderDetails.Sum(e => e.AmountOpen);
@@ -77,9 +77,9 @@ namespace lssWebApi2.SalesOrderDomain
             await Task.Yield();
             return outObject;
         }
-        public override async Task<List<SalesOrder>> MapToEntity(List<SalesOrderView> inputObjects)
+        public override async Task<IList<SalesOrder>> MapToEntity(IList<SalesOrderView> inputObjects)
         {
-            List<SalesOrder> list = new List<SalesOrder>();
+            IList<SalesOrder> list = new List<SalesOrder>();
 
             foreach (var item in inputObjects)
             {

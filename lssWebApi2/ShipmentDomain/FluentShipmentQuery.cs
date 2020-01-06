@@ -38,9 +38,9 @@ namespace lssWebApi2.ShipmentsDomain
             return outObject;
         }
 
-        public override async Task<List<Shipment>> MapToEntity(List<ShipmentView> inputObjects)
+        public override async Task<IList<Shipment>> MapToEntity(IList<ShipmentView> inputObjects)
         {
-            List<Shipment> list = new List<Shipment>();
+            IList<Shipment> list = new List<Shipment>();
 
             foreach (var item in inputObjects)
             {

@@ -14,7 +14,7 @@ public interface IFluentContractItem
         IFluentContractItem AddContractItem(ContractItem contractItem);
         IFluentContractItem UpdateContractItem(ContractItem contractItem);
         IFluentContractItem DeleteContractItem(ContractItem contractItem);
-     	IFluentContractItem UpdateContractItems(List<ContractItem> newObjects);
+     	IFluentContractItem UpdateContractItems(IList<ContractItem> newObjects);
         IFluentContractItem AddContractItems(List<ContractItem> newObjects);
         IFluentContractItem DeleteContractItems(List<ContractItem> deleteObjects);
     }

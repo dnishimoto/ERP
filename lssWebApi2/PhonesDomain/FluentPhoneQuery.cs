@@ -23,9 +23,9 @@ namespace lssWebApi2.AddressBookDomain
             return outObject;
         }
 
-        public override async Task<List<PhoneEntity>> MapToEntity(List<PhoneEntityView> inputObjects)
+        public override async Task<IList<PhoneEntity>> MapToEntity(IList<PhoneEntityView> inputObjects)
         {
-            List<PhoneEntity> list = new List<PhoneEntity>();
+            IList<PhoneEntity> list = new List<PhoneEntity>();
 
             foreach (var item in inputObjects)
             {

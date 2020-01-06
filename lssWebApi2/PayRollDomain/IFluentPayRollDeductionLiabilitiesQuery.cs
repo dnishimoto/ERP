@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentPayRollDeductionLiabilitiesQuery
 {
         Task<PayRollDeductionLiabilities> MapToEntity(PayRollDeductionLiabilitiesView inputObject);
-        Task<List<PayRollDeductionLiabilities>> MapToEntity(List<PayRollDeductionLiabilitiesView> inputObjects);
+        Task<IList<PayRollDeductionLiabilities>> MapToEntity(IList<PayRollDeductionLiabilitiesView> inputObjects);
     
         Task<PayRollDeductionLiabilitiesView> MapToView(PayRollDeductionLiabilities inputObject);
         Task<NextNumber> GetNextNumber();

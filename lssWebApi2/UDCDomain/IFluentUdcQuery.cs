@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public interface IFluentUdcQuery
 {
     Task<Udc> MapToEntity(UdcView inputObject);
-    Task<List<Udc>> MapToEntity(List<UdcView> inputObjects);
+    Task<IList<Udc>> MapToEntity(IList<UdcView> inputObjects);
     Task<UdcView> MapToView(Udc inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Udc> GetEntityById(long ? udcId);

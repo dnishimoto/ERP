@@ -14,7 +14,7 @@ public interface IFluentProjectManagementWorkOrder
         IFluentProjectManagementWorkOrder AddProjectManagementWorkOrder(ProjectManagementWorkOrder projectManagementWorkOrder);
         IFluentProjectManagementWorkOrder UpdateProjectManagementWorkOrder(ProjectManagementWorkOrder projectManagementWorkOrder);
         IFluentProjectManagementWorkOrder DeleteProjectManagementWorkOrder(ProjectManagementWorkOrder projectManagementWorkOrder);
-     	IFluentProjectManagementWorkOrder UpdateProjectManagementWorkOrders(List<ProjectManagementWorkOrder> newObjects);
+     	IFluentProjectManagementWorkOrder UpdateProjectManagementWorkOrders(IList<ProjectManagementWorkOrder> newObjects);
         IFluentProjectManagementWorkOrder AddProjectManagementWorkOrders(List<ProjectManagementWorkOrder> newObjects);
         IFluentProjectManagementWorkOrder DeleteProjectManagementWorkOrders(List<ProjectManagementWorkOrder> deleteObjects);
     }

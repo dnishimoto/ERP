@@ -32,7 +32,7 @@ public class FluentPhone :IFluentPhone
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPhone;
         }
-        public IFluentPhone UpdatePhoness(List<PhoneEntity> newObjects)
+        public IFluentPhone UpdatePhoness(IList<PhoneEntity> newObjects)
         {
             foreach (var item in newObjects)
             {

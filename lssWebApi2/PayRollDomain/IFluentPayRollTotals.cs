@@ -13,7 +13,7 @@ public interface IFluentPayRollTotals
         IFluentPayRollTotals AddPayRollTotals(PayRollTotals payRollTotals);
         IFluentPayRollTotals UpdatePayRollTotals(PayRollTotals payRollTotals);
         IFluentPayRollTotals DeletePayRollTotals(PayRollTotals payRollTotals);
-     	IFluentPayRollTotals UpdatePayRollTotalss(List<PayRollTotals> newObjects);
+     	IFluentPayRollTotals UpdatePayRollTotalss(IList<PayRollTotals> newObjects);
         IFluentPayRollTotals AddPayRollTotalss(List<PayRollTotals> newObjects);
         IFluentPayRollTotals DeletePayRollTotalss(List<PayRollTotals> deleteObjects);
     }

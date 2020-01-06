@@ -21,9 +21,9 @@ namespace lssWebApi2.AccountReceivableInterestDomain
             return outObject;
         }
 
-        public override async Task<List<AccountReceivableInterest>> MapToEntity(List<AccountReceivableInterestView> inputObjects)
+        public override async Task<IList<AccountReceivableInterest>> MapToEntity(IList<AccountReceivableInterestView> inputObjects)
         {
-            List<AccountReceivableInterest> list = new List<AccountReceivableInterest>();
+            IList<AccountReceivableInterest> list = new List<AccountReceivableInterest>();
             foreach (var item in inputObjects)
             {
                 AccountReceivableInterest outObject = mapper.Map<AccountReceivableInterest>(item);

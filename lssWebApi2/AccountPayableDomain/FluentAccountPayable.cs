@@ -75,7 +75,7 @@ public class FluentAccountPayable :IFluentAccountPayable
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentAccountPayable;
         }
-        public IFluentAccountPayable UpdateAccountPayables(List<AccountPayable> newObjects)
+        public IFluentAccountPayable UpdateAccountPayables(IList<AccountPayable> newObjects)
         {
             foreach (var item in newObjects)
             {

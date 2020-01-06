@@ -15,7 +15,7 @@ namespace lssWebApi2.AccountPayableDomain
         IFluentAccountPayable AddAccountPayable(AccountPayable accountPayable);
         IFluentAccountPayable UpdateAccountPayable(AccountPayable accountPayable);
         IFluentAccountPayable DeleteAccountPayable(AccountPayable accountPayable);
-        IFluentAccountPayable UpdateAccountPayables(List<AccountPayable> newObjects);
+        IFluentAccountPayable UpdateAccountPayables(IList<AccountPayable> newObjects);
         IFluentAccountPayable AddAccountPayables(List<AccountPayable> newObjects);
         IFluentAccountPayable DeleteAccountPayables(List<AccountPayable> deleteObjects);
         IFluentAccountPayable UpdatePayableByLedgerView(GeneralLedgerView ledgerView);

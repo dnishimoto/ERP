@@ -9,7 +9,7 @@ public interface IFluentShipment
         IFluentShipmentQuery Query();
         IFluentShipment UpdateShipment(Shipment shipments);
         IFluentShipment DeleteShipment(Shipment shipments);
-     	IFluentShipment UpdateShipments(List<Shipment> newObjects);
+     	IFluentShipment UpdateShipments(IList<Shipment> newObjects);
         IFluentShipment AddShipments(List<Shipment> newObjects);
         IFluentShipment DeleteAllShipments(List<Shipment> deleteObjects);
         IFluentShipment AddShipment(Shipment shipments);

@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public interface IFluentScheduleEventQuery
 {
     Task<ScheduleEvent> MapToEntity(ScheduleEventView inputObject);
-    Task<List<ScheduleEvent>> MapToEntity(List<ScheduleEventView> inputObjects);
+    Task<IList<ScheduleEvent>> MapToEntity(IList<ScheduleEventView> inputObjects);
     Task<ScheduleEventView> MapToView(ScheduleEvent inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ScheduleEvent> GetEntityById(long ? scheduleEventId);

@@ -8,7 +8,7 @@ namespace lssWebApi2.CommentDomain
     {
 
         Task<Comment> MapToEntity(CommentView inputObject);
-        Task<List<Comment>> MapToEntity(List<CommentView> inputObjects);
+        Task<IList<Comment>> MapToEntity(IList<CommentView> inputObjects);
         Task<CommentView> MapToView(Comment inputObject);
         Task<NextNumber> GetNextNumber();
         Task<CommentView> GetViewById(long ? commentId);

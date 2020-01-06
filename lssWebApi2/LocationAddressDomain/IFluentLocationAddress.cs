@@ -14,7 +14,7 @@ public interface IFluentLocationAddress
         IFluentLocationAddress AddLocationAddress(LocationAddress locationAddress);
         IFluentLocationAddress UpdateLocationAddress(LocationAddress locationAddress);
         IFluentLocationAddress DeleteLocationAddress(LocationAddress locationAddress);
-     	IFluentLocationAddress UpdateLocationAddresses(List<LocationAddress> newObjects);
+     	IFluentLocationAddress UpdateLocationAddresses(IList<LocationAddress> newObjects);
         IFluentLocationAddress AddLocationAddresses(List<LocationAddress> newObjects);
         IFluentLocationAddress DeleteLocationAddresses(List<LocationAddress> deleteObjects);
         IFluentLocationAddress CreateLocationUsingCustomer(CustomerView customerView);

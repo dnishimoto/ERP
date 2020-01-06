@@ -15,7 +15,7 @@ namespace lssWebApi2.SupplierLedgerDomain
         IFluentSupplierLedger AddSupplierLedger(SupplierLedger supplierLedger);
         IFluentSupplierLedger UpdateSupplierLedger(SupplierLedger supplierLedger);
         IFluentSupplierLedger DeleteSupplierLedger(SupplierLedger supplierLedger);
-        IFluentSupplierLedger UpdateSupplierLedgers(List<SupplierLedger> newObjects);
+        IFluentSupplierLedger UpdateSupplierLedgers(IList<SupplierLedger> newObjects);
         IFluentSupplierLedger AddSupplierLedgers(List<SupplierLedger> newObjects);
         IFluentSupplierLedger DeleteSupplierLedgers(List<SupplierLedger> deleteObjects);
         IFluentSupplierLedger CreateSupplierLedgerWithGeneralLedgerView(GeneralLedgerView generalLedgerView);

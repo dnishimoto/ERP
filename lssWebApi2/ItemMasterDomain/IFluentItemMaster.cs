@@ -14,7 +14,7 @@ public interface IFluentItemMaster
         IFluentItemMaster AddItemMaster(ItemMaster itemMaster);
         IFluentItemMaster UpdateItemMaster(ItemMaster itemMaster);
         IFluentItemMaster DeleteItemMaster(ItemMaster itemMaster);
-     	IFluentItemMaster UpdateItemMasters(List<ItemMaster> newObjects);
+     	IFluentItemMaster UpdateItemMasters(IList<ItemMaster> newObjects);
         IFluentItemMaster AddItemMasters(List<ItemMaster> newObjects);
         IFluentItemMaster DeleteItemMasters(List<ItemMaster> deleteObjects);
         IFluentItemMaster CreateItemMaster(ItemMaster itemMaster);

@@ -26,9 +26,9 @@ public class FluentTimeAndAttendanceSetupQuery:MapperAbstract<TimeAndAttendanceS
             return outObject;
         }
 
-  public override async Task<List<TimeAndAttendanceSetup>> MapToEntity(List<TimeAndAttendanceSetupView> inputObjects)
+  public override async Task<IList<TimeAndAttendanceSetup>> MapToEntity(IList<TimeAndAttendanceSetupView> inputObjects)
         {
-            List<TimeAndAttendanceSetup> list = new List<TimeAndAttendanceSetup>();
+            IList<TimeAndAttendanceSetup> list = new List<TimeAndAttendanceSetup>();
             foreach (var item in inputObjects)
             {
                 TimeAndAttendanceSetup outObject = mapper.Map<TimeAndAttendanceSetup>(item);

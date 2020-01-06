@@ -23,9 +23,9 @@ namespace lssWebApi2.CustomerLedgerDomain
             return outObject;
         }
 
-        public override async Task<List<CustomerLedger>> MapToEntity(List<CustomerLedgerView> inputObjects)
+        public override async Task<IList<CustomerLedger>> MapToEntity(IList<CustomerLedgerView> inputObjects)
         {
-            List<CustomerLedger> list = new List<CustomerLedger>();
+            IList<CustomerLedger> list = new List<CustomerLedger>();
            
             foreach (var item in inputObjects)
             {

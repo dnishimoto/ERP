@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public interface IFluentProjectManagementTaskQuery
 {
     Task<ProjectManagementTask> MapToEntity(ProjectManagementTaskView inputObject);
-    Task<List<ProjectManagementTask>> MapToEntity(List<ProjectManagementTaskView> inputObjects);
+    Task<IList<ProjectManagementTask>> MapToEntity(IList<ProjectManagementTaskView> inputObjects);
     Task<ProjectManagementTaskView> MapToView(ProjectManagementTask inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ProjectManagementTask> GetEntityById(long? projectManagementTaskId);

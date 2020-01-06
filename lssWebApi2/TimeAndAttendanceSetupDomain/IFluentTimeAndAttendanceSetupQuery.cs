@@ -7,7 +7,7 @@ using lssWebApi2.TimeAndAttendanceSetupDomain;
 public interface IFluentTimeAndAttendanceSetupQuery
 {
     Task<TimeAndAttendanceSetup> MapToEntity(TimeAndAttendanceSetupView inputObject);
-    Task<List<TimeAndAttendanceSetup>> MapToEntity(List<TimeAndAttendanceSetupView> inputObjects);
+    Task<IList<TimeAndAttendanceSetup>> MapToEntity(IList<TimeAndAttendanceSetupView> inputObjects);
 
     Task<TimeAndAttendanceSetupView> MapToView(TimeAndAttendanceSetup inputObject);
     Task<NextNumber> GetNextNumber();

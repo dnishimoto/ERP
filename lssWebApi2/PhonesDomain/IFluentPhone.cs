@@ -13,7 +13,7 @@ public interface IFluentPhone
         IFluentPhone AddPhones(PhoneEntity phones);
         IFluentPhone UpdatePhones(PhoneEntity phones);
         IFluentPhone DeletePhones(PhoneEntity phones);
-     	IFluentPhone UpdatePhoness(List<PhoneEntity> newObjects);
+     	IFluentPhone UpdatePhoness(IList<PhoneEntity> newObjects);
         IFluentPhone AddPhoness(List<PhoneEntity> newObjects);
         IFluentPhone DeletePhoness(List<PhoneEntity> deleteObjects);
     }

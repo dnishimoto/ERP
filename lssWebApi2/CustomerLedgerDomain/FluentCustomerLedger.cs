@@ -98,7 +98,7 @@ public class FluentCustomerLedger :IFluentCustomerLedger
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentCustomerLedger;
         }
-        public IFluentCustomerLedger UpdateCustomerLedgers(List<CustomerLedger> newObjects)
+        public IFluentCustomerLedger UpdateCustomerLedgers(IList<CustomerLedger> newObjects)
         {
             foreach (var item in newObjects)
             {

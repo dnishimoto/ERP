@@ -32,9 +32,9 @@ namespace lssWebApi2.TimeAndAttendanceShiftDomain
             return outObject;
         }
 
-        public override async Task<List<TimeAndAttendanceShift>> MapToEntity(List<TimeAndAttendanceShiftView> inputObjects)
+        public override async Task<IList<TimeAndAttendanceShift>> MapToEntity(IList<TimeAndAttendanceShiftView> inputObjects)
         {
-            List<TimeAndAttendanceShift> list = new List<TimeAndAttendanceShift>();
+            IList<TimeAndAttendanceShift> list = new List<TimeAndAttendanceShift>();
             foreach (var item in inputObjects)
             {
                 TimeAndAttendanceShift outObject = mapper.Map<TimeAndAttendanceShift>(item);

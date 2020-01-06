@@ -21,9 +21,9 @@ public class FluentPayRollDeductionLiabilitiesQuery:IFluentPayRollDeductionLiabi
             return outObject;
         }
 
-  public async Task<List<PayRollDeductionLiabilities>> MapToEntity(List<PayRollDeductionLiabilitiesView> inputObjects)
+  public async Task<IList<PayRollDeductionLiabilities>> MapToEntity(IList<PayRollDeductionLiabilitiesView> inputObjects)
         {
-            List<PayRollDeductionLiabilities> list = new List<PayRollDeductionLiabilities>();
+            IList<PayRollDeductionLiabilities> list = new List<PayRollDeductionLiabilities>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

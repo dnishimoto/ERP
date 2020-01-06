@@ -12,7 +12,7 @@ namespace lssWebApi2.BudgetRangeDomain
     {
         Task<BudgetRangeView> GetBudgetRange(long? accountId, DateTime? startDate, DateTime? endDate);
         Task<BudgetRange> MapToEntity(BudgetRangeView inputObject);
-        Task<List<BudgetRange>> MapToEntity(List<BudgetRangeView> inputObjects);
+        Task<IList<BudgetRange>> MapToEntity(IList<BudgetRangeView> inputObjects);
         Task<BudgetRangeView> MapToView(BudgetRange inputObject);
         Task<NextNumber> GetNextNumber();
         Task<BudgetRange> GetEntityById(long ? budgetRangeId);

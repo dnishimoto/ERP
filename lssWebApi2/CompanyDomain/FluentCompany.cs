@@ -33,7 +33,7 @@ public class FluentCompany :IFluentCompany
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentCompany;
         }
-        public IFluentCompany UpdateCompanys(List<Company> newObjects)
+        public IFluentCompany UpdateCompanys(IList<Company> newObjects)
         {
             foreach (var item in newObjects)
             {

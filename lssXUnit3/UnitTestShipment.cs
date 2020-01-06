@@ -108,7 +108,7 @@ namespace lssXUnit3
                 item.SalesOrderDetailNumber = nn.NextNumberValue;
             }
 
-            List<SalesOrderDetail> salesOrderDetails = await salesOrderMod.SalesOrderDetail.Query().MapToEntity(detailViews);
+            List<SalesOrderDetail> salesOrderDetails = (await salesOrderMod.SalesOrderDetail.Query().MapToEntity(detailViews)).ToList<SalesOrderDetail>();
 
             salesOrderMod.SalesOrderDetail.AddSalesOrderDetails(salesOrderDetails).Apply();
 
@@ -192,7 +192,7 @@ namespace lssXUnit3
 
             IList<SalesOrderDetailView> solistDetailViews = await salesOrderMod.SalesOrderDetail.Query().GetDetailViewsBySalesOrderId(newSalesOrder.SalesOrderId);
 
-            Assert.True(soListDetails.Any(m => m.Description.Contains("Updated")));
+            if (solistDetailViews.ToList<SalesOrderDetailView>().Any(m => m.Description.Contains("Updated")) == false) { Assert.True(false); }
 
             salesOrderMod.SalesOrderDetail.DeleteSalesOrderDetails(soListDetails).Apply();
 

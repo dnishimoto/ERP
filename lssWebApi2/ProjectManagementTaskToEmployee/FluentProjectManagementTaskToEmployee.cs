@@ -33,7 +33,7 @@ public class FluentProjectManagementTaskToEmployee :IFluentProjectManagementTask
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentProjectManagementTaskToEmployee;
         }
-        public IFluentProjectManagementTaskToEmployee UpdateProjectManagementTaskToEmployees(List<ProjectManagementTaskToEmployee> newObjects)
+        public IFluentProjectManagementTaskToEmployee UpdateProjectManagementTaskToEmployees(IList<ProjectManagementTaskToEmployee> newObjects)
         {
             foreach (var item in newObjects)
             {

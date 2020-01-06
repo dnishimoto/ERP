@@ -23,9 +23,9 @@ public class FluentSupplierInvoiceDetailQuery:MapperAbstract<SupplierInvoiceDeta
             return outObject;
         }
 
-  public override async Task<List<SupplierInvoiceDetail>> MapToEntity(List<SupplierInvoiceDetailView> inputObjects)
+  public override async Task<IList<SupplierInvoiceDetail>> MapToEntity(IList<SupplierInvoiceDetailView> inputObjects)
         {
-            List<SupplierInvoiceDetail> list = new List<SupplierInvoiceDetail>();
+            IList<SupplierInvoiceDetail> list = new List<SupplierInvoiceDetail>();
 
             foreach (var item in inputObjects)
             {

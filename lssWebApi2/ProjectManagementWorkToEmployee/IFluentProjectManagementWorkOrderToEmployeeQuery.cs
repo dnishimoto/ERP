@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentProjectManagementWorkOrderToEmployeeQuery
 {
     Task<ProjectManagementWorkOrderToEmployee> MapToEntity(ProjectManagementWorkOrderToEmployeeView inputObject);
-    Task<List<ProjectManagementWorkOrderToEmployee>> MapToEntity(List<ProjectManagementWorkOrderToEmployeeView> inputObjects);
+    Task<IList<ProjectManagementWorkOrderToEmployee>> MapToEntity(IList<ProjectManagementWorkOrderToEmployeeView> inputObjects);
     Task<ProjectManagementWorkOrderToEmployeeView> MapToView(ProjectManagementWorkOrderToEmployee inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ProjectManagementWorkOrderToEmployee> GetEntityById(long? projectManagementWorkOrderToEmployeeId);

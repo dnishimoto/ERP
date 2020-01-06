@@ -28,9 +28,9 @@ namespace lssWebApi2.ProjectManagementDomain
             return outObject;
         }
 
-        public override async Task<List<ProjectManagementProject>> MapToEntity(List<ProjectManagementProjectView> inputObjects)
+        public override async Task<IList<ProjectManagementProject>> MapToEntity(IList<ProjectManagementProjectView> inputObjects)
         {
-            List<ProjectManagementProject> list = new List<ProjectManagementProject>();
+            IList<ProjectManagementProject> list = new List<ProjectManagementProject>();
 
             foreach (var item in inputObjects)
             {

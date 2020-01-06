@@ -32,7 +32,7 @@ public class FluentScheduleEvent :IFluentScheduleEvent
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentScheduleEvent;
         }
-        public IFluentScheduleEvent UpdateScheduleEvents(List<ScheduleEvent> newObjects)
+        public IFluentScheduleEvent UpdateScheduleEvents(IList<ScheduleEvent> newObjects)
         {
             foreach (var item in newObjects)
             {

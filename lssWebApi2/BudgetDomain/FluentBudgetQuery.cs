@@ -53,9 +53,9 @@ namespace lssWebApi2.BudgetDomain
             return outObject;
         }
 
-        public override async Task<List<Budget>> MapToEntity(List<BudgetView> inputObjects)
+        public override async Task<IList<Budget>> MapToEntity(IList<BudgetView> inputObjects)
         {
-            List<Budget> list = new List<Budget>();
+            IList<Budget> list = new List<Budget>();
             foreach (var item in inputObjects)
             {
                 Budget outObject = mapper.Map<Budget>(item);

@@ -20,7 +20,7 @@ namespace lssWebApi2.Interfaces
         Task<IList<IncomeView>> GetIncomeViews();
         Task<IList<IncomeStatementView>> GetIncomeStatementViews(long fiscalYear);
         Task<GeneralLedger> MapToEntity(GeneralLedgerView inputObject);
-        Task<List<GeneralLedger>> MapToEntity(List<GeneralLedgerView> inputObjects);
+        Task<IList<GeneralLedger>> MapToEntity(IList<GeneralLedgerView> inputObjects);
         Task<GeneralLedgerView> MapToView(GeneralLedger inputObject);
         Task<PageListViewContainer<GeneralLedgerView>> GetViewsByPage(Expression<Func<GeneralLedger, bool>> predicate, Expression<Func<GeneralLedger, object>> order, int pageSize, int pageNumber);
     }

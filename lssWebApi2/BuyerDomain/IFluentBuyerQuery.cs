@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentBuyerQuery
 {
     Task<Buyer> MapToEntity(BuyerView inputObject);
-    Task<List<Buyer>> MapToEntity(List<BuyerView> inputObjects);
+    Task<IList<Buyer>> MapToEntity(IList<BuyerView> inputObjects);
     Task<BuyerView> MapToView(Buyer inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Buyer> GetEntityById(long ? buyerId);

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentSupplierLedgerQuery
 {
         Task<SupplierLedger> MapToEntity(SupplierLedgerView inputObject);
-        Task<List<SupplierLedger>> MapToEntity(List<SupplierLedgerView> inputObjects);
+        Task<IList<SupplierLedger>> MapToEntity(IList<SupplierLedgerView> inputObjects);
     
         Task<SupplierLedgerView> MapToView(SupplierLedger inputObject);
         Task<NextNumber> GetNextNumber();

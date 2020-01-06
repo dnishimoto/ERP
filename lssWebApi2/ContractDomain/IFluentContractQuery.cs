@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentContractQuery
 {
     Task<Contract> MapToEntity(ContractView inputObject);
-    Task<List<Contract>> MapToEntity(List<ContractView> inputObjects);
+    Task<IList<Contract>> MapToEntity(IList<ContractView> inputObjects);
     Task<ContractView> MapToView(Contract inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Contract> GetEntityById(long ? contractId);

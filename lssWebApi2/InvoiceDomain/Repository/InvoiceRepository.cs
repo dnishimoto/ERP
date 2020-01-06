@@ -36,6 +36,7 @@ namespace lssWebApi2.InvoicesDomain
         public long InvoiceNumber { get; set; }
         public long? PurchaseOrderId { get; set; }
         public long? SupplierId { get; set; }
+
         public IList<InvoiceDetailView> InvoiceDetailViews { get; set; }
 
         public string SupplierName { get; set; }

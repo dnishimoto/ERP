@@ -42,9 +42,9 @@ namespace lssWebApi2.FluentAPI
             return outObject;
         }
 
-        public override async Task<List<GeneralLedger>> MapToEntity(List<GeneralLedgerView> inputObjects)
+        public override async Task<IList<GeneralLedger>> MapToEntity(IList<GeneralLedgerView> inputObjects)
         {
-            List<GeneralLedger> list = new List<GeneralLedger>();
+            IList<GeneralLedger> list = new List<GeneralLedger>();
        
             foreach (var item in inputObjects)
             {

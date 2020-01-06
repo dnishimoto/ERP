@@ -16,6 +16,6 @@ namespace lssWebApi2.InventoryDomain
         Task<InventoryView> MapToView(Inventory inputObject);
         Task<Inventory> GetInventoryByNumber(long inventoryNumber);
         Task<InventoryView> GetInventoryViewByNumber(long inventoryNumber);
-        Task<List<Inventory>> MapToEntity(List<InventoryView> inputObjects);
+        Task<IList<Inventory>> MapToEntity(IList<InventoryView> inputObjects);
     }
 }

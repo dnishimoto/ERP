@@ -14,7 +14,7 @@ namespace lssWebApi2.SupplierDomain
         IFluentSupplier AddSupplier(Supplier supplier);
         IFluentSupplier UpdateSupplier(Supplier supplier);
         IFluentSupplier DeleteSupplier(Supplier supplier);
-        IFluentSupplier UpdateSuppliers(List<Supplier> newObjects);
+        IFluentSupplier UpdateSuppliers(IList<Supplier> newObjects);
         IFluentSupplier AddSuppliers(List<Supplier> newObjects);
         IFluentSupplier DeleteSuppliers(List<Supplier> deleteObjects);
         IFluentSupplier CreateSupplier(Supplier supplier);

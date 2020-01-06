@@ -21,7 +21,7 @@ public class FluentBuyerQuery:MapperAbstract<Buyer, BuyerView>,IFluentBuyerQuery
             return outObject;
         }
 
-  public override async Task<List<Buyer>> MapToEntity(List<BuyerView> inputObjects)
+  public override async Task<IList<Buyer>> MapToEntity(IList<BuyerView> inputObjects)
         {
             List<Buyer> list = new List<Buyer>();
             foreach (var item in inputObjects)

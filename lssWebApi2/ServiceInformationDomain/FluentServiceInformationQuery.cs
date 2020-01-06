@@ -23,9 +23,9 @@ public class FluentServiceInformationQuery:MapperAbstract<ServiceInformation,Ser
             return outObject;
         }
 
-  public override async Task<List<ServiceInformation>> MapToEntity(List<ServiceInformationView> inputObjects)
+  public override async Task<IList<ServiceInformation>> MapToEntity(IList<ServiceInformationView> inputObjects)
         {
-            List<ServiceInformation> list = new List<ServiceInformation>();
+            IList<ServiceInformation> list = new List<ServiceInformation>();
             foreach (var item in inputObjects)
             {
                 ServiceInformation outObject = mapper.Map<ServiceInformation>(item);

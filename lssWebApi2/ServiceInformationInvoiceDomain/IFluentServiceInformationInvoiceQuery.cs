@@ -9,7 +9,7 @@ using lssWebApi2.ServiceInformationInvoiceDomain;
 public interface IFluentServiceInformationInvoiceQuery
 {
     Task<ServiceInformationInvoice> MapToEntity(ServiceInformationInvoiceView inputObject);
-    Task<List<ServiceInformationInvoice>> MapToEntity(List<ServiceInformationInvoiceView> inputObjects);
+    Task<IList<ServiceInformationInvoice>> MapToEntity(IList<ServiceInformationInvoiceView> inputObjects);
     Task<ServiceInformationInvoiceView> MapToView(ServiceInformationInvoice inputObject);
     Task<NextNumber> GetNextNumber();
     Task<ServiceInformationInvoice> GetEntityById(long? serviceInformationInvoiceId);

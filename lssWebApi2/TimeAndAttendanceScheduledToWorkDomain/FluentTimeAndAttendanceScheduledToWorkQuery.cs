@@ -32,7 +32,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduledToWorkDomain
             return outObject;
         }
 
-        public override async Task<List<TimeAndAttendanceScheduledToWork>> MapToEntity(List<TimeAndAttendanceScheduledToWorkView> inputObjects)
+        public override async Task<IList<TimeAndAttendanceScheduledToWork>> MapToEntity(IList<TimeAndAttendanceScheduledToWorkView> inputObjects)
         {
             mapper.dictSpecialMapping.Clear();
 

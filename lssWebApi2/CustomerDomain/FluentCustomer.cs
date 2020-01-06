@@ -50,7 +50,7 @@ public class FluentCustomer :IFluentCustomer
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentCustomer;
         }
-        public IFluentCustomer UpdateCustomers(List<Customer> newObjects)
+        public IFluentCustomer UpdateCustomers(IList<Customer> newObjects)
         {
             foreach (var item in newObjects)
             {

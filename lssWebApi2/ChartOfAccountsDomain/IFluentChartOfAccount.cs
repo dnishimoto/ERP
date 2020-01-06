@@ -32,7 +32,7 @@ namespace lssWebApi2.ChartOfAccountsDomain
         Task<bool> CreateRevenue();
         Task<bool> CreateCapital();
         IFluentChartOfAccount AddChartOfAccounts(List<ChartOfAccount> newObjects);
-        IFluentChartOfAccount UpdateChartOfAccounts(List<ChartOfAccount> newObjects);
+        IFluentChartOfAccount UpdateChartOfAccounts(IList<ChartOfAccount> newObjects);
         IFluentChartOfAccount AddChartOfAccount(ChartOfAccount newObject);
         IFluentChartOfAccount UpdateChartOfAccount(ChartOfAccount updateObject);
         IFluentChartOfAccount DeleteChartOfAccount(ChartOfAccount deleteObject);

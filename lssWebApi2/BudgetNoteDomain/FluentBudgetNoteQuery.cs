@@ -22,9 +22,9 @@ namespace lssWebApi2.BudgetNoteDomain
             return outObject;
         }
 
-        public override async Task<List<BudgetNote>> MapToEntity(List<BudgetNoteView> inputObjects)
+        public override async Task<IList<BudgetNote>> MapToEntity(IList<BudgetNoteView> inputObjects)
         {
-            List<BudgetNote> list = new List<BudgetNote>();
+            IList<BudgetNote> list = new List<BudgetNote>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

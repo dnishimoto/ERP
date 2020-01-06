@@ -13,7 +13,7 @@ public interface IFluentPayRollCurrentPaySequence
         IFluentPayRollCurrentPaySequence AddPayRollCurrentPaySequence(PayRollCurrentPaySequence payRollCurrentPaySequence);
         IFluentPayRollCurrentPaySequence UpdatePayRollCurrentPaySequence(PayRollCurrentPaySequence payRollCurrentPaySequence);
         IFluentPayRollCurrentPaySequence DeletePayRollCurrentPaySequence(PayRollCurrentPaySequence payRollCurrentPaySequence);
-     	IFluentPayRollCurrentPaySequence UpdatePayRollCurrentPaySequences(List<PayRollCurrentPaySequence> newObjects);
+     	IFluentPayRollCurrentPaySequence UpdatePayRollCurrentPaySequences(IList<PayRollCurrentPaySequence> newObjects);
         IFluentPayRollCurrentPaySequence AddPayRollCurrentPaySequences(List<PayRollCurrentPaySequence> newObjects);
         IFluentPayRollCurrentPaySequence DeletePayRollCurrentPaySequences(List<PayRollCurrentPaySequence> deleteObjects);
     }

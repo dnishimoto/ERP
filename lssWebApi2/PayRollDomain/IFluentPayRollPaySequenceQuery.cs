@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 public interface IFluentPayRollPaySequenceQuery
 {
     Task<PayRollPaySequence> MapToEntity(PayRollPaySequenceView inputObject);
-    Task<List<PayRollPaySequence>> MapToEntity(List<PayRollPaySequenceView> inputObjects);
+    Task<IList<PayRollPaySequence>> MapToEntity(IList<PayRollPaySequenceView> inputObjects);
 
     Task<PayRollPaySequenceView> MapToView(PayRollPaySequence inputObject);
     Task<NextNumber> GetNextNumber();

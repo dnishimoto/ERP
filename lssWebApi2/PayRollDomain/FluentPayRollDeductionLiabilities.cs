@@ -32,7 +32,7 @@ public class FluentPayRollDeductionLiabilities :IFluentPayRollDeductionLiabiliti
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentPayRollDeductionLiabilities;
         }
-        public IFluentPayRollDeductionLiabilities UpdatePayRollDeductionLiabilitiess(List<PayRollDeductionLiabilities> newObjects)
+        public IFluentPayRollDeductionLiabilities UpdatePayRollDeductionLiabilitiess(IList<PayRollDeductionLiabilities> newObjects)
         {
             foreach (var item in newObjects)
             {

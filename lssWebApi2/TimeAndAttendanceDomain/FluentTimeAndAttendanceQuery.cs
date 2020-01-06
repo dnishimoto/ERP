@@ -75,9 +75,9 @@ namespace lssWebApi2.TimeAndAttendanceDomain
             return outObject;
         }
 
-        public override async Task<List<TimeAndAttendancePunchIn>> MapToEntity(List<TimeAndAttendancePunchInView> inputObjects)
+        public override async Task<IList<TimeAndAttendancePunchIn>> MapToEntity(IList<TimeAndAttendancePunchInView> inputObjects)
         {
-            List<TimeAndAttendancePunchIn> list = new List<TimeAndAttendancePunchIn>();
+            IList<TimeAndAttendancePunchIn> list = new List<TimeAndAttendancePunchIn>();
 
             foreach (var item in inputObjects)
             {

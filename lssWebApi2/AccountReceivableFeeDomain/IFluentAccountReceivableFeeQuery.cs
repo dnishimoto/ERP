@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentAccountReceivableFeeQuery
 {
     Task<AccountReceivableFee> MapToEntity(AccountReceivableFeeView inputObject);
-    Task<List<AccountReceivableFee>> MapToEntity(List<AccountReceivableFeeView> inputObjects);
+    Task<IList<AccountReceivableFee>> MapToEntity(IList<AccountReceivableFeeView> inputObjects);
     Task<AccountReceivableFeeView> MapToView(AccountReceivableFee inputObject);
     Task<NextNumber> GetNextNumber();
     Task<AccountReceivableFee> GetEntityById(long ? accountReceivableFeeId);

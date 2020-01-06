@@ -7,7 +7,7 @@ namespace lssWebApi2.TaxRatesByCodeDomain
     public interface IFluentTaxRatesByCodeQuery
     {
         Task<TaxRatesByCode> MapToEntity(TaxRatesByCodeView inputObject);
-        Task<List<TaxRatesByCode>> MapToEntity(List<TaxRatesByCodeView> inputObjects);
+        Task<IList<TaxRatesByCode>> MapToEntity(IList<TaxRatesByCodeView> inputObjects);
 
         Task<TaxRatesByCodeView> MapToView(TaxRatesByCode inputObject);
         Task<NextNumber> GetNextNumber();

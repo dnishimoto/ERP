@@ -33,7 +33,7 @@ public class FluentProjectManagementWorkOrder :IFluentProjectManagementWorkOrder
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentProjectManagementWorkOrder;
         }
-        public IFluentProjectManagementWorkOrder UpdateProjectManagementWorkOrders(List<ProjectManagementWorkOrder> newObjects)
+        public IFluentProjectManagementWorkOrder UpdateProjectManagementWorkOrders(IList<ProjectManagementWorkOrder> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -13,7 +13,7 @@ namespace lssWebApi2.SalesOrderDetailDomain
         IFluentSalesOrderDetail AddSalesOrderDetail(SalesOrderDetail salesOrderDetail);
         IFluentSalesOrderDetail UpdateSalesOrderDetail(SalesOrderDetail salesOrderDetail);
         IFluentSalesOrderDetail DeleteSalesOrderDetail(SalesOrderDetail salesOrderDetail);
-        IFluentSalesOrderDetail UpdateSalesOrderDetails(List<SalesOrderDetail> newObjects);
+        IFluentSalesOrderDetail UpdateSalesOrderDetails(IList<SalesOrderDetail> newObjects);
         IFluentSalesOrderDetail AddSalesOrderDetails(List<SalesOrderDetail> newObjects);
         IFluentSalesOrderDetail DeleteSalesOrderDetails(List<SalesOrderDetail> deleteObjects);
         IFluentSalesOrderDetail UpdateSalesOrderDetailByShipmentsDetail(IEnumerable<ShipmentDetail> shipmentsDetails);

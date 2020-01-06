@@ -13,7 +13,7 @@ public interface IFluentCarrier
         IFluentCarrier AddCarrier(Carrier carrier);
         IFluentCarrier UpdateCarrier(Carrier carrier);
         IFluentCarrier DeleteCarrier(Carrier carrier);
-     	IFluentCarrier UpdateCarriers(List<Carrier> newObjects);
+     	IFluentCarrier UpdateCarriers(IList<Carrier> newObjects);
         IFluentCarrier AddCarriers(List<Carrier> newObjects);
         IFluentCarrier DeleteCarriers(List<Carrier> deleteObjects);
     }

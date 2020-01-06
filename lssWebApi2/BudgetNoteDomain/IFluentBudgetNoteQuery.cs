@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentBudgetNoteQuery
 {
     Task<BudgetNote> MapToEntity(BudgetNoteView inputObject);
-    Task<List<BudgetNote>> MapToEntity(List<BudgetNoteView> inputObjects);
+    Task<IList<BudgetNote>> MapToEntity(IList<BudgetNoteView> inputObjects);
     Task<BudgetNoteView> MapToView(BudgetNote inputObject);
     Task<NextNumber> GetNextNumber();
     Task<BudgetNote> GetEntityById(long ? budgetNoteId);

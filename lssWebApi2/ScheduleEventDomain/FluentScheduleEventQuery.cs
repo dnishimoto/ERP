@@ -24,9 +24,9 @@ namespace lssWebApi2.ScheduleEventDomain
             return outObject;
         }
 
-        public override async Task<List<ScheduleEvent>> MapToEntity(List<ScheduleEventView> inputObjects)
+        public override async Task<IList<ScheduleEvent>> MapToEntity(IList<ScheduleEventView> inputObjects)
         {
-            List<ScheduleEvent> list = new List<ScheduleEvent>();
+            IList<ScheduleEvent> list = new List<ScheduleEvent>();
 
             foreach (var item in inputObjects)
             {

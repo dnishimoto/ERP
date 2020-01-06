@@ -23,9 +23,9 @@ namespace lssWebApi2.ProjectManagementTaskToEmployeeDomain
             return outObject;
         }
 
-        public override async Task<List<ProjectManagementTaskToEmployee>> MapToEntity(List<ProjectManagementTaskToEmployeeView> inputObjects)
+        public override async Task<IList<ProjectManagementTaskToEmployee>> MapToEntity(IList<ProjectManagementTaskToEmployeeView> inputObjects)
         {
-            List<ProjectManagementTaskToEmployee> list = new List<ProjectManagementTaskToEmployee>();
+            IList<ProjectManagementTaskToEmployee> list = new List<ProjectManagementTaskToEmployee>();
             foreach (var item in inputObjects)
             {
                 ProjectManagementTaskToEmployee outObject = mapper.Map<ProjectManagementTaskToEmployee>(item);

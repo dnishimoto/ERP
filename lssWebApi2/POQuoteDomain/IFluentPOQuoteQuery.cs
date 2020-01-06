@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentPOQuoteQuery
 {
     Task<Poquote> MapToEntity(POQuoteView inputObject);
-    Task<List<Poquote>> MapToEntity(List<POQuoteView> inputObjects);
+    Task<IList<Poquote>> MapToEntity(IList<POQuoteView> inputObjects);
     Task<POQuoteView> MapToView(Poquote inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Poquote> GetEntityById(long  ? poQuoteId);

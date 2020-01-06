@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentEmailQuery
 {
     Task<EmailEntity> MapToEntity(EmailEntityView inputObject);
-    Task<List<EmailEntity>> MapToEntity(List<EmailEntityView> inputObjects);
+    Task<IList<EmailEntity>> MapToEntity(IList<EmailEntityView> inputObjects);
     Task<EmailEntityView> MapToView(EmailEntity inputObject);
     Task<NextNumber> GetNextNumber();
     Task<EmailEntity> GetEntityById(long ? emailId);

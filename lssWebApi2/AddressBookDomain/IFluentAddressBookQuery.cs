@@ -19,7 +19,7 @@ namespace lssWebApi2.Interfaces
         Task<long> GetAddressIdByCustomerId(long? customerId);
         Task<AddressBook> GetAddressBookbyEmail(string email);
         Task<AddressBook> MapToEntity(AddressBookView inputObject);
-        Task<List<AddressBook>> MapToEntity(List<AddressBookView> inputObjects);
+        Task<IList<AddressBook>> MapToEntity(IList<AddressBookView> inputObjects);
         Task<AddressBookView> MapToView(AddressBook inputObject);
         Task<PageListViewContainer<AddressBookView>> GetViewsByPage(Expression<Func<AddressBook, bool>> predicate, Expression<Func<AddressBook, object>> order, int pageSize, int pageNumber);
     }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 public interface IFluentCompanyQuery
 {
     Task<Company> MapToEntity(CompanyView inputObject);
-    Task<List<Company>> MapToEntity(List<CompanyView> inputObjects);
+    Task<IList<Company>> MapToEntity(IList<CompanyView> inputObjects);
     Task<CompanyView> MapToView(Company inputObject);
     Task<NextNumber> GetNextNumber();
     Task<Company> GetEntityById(long  ? companyId);

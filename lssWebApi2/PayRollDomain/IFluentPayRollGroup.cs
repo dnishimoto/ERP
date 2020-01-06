@@ -13,7 +13,7 @@ public interface IFluentPayRollGroup
         IFluentPayRollGroup AddPayRollGroup(PayRollGroup payRollGroup);
         IFluentPayRollGroup UpdatePayRollGroup(PayRollGroup payRollGroup);
         IFluentPayRollGroup DeletePayRollGroup(PayRollGroup payRollGroup);
-     	IFluentPayRollGroup UpdatePayRollGroups(List<PayRollGroup> newObjects);
+     	IFluentPayRollGroup UpdatePayRollGroups(IList<PayRollGroup> newObjects);
         IFluentPayRollGroup AddPayRollGroups(List<PayRollGroup> newObjects);
         IFluentPayRollGroup DeletePayRollGroups(List<PayRollGroup> deleteObjects);
     }

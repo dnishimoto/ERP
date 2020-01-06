@@ -109,7 +109,7 @@ namespace lssWebApi2.FluentAPI
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentInvoice;
         }
-        public IFluentInvoice UpdateInvoice(List<Invoice> newObjects)
+        public IFluentInvoice UpdateInvoice(IList<Invoice> newObjects)
         {
             foreach (var item in newObjects)
             {

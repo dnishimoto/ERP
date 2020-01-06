@@ -22,9 +22,9 @@ public class FluentLocationAddressQuery:MapperAbstract<LocationAddress,LocationA
             return outObject;
         }
 
-  public override async Task<List<LocationAddress>> MapToEntity(List<LocationAddressView> inputObjects)
+  public override async Task<IList<LocationAddress>> MapToEntity(IList<LocationAddressView> inputObjects)
         {
-            List<LocationAddress> list = new List<LocationAddress>();
+            IList<LocationAddress> list = new List<LocationAddress>();
            
             foreach (var item in inputObjects)
             {

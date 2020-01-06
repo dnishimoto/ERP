@@ -14,7 +14,7 @@ public interface IFluentEmail
         IFluentEmail AddEmail(EmailEntity email);
         IFluentEmail UpdateEmail(EmailEntity email);
         IFluentEmail DeleteEmail(EmailEntity email);
-     	IFluentEmail UpdateEmailsByList(List<EmailEntity> newObjects);
+     	IFluentEmail UpdateEmailsByList(IList<EmailEntity> newObjects);
         IFluentEmail AddEmailsByList(List<EmailEntity> newObjects);
         IFluentEmail DeleteEmailsByList(List<EmailEntity> deleteObjects);
         IFluentEmail CreateCustomerEmail(CustomerView customerView);

@@ -23,9 +23,9 @@ namespace lssWebApi2.CustomerDomain
             return outObject;
         }
 
-        public override async Task<List<Customer>> MapToEntity(List<CustomerView> inputObjects)
+        public override async Task<IList<Customer>> MapToEntity(IList<CustomerView> inputObjects)
         {
-            List<Customer> list = new List<Customer>();
+            IList<Customer> list = new List<Customer>();
          
             foreach (var item in inputObjects)
             {

@@ -21,7 +21,7 @@ namespace lssWebApi2.AccountReceivableDomain
             return outObject;
         }
 
-        public override async Task<List<AccountReceivableFee>> MapToEntity(List<AccountReceivableFeeView> inputObjects)
+        public override async Task<IList<AccountReceivableFee>> MapToEntity(IList<AccountReceivableFeeView> inputObjects)
         {
             List<AccountReceivableFee> list = new List<AccountReceivableFee>();
             foreach (var item in inputObjects)

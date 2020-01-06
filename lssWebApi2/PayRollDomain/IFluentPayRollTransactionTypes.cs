@@ -13,7 +13,7 @@ public interface IFluentPayRollTransactionTypes
         IFluentPayRollTransactionTypes AddPayRollTransactionTypes(PayRollTransactionTypes payRollTransactionTypes);
         IFluentPayRollTransactionTypes UpdatePayRollTransactionTypes(PayRollTransactionTypes payRollTransactionTypes);
         IFluentPayRollTransactionTypes DeletePayRollTransactionTypes(PayRollTransactionTypes payRollTransactionTypes);
-     	IFluentPayRollTransactionTypes UpdatePayRollTransactionTypess(List<PayRollTransactionTypes> newObjects);
+     	IFluentPayRollTransactionTypes UpdatePayRollTransactionTypess(IList<PayRollTransactionTypes> newObjects);
         IFluentPayRollTransactionTypes AddPayRollTransactionTypess(List<PayRollTransactionTypes> newObjects);
         IFluentPayRollTransactionTypes DeletePayRollTransactionTypess(List<PayRollTransactionTypes> deleteObjects);
     }

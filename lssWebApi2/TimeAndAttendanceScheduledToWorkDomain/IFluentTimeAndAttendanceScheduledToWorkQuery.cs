@@ -10,7 +10,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduledToWorkDomain
     public interface IFluentTimeAndAttendanceScheduledToWorkQuery
     {
         Task<TimeAndAttendanceScheduledToWork> MapToEntity(TimeAndAttendanceScheduledToWorkView inputObject);
-        Task<List<TimeAndAttendanceScheduledToWork>> MapToEntity(List<TimeAndAttendanceScheduledToWorkView> inputObjects);
+        Task<IList<TimeAndAttendanceScheduledToWork>> MapToEntity(IList<TimeAndAttendanceScheduledToWorkView> inputObjects);
         Task<TimeAndAttendanceScheduledToWorkView> MapToView(TimeAndAttendanceScheduledToWork inputObject);
         Task<TimeAndAttendanceScheduledToWorkView> GetViewById(long? scheduledToWorkId);
         Task<TimeAndAttendanceScheduledToWork> GetEntityById(long? scheduledToWorkId);

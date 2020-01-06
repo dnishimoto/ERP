@@ -22,9 +22,9 @@ namespace lssWebApi2.AccountPayableDomain
             return outObject;
         }
 
-        public override async Task<List<AccountPayable>> MapToEntity(List<AccountPayableView> inputObjects)
+        public override async Task<IList<AccountPayable>> MapToEntity(IList<AccountPayableView> inputObjects)
         {
-            List<AccountPayable> list = new List<AccountPayable>();
+            IList<AccountPayable> list = new List<AccountPayable>();
 
             foreach (var item in inputObjects)
             {

@@ -25,10 +25,10 @@ namespace lssWebApi2.ChartOfAccountsDomain
             return outObject;
         }
 
-        public override async Task<List<ChartOfAccount>> MapToEntity(List<ChartOfAccountView> inputObjects)
+        public override async Task<IList<ChartOfAccount>> MapToEntity(IList<ChartOfAccountView> inputObjects)
         {
             
-            List<ChartOfAccount> list = new List<ChartOfAccount>();
+            IList<ChartOfAccount> list = new List<ChartOfAccount>();
   
             foreach (var item in inputObjects)
             {

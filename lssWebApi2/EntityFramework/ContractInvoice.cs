@@ -9,6 +9,6 @@ namespace lssWebApi2.EntityFramework
         public long ContractInvoiceId { get; set; }
         public long ContractId { get; set; }
         public long InvoiceId { get; set; }
-
+        public long ContractInvoiceNumber { get; set; }
     }
 }

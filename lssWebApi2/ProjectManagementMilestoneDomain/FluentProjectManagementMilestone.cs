@@ -33,7 +33,7 @@ public class FluentProjectManagementMilestone :IFluentProjectManagementMilestone
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentProjectManagementMilestone;
         }
-        public IFluentProjectManagementMilestone UpdateProjectManagementMilestones(List<ProjectManagementMilestone> newObjects)
+        public IFluentProjectManagementMilestone UpdateProjectManagementMilestones(IList<ProjectManagementMilestone> newObjects)
         {
             foreach (var item in newObjects)
             {

@@ -14,7 +14,7 @@ public interface IFluentTimeAndAttendanceShift
         IFluentTimeAndAttendanceShift AddTimeAndAttendanceShift(TimeAndAttendanceShift timeAndAttendanceShift);
         IFluentTimeAndAttendanceShift UpdateTimeAndAttendanceShift(TimeAndAttendanceShift timeAndAttendanceShift);
         IFluentTimeAndAttendanceShift DeleteTimeAndAttendanceShift(TimeAndAttendanceShift timeAndAttendanceShift);
-     	IFluentTimeAndAttendanceShift UpdateTimeAndAttendanceShifts(List<TimeAndAttendanceShift> newObjects);
+     	IFluentTimeAndAttendanceShift UpdateTimeAndAttendanceShifts(IList<TimeAndAttendanceShift> newObjects);
         IFluentTimeAndAttendanceShift AddTimeAndAttendanceShifts(List<TimeAndAttendanceShift> newObjects);
         IFluentTimeAndAttendanceShift DeleteTimeAndAttendanceShifts(List<TimeAndAttendanceShift> deleteObjects);
     }

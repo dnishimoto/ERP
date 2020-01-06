@@ -34,9 +34,9 @@ namespace lssWebApi2.InventoryDomain
             await Task.Yield();
             return assets;
         }
-        public override async Task<List<Asset>> MapToEntity(List<AssetView> inputObjects)
+        public override async Task<IList<Asset>> MapToEntity(IList<AssetView> inputObjects)
         {
-            List<Asset> list = new List<Asset>();
+            IList<Asset> list = new List<Asset>();
             Mapper mapper = new Mapper();
             foreach (var item in inputObjects)
             {

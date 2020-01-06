@@ -15,7 +15,7 @@ public interface IFluentAccountReceivableFee
         IFluentAccountReceivableFee AddAccountReceivableFee(AccountReceivableFee accountReceivableFee);
         IFluentAccountReceivableFee UpdateAccountReceivableFee(AccountReceivableFee accountReceivableFee);
         IFluentAccountReceivableFee DeleteAccountReceivableFee(AccountReceivableFee accountReceivableFee);
-     	IFluentAccountReceivableFee UpdateAccountReceivableFees(List<AccountReceivableFee> newObjects);
+     	IFluentAccountReceivableFee UpdateAccountReceivableFees(IList<AccountReceivableFee> newObjects);
         IFluentAccountReceivableFee AddAccountReceivableFees(List<AccountReceivableFee> newObjects);
         IFluentAccountReceivableFee DeleteAccountReceivableFees(List<AccountReceivableFee> deleteObjects);
         IFluentAccountReceivableFee CreateLateFee(AccountReceivableFlatView view);

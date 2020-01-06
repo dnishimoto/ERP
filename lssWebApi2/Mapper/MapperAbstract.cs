@@ -21,7 +21,7 @@ namespace lssWebApi2.MapperAbstract
         public abstract Task<T1> MapToEntity(T2View inputObject);
         public abstract Task<T2View> GetViewById(long ? Id);
         public abstract Task<T1> GetEntityById(long? Id);
-        public abstract Task<List<T1>> MapToEntity(List<T2View> inputObjects);
+        public abstract Task<IList<T1>> MapToEntity(IList<T2View> inputObjects);
         public abstract Task<T2View> MapToView(T1 inputObject);
         public string GetMyMethodName()
         {

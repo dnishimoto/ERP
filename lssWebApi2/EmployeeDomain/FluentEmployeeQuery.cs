@@ -36,9 +36,9 @@ namespace lssWebApi2.EmployeeDomain
             return outObject;
         }
 
-        public override async Task<List<Employee>> MapToEntity(List<EmployeeView> inputObjects)
+        public override async Task<IList<Employee>> MapToEntity(IList<EmployeeView> inputObjects)
         {
-            List<Employee> list = new List<Employee>();
+            IList<Employee> list = new List<Employee>();
   
             foreach (var item in inputObjects)
             {

@@ -14,7 +14,7 @@ public interface IFluentBudgetNote
         IFluentBudgetNote AddBudgetNote(BudgetNote budgetNote);
         IFluentBudgetNote UpdateBudgetNote(BudgetNote budgetNote);
         IFluentBudgetNote DeleteBudgetNote(BudgetNote budgetNote);
-     	IFluentBudgetNote UpdateBudgetNotes(List<BudgetNote> newObjects);
+     	IFluentBudgetNote UpdateBudgetNotes(IList<BudgetNote> newObjects);
         IFluentBudgetNote AddBudgetNotes(List<BudgetNote> newObjects);
         IFluentBudgetNote DeleteBudgetNotes(List<BudgetNote> deleteObjects);
     }
