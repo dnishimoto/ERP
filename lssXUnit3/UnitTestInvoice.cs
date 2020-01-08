@@ -16,6 +16,9 @@ using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.InvoicesDomain;
 using lssWebApi2.InvoiceDetailDomain;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.ObserverMediator;
+using lssWebApi2.Enumerations;
+using lssWebApi2.ContractInvoiceDomain;
 
 namespace lssWebApi2.InvoiceDomain
 {
@@ -41,6 +44,113 @@ namespace lssWebApi2.InvoiceDomain
             List<InvoiceFlatView> list = invoiceModule.Invoice.Query().GetInvoicesByDate(startDate, endDate);
         }
         [Fact]
+        public async Task TestObserver()
+        {
+            InvoiceModule invMod = new InvoiceModule();
+
+            Customer customer = await invMod.Customer.Query().GetEntityById(9);
+            AddressBook addressBookCustomer = await invMod.AddressBook.Query().GetEntityById(customer?.AddressId);
+            NextNumber nextNumber = await invMod.Invoice.Query().GetNextNumber();
+
+            InvoiceView invoiceView = new InvoiceView();
+
+            invoiceView.InvoiceDocument = "Inv-99";
+            invoiceView.InvoiceDate = DateTime.Parse("8/10/2018");
+            invoiceView.Amount = 1500.0M;
+            invoiceView.CustomerId = customer?.CustomerId;
+            invoiceView.CustomerName = addressBookCustomer?.Name;
+            invoiceView.Description = "VNW Fixed Asset project";
+            invoiceView.PaymentTerms = "Net 30";
+            invoiceView.TaxAmount = 0;
+            invoiceView.CompanyId = 1;
+
+            invoiceView.InvoiceNumber = nextNumber.NextNumberValue;
+
+            Invoice newInvoice = await invMod.Invoice.Query().MapToEntity(invoiceView);
+
+            Observer mediator = new Observer();
+
+            mediator.SubscribeToObserver(invMod, invMod.MessageFromObserver);
+            
+
+            IObservableAction observedAction = new ObservableAction();
+
+            MessageAction action = new MessageAction
+            {
+                observed_action = "Add an Invoice",
+                targetByName = nameof(Invoice),
+                command_action = TypeOfObservableAction.InsertData,
+                Invoice=newInvoice
+            };
+            observedAction.Actions.Add(action);
+
+            NextNumber nextNumberContractInvoice = await invMod.ContractInvoice.Query().GetNextNumber();
+
+            ContractInvoiceView contractInvoiceView = new ContractInvoiceView
+            {
+                InvoiceId = 5,
+                ContractId = 1,
+                ContractInvoiceNumber=nextNumberContractInvoice.NextNumberValue
+            };
+
+            ContractInvoice contractInvoice = await invMod.ContractInvoice.Query().MapToEntity(contractInvoiceView);
+
+            MessageAction actionContractInvoice = new MessageAction
+            {
+                observed_action = "Add a Contract Invoice",
+                targetByName = nameof(ContractInvoice),
+                command_action = TypeOfObservableAction.InsertData,
+                ContractInvoice = contractInvoice
+            };
+            observedAction.Actions.Add(actionContractInvoice);
+
+            mediator.TransmitMessage(observedAction);
+            observedAction.Actions.Clear();
+
+            Invoice lookupInvoice = await invMod.Invoice.Query().GetEntityByNumber(invoiceView.InvoiceNumber);
+
+            lookupInvoice.Amount = 9999;
+
+            ContractInvoice lookupContractInvoice = await invMod.ContractInvoice.Query().GetEntityByNumber(contractInvoiceView.ContractInvoiceNumber);
+     
+
+            //*******Contract Invoice
+
+
+            MessageAction actionInvoiceUpdate = new MessageAction
+            {
+                observed_action = "Update an Invoice",
+                targetByName = nameof(Invoice),
+                command_action = TypeOfObservableAction.UpdateData,
+                Invoice = lookupInvoice
+            };
+            observedAction.Actions.Add(actionInvoiceUpdate);
+
+            MessageAction actionInvoiceDelete = new MessageAction
+            {
+                observed_action = "Delete an Invoice",
+                targetByName = nameof(Invoice),
+                command_action = TypeOfObservableAction.DeleteData,
+                Invoice = lookupInvoice
+            };
+            observedAction.Actions.Add(actionInvoiceDelete);
+
+            MessageAction actionContractInvoiceDelete = new MessageAction
+            {
+                observed_action = "Delete an Contract Invoice",
+                targetByName = nameof(ContractInvoice),
+                command_action = TypeOfObservableAction.DeleteData,
+                ContractInvoice = lookupContractInvoice
+            };
+            observedAction.Actions.Add(actionContractInvoiceDelete);
+
+            mediator.TransmitMessage(observedAction);
+
+            await Task.Yield();
+            Assert.True(true);
+
+        }
+        [Fact]
         public async Task TestAddInvoice()
         {
             InvoiceModule invMod = new InvoiceModule();
@@ -52,7 +162,7 @@ namespace lssWebApi2.InvoiceDomain
 
             InvoiceView invoiceView = new InvoiceView();
 
-            invoiceView.InvoiceDocument = "Inv-03";
+            invoiceView.InvoiceDocument = "Inv-99";
             invoiceView.InvoiceDate = DateTime.Parse("8/10/2018");
             invoiceView.Amount = 1500.0M;
             invoiceView.CustomerId = customer?.CustomerId;

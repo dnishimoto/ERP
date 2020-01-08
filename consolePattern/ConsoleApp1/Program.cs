@@ -6,129 +6,81 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 using NReco;
+using lssWebApi2.ObserverMediator;
+using lssWebApi2.Enumerations;
 
 namespace ConsoleApp1
 {
-    public interface ICustomerInfoByHeader : IEntity
+    
+    public interface IClassA : IEntity, IObservableMediator
     {
-        string customerCode { get; set; }
-        string companyName { get; set; }
-        string CurrentDate { get; set; }
+        bool MessageFromObserver(IObservableAction message);
     }
-    public class CustomerInfoByHeader : ICustomerInfoByHeader
-    {
-        public string customerCode { get; set; }
-        public string companyName { get; set; }
-        public string CurrentDate { get; set; }
-    }
-    public interface IEntity
-    {
-    }
-
-    public interface IObservableAction : IEntity
-    {
-        string observed_action { get; set; }
-        string command_action { get; set; }
-        string targetByName { get; set; }
-    }
-
-    public class ObservableAction : IObservableAction
-    {
-        public string observed_action { get; set; }
-        public string command_action { get; set; }
-        public string targetByName { get; set; }
-    }
-
-    public class Observer
-    {
-        Dictionary<object, Func<IObservableAction, bool>> _subscriberContainer = new Dictionary<object, Func<IObservableAction, bool>>();
-
-        public Observer()
-        {
-        }
-        public void SubscribeToMediator(IEntity entity, Func<IObservableAction, bool> callbackFunction)
-        {
-            _subscriberContainer.Add(entity, callbackFunction);
-        }
-        public void TransmitMessage(IObservableAction message)
-        {
-            foreach (KeyValuePair<object, Func<IObservableAction, bool>> item in _subscriberContainer)
-            {
-                item.Value.Invoke(message);
-            }
-        }
-    }
-    public interface IObservableMediator
+    public class ClassA : IClassA
     {
 
-        bool MessageFromObservableMediator(IObservableAction message);
 
-    }
-
-    public interface IClassA: IEntity, IObservableMediator {
-        bool MessageFromObservableMediator(IObservableAction message);
-    }
-    public class ClassA: IClassA
-    {
-
-        private void ProcessCommands(IObservableAction message)
-        {
-            switch (message.command_action)
-            {
-                case "InsertData":
-                    break;
-            }
-
-        }
-        public bool MessageFromObservableMediator(IObservableAction message)
+        public bool MessageFromObserver(IObservableAction message)
         {
             bool retVal = true;
             string className = this.GetType().Name;
+            string process = "";
 
-            if (message.targetByName == "")
+            var action = message.Actions.Where(e => e.targetByName == className).FirstOrDefault<MessageAction>();
+
+            if (action != null)
             {
-                Console.WriteLine($"Class A: {message.observed_action}");
-                ProcessCommands(message);
-            }
-            else if (message.targetByName == className)
-            {
-                Console.WriteLine($"Class A: {message.observed_action}");
-                ProcessCommands(message);
+                if (action.command_action == TypeOfObservableAction.InsertData)
+                {
+                    process = "insert";
+                }
+                else if (action.command_action == TypeOfObservableAction.UpdateData)
+                {
+                    process = "update";
+                }
+                else if (action.command_action == TypeOfObservableAction.DeleteData)
+                {
+                    process = "delete";
+                }
+                Console.WriteLine($"Class A: {process}");
+
             }
 
+          
             return retVal;
         }
     }
     public interface IClassB: IEntity, IObservableMediator
     {
-       bool MessageFromObservableMediator(IObservableAction message);
+       bool MessageFromObserver(IObservableAction message);
     }
     public class ClassB: IClassB
     {
 
-        private void ProcessCommands(IObservableAction message)
-        {
-            switch (message.command_action)
-            {
-                case "InsertData":
-                    break;
-            }
-
-        }
-        public bool MessageFromObservableMediator(IObservableAction message)
+        public bool MessageFromObserver(IObservableAction message)
         {
             bool retVal = true;
             string className = this.GetType().Name;
+            string process = "";
 
-            if (message.targetByName == "")
+            var action = message.Actions.Where(e => e.targetByName == className).FirstOrDefault<MessageAction>(); 
+
+            if (action != null)
             {
-                Console.WriteLine($"Class B: {message.observed_action}");
-                ProcessCommands(message);
-            }
-            else if (message.targetByName == className)
-            {
-                Console.WriteLine($"Class B: {message.observed_action}");
-                ProcessCommands(message);
+                if (action.command_action == TypeOfObservableAction.InsertData)
+                {
+                    process = "insert";
+                }
+                else if (action.command_action == TypeOfObservableAction.UpdateData)
+                {
+                    process = "update";
+                }
+                else if (action.command_action == TypeOfObservableAction.DeleteData)
+                {
+                    process = "delete";
+                }
+                Console.WriteLine($"Class B: {process}");
+
             }
 
             return retVal;
@@ -145,15 +97,20 @@ namespace ConsoleApp1
         Observer mediator = new Observer();
 
             IClassA outputManager = new ClassA();
-            mediator.SubscribeToMediator(outputManager, outputManager.MessageFromObservableMediator);
+            mediator.SubscribeToObserver(outputManager, outputManager.MessageFromObserver);
 
             IClassB dbManager = new ClassB();
-            mediator.SubscribeToMediator(dbManager, dbManager.MessageFromObservableMediator);
+            mediator.SubscribeToObserver(dbManager, dbManager.MessageFromObserver);
 
             IObservableAction observedAction = new ObservableAction();
-            observedAction.observed_action = "Ready to Add";
-            observedAction.targetByName = nameof(ClassA);
-            observedAction.command_action = "InsertData";
+            MessageAction action = new MessageAction
+            {
+
+                observed_action = "Add an Invoice",
+                targetByName = nameof(ClassB),
+                command_action = TypeOfObservableAction.InsertData
+            };
+            observedAction.Actions.Add(action);
             mediator.TransmitMessage(observedAction);
 
             /*
