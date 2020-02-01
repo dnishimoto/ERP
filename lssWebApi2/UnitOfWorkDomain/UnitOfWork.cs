@@ -8,7 +8,7 @@ using lssWebApi2.AddressBookDomain;
 using lssWebApi2.ProjectManagementDomain;
 using lssWebApi2.CustomerDomain;
 using lssWebApi2.InvoicesDomain;
-using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.ItemMasterDomain;
 using lssWebApi2.CustomerLedgerDomain;
@@ -62,18 +62,27 @@ using lssWebApi2.TimeAndAttendanceScheduleDomain;
 using lssWebApi2.TimeAndAttendanceScheduledToWorkDomain;
 using lssWebApi2.ContractItemDomain;
 using lssWebApi2.ContractInvoiceDomain;
+using lssWebApi2.JobMasterDomain;
+using lssWebApi2.JobPhaseDomain;
+using lssWebApi2.JobCostTypeDomain;
+using lssWebApi2.JobCostLedgerDomain;
+using lssWebApi2.EmailDomain;
+//using Microsoft.Extensions.DependencyInjection;
 
 namespace lssWebApi2.Services
 {
     public class UnitOfWork
     {
         //ListensoftwaredbContext db = new ListensoftwaredbContext();
-        ListensoftwaredbContext _db;
+        private ListensoftwaredbContext _db;
         public UnitOfWork()
         {
             try
             {
-                _db = new ListensoftwaredbContext();
+                // var serviceCollection = new ServiceCollection();
+                // IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+                // this._db = serviceProvider.GetRequiredService<ListensoftwaredbContext>();
+                this._db = new ListensoftwaredbContext();
             }
             catch (Exception ex) { throw new Exception("UnitOfWork", ex); }
         }
@@ -122,7 +131,7 @@ namespace lssWebApi2.Services
         public CommentRepository commentRepository=>new CommentRepository(_db);
         public ShipmentDetailRepository shipmentDetailRepository => new ShipmentDetailRepository(_db);
         public ShipmentRepository shipmentRepository => new ShipmentRepository(_db);
-        public TaxRatesByCodeRepository taxRatesByCodeRepository => new TaxRatesByCodeRepository(_db);
+        public TaxRateByCodeRepository taxRateByCodeRepository => new TaxRateByCodeRepository(_db);
         public PayRollGroupRepository payRollGroupRepository => new PayRollGroupRepository(_db);
         public PayRollPaySequenceRepository payRollPaySequenceRepository => new PayRollPaySequenceRepository(_db);
         public PayRollTotalsRepository payRollTotalsRepository => new PayRollTotalsRepository(_db);
@@ -149,7 +158,11 @@ namespace lssWebApi2.Services
         public ProjectManagementTaskToEmployeeRepository projectManagementTaskToEmployeeRepository => new ProjectManagementTaskToEmployeeRepository(_db);
         public ServiceInformationRepository serviceInformationRepository => new ServiceInformationRepository(_db);
         public ServiceInformationInvoiceRepository serviceInformationInvoiceRepository => new ServiceInformationInvoiceRepository(_db);
-        
+        public JobMasterRepository jobMasterRepository => new JobMasterRepository(_db);
+        public JobPhaseRepository jobPhaseRepository => new JobPhaseRepository(_db);
+        public JobCostTypeRepository jobCostTypeRepository => new JobCostTypeRepository(_db);
+        public JobCostLedgerRepository jobCostLedgerRepository => new JobCostLedgerRepository(_db);
+
         public void CommitChanges()
         {
             try

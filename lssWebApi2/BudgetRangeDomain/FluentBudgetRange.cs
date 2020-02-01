@@ -15,10 +15,11 @@ namespace lssWebApi2.BudgetRangeDomain
     public class FluentBudgetRange : AbstractModule, IFluentBudgetRange
     {
 
-        UnitOfWork unitOfWork = new UnitOfWork();
+        UnitOfWork unitOfWork;
         CreateProcessStatus processStatus;
 
         FluentBudgetRangeQuery _query = null;
+        public FluentBudgetRange(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentBudgetRangeQuery Query()
         {
             if (_query == null)

@@ -7,16 +7,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using lssWebApi2.Services;
 
 namespace lssWebApi2.ShipmentsDomain
 {
     public class ShipmentModule
     {
-        public FluentShipment Shipment = new FluentShipment();
-        public FluentShipmentDetail ShipmentDetail = new FluentShipmentDetail();
-        public FluentSalesOrderDetail SalesOrderDetail = new FluentSalesOrderDetail();
-        public FluentSalesOrder SalesOrder = new FluentSalesOrder();
-        public FluentTaxRatesByCode TaxRatesByCode = new FluentTaxRatesByCode();
+        private UnitOfWork unitOfWork;
+        public FluentShipment Shipment;
+        public FluentShipmentDetail ShipmentDetail;
+        public FluentSalesOrderDetail SalesOrderDetail;
+        public FluentSalesOrder SalesOrder;
+        public FluentTaxRatesByCode TaxRatesByCode;
+
+        public ShipmentModule()
+        {
+            unitOfWork = new UnitOfWork();
+            Shipment = new FluentShipment(unitOfWork);
+            ShipmentDetail = new FluentShipmentDetail(unitOfWork);
+            SalesOrderDetail = new FluentSalesOrderDetail(unitOfWork);
+            SalesOrder = new FluentSalesOrder(unitOfWork);
+            TaxRatesByCode = new FluentTaxRatesByCode(unitOfWork);
+        }
 
         public async Task<bool> CreateBySalesOrder(ShipmentView shipmentCreation)
         {
@@ -29,7 +41,7 @@ namespace lssWebApi2.ShipmentsDomain
 
                 newShipment = await Shipment.Query().CalculatedAmountsByDetails(newShipment, newShipmentDetails);
 
-                TaxRatesByCodeView lookupTaxesByCode = await TaxRatesByCode.Query().GetViewByCode(TypeofTaxRatesByCode.StateTaxUT.ToString());
+                TaxRatesByCodeView lookupTaxesByCode = await TaxRatesByCode.Query().GetViewByTaxCode(TypeofTaxRatesByCode.StateTaxUT.ToString());
 
                 newShipment.Tax = newShipment.Amount * lookupTaxesByCode.TaxRate;
 
@@ -52,7 +64,7 @@ namespace lssWebApi2.ShipmentsDomain
 
                 return true;
             }
-            catch (Exception ex) { throw new Exception("CreateBySalesOrder",ex); }
+            catch (Exception ex) { throw new Exception("CreateBySalesOrder", ex); }
 
 
         }

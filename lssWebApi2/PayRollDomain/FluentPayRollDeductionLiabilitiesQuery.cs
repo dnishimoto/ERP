@@ -46,7 +46,7 @@ public class FluentPayRollDeductionLiabilitiesQuery:IFluentPayRollDeductionLiabi
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.payRollDeductionLiabilitiesRepository.GetNextNumber(TypeOfPayRoll.PayRollDeductionLiabilitiesNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPayRoll.PayRollDeductionLiabilitiesNumber.ToString());
         }
  public async Task<PayRollDeductionLiabilitiesView> GetViewById(long payRollDeductionLiabilitiesId)
         {

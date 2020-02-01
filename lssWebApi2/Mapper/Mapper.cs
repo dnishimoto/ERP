@@ -34,10 +34,14 @@ namespace lssWebApi2.AutoMapper
         }
         public T Map<T>(Object entityObject) where T : class, new()
         {
+            string sourceFieldName = "";
+            string sourceFieldNameType = "";
+            string sourceClassName = "";
             try
             {
                 var propts = typeof(T).GetProperties();
 
+                sourceClassName = entityObject.GetType().Name;
                 T model;
                 object val;
 
@@ -46,44 +50,50 @@ namespace lssWebApi2.AutoMapper
                 {
                     bool hasField = false;
 
-                    hasField = HasClassField(viewFieldProperty.Name, entityObject); 
+                    sourceFieldName = viewFieldProperty.Name;
+                    hasField = HasClassField(sourceFieldName, entityObject);
 
-                    if (hasField)
-                    {
+                    Type fieldTypeSource = viewFieldProperty.PropertyType;
+                    sourceFieldNameType = fieldTypeSource.ToString();
 
-                        val = entityObject.GetType().GetProperty(viewFieldProperty.Name).GetValue(entityObject, null);
-                        viewFieldProperty.SetValue(model, val);
-     
-                    }
-                    else
+                    if(viewFieldProperty.GetAccessors()[0].IsVirtual==false) //bypass virtual collections
                     {
-                        if (dictSpecialMapping.ContainsKey(viewFieldProperty.Name))
+                        if (hasField)
                         {
-                            string entityName = dictSpecialMapping[viewFieldProperty.Name];
-                            string[] elements = entityName.Split(".");
-  
-                            if (entityName.Contains('.'))
+                            val = entityObject.GetType().GetProperty(viewFieldProperty.Name).GetValue(entityObject, null);
+                            //val = entityObject.GetType().GetProperty(viewFieldProperty.Name, fieldTypeSource).GetValue(entityObject, null);
+                            if (val != null) { viewFieldProperty.SetValue(model, val); }
+                        }
+                        else
+                        {
+                            if (dictSpecialMapping.ContainsKey(viewFieldProperty.Name))
                             {
-                                //class.fieldname pattern
-                                var regex = new Regex(@"(\b\w*\b)\.(\b\w*\b)$");
-                                Match match = regex.Match(entityName);
+                                string entityName = dictSpecialMapping[viewFieldProperty.Name];
+                                string[] elements = entityName.Split(".");
 
-                                if (match.Success)
+                                if (entityName.Contains('.'))
                                 {
-                                    string className = elements[0];
-                                    string fieldName = elements[1];
+                                    //class.fieldname pattern
+                                    var regex = new Regex(@"(\b\w*\b)\.(\b\w*\b)$");
+                                    Match match = regex.Match(entityName);
 
-                                    var obj = entityObject.GetType().GetProperty(className)?.GetValue(entityObject, null);
-                                    val = obj.GetType().GetProperty(fieldName)?.GetValue(obj, null);
+                                    if (match.Success)
+                                    {
+                                        string className = elements[0];
+                                        string fieldName = elements[1];
+
+                                        var obj = entityObject.GetType().GetProperty(className)?.GetValue(entityObject, null);
+                                        val = obj.GetType().GetProperty(fieldName)?.GetValue(obj, null);
+                                        viewFieldProperty.SetValue(model, val);
+                                    }
+                                }
+                                else
+                                {
+                                    val = entityObject.GetType().GetProperty(entityName)?.GetValue(entityObject, null);
                                     viewFieldProperty.SetValue(model, val);
                                 }
+
                             }
-                            else
-                            {
-                                val = entityObject.GetType().GetProperty(entityName)?.GetValue(entityObject, null);
-                                viewFieldProperty.SetValue(model, val);
-                            }
-                           
                         }
                     }
                 }
@@ -91,7 +101,7 @@ namespace lssWebApi2.AutoMapper
             }
             catch (Exception ex)
             {
-                throw new Exception(GetMyMethodName(), ex);
+                throw new System.InvalidOperationException(ex.Message + " class " + sourceClassName+ " field " + sourceFieldName + " type: "+ sourceFieldNameType);
             }
         }
     }

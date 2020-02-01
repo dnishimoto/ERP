@@ -63,7 +63,7 @@ public class FluentProjectManagementWorkOrderToEmployeeQuery:MapperAbstract<Proj
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.projectManagementWorkOrderToEmployeeRepository.GetNextNumber(TypeOfProjectManagementWorkOrderToEmployee.WorkOrderToEmployeeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfProjectManagementWorkOrderToEmployee.WorkOrderToEmployeeNumber.ToString());
         }
  public override async Task<ProjectManagementWorkOrderToEmployeeView> GetViewById(long ? projectManagementWorkOrderToEmployeeId)
         {

@@ -17,11 +17,11 @@ namespace lssWebApi2.SupplierLedgerDomain
 
     public class FluentSupplierLedger : IFluentSupplierLedger
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
 
-        public FluentSupplierLedger() { }
+        public FluentSupplierLedger(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentSupplierLedgerQuery Query()
         {
             return new FluentSupplierLedgerQuery(unitOfWork) as IFluentSupplierLedgerQuery;

@@ -57,7 +57,7 @@ namespace lssWebApi2.ShipmentsDomain
             try
             {
                 Task<SalesOrder> salesOrderTask = _unitOfWork.salesOrderRepository.GetEntityById(shipmentCreation.SalesOrderId ?? 0);
-                Task<NextNumber> nnShipmentTask =  _unitOfWork.shipmentRepository.GetNextNumber();
+                Task<NextNumber> nnShipmentTask =  _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfShipment.ShipmentNumber.ToString());
                 Task.WaitAll(salesOrderTask, nnShipmentTask);
 
                 shipment = new Shipment()
@@ -103,7 +103,7 @@ namespace lssWebApi2.ShipmentsDomain
      
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.shipmentRepository.GetNextNumber(TypeOfShipment.ShipmentNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfShipment.ShipmentNumber.ToString());
         }
         public async Task<Shipment> GetEntityByNumber(long shipmentNumber)
         {

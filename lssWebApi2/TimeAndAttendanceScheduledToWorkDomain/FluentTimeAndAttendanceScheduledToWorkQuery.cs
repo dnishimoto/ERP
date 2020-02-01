@@ -96,7 +96,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduledToWorkDomain
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.timeAndAttendanceScheduledToWorkRepository.GetNextNumber(TypeOfTimeAndAttendanceScheduledToWork.ScheduledToWorkNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfTimeAndAttendanceScheduledToWork.ScheduledToWorkNumber.ToString());
         }
         public async Task<TimeAndAttendanceScheduledToWorkView> GetViewByNumber(long scheduledToWorkNumber)
         {

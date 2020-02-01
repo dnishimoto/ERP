@@ -167,12 +167,12 @@ namespace lssWebApi2.BudgetDomain
             return await result.ToListAsync<Budget>();
         }
 
-        public async Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView)
+        public async Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView,string actualsKeyCode,string hoursKeyCode)
         {
             try
             {
-                Udc udcActuals = await GetUdc("GENERALLEDGERTYPE", "AA");
-                Udc udcHours = await GetUdc("GENERALLEDGERTYPE", "HA");
+               // Udc udcActuals = await GetUdc("GENERALLEDGERTYPE", "AA");
+                //Udc udcHours = await GetUdc("GENERALLEDGERTYPE", "HA");
 
 
 
@@ -180,22 +180,22 @@ namespace lssWebApi2.BudgetDomain
 
 
                 //query actual amounts
-                decimal actualAmount = (from e in _dbContext.GeneralLedger
+                decimal actualAmount = await (from e in _dbContext.GeneralLedger
                                         where e.AccountId == budgetRangeView.AccountId
                                         && e.Gldate >= budgetRangeView.StartDate
                                         && e.Gldate <= budgetRangeView.EndDate
-                                        && e.LedgerType == udcActuals.KeyCode
+                                        && e.LedgerType == actualsKeyCode
                                         select e.Amount
-                           ).Sum();
+                           ).SumAsync();
                 budgetActualsView.ActualAmount = actualAmount;
                 //query actual hours
-                decimal? actualHours = (from e in _dbContext.GeneralLedger
+                decimal? actualHours = await (from e in _dbContext.GeneralLedger
                                         where e.AccountId == budgetRangeView.AccountId
                                         && e.Gldate >= budgetRangeView.StartDate
                                         && e.Gldate <= budgetRangeView.EndDate
-                                        && e.LedgerType == udcHours.KeyCode
+                                        && e.LedgerType == hoursKeyCode
                                         select e.Units
-               ).Sum();
+               ).SumAsync();
                 budgetActualsView.ActualHours = actualHours ?? 0;
                 return budgetActualsView;
             }

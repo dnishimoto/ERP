@@ -71,7 +71,7 @@ public class FluentPurchaseOrderQuery: MapperAbstract<PurchaseOrder,PurchaseOrde
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.purchaseOrderRepository.GetNextNumber(TypeOfPurchaseOrder.PurchaseOrderNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPurchaseOrder.PurchaseOrderNumber.ToString());
         }
  public override async Task<PurchaseOrderView> GetViewById(long ? purchaseOrderId)
         {

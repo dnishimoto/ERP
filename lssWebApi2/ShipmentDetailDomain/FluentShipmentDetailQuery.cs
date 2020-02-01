@@ -65,7 +65,7 @@ namespace lssWebApi2.ShipmentsDomain
                     {
 
                         ItemMaster itemMaster =  await _unitOfWork.itemMasterRepository.GetEntityById(item.ItemId);
-                        NextNumber nnShipmentDetail =  await  _unitOfWork.shipmentDetailRepository.GetNextNumber();
+                        NextNumber nnShipmentDetail =  await  _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfShipmentDetail.ShipmentsDetailNumber.ToString());
  
                         ShipmentDetail shipmentDetail = new ShipmentDetail()
 
@@ -128,7 +128,7 @@ namespace lssWebApi2.ShipmentsDomain
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.shipmentDetailRepository.GetNextNumber(TypeOfShipmentDetail.ShipmentsDetailNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfShipmentDetail.ShipmentsDetailNumber.ToString());
         }
         public override async Task<ShipmentDetailView> GetViewById(long ? shipmentDetailId)
         {

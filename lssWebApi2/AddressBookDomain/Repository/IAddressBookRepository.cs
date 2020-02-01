@@ -8,7 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.AddressBookDomain.Repository
+namespace lssWebApi2.AddressBookDomain
 {
     public interface IAddressBookRepository
     {

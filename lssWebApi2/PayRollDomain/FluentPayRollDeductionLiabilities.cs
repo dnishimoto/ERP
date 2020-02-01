@@ -10,10 +10,10 @@ namespace lssWebApi2.PayRollDomain
 
 public class FluentPayRollDeductionLiabilities :IFluentPayRollDeductionLiabilities
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPayRollDeductionLiabilities() { }
+        public FluentPayRollDeductionLiabilities(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPayRollDeductionLiabilitiesQuery Query()
         {
             return new FluentPayRollDeductionLiabilitiesQuery(unitOfWork) as IFluentPayRollDeductionLiabilitiesQuery;

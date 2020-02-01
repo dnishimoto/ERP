@@ -46,7 +46,7 @@ public class FluentPayRollTransactionsByEmployeeQuery:IFluentPayRollTransactions
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.payRollTransactionsByEmployeeRepository.GetNextNumber(TypeOfPayRoll.PayRollTransactionsByEmployeeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPayRoll.PayRollTransactionsByEmployeeNumber.ToString());
         }
  public async Task<PayRollTransactionsByEmployeeView> GetViewById(long payRollTransactionsByEmployeeId)
         {

@@ -1,4 +1,4 @@
-﻿using lssWebApi2.AccountsReceivableDomain;
+﻿using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.InvoicesDomain;
 using lssWebApi2.EntityFramework;
@@ -9,11 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.AccountsReceivableDomain
 {
     public interface IFluentAccountReceivable
     {
-        IFluentAccountReceivable CreateAcctRecByInvoiceView(InvoiceView invoiceView);
+        Task<IFluentAccountReceivable> UpdateAcctRecByInvoiceView(InvoiceView invoiceView);
         IFluentAccountReceivable Apply();
         IFluentAccountReceivable UpdateAccountReceivableByGeneralLedgerView(GeneralLedgerView ledgerView);
         IFluentAccountReceivable AdjustOpenAmount(AccountReceivableFlatView view);

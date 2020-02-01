@@ -18,6 +18,5 @@ public interface IFluentInvoiceDetail
      	IFluentInvoiceDetail UpdateInvoiceDetails(IList<InvoiceDetail> newObjects);
         IFluentInvoiceDetail AddInvoiceDetails(List<InvoiceDetail> newObjects);
         IFluentInvoiceDetail DeleteInvoiceDetails(List<InvoiceDetail> deleteObjects);
-        IFluentInvoiceDetail CreateInvoiceDetailsByInvoiceView(InvoiceView invoiceView);
     }
 }

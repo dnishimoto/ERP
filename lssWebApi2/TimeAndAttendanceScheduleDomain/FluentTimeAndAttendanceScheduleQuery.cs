@@ -43,7 +43,7 @@ namespace lssWebApi2.TimeAndAttendanceScheduleDomain
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.timeAndAttendanceScheduledToWorkRepository.GetNextNumber(TypeOfTimeAndAttendanceSchedule.TimeAndAttendanceScheduleNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfTimeAndAttendanceSchedule.TimeAndAttendanceScheduleNumber.ToString());
         }
 
         public override async Task<TimeAndAttendanceSchedule> MapToEntity(TimeAndAttendanceScheduleView inputObject)

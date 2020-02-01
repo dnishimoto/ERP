@@ -17,4 +17,5 @@ public interface IFluentInvoiceDetailQuery
     Task<InvoiceDetail> GetEntityByNumber(long invoiceDetailNumber);
     Task<InvoiceDetailView> GetViewById(long ? invoiceDetailId);
     Task<InvoiceDetailView> GetViewByNumber(long invoiceDetailNumber);
+    Task<IList<InvoiceDetail>> GetEntitiesByInvoiceId(long? invoiceId);
 }

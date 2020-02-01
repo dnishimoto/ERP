@@ -18,7 +18,7 @@ namespace lssWebApi2.SalesOrderDetailDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.salesOrderDetailRepository.GetNextNumber(TypeOfSalesOrderDetail.SalesOrderDetailNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfSalesOrderDetail.SalesOrderDetailNumber.ToString());
         }
         public override async Task<IList<SalesOrderDetail>> MapToEntity(IList<SalesOrderDetailView> inputObjects)
         {

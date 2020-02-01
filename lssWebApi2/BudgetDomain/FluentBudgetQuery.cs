@@ -30,7 +30,10 @@ namespace lssWebApi2.BudgetDomain
 
         public async Task<BudgetActualsView> GetBudgetActualsView(BudgetRangeView budgetRangeView)
         {
-            BudgetActualsView budgetActualsView =  await _unitOfWork.budgetRepository.GetActualsView(budgetRangeView);
+            Udc udcActuals = await _unitOfWork.udcRepository.GetUdc("GENERALLEDGERTYPE", "AA");
+            Udc udcHours = await _unitOfWork.udcRepository.GetUdc("GENERALLEDGERTYPE", "HA");
+
+            BudgetActualsView budgetActualsView =  await _unitOfWork.budgetRepository.GetActualsView(budgetRangeView,udcActuals.KeyCode,udcHours.KeyCode);
             return budgetActualsView;
         }
         public async Task<BudgetView> GetBudgetView(long budgetId)
@@ -92,7 +95,7 @@ namespace lssWebApi2.BudgetDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.budgetRepository.GetNextNumber(TypeOfBudget.BudgetNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfBudget.BudgetNumber.ToString());
         }
         public override async Task<BudgetView> GetViewById(long  ?  budgetId)
         {

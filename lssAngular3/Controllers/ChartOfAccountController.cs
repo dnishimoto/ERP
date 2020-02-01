@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.ChartOfAccountsDomain;
+using lssWebApi2.ChartOfAccountsDomain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

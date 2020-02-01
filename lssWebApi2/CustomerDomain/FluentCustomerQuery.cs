@@ -100,7 +100,7 @@ namespace lssWebApi2.CustomerDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.customerRepository.GetNextNumber(TypeOfCustomer.CustomerNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfCustomer.CustomerNumber.ToString());
         }
         public override async Task<CustomerView> GetViewById(long ? customerId)
         {

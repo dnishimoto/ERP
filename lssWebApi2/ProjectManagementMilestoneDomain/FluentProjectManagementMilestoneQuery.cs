@@ -66,7 +66,7 @@ namespace lssWebApi2.ProjectManagementMilestoneDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.projectManagementMilestoneRepository.GetNextNumber(TypeOfProjectManagementMilestone.MilestoneNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfProjectManagementMilestone.MilestoneNumber.ToString());
         }
         public override async Task<ProjectManagementMilestoneView> GetViewById(long? projectManagementMilestoneId)
         {

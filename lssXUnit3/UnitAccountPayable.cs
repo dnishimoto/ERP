@@ -41,7 +41,6 @@ namespace lssWebApi2.AccountPayableDomain
                 Description = "back to school",
                 PurchaseOrderId = null,
                 Tax = 16.08M,
-                InvoiceId = null,
                 AccountId = chartOfAccount.AccountId,
                 DocType = "STD",
                 PaymentTerms = "Net 30",

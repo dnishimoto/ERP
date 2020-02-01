@@ -6,6 +6,11 @@ namespace lssWebApi2.EntityFramework
 {
     public partial class ContractItem
     {
+        public ContractItem()
+        {
+            JobChangeOrder = new HashSet<JobChangeOrder>();
+        }
+
         public long ContractItemId { get; set; }
         public long ContractId { get; set; }
         public string Wbs { get; set; }
@@ -23,6 +28,7 @@ namespace lssWebApi2.EntityFramework
         public long ContractItemNumber { get; set; }
 
         public virtual Contract Contract { get; set; }
+        public virtual ICollection<JobChangeOrder> JobChangeOrder { get; set; }
 
     }
 }

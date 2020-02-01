@@ -8,6 +8,7 @@ namespace lssWebApi2.Enumerations
     public enum TypeofTaxRatesByCode
     {
         StateTaxID,
-        StateTaxUT
+        StateTaxUT,
+        TaxRatesByCodeNumber
     }
 }

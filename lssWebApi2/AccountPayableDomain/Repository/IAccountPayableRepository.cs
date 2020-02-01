@@ -18,5 +18,5 @@ public interface IAccountPayableRepository
         Task<AccountPayable> GetAcctPayByPONumber(string poNumber);
         Task<AccountPayable> GetEntityByGeneralLedger(GeneralLedgerView ledgerView);
         Task<AccountPayable> GetEntityByPurchaseOrderView(PurchaseOrderView poView);
-  }
+    }
 }

@@ -11,10 +11,10 @@ namespace lssWebApi2.AccountReceivableInterestDomain
 
 public class FluentAccountReceivableInterest :IFluentAccountReceivableInterest
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentAccountReceivableInterest() { }
+        public FluentAccountReceivableInterest(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentAccountReceivableInterestQuery Query()
         {
             return new FluentAccountReceivableInterestQuery(unitOfWork) as IFluentAccountReceivableInterestQuery;

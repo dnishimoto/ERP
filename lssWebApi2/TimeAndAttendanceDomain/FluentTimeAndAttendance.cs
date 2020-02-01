@@ -11,13 +11,10 @@ namespace lssWebApi2.TimeAndAttendanceDomain
 {
     public class FluentTimeAndAttendance : AbstractModule, IFluentTimeAndAttendance
     {
-        UnitOfWork unitOfWork = new UnitOfWork();
+        UnitOfWork unitOfWork;
         CreateProcessStatus processStatus;
 
-        public FluentTimeAndAttendance()
-        {
-
-        }
+        public FluentTimeAndAttendance(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
 
         public IFluentTimeAndAttendanceQuery Query()
         {

@@ -13,7 +13,7 @@ namespace lssWebApi2.BudgetsDomain.Repository
     public interface IBudgetRepository
     {
         Task<IList<PersonalBudgetView>> GetPersonalBudgetViews();
-        Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView);
+        Task<BudgetActualsView> GetActualsView(BudgetRangeView budgetRangeView, string actualsKeyCode, string hoursKeyCode);
         Task<Budget> GetEntityById(long ? budgetId);
         Task<Budget> FindEntityByExpression(Expression<Func<Budget, bool>> predicate);
         Task<IList<Budget>> FindEntitiesByExpression(Expression<Func<Budget, bool>> predicate);

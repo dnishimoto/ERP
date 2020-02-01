@@ -11,10 +11,10 @@ namespace lssWebApi2.BuyerDomain
 
 public class FluentBuyer :IFluentBuyer
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentBuyer() { }
+        public FluentBuyer(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentBuyerQuery Query()
         {
             return new FluentBuyerQuery(unitOfWork) as IFluentBuyerQuery;

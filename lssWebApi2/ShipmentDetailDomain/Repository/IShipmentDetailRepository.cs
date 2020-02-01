@@ -11,6 +11,5 @@ namespace lssWebApi2.ShipmentsDomain
         Task<IList<ShipmentDetail>> GetEntitiesByShipmentId(long ? shipmentId);
         Task<ShipmentDetail> GetEntityById(long ? shipmentDetailId);
         Task<ShipmentDetail> GetEntityByNumber(long shipmentDetailNumber);
-        Task<NextNumber> GetNextNumber();
     }
 }

@@ -1,8 +1,7 @@
-﻿using lssWebApi2.AddressBookDomain;
-using lssWebApi2.EntityFramework;
+﻿using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.AddressBookDomain
 {
     public interface IFluentAddressBook
     {

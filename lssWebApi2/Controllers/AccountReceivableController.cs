@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,7 +19,7 @@ namespace lssWebApi2.Controllers
         public async Task<IList<AccountReceivableFlatView>> GetReceivables()
         {
             AccountReceivableModule acctRecMod = new AccountReceivableModule();
-            IList<AccountReceivableFlatView> list = await acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            IList<AccountReceivableFlatView> list = await acctRecMod.AccountReceivable.Query().GetOpenAccountReceivables();
             return list;
         }
 

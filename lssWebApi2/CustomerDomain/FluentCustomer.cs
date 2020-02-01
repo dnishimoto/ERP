@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System;
 using lssWebApi2.Enumerations;
 using lssWebApi2.Interfaces;
-using lssWebApi2.FluentAPI;
+
 using System.Threading.Tasks;
 using lssWebApi2.AutoMapper;
 
@@ -14,10 +14,10 @@ namespace lssWebApi2.CustomerDomain
 
 public class FluentCustomer :IFluentCustomer
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentCustomer() { }
+        public FluentCustomer(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentCustomerQuery Query()
         {
             return new FluentCustomerQuery(unitOfWork) as IFluentCustomerQuery;

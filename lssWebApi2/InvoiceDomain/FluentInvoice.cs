@@ -9,18 +9,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.InvoiceDomain
 {
  
  
     public class FluentInvoice : AbstractErrorHandling, IFluentInvoice
     {
-        public UnitOfWork unitOfWork = new UnitOfWork();
+        public UnitOfWork unitOfWork;
         public CreateProcessStatus processStatus;
 
         private FluentInvoiceQuery _query = null;
 
-        public FluentInvoice() { }
+        public FluentInvoice(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
 
         public IFluentInvoiceQuery Query()
         {
@@ -29,79 +29,22 @@ namespace lssWebApi2.FluentAPI
             return _query as IFluentInvoiceQuery;
 
         }
-        private Invoice MapToEntity(InvoiceView inputObject)
-        {
-            Mapper mapper = new Mapper();
-            Invoice outObject = mapper.Map<Invoice>(inputObject);
-            return outObject;
-        }
-        public IFluentInvoice CreateInvoiceByView(InvoiceView invoiceView)
+      
+       
+        public IFluentInvoice Apply()
         {
             try
             {
-                Invoice invoice = new Invoice();
-                invoice =  MapToEntity(invoiceView);
-
-                Task<Invoice> invoiceTask = Task.Run(async () => await unitOfWork.invoiceRepository.GetEntityByInvoiceDocument(invoice.InvoiceDocument));
-                Task.WaitAll(invoiceTask);
-
-                if (invoiceTask.Result == null)
-                {
-                    AddInvoice(invoice);
-                    return this as IFluentInvoice;
-                }
-                processStatus=CreateProcessStatus.AlreadyExists;
+                if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
+                { unitOfWork.CommitChanges(); }
                 return this as IFluentInvoice;
             }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+            catch (Exception ex)
+            {
+                throw new Exception(GetMyMethodName(), ex);
+            }
         }
-
-        public IFluentInvoice Apply()
-        {
-            if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
-            { unitOfWork.CommitChanges(); }
-            return this as IFluentInvoice;
-        }
-        //public IFluentInvoice CreateInvoice(InvoiceView invoiceView)
-        //{
-
-        //    Task<CreateProcessStatus> resultTask = Task.Run(() => unitOfWork.invoiceRepository.CreateInvoiceByView(invoiceView));
-        //    Task.WaitAll(resultTask);
-        //    processStatus = resultTask.Result;
-        //    return this as IFluentInvoice;
-
-        //}
-        public IFluentInvoice MergeWithInvoiceNumber(ref InvoiceView invoiceView)
-        {
-
-            string invoiceDocument = invoiceView.InvoiceDocument;
-
-            Task<Invoice> viewTask = Task.Run(() => unitOfWork.invoiceRepository.GetEntityByInvoiceDocument(invoiceDocument));
-            Task.WaitAll(viewTask);
-
-            //TODO applicationFactory needs to have a merge feature created
-            invoiceView.InvoiceId = viewTask.Result.InvoiceId;
-            invoiceView.InvoiceDocument = viewTask.Result.InvoiceDocument;
-            invoiceView.InvoiceDate = viewTask.Result.InvoiceDate;
-            invoiceView.Amount = viewTask.Result.Amount;
-            invoiceView.CustomerId = viewTask.Result.Customer.CustomerId;
-            invoiceView.CustomerName = viewTask.Result.Customer.Address.Name;
-            invoiceView.Description = viewTask.Result.Description;
-            invoiceView.TaxAmount = viewTask.Result.TaxAmount;
-            invoiceView.PaymentDueDate = viewTask.Result.PaymentDueDate;
-            invoiceView.DiscountAmount = viewTask.Result.DiscountAmount;
-            invoiceView.PaymentTerms = viewTask.Result.PaymentTerms;
-            invoiceView.CompanyId = viewTask.Result.Company.CompanyId;
-            invoiceView.CompanyName = viewTask.Result.Company.CompanyName;
-            invoiceView.CompanyStreet = viewTask.Result.Company.CompanyStreet;
-            invoiceView.CompanyCity = viewTask.Result.Company.CompanyCity;
-            invoiceView.CompanyZipcode = viewTask.Result.Company.CompanyZipcode;
-            invoiceView.DiscountDueDate = viewTask.Result.DiscountDueDate;
-            invoiceView.FreightCost = viewTask.Result.FreightCost;
-            invoiceView.InvoiceNumber = viewTask.Result.InvoiceNumber;
-
-            return this as IFluentInvoice;
-        }
+     
 
         public IFluentInvoice AddInvoice(List<Invoice> newObjects)
         {

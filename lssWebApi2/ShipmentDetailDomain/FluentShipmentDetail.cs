@@ -12,10 +12,10 @@ namespace lssWebApi2.ShipmentsDomain
 
     public class FluentShipmentDetail : IFluentShipmentDetail
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentShipmentDetail() { }
+        public FluentShipmentDetail(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentShipmentDetailQuery Query()
         {
             return new FluentShipmentDetailQuery(unitOfWork) as IFluentShipmentDetailQuery;
@@ -32,7 +32,7 @@ namespace lssWebApi2.ShipmentsDomain
                 foreach (var item in query)
                 {
                     Task<ItemMaster> itemMasterTask = Task.Run(async()=>await unitOfWork.itemMasterRepository.GetEntityById(item.ItemId));
-                    Task<NextNumber> nnShipmentDetailTask = Task.Run(async () => await unitOfWork.shipmentDetailRepository.GetNextNumber());
+                    Task<NextNumber> nnShipmentDetailTask = Task.Run(async () => await unitOfWork.nextNumberRepository.GetNextNumber(TypeOfShipmentDetail.ShipmentsDetailNumber.ToString()));
                     Task.WaitAll(itemMasterTask, nnShipmentDetailTask);
 
                     ShipmentDetail shipmentsDetail = new ShipmentDetail()

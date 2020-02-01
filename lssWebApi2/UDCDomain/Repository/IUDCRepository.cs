@@ -9,9 +9,10 @@ using System.Linq;
 
 namespace lssWebApi2.UDCDomain
 {
-public interface IUdcRepository
+    public interface IUdcRepository
     {
-        Task<Udc> GetEntityById(long  ? udcId);
-	       Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode);
-    }
+        Task<Udc> GetEntityById(long? udcId);
+        Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode);
+        Task<Udc> GetUdc(string productCode, string keyCode);
+        }
 }

@@ -78,7 +78,7 @@ namespace lssWebApi2.TimeAndAttendanceShiftDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.timeAndAttendanceShiftRepository.GetNextNumber(TypeOfTimeAndAttendanceShift.TimeAndAttendanceShiftNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfTimeAndAttendanceShift.TimeAndAttendanceShiftNumber.ToString());
         }
         public override async Task<TimeAndAttendanceShiftView> GetViewById(long? timeAndAttendanceShiftId)
         {

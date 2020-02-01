@@ -4,7 +4,7 @@ using lssWebApi2.CustomerDomain;
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 
-namespace lssWebApi2.AddressBookDomain
+namespace lssWebApi2.EmailDomain
 { 
 
 public interface IFluentEmail

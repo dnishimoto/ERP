@@ -4,14 +4,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
+
 using lssWebApi2.BudgetDomain;
+using lssWebApi2.Services;
 
 namespace lssWebApi2.BudgetNoteDomain
 {
     public class BudgetNoteModule : AbstractModule
     {
-        public FluentBudgetNote BudgetNote = new FluentBudgetNote();
-        public FluentBudget Budget = new FluentBudget();
+        private UnitOfWork unitOfWork;
+        public FluentBudgetNote BudgetNote;
+        public FluentBudget Budget;
+        public BudgetNoteModule()
+        {
+            unitOfWork = new UnitOfWork();
+            BudgetNote = new FluentBudgetNote(unitOfWork);
+            Budget = new FluentBudget(unitOfWork);
+        }
     }
 }

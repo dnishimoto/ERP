@@ -48,7 +48,7 @@ public class FluentBuyerQuery:MapperAbstract<Buyer, BuyerView>,IFluentBuyerQuery
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.buyerRepository.GetNextNumber(TypeOfBuyer.BuyerNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfBuyer.BuyerNumber.ToString());
         }
  public override async Task<BuyerView> GetViewById(long ? buyerId)
         {

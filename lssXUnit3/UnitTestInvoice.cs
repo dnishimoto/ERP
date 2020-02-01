@@ -19,13 +19,14 @@ using lssWebApi2.EntityFramework;
 using lssWebApi2.ObserverMediator;
 using lssWebApi2.Enumerations;
 using lssWebApi2.ContractInvoiceDomain;
+using lssWebApi2.AccountReceivableDomain;
 
 namespace lssWebApi2.InvoiceDomain
 {
-    
-       public class UnitTestInvoices
+
+    public class UnitTestInvoices
     {
-      
+
         private readonly ITestOutputHelper output;
 
         public UnitTestInvoices(ITestOutputHelper output)
@@ -38,7 +39,7 @@ namespace lssWebApi2.InvoiceDomain
         {
             DateTime startDate = DateTime.Parse("1/1/2018");
             DateTime endDate = DateTime.Now;
- 
+
             InvoiceModule invoiceModule = new InvoiceModule();
 
             List<InvoiceFlatView> list = invoiceModule.Invoice.Query().GetInvoicesByDate(startDate, endDate);
@@ -47,10 +48,12 @@ namespace lssWebApi2.InvoiceDomain
         public async Task TestObserver()
         {
             InvoiceModule invMod = new InvoiceModule();
+            ContractInvoiceModule contractInvoiceMod = new ContractInvoiceModule();
 
             Customer customer = await invMod.Customer.Query().GetEntityById(9);
             AddressBook addressBookCustomer = await invMod.AddressBook.Query().GetEntityById(customer?.AddressId);
             NextNumber nextNumber = await invMod.Invoice.Query().GetNextNumber();
+            TaxRatesByCode taxRatesByCode = await invMod.TaxRatesByCode.Query().GetEntityById(1);
 
             InvoiceView invoiceView = new InvoiceView();
 
@@ -63,25 +66,20 @@ namespace lssWebApi2.InvoiceDomain
             invoiceView.PaymentTerms = "Net 30";
             invoiceView.TaxAmount = 0;
             invoiceView.CompanyId = 1;
+            invoiceView.TaxRatesByCodeId = taxRatesByCode.TaxRatesByCodeId;
 
             invoiceView.InvoiceNumber = nextNumber.NextNumberValue;
 
             Invoice newInvoice = await invMod.Invoice.Query().MapToEntity(invoiceView);
 
             Observer mediator = new Observer();
-
             mediator.SubscribeToObserver(invMod, invMod.MessageFromObserver);
-            
+            mediator.SubscribeToObserver(contractInvoiceMod, contractInvoiceMod.MessageFromObserver);
+
 
             IObservableAction observedAction = new ObservableAction();
 
-            MessageAction action = new MessageAction
-            {
-                observed_action = "Add an Invoice",
-                targetByName = nameof(Invoice),
-                command_action = TypeOfObservableAction.InsertData,
-                Invoice=newInvoice
-            };
+            MessageAction action = new MessageAction { targetByName = nameof(Invoice), command_action = TypeOfObservableAction.InsertData, Invoice = newInvoice };
             observedAction.Actions.Add(action);
 
             NextNumber nextNumberContractInvoice = await invMod.ContractInvoice.Query().GetNextNumber();
@@ -90,36 +88,30 @@ namespace lssWebApi2.InvoiceDomain
             {
                 InvoiceId = 5,
                 ContractId = 1,
-                ContractInvoiceNumber=nextNumberContractInvoice.NextNumberValue
+                ContractInvoiceNumber = nextNumberContractInvoice.NextNumberValue
             };
 
             ContractInvoice contractInvoice = await invMod.ContractInvoice.Query().MapToEntity(contractInvoiceView);
 
-            MessageAction actionContractInvoice = new MessageAction
-            {
-                observed_action = "Add a Contract Invoice",
-                targetByName = nameof(ContractInvoice),
-                command_action = TypeOfObservableAction.InsertData,
-                ContractInvoice = contractInvoice
-            };
+            MessageAction actionContractInvoice = new MessageAction { targetByName = nameof(ContractInvoice), command_action = TypeOfObservableAction.InsertData, ContractInvoice = contractInvoice };
             observedAction.Actions.Add(actionContractInvoice);
 
             mediator.TransmitMessage(observedAction);
-            observedAction.Actions.Clear();
+
+            if (observedAction.Actions.Count() > 0) Assert.True(false);
 
             Invoice lookupInvoice = await invMod.Invoice.Query().GetEntityByNumber(invoiceView.InvoiceNumber);
 
             lookupInvoice.Amount = 9999;
 
-            ContractInvoice lookupContractInvoice = await invMod.ContractInvoice.Query().GetEntityByNumber(contractInvoiceView.ContractInvoiceNumber);
-     
+            ContractInvoice lookupContractInvoice = await contractInvoiceMod.ContractInvoice.Query().GetEntityByNumber(contractInvoiceView.ContractInvoiceNumber);
+
 
             //*******Contract Invoice
 
 
             MessageAction actionInvoiceUpdate = new MessageAction
             {
-                observed_action = "Update an Invoice",
                 targetByName = nameof(Invoice),
                 command_action = TypeOfObservableAction.UpdateData,
                 Invoice = lookupInvoice
@@ -128,7 +120,6 @@ namespace lssWebApi2.InvoiceDomain
 
             MessageAction actionInvoiceDelete = new MessageAction
             {
-                observed_action = "Delete an Invoice",
                 targetByName = nameof(Invoice),
                 command_action = TypeOfObservableAction.DeleteData,
                 Invoice = lookupInvoice
@@ -137,7 +128,6 @@ namespace lssWebApi2.InvoiceDomain
 
             MessageAction actionContractInvoiceDelete = new MessageAction
             {
-                observed_action = "Delete an Contract Invoice",
                 targetByName = nameof(ContractInvoice),
                 command_action = TypeOfObservableAction.DeleteData,
                 ContractInvoice = lookupContractInvoice
@@ -145,6 +135,8 @@ namespace lssWebApi2.InvoiceDomain
             observedAction.Actions.Add(actionContractInvoiceDelete);
 
             mediator.TransmitMessage(observedAction);
+
+            if (observedAction.Actions.Count() > 0) Assert.True(false);
 
             await Task.Yield();
             Assert.True(true);
@@ -158,6 +150,7 @@ namespace lssWebApi2.InvoiceDomain
 
             Customer customer = await invMod.Customer.Query().GetEntityById(9);
             AddressBook addressBookCustomer = await invMod.AddressBook.Query().GetEntityById(customer?.AddressId);
+            TaxRatesByCode taxRatesByCode = await invMod.TaxRatesByCode.Query().GetEntityById(1);
             NextNumber nextNumber = await invMod.Invoice.Query().GetNextNumber();
 
             InvoiceView invoiceView = new InvoiceView();
@@ -171,7 +164,8 @@ namespace lssWebApi2.InvoiceDomain
             invoiceView.PaymentTerms = "Net 30";
             invoiceView.TaxAmount = 0;
             invoiceView.CompanyId = 1;
-            
+            invoiceView.TaxRatesByCodeId = taxRatesByCode.TaxRatesByCodeId;
+
             invoiceView.InvoiceNumber = nextNumber.NextNumberValue;
 
             Invoice invoice = await invMod.Invoice.Query().MapToEntity(invoiceView);
@@ -196,7 +190,7 @@ namespace lssWebApi2.InvoiceDomain
             invoiceDetailView.ItemId = 4;
             IList<InvoiceDetailView> listInvoiceDetails = new List<InvoiceDetailView>();
             listInvoiceDetails.Add(invoiceDetailView);
-            invoiceView.InvoiceDetailViews=listInvoiceDetails;
+            invoiceView.InvoiceDetailViews = listInvoiceDetails;
 
             List<InvoiceDetail> list = (await invDetailMod.InvoiceDetail.Query().MapToEntity(invoiceView.InvoiceDetailViews)).ToList<InvoiceDetail>();
             invDetailMod.InvoiceDetail.AddInvoiceDetails(list).Apply();
@@ -206,48 +200,92 @@ namespace lssWebApi2.InvoiceDomain
 
             Invoice invoiceLookup = await invMod.Invoice.Query().GetEntityById(newInvoice.InvoiceId);
 
-            Assert.NotNull(invoiceLookup);
+            Assert.Null(invoiceLookup);
         }
         [Fact]
-        public void TestPostInvoiceAndDetailToAcctRec()
+        public async Task TestPostInvoiceAndDetailToAcctRec()
         {
             try
             {
+
                 //NextNumber nextNumber = await unitOfWork.invoiceRepository.Get("InvoiceNumber");
+                InvoiceModule invoiceModule = new InvoiceModule();
+                AccountReceivableModule acctRecMod = new AccountReceivableModule();
+                Customer customer = await acctRecMod.Customer.Query().GetEntityById(9);
+                AddressBook addressBookCustomer = await acctRecMod.AddressBook.Query().GetEntityById(customer?.AddressId);
+                ChartOfAccount chartOfAccount = await acctRecMod.ChartOfAccount.Query().GetEntity("1000", "1200", "101", "");
+                PurchaseOrder purchaseOrder = await acctRecMod.PurchaseOrder.Query().GetEntityById(20);
+                Udc udcReceivable = await acctRecMod.Udc.Query().GetEntityById(66);
+                TaxRatesByCode taxRatesByCode = await invoiceModule.TaxRatesByCode.Query().GetEntityById(1);
+                AccountReceivableView newAccountReceivableView = new AccountReceivableView
+                {
+                    Amount = 1500M,
+                    OpenAmount = 1500M,
+                    DiscountDueDate = DateTime.Parse("1/21/2020"),
+                    PaymentDueDate = DateTime.Parse("1/21/2020"),
+                    Gldate = DateTime.Parse("1/21/2020"),
+                    CreateDate = DateTime.Parse("1/21/2020"),
+                    DocNumber = (await acctRecMod.AccountReceivable.Query().GetDocNumber()).NextNumberValue,
+                    Remarks = " partial payment",
+                    PaymentTerms = "Net 30",
+                    CustomerId = customer.CustomerId,
+                    CustomerName = addressBookCustomer?.Name,
+                    PurchaseOrderId = purchaseOrder.PurchaseOrderId,
+                    Description = "Fixed Asset Project",
+                    AcctRecDocTypeXrefId = udcReceivable.XrefId,
+                    DocType = udcReceivable.KeyCode,
+                    AccountId = chartOfAccount.AccountId,
+                    AccountReceivableNumber = (await acctRecMod.AccountReceivable.Query().GetNextNumber()).NextNumberValue
+                };
+
+                AccountReceivable  accountReceivable = await acctRecMod.AccountReceivable.Query().MapToEntity(newAccountReceivableView);
+                acctRecMod.AccountReceivable.AddAccountReceivable(accountReceivable).Apply();
 
                 InvoiceView invoiceView = new InvoiceView();
 
-                invoiceView.InvoiceDocument = "Inv-03";
+                invoiceView.InvoiceDocument = accountReceivable.DocNumber.ToString();
                 invoiceView.InvoiceDate = DateTime.Parse("8/10/2018");
+                invoiceView.PurchaseOrderId = purchaseOrder.PurchaseOrderId;
                 invoiceView.Amount = 1500.0M;
-                invoiceView.CustomerId = 9;
+                invoiceView.CustomerId = customer.CustomerId;
                 invoiceView.Description = "VNW Fixed Asset project";
                 invoiceView.PaymentTerms = "Net 30";
                 invoiceView.TaxAmount = 0;
                 invoiceView.CompanyId = 1;
+                invoiceView.TaxRatesByCodeId = taxRatesByCode.TaxRatesByCodeId;
+                invoiceView.TaxCode = taxRatesByCode.TaxCode;
+                invoiceView.InvoiceNumber = (await invoiceModule.Invoice.Query().GetNextNumber()).NextNumberValue;
 
-                InvoiceDetailView invoiceDetailView = new InvoiceDetailView();
-                invoiceDetailView.Amount = 1500M;
+
+                IList<PurchaseOrderDetail> listPurchaseOrderDetail = await acctRecMod.PurchaseOrderDetail.Query().GetEntitiesByPurchaseOrderId(purchaseOrder.PurchaseOrderId);
+
+                IList<InvoiceDetailView> listInvoiceDetailView = new List<InvoiceDetailView>();
                 //invoiceDetailView.InvoiceId = invoice.InvoiceId;
 
+                foreach (var item in listPurchaseOrderDetail)
+                {
+                    listInvoiceDetailView.Add(
+                    new InvoiceDetailView()
+                    {
+                        UnitOfMeasure = item.UnitOfMeasure,
+                        Quantity = (int)item.OrderedQuantity,
+                        PurchaseOrderId = item.PurchaseOrderId,
+                        PurchaseOrderDetailId = item.PurchaseOrderDetailId,
+                        UnitPrice = item.UnitPrice,
+                        Amount = item.Amount,
+                        DiscountPercent = 0,
+                        DiscountAmount = 0,
+                        ItemId = item.ItemId,
+                        InvoiceDetailNumber=(await invoiceModule.InvoiceDetail.Query().GetNextNumber()).NextNumberValue
+                    });
+                }
 
-                invoiceDetailView.UnitOfMeasure = "Project";
-                invoiceDetailView.Quantity = 1;
-                invoiceDetailView.UnitPrice = 1500M;
-                invoiceDetailView.Amount = 1500M;
-                invoiceDetailView.DiscountPercent = 0;
-                invoiceDetailView.DiscountAmount = 0;
-                invoiceDetailView.ItemId = 4;
+                invoiceView.InvoiceDetailViews=listInvoiceDetailView;
 
-              
-                invoiceView.InvoiceDetailViews.Add(invoiceDetailView);
+                bool result = await invoiceModule.PostInvoiceAndDetailToAcctRec(invoiceView);
 
-                InvoiceModule invoiceModule = new InvoiceModule();
 
-                bool result = invoiceModule.PostInvoiceAndDetailToAcctRec(invoiceView);
 
-              
-            
                 Assert.True(result);
             }
             catch (Exception ex)
@@ -256,7 +294,7 @@ namespace lssWebApi2.InvoiceDomain
             }
 
         }
-                 
-    
+
+
     }
 }

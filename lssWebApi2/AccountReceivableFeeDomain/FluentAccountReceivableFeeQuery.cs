@@ -54,7 +54,7 @@ namespace lssWebApi2.AccountReceivableDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.accountReceivableFeeRepository.GetNextNumber(TypeOfAccountReceivableFee.AccountReceivableFeeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAccountReceivableFee.AccountReceivableFeeNumber.ToString());
         }
         public override async Task<AccountReceivableFeeView> GetViewById(long? accountReceivableFeeId)
         {

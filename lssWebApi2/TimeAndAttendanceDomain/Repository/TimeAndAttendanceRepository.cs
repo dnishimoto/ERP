@@ -137,7 +137,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
         }
         public async Task<IList<TimeAndAttendancePunchIn>> GetOpenEntitiesByEmployeeId(long? employeeId)
         {
-            Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+            Udc taskStatusQuery = await base.GetUdc2("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
 
 
             IList<TimeAndAttendancePunchIn> list = await (from e in _dbContext.TimeAndAttendancePunchIn
@@ -187,7 +187,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
 
             TimeAndAttendancePunchIn retTA = await GetTimeAndAttendancePunchIn(employeeId, account, workDay, workDayDateTime, hoursDuration: hours, minutesDuration: minutes,mealDurationInMinutes: mealDurationInMinutes);
 
-            Task<Udc> statusTask = GetUdc("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
+            Task<Udc> statusTask = base.GetUdc2("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
             Task.WaitAll(statusTask);
             retTA.TaskStatusXrefId = statusTask.Result.XrefId;
             retTA.TaskStatus = statusTask.Result.KeyCode;
@@ -390,7 +390,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
         {
             try
             {
-                Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+                Udc taskStatusQuery = await base.GetUdc2("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
 
 
                 TimeAndAttendancePunchIn item = await (from e in _dbContext.TimeAndAttendancePunchIn
@@ -414,7 +414,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
             try
             {
 
-                Udc taskStatusQuery = await GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+                Udc taskStatusQuery = await base.GetUdc2("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
 
 
                 TimeAndAttendancePunchIn TAPunch = await (from e in _dbContext.TimeAndAttendancePunchIn
@@ -466,9 +466,9 @@ namespace lssWebApi2.TimeAndAttendanceDomain
 
 
 
-                Task<Udc> scheduledTimeUDCTask = GetUdc("TIME", TypeOfTimeEnum.scheduled.ToString());
-                Task<Udc> nonScheduledTimeUDCTask = GetUdc("TIME", TypeOfTimeEnum.notscheduled.ToString());
-                Task<Udc> taskStatusTask = GetUdc("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
+                Task<Udc> scheduledTimeUDCTask = base.GetUdc2("TIME", TypeOfTimeEnum.scheduled.ToString());
+                Task<Udc> nonScheduledTimeUDCTask = base.GetUdc2("TIME", TypeOfTimeEnum.notscheduled.ToString());
+                Task<Udc> taskStatusTask = base.GetUdc2("TA_STATUS", TypeOfTAStatus.Open.ToString().ToUpper());
                 Task[] tasksArray = new Task[] { taskStatusTask, queryTask, supQueryTask, scheduledTimeUDCTask, nonScheduledTimeUDCTask };
 
                 Task.WaitAll(tasksArray);
@@ -500,7 +500,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
                     retTA.TypeOfTimeUdcXrefId = nonScheduledTimeUDCTask.Result.XrefId;
                     retTA.TypeOfTime = nonScheduledTimeUDCTask.Result.Value;
                     retTA.Note = "Not Scheduled - Walkin";
-                    Udc notscheduled_payCodeUDC = await GetUdc("PAYCODE", TypeOfPayEnum.Regular.ToString());
+                    Udc notscheduled_payCodeUDC = await base.GetUdc2("PAYCODE", TypeOfPayEnum.Regular.ToString());
                     Employee employeeQuery = await (from a in _dbContext.Employee
                                                     where a.EmployeeId == employeeId
                                                     select a).FirstOrDefaultAsync<Employee>();
@@ -512,8 +512,8 @@ namespace lssWebApi2.TimeAndAttendanceDomain
                 }
                 if (queryTask.Result != null)
                 {
-                    Udc jobCodeUDC = await GetUdc("JOBCODE", queryTask.Result.JobCode);
-                    Udc payCodeUDC = await GetUdc("PAYCODE", queryTask.Result.PayCode);
+                    Udc jobCodeUDC = await base.GetUdc2("JOBCODE", queryTask.Result.JobCode);
+                    Udc payCodeUDC = await base.GetUdc2("PAYCODE", queryTask.Result.PayCode);
 
                     retTA.TypeOfTimeUdcXrefId = scheduledTimeUDCTask.Result.XrefId;
                     retTA.TypeOfTime = scheduledTimeUDCTask.Result.Value;
@@ -526,9 +526,6 @@ namespace lssWebApi2.TimeAndAttendanceDomain
                     retTA.ShiftId = queryTask.Result.ShiftId;
                     retTA.Note = "";
                     retTA.ScheduleId = queryTask.Result.ScheduleId;
-                    //retTA.ApprovingAddressId
-                    //retTA.TransferJobCode
-                    //retTA.TransferSupervisorId
                 }
 
 
@@ -816,7 +813,7 @@ namespace lssWebApi2.TimeAndAttendanceDomain
                 taPunchin.DurationInMinutes = minutesDuration;
                 taPunchin.MealDurationInMinutes = mealDeduction;
 
-                Udc status = await GetUdc("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
+                Udc status = await base.GetUdc2("TA_STATUS", TypeOfTAStatus.Closed.ToString().ToUpper());
                
                 taPunchin.TaskStatusXrefId = status.XrefId;
                 taPunchin.TaskStatus = status.KeyCode;

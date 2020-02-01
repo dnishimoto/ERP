@@ -46,7 +46,7 @@ public class FluentPayRollEarningsQuery:IFluentPayRollEarningsQuery
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.payRollEarningsRepository.GetNextNumber(TypeOfPayRoll.PayRollEarningsNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPayRoll.PayRollEarningsNumber.ToString());
         }
  public async Task<PayRollEarningsView> GetViewById(long payRollEarningsId)
         {

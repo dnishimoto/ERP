@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Xunit.Abstractions;
+using lssWebApi2.EmailDomain;
 
 namespace lssWebApi2.AddressBookDomain
 {

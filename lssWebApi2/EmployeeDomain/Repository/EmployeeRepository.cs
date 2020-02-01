@@ -25,6 +25,7 @@ namespace lssWebApi2.EmployeeDomain
         public Decimal HourlyRate { get; set; }
         public Decimal SalaryPerPayPeriod { get; set; }
         public long EmployeeNumber { get; set; }
+        public long PositionCodeId { get; set; }
 
         public string EmployeeName { get; set; }
         public string EmployeeTitle { get; set; } 

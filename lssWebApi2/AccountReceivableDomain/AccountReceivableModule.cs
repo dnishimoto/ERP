@@ -1,12 +1,20 @@
 ﻿using lssWebApi2.AbstractFactory;
 using lssWebApi2.AccountReceivableDomain;
+using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.ChartOfAccountsDomain;
+using lssWebApi2.CustomerDomain;
 using lssWebApi2.CustomerLedgerDomain;
-using lssWebApi2.FluentAPI;
+
 using lssWebApi2.GeneralLedgerDomain;
+using lssWebApi2.PurchaseOrderDetailDomain;
+using lssWebApi2.PurchaseOrderDomain;
+using lssWebApi2.Services;
+using lssWebApi2.UDCDomain;
 using System;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.AccountsReceivableDomain
+namespace lssWebApi2.AccountReceivableDomain
 {
 
     public enum PaymentStatus
@@ -15,39 +23,57 @@ namespace lssWebApi2.AccountsReceivableDomain
     }
     public class AccountReceivableModule : AbstractModule
     {
+        private UnitOfWork unitOfWork;
 
-        public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable();
-        public FluentCustomerCashPayment CustomerCashPayment = new FluentCustomerCashPayment();
-        public FluentAccountReceivableFee AccountReceivableFee = new FluentAccountReceivableFee();
-        public FluentCustomerLedger CustomerLedger = new FluentCustomerLedger();
+        public FluentAccountReceivable AccountReceivable;
+        public FluentAccountReceivableFee AccountReceivableFee;
+        public FluentCustomerLedger CustomerLedger;
+        public FluentCustomer Customer;
+        public FluentAddressBook AddressBook;
+        public FluentChartOfAccount ChartOfAccount;
+        public FluentPurchaseOrder PurchaseOrder;
+        public FluentPurchaseOrderDetail PurchaseOrderDetail;
+        public FluentGeneralLedger GeneralLedger;
+        public FluentUdc Udc;
 
-        public bool CreateCustomerCashPayment(GeneralLedgerView ledgerView)
+        public AccountReceivableModule()
+        {
+            unitOfWork = new UnitOfWork();
+            AccountReceivable = new FluentAccountReceivable(unitOfWork);
+            AccountReceivableFee = new FluentAccountReceivableFee(unitOfWork);
+            CustomerLedger = new FluentCustomerLedger(unitOfWork);
+            Customer = new FluentCustomer(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+            ChartOfAccount = new FluentChartOfAccount(unitOfWork);
+            PurchaseOrder = new FluentPurchaseOrder(unitOfWork);
+            PurchaseOrderDetail = new FluentPurchaseOrderDetail(unitOfWork);
+            GeneralLedger = new FluentGeneralLedger(unitOfWork);
+            Udc = new FluentUdc(unitOfWork);
+        }
+
+
+
+        public async Task<bool> CreateCustomerCashPayment(GeneralLedgerView ledgerView)
         {
             try
             {
-                CustomerCashPayment
-                          .GeneralLedger
+                GeneralLedger
                           .CreateGeneralLedgerByView(ledgerView)
                           .Apply();
 
-                CustomerCashPayment
-                            .CustomerLedger
-                            .Apply();
                 CustomerLedger
-                            .CreateEntityByGeneralLedgerView(ledgerView)
                             .Apply();
 
-                CustomerCashPayment
-                            .AccountsReceivable
-                            .Apply();
+                await CustomerLedger
+                            .CreateEntityByGeneralLedgerView(ledgerView);
+                CustomerLedger.Apply();
 
-                AccountsReceivable
+                AccountReceivable
                             .UpdateAccountReceivableByGeneralLedgerView(ledgerView)
                             .Apply();
-                            
 
-                CustomerCashPayment
-                            .GeneralLedger
+
+                GeneralLedger
                             .UpdateAccountBalances(ledgerView);
 
                 return true;
@@ -58,29 +84,24 @@ namespace lssWebApi2.AccountsReceivableDomain
         {
             try
             {
-                CustomerCashPayment
-                        .GeneralLedger.CreateGeneralLedgerByView(ledgerView).Apply();
+                GeneralLedger.CreateGeneralLedgerByView(ledgerView).Apply();
 
-                GeneralLedgerView glView = await CustomerCashPayment
-                        .GeneralLedger
+                GeneralLedgerView glView = await GeneralLedger
                         .Query()
                         .GetLedgerViewByExpression(e => e.AccountId == ledgerView.AccountId && e.Amount == ledgerView.Amount && e.Gldate == ledgerView.GLDate && e.DocNumber == ledgerView.DocNumber && e.CheckNumber == ledgerView.CheckNumber);
 
                 ledgerView.GeneralLedgerId = glView.GeneralLedgerId;
 
-                CustomerCashPayment
-                     .CustomerLedger
-                     .Apply();
                 CustomerLedger
-                     .CreateEntityByGeneralLedgerView(ledgerView)
                      .Apply();
+                await CustomerLedger
+                     .CreateEntityByGeneralLedgerView(ledgerView);
+                CustomerLedger.Apply();
 
-                CustomerCashPayment
-                    .AccountsReceivable
+                AccountReceivable
                            .UpdateAccountReceivableByGeneralLedgerView(ledgerView)
                              .Apply();
-                CustomerCashPayment
-                          .GeneralLedger
+                GeneralLedger
                               .UpdateAccountBalances(ledgerView);
                 return true;
             }

@@ -13,7 +13,6 @@ namespace lssWebApi2.InvoiceDetailDomain
 {
     public class InvoiceDetailView
     {
-
         public long InvoiceDetailId { get; set; }
         public long InvoiceId { get; set; }
         public decimal? UnitPrice { get; set; }
@@ -22,19 +21,25 @@ namespace lssWebApi2.InvoiceDetailDomain
         public decimal? Amount { get; set; }
         public long? PurchaseOrderDetailId { get; set; }
         public long? SalesOrderDetailId { get; set; }
-        public long ItemId { get; set; }
+        public long? ItemId { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
         public long? ShipmentDetailId { get; set; }
         public string ExtendedDescription { get; set; }
         public DateTime? DiscountDueDate { get; set; }
         public long InvoiceDetailNumber { get; set; }
-       
+        public long? PurchaseOrderId { get; set; }
+        public long? CustomerId { get; set; }
+        public long? SupplierId { get; set; }
 
+      
         public string ItemDescription { get; set; }
         public string ItemDescription2 { get; set; }
         public string InvoiceDocument { get; set; }
         public string PONumber { get; set; }
+        public string ItemCode { get; set; }
+        public string CustomerName { get; set; }
+        public string SupplierName { get; set; }
 
  
     }

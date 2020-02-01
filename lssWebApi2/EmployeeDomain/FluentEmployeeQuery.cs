@@ -86,7 +86,7 @@ namespace lssWebApi2.EmployeeDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.employeeRepository.GetNextNumber(TypeOfEmployee.EmployeeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfEmployee.EmployeeNumber.ToString());
         }
         public override async Task<EmployeeView> GetViewById(long ? employeeId)
         {

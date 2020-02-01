@@ -17,7 +17,7 @@ namespace lssWebApi2.EntityFramework
         public decimal? OpenAmount { get; set; }
         public DateTime? DiscountDueDate { get; set; }
         public DateTime? Gldate { get; set; }
-        public long InvoiceId { get; set; }
+        public long? InvoiceId { get; set; }
         public DateTime? CreateDate { get; set; }
         public long? DocNumber { get; set; }
         public string Remarks { get; set; }
@@ -37,6 +37,7 @@ namespace lssWebApi2.EntityFramework
         public decimal? InterestPaid { get; set; }
         public decimal? LateFee { get; set; }
         public long AccountReceivableNumber { get; set; }
+        public string CustomerPurchaseOrder { get; set; }
 
         public virtual ChartOfAccount Account { get; set; }
         public virtual Udc AcctRecDocTypeXref { get; set; }

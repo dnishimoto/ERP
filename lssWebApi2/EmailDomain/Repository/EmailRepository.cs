@@ -8,10 +8,8 @@ using System.Linq;
 using System;
 using System.Linq.Expressions;
 using System.Collections.Generic;
-using lssWebApi2.AccountPayableDomain;
-using lssWebApi2.Enumerations;
 
-namespace lssWebApi2.AddressBookDomain
+namespace lssWebApi2.EmailDomain
 {
     public class EmailEntityView
     {

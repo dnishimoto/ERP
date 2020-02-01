@@ -13,8 +13,10 @@ namespace lssWebApi2.TaxRatesByCodeDomain
         Task<NextNumber> GetNextNumber();
         Task<TaxRatesByCodeView> GetViewById(long ? taxRatesByCodeId);
         Task<TaxRatesByCodeView> GetViewByNumber(long taxRatesByCodeNumber);
-        Task<TaxRatesByCodeView> GetViewByCode(string code);
+        Task<TaxRatesByCodeView> GetViewByTaxCode(string code);
+        Task<TaxRatesByCode> GetEntityByTaxCode(string code);
         Task<TaxRatesByCode> GetEntityById(long ? taxRatesByCodeId);
         Task<TaxRatesByCode> GetEntityByNumber(long taxRatesByCodeNumber);
+
     }
 }

@@ -18,4 +18,5 @@ public interface IFluentAccountPayableQuery
     Task<AccountPayableView> GetViewById(long ? accountPayableId);
     Task<AccountPayableView> GetViewByNumber(long accountPayableNumber);
     Task<AccountPayable> GetAcctPayByPONumber(string poNumber);
+    Task<long> GetNextDocNumber();
 }

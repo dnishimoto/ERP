@@ -67,8 +67,5 @@ namespace lssWebApi2.PackingSlipDetailDomain
 
             Assert.Null(lookupPackingSlipDetial);
         }
-
-
-
     }
 }

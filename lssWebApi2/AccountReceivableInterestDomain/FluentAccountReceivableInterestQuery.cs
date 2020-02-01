@@ -56,7 +56,7 @@ namespace lssWebApi2.AccountReceivableInterestDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.accountReceivableInterestRepository.GetNextNumber(TypeOfAccountReceivableInterest.AccountReceivableInterestNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAccountReceivableInterest.AccountReceivableInterestNumber.ToString());
         }
 
         public async Task<AccountReceivableInterestView> GetViewByNumber(long accountReceivableInterestNumber)

@@ -1,5 +1,4 @@
-﻿using lssWebApi2.AbstractFactory;
-using lssWebApi2.FluentAPI;
+﻿
 using lssWebApi2.InvoiceDetailDomain;
 using lssWebApi2.InvoicesDomain;
 using lssWebApi2.EntityFramework;
@@ -10,6 +9,14 @@ using lssWebApi2.ObserverMediator;
 using lssWebApi2.Enumerations;
 using System.Linq;
 using lssWebApi2.ContractInvoiceDomain;
+using System.Threading.Tasks;
+using lssWebApi2.SupplierDomain;
+using lssWebApi2.TaxRatesByCodeDomain;
+using lssWebApi2.CustomerLedgerDomain;
+using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.GeneralLedgerDomain;
 
 namespace lssWebApi2.InvoiceDomain
 {
@@ -17,88 +24,141 @@ namespace lssWebApi2.InvoiceDomain
 
     public class InvoiceModule : IEntity, IObservableMediator
     {
-        public FluentInvoice Invoice = new FluentInvoice();
-        public FluentInvoiceDetail InvoiceDetail = new FluentInvoiceDetail();
-        public FluentAccountReceivable AccountsReceivable = new FluentAccountReceivable();
-        public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
-        public FluentCustomer Customer = new FluentCustomer();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
-        public FluentContractInvoice ContractInvoice = new FluentContractInvoice();
+        private UnitOfWork unitOfWork;
+        public FluentInvoice Invoice;
+        public FluentInvoiceDetail InvoiceDetail;
+        public FluentAccountReceivable AccountReceivable;
+        public FluentGeneralLedger GeneralLedger;
+        public FluentCustomer Customer;
+        public FluentSupplier Supplier;
+        public FluentAddressBook AddressBook;
+        public FluentContractInvoice ContractInvoice;
+        public FluentTaxRatesByCode TaxRatesByCode;
+        public FluentCustomerLedger CustomerLedger;
+
+        public InvoiceModule()
+        {
+            unitOfWork = new UnitOfWork();
+            Invoice = new FluentInvoice(unitOfWork);
+            InvoiceDetail = new FluentInvoiceDetail(unitOfWork);
+            AccountReceivable = new FluentAccountReceivable(unitOfWork);
+            GeneralLedger = new FluentGeneralLedger(unitOfWork);
+            Customer = new FluentCustomer(unitOfWork);
+            Supplier = new FluentSupplier(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+            ContractInvoice = new FluentContractInvoice(unitOfWork);
+            TaxRatesByCode = new FluentTaxRatesByCode(unitOfWork);
+            CustomerLedger = new FluentCustomerLedger(unitOfWork);
+        }
+
+
 
         public bool MessageFromObserver(IObservableAction message)
         {
             bool retVal = true;
-            string classInvoice = nameof(Invoice);
-            string classContractInvoice = nameof(ContractInvoice);
+            string className = nameof(Invoice);
 
+            bool process = false;
+
+            IList<MessageAction> listRemove = new List<MessageAction>();
             try
             {
-                var queryInvoice = message.Actions.Where(e => e.targetByName == classInvoice);
+                var queryInvoice = message.Actions.Where(e => e.targetByName == className);
 
                 foreach (var action in queryInvoice)
                 {
+                    process = false;
                     if (action.command_action == TypeOfObservableAction.InsertData)
                     {
+                        if (action?.Invoice.InvoiceNumber == 0)
+                        {
+                            Task<NextNumber> nextNumberTask = Task.Run(async () => await Invoice.Query().GetNextNumber());
+                            Task.WaitAll(nextNumberTask);
+                            action.Invoice.InvoiceNumber = nextNumberTask.Result.NextNumberValue;
+                        }
                         Invoice.AddInvoice(action.Invoice).Apply();
+                        process = true;
                     }
                     else if (action.command_action == TypeOfObservableAction.UpdateData)
                     {
                         Invoice.UpdateInvoice(action.Invoice).Apply();
+                        process = true;
                     }
                     else if (action.command_action == TypeOfObservableAction.DeleteData)
                     {
                         Invoice.DeleteInvoice(action.Invoice).Apply();
+                        process = true;
 
+                    }
+                    if (process == true)
+                    {
+                        listRemove.Add(action);
                     }
                 }
 
-                var queryContractInvoice = message.Actions.Where(e => e.targetByName == classContractInvoice);
-                foreach (var action in queryContractInvoice)
+
+
+                foreach (var item in listRemove)
                 {
-                    if (action.command_action == TypeOfObservableAction.InsertData)
-                    {
-                        ContractInvoice.AddContractInvoice(action.ContractInvoice).Apply();
-                    }
-                    else if (action.command_action == TypeOfObservableAction.UpdateData)
-                    {
-                        ContractInvoice.UpdateContractInvoice(action.ContractInvoice).Apply();
-                    }
-                    else if (action.command_action == TypeOfObservableAction.DeleteData)
-                    {
-                        ContractInvoice.DeleteContractInvoice(action.ContractInvoice).Apply();
-
-                    }
+                    message.Actions.Remove(item);
                 }
+
+
 
                 return retVal;
             }
-            catch (Exception ex) { throw new Exception("MessageFromObserver", ex);
-    }
-}
-        public bool PostInvoiceAndDetailToAcctRec(InvoiceView invoiceView)
+            catch (Exception ex)
+            {
+                throw new Exception("MessageFromObserver", ex);
+            }
+        }
+        public async Task<bool> PostInvoiceAndDetailToAcctRec(InvoiceView invoiceView)
         {
             try
             {
+                Invoice invoiceNew = await Invoice.Query().MapToEntity(invoiceView);
+
                 Invoice
-                    .CreateInvoiceByView(invoiceView)
-                    .Apply()
-                    .MergeWithInvoiceNumber(ref invoiceView);
-
-                InvoiceDetail
-                    .CreateInvoiceDetailsByInvoiceView(invoiceView)
-                    .Apply();
-                AccountsReceivable
-                    .CreateAcctRecByInvoiceView(invoiceView)
+                    .AddInvoice(invoiceNew)
                     .Apply();
 
-                GeneralLedger
-                    .CreateGeneralLedgerByInvoiceView(invoiceView)
-                    .Apply()
-                    .UpdateLedgerBalances();
+                Invoice invoiceLookup = await Invoice.Query().GetEntityByInvoiceDocument(invoiceView.InvoiceDocument);
+
+                invoiceView.InvoiceId = invoiceLookup.InvoiceId;
+
+                //Assign the InvoiceId
+                for (int i = 0; i < invoiceView.InvoiceDetailViews.Count; i++)
+                {
+                    invoiceView.InvoiceDetailViews[i].InvoiceId = invoiceLookup.InvoiceId;
+                    InvoiceDetail invoiceDetail = await InvoiceDetail.Query().MapToEntity(invoiceView.InvoiceDetailViews[i]);
+
+                    InvoiceDetail.AddInvoiceDetail(invoiceDetail);
+
+                }
+
+                InvoiceDetail.Apply();
+
+                await AccountReceivable
+                    .UpdateAcctRecByInvoiceView(invoiceView);
+                AccountReceivable.Apply();
+
+                await GeneralLedger
+                    .CreateGeneralLedgerByInvoiceView(invoiceView);
+                GeneralLedger.Apply();
+
+                AccountReceivable acctRecLookup = await AccountReceivable.Query().GetEntityByPurchaseOrderId(invoiceView.PurchaseOrderId);
+
+                GeneralLedger.UpdateLedgerBalances(acctRecLookup.DocNumber ?? 0, "OV");
+
+                await CustomerLedger
+                    .CreateCustomerLedgerByInvoiceView(invoiceView);
+                CustomerLedger.Apply();
+
+
                 return true;
             }
             catch (Exception ex) { throw new Exception("PostInvoiceAndDetailToAcctRec", ex); }
         }
 
-   }
+    }
 }

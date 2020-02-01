@@ -4,40 +4,43 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.Services;
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.GeneralLedgerDomain;
-using lssWebApi2.InvoicesDomain;
-using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
-using lssWebApi2.AccountReceivableDomain.Repository;
-using lssWebApi2.Enumerations;
 
-namespace lssWebApi2.AccountsReceivableDomain
+namespace lssWebApi2.AccountReceivableDomain
 {
     public class AccountReceivableView
     {
-        
-        public long? AcctRecId { get; set; }
-        public decimal? Amount { get; set; }
+        public long AcctRecId { get; set; }
         public decimal? OpenAmount { get; set; }
         public DateTime? DiscountDueDate { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
-        public DateTime? GLDate { get; set; }
+        public DateTime? Gldate { get; set; }
         public long? InvoiceId { get; set; }
-        public string InvoiceDocument { get; set; }
         public DateTime? CreateDate { get; set; }
         public long? DocNumber { get; set; }
         public string Remarks { get; set; }
         public string PaymentTerms { get; set; }
-        public long? CustomerId { get; set; }
-        public string CustomerName { get; set; }
+        public long CustomerId { get; set; }
         public long? PurchaseOrderId { get; set; }
         public string Description { get; set; }
-        public long? AcctRecDocTypeXRefId { get; set; }
-        public string DocType { get; set; }
-        public long? AccountId { get; set; }
+        public long AcctRecDocTypeXrefId { get; set; }
+        public long AccountId { get; set; }
+        public decimal? Amount { get; set; }
+        public decimal? DebitAmount { get; set; }
+        public decimal? CreditAmount { get; set; }
+        public DateTime? PaymentDueDate { get; set; }
+        public decimal? DiscountPercent { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public string AcctRecDocType { get; set; }
+        public decimal? InterestPaid { get; set; }
+        public decimal? LateFee { get; set; }
         public long AccountReceivableNumber { get; set; }
-
+        public string CustomerPurchaseOrder { get; set; }
+   
+        public string InvoiceDocument { get; set; }
+        public string CustomerName { get; set; }
+        public string DocType { get; set; }
+ 
     }
     public class AccountReceivableFlatView
     {
@@ -74,6 +77,13 @@ namespace lssWebApi2.AccountsReceivableDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
+        }
+        public async Task<AccountReceivable> GetEntityByPurchaseOrderId(long? purchaseOrderId)
+        {
+            var query= await (from e in _dbContext.AccountReceivable
+                        where e.PurchaseOrderId == purchaseOrderId
+                        select e).FirstOrDefaultAsync<AccountReceivable>();
+            return query;
         }
         public async Task<AccountReceivable> GetEntityById(long? accountReceivableId)
         {

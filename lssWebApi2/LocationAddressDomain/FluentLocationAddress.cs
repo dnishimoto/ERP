@@ -12,10 +12,10 @@ namespace lssWebApi2.LocationAddressDomain
 
     public class FluentLocationAddress : IFluentLocationAddress
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentLocationAddress() { }
+        public FluentLocationAddress(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentLocationAddressQuery Query()
         {
             return new FluentLocationAddressQuery(unitOfWork) as IFluentLocationAddressQuery;

@@ -7,16 +7,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.GeneralLedgerDomain
 {
 
     public interface IFluentGeneralLedger
     {
 
-        IFluentGeneralLedger CreateGeneralLedgerByInvoiceView(InvoiceView invoiceView);
+        Task<IFluentGeneralLedger> CreateGeneralLedgerByInvoiceView(InvoiceView invoiceView);
         IFluentGeneralLedger CreateGeneralLedgerByView(GeneralLedgerView ledgerView);
         IFluentGeneralLedger Apply();
-        IFluentGeneralLedger UpdateLedgerBalances();
+        IFluentGeneralLedger UpdateLedgerBalances(long docNumber, string docType);
         IFluentGeneralLedger UpdateAccountBalances(GeneralLedgerView ledgerView);
         IFluentGeneralLedgerQuery Query();
         IFluentGeneralLedger AddGeneralLedgers(List<GeneralLedger> newObjects);

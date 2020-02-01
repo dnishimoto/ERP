@@ -13,10 +13,10 @@ namespace lssWebApi2.PurchaseOrderDomain
 
 public class FluentPurchaseOrder :IFluentPurchaseOrder
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentPurchaseOrder() { }
+        public FluentPurchaseOrder(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPurchaseOrderQuery Query()
         {
             return new FluentPurchaseOrderQuery(unitOfWork) as IFluentPurchaseOrderQuery;
@@ -47,7 +47,7 @@ public class FluentPurchaseOrder :IFluentPurchaseOrder
                 purchaseOrderView.Amount = amount;
                 purchaseOrderView.AmountPaid = 0;
 
-                Task<TaxRatesByCode> taxTask = Task.Run(async()=>await unitOfWork.purchaseOrderRepository.GetTaxRatesByCode(purchaseOrderView.TaxCode1));
+                Task<TaxRatesByCode> taxTask = unitOfWork.taxRateByCodeRepository.GetEntityByCode(purchaseOrderView.TaxCode1);
                 Task.WaitAll(taxTask);
                 purchaseOrderView.Tax = amount * taxTask.Result.TaxRate;
 

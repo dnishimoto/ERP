@@ -12,5 +12,8 @@ namespace lssWebApi2.ChartOfAccountsDomain.Repository
         Task<IList<ChartOfAccount>> GetEntitiesByIds(long[] accountIds);
         Task<ChartOfAccount> GetEntityById(long ? accountId);
         Task<ChartOfAccount> GetEntityByNumber(long chartOfAccountNumber);
+        Task<ChartOfAccount> GetChartofAccount(string companyCode, string busUnit, string objectNumber, string subsidiary);
+
+
     }
 }

@@ -11,7 +11,6 @@ namespace lssWebApi2.EntityFramework
             AccountPayable = new HashSet<AccountPayable>();
             PackingSlip = new HashSet<PackingSlip>();
             Poquote = new HashSet<Poquote>();
-            PurchaseOrder = new HashSet<PurchaseOrder>();
             SupplierInvoice = new HashSet<SupplierInvoice>();
             SupplierLedger = new HashSet<SupplierLedger>();
         }
@@ -25,7 +24,6 @@ namespace lssWebApi2.EntityFramework
         public virtual ICollection<AccountPayable> AccountPayable { get; set; }
         public virtual ICollection<PackingSlip> PackingSlip { get; set; }
         public virtual ICollection<Poquote> Poquote { get; set; }
-        public virtual ICollection<PurchaseOrder> PurchaseOrder { get; set; }
         public virtual ICollection<SupplierInvoice> SupplierInvoice { get; set; }
         public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
 

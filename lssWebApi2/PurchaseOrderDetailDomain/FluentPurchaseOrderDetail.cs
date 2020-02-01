@@ -14,10 +14,10 @@ namespace lssWebApi2.PurchaseOrderDetailDomain
 
 public class FluentPurchaseOrderDetail :IFluentPurchaseOrderDetail
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPurchaseOrderDetail() { }
+        public FluentPurchaseOrderDetail(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPurchaseOrderDetailQuery Query()
         {
             return new FluentPurchaseOrderDetailQuery(unitOfWork) as IFluentPurchaseOrderDetailQuery;
@@ -56,9 +56,7 @@ public class FluentPurchaseOrderDetail :IFluentPurchaseOrderDetail
 
                         Task<PurchaseOrderDetail> detailLookupTask =
                             Task.Run(async () => await unitOfWork.purchaseOrderDetailRepository.FindEntityByExpression
-                            (e =>
-                            e.ItemId == detailView.ItemId
-                            && e.PurchaseOrderId == purchaseOrderId
+                            (e =>  e.PurchaseOrderId == purchaseOrderId
                         ));
                         Task.WaitAll(detailLookupTask);
 

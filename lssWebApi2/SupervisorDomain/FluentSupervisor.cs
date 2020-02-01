@@ -11,10 +11,10 @@ namespace lssWebApi2.SupervisorDomain
 
 public class FluentSupervisor :IFluentSupervisor
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentSupervisor() { }
+        public FluentSupervisor(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentSupervisorQuery Query()
         {
             return new FluentSupervisorQuery(unitOfWork) as IFluentSupervisorQuery;

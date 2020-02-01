@@ -37,7 +37,7 @@ namespace lssWebApi2.InventoryDomain
 
         public async Task<NextNumber> GetInventoryNextNumber()
         {
-            return await _unitOfWork.inventoryRepository.GetNextNumber(TypeOfInventory.InventoryNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfInventory.InventoryNumber.ToString());
         }
         public override async Task<Inventory> MapToEntity(InventoryView inputObject)
         {
@@ -86,8 +86,8 @@ namespace lssWebApi2.InventoryDomain
             ItemMaster itemMaster = await itemMasterTask;
             ChartOfAccount distributionAccount = await accountTask;
 
-            FluentItemMaster fluentItemMaster = new FluentItemMaster();
-            FluentChartOfAccount fluentChartOfAccount = new FluentChartOfAccount();
+            FluentItemMaster fluentItemMaster = new FluentItemMaster(_unitOfWork);
+            FluentChartOfAccount fluentChartOfAccount = new FluentChartOfAccount(_unitOfWork);
 
 
             if (itemMaster != null) view.ItemMasterView = await fluentItemMaster.Query().MapToView(itemMaster);

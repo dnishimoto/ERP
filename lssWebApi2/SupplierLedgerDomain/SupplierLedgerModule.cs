@@ -4,19 +4,34 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
 using lssWebApi2.SupplierDomain;
 using lssWebApi2.AccountPayableDomain;
+using lssWebApi2.Services;
+using lssWebApi2.InvoiceDomain;
+using lssWebApi2.GeneralLedgerDomain;
+using lssWebApi2.AddressBookDomain;
 
 namespace lssWebApi2.SupplierLedgerDomain
 {
     public class SupplierLedgerModule : AbstractModule
     {
-        public FluentSupplierLedger SupplierLedger = new FluentSupplierLedger();
-        public FluentSupplier Supplier = new FluentSupplier();
-        public FluentInvoice Invoice = new FluentInvoice();
-        public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
-        public FluentAccountPayable AccountPayable = new FluentAccountPayable();
+        private UnitOfWork unitOfWork;
+        public FluentSupplierLedger SupplierLedger;
+        public FluentSupplier Supplier;
+        public FluentInvoice Invoice;
+        public FluentGeneralLedger GeneralLedger;
+        public FluentAddressBook AddressBook;
+        public FluentAccountPayable AccountPayable;
+
+        public SupplierLedgerModule()
+        {
+            unitOfWork = new UnitOfWork();
+            SupplierLedger = new FluentSupplierLedger(unitOfWork);
+            Supplier = new FluentSupplier(unitOfWork);
+            Invoice = new FluentInvoice(unitOfWork);
+            GeneralLedger = new FluentGeneralLedger(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+            AccountPayable = new FluentAccountPayable(unitOfWork);
+        }
     }
 }

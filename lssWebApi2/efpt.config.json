@@ -130,6 +130,10 @@
       },
       {
          "HasPrimaryKey": true,
+         "Name": "[dbo].[EmployeePosition]"
+      },
+      {
+         "HasPrimaryKey": true,
          "Name": "[dbo].[EmployeeSalary]"
       },
       {
@@ -163,6 +167,26 @@
       {
          "HasPrimaryKey": true,
          "Name": "[dbo].[ItemMaster]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[JobChangeOrder]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[JobCostLedger]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[JobCostType]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[JobMaster]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[JobPhase]"
       },
       {
          "HasPrimaryKey": true,
@@ -283,6 +307,10 @@
       {
          "HasPrimaryKey": true,
          "Name": "[dbo].[ProjectManagementWorkOrderToEmployee]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[ProjectManager]"
       },
       {
          "HasPrimaryKey": true,

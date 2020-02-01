@@ -4,10 +4,7 @@ using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 using System;
 using lssWebApi2.Enumerations;
-using lssWebApi2.FluentAPI;
-using lssWebApi2.GeneralLedgerDomain;
 using System.Threading.Tasks;
-using lssWebApi2.SupplierLedgerDomain;
 using lssWebApi2.AutoMapper;
 using lssWebApi2.AbstractFactory;
 
@@ -16,13 +13,13 @@ namespace lssWebApi2.SupplierDomain
 
 public class FluentSupplier :IFluentSupplier
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
 
-        public FluentSupplier() { }
-        
-            
+        public FluentSupplier(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
+
+
         public IFluentSupplierQuery Query()
         {
             return new FluentSupplierQuery(unitOfWork) as IFluentSupplierQuery;

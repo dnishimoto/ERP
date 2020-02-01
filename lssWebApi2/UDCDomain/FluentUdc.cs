@@ -11,10 +11,10 @@ namespace lssWebApi2.UDCDomain
 
 public class FluentUdc :IFluentUdc
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentUdc() { }
+        public FluentUdc(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentUdcQuery Query()
         {
             return new FluentUdcQuery(unitOfWork) as IFluentUdcQuery;

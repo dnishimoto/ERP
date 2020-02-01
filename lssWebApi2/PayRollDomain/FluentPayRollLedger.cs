@@ -10,10 +10,10 @@ namespace lssWebApi2.PayRollDomain
 
 public class FluentPayRollLedger :IFluentPayRollLedger
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPayRollLedger() { }
+        public FluentPayRollLedger(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPayRollLedgerQuery Query()
         {
             return new FluentPayRollLedgerQuery(unitOfWork) as IFluentPayRollLedgerQuery;

@@ -14,7 +14,7 @@ namespace ConsoleApp1
     
     public interface IClassA : IEntity, IObservableMediator
     {
-        bool MessageFromObserver(IObservableAction message);
+       new bool MessageFromObserver(IObservableAction message);
     }
     public class ClassA : IClassA
     {
@@ -52,7 +52,7 @@ namespace ConsoleApp1
     }
     public interface IClassB: IEntity, IObservableMediator
     {
-       bool MessageFromObserver(IObservableAction message);
+       new bool MessageFromObserver(IObservableAction message);
     }
     public class ClassB: IClassB
     {
@@ -106,7 +106,6 @@ namespace ConsoleApp1
             MessageAction action = new MessageAction
             {
 
-                observed_action = "Add an Invoice",
                 targetByName = nameof(ClassB),
                 command_action = TypeOfObservableAction.InsertData
             };

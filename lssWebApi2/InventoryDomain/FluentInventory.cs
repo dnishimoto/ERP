@@ -17,14 +17,11 @@ namespace lssWebApi2.InventoryDomain
     {
         
 
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
             
-        public FluentInventory()
-        {
-
-        }
+        public FluentInventory(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
 
         public IFluentInventory CreateInventoryByPackingSlipView(PackingSlipView view)
         {

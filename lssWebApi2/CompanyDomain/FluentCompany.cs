@@ -11,10 +11,10 @@ namespace lssWebApi2.CompanyDomain
 
 public class FluentCompany :IFluentCompany
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentCompany() { }
+        public FluentCompany(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentCompanyQuery Query()
         {
             return new FluentCompanyQuery(unitOfWork) as IFluentCompanyQuery;

@@ -1,5 +1,4 @@
-﻿using lssWebApi2.AddressBookDomain;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -7,7 +6,7 @@ using lssWebApi2.EntityFramework;
 using System.Threading.Tasks;
 using lssWebApi2.AbstractFactory;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.AddressBookDomain
 {
     public interface IFluentAddressBookQuery
     {

@@ -42,8 +42,12 @@ namespace lssWebApi2.PurchaseOrderDomain
         public string TaxCode2 { get; set; }
         public long PurchaseOrderNumber { get; set; }
         public decimal? Amount { get; set; }
-        public string SupplierName { get; set; }
+        public long? CarrierId { get; set; }
+        public decimal? DiscountPercent { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public decimal? FreightAmount { get; set; }
 
+        public string SupplierName { get; set; }
         public string Location { get; set; }
         public string BusUnit { get; set; }
         public string Subsidiary { get; set; }
@@ -53,6 +57,7 @@ namespace lssWebApi2.PurchaseOrderDomain
         public long? CustomerId { get; set; }
         public decimal? QuoteAmount { get; set; }
         public string BuyerName { get; set; }
+        public decimal TaxRate { get; set; }
         public IList<PurchaseOrderDetailView> PurchaseOrderDetailViews { get; set; }
     }
     public class PurchaseOrderRepository: Repository<PurchaseOrder>, IPurchaseOrderRepository

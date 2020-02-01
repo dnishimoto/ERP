@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.InvoiceDomain
 {
     public interface IFluentInvoiceQuery
     {
@@ -19,5 +19,7 @@ namespace lssWebApi2.Interfaces
         Task<IList<Invoice>> MapToEntity(IList<InvoiceView> inputObjects);
         Task<Invoice> MapToEntity(InvoiceView inputObject);
         Task<NextNumber> GetNextNumber();
+        Task<IList<Invoice>> GetEntitiesByPurchaseOrderId(long? purchaseOrderId);
+        Task<Invoice> GetEntityByInvoiceDocument(string invoiceDocument);
     }
 }

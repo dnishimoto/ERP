@@ -23,7 +23,6 @@ namespace lssWebApi2.EntityFramework
         public string Description { get; set; }
         public long? PurchaseOrderId { get; set; }
         public decimal? Tax { get; set; }
-        public long? InvoiceId { get; set; }
         public long AccountId { get; set; }
         public string DocType { get; set; }
         public string PaymentTerms { get; set; }
@@ -36,7 +35,6 @@ namespace lssWebApi2.EntityFramework
 
         public virtual ChartOfAccount Account { get; set; }
         public virtual Contract Contract { get; set; }
-        public virtual Invoice Invoice { get; set; }
         public virtual Poquote Poquote { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         public virtual Supplier Supplier { get; set; }

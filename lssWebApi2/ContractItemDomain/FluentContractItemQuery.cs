@@ -72,7 +72,7 @@ public class FluentContractItemQuery:MapperAbstract<ContractItem,ContractItemVie
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.contractItemRepository.GetNextNumber(TypeOfContractItem.ContractItemNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfContractItem.ContractItemNumber.ToString());
         }
  public override async Task<ContractItemView> GetViewById(long ? contractItemId)
         {

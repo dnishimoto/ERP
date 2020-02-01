@@ -1,7 +1,7 @@
 ﻿using lssWebApi2.AbstractFactory;
 using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.Interfaces;
-using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.InvoicesDomain;
 using lssWebApi2.Services;
@@ -14,15 +14,15 @@ using lssWebApi2.Enumerations;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.AutoMapper;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.GeneralLedgerDomain
 {
    
     public class FluentGeneralLedger : AbstractErrorHandling, IFluentGeneralLedger
     {
-        public UnitOfWork unitOfWork = new UnitOfWork();
-        public AccountReceivableView lastAccountReceivableView;
+        public UnitOfWork unitOfWork ;
         public CreateProcessStatus processStatus;
 
+        public FluentGeneralLedger(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         private FluentGeneralLedgerQuery _query = null;
 
         public IFluentGeneralLedgerQuery Query()
@@ -38,12 +38,12 @@ namespace lssWebApi2.FluentAPI
             Task.WaitAll(resultTask);
             return this as IFluentGeneralLedger;
         }
-        public IFluentGeneralLedger UpdateLedgerBalances()
+        public IFluentGeneralLedger UpdateLedgerBalances(long docNumber, string docType)
         {
 
-            Task<GeneralLedger> ledgerTask = Task.Run(() => unitOfWork.generalLedgerRepository.GetEntityByDocNumber(lastAccountReceivableView.DocNumber, "OV"));
+            Task<GeneralLedger> ledgerTask =  unitOfWork.generalLedgerRepository.GetEntityByDocNumber(docNumber, docType);
             Task.WaitAll(ledgerTask);
-            Task<bool> resultTask = Task.Run(() => unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerTask.Result.AccountId, ledgerTask.Result.FiscalYear, ledgerTask.Result.FiscalPeriod,ledgerTask.Result.DocType));
+            Task<bool> resultTask =  unitOfWork.generalLedgerRepository.UpdateBalanceByAccountId(ledgerTask.Result.AccountId, ledgerTask.Result.FiscalYear, ledgerTask.Result.FiscalPeriod,ledgerTask.Result.DocType);
             Task.WaitAll(resultTask);
             return this as IFluentGeneralLedger;
         }
@@ -78,46 +78,43 @@ namespace lssWebApi2.FluentAPI
                 throw new Exception(GetMyMethodName(), ex);
             }
         }
-        public IFluentGeneralLedger CreateGeneralLedgerByInvoiceView(InvoiceView invoiceView)
+        public async Task<IFluentGeneralLedger> CreateGeneralLedgerByInvoiceView(InvoiceView invoiceView)
         {
             try
             {
 
-                Task<AccountReceivable> acctRecTask = Task.Run(() => unitOfWork.accountReceivableRepository.GetEntityByInvoiceId(invoiceView.InvoiceId));
-                Task.WaitAll(acctRecTask);
+                AccountReceivable acctRec=  await unitOfWork.accountReceivableRepository.GetEntityByPurchaseOrderId(invoiceView.PurchaseOrderId);
 
-                if (acctRecTask.Result != null)
+
+                if (acctRec != null)
                 {
 
-                    Task<GeneralLedger> generalLedgerLookupTask = Task.Run(async () => await unitOfWork.generalLedgerRepository.FindEntityByDocNumber(acctRecTask.Result.DocNumber));
-                    Task.WaitAll(generalLedgerLookupTask);
-
-
-
-                    if (generalLedgerLookupTask.Result == null)
+                    GeneralLedger generalLedgerLookup = await unitOfWork.generalLedgerRepository.FindEntityByDocNumber(acctRec.DocNumber);
+  
+                    if (generalLedgerLookup == null)
                     {
 
-                        Task<long> addressIdTask = Task.Run(async () => await unitOfWork.addressBookRepository.GetAddressIdByCustomerId(acctRecTask.Result.CustomerId));
+                        long addressId = await unitOfWork.addressBookRepository.GetAddressIdByCustomerId(acctRec.CustomerId);
 
                         //Revenue Account
-                        Task<ChartOfAccount> chartOfAcctTask = Task.Run(async () => await unitOfWork.generalLedgerRepository.GetChartofAccount("1000", "1200", "250", ""));
-
-                        Task.WaitAll(addressIdTask, chartOfAcctTask);
+                        ChartOfAccount chartOfAcct = await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "250", "");
+                      
 
                         GeneralLedger ledger = new GeneralLedger();
-                        ledger.DocNumber = acctRecTask.Result.DocNumber ?? 0;
+                        ledger.DocNumber = acctRec.DocNumber ?? 0;
                         ledger.DocType = "OV";
-                        ledger.Amount = acctRecTask.Result.Amount ?? 0;
+                        ledger.Amount = acctRec.Amount ?? 0;
                         ledger.LedgerType = "AA";
                         ledger.Gldate = DateTime.Now.Date;
                         ledger.FiscalPeriod = DateTime.Now.Date.Month;
                         ledger.FiscalYear = DateTime.Now.Date.Year;
-                        ledger.AccountId = chartOfAcctTask.Result.AccountId;
+                        ledger.AccountId = chartOfAcct.AccountId;
                         ledger.CreatedDate = DateTime.Now.Date;
-                        ledger.AddressId = addressIdTask.Result;
-                        ledger.Comment = acctRecTask.Result.Remarks;
+                        ledger.AddressId = addressId;
+                        ledger.Comment = acctRec.Remarks;
                         ledger.DebitAmount = 0.0M;
-                        ledger.CreditAmount = acctRecTask.Result.Amount ?? 0;
+                        ledger.CreditAmount = acctRec.Amount ?? 0;
+                        ledger.GeneralLedgerNumber = (await unitOfWork.nextNumberRepository.GetNextNumber(TypeOfGeneralLedger.GeneralLedgerNumber.ToString())).NextNumberValue;
 
                         AddGeneralLedger(ledger);
                         return this as IFluentGeneralLedger;

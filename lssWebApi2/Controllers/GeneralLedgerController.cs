@@ -39,10 +39,12 @@ namespace lssWebApi2.Controllers
             int addressId = 1;
          
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
+            NextNumber DocNumber = await ledgerMod.GeneralLedger.Query().GetDocNumber();
+
             //Income GL
 
             GeneralLedgerView glView = new GeneralLedgerView();
-            glView.DocNumber = -1;
+            glView.DocNumber = DocNumber.NextNumberValue;
            glView.Amount = incomeShortView.Amount;
             glView.GLDate = incomeShortView.GLDate;
             glView.AddressId = addressId;

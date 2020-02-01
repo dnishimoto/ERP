@@ -74,7 +74,7 @@ public class FluentSupervisorQuery:MapperAbstract<Supervisor,SupervisorView>, IF
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.supervisorRepository.GetNextNumber(TypeOfSupervisor.SupervisorNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfSupervisor.SupervisorNumber.ToString());
         }
  public override async Task<SupervisorView> GetViewById(long ? supervisorId)
         {

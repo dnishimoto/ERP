@@ -12,8 +12,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using X.PagedList;
+using lssWebApi2.Enumerations;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.GeneralLedgerDomain
 {
     public class FluentGeneralLedgerQuery : MapperAbstract<GeneralLedger,GeneralLedgerView>, IFluentGeneralLedgerQuery
     {
@@ -64,6 +65,15 @@ namespace lssWebApi2.FluentAPI
             await Task.Yield();
 
             return outObject;
+        }
+        public async Task<NextNumber> GetDocNumber()
+        {
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfGeneralLedger.DocNumber.ToString());
+        }
+        public async Task<NextNumber> GetNextNumber()
+
+        {
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfGeneralLedger.GeneralLedgerNumber.ToString());
         }
         public async Task<GeneralLedgerView> GetViewByDocNumber(long? docNumber, string docType)
         {

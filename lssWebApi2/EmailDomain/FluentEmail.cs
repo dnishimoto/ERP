@@ -1,4 +1,3 @@
-using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
@@ -7,15 +6,15 @@ using lssWebApi2.Enumerations;
 using System.Threading.Tasks;
 using lssWebApi2.CustomerDomain;
 
-namespace lssWebApi2.AddressBookDomain
+namespace lssWebApi2.EmailDomain
 {
 
 public class FluentEmail :IFluentEmail
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentEmail() { }
+        public FluentEmail(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentEmailQuery Query()
         {
             return new FluentEmailQuery(unitOfWork) as IFluentEmailQuery;

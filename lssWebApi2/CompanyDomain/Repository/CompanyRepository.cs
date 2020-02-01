@@ -35,7 +35,20 @@ namespace lssWebApi2.CompanyDomain
             _dbContext = (ListensoftwaredbContext)db;
         }
 
-      
+        public async Task<Company> GetCompany()
+        {
+            try
+            {
+           
+
+                Company company = await (from e in _dbContext.Company
+                                         where e.CompanyId == 1
+                                         select e).FirstOrDefaultAsync<Company>();
+
+                return company;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<Company>GetEntityById(long ? companyId)
         {
 			try{

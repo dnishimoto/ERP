@@ -43,18 +43,15 @@ public class FluentPurchaseOrderDetailQuery:MapperAbstract<PurchaseOrderDetail,P
 
 
             Task<PurchaseOrder> purchaseOrderTask = _unitOfWork.purchaseOrderRepository.GetEntityById(inputObject.PurchaseOrderId);
-            Task<ItemMaster> itemMasterTask = _unitOfWork.itemMasterRepository.GetEntityById(inputObject.ItemId);
+            Task<Supplier> supplierTask = _unitOfWork.supplierRepository.GetEntityById(inputObject.SupplierId);
 
-            Task.WaitAll(purchaseOrderTask, itemMasterTask);
+            Task.WaitAll(purchaseOrderTask, supplierTask);
 
+            AddressBook addressBookSupplier = await _unitOfWork.addressBookRepository.GetEntityById(supplierTask.Result?.AddressId);
 
             outObject.PONumber = purchaseOrderTask.Result.Ponumber;
-            outObject.ItemId = itemMasterTask.Result.ItemId;
-            outObject.Description = itemMasterTask.Result.Description;
-            outObject.ItemDescription2 = itemMasterTask.Result.Description2;
-            outObject.ItemCode = itemMasterTask.Result.ItemCode;
-            outObject.UnitPrice = itemMasterTask.Result.UnitPrice;
-            outObject.UnitOfMeasure = itemMasterTask.Result.UnitOfMeasure;
+            outObject.SupplierName = addressBookSupplier?.Name;
+
 
             await Task.Yield();
 
@@ -64,7 +61,7 @@ public class FluentPurchaseOrderDetailQuery:MapperAbstract<PurchaseOrderDetail,P
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.purchaseOrderDetailRepository.GetNextNumber(TypeOfPurchaseOrderDetail.PurchaseOrderDetailNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPurchaseOrderDetail.PurchaseOrderDetailNumber.ToString());
         }
  public override async Task<PurchaseOrderDetailView> GetViewById(long ? purchaseOrderDetailId)
         {
@@ -87,6 +84,10 @@ public override async Task<PurchaseOrderDetail> GetEntityById(long ? purchaseOrd
  public async Task<PurchaseOrderDetail> GetEntityByNumber(long purchaseOrderDetailNumber)
         {
             return await _unitOfWork.purchaseOrderDetailRepository.GetEntityByNumber(purchaseOrderDetailNumber);
+        }
+        public async Task<IList<PurchaseOrderDetail>> GetEntitiesByPurchaseOrderId(long? purchaseOrderId)
+        {
+            return await _unitOfWork.purchaseOrderDetailRepository.GetEntitiesByPurchaseOrderId(purchaseOrderId);
         }
 }
 }

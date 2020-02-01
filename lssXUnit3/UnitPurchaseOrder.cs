@@ -34,8 +34,9 @@ namespace lssWebApi2.PurchaseOrderDomain
             Poquote poquote = await PurchaseOrderMod.POQuote.Query().GetEntityById(2);
             Buyer buyer = await PurchaseOrderMod.Buyer.Query().GetEntityById(1);
             if (buyer != null) buyerAddressBook = await PurchaseOrderMod.AddressBook.Query().GetEntityById(buyer.AddressId);
+            TaxRatesByCode taxRatesByCode = await PurchaseOrderMod.TaxRatesByCode.Query().GetEntityById(1);
 
-           PurchaseOrderView view = new PurchaseOrderView()
+            PurchaseOrderView view = new PurchaseOrderView()
            {
                DocType = "STD",
                PaymentTerms = "Net 30",
@@ -71,8 +72,9 @@ namespace lssWebApi2.PurchaseOrderDomain
                PromisedDeliveredDate = DateTime.Parse("11/29/2019"),
                Tax=0M,
                TransactionDate = DateTime.Parse("11/29/2019"),
-               TaxCode1 = "StateTaxID",
-               TaxCode2=""
+               TaxCode1 = taxRatesByCode.TaxCode,
+               TaxCode2="",
+               TaxRate=taxRatesByCode.TaxRate??0
             };
             NextNumber nnNextNumber = await PurchaseOrderMod.PurchaseOrder.Query().GetNextNumber();
 

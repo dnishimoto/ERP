@@ -11,10 +11,10 @@ namespace lssWebApi2.CustomerClaimDomain
 
 public class FluentCustomerClaim :IFluentCustomerClaim
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentCustomerClaim() { }
+        public FluentCustomerClaim(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentCustomerClaimQuery Query()
         {
             return new FluentCustomerClaimQuery(unitOfWork) as IFluentCustomerClaimQuery;

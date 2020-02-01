@@ -39,11 +39,12 @@
     <Compile Include="Buyer.ps1" />
     <Compile Include="Carrier.ps1" />
     <Compile Include="Company.ps1" />
-    <Compile Include="ContractInvoice.ps1" />
+    <Compile Include="JobMaster.ps1" />
     <Compile Include="CopyToBackup.ps1" />
     <Compile Include="Equipment.ps1" />
     <Compile Include="InvoiceDetail.ps1" />
     <Compile Include="ItemMaster.ps1" />
+    <Compile Include="NextNumber.ps1" />
     <Compile Include="LocationAddress.ps1" />
     <Compile Include="PackingDetailSlip.ps1" />
     <Compile Include="PackingSlip.ps1" />

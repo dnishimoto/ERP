@@ -7,6 +7,7 @@ namespace lssWebApi2.Enumerations
 {
     public enum TypeOfAccountPayable
     {
-        AccountPayableNumber
+        AccountPayableNumber,
+        DocNumber
     }
 }

@@ -13,10 +13,10 @@ namespace lssWebApi2.SupplierInvoiceDomain
 
 public class FluentSupplierInvoice :IFluentSupplierInvoice
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentSupplierInvoice() { }
+        public FluentSupplierInvoice(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentSupplierInvoiceQuery Query()
         {
             return new FluentSupplierInvoiceQuery(unitOfWork) as IFluentSupplierInvoiceQuery;

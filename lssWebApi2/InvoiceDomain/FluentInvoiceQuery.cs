@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.Enumerations;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.InvoiceDomain
 {
     public class FluentInvoiceQuery : MapperAbstract<Invoice, InvoiceView>, IFluentInvoiceQuery
     {
@@ -51,7 +51,8 @@ namespace lssWebApi2.FluentAPI
 
             Task<Supplier> supplierTask =  _unitOfWork.supplierRepository.GetEntityById(inputObject?.SupplierId);
             Task<Customer> customerTask =  _unitOfWork.customerRepository.GetEntityById(inputObject?.CustomerId);
-            Task.WaitAll(supplierTask, customerTask);
+            Task<TaxRatesByCode> taxRatesByCodeTask = _unitOfWork.taxRateByCodeRepository.GetEntityById(inputObject.TaxRatesByCodeId);
+            Task.WaitAll(supplierTask, customerTask, taxRatesByCodeTask);
 
             Task<AddressBook> addressBookSupplierTask =  _unitOfWork.addressBookRepository.GetEntityById(supplierTask.Result?.AddressId);
             Task<AddressBook> addressBookCustomerTask = _unitOfWork.addressBookRepository.GetEntityById(customerTask.Result?.AddressId);
@@ -59,11 +60,11 @@ namespace lssWebApi2.FluentAPI
 
             outObject.SupplierName = addressBookSupplierTask.Result?.Name;
             outObject.CustomerName = addressBookCustomerTask.Result?.Name;
+            outObject.TaxCode = taxRatesByCodeTask.Result.TaxCode;
 
-            IList<InvoiceDetail> list = await _unitOfWork.invoiceDetailRepository.GetEntitiesByInvoiceId(inputObject?.InvoiceId);
             List<InvoiceDetailView> viewsList = new List<InvoiceDetailView>();
-
-            FluentInvoiceDetail fluentInvoiceDetail = new FluentInvoiceDetail();
+            FluentInvoiceDetail fluentInvoiceDetail = new FluentInvoiceDetail(_unitOfWork);
+            IList<InvoiceDetail> list = await fluentInvoiceDetail.Query().GetEntitiesByInvoiceId(inputObject?.InvoiceId);
 
             foreach (var item in list)
             {
@@ -75,7 +76,7 @@ namespace lssWebApi2.FluentAPI
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.invoiceRepository.GetNextNumber(TypeOfInvoice.InvoiceNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfInvoice.InvoiceNumber.ToString());
         }
         public override async Task<InvoiceView> GetViewById(long? invoiceId)
         {
@@ -103,6 +104,14 @@ namespace lssWebApi2.FluentAPI
         public List<InvoiceFlatView> GetInvoicesByDate(DateTime startInvoiceDate, DateTime endInvoiceDate)
         {
             return _unitOfWork.invoiceRepository.GetInvoicesByDate(startInvoiceDate, endInvoiceDate);
+        }
+        public async Task<IList<Invoice>> GetEntitiesByPurchaseOrderId(long? purchaseOrderId)
+        {
+            return await _unitOfWork.invoiceRepository.GetEntitiesByExpression(e => e.PurchaseOrderId == purchaseOrderId);
+        }
+        public async Task<Invoice> GetEntityByInvoiceDocument(string invoiceDocument)
+        {
+            return await _unitOfWork.invoiceRepository.GetEntityByInvoiceDocument(invoiceDocument);
         }
         public async Task<IList<InvoiceView>> GetInvoiceViewsByCustomerId(long? customerId, long? invoiceId = null)
         {

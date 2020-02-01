@@ -4,15 +4,24 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
 using lssWebApi2.UDCDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AddressBookDomain;
 
 namespace lssWebApi2.CarrierDomain
 {
     public class CarrierModule : AbstractModule
     {
-        public FluentCarrier Carrier = new FluentCarrier();
-        public FluentUdc Udc = new FluentUdc();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
+        private UnitOfWork unitOfWork;
+        public FluentCarrier Carrier;
+        public FluentUdc Udc;
+        public FluentAddressBook AddressBook;
+        public CarrierModule()
+        {
+            unitOfWork = new UnitOfWork();
+            Carrier = new FluentCarrier(unitOfWork);
+            Udc = new FluentUdc(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+        }
     }
 }

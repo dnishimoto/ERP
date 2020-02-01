@@ -9,18 +9,19 @@ using System.Threading.Tasks;
 using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.AbstractFactory;
 using lssWebApi2.AutoMapper;
+using lssWebApi2.InvoicesDomain;
 
 namespace lssWebApi2.CustomerLedgerDomain
 {
 
 public class FluentCustomerLedger :IFluentCustomerLedger
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
 
-        public FluentCustomerLedger() { }
-       
+        public FluentCustomerLedger(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
+
         public IFluentCustomerLedgerQuery Query()
         {
             return new FluentCustomerLedgerQuery(unitOfWork) as IFluentCustomerLedgerQuery;
@@ -63,20 +64,20 @@ public class FluentCustomerLedger :IFluentCustomerLedger
 
         }
 
-        public IFluentCustomerLedger CreateEntityByGeneralLedgerView(GeneralLedgerView ledgerView)
+        public async Task<IFluentCustomerLedger> CreateEntityByGeneralLedgerView(GeneralLedgerView ledgerView)
         {
 
             CustomerLedgerView customerLedgerView = applicationViewFactory.MapToCustomerLedgerView(ledgerView);
 
             //Get the AcctRecId
-            Task<AccountReceivable> acctRecTask = Task.Run(() => unitOfWork.accountReceivableRepository.GetAcctRecByDocNumber(ledgerView.DocNumber));
-            Task.WaitAll(acctRecTask);
+           AccountReceivable acctRec = await unitOfWork.accountReceivableRepository.GetAcctRecByDocNumber(ledgerView.DocNumber);
+            
 
-            if (acctRecTask.Result != null)
+            if (acctRec != null)
             {
-                customerLedgerView.AcctRecId = acctRecTask.Result.AcctRecId;
-                customerLedgerView.InvoiceId = acctRecTask.Result.InvoiceId;
-                customerLedgerView.CustomerId = acctRecTask.Result.CustomerId;
+                customerLedgerView.AcctRecId = acctRec.AcctRecId;
+                customerLedgerView.InvoiceId = acctRec.InvoiceId??0;
+                customerLedgerView.CustomerId = acctRec.CustomerId;
                 customerLedgerView.GeneralLedgerId = ledgerView.GeneralLedgerId;
 
                 CreateEntityByView(customerLedgerView);
@@ -91,6 +92,39 @@ public class FluentCustomerLedger :IFluentCustomerLedger
             return this as IFluentCustomerLedger;
 		    }
             catch (Exception ex) { throw new Exception("Apply", ex); }
+        }
+        public async Task<IFluentCustomerLedger> CreateCustomerLedgerByInvoiceView(InvoiceView invoiceView)
+        {
+            Task<AccountReceivable> acctRecLookupTask = unitOfWork.accountReceivableRepository.GetEntityByPurchaseOrderId(invoiceView.PurchaseOrderId);
+            Task<Customer> customerTask = unitOfWork.customerRepository.GetEntityById(invoiceView.CustomerId);
+            Task.WaitAll(acctRecLookupTask,customerTask);
+
+            Task<GeneralLedger> generalLedgerTask = unitOfWork.generalLedgerRepository.GetEntityByDocNumber(acctRecLookupTask.Result?.DocNumber,"OV");
+            Task.WaitAll(generalLedgerTask);
+
+            CustomerLedger customerLedger = new CustomerLedger {
+                CustomerId = invoiceView.CustomerId??0,
+                GeneralLedgerId = generalLedgerTask.Result?.GeneralLedgerId??0,
+                InvoiceId = invoiceView.InvoiceId??0,
+                AcctRecId = acctRecLookupTask.Result?.AcctRecId??0,
+                DocNumber = generalLedgerTask.Result?.DocNumber??0,
+                DocType = generalLedgerTask.Result ?.DocType,
+                Amount = invoiceView.Amount,
+                Gldate = generalLedgerTask.Result?.Gldate,
+                AccountId= generalLedgerTask.Result?.AccountId??0,
+                CreatedDate = DateTime.Now,
+                AddressId = customerTask.Result.AddressId,
+                Comment = generalLedgerTask.Result?.Comment,
+                DebitAmount = generalLedgerTask.Result?.DebitAmount,
+                CreditAmount = generalLedgerTask.Result?.CreditAmount,
+                FiscalPeriod = generalLedgerTask.Result?.FiscalPeriod??0,
+                FiscalYear = generalLedgerTask.Result?.FiscalYear??0,
+                CheckNumber = generalLedgerTask.Result?.CheckNumber,
+                CustomerLedgerNumber = (await unitOfWork.nextNumberRepository.GetNextNumber(TypeOfCustomerLedger.CustomerLedgerNumber.ToString())).NextNumberValue
+            };
+
+            AddCustomerLedger(customerLedger);
+            return this as IFluentCustomerLedger;
         }
         public IFluentCustomerLedger AddCustomerLedgers(List<CustomerLedger> newObjects)
         {

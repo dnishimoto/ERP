@@ -51,7 +51,7 @@ public class FluentItemMasterQuery:MapperAbstract<ItemMaster,ItemMasterView>,IFl
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.itemMasterRepository.GetNextNumber(TypeOfItemMaster.ItemMasterNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfItemMaster.ItemMasterNumber.ToString());
         }
  public override async Task<ItemMasterView> GetViewById(long ? itemMasterId)
         {

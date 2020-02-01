@@ -8,10 +8,13 @@ namespace lssWebApi2.ObserverMediator
 {
     public class MessageAction: IMessageAction
     {
-        public string observed_action { get; set; }
         public TypeOfObservableAction command_action { get; set; }
         public string targetByName { get; set; }
-
+        
+        public JobCostLedger JobCostLedger { get; set; }
+        public JobCostType JobCostType { get; set; }
+        public JobPhase JobPhase { get; set; }
+        public JobMaster JobMaster { get; set; }
         public AddressBook AddressBook { get; set; }
         public ChartOfAccount ChartOfAccount { get; set; }
         public BudgetRange BudgetRange { get; set; }
