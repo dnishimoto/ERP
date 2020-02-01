@@ -23,13 +23,13 @@ namespace lssWebApi2.AccountPayableDomain
         public decimal? DiscountAmount { get; set; }
         public string Remark { get; set; }
         public DateTime? Gldate { get; set; }
-        public long SupplierId { get; set; }
+        public long? SupplierId { get; set; }
+        public long? CustomerId { get; set; }
         public long? ContractId { get; set; }
         public long? PoquoteId { get; set; }
         public string Description { get; set; }
         public long? PurchaseOrderId { get; set; }
         public decimal? Tax { get; set; }
-        public long? InvoiceId { get; set; }
         public long AccountId { get; set; }
         public string DocType { get; set; }
         public string PaymentTerms { get; set; }
@@ -53,15 +53,15 @@ namespace lssWebApi2.AccountPayableDomain
         public async Task<AccountPayable> GetEntityByPurchaseOrderView(PurchaseOrderView poView)
         {
             List<AccountPayable> list = await (from detail in _dbContext.AccountPayable
-                                               where detail.OrderNumber==poView.Ponumber
+                                               where detail.OrderNumber == poView.Ponumber
                                                select detail).ToListAsync<AccountPayable>();
 
             AccountPayable acctPay = null;
             if (list.Count == 0)
             {
-                NextNumber nextNumber = await base.GetNextNumber(TypeOfPurchaseOrder.DocNumber.ToString());
-                acctPay=new AccountPayable();
-                acctPay.DocNumber = nextNumber.NextNumberValue;
+               
+                acctPay = new AccountPayable();
+              
                 acctPay.GrossAmount = poView.Amount;
                 acctPay.Remark = "";
                 acctPay.Gldate = DateTime.Today.Date;
@@ -77,12 +77,13 @@ namespace lssWebApi2.AccountPayableDomain
                 acctPay.AmountOpen = poView.Amount;
                 acctPay.OrderNumber = poView.Ponumber;
                 acctPay.AmountPaid = 0;
-    
+
             }
             return (acctPay);
 
 
         }
+
         public async Task<AccountPayable> GetEntityByGeneralLedger(GeneralLedgerView ledgerView)
         {
             List<AccountPayable> list = await (from detail in _dbContext.AccountPayable

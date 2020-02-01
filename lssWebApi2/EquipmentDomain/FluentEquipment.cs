@@ -11,10 +11,10 @@ namespace lssWebApi2.EquipmentDomain
 
 public class FluentEquipment :IFluentEquipment
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentEquipment() { }
+        public FluentEquipment(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentEquipmentQuery Query()
         {
             return new FluentEquipmentQuery(unitOfWork) as IFluentEquipmentQuery;

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
+using lssWebApi2.AccountsReceivableDomain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

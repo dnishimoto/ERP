@@ -9,6 +9,7 @@ namespace lssWebApi2.EntityFramework
         public Company()
         {
             ChartOfAccount = new HashSet<ChartOfAccount>();
+            EmployeePosition = new HashSet<EmployeePosition>();
             Invoice = new HashSet<Invoice>();
         }
 
@@ -24,6 +25,7 @@ namespace lssWebApi2.EntityFramework
         public long? CompanyNumber { get; set; }
 
         public virtual ICollection<ChartOfAccount> ChartOfAccount { get; set; }
+        public virtual ICollection<EmployeePosition> EmployeePosition { get; set; }
         public virtual ICollection<Invoice> Invoice { get; set; }
 
     }

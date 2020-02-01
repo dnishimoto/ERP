@@ -11,10 +11,10 @@ namespace lssWebApi2.POQuoteDomain
 
 public class FluentPOQuote :IFluentPOQuote
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPOQuote() { }
+        public FluentPOQuote(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPOQuoteQuery Query()
         {
             return new FluentPOQuoteQuery(unitOfWork) as IFluentPOQuoteQuery;

@@ -12,10 +12,10 @@ namespace lssWebApi2.InventoryDomain
 {
     public class FluentAsset :IFluentAsset
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentAsset() { }
+        public FluentAsset(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentAssetQuery Query()
         {
             return new FluentAssetQuery(unitOfWork) as IFluentAssetQuery;

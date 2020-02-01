@@ -17,15 +17,15 @@ namespace lssWebApi2.TaxRatesByCodeDomain
 
     }
 
-    public class TaxRatesByCodeRepository : Repository<TaxRatesByCode>, ITaxRatesByCodeRepository
+    public class TaxRateByCodeRepository : Repository<TaxRatesByCode>, ITaxRateByCodeRepository
     {
         ListensoftwaredbContext _dbContext;
-        public TaxRatesByCodeRepository(DbContext db) : base(db)
+        public TaxRateByCodeRepository(DbContext db) : base(db)
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
 
-
+   
         public async Task<TaxRatesByCode> GetEntityById(long ? TaxRatesByCodeId)
         {
             return await _dbContext.FindAsync<TaxRatesByCode>(TaxRatesByCodeId);

@@ -72,7 +72,7 @@ namespace lssWebApi2.ProjectManagementTaskDomain
             ProjectManagementWorkOrder workOrder = await _unitOfWork.projectManagementWorkOrderRepository.GetEntityById(7);
             ChartOfAccount account = await _unitOfWork.chartOfAccountRepository.GetEntityById(4);
 
-            FluentProjectManagementWorkOrderToEmployee WorkToEmployee = new FluentProjectManagementWorkOrderToEmployee();
+            FluentProjectManagementWorkOrderToEmployee WorkToEmployee = new FluentProjectManagementWorkOrderToEmployee(_unitOfWork);
             IList<ProjectManagementWorkOrderToEmployeeView> views = await WorkToEmployee.Query().GetViewsByWorkOrderId(workOrder.WorkOrderId);
 
             outObject.ProjectName = project.ProjectName;
@@ -87,7 +87,7 @@ namespace lssWebApi2.ProjectManagementTaskDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.projectManagementTaskRepository.GetNextNumber(TypeOfProjectManagementTask.TaskNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfProjectManagementTask.TaskNumber.ToString());
         }
         public override async Task<ProjectManagementTaskView> GetViewById(long? projectManagementTaskId)
         {

@@ -104,76 +104,23 @@ namespace lssWebApi2.Services
 
 
         }
-    
 
-        public async Task<NextNumber> GetNextNumber(string nextNumberName)
+
+        public async Task<Udc> GetUdc2(string productCode, string keyCode)
         {
             try
             {
+                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
+                Udc udc = await (from e in _dbListensoftwaredbContext.Udc
+                                 where e.ProductCode == productCode
+                                 && e.KeyCode == keyCode
+                                 select e).FirstOrDefaultAsync<Udc>();
 
-                List<SqlParameter> parameters = new List<SqlParameter>();
-
-                parameters.Add( new SqlParameter("@NextNumberName", nextNumberName));
-
-       
-                IList<NextNumber> nextNumber=await _dbContext.SqlQuery<NextNumber>(CommandType.Text, "usp_GetNextNumber @NextNumberName",parameters);
-
-                /*
-                 SqlParameter param1 = new SqlParameter("@NextNumberName", nextNumberName);
-                //NextNumber nextNumber = await _dbContext.Database.SqlQuery<NextNumber>("usp_GetNextNumber @NextNumberName", param1).SingleAsync();
-
-                var command = _dbContext.Database.GetDbConnection().CreateCommand();
-
-                command.CommandType = System.Data.CommandType.StoredProcedure;
-                command.CommandText = "usp_GetNextNumber";
-                command.Parameters.Add(param1);
-
-                _dbContext.Database.OpenConnection();
-
-        
-
-                var queryResults = command.ExecuteReader();
-                NextNumber nextNumber = new NextNumber();
-                while (queryResults.Read())
-                {
-                    nextNumber.NextNumberId = (long) queryResults["NextNumberId"];
-                    nextNumber.NextNumberName = queryResults["NextNumberName"].ToString();
-                    nextNumber.NextNumberValue = (long)queryResults["NextNumberValue"];
-                   
-
-
-                }
-                */
-                return nextNumber[0];
+                return udc;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-      
-            //foreach (NextNumber item in query)
-            //{
-            //    nextNumber=item;
-            // }
-            /*
-            NextNumber nextNumber = null;
-            long? currentNextNumberValue = 0;
-            using (DbContextTransaction scope = _dbListensoftwaredbContext.Database.BeginTransaction())
-            {
-                //Lock the table during this transaction
-                nextNumber = await (from e in _dbListensoftwaredbContext.NextNumbers
-                                               where e.NextNumberName == nextNumberName
-                                               select e).FirstOrDefaultAsync<NextNumber>();
-
-                currentNextNumberValue = nextNumber.NextNumberValue;
-                nextNumber.NextNumberValue += 1;
-                _dbListensoftwaredbContext.NextNumbers.Attach(nextNumber);
-                _dbListensoftwaredbContext.Entry(nextNumber).State = EntityState.Modified;
-                _dbListensoftwaredbContext.SaveChanges();
-                nextNumber.NextNumberValue = currentNextNumberValue??0;
-
-                scope.Commit();
-            }
-            */
-
         }
+
         public String BuildLongDate(DateTime ? myDate)
         {
             String year, month, day = "";
@@ -243,72 +190,7 @@ namespace lssWebApi2.Services
             }
         }
        
-        public async Task<Company> GetCompany()
-        {
-            try
-            {
-                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
-
-
-                Company company = await (from e in _dbListensoftwaredbContext.Company
-                                         where e.CompanyId == 1
-                                         select e).FirstOrDefaultAsync<Company>();
-
-                return company;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
-        public async Task<ChartOfAccount> GetChartofAccount(string companyCode, string busUnit, string objectNumber, string subsidiary)
-        {
-            try
-            {
-                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
-
-
-                ChartOfAccount chartOfAcct = await (from e in _dbListensoftwaredbContext.ChartOfAccount
-                                                 where e.CompanyCode == companyCode
-                                                 && e.BusUnit == busUnit
-                                                 && e.ObjectNumber == objectNumber
-                                                 && (e.Subsidiary ?? "") == subsidiary
-                                                 select e).FirstOrDefaultAsync<ChartOfAccount>();
-
-                return chartOfAcct;
-            }
-            catch (Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
-
-        }
-  
-        public async Task<TaxRatesByCode> GetTaxRatesByCode(string TaxCode)
-        {
-            try
-            {
-                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
-
-                TaxRatesByCode tax = await (from e in _dbListensoftwaredbContext.TaxRatesByCode
-                                            where e.TaxCode == TaxCode
-                                            select e).FirstOrDefaultAsync<TaxRatesByCode>();
-
-                return tax;
-            }
-            catch (Exception ex)
-            { throw new Exception(GetMyMethodName(), ex); }
-        }
-        public async Task<Udc> GetUdc(string productCode, string keyCode)
-        {
-            try
-            {
-                ListensoftwaredbContext _dbListensoftwaredbContext = (ListensoftwaredbContext)_dbContext;
-
-                Udc udc = await (from e in _dbListensoftwaredbContext.Udc
-                                 where e.ProductCode == productCode
-                                 && e.KeyCode == keyCode
-                                 select e).FirstOrDefaultAsync<Udc>();
-
-                return udc;
-            }
-            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
-        }
+      
 
         public async Task<T> GetObjectAsync(long id)
         {
@@ -340,23 +222,39 @@ namespace lssWebApi2.Services
        
         public void DeleteObject(T dataObject)
         {
-              _dbContext.Set<T>().Remove(dataObject);
+            try
+            {
+                _dbContext.Set<T>().Remove(dataObject);
+            }
+            catch (Exception ex) { throw new Exception("DeleteObject", ex); }
         }
         public void DeleteObjects(List<T> dataObjects)
         {
+            try
+            {
 
                 _dbContext.Set<T>().RemoveRange(dataObjects);
+            }
+            catch (Exception ex) { throw new Exception("DeleteObjects", ex); }
          }
 
         public void AddObject(T dataObject)
         {
 
+            try
+            {
                 _dbContext.Set<T>().Add(dataObject);
+            }
+            catch (Exception ex) { throw new Exception("AddObject", ex); }
 
         }
         public void AddObjects(List<T> dataObjects)
         {
-            _dbContext.Set<T>().AddRange(dataObjects);
+            try
+            {
+                _dbContext.Set<T>().AddRange(dataObjects);
+            }
+            catch (Exception ex) { throw new Exception("AddObjects", ex); }
         }
     }
 }

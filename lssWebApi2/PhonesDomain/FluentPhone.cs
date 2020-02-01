@@ -10,10 +10,10 @@ namespace lssWebApi2.AddressBookDomain
 
 public class FluentPhone :IFluentPhone
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPhone() { }
+        public FluentPhone(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPhoneQuery Query()
         {
             return new FluentPhoneQuery(unitOfWork) as IFluentPhoneQuery;

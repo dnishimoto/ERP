@@ -11,10 +11,10 @@ namespace lssWebApi2.CarrierDomain
 
 public class FluentCarrier :IFluentCarrier
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentCarrier() { }
+        public FluentCarrier(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentCarrierQuery Query()
         {
             return new FluentCarrierQuery(unitOfWork) as IFluentCarrierQuery;

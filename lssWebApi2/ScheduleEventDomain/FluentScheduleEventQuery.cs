@@ -75,7 +75,7 @@ namespace lssWebApi2.ScheduleEventDomain
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.scheduleEventRepository.GetNextNumber(TypeOfScheduleEvent.ScheduleEventNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfScheduleEvent.ScheduleEventNumber.ToString());
         }
         public override async Task<ScheduleEventView> GetViewById(long? scheduleEventId)
         {

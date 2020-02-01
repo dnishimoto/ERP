@@ -7,9 +7,9 @@
 
     <ApplicationIcon />
 
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
 
-    <StartupObject />
+    <StartupObject></StartupObject>
 
 
       <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

@@ -9,7 +9,12 @@ namespace lssWebApi2.EntityFramework
         public Contract()
         {
             AccountPayable = new HashSet<AccountPayable>();
+            ContractInvoice = new HashSet<ContractInvoice>();
             ContractItem = new HashSet<ContractItem>();
+            JobChangeOrder = new HashSet<JobChangeOrder>();
+            JobCostLedger = new HashSet<JobCostLedger>();
+            JobMaster = new HashSet<JobMaster>();
+            JobPhase = new HashSet<JobPhase>();
             ServiceInformation = new HashSet<ServiceInformation>();
         }
 
@@ -26,7 +31,12 @@ namespace lssWebApi2.EntityFramework
         public virtual Customer Customer { get; set; }
         public virtual Udc ServiceTypeXref { get; set; }
         public virtual ICollection<AccountPayable> AccountPayable { get; set; }
+        public virtual ICollection<ContractInvoice> ContractInvoice { get; set; }
         public virtual ICollection<ContractItem> ContractItem { get; set; }
+        public virtual ICollection<JobChangeOrder> JobChangeOrder { get; set; }
+        public virtual ICollection<JobCostLedger> JobCostLedger { get; set; }
+        public virtual ICollection<JobMaster> JobMaster { get; set; }
+        public virtual ICollection<JobPhase> JobPhase { get; set; }
         public virtual ICollection<ServiceInformation> ServiceInformation { get; set; }
 
     }

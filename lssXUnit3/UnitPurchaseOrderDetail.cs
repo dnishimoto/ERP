@@ -26,23 +26,24 @@ namespace lssWebApi2.PurchaseOrderDetailDomain
         {
             PurchaseOrderDetailModule PurchaseOrderDetailMod = new PurchaseOrderDetailModule();
             PurchaseOrder purchaseOrder = await PurchaseOrderDetailMod.PurchaseOrder.Query().GetEntityById(2);
-            ItemMaster itemMaster = await PurchaseOrderDetailMod.ItemMaster.Query().GetEntityById(11);
-           PurchaseOrderDetailView view = new PurchaseOrderDetailView()
+            Supplier supplier = await PurchaseOrderDetailMod.Supplier.Query().GetEntityById(3);
+            AddressBook addressBookSupplier = await PurchaseOrderDetailMod.AddressBook.Query().GetEntityById(supplier?.AddressId);
+            PurchaseOrderDetailView view = new PurchaseOrderDetailView()
             {
                    PurchaseOrderId=purchaseOrder.PurchaseOrderId,
                    Amount=101.1M,
                   OrderedQuantity=5,
-                  ItemId=itemMaster.ItemId,
-                  Description=itemMaster.Description,
-                  ItemDescription2=itemMaster.Description2,
-                  ItemCode=itemMaster.ItemCode,
-                  UnitPrice=itemMaster.UnitPrice,
-                  UnitOfMeasure=itemMaster.UnitOfMeasure,
+                  UnitPrice=101.1M,
+                  UnitOfMeasure="Each",
                   ReceivedDate=DateTime.Parse("11/30/2019"),
                   ExpectedDeliveryDate=DateTime.Parse("12/1/2019"),
                   OrderDate=DateTime.Parse("11/30/2019"),
                   ReceivedQuantity=0,
-                  RemainingQuantity=5
+                  RemainingQuantity=5,
+                  SupplierId=supplier.SupplierId,
+                  SupplierName=addressBookSupplier?.Name,
+                  LineDescription="abc line description",
+                  LineNumber=1
             };
             NextNumber nnNextNumber = await PurchaseOrderDetailMod.PurchaseOrderDetail.Query().GetNextNumber();
 
@@ -56,13 +57,13 @@ namespace lssWebApi2.PurchaseOrderDetailDomain
 
             Assert.NotNull(newPurchaseOrderDetail);
 
-            newPurchaseOrderDetail.Description = "PurchaseOrderDetail Test Update";
+            newPurchaseOrderDetail.LineDescription = "PurchaseOrderDetail Test Update";
 
             PurchaseOrderDetailMod.PurchaseOrderDetail.UpdatePurchaseOrderDetail(newPurchaseOrderDetail).Apply();
 
             PurchaseOrderDetailView updateView = await PurchaseOrderDetailMod.PurchaseOrderDetail.Query().GetViewById(newPurchaseOrderDetail.PurchaseOrderDetailId);
 
-            Assert.Same(updateView.Description, "PurchaseOrderDetail Test Update");
+            Assert.Same(updateView.LineDescription, "PurchaseOrderDetail Test Update");
               PurchaseOrderDetailMod.PurchaseOrderDetail.DeletePurchaseOrderDetail(newPurchaseOrderDetail).Apply();
             PurchaseOrderDetail lookupPurchaseOrderDetail= await PurchaseOrderDetailMod.PurchaseOrderDetail.Query().GetEntityById(view.PurchaseOrderDetailId);
 

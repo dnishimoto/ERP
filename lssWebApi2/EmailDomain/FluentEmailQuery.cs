@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.AddressBookDomain
+namespace lssWebApi2.EmailDomain
 {
     public class FluentEmailQuery : MapperAbstract<EmailEntity, EmailEntityView>, IFluentEmailQuery
     {
@@ -60,7 +60,7 @@ namespace lssWebApi2.AddressBookDomain
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.emailRepository.GetNextNumber(TypeOfEmailEntity.EmailEntityNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfEmailEntity.EmailEntityNumber.ToString());
         }
         public override async Task<EmailEntityView> GetViewById(long? emailId)
         {

@@ -1,5 +1,5 @@
-﻿using lssWebApi2.FluentAPI;
-using lssWebApi2.SalesOrderDetailDomain;
+﻿using lssWebApi2.SalesOrderDetailDomain;
+using lssWebApi2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,15 @@ namespace lssWebApi2.SalesOrderDomain
 {
     public class SalesOrderModule
     {
-        public FluentSalesOrder SalesOrder = new FluentSalesOrder();
-        public FluentSalesOrderDetail SalesOrderDetail = new FluentSalesOrderDetail();
+        private UnitOfWork unitOfWork;
+        public FluentSalesOrder SalesOrder;
+        public FluentSalesOrderDetail SalesOrderDetail;
+
+        public SalesOrderModule()
+        {
+            unitOfWork = new UnitOfWork();
+            SalesOrder = new FluentSalesOrder(unitOfWork);
+            SalesOrderDetail = new FluentSalesOrderDetail(unitOfWork);
+        }
     }
 }

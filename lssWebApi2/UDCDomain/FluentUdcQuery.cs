@@ -48,7 +48,7 @@ namespace lssWebApi2.UDCDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.udcRepository.GetNextNumber(TypeOfUdc.UdcNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfUdc.UdcNumber.ToString());
         }
         public override async Task<UdcView> GetViewById(long ? udcId)
         {

@@ -14,16 +14,18 @@ namespace lssWebApi2.EntityFramework
         public decimal? Amount { get; set; }
         public long? PurchaseOrderDetailId { get; set; }
         public long? SalesOrderDetailId { get; set; }
-        public long ItemId { get; set; }
+        public long? ItemId { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
         public long? ShipmentDetailId { get; set; }
         public string ExtendedDescription { get; set; }
         public DateTime? DiscountDueDate { get; set; }
         public long InvoiceDetailNumber { get; set; }
+        public long? PurchaseOrderId { get; set; }
+        public long? CustomerId { get; set; }
+        public long? SupplierId { get; set; }
 
         public virtual Invoice Invoice { get; set; }
-        public virtual ItemMaster Item { get; set; }
 
     }
 }

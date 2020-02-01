@@ -7,12 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.Interfaces
+namespace lssWebApi2.InvoiceDomain
 {
     public interface IFluentInvoice
     {
         //IFluentInvoice CreateInvoice(InvoiceView invoiceView);
-        IFluentInvoice MergeWithInvoiceNumber(ref InvoiceView invoiceView);
         IFluentInvoice Apply();
         IFluentInvoice AddInvoice(List<Invoice> newObjects);
         IFluentInvoice UpdateInvoice(IList<Invoice> newObjects);
@@ -20,7 +19,6 @@ namespace lssWebApi2.Interfaces
         IFluentInvoice UpdateInvoice(Invoice updateObject);
         IFluentInvoice DeleteInvoice(Invoice deleteObject);
         IFluentInvoice DeleteInvoice(List<Invoice> deleteObjects);
-        IFluentInvoice CreateInvoiceByView(InvoiceView invoiceView);
         IFluentInvoiceQuery Query();
     }
 }

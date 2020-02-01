@@ -17,4 +17,5 @@ public interface IFluentPurchaseOrderDetailQuery
     Task<PurchaseOrderDetail> GetEntityByNumber(long purchaseOrderDetailNumber);
     Task<PurchaseOrderDetailView> GetViewById(long ? purchaseOrderDetailId);
     Task<PurchaseOrderDetailView> GetViewByNumber(long purchaseOrderDetailNumber);
+    Task<IList<PurchaseOrderDetail>> GetEntitiesByPurchaseOrderId(long? purchaseOrderId);
 }

@@ -13,10 +13,10 @@ namespace lssWebApi2.AccountPayableDomain
 
 public class FluentAccountPayable :IFluentAccountPayable
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentAccountPayable() { }
+        public FluentAccountPayable(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentAccountPayableQuery Query()
         {
             return new FluentAccountPayableQuery(unitOfWork) as IFluentAccountPayableQuery;
@@ -47,10 +47,13 @@ public class FluentAccountPayable :IFluentAccountPayable
             try
             {
                 //Check if exists
-                Task<AccountPayable> acctPayTask = Task.Run(async()=>await unitOfWork.accountPayableRepository.GetEntityByPurchaseOrderView(poView));
-                Task.WaitAll(acctPayTask);
+                Task<AccountPayable> acctPayTask =  unitOfWork.accountPayableRepository.GetEntityByPurchaseOrderView(poView);
+                Task<NextNumber> nextNumberDocNumberTask = unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPurchaseOrder.DocNumber.ToString());
+                Task.WaitAll(acctPayTask, nextNumberDocNumberTask);
                 if (acctPayTask.Result!=null)
                 {
+                    AccountPayable acctPay = acctPayTask.Result;
+                    acctPay.DocNumber = nextNumberDocNumberTask.Result?.NextNumberValue;
                     AddAccountPayable(acctPayTask.Result);
                     processStatus= CreateProcessStatus.Insert;
                     return this as IFluentAccountPayable;

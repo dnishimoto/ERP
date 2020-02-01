@@ -47,7 +47,7 @@ public class FluentEquipmentQuery:MapperAbstract<Equipment,EquipmentView>,IFluen
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.equipmentRepository.GetNextNumber(TypeOfEquipment.EquipmentNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfEquipment.EquipmentNumber.ToString());
         }
  public override async Task<EquipmentView> GetViewById(long ? equipmentId)
         {

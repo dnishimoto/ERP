@@ -11,10 +11,10 @@ namespace lssWebApi2.ProjectManagementMilestoneDomain
 
 public class FluentProjectManagementMilestone :IFluentProjectManagementMilestone
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentProjectManagementMilestone() { }
+        public FluentProjectManagementMilestone(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentProjectManagementMilestoneQuery Query()
         {
             return new FluentProjectManagementMilestoneQuery(unitOfWork) as IFluentProjectManagementMilestoneQuery;

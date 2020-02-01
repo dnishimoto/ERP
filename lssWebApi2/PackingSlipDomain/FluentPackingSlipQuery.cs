@@ -63,7 +63,7 @@ public class FluentPackingSlipQuery:MapperAbstract<PackingSlip,PackingSlipView>,
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.packingSlipRepository.GetNextNumber(TypeOfPackingSlip.PackingSlipNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPackingSlip.PackingSlipNumber.ToString());
         }
  public override async Task<PackingSlipView> GetViewById(long ? packingSlipId)
         {

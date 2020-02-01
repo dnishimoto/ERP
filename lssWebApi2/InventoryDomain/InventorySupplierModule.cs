@@ -1,5 +1,4 @@
 ﻿using lssWebApi2.AddressBookDomain;
-using lssWebApi2.FluentAPI;
 using lssWebApi2.SupplierDomain;
 using lssWebApi2.EntityFramework;
 using System;
@@ -7,19 +6,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.LocationAddressDomain;
+using lssWebApi2.EmailDomain;
+using lssWebApi2.Services;
 
 namespace lssWebApi2.InventoryDomain
 {
     public class InventorySupplierModule
     {
+        private UnitOfWork unitOfWork;
         //public FluentInventorySupplier Supplier = new FluentInventorySupplier();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
-        public FluentLocationAddress LocationAddress = new FluentLocationAddress();
-        public FluentSupplier Supplier = new FluentSupplier();
-        public FluentEmail Email = new FluentEmail();
+        public FluentAddressBook AddressBook;
+        public FluentLocationAddress LocationAddress;
+        public FluentSupplier Supplier;
+        public FluentEmail Email;
+
+        public InventorySupplierModule()
+        {
+            unitOfWork = new UnitOfWork();
+            AddressBook = new FluentAddressBook(unitOfWork);
+            LocationAddress = new FluentLocationAddress(unitOfWork);
+            Supplier = new FluentSupplier(unitOfWork);
+            Email = new FluentEmail(unitOfWork);
+
+        }
 
 
-        public bool CreateSupplier(AddressBook addressBook, EmailEntity emailEntity,LocationAddress locationAddress)
+        public bool CreateSupplier(AddressBook addressBook, EmailEntity emailEntity, LocationAddress locationAddress)
         {
             try
             {
@@ -27,7 +39,7 @@ namespace lssWebApi2.InventoryDomain
                     .CreateSupplierAddressBook(addressBook, emailEntity)
                     .Apply();
 
-                Task<AddressBook> addressBookLookupTask = Task.Run(async()=>await AddressBook.Query().GetAddressBookbyEmail(emailEntity.Email));
+                Task<AddressBook> addressBookLookupTask = Task.Run(async () => await AddressBook.Query().GetAddressBookbyEmail(emailEntity.Email));
 
                 locationAddress.AddressId = addressBookLookupTask.Result.AddressId;
 

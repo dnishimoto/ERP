@@ -61,7 +61,7 @@ namespace lssWebApi2.ProjectManagementTaskToEmployeeDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.projectManagementTaskToEmployeeRepository.GetNextNumber(TypeOfProjectManagementTaskToEmployee.TaskToEmployeeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfProjectManagementTaskToEmployee.TaskToEmployeeNumber.ToString());
         }
         public override async Task<ProjectManagementTaskToEmployeeView> GetViewById(long? projectManagementTaskToEmployeeId)
         {

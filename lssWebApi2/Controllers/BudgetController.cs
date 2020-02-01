@@ -62,7 +62,7 @@ namespace lssWebApi2.Controllers
         {
           
             GeneralLedgerModule ledgerMod = new GeneralLedgerModule();
-        
+            NextNumber nextNumberDocNumber = await ledgerMod.GeneralLedger.Query().GetDocNumber();
             //long addressId = 1;
             decimal expense =budget.BudgetAmount/(Decimal)budget.PayCycles??0;
           
@@ -74,7 +74,7 @@ namespace lssWebApi2.Controllers
             GeneralLedgerView glView = new GeneralLedgerView();
 
 
-            glView.DocNumber = -1;
+            glView.DocNumber = nextNumberDocNumber.NextNumberValue;
             //glView.DocType = udcDocType.KeyCode;
             //glView.AccountId = coa.AccountId;
             glView.Amount = expense * -1;
@@ -97,10 +97,11 @@ namespace lssWebApi2.Controllers
 
             //ChartOfAccts coaCash = ledgerMod.ChartOfAccounts.Query().GetChartofAccount("1000", "1200", "101", "");
             GeneralLedgerView glCashView = new GeneralLedgerView();
+            NextNumber nextNumberDocNumber2 = await ledgerMod.GeneralLedger.Query().GetDocNumber();
 
 
             //long cashDocumentNumber = 22;
-            glCashView.DocNumber = -1;
+            glCashView.DocNumber = nextNumberDocNumber2.NextNumberValue;
             //glCashView.DocType = udcDocType.KeyCode;
             //glCashView.AccountId = coaCash.AccountId;
             glCashView.Amount = budget.PaymentAmount??0;

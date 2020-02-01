@@ -13,10 +13,10 @@ namespace lssWebApi2.PackingSlipDomain
 
 public class FluentPackingSlip :IFluentPackingSlip
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPackingSlip() { }
+        public FluentPackingSlip(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPackingSlipQuery Query()
         {
             return new FluentPackingSlipQuery(unitOfWork) as IFluentPackingSlipQuery;

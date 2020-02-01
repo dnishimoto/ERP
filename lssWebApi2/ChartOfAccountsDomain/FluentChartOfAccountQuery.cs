@@ -81,7 +81,7 @@ namespace lssWebApi2.ChartOfAccountsDomain
 
         public async Task<Company> GetCompany()
         {
-            return await _unitOfWork.chartOfAccountRepository.GetCompany();
+            return await _unitOfWork.companyRepository.GetCompany();
         }
 
         public async Task<ChartOfAccount> GetEntity(string company, string busUnit, string objectNumber, string subsidiary)

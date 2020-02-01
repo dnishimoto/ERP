@@ -10,10 +10,10 @@ namespace lssWebApi2.ContractDomain
 
 public class FluentContract :IFluentContract
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentContract() { }
+        public FluentContract(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentContractQuery Query()
         {
             return new FluentContractQuery(unitOfWork) as IFluentContractQuery;

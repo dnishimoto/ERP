@@ -1,11 +1,9 @@
-using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
 using System;
-using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.Enumerations;
-using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.AbstractFactory;
 using System.Threading.Tasks;
 
@@ -14,10 +12,10 @@ namespace lssWebApi2.AccountReceivableDomain
 
 public class FluentAccountReceivableFee :IFluentAccountReceivableFee
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentAccountReceivableFee() { }
+        public FluentAccountReceivableFee(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         private ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
         public IFluentAccountReceivableFeeQuery Query()
         {
@@ -31,7 +29,7 @@ public class FluentAccountReceivableFee :IFluentAccountReceivableFee
 
                 applicationViewFactory.MapAcctRecFeeEntity(ref acctRecFee, view);
 
-                Task<Udc> feeUDCTask = Task.Run(async()=>await unitOfWork.udcRepository.GetUdc("FEES", "TWO_WEEK_LATE"));
+                Task<Udc> feeUDCTask = unitOfWork.udcRepository.GetUdc("FEES", "TWO_WEEK_LATE");
                 Task.WaitAll(feeUDCTask);
 
 

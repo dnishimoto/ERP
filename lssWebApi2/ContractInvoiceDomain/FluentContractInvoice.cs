@@ -11,10 +11,10 @@ namespace lssWebApi2.ContractInvoiceDomain
 
 public class FluentContractInvoice :IFluentContractInvoice
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentContractInvoice() { }
+        public FluentContractInvoice(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentContractInvoiceQuery Query()
         {
             return new FluentContractInvoiceQuery(unitOfWork) as IFluentContractInvoiceQuery;

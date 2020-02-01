@@ -11,10 +11,10 @@ namespace lssWebApi2.ProjectManagementTaskToEmployeeDomain
 
 public class FluentProjectManagementTaskToEmployee :IFluentProjectManagementTaskToEmployee
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentProjectManagementTaskToEmployee() { }
+        public FluentProjectManagementTaskToEmployee(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentProjectManagementTaskToEmployeeQuery Query()
         {
             return new FluentProjectManagementTaskToEmployeeQuery(unitOfWork) as IFluentProjectManagementTaskToEmployeeQuery;

@@ -47,7 +47,7 @@ public class FluentCompanyQuery:MapperAbstract<Company,CompanyView>,IFluentCompa
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.companyRepository.GetNextNumber(TypeOfCompany.CompanyNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfCompany.CompanyNumber.ToString());
         }
  public override  async Task<CompanyView> GetViewById(long ? companyId)
         {

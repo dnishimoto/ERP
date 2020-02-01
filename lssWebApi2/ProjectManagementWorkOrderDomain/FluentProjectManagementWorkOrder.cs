@@ -11,10 +11,10 @@ namespace lssWebApi2.ProjectManagementWorkOrderDomain
 
 public class FluentProjectManagementWorkOrder :IFluentProjectManagementWorkOrder
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentProjectManagementWorkOrder() { }
+        public FluentProjectManagementWorkOrder(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentProjectManagementWorkOrderQuery Query()
         {
             return new FluentProjectManagementWorkOrderQuery(unitOfWork) as IFluentProjectManagementWorkOrderQuery;

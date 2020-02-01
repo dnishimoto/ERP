@@ -1,15 +1,20 @@
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.EquipmentDomain;
+using lssWebApi2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
 
 namespace lssWebApi2.EquipmentDomain
 {
     public class EquipmentModule : AbstractModule
     {
-        public FluentEquipment Equipment = new FluentEquipment();
+        private UnitOfWork unitOfWork;
+        public FluentEquipment Equipment;
+        public EquipmentModule()
+        {
+            unitOfWork = new UnitOfWork();
+            Equipment = new FluentEquipment(unitOfWork);
+        }
     }
 }

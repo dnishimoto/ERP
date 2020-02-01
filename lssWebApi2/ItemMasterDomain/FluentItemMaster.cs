@@ -12,10 +12,10 @@ namespace lssWebApi2.ItemMasterDomain
 
 public class FluentItemMaster :IFluentItemMaster
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentItemMaster() { }
+        public FluentItemMaster(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentItemMasterQuery Query()
         {
             return new FluentItemMasterQuery(unitOfWork) as IFluentItemMasterQuery;

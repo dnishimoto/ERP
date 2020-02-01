@@ -12,6 +12,7 @@ using System;
 using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ChartOfAccountsDomain;
+using lssWebApi2.AccountReceivableDomain;
 
 namespace lssWebApi2.AccountsReceivableDomain
 {
@@ -34,21 +35,21 @@ namespace lssWebApi2.AccountsReceivableDomain
 
             AccountReceivableModule acctRecMod = new AccountReceivableModule();
 
-            IList<AccountReceivableFlatView> list = await acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            IList<AccountReceivableFlatView> list = await acctRecMod.AccountReceivable.Query().GetOpenAccountReceivables();
 
             foreach (var item in list)
             {
-                bool status= acctRecMod.AccountsReceivable.Query().IsPaymentLate(item.InvoiceId,asOfDate);
+                bool status= acctRecMod.AccountReceivable.Query().IsPaymentLate(item.InvoiceId,asOfDate);
                 if (status == true)
                 {
-                    bool statusFee = acctRecMod.AccountsReceivable.Query().HasLateFee(item.AcctRecId);
+                    bool statusFee = acctRecMod.AccountReceivable.Query().HasLateFee(item.AcctRecId);
 
                     if (statusFee == false)
                     {
                         acctRecMod.AccountReceivableFee.CreateLateFee(item).Apply();
                         
                     }
-                    acctRecMod.AccountsReceivable.AdjustOpenAmount(item).Apply();
+                    acctRecMod.AccountReceivable.AdjustOpenAmount(item).Apply();
 
 
                 }
@@ -59,7 +60,7 @@ namespace lssWebApi2.AccountsReceivableDomain
         public async Task TestOpenAccountReceivables()
         {
             AccountReceivableModule acctRecMod = new AccountReceivableModule();
-            IList<AccountReceivableFlatView> list = await acctRecMod.AccountsReceivable.Query().GetOpenAccountReceivables();
+            IList<AccountReceivableFlatView> list = await acctRecMod.AccountReceivable.Query().GetOpenAccountReceivables();
             Assert.True(true);
         }
         [Fact]
@@ -168,7 +169,7 @@ namespace lssWebApi2.AccountsReceivableDomain
 
             AccountReceivableModule acctRecMod = new AccountReceivableModule();
 
-            bool result = acctRecMod.CreateCustomerCashPayment(ledgerView);
+            bool result = await acctRecMod.CreateCustomerCashPayment(ledgerView);
           
 
             Assert.True(true);

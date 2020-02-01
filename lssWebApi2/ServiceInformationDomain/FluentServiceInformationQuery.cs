@@ -46,7 +46,7 @@ public class FluentServiceInformationQuery:MapperAbstract<ServiceInformation,Ser
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.serviceInformationRepository.GetNextNumber(TypeOfServiceInformation.ServiceInformationNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfServiceInformation.ServiceInformationNumber.ToString());
         }
  public override async Task<ServiceInformationView> GetViewById(long ? serviceInformationId)
         {

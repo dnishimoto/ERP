@@ -38,6 +38,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<CustomerLedger> CustomerLedger { get; set; }
         public virtual DbSet<EmailEntity> EmailEntity { get; set; }
         public virtual DbSet<Employee> Employee { get; set; }
+        public virtual DbSet<EmployeePosition> EmployeePosition { get; set; }
         public virtual DbSet<EmployeeSalary> EmployeeSalary { get; set; }
         public virtual DbSet<Equations> Equations { get; set; }
         public virtual DbSet<Equipment> Equipment { get; set; }
@@ -47,6 +48,11 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<Invoice> Invoice { get; set; }
         public virtual DbSet<InvoiceDetail> InvoiceDetail { get; set; }
         public virtual DbSet<ItemMaster> ItemMaster { get; set; }
+        public virtual DbSet<JobChangeOrder> JobChangeOrder { get; set; }
+        public virtual DbSet<JobCostLedger> JobCostLedger { get; set; }
+        public virtual DbSet<JobCostType> JobCostType { get; set; }
+        public virtual DbSet<JobMaster> JobMaster { get; set; }
+        public virtual DbSet<JobPhase> JobPhase { get; set; }
         public virtual DbSet<LocationAddress> LocationAddress { get; set; }
         public virtual DbSet<NetTerms> NetTerms { get; set; }
         public virtual DbSet<NextNumber> NextNumber { get; set; }
@@ -77,6 +83,7 @@ namespace lssWebApi2.EntityFramework
         public virtual DbSet<ProjectManagementTaskToEmployee> ProjectManagementTaskToEmployee { get; set; }
         public virtual DbSet<ProjectManagementWorkOrder> ProjectManagementWorkOrder { get; set; }
         public virtual DbSet<ProjectManagementWorkOrderToEmployee> ProjectManagementWorkOrderToEmployee { get; set; }
+        public virtual DbSet<ProjectManager> ProjectManager { get; set; }
         public virtual DbSet<PurchaseOrder> PurchaseOrder { get; set; }
         public virtual DbSet<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         public virtual DbSet<SalesOrder> SalesOrder { get; set; }
@@ -103,7 +110,7 @@ namespace lssWebApi2.EntityFramework
 
         public ListensoftwaredbContext()
         {
-           
+
         }
 
         public ListensoftwaredbContext(DbContextOptions<ListensoftwaredbContext> options)
@@ -209,11 +216,6 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.ContractId)
                     .HasConstraintName("FK_AcctPay_Contract");
 
-                entity.HasOne(d => d.Invoice)
-                    .WithMany(p => p.AccountPayable)
-                    .HasForeignKey(d => d.InvoiceId)
-                    .HasConstraintName("FK__AcctPay__Invoice__06ED0088");
-
                 entity.HasOne(d => d.Poquote)
                     .WithMany(p => p.AccountPayable)
                     .HasForeignKey(d => d.PoquoteId)
@@ -247,6 +249,10 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.CreateDate).HasColumnType("date");
 
                 entity.Property(e => e.CreditAmount).HasColumnType("money");
+
+                entity.Property(e => e.CustomerPurchaseOrder)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.DebitAmount).HasColumnType("money");
 
@@ -301,7 +307,6 @@ namespace lssWebApi2.EntityFramework
                 entity.HasOne(d => d.Invoice)
                     .WithMany(p => p.AccountReceivable)
                     .HasForeignKey(d => d.InvoiceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AcctRec_Invoices");
             });
 
@@ -865,6 +870,21 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_Contract_UDC");
             });
 
+            modelBuilder.Entity<ContractInvoice>(entity =>
+            {
+                entity.HasOne(d => d.Contract)
+                    .WithMany(p => p.ContractInvoice)
+                    .HasForeignKey(d => d.ContractId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ContractInvoice_Contract");
+
+                entity.HasOne(d => d.Invoice)
+                    .WithMany(p => p.ContractInvoice)
+                    .HasForeignKey(d => d.InvoiceId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ContractInvoice_Invoice");
+            });
+
             modelBuilder.Entity<ContractItem>(entity =>
             {
                 entity.Property(e => e.ContractType)
@@ -1078,6 +1098,26 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK__Employee__JobTit__48EFCE0F");
             });
 
+            modelBuilder.Entity<EmployeePosition>(entity =>
+            {
+                entity.HasKey(e => e.PositionCodeId);
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.PositionCode)
+                    .IsRequired()
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Company)
+                    .WithMany(p => p.EmployeePosition)
+                    .HasForeignKey(d => d.CompanyId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_EmployeePosition_Company");
+            });
+
             modelBuilder.Entity<EmployeeSalary>(entity =>
             {
                 entity.Property(e => e.AnnualSalary).HasColumnType("money");
@@ -1279,10 +1319,11 @@ namespace lssWebApi2.EntityFramework
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Invoice_Company");
 
-                entity.HasOne(d => d.Customer)
+                entity.HasOne(d => d.TaxRatesByCode)
                     .WithMany(p => p.Invoice)
-                    .HasForeignKey(d => d.CustomerId)
-                    .HasConstraintName("FK_Invoices_Customer");
+                    .HasForeignKey(d => d.TaxRatesByCodeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Invoice_TaxRatesByCode");
             });
 
             modelBuilder.Entity<InvoiceDetail>(entity =>
@@ -1310,12 +1351,6 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.InvoiceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InvoicesDetail_Invoices");
-
-                entity.HasOne(d => d.Item)
-                    .WithMany(p => p.InvoiceDetail)
-                    .HasForeignKey(d => d.ItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_InvoicesDetail_ItemMaster");
             });
 
             modelBuilder.Entity<ItemMaster>(entity =>
@@ -1360,6 +1395,192 @@ namespace lssWebApi2.EntityFramework
                 entity.Property(e => e.WeightUnitOfMeasure)
                     .HasMaxLength(50)
                     .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<JobChangeOrder>(entity =>
+            {
+                entity.Property(e => e.ChangeAmount).HasColumnType("money");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EstimatedAmount).HasColumnType("money");
+
+                entity.HasOne(d => d.Contract)
+                    .WithMany(p => p.JobChangeOrder)
+                    .HasForeignKey(d => d.ContractId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobChangeOrder_Contract");
+
+                entity.HasOne(d => d.ContractItem)
+                    .WithMany(p => p.JobChangeOrder)
+                    .HasForeignKey(d => d.ContractItemId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobChangeOrder_ContractItem");
+
+                entity.HasOne(d => d.JobMaster)
+                    .WithMany(p => p.JobChangeOrder)
+                    .HasForeignKey(d => d.JobMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobChangeOrder_JobMaster");
+            });
+
+            modelBuilder.Entity<JobCostLedger>(entity =>
+            {
+                entity.Property(e => e.ActualCost).HasColumnType("money");
+
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.CommittedAmount).HasColumnType("money");
+
+                entity.Property(e => e.CommittedHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.EstimatedAmount).HasColumnType("money");
+
+                entity.Property(e => e.EstimatedHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ProjectedAmount).HasColumnType("money");
+
+                entity.Property(e => e.ProjectedHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Source)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TaxAmount).HasColumnType("money");
+
+                entity.Property(e => e.TransactionType)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Contract)
+                    .WithMany(p => p.JobCostLedger)
+                    .HasForeignKey(d => d.ContractId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobCostLedger_Contract");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.JobCostLedger)
+                    .HasForeignKey(d => d.CustomerId)
+                    .HasConstraintName("FK_JobCostLedger_Customer");
+
+                entity.HasOne(d => d.JobCostType)
+                    .WithMany(p => p.JobCostLedger)
+                    .HasForeignKey(d => d.JobCostTypeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobCostLedger_JobCostType");
+
+                entity.HasOne(d => d.JobMaster)
+                    .WithMany(p => p.JobCostLedger)
+                    .HasForeignKey(d => d.JobMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobCostLedger_JobMaster");
+
+                entity.HasOne(d => d.JobPhase)
+                    .WithMany(p => p.JobCostLedger)
+                    .HasForeignKey(d => d.JobPhaseId)
+                    .HasConstraintName("FK_JobCostLedger_JobPhase");
+            });
+
+            modelBuilder.Entity<JobCostType>(entity =>
+            {
+                entity.Property(e => e.Account)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CostCode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<JobMaster>(entity =>
+            {
+                entity.Property(e => e.ActualAmount).HasColumnType("money");
+
+                entity.Property(e => e.ActualHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.Address1)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Address2)
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.City)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CompleteDate).HasColumnType("date");
+
+                entity.Property(e => e.EstimatedAmount).HasColumnType("money");
+
+                entity.Property(e => e.EstimatedHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.JobDescription)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.ProjectHours).HasColumnType("decimal(18, 2)");
+
+                entity.Property(e => e.ProjectedAmount).HasColumnType("money");
+
+                entity.Property(e => e.RemainingCommittedAmount).HasColumnType("money");
+
+                entity.Property(e => e.RetainageAmount).HasColumnType("money");
+
+                entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.State)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TotalCommittedAmount).HasColumnType("money");
+
+                entity.Property(e => e.Zipcode)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Contract)
+                    .WithMany(p => p.JobMaster)
+                    .HasForeignKey(d => d.ContractId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobMaster_Contract");
+
+                entity.HasOne(d => d.Customer)
+                    .WithMany(p => p.JobMaster)
+                    .HasForeignKey(d => d.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobMaster_Customer");
+            });
+
+            modelBuilder.Entity<JobPhase>(entity =>
+            {
+                entity.Property(e => e.Phase)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false);
+
+                entity.HasOne(d => d.Contract)
+                    .WithMany(p => p.JobPhase)
+                    .HasForeignKey(d => d.ContractId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobPhase_Contract");
+
+                entity.HasOne(d => d.JobMaster)
+                    .WithMany(p => p.JobPhase)
+                    .HasForeignKey(d => d.JobMasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_JobPhase_JobMaster");
             });
 
             modelBuilder.Entity<LocationAddress>(entity =>
@@ -2014,9 +2235,15 @@ namespace lssWebApi2.EntityFramework
                     .HasMaxLength(1000)
                     .IsUnicode(false);
 
+                entity.Property(e => e.DiscountAmount).HasColumnType("money");
+
+                entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
+
                 entity.Property(e => e.DocType)
                     .HasMaxLength(20)
                     .IsUnicode(false);
+
+                entity.Property(e => e.FreightAmount).HasColumnType("money");
 
                 entity.Property(e => e.Gldate)
                     .HasColumnName("GLDate")
@@ -2082,23 +2309,19 @@ namespace lssWebApi2.EntityFramework
                     .HasForeignKey(d => d.AccountId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PurchaseOrder_ChartOfAccts");
-
-                entity.HasOne(d => d.Supplier)
-                    .WithMany(p => p.PurchaseOrder)
-                    .HasForeignKey(d => d.SupplierId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PurchaseOrder_Supplier");
             });
 
             modelBuilder.Entity<PurchaseOrderDetail>(entity =>
             {
                 entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+                entity.Property(e => e.DiscountAmount).HasColumnType("money");
 
                 entity.Property(e => e.ExpectedDeliveryDate).HasColumnType("date");
+
+                entity.Property(e => e.LineDescription)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
 
                 entity.Property(e => e.OrderDate).HasColumnType("date");
 
@@ -2111,12 +2334,6 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
-
-                entity.HasOne(d => d.Item)
-                    .WithMany(p => p.PurchaseOrderDetail)
-                    .HasForeignKey(d => d.ItemId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PurchaseOrderDetail_ItemMaster");
 
                 entity.HasOne(d => d.PurchaseOrder)
                     .WithMany(p => p.PurchaseOrderDetail)

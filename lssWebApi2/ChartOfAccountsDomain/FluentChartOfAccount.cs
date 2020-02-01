@@ -14,11 +14,11 @@ namespace lssWebApi2.ChartOfAccountsDomain
 {
     public class FluentChartOfAccount : AbstractErrorHandling, IFluentChartOfAccount
     {
-        UnitOfWork unitOfWork = new UnitOfWork();
+        UnitOfWork unitOfWork;
         public CreateProcessStatus processStatus;
 
         private FluentChartOfAccountQuery _query = null;
-
+        public FluentChartOfAccount(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentChartOfAccountQuery Query()
         {
             if (_query == null) { _query = new FluentChartOfAccountQuery(unitOfWork); }

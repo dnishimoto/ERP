@@ -43,6 +43,7 @@ namespace lssWebApi2.ChartOfAccountsDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        
         public async Task<ChartOfAccount> GetEntityById(long ? accountId)
         {
             try
@@ -61,6 +62,23 @@ namespace lssWebApi2.ChartOfAccountsDomain
                 return query;
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
+        public async Task<ChartOfAccount> GetChartofAccount(string companyCode, string busUnit, string objectNumber, string subsidiary)
+        {
+            try
+            {
+                 ChartOfAccount chartOfAcct = await (from e in _dbContext.ChartOfAccount
+                                                    where e.CompanyCode == companyCode
+                                                    && e.BusUnit == busUnit
+                                                    && e.ObjectNumber == objectNumber
+                                                    && (e.Subsidiary ?? "") == subsidiary
+                                                    select e).FirstOrDefaultAsync<ChartOfAccount>();
+
+                return chartOfAcct;
+            }
+            catch (Exception ex)
+            { throw new Exception(GetMyMethodName(), ex); }
+
         }
         public async Task<IList<ChartOfAccount>> GetEntitiesByAccount(string companyCode, string busUnit, string objectNumber, string subsidiary)
         {

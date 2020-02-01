@@ -83,7 +83,7 @@ namespace lssWebApi2.CustomerClaimDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.customerClaimRepository.GetNextNumber(TypeOfCustomerClaim.CustomerClaimNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfCustomerClaim.CustomerClaimNumber.ToString());
         }
         public override async Task<CustomerClaimView> GetViewById(long ? customerClaimId)
         {

@@ -1,21 +1,30 @@
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.ProjectManagementWorkOrderToEmployeeDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
 using lssWebApi2.EmployeeDomain;
 using lssWebApi2.ProjectManagementWorkOrderDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AddressBookDomain;
 
 namespace lssWebApi2.ProjectManagementWorkOrderToEmployeeDomain
 {
     public class ProjectManagementWorkOrderToEmployeeModule : AbstractModule
     {
-        public FluentProjectManagementWorkOrderToEmployee ProjectManagementWorkOrderToEmployee = new FluentProjectManagementWorkOrderToEmployee();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
-        public FluentEmployee Employee = new FluentEmployee();
-        public FluentProjectManagementWorkOrder WorkOrder = new FluentProjectManagementWorkOrder();
-        
+        private UnitOfWork unitOfWork;
+        public FluentProjectManagementWorkOrderToEmployee ProjectManagementWorkOrderToEmployee;
+        public FluentAddressBook AddressBook;
+        public FluentEmployee Employee;
+        public FluentProjectManagementWorkOrder WorkOrder;
+
+        public ProjectManagementWorkOrderToEmployeeModule()
+        {
+            unitOfWork = new UnitOfWork();
+            ProjectManagementWorkOrderToEmployee = new FluentProjectManagementWorkOrderToEmployee(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+            Employee = new FluentEmployee(unitOfWork);
+            WorkOrder = new FluentProjectManagementWorkOrder(unitOfWork);
+        }
     }
 }

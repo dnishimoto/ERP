@@ -9,10 +9,10 @@ namespace lssWebApi2.PayRollDomain
 
 public class FluentPayRollTransactionControl :IFluentPayRollTransactionControl
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentPayRollTransactionControl() { }
+        public FluentPayRollTransactionControl(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentPayRollTransactionControlQuery Query()
         {
             return new FluentPayRollTransactionControlQuery(unitOfWork) as IFluentPayRollTransactionControlQuery;

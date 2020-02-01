@@ -4,17 +4,28 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
+
 using lssWebApi2.CustomerDomain;
 using lssWebApi2.UDCDomain;
+using lssWebApi2.Services;
+using lssWebApi2.AddressBookDomain;
 
 namespace lssWebApi2.ContractDomain
 {
     public class ContractModule : AbstractModule
     {
-        public FluentContract Contract = new FluentContract();
-        public FluentCustomer Customer = new FluentCustomer();
-        public FluentUdc Udc = new FluentUdc();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
+        private UnitOfWork unitOfWork;
+        public FluentContract Contract;
+        public FluentCustomer Customer;
+        public FluentUdc Udc;
+        public FluentAddressBook AddressBook;
+        public ContractModule()
+        {
+            unitOfWork = new UnitOfWork();
+            Contract = new FluentContract(unitOfWork);
+            Customer = new FluentCustomer(unitOfWork);
+            Udc = new FluentUdc(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+        }
     }
 }

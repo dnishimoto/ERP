@@ -22,6 +22,8 @@ using lssWebApi2.ContractDomain;
 using lssWebApi2.ScheduleEventDomain;
 using lssWebApi2.InvoiceDetailDomain;
 using lssWebApi2.LocationAddressDomain;
+using lssWebApi2.EmailDomain;
+using lssWebApi2.AccountReceivableDomain;
 
 namespace ERP_Core.CustomerDomain
 {

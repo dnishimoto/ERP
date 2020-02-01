@@ -1,15 +1,20 @@
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.CompanyDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
+using lssWebApi2.Services;
 
 namespace lssWebApi2.CompanyDomain
 {
     public class CompanyModule : AbstractModule
     {
-        public FluentCompany Company = new FluentCompany();
+        private UnitOfWork unitOfWork;
+        public FluentCompany Company;
+        public CompanyModule()
+        {
+            unitOfWork = new UnitOfWork();
+            Company = new FluentCompany(unitOfWork);
+        }
     }
 }

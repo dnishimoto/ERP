@@ -47,7 +47,7 @@ namespace lssWebApi2.BudgetNoteDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.budgetNoteRepository.GetNextNumber(TypeOfBudgetNote.BudgetNoteNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfBudgetNote.BudgetNoteNumber.ToString());
         }
         public override async Task<BudgetNoteView> GetViewById(long? budgetNoteId)
         {

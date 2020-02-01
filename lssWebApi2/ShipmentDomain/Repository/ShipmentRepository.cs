@@ -65,10 +65,7 @@ namespace lssWebApi2.ShipmentsDomain
         }
 
 
-        public async Task<NextNumber> GetNextNumber()
-        {
-            return await base.GetNextNumber(TypeOfShipment.ShipmentNumber.ToString());
-        }
+    
      
         private async Task<SalesOrder> GetSalesOrderById(long salesOrderId)
         {

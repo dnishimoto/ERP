@@ -55,7 +55,7 @@ public class FluentLocationAddressQuery:MapperAbstract<LocationAddress,LocationA
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.locationAddressRepository.GetNextNumber(TypeOfLocationAddress.LocationAddressNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfLocationAddress.LocationAddressNumber.ToString());
         }
  public override async Task<LocationAddressView> GetViewById(long ? locationAddressId)
         {

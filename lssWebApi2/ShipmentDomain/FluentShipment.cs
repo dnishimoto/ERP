@@ -11,10 +11,10 @@ namespace lssWebApi2.ShipmentsDomain
 {
 public class FluentShipment :IFluentShipment
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentShipment() { }
+        public FluentShipment(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentShipmentQuery Query()
         {
             return new FluentShipmentQuery(unitOfWork) as IFluentShipmentQuery;

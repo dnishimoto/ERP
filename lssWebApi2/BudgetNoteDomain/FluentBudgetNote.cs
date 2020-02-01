@@ -11,10 +11,10 @@ namespace lssWebApi2.BudgetNoteDomain
 
 public class FluentBudgetNote :IFluentBudgetNote
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentBudgetNote() { }
+        public FluentBudgetNote(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentBudgetNoteQuery Query()
         {
             return new FluentBudgetNoteQuery(unitOfWork) as IFluentBudgetNoteQuery;

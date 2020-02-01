@@ -10,18 +10,34 @@ using lssWebApi2.UDCDomain;
 using lssWebApi2.PurchaseOrderDomain;
 using lssWebApi2.PurchaseOrderDetailDomain;
 using lssWebApi2.ChartOfAccountsDomain;
+using lssWebApi2.Services;
 
 namespace lssWebApi2.SalesOrderDetailDomain
 {
     public class SalesOrderDetailModule : AbstractModule
     {
-        public FluentSalesOrderDetail SalesOrderDetail = new FluentSalesOrderDetail();
-        public FluentSalesOrder SalesOrder = new FluentSalesOrder();
-        public FluentItemMaster ItemMaster = new FluentItemMaster();
-        public FluentChartOfAccount ChartOfAccount = new FluentChartOfAccount();
-        public FluentCarrier Carrier = new FluentCarrier();
-        public FluentUdc Udc = new FluentUdc();
-        public FluentPurchaseOrder purchaseOrder = new FluentPurchaseOrder();
-        public FluentPurchaseOrderDetail purchaseOrderDetail = new FluentPurchaseOrderDetail();
+        private UnitOfWork unitOfWork;
+        public FluentSalesOrderDetail SalesOrderDetail;
+        public FluentSalesOrder SalesOrder;
+        public FluentItemMaster ItemMaster;
+        public FluentChartOfAccount ChartOfAccount;
+        public FluentCarrier Carrier;
+        public FluentUdc Udc;
+        public FluentPurchaseOrder purchaseOrder;
+        public FluentPurchaseOrderDetail purchaseOrderDetail;
+
+        public SalesOrderDetailModule()
+        {
+            unitOfWork = new UnitOfWork();
+
+            SalesOrderDetail = new FluentSalesOrderDetail(unitOfWork);
+            SalesOrder = new FluentSalesOrder(unitOfWork);
+            ItemMaster = new FluentItemMaster(unitOfWork);
+            ChartOfAccount = new FluentChartOfAccount(unitOfWork);
+            Carrier = new FluentCarrier(unitOfWork);
+            Udc = new FluentUdc(unitOfWork);
+            purchaseOrder = new FluentPurchaseOrder(unitOfWork);
+            purchaseOrderDetail = new FluentPurchaseOrderDetail(unitOfWork);
+        }
     }
 }

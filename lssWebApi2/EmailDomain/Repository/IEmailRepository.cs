@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System;
 
 
-namespace lssWebApi2.AddressBookDomain
+namespace lssWebApi2.EmailDomain
 {
 public interface IEmailRepository
     {

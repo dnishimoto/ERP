@@ -1,5 +1,4 @@
-﻿using lssWebApi2.FluentAPI;
-using lssWebApi2.UDCDomain;
+﻿using lssWebApi2.UDCDomain;
 using lssWebApi2.ChartOfAccountsDomain;
 using lssWebApi2.EntityFramework;
 using System;
@@ -7,17 +6,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using lssWebApi2.NextNumberDomain;
+using lssWebApi2.AddressBookDomain;
+using lssWebApi2.Services;
+using lssWebApi2.Enumerations;
 
 namespace lssWebApi2.GeneralLedgerDomain
 {
 
     public class GeneralLedgerModule
     {
-        public FluentGeneralLedger GeneralLedger = new FluentGeneralLedger();
-        public FluentChartOfAccount ChartOfAccounts = new FluentChartOfAccount();
-        public FluentNextNumber nn = new FluentNextNumber();
-        public FluentAddressBook AddressBook = new FluentAddressBook();
-        public FluentUdc UDC = new FluentUdc();
+        private UnitOfWork unitOfWork;
+        public FluentGeneralLedger GeneralLedger;
+        public FluentChartOfAccount ChartOfAccounts;
+        public FluentNextNumber nn;
+        public FluentAddressBook AddressBook;
+        public FluentUdc UDC;
+
+        public GeneralLedgerModule()
+        {
+            unitOfWork = new UnitOfWork();
+            GeneralLedger = new FluentGeneralLedger(unitOfWork);
+            ChartOfAccounts = new FluentChartOfAccount(unitOfWork);
+            nn = new FluentNextNumber(unitOfWork);
+            AddressBook = new FluentAddressBook(unitOfWork);
+            UDC = new FluentUdc(unitOfWork);
+        }
 
         public async Task<bool> CreateIncomeAndCash(GeneralLedgerView glView)
         {
@@ -35,7 +49,7 @@ namespace lssWebApi2.GeneralLedgerDomain
                 ChartOfAccount coa = await ChartOfAccounts.Query().GetEntity("1000", "1200", "300", "");
 
                 //Udc udcLedgerType = await unitOfWork.generalLedgerRepository.GetUdc("GENERALLEDGERTYPE", "AA");
-                Udc udcLedgerType =await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
+                Udc udcLedgerType = await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
                 Udc udcDocType = await UDC.Query().GetUdc("DOCTYPE", "PV");
 
                 //Udc udcDocType = await unitOfWork.generalLedgerRepository.GetUdc("DOCTYPE","PV");
@@ -43,7 +57,7 @@ namespace lssWebApi2.GeneralLedgerDomain
                 AddressBook addressBook = await AddressBook.Query().GetEntityById(glView.AddressId);
 
 
-            
+
                 glView.DocType = udcDocType.KeyCode;
                 glView.AccountId = coa.AccountId;
                 glView.LedgerType = udcLedgerType.KeyCode;
@@ -57,9 +71,9 @@ namespace lssWebApi2.GeneralLedgerDomain
 
                 GeneralLedgerView glLookup = null;
 
-                if (String.IsNullOrEmpty(glView.CheckNumber) ==false)
+                if (String.IsNullOrEmpty(glView.CheckNumber) == false)
                 {
-                    glLookup=await GeneralLedger.Query().GetLedgerViewByExpression(
+                    glLookup = await GeneralLedger.Query().GetLedgerViewByExpression(
                    e => e.AccountId == glView.AccountId
                    && e.AddressId == glView.AddressId
                    && e.Amount == glView.Amount
@@ -71,13 +85,10 @@ namespace lssWebApi2.GeneralLedgerDomain
                 if (glLookup == null)
                 {
                     //create income
-                    NextNumber nnObject = nn.Query().GetNextNumber("DocNumber");
-
-                    glView.DocNumber = nnObject.NextNumberValue;
-
+                    
                     GeneralLedger.CreateGeneralLedgerByView(glView).Apply();
                     GeneralLedger.UpdateAccountBalances(glView);
-                    GeneralLedgerView glViewLookup =await GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
+                    GeneralLedgerView glViewLookup = await GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
 
                     return (glViewLookup != null);
                 }
@@ -86,7 +97,7 @@ namespace lssWebApi2.GeneralLedgerDomain
                     glView.DocNumber = glLookup.DocNumber;
                 }
                 return true;
-               
+
             }
             catch (Exception ex) { throw new Exception("CreateCash", ex); }
         }
@@ -106,7 +117,7 @@ namespace lssWebApi2.GeneralLedgerDomain
                 glView.LedgerType = udcLedgerType.KeyCode;
                 glView.CreatedDate = DateTime.Now;
                 glView.AddressId = addressBook.AddressId;
-                
+
                 glView.DebitAmount = glView.Amount;
                 glView.CreditAmount = 0;
                 glView.FiscalPeriod = glView.GLDate.Month;
@@ -128,14 +139,11 @@ namespace lssWebApi2.GeneralLedgerDomain
                 if (glLookup2 == null)
                 {
                     //create income
-                    NextNumber nnObject2 = nn.Query().GetNextNumber("DocNumber");
-
-                    glView.DocNumber = nnObject2.NextNumberValue;
 
                     GeneralLedger.CreateGeneralLedgerByView(glView).Apply();
                     GeneralLedger.UpdateAccountBalances(glView);
 
-                    GeneralLedgerView glViewLookup =await GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
+                    GeneralLedgerView glViewLookup = await GeneralLedger.Query().GetViewByDocNumber(glView.DocNumber, glView.DocType);
 
                     return (glViewLookup != null);
                 }
@@ -174,24 +182,22 @@ namespace lssWebApi2.GeneralLedgerDomain
 
                 if (glCashView.CheckNumber != null)
                 {
-                   glLookup= await GeneralLedger.Query().GetLedgerViewByExpression(
-                  e => e.AccountId == glCashView.AccountId
-                  && e.AddressId == glCashView.AddressId
-                  && e.Amount == glCashView.Amount
-                  && e.CheckNumber == glCashView.CheckNumber
-                  && e.DocType == glCashView.DocType
-                  && e.Gldate == glCashView.GLDate
-                  );
+                    glLookup = await GeneralLedger.Query().GetLedgerViewByExpression(
+                   e => e.AccountId == glCashView.AccountId
+                   && e.AddressId == glCashView.AddressId
+                   && e.Amount == glCashView.Amount
+                   && e.CheckNumber == glCashView.CheckNumber
+                   && e.DocType == glCashView.DocType
+                   && e.Gldate == glCashView.GLDate
+                   );
                 }
                 if (glLookup == null)
                 {
-                    NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
-                    glCashView.DocNumber = nnDocumentNumber.NextNumberValue;
                     GeneralLedger.CreateGeneralLedgerByView(glCashView).Apply();
                     GeneralLedger.UpdateAccountBalances(glCashView);
                 }
                 else
-                    {
+                {
                     glCashView.DocNumber = glLookup.DocNumber;
                 }
                 return true;
@@ -204,12 +210,12 @@ namespace lssWebApi2.GeneralLedgerDomain
             try
             {
 
-             
+
                 ChartOfAccount coa = await ChartOfAccounts.Query().GetEntity("1000", "1200", "502", "01");
                 Udc udcLedgerType = await UDC.Query().GetUdc("GENERALLEDGERTYPE", "AA");
-              
+
                 Udc udcDocType = await UDC.Query().GetUdc("DOCTYPE", "PV");
-               
+
                 AddressBook addressBook = await AddressBook.Query().GetEntityById(glView.AddressId);
                 glView.DocType = udcDocType.KeyCode;
                 glView.AccountId = coa.AccountId;
@@ -235,8 +241,6 @@ namespace lssWebApi2.GeneralLedgerDomain
                 }
                 if (glLookup == null)
                 {
-                    NextNumber nnDocumentNumber = nn.Query().GetNextNumber("DocNumber");
-                    glView.DocNumber = nnDocumentNumber.NextNumberValue;
                     GeneralLedger.CreateGeneralLedgerByView(glView).Apply();
                     GeneralLedger.UpdateAccountBalances(glView);
                 }

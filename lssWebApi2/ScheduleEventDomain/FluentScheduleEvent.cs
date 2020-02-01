@@ -10,10 +10,10 @@ namespace lssWebApi2.ScheduleEventDomain
 
 public class FluentScheduleEvent :IFluentScheduleEvent
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentScheduleEvent() { }
+        public FluentScheduleEvent(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentScheduleEventQuery Query()
         {
             return new FluentScheduleEventQuery(unitOfWork) as IFluentScheduleEventQuery;

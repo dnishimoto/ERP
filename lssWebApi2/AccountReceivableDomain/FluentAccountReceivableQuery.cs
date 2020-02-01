@@ -1,5 +1,5 @@
 ﻿using lssWebApi2.AbstractFactory;
-using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.AutoMapper;
 using lssWebApi2.Services;
 using lssWebApi2.EntityFramework;
@@ -9,8 +9,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using lssWebApi2.Enumerations;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.AccountsReceivableDomain
 {
     public class FluentAccountReceivableQuery : MapperAbstract<AccountReceivable, AccountReceivableView>, IFluentAccountReceivableQuery
     {
@@ -65,8 +66,18 @@ namespace lssWebApi2.FluentAPI
             return list;
 
         }
-
-
+        public async Task<AccountReceivable> GetEntityByPurchaseOrderId(long? purchaseOrderId)
+        {
+            return await _unitOfWork.accountReceivableRepository.GetEntityByPurchaseOrderId(purchaseOrderId);
+        }
+        public async Task<NextNumber> GetDocNumber()
+        {
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAccountReceivable.DocNumber.ToString());
+        }
+        public async Task<NextNumber> GetNextNumber()
+        {
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAccountReceivable.AccountReceivableNumber.ToString());
+        }
         public async Task<IList<AccountReceivableView>> GetAccountReceivableViewsByCustomerId(long customerId)
         {
             try

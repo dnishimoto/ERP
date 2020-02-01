@@ -1,14 +1,11 @@
-﻿using lssWebApi2.AccountPayableDomain;
-using lssWebApi2.AccountsReceivableDomain;
-using lssWebApi2.GeneralLedgerDomain;
-using lssWebApi2.EntityFramework;
+﻿using lssWebApi2.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.GeneralLedgerDomain.Repository
+namespace lssWebApi2.GeneralLedgerDomain
 {
     public interface IGeneralLedgerRepository
     {

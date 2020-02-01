@@ -48,7 +48,7 @@ namespace lssWebApi2.BudgetDomain
         {
             UnitOfWork unitOfWork = new UnitOfWork();
 
-            NextNumber nn = await unitOfWork.accountPayableRepository.GetNextNumber(TypeOfPackingSlip.PackingSlipNumber.ToString());
+            NextNumber nn = await unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPackingSlip.PackingSlipNumber.ToString());
 
             if (nn.NextNumberValue > 0) { Assert.True(true); }
         }

@@ -29,6 +29,7 @@ namespace lssWebApi2.EntityFramework
         public string CheckNumber { get; set; }
         public string PurchaseOrderNumber { get; set; }
         public decimal? Units { get; set; }
+        public long GeneralLedgerNumber { get; set; }
 
         public virtual ChartOfAccount Account { get; set; }
         public virtual AddressBook Address { get; set; }

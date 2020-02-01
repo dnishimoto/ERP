@@ -14,7 +14,8 @@ namespace lssWebApi2.EntityFramework
             Contract = new HashSet<Contract>();
             CustomerClaim = new HashSet<CustomerClaim>();
             CustomerLedger = new HashSet<CustomerLedger>();
-            Invoice = new HashSet<Invoice>();
+            JobCostLedger = new HashSet<JobCostLedger>();
+            JobMaster = new HashSet<JobMaster>();
             Poquote = new HashSet<Poquote>();
             SalesOrder = new HashSet<SalesOrder>();
             ScheduleEvent = new HashSet<ScheduleEvent>();
@@ -39,7 +40,8 @@ namespace lssWebApi2.EntityFramework
         public virtual ICollection<Contract> Contract { get; set; }
         public virtual ICollection<CustomerClaim> CustomerClaim { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
-        public virtual ICollection<Invoice> Invoice { get; set; }
+        public virtual ICollection<JobCostLedger> JobCostLedger { get; set; }
+        public virtual ICollection<JobMaster> JobMaster { get; set; }
         public virtual ICollection<Poquote> Poquote { get; set; }
         public virtual ICollection<SalesOrder> SalesOrder { get; set; }
         public virtual ICollection<ScheduleEvent> ScheduleEvent { get; set; }

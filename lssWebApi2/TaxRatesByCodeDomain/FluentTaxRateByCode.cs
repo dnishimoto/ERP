@@ -8,10 +8,10 @@ namespace lssWebApi2.TaxRatesByCodeDomain
 {
     public class FluentTaxRatesByCode : IFluentTaxRatesByCode
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentTaxRatesByCode() { }
+        public FluentTaxRatesByCode(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentTaxRatesByCodeQuery Query()
         {
             return new FluentTaxRatesByCodeQuery(unitOfWork) as IFluentTaxRatesByCodeQuery;
@@ -24,7 +24,7 @@ namespace lssWebApi2.TaxRatesByCodeDomain
         }
         public IFluentTaxRatesByCode AddTaxRatesByCodes(List<TaxRatesByCode> newObjects)
         {
-            unitOfWork.taxRatesByCodeRepository.AddObjects(newObjects);
+            unitOfWork.taxRateByCodeRepository.AddObjects(newObjects);
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentTaxRatesByCode;
         }
@@ -32,33 +32,33 @@ namespace lssWebApi2.TaxRatesByCodeDomain
         {
             foreach (var item in newObjects)
             {
-                unitOfWork.taxRatesByCodeRepository.UpdateObject(item);
+                unitOfWork.taxRateByCodeRepository.UpdateObject(item);
             }
             this.processStatus = CreateProcessStatus.Update;
             return this as IFluentTaxRatesByCode;
         }
         public IFluentTaxRatesByCode AddTaxRatesByCode(TaxRatesByCode newObject)
         {
-            unitOfWork.taxRatesByCodeRepository.AddObject(newObject);
+            unitOfWork.taxRateByCodeRepository.AddObject(newObject);
             this.processStatus = CreateProcessStatus.Insert;
             return this as IFluentTaxRatesByCode;
         }
         public IFluentTaxRatesByCode UpdateTaxRatesByCode(TaxRatesByCode updateObject)
         {
-            unitOfWork.taxRatesByCodeRepository.UpdateObject(updateObject);
+            unitOfWork.taxRateByCodeRepository.UpdateObject(updateObject);
             this.processStatus = CreateProcessStatus.Update;
             return this as IFluentTaxRatesByCode;
 
         }
         public IFluentTaxRatesByCode DeleteTaxRatesByCode(TaxRatesByCode deleteObject)
         {
-            unitOfWork.taxRatesByCodeRepository.DeleteObject(deleteObject);
+            unitOfWork.taxRateByCodeRepository.DeleteObject(deleteObject);
             this.processStatus = CreateProcessStatus.Delete;
             return this as IFluentTaxRatesByCode;
         }
         public IFluentTaxRatesByCode DeleteTaxRatesByCodes(List<TaxRatesByCode> deleteObjects)
         {
-            unitOfWork.taxRatesByCodeRepository.DeleteObjects(deleteObjects);
+            unitOfWork.taxRateByCodeRepository.DeleteObjects(deleteObjects);
             this.processStatus = CreateProcessStatus.Delete;
             return this as IFluentTaxRatesByCode;
         }

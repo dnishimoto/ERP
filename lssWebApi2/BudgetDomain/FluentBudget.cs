@@ -17,10 +17,10 @@ namespace lssWebApi2.BudgetDomain
 {
     public class FluentBudget : AbstractModule, IFluentBudget
     {
-        UnitOfWork unitOfWork = new UnitOfWork();
+        UnitOfWork unitOfWork;
         CreateProcessStatus processStatus;
         ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
-
+        public FluentBudget(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         FluentBudgetQuery _query = null;
         public IFluentBudgetQuery Query()
         {

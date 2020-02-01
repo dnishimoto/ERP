@@ -58,7 +58,7 @@ namespace lssWebApi2.CommentDomain
             string taxRatesByCodeString = updateView.TaxRate.ToString();
             Assert.NotSame(taxRatesByCodeString, "4.86");
 
-            TaxRatesByCodeView lookupByCode = await TaxRatesByCodeMod.TaxRatesByCode.Query().GetViewByCode(TypeofTaxRatesByCode.StateTaxUT.ToString());
+            TaxRatesByCodeView lookupByCode = await TaxRatesByCodeMod.TaxRatesByCode.Query().GetViewByTaxCode(TypeofTaxRatesByCode.StateTaxUT.ToString());
 
             Assert.NotNull(lookupByCode);
 

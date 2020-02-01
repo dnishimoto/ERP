@@ -1,4 +1,4 @@
-﻿using lssWebApi2.AccountsReceivableDomain;
+﻿using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.CustomerDomain;
 using lssWebApi2.CustomerLedgerDomain;
 using lssWebApi2.GeneralLedgerDomain;

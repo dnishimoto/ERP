@@ -62,7 +62,7 @@ public class FluentPOQuoteQuery:MapperAbstract<Poquote,POQuoteView>,IFluentPOQuo
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.poQuoteRepository.GetNextNumber(TypeOfPOQuote.PoquoteNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPOQuote.PoquoteNumber.ToString());
         }
  public override async Task<POQuoteView> GetViewById(long ? poQuoteId)
         {

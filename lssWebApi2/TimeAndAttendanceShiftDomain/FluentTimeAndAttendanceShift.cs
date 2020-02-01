@@ -11,10 +11,10 @@ namespace lssWebApi2.TimeAndAttendanceShiftDomain
 
 public class FluentTimeAndAttendanceShift :IFluentTimeAndAttendanceShift
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentTimeAndAttendanceShift() { }
+        public FluentTimeAndAttendanceShift(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentTimeAndAttendanceShiftQuery Query()
         {
             return new FluentTimeAndAttendanceShiftQuery(unitOfWork) as IFluentTimeAndAttendanceShiftQuery;

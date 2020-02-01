@@ -52,7 +52,12 @@ namespace lssWebApi2.AccountPayableDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.accountPayableRepository.GetNextNumber(TypeOfAccountPayable.AccountPayableNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAccountPayable.AccountPayableNumber.ToString());
+        }
+        public async Task<long> GetNextDocNumber()
+        {
+            NextNumber nextNumber = await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAccountPayable.DocNumber.ToString());
+            return nextNumber.NextNumberValue;
         }
         public override async Task<AccountPayableView> GetViewById(long? accountPayableId)
         {

@@ -47,7 +47,7 @@ namespace lssWebApi2.CommentDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.commentRepository.GetNextNumber(TypeOfComment.CommentNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfComment.CommentNumber.ToString());
         }
         public override async Task<Comment> GetEntityById(long ? commentId)
         {

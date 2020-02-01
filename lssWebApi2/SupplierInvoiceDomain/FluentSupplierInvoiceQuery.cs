@@ -80,7 +80,7 @@ public class FluentSupplierInvoiceQuery: MapperAbstract<SupplierInvoice, Supplie
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.supplierInvoiceRepository.GetNextNumber(TypeOfSupplierInvoice.SupplierInvoiceNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfSupplierInvoice.SupplierInvoiceNumber.ToString());
         }
  public override async Task<SupplierInvoiceView> GetViewById(long ? supplierInvoiceId)
         {

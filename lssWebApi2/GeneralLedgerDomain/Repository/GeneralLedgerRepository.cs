@@ -3,9 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.Services;
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.AccountsReceivableDomain;
 using System.Data.SqlClient;
-using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -39,6 +37,7 @@ namespace lssWebApi2.GeneralLedgerDomain
         public string CheckNumber { get; set; }
         public string PurchaseOrderNumber { get; set; }
         public decimal? Units { get; set; }
+        public long GeneralLedgerNumber { get; set; }
     }
     public class IncomeView
     {

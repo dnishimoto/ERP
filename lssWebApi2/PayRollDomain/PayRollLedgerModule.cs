@@ -1,5 +1,5 @@
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.PayRollDomain;
+using lssWebApi2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +9,19 @@ namespace lssWebApi2.PayRollDomain
 {
     public class PayRollLedgerModule : AbstractModule
     {
-        public FluentPayRollLedger PayRollLedger = new FluentPayRollLedger();
-        public FluentPayRollPaySequence PayRollPaySequence = new FluentPayRollPaySequence();
-        public FluentPayRollTransactionsByEmployee PayRollTransactionsByEmployee = new FluentPayRollTransactionsByEmployee();
-        public FluentPayRollCurrentPaySequence PayRollCurrentPaySequence = new FluentPayRollCurrentPaySequence();
+        private UnitOfWork unitOfWork;
+        public FluentPayRollLedger PayRollLedger;
+        public FluentPayRollPaySequence PayRollPaySequence;
+        public FluentPayRollTransactionsByEmployee PayRollTransactionsByEmployee;
+        public FluentPayRollCurrentPaySequence PayRollCurrentPaySequence;
+
+        public PayRollLedgerModule()
+        {
+            unitOfWork = new UnitOfWork();
+            PayRollLedger = new FluentPayRollLedger(unitOfWork);
+            PayRollPaySequence = new FluentPayRollPaySequence(unitOfWork);
+            PayRollTransactionsByEmployee = new FluentPayRollTransactionsByEmployee(unitOfWork);
+            PayRollCurrentPaySequence = new FluentPayRollCurrentPaySequence(unitOfWork);
+        }
     }
 }

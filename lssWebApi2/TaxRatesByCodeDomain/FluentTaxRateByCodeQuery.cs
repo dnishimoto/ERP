@@ -47,36 +47,41 @@ namespace lssWebApi2.TaxRatesByCodeDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.taxRatesByCodeRepository.GetNextNumber(TypeOfNextNumberEnum.TaxRatesByCodeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeofTaxRatesByCode.TaxRatesByCodeNumber.ToString());
         }
         public override async Task<TaxRatesByCodeView> GetViewById(long ? TaxRatesByCodeId)
         {
-            TaxRatesByCode detailItem = await _unitOfWork.taxRatesByCodeRepository.GetEntityById(TaxRatesByCodeId);
+            TaxRatesByCode detailItem = await _unitOfWork.taxRateByCodeRepository.GetEntityById(TaxRatesByCodeId);
 
             return await MapToView(detailItem);
         }
         public async Task<TaxRatesByCodeView> GetViewByNumber(long taxRatesByCodeNumber)
         {
-            TaxRatesByCode detailItem = await _unitOfWork.taxRatesByCodeRepository.GetEntityByNumber(taxRatesByCodeNumber);
+            TaxRatesByCode detailItem = await _unitOfWork.taxRateByCodeRepository.GetEntityByNumber(taxRatesByCodeNumber);
 
             return await MapToView(detailItem);
         }
-
-        public async Task<TaxRatesByCodeView> GetViewByCode(string code)
+ 
+        public async Task<TaxRatesByCodeView> GetViewByTaxCode(string code)
         {
-            TaxRatesByCode detailItem = await _unitOfWork.taxRatesByCodeRepository.GetEntityByCode(code);
+            TaxRatesByCode detailItem = await _unitOfWork.taxRateByCodeRepository.GetEntityByCode(code);
 
             return await MapToView(detailItem);
+        }
+        public async Task<TaxRatesByCode> GetEntityByTaxCode(string code)
+        {
+            return await _unitOfWork.taxRateByCodeRepository.GetEntityByCode(code);
+
         }
 
         public override async Task<TaxRatesByCode> GetEntityById(long ? taxRatesByCodeId)
         {
-            return await _unitOfWork.taxRatesByCodeRepository.GetEntityById(taxRatesByCodeId);
+            return await _unitOfWork.taxRateByCodeRepository.GetEntityById(taxRatesByCodeId);
 
         }
         public async Task<TaxRatesByCode> GetEntityByNumber(long taxRatesByCodeNumber)
         {
-            return await _unitOfWork.taxRatesByCodeRepository.GetEntityByNumber(taxRatesByCodeNumber);
+            return await _unitOfWork.taxRateByCodeRepository.GetEntityByNumber(taxRatesByCodeNumber);
         }
 
 

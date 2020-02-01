@@ -8,20 +8,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.Enumerations;
 using lssWebApi2.EntityFramework;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.AccountsReceivableDomain
 {
    
    
     public class FluentAccountReceivable : AbstractErrorHandling, IFluentAccountReceivable
     {
-        public UnitOfWork unitOfWork = new UnitOfWork();
+        public UnitOfWork unitOfWork ;
         public CreateProcessStatus processStatus;
 
-        public FluentAccountReceivable() { }
+        public FluentAccountReceivable(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
 
         public IFluentAccountReceivableQuery Query()
         {
@@ -102,48 +102,32 @@ namespace lssWebApi2.FluentAPI
             catch (Exception ex)
             { throw new Exception(GetMyMethodName(), ex); }
         }
-        public IFluentAccountReceivable CreateAcctRecByInvoiceView(InvoiceView invoiceView)
+
+        public async Task<IFluentAccountReceivable> UpdateAcctRecByInvoiceView(InvoiceView invoiceView)
         {
             try
             {
-                Task<Invoice> invoiceTask = Task.Run(async () => await unitOfWork.invoiceRepository.GetEntityByInvoiceDocument(invoiceView.InvoiceDocument));
-                Task.WaitAll(invoiceTask);
+                Invoice invoice=  await unitOfWork.invoiceRepository.GetEntityByInvoiceDocument(invoiceView.InvoiceDocument);
+                Decimal? totalInvoiceAmount= await unitOfWork.invoiceRepository.GetInvoicedAmountByPurchaseOrderId(invoiceView.PurchaseOrderId);
+
                 
-                if (invoiceTask.Result != null)
+                if (invoice != null)
                 {
-                    long? invoiceId = invoiceTask.Result.InvoiceId;
+                    long? invoiceId = invoice.InvoiceId;
 
-                    Task<AccountReceivable> acctRecLookupTask = Task.Run(async () => await unitOfWork.accountReceivableRepository.GetEntityByInvoiceId(invoiceTask.Result.InvoiceId));
-                    Task.WaitAll(acctRecLookupTask);
+                    AccountReceivable acctRecLookup =  await unitOfWork.accountReceivableRepository.GetEntityByPurchaseOrderId(invoice.PurchaseOrderId);
 
-                    if (acctRecLookupTask.Result == null)
+                    if (acctRecLookup != null)
                     {
-                        Task<Udc> udcTask = Task.Run(async()=> await unitOfWork.udcRepository.GetUdc("ACCTRECDOCTYPE", "INV"));
 
-                        Task<NextNumber> nextNumberTask = Task.Run(async()=>await unitOfWork.nextNumberRepository.GetNextNumber(TypeOfNextNumberEnum.DocNumber.ToString()));
 
-                        Task<ChartOfAccount> chartOfAcctTask = Task.Run(async()=> await unitOfWork.chartOfAccountRepository.GetChartofAccount("1000", "1200", "120", ""));
-                        Task.WaitAll(udcTask, nextNumberTask, chartOfAcctTask);
-
-                        AccountReceivable acctRec = new AccountReceivable();
-                        acctRec.InvoiceId = invoiceTask.Result.InvoiceId;
-                        acctRec.DiscountDueDate = invoiceTask.Result.DiscountDueDate;
-                        acctRec.Gldate = DateTime.Now.Date;
-                        acctRec.CreateDate = DateTime.Now.Date;
-                        acctRec.DocNumber = nextNumberTask.Result.NextNumberValue;
-                        acctRec.Remarks = invoiceTask.Result.Description;
-                        acctRec.PaymentTerms = invoiceTask.Result.PaymentTerms;
-                        acctRec.CustomerId = invoiceTask.Result.CustomerId??0;
-                        //PurchaseOrderId 
-                        acctRec.Description = invoiceTask.Result.Description;
-                        acctRec.AcctRecDocTypeXrefId = udcTask.Result.XrefId;
-                        acctRec.AccountId = chartOfAcctTask.Result.AccountId;
-                        acctRec.Amount = invoiceTask.Result.Amount;
-                        acctRec.OpenAmount = invoiceTask.Result.Amount;
-                        acctRec.DebitAmount = 0;
-                        acctRec.CreditAmount = invoiceTask.Result.Amount;
-
-                        AddAccountReceivable(acctRec);
+                        //decimal ? totalInvoiceAmount = listInvoiceTasks.Result.Sum<Invoice>(e => e.Amount);
+        
+                        acctRecLookup.OpenAmount = acctRecLookup.Amount-totalInvoiceAmount;
+                        acctRecLookup.DebitAmount = 0;
+                        acctRecLookup.CreditAmount = totalInvoiceAmount;
+                        
+                        UpdateAccountReceivable(acctRecLookup);
                         return this as IFluentAccountReceivable;
                     }
 
@@ -159,11 +143,11 @@ namespace lssWebApi2.FluentAPI
       
 
            
-        public IFluentAccountReceivable Apply()
+        public IFluentAccountReceivable  Apply()
         {
             if (processStatus == CreateProcessStatus.Insert || processStatus == CreateProcessStatus.Update || processStatus == CreateProcessStatus.Delete)
             { unitOfWork.CommitChanges(); }
-            return this as IFluentAccountReceivable;
+            return  this as IFluentAccountReceivable;
         }
         public IFluentAccountReceivable AddAccountReceivablesByList(List<AccountReceivable> newObjects)
         {

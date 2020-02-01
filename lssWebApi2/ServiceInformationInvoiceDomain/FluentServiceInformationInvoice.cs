@@ -11,10 +11,10 @@ namespace lssWebApi2.ServiceInformationInvoiceDomain
 
 public class FluentServiceInformationInvoice :IFluentServiceInformationInvoice
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentServiceInformationInvoice() { }
+        public FluentServiceInformationInvoice(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentServiceInformationInvoiceQuery Query()
         {
             return new FluentServiceInformationInvoiceQuery(unitOfWork) as IFluentServiceInformationInvoiceQuery;

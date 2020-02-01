@@ -29,6 +29,7 @@ namespace lssWebApi2.EntityFramework
         public decimal? HourlyRate { get; set; }
         public decimal? SalaryPerPayPeriod { get; set; }
         public long EmployeeNumber { get; set; }
+        public long? PositionCodeId { get; set; }
 
         public virtual AddressBook Address { get; set; }
         public virtual Udc EmploymentStatusXref { get; set; }

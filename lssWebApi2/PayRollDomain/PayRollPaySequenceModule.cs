@@ -1,5 +1,5 @@
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.PayRollDomain;
+using lssWebApi2.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +9,12 @@ namespace lssWebApi2.PayRollDomain
 {
     public class PayRollPaySequenceModule : AbstractModule
     {
-        public FluentPayRollPaySequence PayRollPaySequence = new FluentPayRollPaySequence();
+        private UnitOfWork unitOfWork;
+        public FluentPayRollPaySequence PayRollPaySequence;
+        public PayRollPaySequenceModule()
+        {
+            unitOfWork = new UnitOfWork();
+            PayRollPaySequence = new FluentPayRollPaySequence(unitOfWork);
+        }
     }
 }

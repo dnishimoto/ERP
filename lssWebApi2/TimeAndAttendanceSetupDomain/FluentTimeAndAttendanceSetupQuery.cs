@@ -72,7 +72,7 @@ public class FluentTimeAndAttendanceSetupQuery:MapperAbstract<TimeAndAttendanceS
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.timeAndAttendanceSetupRepository.GetNextNumber(TypeOfTimeAndAttendanceSetup.TimeAndAttendanceSetupNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfTimeAndAttendanceSetup.TimeAndAttendanceSetupNumber.ToString());
         }
  public override async Task<TimeAndAttendanceSetupView> GetViewById(long ? timeAndAttendanceSetupId)
         {

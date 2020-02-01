@@ -5,12 +5,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.SupplierDomain;
+using lssWebApi2.Services;
 
 namespace lssWebApi2.PackingSlipDomain
 {
     public class PackingSlipModule : AbstractModule
     {
-        public FluentPackingSlip PackingSlip = new FluentPackingSlip();
-        public FluentSupplier Supplier = new FluentSupplier();
+        private UnitOfWork unitOfWork;
+        public FluentPackingSlip PackingSlip;
+        public FluentSupplier Supplier;
+        public PackingSlipModule()
+        {
+            unitOfWork = new UnitOfWork();
+            PackingSlip = new FluentPackingSlip(unitOfWork);
+            Supplier = new FluentSupplier(unitOfWork);
+        }
+
     }
 }

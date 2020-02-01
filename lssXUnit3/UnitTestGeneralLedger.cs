@@ -107,6 +107,7 @@ namespace lssWebApi2.GeneralLedgerDomain
             glView.AddressId = addressId;
             glView.Comment = "Mortgage Payment";
             glView.CheckNumber = "T1";
+            glView.GeneralLedgerNumber = (await ledgerMod.GeneralLedger.Query().GetNextNumber()).NextNumberValue;
             //glView.DebitAmount = 0;
             //glView.CreditAmount = expense;
             //glView.FiscalPeriod = 9;

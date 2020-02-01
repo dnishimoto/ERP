@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.AccountPayableDomain;
 using lssWebApi2.CustomerDomain;
 using lssWebApi2.Services;
-using lssWebApi2.AddressBookDomain.Repository;
 using lssWebApi2.EntityFramework;
-using lssWebApi2.Enumerations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 

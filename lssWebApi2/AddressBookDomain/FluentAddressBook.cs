@@ -11,17 +11,17 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.AddressBookDomain
 {
     public class FluentAddressBook : AbstractModule, IFluentAddressBook
     {
-        protected UnitOfWork unitOfWork = new UnitOfWork();
+        protected UnitOfWork unitOfWork;
 
         protected CreateProcessStatus processStatus;
 
         ApplicationViewFactory applicationViewFactory = new ApplicationViewFactory();
 
-        public FluentAddressBook() { }
+        public FluentAddressBook(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
 
         public FluentAddressBookQuery _query;
 

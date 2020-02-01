@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.TimeAndAttendanceDomain;
 using lssAngular2;
 using lssAngular2.Controllers;
+using lssWebApi2.AbstractFactory;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.TimeAndAttendanceDomain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -30,12 +31,12 @@ namespace lssAngular3.Controllers
 
         [HttpGet]
         [Route("TAPunchPage/{employeeId}/{pageNumber}/{pageSize}")]
-        [ProducesResponseType(typeof(TimeAndAttendanceViewContainer), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PageListViewContainer<TimeAndAttendancePunchInView>), StatusCodes.Status200OK)]
 
         public async Task<IActionResult> GetTimeAndAttendanceByPage(long employeeId, int pageNumber, int pageSize)
         {
             DataService ds = new DataService(this._baseUrl);
-            TimeAndAttendanceViewContainer container = await ds.GetAsync<TimeAndAttendanceViewContainer>("api/TimeAndAttendance/TAPunchPage/" + employeeId.ToString()+"/"+pageNumber.ToString()+"/"+pageSize.ToString());
+            PageListViewContainer<TimeAndAttendancePunchInView> container = await ds.GetAsync<PageListViewContainer<TimeAndAttendancePunchInView>>("api/TimeAndAttendance/TAPunchPage/" + employeeId.ToString()+"/"+pageNumber.ToString()+"/"+pageSize.ToString());
             return Ok(container);
 
         }

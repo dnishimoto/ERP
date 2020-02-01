@@ -63,7 +63,7 @@ namespace lssWebApi2.AddressBookDomain
         }
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.phoneRepository.GetNextNumber(TypeOfPhoneEntity.PhoneEntityNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPhoneEntity.PhoneEntityNumber.ToString());
         }
         public override async Task<PhoneEntityView> GetViewById(long ? phonesId)
         {

@@ -66,7 +66,7 @@ namespace lssWebApi2.BudgetRangeDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.budgetRangeRepository.GetNextNumber(TypeOfBudgetRange.BudgetRangeNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfBudgetRange.BudgetRangeNumber.ToString());
         }
         public override async Task<BudgetRangeView> GetViewById(long ? budgetRangeId)
         {

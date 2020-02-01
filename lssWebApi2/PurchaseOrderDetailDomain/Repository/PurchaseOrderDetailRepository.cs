@@ -13,12 +13,10 @@ namespace lssWebApi2.PurchaseOrderDetailDomain
 {
     public class PurchaseOrderDetailView
     {
-      
         public long PurchaseOrderDetailId { get; set; }
         public long PurchaseOrderId { get; set; }
         public decimal? Amount { get; set; }
         public decimal? OrderedQuantity { get; set; }
-        public long ItemId { get; set; }
         public decimal? UnitPrice { get; set; }
         public string UnitOfMeasure { get; set; }
         public DateTime? ReceivedDate { get; set; }
@@ -26,12 +24,18 @@ namespace lssWebApi2.PurchaseOrderDetailDomain
         public DateTime? OrderDate { get; set; }
         public int? ReceivedQuantity { get; set; }
         public int? RemainingQuantity { get; set; }
-        public string Description { get; set; }
+        public string LineDescription { get; set; }
         public long PurchaseOrderDetailNumber { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public long? InvoiceId { get; set; }
+        public long LineNumber { get; set; }
+        public long? SupplierId { get; set; }
+        public long? CustomerId { get; set; }
+        public long? ItemId { get; set; }
 
-        public string ItemDescription2 { get; set; }
-        public string ItemCode { get; set; }
         public string PONumber { get; set; }
+        public string SupplierName { get; set; }
+        public string CustomerName { get; set; }
     }
 
     public class PurchaseOrderDetailRepository: Repository<PurchaseOrderDetail>, IPurchaseOrderDetailRepository
@@ -41,7 +45,6 @@ namespace lssWebApi2.PurchaseOrderDetailDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
-
         public async Task<IList<PurchaseOrderDetail>>GetEntitiesByPurchaseOrderId(long ? purchaseOrderId)
 
         {

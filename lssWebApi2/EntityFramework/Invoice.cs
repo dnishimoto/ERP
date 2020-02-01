@@ -8,8 +8,8 @@ namespace lssWebApi2.EntityFramework
     {
         public Invoice()
         {
-            AccountPayable = new HashSet<AccountPayable>();
             AccountReceivable = new HashSet<AccountReceivable>();
+            ContractInvoice = new HashSet<ContractInvoice>();
             CustomerLedger = new HashSet<CustomerLedger>();
             InvoiceDetail = new HashSet<InvoiceDetail>();
             ServiceInformationInvoice = new HashSet<ServiceInformationInvoice>();
@@ -31,11 +31,12 @@ namespace lssWebApi2.EntityFramework
         public long InvoiceNumber { get; set; }
         public long? PurchaseOrderId { get; set; }
         public long? SupplierId { get; set; }
+        public long TaxRatesByCodeId { get; set; }
 
         public virtual Company Company { get; set; }
-        public virtual Customer Customer { get; set; }
-        public virtual ICollection<AccountPayable> AccountPayable { get; set; }
+        public virtual TaxRatesByCode TaxRatesByCode { get; set; }
         public virtual ICollection<AccountReceivable> AccountReceivable { get; set; }
+        public virtual ICollection<ContractInvoice> ContractInvoice { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }
         public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
         public virtual ICollection<ServiceInformationInvoice> ServiceInformationInvoice { get; set; }

@@ -9,8 +9,6 @@ namespace lssWebApi2.EntityFramework
         public ItemMaster()
         {
             Inventory = new HashSet<Inventory>();
-            InvoiceDetail = new HashSet<InvoiceDetail>();
-            PurchaseOrderDetail = new HashSet<PurchaseOrderDetail>();
             SalesOrderDetail = new HashSet<SalesOrderDetail>();
             ShipmentDetail = new HashSet<ShipmentDetail>();
             SupplierInvoiceDetail = new HashSet<SupplierInvoiceDetail>();
@@ -32,8 +30,6 @@ namespace lssWebApi2.EntityFramework
         public long? AccountId { get; set; }
 
         public virtual ICollection<Inventory> Inventory { get; set; }
-        public virtual ICollection<InvoiceDetail> InvoiceDetail { get; set; }
-        public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
         public virtual ICollection<SalesOrderDetail> SalesOrderDetail { get; set; }
         public virtual ICollection<ShipmentDetail> ShipmentDetail { get; set; }
         public virtual ICollection<SupplierInvoiceDetail> SupplierInvoiceDetail { get; set; }

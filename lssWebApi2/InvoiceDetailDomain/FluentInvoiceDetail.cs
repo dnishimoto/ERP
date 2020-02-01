@@ -14,10 +14,10 @@ namespace lssWebApi2.InvoiceDetailDomain
 
 public class FluentInvoiceDetail :IFluentInvoiceDetail
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentInvoiceDetail() { }
+        public FluentInvoiceDetail(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentInvoiceDetailQuery Query()
         {
             return new FluentInvoiceDetailQuery(unitOfWork) as IFluentInvoiceDetailQuery;
@@ -27,35 +27,6 @@ public class FluentInvoiceDetail :IFluentInvoiceDetail
             Mapper mapper = new Mapper();
             InvoiceDetail outObject = mapper.Map<InvoiceDetail>(inputObject);
             return outObject;
-        }
-        public IFluentInvoiceDetail CreateInvoiceDetailsByInvoiceView(InvoiceView invoiceView)
-        {
-            try
-            {
-                int count = 0;
-
-                Task<Invoice> invoiceTask = Task.Run(async () => await unitOfWork.invoiceRepository.GetEntityByInvoiceDocument(invoiceView.InvoiceDocument));
-                Task.WaitAll(invoiceTask);
-
-               
-
-
-                //Assign the InvoiceId
-                for (int i = 0; i < invoiceView.InvoiceDetailViews.Count; i++)
-                {
-                    invoiceView.InvoiceDetailViews[i].InvoiceId = invoiceTask.Result.InvoiceId;
-                    InvoiceDetail invoiceDetail =  MapToEntity(invoiceView.InvoiceDetailViews[i]);
-
-                  
-                     AddInvoiceDetail(invoiceDetail);
-                    if (processStatus == CreateProcessStatus.Insert) { count++; }
-                }
-                if (count == 0) {  processStatus=CreateProcessStatus.AlreadyExists;   }
-                return this as IFluentInvoiceDetail;
-            }
-            catch (Exception ex)
-            { throw new Exception("CreateInvoiceDetailsByView", ex); }
-
         }
         public IFluentInvoiceDetail Apply() {
 			try{

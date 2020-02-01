@@ -28,6 +28,19 @@ namespace lssWebApi2.UDCDomain
         {
             _dbContext = (ListensoftwaredbContext)db;
         }
+        public async Task<Udc> GetUdc(string productCode, string keyCode)
+        {
+            try
+            {
+                Udc udc = await (from e in _dbContext.Udc
+                                 where e.ProductCode == productCode
+                                 && e.KeyCode == keyCode
+                                 select e).FirstOrDefaultAsync<Udc>();
+
+                return udc;
+            }
+            catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
+        }
         public async Task<IQueryable<Udc>> GetUDCValuesByProductCode(string productCode)
         {
             try

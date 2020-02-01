@@ -9,9 +9,10 @@ namespace lssWebApi2.ObserverMediator
 {
     public interface IMessageAction
     {
-        string observed_action { get; set; }
         TypeOfObservableAction command_action { get; set; }
         string targetByName { get; set; }
+
+        JobMaster JobMaster { get; set; }
         AddressBook AddressBook { get; set; }
         ChartOfAccount ChartOfAccount { get; set; }
         BudgetRange BudgetRange { get; set; }

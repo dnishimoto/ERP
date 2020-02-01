@@ -8,10 +8,10 @@ namespace lssWebApi2.CommentDomain
 {
     public class FluentComment : IFluentComment
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentComment() { }
+        public FluentComment(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentCommentQuery Query()
         {
             return new FluentCommentQuery(unitOfWork) as IFluentCommentQuery;

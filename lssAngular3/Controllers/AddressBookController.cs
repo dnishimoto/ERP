@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ERP_Core2.AddressBookDomain;
+using lssWebApi2.AddressBookDomain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 

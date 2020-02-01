@@ -55,7 +55,7 @@ public class FluentCarrierQuery:MapperAbstract<Carrier,CarrierView>,IFluentCarri
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.carrierRepository.GetNextNumber(TypeOfCarrier.CarrierNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfCarrier.CarrierNumber.ToString());
         }
  public override async Task<CarrierView> GetViewById(long ? carrierId)
         {

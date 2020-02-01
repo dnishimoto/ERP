@@ -11,10 +11,10 @@ namespace lssWebApi2.SalesOrderDomain
 {
     public class FluentSalesOrder :IFluentSalesOrder
     {
-        private UnitOfWork unitOfWork = new UnitOfWork();
+        private UnitOfWork unitOfWork ;
         private CreateProcessStatus processStatus;
 
-        public FluentSalesOrder() { }
+        public FluentSalesOrder(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentSalesOrderQuery Query()
         {
             return new FluentSalesOrderQuery(unitOfWork) as IFluentSalesOrderQuery;

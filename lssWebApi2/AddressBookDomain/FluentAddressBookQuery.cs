@@ -1,6 +1,4 @@
 ﻿using lssWebApi2.AbstractFactory;
-using lssWebApi2.Interfaces;
-using lssWebApi2.AddressBookDomain;
 using lssWebApi2.Services;
 using System;
 using System.Collections.Generic;
@@ -12,7 +10,7 @@ using lssWebApi2.AutoMapper;
 using lssWebApi2.MapperAbstract;
 using X.PagedList;
 
-namespace lssWebApi2.FluentAPI
+namespace lssWebApi2.AddressBookDomain
 {
     public class FluentAddressBookQuery : MapperAbstract<AddressBook,AddressBookView>, IFluentAddressBookQuery
     {

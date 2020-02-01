@@ -25,7 +25,6 @@ namespace lssWebApi2.InvoicesDomain
         public DateTime? InvoiceDate { get; set; }
         public decimal? Amount { get; set; }
         public long? CustomerId { get; set; }
-        public string CustomerName { get; set; }
         public string Description { get; set; }
         public decimal? TaxAmount { get; set; }
         public DateTime? PaymentDueDate { get; set; }
@@ -36,10 +35,12 @@ namespace lssWebApi2.InvoicesDomain
         public long InvoiceNumber { get; set; }
         public long? PurchaseOrderId { get; set; }
         public long? SupplierId { get; set; }
-
+        public long TaxRatesByCodeId { get; set; }
         public IList<InvoiceDetailView> InvoiceDetailViews { get; set; }
 
+        public string CustomerName { get; set; }
         public string SupplierName { get; set; }
+        public string TaxCode { get; set; }
     }
     public class InvoiceFlatView
     {
@@ -88,6 +89,23 @@ namespace lssWebApi2.InvoicesDomain
             _dbContext = (ListensoftwaredbContext)db;
             applicationViewFactory = new ApplicationViewFactory();
         }
+        public async Task<Decimal> GetInvoicedAmountByPurchaseOrderId(long? purchaseOrderId)
+        {
+           var query = await (from detail in _dbContext.Invoice
+                               where detail.PurchaseOrderId == purchaseOrderId
+                               select detail).ToListAsync<Invoice>();
+
+            decimal invoiceAmount = query.Sum(e => e.Amount)??0;
+
+            return invoiceAmount;
+        }
+        public async Task<IList<Invoice>> GetEntitiesByPurchaseOrderId(long? purchaseOrderId)
+        {
+            var query = await (from detail in _dbContext.Invoice
+                               where detail.PurchaseOrderId == purchaseOrderId
+                               select detail).ToListAsync<Invoice>();
+            return query;
+        }
         public async Task<IQueryable<Invoice>> GetQueryableByCustomerId(long ? customerId)
         {
             var query = (from invoice in _dbContext.Invoice
@@ -117,7 +135,11 @@ namespace lssWebApi2.InvoicesDomain
             }
             catch (Exception ex) { throw new Exception(GetMyMethodName(), ex); }
         }
-        
+        public async Task<IList<Invoice>> GetEntitiesByExpression(Expression<Func<Invoice, bool>> predicate)
+        {
+            return await (_dbContext.Set<Invoice>().Where(predicate)).ToListAsync<Invoice>();
+
+        }
         public async Task<Invoice> FindEntityByExpression(Expression<Func<Invoice, bool>> predicate)
         {
             IQueryable<Invoice> result = _dbContext.Set<Invoice>().Where(predicate);

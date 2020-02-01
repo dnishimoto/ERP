@@ -20,6 +20,8 @@ namespace lssWebApi2.InvoiceDomain.Repository
         Task<Invoice> GetEntityById(long ? invoiceId);
         Task<Invoice> GetEntityByNumber(long? invoiceNumber);
         Task<Invoice> FindEntityByExpression(Expression<Func<Invoice, bool>> predicate);
-    
+        Task<IList<Invoice>> GetEntitiesByExpression(Expression<Func<Invoice, bool>> predicate);
+        Task<IList<Invoice>> GetEntitiesByPurchaseOrderId(long? purchaseOrderId);
+        Task<Decimal> GetInvoicedAmountByPurchaseOrderId(long? purchaseOrderId);
     }
 }

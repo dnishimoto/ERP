@@ -46,7 +46,7 @@ namespace lssWebApi2.PayRollDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.payRollCurrentPaySequenceRepository.GetNextNumber(TypeOfPayRoll.PayRollCurrentPaySequenceNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPayRoll.PayRollCurrentPaySequenceNumber.ToString());
         }
         public async Task<PayRollCurrentPaySequenceView> GetViewById(long payRollCurrentPaySequenceId)
         {

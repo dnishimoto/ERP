@@ -11,6 +11,8 @@ namespace lssWebApi2.CompanyDomain
 public interface ICompanyRepository
     {
         Task<Company> GetEntityById(long ? companyId);
-	
+        Task<Company> GetCompany();
+
+
     }
 }

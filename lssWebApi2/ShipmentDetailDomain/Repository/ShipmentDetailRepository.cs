@@ -39,11 +39,7 @@ namespace lssWebApi2.ShipmentsDomain
             _dbContext = (ListensoftwaredbContext)db;
         }
       
-        public async Task<NextNumber> GetNextNumber()
-        {
-            return await base.GetNextNumber(TypeOfShipmentDetail.ShipmentsDetailNumber.ToString());
-        }
-   
+         
         public async Task<ShipmentDetail> GetEntityById(long ? shipmentDetailId)
         {
             return await _dbContext.FindAsync<ShipmentDetail>(shipmentDetailId);

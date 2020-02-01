@@ -46,7 +46,7 @@ public class FluentPayRollLedgerQuery:IFluentPayRollLedgerQuery
         
   public async Task<NextNumber>GetNextNumber()
         {
-            return await _unitOfWork.payRollLedgerRepository.GetNextNumber(TypeOfPayRoll.PayRollLedgerNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfPayRoll.PayRollLedgerNumber.ToString());
         }
  public async Task<PayRollLedgerView> GetViewById(long payRollLedgerId)
         {

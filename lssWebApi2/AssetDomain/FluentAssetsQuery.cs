@@ -26,7 +26,7 @@ namespace lssWebApi2.InventoryDomain
         }
         public async Task<NextNumber> GetAssetNextNumber()
         {
-            return await _unitOfWork.assetRepository.GetNextNumber(TypeOfAsset.AssetNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfAsset.AssetNumber.ToString());
         }
         public override async Task<Asset> MapToEntity(AssetView inputObject)
         {
@@ -73,7 +73,7 @@ namespace lssWebApi2.InventoryDomain
         }
         public async Task<Udc> GetUdc(string productCode, string keyCode)
         {
-            return await _unitOfWork.assetRepository.GetUdc(productCode, keyCode);
+            return await _unitOfWork.udcRepository.GetUdc(productCode, keyCode);
         }
     }
 }

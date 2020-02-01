@@ -21,7 +21,7 @@ namespace lssWebApi2.SalesOrderDomain
         public FluentSalesOrderQuery(UnitOfWork unitOfWork) { _unitOfWork = unitOfWork; }
 
         public async Task<Udc> GetUdc(string productCode, string keyCode) {
-            return await _unitOfWork.salesOrderRepository.GetUdc(productCode, keyCode);
+            return await _unitOfWork.udcRepository.GetUdc(productCode, keyCode);
         }
       
         public async Task<PageListViewContainer<SalesOrderView>> GetViewsByPage(Expression<Func<SalesOrder, bool>> predicate, Expression<Func<SalesOrder, object>> order, int pageSize, int pageNumber)
@@ -68,7 +68,7 @@ namespace lssWebApi2.SalesOrderDomain
             return salesOrder;
         }
         public async Task<NextNumber> GetNextNumber() {
-            return await _unitOfWork.salesOrderRepository.GetNextNumber(TypeOfSalesOrder.SalesOrderNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfSalesOrder.SalesOrderNumber.ToString());
         }
         public override async Task<SalesOrder> MapToEntity(SalesOrderView inputObject)
         {

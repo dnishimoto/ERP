@@ -18,7 +18,7 @@ namespace lssWebApi2.EntityFramework
         public string Remark { get; set; }
         public DateTime? Gldate { get; set; }
         public long AccountId { get; set; }
-        public long SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public long? ContractId { get; set; }
         public long? PoquoteId { get; set; }
         public string Description { get; set; }
@@ -40,9 +40,13 @@ namespace lssWebApi2.EntityFramework
         public string TaxCode2 { get; set; }
         public long PurchaseOrderNumber { get; set; }
         public decimal? Amount { get; set; }
+        public long? CarrierId { get; set; }
+        public decimal? DiscountPercent { get; set; }
+        public decimal? DiscountAmount { get; set; }
+        public decimal? FreightAmount { get; set; }
+        public long? CustomerId { get; set; }
 
         public virtual ChartOfAccount Account { get; set; }
-        public virtual Supplier Supplier { get; set; }
         public virtual ICollection<AccountPayable> AccountPayable { get; set; }
         public virtual ICollection<PurchaseOrderDetail> PurchaseOrderDetail { get; set; }
 

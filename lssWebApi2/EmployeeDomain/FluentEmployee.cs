@@ -10,10 +10,10 @@ namespace lssWebApi2.EmployeeDomain
 
 public class FluentEmployee :IFluentEmployee
     {
- private UnitOfWork unitOfWork = new UnitOfWork();
+ private UnitOfWork unitOfWork;
         private CreateProcessStatus processStatus;
 
-        public FluentEmployee() { }
+        public FluentEmployee(UnitOfWork paramUnitOfWork) { unitOfWork = paramUnitOfWork; }
         public IFluentEmployeeQuery Query()
         {
             return new FluentEmployeeQuery(unitOfWork) as IFluentEmployeeQuery;

@@ -55,7 +55,7 @@ namespace lssWebApi2.SupplierLedgerDomain
 
         public async Task<NextNumber> GetNextNumber()
         {
-            return await _unitOfWork.supplierLedgerRepository.GetNextNumber(TypeOfSupplierLedger.SupplierLedgerNumber.ToString());
+            return await _unitOfWork.nextNumberRepository.GetNextNumber(TypeOfSupplierLedger.SupplierLedgerNumber.ToString());
         }
         public override async Task<SupplierLedgerView> GetViewById(long ? supplierLedgerId)
         {
