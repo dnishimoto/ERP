@@ -2,7 +2,7 @@
     [CustomerLedgerId]     BIGINT        IDENTITY (1, 1) NOT NULL,
     [CustomerId]           BIGINT        NOT NULL,
     [InvoiceId]            BIGINT        NOT NULL,
-    [AcctRecId]            BIGINT        NOT NULL,
+    [AccountReceivableId]  BIGINT        NOT NULL,
     [Amount]               MONEY         NULL,
     [GLDate]               DATE          NULL,
     [AccountId]            BIGINT        NOT NULL,
@@ -19,11 +19,13 @@
     [CheckNumber]          VARCHAR (20)  NULL,
     [CustomerLedgerNumber] BIGINT        NOT NULL,
     CONSTRAINT [PK_CustomerLedger] PRIMARY KEY CLUSTERED ([CustomerLedgerId] ASC),
-    CONSTRAINT [FK_CustomerLedger_AcctRec] FOREIGN KEY ([AcctRecId]) REFERENCES [dbo].[AccountReceivable] ([AcctRecId]),
+    CONSTRAINT [FK_CustomerLedger_AcctRec] FOREIGN KEY ([AccountReceivableId]) REFERENCES [dbo].[AccountReceivable] ([AccountReceivableId]),
     CONSTRAINT [FK_CustomerLedger_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId]),
     CONSTRAINT [FK_CustomerLedger_GeneralLedger] FOREIGN KEY ([GeneralLedgerId]) REFERENCES [dbo].[GeneralLedger] ([GeneralLedgerId]),
     CONSTRAINT [FK_CustomerLedger_Invoice] FOREIGN KEY ([InvoiceId]) REFERENCES [dbo].[Invoice] ([InvoiceId])
 );
+
+
 
 
 

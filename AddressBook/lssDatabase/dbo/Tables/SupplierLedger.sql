@@ -18,11 +18,13 @@
     [FiscalPeriod]         INT           NOT NULL,
     [SupplierLedgerNumber] BIGINT        NOT NULL,
     CONSTRAINT [PK_SupplierLedger] PRIMARY KEY CLUSTERED ([SupplierLedgerId] ASC),
-    CONSTRAINT [FK_SupplierLedger_AcctPay] FOREIGN KEY ([AcctPayId]) REFERENCES [dbo].[AccountPayable] ([AcctPayId]),
+    CONSTRAINT [FK_SupplierLedger_AcctPay] FOREIGN KEY ([AcctPayId]) REFERENCES [dbo].[AccountPayable] ([AccountPayableId]),
     CONSTRAINT [FK_SupplierLedger_GeneralLedger] FOREIGN KEY ([GeneralLedgerId]) REFERENCES [dbo].[GeneralLedger] ([GeneralLedgerId]),
     CONSTRAINT [FK_SupplierLedger_Supplier] FOREIGN KEY ([SupplierId]) REFERENCES [dbo].[Supplier] ([SupplierId]),
     CONSTRAINT [FK_SupplierLedger_SupplierInvoice] FOREIGN KEY ([InvoiceId]) REFERENCES [dbo].[SupplierInvoice] ([SupplierInvoiceId])
 );
+
+
 
 
 

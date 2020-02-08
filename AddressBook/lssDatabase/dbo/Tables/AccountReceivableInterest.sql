@@ -10,10 +10,12 @@
     [CustomerId]                      BIGINT       NOT NULL,
     [AcctRecDocType]                  VARCHAR (20) NOT NULL,
     [LastInterestDueDate]             DATE         NULL,
-    [AcctRecId]                       BIGINT       NOT NULL,
+    [AccountReceivableId]             BIGINT       NOT NULL,
     [AccountReceivableInterestNumber] BIGINT       NOT NULL,
     CONSTRAINT [PK_AcctRecInterest] PRIMARY KEY CLUSTERED ([AcctRecInterestId] ASC),
-    CONSTRAINT [FK_AcctRecInterest_AcctRec] FOREIGN KEY ([AcctRecId]) REFERENCES [dbo].[AccountReceivable] ([AcctRecId]),
+    CONSTRAINT [FK_AcctRecInterest_AcctRec] FOREIGN KEY ([AccountReceivableId]) REFERENCES [dbo].[AccountReceivable] ([AccountReceivableId]),
     CONSTRAINT [FK_AcctRecInterest_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId])
 );
+
+
 
