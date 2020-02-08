@@ -188,5 +188,14 @@
     <Build Include="dbo\Tables\ProjectManagementMilestone.sql" />
     <Build Include="dbo\Tables\PhoneEntity.sql" />
     <Build Include="dbo\Tables\ContractItem.sql" />
+    <Build Include="dbo\Tables\ProjectManager.sql" />
+    <Build Include="dbo\Tables\JobPhase.sql" />
+    <Build Include="dbo\Tables\JobMaster.sql" />
+    <Build Include="dbo\Tables\JobCostType.sql" />
+    <Build Include="dbo\Tables\JobCostLedger.sql" />
+    <Build Include="dbo\Tables\JobChangeOrder.sql" />
+    <Build Include="dbo\Tables\EmployeePosition.sql" />
+    <Build Include="dbo\Tables\AccountReceivableDetail.sql" />
+    <Build Include="dbo\Tables\AccountPayableDetail.sql" />
   </ItemGroup>
 </Project>

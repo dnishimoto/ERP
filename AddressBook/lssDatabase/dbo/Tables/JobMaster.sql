@@ -1,0 +1,28 @@
+﻿CREATE TABLE [dbo].[JobMaster] (
+    [JobMasterId]              BIGINT          IDENTITY (1, 1) NOT NULL,
+    [ContractId]               BIGINT          NOT NULL,
+    [JobDescription]           VARCHAR (255)   NULL,
+    [Address1]                 VARCHAR (100)   NULL,
+    [Address2]                 VARCHAR (100)   NULL,
+    [ProjectManagerId]         BIGINT          NULL,
+    [City]                     VARCHAR (50)    NULL,
+    [State]                    VARCHAR (20)    NULL,
+    [Zipcode]                  VARCHAR (20)    NULL,
+    [StartDate]                DATE            NULL,
+    [CompleteDate]             DATE            NULL,
+    [TotalCommittedAmount]     MONEY           NULL,
+    [ActualAmount]             MONEY           NULL,
+    [ActualHours]              DECIMAL (18, 2) NULL,
+    [EstimatedAmount]          MONEY           NULL,
+    [EstimatedHours]           DECIMAL (18, 2) NULL,
+    [ProjectedAmount]          MONEY           NULL,
+    [ProjectHours]             DECIMAL (18, 2) NULL,
+    [RemainingCommittedAmount] MONEY           NULL,
+    [RetainageAmount]          MONEY           NULL,
+    [JobMasterNumber]          BIGINT          NOT NULL,
+    [CustomerId]               BIGINT          NOT NULL,
+    CONSTRAINT [PK_JobMaster] PRIMARY KEY CLUSTERED ([JobMasterId] ASC),
+    CONSTRAINT [FK_JobMaster_Contract] FOREIGN KEY ([ContractId]) REFERENCES [dbo].[Contract] ([ContractId]),
+    CONSTRAINT [FK_JobMaster_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId])
+);
+

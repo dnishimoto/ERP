@@ -1,12 +1,12 @@
 ﻿CREATE TABLE [dbo].[AccountReceivable] (
-    [AcctRecId]               BIGINT          IDENTITY (1, 1) NOT NULL,
+    [AccountReceivableId]     BIGINT          IDENTITY (1, 1) NOT NULL,
     [OpenAmount]              MONEY           NULL,
     [DiscountDueDate]         DATE            NULL,
     [GLDate]                  DATE            NULL,
-    [InvoiceId]               BIGINT          NOT NULL,
+    [InvoiceId]               BIGINT          NULL,
     [CreateDate]              DATE            NULL,
     [DocNumber]               BIGINT          NULL,
-    [Remarks]                 VARCHAR (255)   NULL,
+    [Remark]                  VARCHAR (255)   NULL,
     [PaymentTerms]            VARCHAR (50)    NULL,
     [CustomerId]              BIGINT          NOT NULL,
     [PurchaseOrderId]         BIGINT          NULL,
@@ -16,17 +16,21 @@
     [Amount]                  MONEY           NULL,
     [DebitAmount]             MONEY           NULL,
     [CreditAmount]            MONEY           NULL,
-    [PaymentDueDate]          DATE            NULL,
     [DiscountPercent]         DECIMAL (18, 2) NULL,
     [DiscountAmount]          MONEY           NULL,
     [AcctRecDocType]          VARCHAR (20)    NULL,
     [InterestPaid]            MONEY           NULL,
     [LateFee]                 MONEY           NULL,
     [AccountReceivableNumber] BIGINT          NOT NULL,
-    CONSTRAINT [PK__AcctRec__4B67207728200668] PRIMARY KEY CLUSTERED ([AcctRecId] ASC),
+    [CustomerPurchaseOrder]   VARCHAR (50)    NULL,
+    [Tax]                     MONEY           NULL,
+    [PaymentDueDate]          DATETIME        NULL,
+    CONSTRAINT [PK__AcctRec__4B67207728200668] PRIMARY KEY CLUSTERED ([AccountReceivableId] ASC),
     CONSTRAINT [FK_AcctRec_ChartOfAccts] FOREIGN KEY ([AccountId]) REFERENCES [dbo].[ChartOfAccount] ([AccountId]),
     CONSTRAINT [FK_AcctRec_Customer] FOREIGN KEY ([CustomerId]) REFERENCES [dbo].[Customer] ([CustomerId]),
     CONSTRAINT [FK_AcctRec_Invoices] FOREIGN KEY ([InvoiceId]) REFERENCES [dbo].[Invoice] ([InvoiceId]),
     CONSTRAINT [FK_AcctRec_UDC] FOREIGN KEY ([AcctRecDocTypeXRefId]) REFERENCES [dbo].[UDC] ([XRefId])
 );
+
+
 
