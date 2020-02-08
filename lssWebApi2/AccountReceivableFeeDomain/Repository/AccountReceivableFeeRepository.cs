@@ -13,13 +13,13 @@ namespace lssWebApi2.AccountReceivableDomain
 {
     public class AccountReceivableFeeView
     {
-        public long AcctRecFeeId { get; set; }
+        public long AccountReceivableFeeId { get; set; }
         public decimal? FeeAmount { get; set; }
         public DateTime? PaymentDueDate { get; set; }
         public long CustomerId { get; set; }
         public long DocNumber { get; set; }
         public string AcctRecDocType { get; set; }
-        public long AcctRecId { get; set; }
+        public long AccountReceivableId { get; set; }
         public long AccountReceivableFeeNumber { get; set; }
 
         public string CustomerName { get; set; }
@@ -45,8 +45,8 @@ namespace lssWebApi2.AccountReceivableDomain
         {
 
             var fee_query = await (from e in _dbContext.AccountReceivableFee
-                                   where e.AcctRecId == acctRecId
-                                   group e by e.AcctRecId
+                                   where e.AccountReceivableId == acctRecId
+                                   group e by e.AccountReceivableId
                                             into pg
                                    select new { FeeAmount = pg.Sum(e => e.FeeAmount ?? 0) }
                                         ).FirstOrDefaultAsync();

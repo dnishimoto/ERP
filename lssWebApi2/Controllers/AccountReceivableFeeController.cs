@@ -59,7 +59,7 @@ namespace lssWebApi2.Controllers
 
             invMod.AccountReceivableFee.UpdateAccountReceivableFee(accountReceivableFee).Apply();
 
-            AccountReceivableFeeView retView = await invMod.AccountReceivableFee.Query().GetViewById(accountReceivableFee.AcctRecFeeId);
+            AccountReceivableFeeView retView = await invMod.AccountReceivableFee.Query().GetViewById(accountReceivableFee.AccountReceivableId);
 
 
             return Ok(retView);

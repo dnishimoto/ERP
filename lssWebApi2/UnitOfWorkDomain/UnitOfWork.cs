@@ -38,7 +38,6 @@ using lssWebApi2.SupplierInvoiceDomain;
 using lssWebApi2.CompanyDomain;
 using lssWebApi2.PackingSlipDetailDomain;
 using lssWebApi2.InvoiceDetailDomain;
-using lssWebApi2.AccountReceivableDomain;
 using lssWebApi2.PurchaseOrderDetailDomain;
 using lssWebApi2.BudgetNoteDomain;
 using lssWebApi2.AccountReceivableInterestDomain;
@@ -67,6 +66,8 @@ using lssWebApi2.JobPhaseDomain;
 using lssWebApi2.JobCostTypeDomain;
 using lssWebApi2.JobCostLedgerDomain;
 using lssWebApi2.EmailDomain;
+using lssWebApi2.AccountPayableDetailDomain;
+using lssWebApi2.AccountReceivableDetailDomain;
 //using Microsoft.Extensions.DependencyInjection;
 
 namespace lssWebApi2.Services
@@ -112,12 +113,14 @@ namespace lssWebApi2.Services
         public InvoiceRepository invoiceRepository => new InvoiceRepository(_db);
         public InvoiceDetailRepository invoiceDetailRepository => new InvoiceDetailRepository(_db);
         public AccountReceivableRepository accountReceivableRepository => new AccountReceivableRepository(_db);
+        public AccountReceivableDetailRepository accountReceivableDetailRepository => new AccountReceivableDetailRepository(_db);
         public GeneralLedgerRepository generalLedgerRepository => new GeneralLedgerRepository(_db);
         public ItemMasterRepository itemMasterRepository => new ItemMasterRepository(_db);
         public EmailRepository emailRepository => new EmailRepository(_db);
         public LocationAddressRepository locationAddressRepository => new LocationAddressRepository(_db);
         public CustomerLedgerRepository customerLedgerRepository => new CustomerLedgerRepository(_db);
         public AccountPayableRepository accountPayableRepository => new AccountPayableRepository(_db);
+        public AccountPayableDetailRepository accountPayableDetailRepository => new AccountPayableDetailRepository(_db);
         public PurchaseOrderRepository purchaseOrderRepository => new PurchaseOrderRepository(_db);
         public PurchaseOrderDetailRepository purchaseOrderDetailRepository => new PurchaseOrderDetailRepository(_db);
         public PackingSlipRepository packingSlipRepository => new PackingSlipRepository(_db);

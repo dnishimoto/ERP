@@ -85,7 +85,7 @@ namespace lssWebApi2.AbstractFactory
             acctRecFee.CustomerId = view.CustomerId;
             acctRecFee.DocNumber = view.DocNumber ?? 0;
             acctRecFee.AcctRecDocType = view.AcctRecDocType;
-            acctRecFee.AcctRecId = view.AcctRecId ?? 0;
+            acctRecFee.AccountReceivableId = view.AccountReceivableId ?? 0;
         }
         public override void MapTimeAndAttendanceScheduledToWorkEntity(ref TimeAndAttendanceScheduledToWork scheduledToWork, TimeAndAttendanceScheduleView scheduleView, TimeAndAttendanceScheduleDayView dayView, EmployeeView employeeView, string payCode)
 

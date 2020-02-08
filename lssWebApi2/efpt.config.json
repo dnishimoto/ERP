@@ -22,7 +22,15 @@
       },
       {
          "HasPrimaryKey": true,
+         "Name": "[dbo].[AccountPayableDetail]"
+      },
+      {
+         "HasPrimaryKey": true,
          "Name": "[dbo].[AccountReceivable]"
+      },
+      {
+         "HasPrimaryKey": true,
+         "Name": "[dbo].[AccountReceivableDetail]"
       },
       {
          "HasPrimaryKey": true,

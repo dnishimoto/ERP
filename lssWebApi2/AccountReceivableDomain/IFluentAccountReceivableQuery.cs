@@ -9,6 +9,8 @@ namespace lssWebApi2.AccountsReceivableDomain
 {
     public interface IFluentAccountReceivableQuery
     {
+        Task<AccountReceivable> GetEntityByNumber(long? accountReceivableNumber);
+        Task<AccountReceivable> MapEntityFromPurchaseOrder(PurchaseOrder purchaseOrder,Udc udcAccountReceivableType, ChartOfAccount coaAccountReceivable);
         Task<IList<AccountReceivableFlatView>> GetOpenAccountReceivables();
         bool IsPaymentLate(long? invoiceId,DateTime asOfDate);
         bool HasLateFee(long? invoiceId);

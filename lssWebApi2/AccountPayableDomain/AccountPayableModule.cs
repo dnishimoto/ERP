@@ -18,6 +18,7 @@ using lssWebApi2.PurchaseOrderDetailDomain;
 using lssWebApi2.ChartOfAccountsDomain;
 using lssWebApi2.Services;
 using lssWebApi2.AddressBookDomain;
+using lssWebApi2.InvoiceDomain;
 
 namespace lssWebApi2.AccountPayableDomain
 {
@@ -39,6 +40,8 @@ namespace lssWebApi2.AccountPayableDomain
         public FluentCustomer Customer;
         public FluentChartOfAccount ChartOfAccount;
         public FluentInventory Inventory;
+        public FluentInvoice Invoice;
+
         public AccountPayableModule()
         {
             unitOfWork = new UnitOfWork();
@@ -57,6 +60,7 @@ namespace lssWebApi2.AccountPayableDomain
             Customer = new FluentCustomer(unitOfWork);
             ChartOfAccount = new FluentChartOfAccount(unitOfWork);
             Inventory = new FluentInventory(unitOfWork);
+            Invoice = new FluentInvoice(unitOfWork);
         }
 
 

@@ -74,12 +74,10 @@ namespace lssWebApi2.PurchaseOrderDomain
                TransactionDate = DateTime.Parse("11/29/2019"),
                TaxCode1 = taxRatesByCode.TaxCode,
                TaxCode2="",
-               TaxRate=taxRatesByCode.TaxRate??0
+               TaxRate=taxRatesByCode.TaxRate??0,
+                PurchaseOrderNumber=(await PurchaseOrderMod.PurchaseOrder.Query().GetNextNumber()).NextNumberValue
             };
-            NextNumber nnNextNumber = await PurchaseOrderMod.PurchaseOrder.Query().GetNextNumber();
-
-            view.PurchaseOrderNumber = nnNextNumber.NextNumberValue;
-
+           
             PurchaseOrder purchaseOrder = await PurchaseOrderMod.PurchaseOrder.Query().MapToEntity(view);
 
             PurchaseOrderMod.PurchaseOrder.AddPurchaseOrder(purchaseOrder).Apply();

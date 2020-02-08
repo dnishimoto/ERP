@@ -6,16 +6,16 @@ namespace lssWebApi2.EntityFramework
 {
     public partial class AccountReceivableFee
     {
-        public long AcctRecFeeId { get; set; }
+        public long AccountReceivableFeeId { get; set; }
         public decimal? FeeAmount { get; set; }
         public DateTime? PaymentDueDate { get; set; }
         public long CustomerId { get; set; }
         public long DocNumber { get; set; }
         public string AcctRecDocType { get; set; }
-        public long AcctRecId { get; set; }
+        public long AccountReceivableId { get; set; }
         public long AccountReceivableFeeNumber { get; set; }
 
-        public virtual AccountReceivable AcctRec { get; set; }
+        public virtual AccountReceivable AccountReceivable { get; set; }
         public virtual Customer Customer { get; set; }
 
     }

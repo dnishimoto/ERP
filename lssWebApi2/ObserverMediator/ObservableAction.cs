@@ -11,6 +11,9 @@ namespace lssWebApi2.ObserverMediator
         public TypeOfObservableAction command_action { get; set; }
         public string targetByName { get; set; }
         
+        public Object paramObject { get; set; }
+
+        public AccountReceivableDetail AccountReceivableDetail { get; set; }
         public JobCostLedger JobCostLedger { get; set; }
         public JobCostType JobCostType { get; set; }
         public JobPhase JobPhase { get; set; }
@@ -46,6 +49,7 @@ namespace lssWebApi2.ObserverMediator
         public LocationAddress LocationAddress { get; set; }
         public CustomerLedger CustomerLedger { get; set; }
         public AccountPayable AccountPayable { get; set; }
+        public AccountPayableDetail AccountPayableDetail { get; set; }
         public PurchaseOrder PurchaseOrder { get; set; }
         public PurchaseOrderDetail PurchaseOrderDetail { get; set; }
         public PackingSlip PackingSlip { get; set; }

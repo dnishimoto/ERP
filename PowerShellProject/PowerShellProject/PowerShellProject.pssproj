@@ -44,7 +44,7 @@
     <Compile Include="Equipment.ps1" />
     <Compile Include="InvoiceDetail.ps1" />
     <Compile Include="ItemMaster.ps1" />
-    <Compile Include="NextNumber.ps1" />
+    <Compile Include="AccountReceivableDetail.ps1" />
     <Compile Include="LocationAddress.ps1" />
     <Compile Include="PackingDetailSlip.ps1" />
     <Compile Include="PackingSlip.ps1" />

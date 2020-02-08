@@ -13,7 +13,7 @@ namespace lssWebApi2.AccountsReceivableDomain
 {
     public interface IFluentAccountReceivable
     {
-        Task<IFluentAccountReceivable> UpdateAcctRecByInvoiceView(InvoiceView invoiceView);
+        Task<IFluentAccountReceivable> UpdateAccountReceivableByInvoiceView(InvoiceView invoiceView);
         IFluentAccountReceivable Apply();
         IFluentAccountReceivable UpdateAccountReceivableByGeneralLedgerView(GeneralLedgerView ledgerView);
         IFluentAccountReceivable AdjustOpenAmount(AccountReceivableFlatView view);

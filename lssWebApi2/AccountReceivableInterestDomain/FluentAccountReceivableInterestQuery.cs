@@ -39,7 +39,7 @@ namespace lssWebApi2.AccountReceivableInterestDomain
             AccountReceivableInterestView outObject = mapper.Map<AccountReceivableInterestView>(inputObject);
             AddressBook addressBook = null;
             Task<Customer> customerTask = _unitOfWork.customerRepository.GetEntityById(inputObject.CustomerId);
-            Task<AccountReceivable> accountReceivableTask = _unitOfWork.accountReceivableRepository.GetEntityById(inputObject.AcctRecId);
+            Task<AccountReceivable> accountReceivableTask = _unitOfWork.accountReceivableRepository.GetEntityById(inputObject.AccountReceivableId);
             Task.WaitAll(customerTask, accountReceivableTask);
 
             if (customerTask.Result != null) addressBook = await _unitOfWork.addressBookRepository.GetEntityById(customerTask.Result.AddressId);

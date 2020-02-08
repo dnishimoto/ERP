@@ -111,7 +111,7 @@ namespace lssWebApi2.GeneralLedgerDomain
                         ledger.AccountId = chartOfAcct.AccountId;
                         ledger.CreatedDate = DateTime.Now.Date;
                         ledger.AddressId = addressId;
-                        ledger.Comment = acctRec.Remarks;
+                        ledger.Comment = acctRec.Remark;
                         ledger.DebitAmount = 0.0M;
                         ledger.CreditAmount = acctRec.Amount ?? 0;
                         ledger.GeneralLedgerNumber = (await unitOfWork.nextNumberRepository.GetNextNumber(TypeOfGeneralLedger.GeneralLedgerNumber.ToString())).NextNumberValue;

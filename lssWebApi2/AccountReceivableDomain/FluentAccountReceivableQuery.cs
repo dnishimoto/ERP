@@ -28,11 +28,48 @@ namespace lssWebApi2.AccountsReceivableDomain
         {
             return _unitOfWork.accountReceivableRepository.IsPaymentLate(invoiceId, asOfDate);
         }
+        public async Task<AccountReceivable> MapEntityFromPurchaseOrder(PurchaseOrder purchaseOrder, Udc udcAccountReceivableType,ChartOfAccount coaAccountReceivable)
+        {
+            return new AccountReceivable()
+            {
+                PurchaseOrderId = purchaseOrder.PurchaseOrderId,
+                PaymentTerms = purchaseOrder.PaymentTerms,
+                CustomerId = purchaseOrder.CustomerId ?? 0,
+                DocNumber = (await GetDocNumber()).NextNumberValue,
+                Remark = purchaseOrder.Remark,
+                Gldate = purchaseOrder.Gldate,
+                CustomerPurchaseOrder = purchaseOrder.Ponumber,
+                Description = purchaseOrder.Description,
+                DiscountDueDate = purchaseOrder.DiscountDueDate,
+                Tax = purchaseOrder.Tax,
+                Amount = purchaseOrder.Amount,
+                DebitAmount = purchaseOrder.Amount,
+                DiscountPercent = purchaseOrder.DiscountPercent,
+                DiscountAmount = purchaseOrder.DiscountAmount,
+                AcctRecDocType= udcAccountReceivableType.Value,
+                AcctRecDocTypeXrefId= udcAccountReceivableType.XrefId,
+                AccountReceivableNumber=(await GetNextNumber()).NextNumberValue,
+                CreateDate=DateTime.Now,
+                AccountId=coaAccountReceivable.AccountId
+            };
+        }
         public override async Task<AccountReceivableView> MapToView(AccountReceivable inputObject)
         {
 
             AccountReceivableView outObject = mapper.Map<AccountReceivableView>(inputObject);
-            await Task.Yield();
+
+            Task<Invoice> invoiceTask =  _unitOfWork.invoiceRepository.GetEntityById(inputObject.InvoiceId);
+            Task<Customer> customerTask = _unitOfWork.customerRepository.GetEntityById(inputObject?.CustomerId);
+            Task<Udc> udcTask = _unitOfWork.udcRepository.GetEntityById(inputObject.AcctRecDocTypeXrefId);
+            Task.WaitAll(invoiceTask, customerTask,udcTask);
+
+            AddressBook addressBookCustomer = await _unitOfWork.addressBookRepository.GetEntityById(customerTask?.Result.AddressId);
+
+            outObject.CustomerName = addressBookCustomer.Name;
+            outObject.InvoiceDocument = invoiceTask.Result.InvoiceDocument;
+            outObject.DocType = udcTask.Result.KeyCode;
+
+            //await Task.Yield();
             return outObject;
         }
         public override async Task<AccountReceivable> MapToEntity(AccountReceivableView inputObject)
@@ -45,6 +82,10 @@ namespace lssWebApi2.AccountsReceivableDomain
         {
             return await _unitOfWork.accountReceivableRepository.GetEntityById(accountReceivableId);
 
+        }
+        public async Task<AccountReceivable> GetEntityByNumber(long? accountReceivableNumber)
+        {
+            return await _unitOfWork.accountReceivableRepository.GetEntityByNumber(accountReceivableNumber);
         }
         public override async Task<AccountReceivableView> GetViewById(long? accountReceivableId)
         {
@@ -83,7 +124,7 @@ namespace lssWebApi2.AccountsReceivableDomain
             try
             {
                 IQueryable<AccountReceivable> query = _unitOfWork.accountReceivableRepository.GetQueryableByCustomerId(customerId);
-               IList<AccountReceivableView> list = new List<AccountReceivableView>();
+                IList<AccountReceivableView> list = new List<AccountReceivableView>();
 
                 foreach (var item in query)
                 {

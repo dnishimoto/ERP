@@ -33,8 +33,8 @@ namespace lssWebApi2.AccountsReceivableDomain
             try
             {
                 Task<Decimal> glAmountTask = Task.Run(async () => await unitOfWork.generalLedgerRepository.GetGLAmountByDocNumber(view.DocNumber));
-                Task<Decimal> acctFeeAmountTask = Task.Run(async () => await unitOfWork.accountReceivableFeeRepository.GetFeeAmountById(view.AcctRecId));
-                Task<AccountReceivable> acctRecTask = Task.Run(async () => await unitOfWork.accountReceivableRepository.GetEntityByInvoiceId(view.AcctRecId));
+                Task<Decimal> acctFeeAmountTask = Task.Run(async () => await unitOfWork.accountReceivableFeeRepository.GetFeeAmountById(view.AccountReceivableId));
+                Task<AccountReceivable> acctRecTask = Task.Run(async () => await unitOfWork.accountReceivableRepository.GetEntityByInvoiceId(view.AccountReceivableId));
 
                 Task.WaitAll(glAmountTask, acctFeeAmountTask, acctRecTask);
 
@@ -103,7 +103,7 @@ namespace lssWebApi2.AccountsReceivableDomain
             { throw new Exception(GetMyMethodName(), ex); }
         }
 
-        public async Task<IFluentAccountReceivable> UpdateAcctRecByInvoiceView(InvoiceView invoiceView)
+        public async Task<IFluentAccountReceivable> UpdateAccountReceivableByInvoiceView(InvoiceView invoiceView)
         {
             try
             {
