@@ -45,6 +45,7 @@ namespace lssWebApi2.EntityFramework
         public decimal? DiscountAmount { get; set; }
         public decimal? FreightAmount { get; set; }
         public long? CustomerId { get; set; }
+        public DateTime? DiscountDueDate { get; set; }
 
         public virtual ChartOfAccount Account { get; set; }
         public virtual ICollection<AccountPayable> AccountPayable { get; set; }

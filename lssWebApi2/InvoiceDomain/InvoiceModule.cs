@@ -139,7 +139,7 @@ namespace lssWebApi2.InvoiceDomain
                 InvoiceDetail.Apply();
 
                 await AccountReceivable
-                    .UpdateAcctRecByInvoiceView(invoiceView);
+                    .UpdateAccountReceivableByInvoiceView(invoiceView);
                 AccountReceivable.Apply();
 
                 await GeneralLedger

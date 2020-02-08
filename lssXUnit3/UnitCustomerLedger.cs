@@ -40,7 +40,7 @@ namespace lssWebApi2.CustomerLedgerDomain
                 CustomerName = addressBook?.Name,
                 InvoiceId = invoice.InvoiceId,
                 InvoiceDocument = invoice.InvoiceDocument,
-                AcctRecId = accountReceivable.AcctRecId,
+                AccountReceivableId = accountReceivable.AccountReceivableId,
                 Amount = generalLedger.Amount,
                 GLDate = generalLedger.Gldate,
                 AccountId = chartOfAccount.AccountId,

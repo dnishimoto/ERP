@@ -17,7 +17,7 @@ namespace lssWebApi2.EntityFramework
         public long CustomerId { get; set; }
         public string AcctRecDocType { get; set; }
         public DateTime? LastInterestDueDate { get; set; }
-        public long AcctRecId { get; set; }
+        public long AccountReceivableId { get; set; }
         public long AccountReceivableInterestNumber { get; set; }
 
         public virtual AccountReceivable AcctRec { get; set; }

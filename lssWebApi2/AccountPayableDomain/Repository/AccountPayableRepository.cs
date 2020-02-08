@@ -17,7 +17,7 @@ namespace lssWebApi2.AccountPayableDomain
     public class AccountPayableView
     {
 
-        public long AcctPayId { get; set; }
+        public long AccountPayableId { get; set; }
         public long? DocNumber { get; set; }
         public decimal? GrossAmount { get; set; }
         public decimal? DiscountAmount { get; set; }
@@ -39,9 +39,6 @@ namespace lssWebApi2.AccountPayableDomain
         public DateTime? DiscountDueDate { get; set; }
         public decimal? AmountPaid { get; set; }
         public long AccountPayableNumber { get; set; }
-
-     
-
     }
     public class AccountPayableRepository: Repository<AccountPayable>, IAccountPayableRepository
     {
@@ -65,7 +62,7 @@ namespace lssWebApi2.AccountPayableDomain
                 acctPay.GrossAmount = poView.Amount;
                 acctPay.Remark = "";
                 acctPay.Gldate = DateTime.Today.Date;
-                acctPay.SupplierId = poView.SupplierId;
+                acctPay.SupplierId = poView.SupplierId??0;
                 acctPay.ContractId = poView.ContractId;
                 acctPay.PoquoteId = poView.PoquoteId;
                 acctPay.Description = poView.Description;

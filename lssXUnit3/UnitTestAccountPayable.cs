@@ -3,11 +3,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
-
 using Xunit.Abstractions;
-using lssWebApi2.AddressBookDomain;
-using lssWebApi2.Services;
-using lssWebApi2.CustomerDomain;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 using System;
@@ -56,7 +52,7 @@ namespace lssWebApi2.AccountPayableDomain
             ledgerView.GeneralLedgerId = -1;
             ledgerView.SupplierId = 3;
             ledgerView.DocNumber = acctPay.DocNumber??0;   //doc number of the account payable
-            ledgerView.AcctPayId = acctPay.AcctPayId;
+            ledgerView.AcctPayId = acctPay.AccountPayableId;
             ledgerView.InvoiceId = supplierInvoice.SupplierInvoiceId;
             ledgerView.DocType = "PV";
             ledgerView.Amount = 268M;

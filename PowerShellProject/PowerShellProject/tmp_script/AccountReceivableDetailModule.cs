@@ -1,26 +1,33 @@
 using lssWebApi2.AbstractFactory;
-using lssWebApi2.NextNumberDomain;
+using lssWebApi2.AccountReceivableDetailDomain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using lssWebApi2.FluentAPI;
 using lssWebApi2.ObserverMediator;
 using lssWebApi2.Enumerations;
 using lssWebApi2.EntityFramework;
+using lssWebApi2.Services;
 
-namespace lssWebApi2.NextNumberDomain
+namespace lssWebApi2.AccountReceivableDetailDomain
 {
-    public class NextNumberModule : AbstractModule, IEntity, IObservableMediator
+    public class AccountReceivableDetailModule : AbstractModule, IEntity, IObservableMediator
     {
-		 private UnitOfWork unitOfWork=new UnitOfWork;
-        public FluentNextNumber NextNumber = new FluentNextNumber(unitOfWork);
+		 private UnitOfWork unitOfWork;
+        public FluentAccountReceivableDetail AccountReceivableDetail;
+        
+        public AccountReceivableDetail(){
+        unitOfWork=new UnitOfWork();
+         AccountReceivableDetail= new FluentAccountReceivableDetail(unitOfWork);
+        }
+        
+        
 
 
 	public bool MessageFromObserver(IObservableAction message)
         {
             bool retVal = true;
-            string className = nameof(NextNumber);
+            string className = nameof(AccountReceivableDetail);
 
             bool process = false;
 
@@ -34,23 +41,23 @@ namespace lssWebApi2.NextNumberDomain
                     process = false;
                     if (action.command_action == TypeOfObservableAction.InsertData)
                     {
-                        if (action?.NextNumber.NextNumberNumber == 0)
+                        if (action?.AccountReceivableDetail.AccountReceivableDetailNumber == 0)
                         {
-                            Task<NextNumber> nextNumberTask = Task.Run(async()=>await NextNumber.Query().GetNextNumber());
+                            Task<NextNumber> nextNumberTask = Task.Run(async()=>await AccountReceivableDetail.Query().GetNextNumber());
                             Task.WaitAll(nextNumberTask);
-                            action.NextNumber.NextNumberNumber = nextNumberTask.Result.NextNumberValue;
+                            action.AccountReceivableDetail.AccountReceivableDetailNumber = nextNumberTask.Result.NextNumberValue;
                         }
-                        NextNumber.AddNextNumber(action.NextNumber).Apply();
+                        AccountReceivableDetail.AddAccountReceivableDetail(action.AccountReceivableDetail).Apply();
                         process = true;
                     }
                     else if (action.command_action == TypeOfObservableAction.UpdateData)
                     {
-                        NextNumber.UpdateNextNumber(action.NextNumber).Apply();
+                        AccountReceivableDetail.UpdateAccountReceivableDetail(action.AccountReceivableDetail).Apply();
                         process = true;
                     }
                     else if (action.command_action == TypeOfObservableAction.DeleteData)
                     {
-                        NextNumber.DeleteNextNumber(action.NextNumber).Apply();
+                        AccountReceivableDetail.DeleteAccountReceivableDetail(action.AccountReceivableDetail).Apply();
                         process = true;
 
                     }

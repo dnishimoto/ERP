@@ -37,7 +37,7 @@ namespace lssWebApi2.SupplierLedgerDomain
             {
                SupplierId=supplier.SupplierId,
                InvoiceId=invoice.InvoiceId,
-               AcctPayId=accountPayable.AcctPayId,
+               AcctPayId=accountPayable.AccountPayableId,
                Amount=300M,
                Gldate=DateTime.Parse("11/11/2019"),
                AccountId=generalLedger.AccountId,

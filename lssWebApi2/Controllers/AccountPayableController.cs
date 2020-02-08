@@ -59,7 +59,7 @@ namespace lssWebApi2.Controllers
 
             invMod.AccountPayable.UpdateAccountPayable(accountPayable).Apply();
 
-            AccountPayableView retView = await invMod.AccountPayable.Query().GetViewById(accountPayable.AcctPayId);
+            AccountPayableView retView = await invMod.AccountPayable.Query().GetViewById(accountPayable.AccountPayableId);
 
 
             return Ok(retView);

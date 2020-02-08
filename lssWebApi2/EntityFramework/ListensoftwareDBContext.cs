@@ -11,7 +11,9 @@ namespace lssWebApi2.EntityFramework
     {
         public virtual DbSet<AccountBalance> AccountBalance { get; set; }
         public virtual DbSet<AccountPayable> AccountPayable { get; set; }
+        public virtual DbSet<AccountPayableDetail> AccountPayableDetail { get; set; }
         public virtual DbSet<AccountReceivable> AccountReceivable { get; set; }
+        public virtual DbSet<AccountReceivableDetail> AccountReceivableDetail { get; set; }
         public virtual DbSet<AccountReceivableFee> AccountReceivableFee { get; set; }
         public virtual DbSet<AccountReceivableInterest> AccountReceivableInterest { get; set; }
         public virtual DbSet<AddressBook> AddressBook { get; set; }
@@ -163,9 +165,6 @@ namespace lssWebApi2.EntityFramework
 
             modelBuilder.Entity<AccountPayable>(entity =>
             {
-                entity.HasKey(e => e.AcctPayId)
-                    .HasName("PK_AcctPay");
-
                 entity.Property(e => e.AmountOpen).HasColumnType("money");
 
                 entity.Property(e => e.AmountPaid).HasColumnType("money");
@@ -233,11 +232,26 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_AcctPay_Supplier");
             });
 
+            modelBuilder.Entity<AccountPayableDetail>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.AmountPaid).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.ExtendedDescription)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.AccountPayable)
+                    .WithMany(p => p.AccountPayableDetail)
+                    .HasForeignKey(d => d.AccountPayableId)
+                    .HasConstraintName("FK_AccountPayableDetail_AccountPayable");
+            });
+
             modelBuilder.Entity<AccountReceivable>(entity =>
             {
-                entity.HasKey(e => e.AcctRecId)
-                    .HasName("PK__AcctRec__4B67207728200668");
-
                 entity.Property(e => e.AcctRecDocType)
                     .HasMaxLength(20)
                     .IsUnicode(false);
@@ -276,15 +290,17 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.OpenAmount).HasColumnType("money");
 
-                entity.Property(e => e.PaymentDueDate).HasColumnType("date");
+                entity.Property(e => e.PaymentDueDate).HasColumnType("datetime");
 
                 entity.Property(e => e.PaymentTerms)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Remarks)
+                entity.Property(e => e.Remark)
                     .HasMaxLength(255)
                     .IsUnicode(false);
+
+                entity.Property(e => e.Tax).HasColumnType("money");
 
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.AccountReceivable)
@@ -310,11 +326,35 @@ namespace lssWebApi2.EntityFramework
                     .HasConstraintName("FK_AcctRec_Invoices");
             });
 
+            modelBuilder.Entity<AccountReceivableDetail>(entity =>
+            {
+                entity.Property(e => e.Amount).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.AmountReceived).HasColumnType("decimal(18, 4)");
+
+                entity.Property(e => e.Comment)
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.TypeOfPayment)
+                    .HasMaxLength(20)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UnitOfMeasure)
+                    .HasMaxLength(10)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UnitPrice).HasColumnType("decimal(18, 4)");
+
+                entity.HasOne(d => d.AccountReceivable)
+                    .WithMany(p => p.AccountReceivableDetail)
+                    .HasForeignKey(d => d.AccountReceivableId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_AccountReceivableDetail_AccountReceivable");
+            });
+
             modelBuilder.Entity<AccountReceivableFee>(entity =>
             {
-                entity.HasKey(e => e.AcctRecFeeId)
-                    .HasName("PK_AcctRecFee");
-
                 entity.Property(e => e.AcctRecDocType)
                     .IsRequired()
                     .HasMaxLength(20)
@@ -324,9 +364,9 @@ namespace lssWebApi2.EntityFramework
 
                 entity.Property(e => e.PaymentDueDate).HasColumnType("date");
 
-                entity.HasOne(d => d.AcctRec)
+                entity.HasOne(d => d.AccountReceivable)
                     .WithMany(p => p.AccountReceivableFee)
-                    .HasForeignKey(d => d.AcctRecId)
+                    .HasForeignKey(d => d.AccountReceivableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AcctRecFee_AcctRec");
 
@@ -365,7 +405,7 @@ namespace lssWebApi2.EntityFramework
 
                 entity.HasOne(d => d.AcctRec)
                     .WithMany(p => p.AccountReceivableInterest)
-                    .HasForeignKey(d => d.AcctRecId)
+                    .HasForeignKey(d => d.AccountReceivableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_AcctRecInterest_AcctRec");
 
@@ -1015,9 +1055,9 @@ namespace lssWebApi2.EntityFramework
                     .HasColumnName("GLDate")
                     .HasColumnType("date");
 
-                entity.HasOne(d => d.AcctRec)
+                entity.HasOne(d => d.AccountReceivable)
                     .WithMany(p => p.CustomerLedger)
-                    .HasForeignKey(d => d.AcctRecId)
+                    .HasForeignKey(d => d.AccountReceivableId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CustomerLedger_AcctRec");
 
@@ -2236,6 +2276,8 @@ namespace lssWebApi2.EntityFramework
                     .IsUnicode(false);
 
                 entity.Property(e => e.DiscountAmount).HasColumnType("money");
+
+                entity.Property(e => e.DiscountDueDate).HasColumnType("date");
 
                 entity.Property(e => e.DiscountPercent).HasColumnType("decimal(18, 2)");
 

@@ -20,7 +20,7 @@ namespace lssWebApi2.PurchaseOrderDomain
         public string Remark { get; set; }
         public DateTime? Gldate { get; set; }
         public long AccountId { get; set; }
-        public long SupplierId { get; set; }
+        public long? SupplierId { get; set; }
         public long? ContractId { get; set; }
         public long? PoquoteId { get; set; }
         public string Description { get; set; }
@@ -46,7 +46,10 @@ namespace lssWebApi2.PurchaseOrderDomain
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
         public decimal? FreightAmount { get; set; }
+        public long? CustomerId { get; set; }
+        public DateTime DiscountDueDate { get; set; }
 
+     
         public string SupplierName { get; set; }
         public string Location { get; set; }
         public string BusUnit { get; set; }
@@ -54,7 +57,6 @@ namespace lssWebApi2.PurchaseOrderDomain
         public string SubSub { get; set; }
         public string Account { get; set; }
         public string AccountDescription { get; set; }
-        public long? CustomerId { get; set; }
         public decimal? QuoteAmount { get; set; }
         public string BuyerName { get; set; }
         public decimal TaxRate { get; set; }

@@ -594,8 +594,15 @@ namespace lssWebApi2._dd_
 {
     public class _xx_Module : AbstractModule, IEntity, IObservableMediator
     {
-		 private UnitOfWork unitOfWork=new UnitOfWork();
-        public Fluent_xx_ _xx_ = new Fluent_xx_(unitOfWork);
+		 private UnitOfWork unitOfWork;
+        public Fluent_xx_ _xx_;
+        
+        public _xx_(){
+        unitOfWork=new UnitOfWork();
+         _xx_= new Fluent_xx_(unitOfWork);
+        }
+        
+        
 
 
 	public bool MessageFromObserver(IObservableAction message)

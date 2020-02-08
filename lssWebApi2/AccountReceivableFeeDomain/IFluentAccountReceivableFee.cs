@@ -2,8 +2,6 @@
 
 using lssWebApi2.EntityFramework;
 using System.Collections.Generic;
-using lssWebApi2.AccountReceivableDomain;
-using lssWebApi2.AccountReceivableDomain;
 
 namespace lssWebApi2.AccountReceivableDomain
 { 

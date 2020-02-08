@@ -18,7 +18,7 @@ namespace lssWebApi2.AccountReceivableDomain
         public long? InvoiceId { get; set; }
         public DateTime? CreateDate { get; set; }
         public long? DocNumber { get; set; }
-        public string Remarks { get; set; }
+        public string Remark { get; set; }
         public string PaymentTerms { get; set; }
         public long CustomerId { get; set; }
         public long? PurchaseOrderId { get; set; }
@@ -28,7 +28,6 @@ namespace lssWebApi2.AccountReceivableDomain
         public decimal? Amount { get; set; }
         public decimal? DebitAmount { get; set; }
         public decimal? CreditAmount { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
         public string AcctRecDocType { get; set; }
@@ -36,7 +35,8 @@ namespace lssWebApi2.AccountReceivableDomain
         public decimal? LateFee { get; set; }
         public long AccountReceivableNumber { get; set; }
         public string CustomerPurchaseOrder { get; set; }
-   
+        public decimal? Tax { get; set; }
+
         public string InvoiceDocument { get; set; }
         public string CustomerName { get; set; }
         public string DocType { get; set; }
@@ -46,7 +46,7 @@ namespace lssWebApi2.AccountReceivableDomain
     {
         public Decimal? OpenAmount { get; set; }
         public DateTime? GLDate { get; set; }
-        public long? AcctRecId { get; set; }
+        public long? AccountReceivableId { get; set; }
         public long? InvoiceId { get; set; }
         public string InvoiceDocument { get; set; }
         public string InvoiceDescription { get; set; }
@@ -85,6 +85,13 @@ namespace lssWebApi2.AccountReceivableDomain
                         select e).FirstOrDefaultAsync<AccountReceivable>();
             return query;
         }
+        public async Task<AccountReceivable> GetEntityByNumber(long? accountReceivableNumber)
+        {
+            var query = await (from e in _dbContext.AccountReceivable
+                               where e.AccountReceivableNumber == accountReceivableNumber
+                               select e).FirstOrDefaultAsync<AccountReceivable>();
+            return query;
+        }
         public async Task<AccountReceivable> GetEntityById(long? accountReceivableId)
         {
             try
@@ -109,7 +116,7 @@ namespace lssWebApi2.AccountReceivableDomain
             try
             {
                 bool status = (from e in _dbContext.AccountReceivable
-                               where e.AcctRecId == acctRecId
+                               where e.AccountReceivableId == acctRecId
                                select e).Any();
 
                 return status;
@@ -155,15 +162,14 @@ namespace lssWebApi2.AccountReceivableDomain
                                                         {
                                                             OpenAmount = ar.OpenAmount,
                                                             GLDate = ar.Gldate,
-                                                            AcctRecId = ar.AcctRecId,
+                                                            AccountReceivableId = ar.AccountReceivableId,
                                                             InvoiceId = ar.InvoiceId,
                                                             InvoiceDocument = inv.InvoiceDocument,
                                                             InvoiceDescription = inv.Description,
                                                             DocNumber = ar.DocNumber,
                                                             AcctRecDocType = ar.AcctRecDocType,
-                                                            Remarks = ar.Remarks,
+                                                            Remarks = ar.Remark,
                                                             PaymentTerms = ar.PaymentTerms,
-                                                            PaymentDueDate = ar.PaymentDueDate,
                                                             DiscountDueDate = ar.DiscountDueDate,
                                                             CustomerId = ar.CustomerId,
                                                             CustomerName = abCust.Name,

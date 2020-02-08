@@ -9,7 +9,7 @@ namespace lssWebApi2.EntityFramework
         public long CustomerLedgerId { get; set; }
         public long CustomerId { get; set; }
         public long InvoiceId { get; set; }
-        public long AcctRecId { get; set; }
+        public long AccountReceivableId { get; set; }
         public decimal? Amount { get; set; }
         public DateTime? Gldate { get; set; }
         public long AccountId { get; set; }
@@ -26,7 +26,7 @@ namespace lssWebApi2.EntityFramework
         public string CheckNumber { get; set; }
         public long CustomerLedgerNumber { get; set; }
 
-        public virtual AccountReceivable AcctRec { get; set; }
+        public virtual AccountReceivable AccountReceivable { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual GeneralLedger GeneralLedger { get; set; }
         public virtual Invoice Invoice { get; set; }

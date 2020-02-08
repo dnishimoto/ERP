@@ -21,7 +21,7 @@ namespace lssWebApi2.CustomerLedgerDomain
         public long CustomerId { get; set; }
         public long GeneralLedgerId { get; set; }
         public long InvoiceId { get; set; }
-        public long AcctRecId { get; set; }
+        public long AccountReceivableId { get; set; }
         public long CustomerLedgerId { get; set; }
         public long DocNumber { get; set; }
         public string DocType { get; set; }

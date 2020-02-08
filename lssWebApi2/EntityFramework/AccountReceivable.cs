@@ -8,19 +8,20 @@ namespace lssWebApi2.EntityFramework
     {
         public AccountReceivable()
         {
+            AccountReceivableDetail = new HashSet<AccountReceivableDetail>();
             AccountReceivableFee = new HashSet<AccountReceivableFee>();
             AccountReceivableInterest = new HashSet<AccountReceivableInterest>();
             CustomerLedger = new HashSet<CustomerLedger>();
         }
 
-        public long AcctRecId { get; set; }
+        public long AccountReceivableId { get; set; }
         public decimal? OpenAmount { get; set; }
         public DateTime? DiscountDueDate { get; set; }
         public DateTime? Gldate { get; set; }
         public long? InvoiceId { get; set; }
         public DateTime? CreateDate { get; set; }
         public long? DocNumber { get; set; }
-        public string Remarks { get; set; }
+        public string Remark { get; set; }
         public string PaymentTerms { get; set; }
         public long CustomerId { get; set; }
         public long? PurchaseOrderId { get; set; }
@@ -30,7 +31,6 @@ namespace lssWebApi2.EntityFramework
         public decimal? Amount { get; set; }
         public decimal? DebitAmount { get; set; }
         public decimal? CreditAmount { get; set; }
-        public DateTime? PaymentDueDate { get; set; }
         public decimal? DiscountPercent { get; set; }
         public decimal? DiscountAmount { get; set; }
         public string AcctRecDocType { get; set; }
@@ -38,11 +38,14 @@ namespace lssWebApi2.EntityFramework
         public decimal? LateFee { get; set; }
         public long AccountReceivableNumber { get; set; }
         public string CustomerPurchaseOrder { get; set; }
+        public decimal? Tax { get; set; }
+        public DateTime? PaymentDueDate { get; set; }
 
         public virtual ChartOfAccount Account { get; set; }
         public virtual Udc AcctRecDocTypeXref { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Invoice Invoice { get; set; }
+        public virtual ICollection<AccountReceivableDetail> AccountReceivableDetail { get; set; }
         public virtual ICollection<AccountReceivableFee> AccountReceivableFee { get; set; }
         public virtual ICollection<AccountReceivableInterest> AccountReceivableInterest { get; set; }
         public virtual ICollection<CustomerLedger> CustomerLedger { get; set; }

@@ -45,7 +45,7 @@ namespace lssWebApi2.CustomerLedgerDomain
             AddressBook addressBook = null;
             Task<Customer> customerTask =  _unitOfWork.customerRepository.GetEntityById(inputObject.CustomerId);
             Task<Invoice> invoiceTask =  _unitOfWork.invoiceRepository.GetEntityById(inputObject.InvoiceId);
-            Task<AccountReceivable> accountReceivableTask = _unitOfWork.accountReceivableRepository.GetEntityById(inputObject.AcctRecId);
+            Task<AccountReceivable> accountReceivableTask = _unitOfWork.accountReceivableRepository.GetEntityById(inputObject.AccountReceivableId);
             Task<ChartOfAccount> chartOfAccountTask =  _unitOfWork.chartOfAccountRepository.GetEntityById(inputObject.AccountId);
             Task<GeneralLedger> generalLedgerTask =  _unitOfWork.generalLedgerRepository.GetEntityById(inputObject.GeneralLedgerId);
 

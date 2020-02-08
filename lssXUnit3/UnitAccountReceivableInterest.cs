@@ -41,7 +41,7 @@ namespace lssWebApi2.AccountReceivableInterestDomain
                    PaymentDueDate=DateTime.Parse("12/31/2019"),
                    CustomerId=customer.CustomerId,
                    CustomerName=addressBook?.Name,
-                   AcctRecId=accountReceivable.AcctRecId,
+                   AccountReceivableId=accountReceivable.AccountReceivableId,
                    AcctRecDocType=accountReceivable.AcctRecDocType
 
             };

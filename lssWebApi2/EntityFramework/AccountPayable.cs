@@ -8,10 +8,11 @@ namespace lssWebApi2.EntityFramework
     {
         public AccountPayable()
         {
+            AccountPayableDetail = new HashSet<AccountPayableDetail>();
             SupplierLedger = new HashSet<SupplierLedger>();
         }
 
-        public long AcctPayId { get; set; }
+        public long AccountPayableId { get; set; }
         public long? DocNumber { get; set; }
         public decimal? GrossAmount { get; set; }
         public decimal? DiscountAmount { get; set; }
@@ -38,6 +39,7 @@ namespace lssWebApi2.EntityFramework
         public virtual Poquote Poquote { get; set; }
         public virtual PurchaseOrder PurchaseOrder { get; set; }
         public virtual Supplier Supplier { get; set; }
+        public virtual ICollection<AccountPayableDetail> AccountPayableDetail { get; set; }
         public virtual ICollection<SupplierLedger> SupplierLedger { get; set; }
 
     }

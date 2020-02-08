@@ -37,7 +37,7 @@ namespace lssWebApi2.AccountReceivableDomain
                     CustomerName=addressBook?.Name,
                     DocNumber=12,
                     AcctRecDocType="INV",
-                    AcctRecId=accountReceivable.AcctRecId
+                    AccountReceivableId=accountReceivable.AccountReceivableId
                   
 
             };
@@ -57,11 +57,11 @@ namespace lssWebApi2.AccountReceivableDomain
 
             AccountReceivableFeeMod.AccountReceivableFee.UpdateAccountReceivableFee(newAccountReceivableFee).Apply();
 
-            AccountReceivableFeeView updateView = await AccountReceivableFeeMod.AccountReceivableFee.Query().GetViewById(newAccountReceivableFee.AcctRecFeeId);
+            AccountReceivableFeeView updateView = await AccountReceivableFeeMod.AccountReceivableFee.Query().GetViewById(newAccountReceivableFee.AccountReceivableFeeId);
 
             Assert.Same(updateView.AcctRecDocType, "INV2");
               AccountReceivableFeeMod.AccountReceivableFee.DeleteAccountReceivableFee(newAccountReceivableFee).Apply();
-            AccountReceivableFee lookupAccountReceivableFee= await AccountReceivableFeeMod.AccountReceivableFee.Query().GetEntityById(view.AcctRecFeeId);
+            AccountReceivableFee lookupAccountReceivableFee= await AccountReceivableFeeMod.AccountReceivableFee.Query().GetEntityById(view.AccountReceivableFeeId);
 
             Assert.Null(lookupAccountReceivableFee);
         }

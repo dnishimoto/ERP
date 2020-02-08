@@ -15,6 +15,7 @@ namespace lssWebApi2.AccountReceivableDomain
 {
     public interface IAccountReceivableRepository
     {
+        Task<AccountReceivable> GetEntityByNumber(long? accountReceivableNumber);
         IQueryable<AccountReceivable> GetQueryableByCustomerId(long? customerId);
         bool HasLateFee(long? acctRecId);
         bool IsPaymentLate(long? invoiceId, DateTime asOfDate);

@@ -75,7 +75,7 @@ public class FluentCustomerLedger :IFluentCustomerLedger
 
             if (acctRec != null)
             {
-                customerLedgerView.AcctRecId = acctRec.AcctRecId;
+                customerLedgerView.AccountReceivableId = acctRec.AccountReceivableId;
                 customerLedgerView.InvoiceId = acctRec.InvoiceId??0;
                 customerLedgerView.CustomerId = acctRec.CustomerId;
                 customerLedgerView.GeneralLedgerId = ledgerView.GeneralLedgerId;
@@ -106,7 +106,7 @@ public class FluentCustomerLedger :IFluentCustomerLedger
                 CustomerId = invoiceView.CustomerId??0,
                 GeneralLedgerId = generalLedgerTask.Result?.GeneralLedgerId??0,
                 InvoiceId = invoiceView.InvoiceId??0,
-                AcctRecId = acctRecLookupTask.Result?.AcctRecId??0,
+                AccountReceivableId = acctRecLookupTask.Result?.AccountReceivableId ?? 0,
                 DocNumber = generalLedgerTask.Result?.DocNumber??0,
                 DocType = generalLedgerTask.Result ?.DocType,
                 Amount = invoiceView.Amount,

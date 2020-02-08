@@ -13,6 +13,8 @@ using lssWebApi2.TaxRatesByCodeDomain;
 using lssWebApi2.PurchaseOrderDetailDomain;
 using lssWebApi2.Services;
 using lssWebApi2.AddressBookDomain;
+using lssWebApi2.AccountsReceivableDomain;
+using lssWebApi2.UDCDomain;
 
 namespace lssWebApi2.PurchaseOrderDomain
 {
@@ -28,6 +30,8 @@ namespace lssWebApi2.PurchaseOrderDomain
         public FluentPOQuote POQuote;
         public FluentBuyer Buyer;
         public FluentTaxRatesByCode TaxRatesByCode;
+        public FluentAccountReceivable AccountReceivable;
+        public FluentUdc Udc;
 
         public PurchaseOrderModule()
         {
@@ -41,6 +45,8 @@ namespace lssWebApi2.PurchaseOrderDomain
             POQuote = new FluentPOQuote(unitOfWork);
             Buyer = new FluentBuyer(unitOfWork);
             TaxRatesByCode = new FluentTaxRatesByCode(unitOfWork);
+            AccountReceivable = new FluentAccountReceivable(unitOfWork);
+            Udc = new FluentUdc(unitOfWork);
         }
 
 

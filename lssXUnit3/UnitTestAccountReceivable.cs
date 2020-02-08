@@ -13,17 +13,18 @@ using lssWebApi2.GeneralLedgerDomain;
 using lssWebApi2.EntityFramework;
 using lssWebApi2.ChartOfAccountsDomain;
 using lssWebApi2.AccountReceivableDomain;
+using lssWebApi2.PurchaseOrderDomain;
 
 namespace lssWebApi2.AccountsReceivableDomain
 {
     
-       public class UnitTestAccountsReceivable
+       public class UnitTestAccountReceivable
     {
         private readonly ITestOutputHelper output;
 
        
 
-        public UnitTestAccountsReceivable(ITestOutputHelper output)
+        public UnitTestAccountReceivable(ITestOutputHelper output)
         {
             this.output = output;
 
@@ -42,7 +43,7 @@ namespace lssWebApi2.AccountsReceivableDomain
                 bool status= acctRecMod.AccountReceivable.Query().IsPaymentLate(item.InvoiceId,asOfDate);
                 if (status == true)
                 {
-                    bool statusFee = acctRecMod.AccountReceivable.Query().HasLateFee(item.AcctRecId);
+                    bool statusFee = acctRecMod.AccountReceivable.Query().HasLateFee(item.AccountReceivableId);
 
                     if (statusFee == false)
                     {
@@ -56,7 +57,75 @@ namespace lssWebApi2.AccountsReceivableDomain
             }
 
         }
-       [Fact]
+        [Fact]
+        async Task TestCreateAccountReceivableFromPO()
+        {
+            AddressBook addressBook = null;
+            AddressBook buyerAddressBook = null;
+            PurchaseOrderModule PurchaseOrderMod = new PurchaseOrderModule();
+            ChartOfAccount account = await PurchaseOrderMod.ChartOfAccount.Query().GetEntityById(17);
+            Supplier supplier = await PurchaseOrderMod.Supplier.Query().GetEntityById(3);
+            if (supplier != null) { addressBook = await PurchaseOrderMod.AddressBook.Query().GetEntityById(supplier.AddressId); }
+            Contract contract = await PurchaseOrderMod.Contract.Query().GetEntityById(1);
+            Poquote poquote = await PurchaseOrderMod.POQuote.Query().GetEntityById(2);
+            Buyer buyer = await PurchaseOrderMod.Buyer.Query().GetEntityById(1);
+            if (buyer != null) buyerAddressBook = await PurchaseOrderMod.AddressBook.Query().GetEntityById(buyer.AddressId);
+            TaxRatesByCode taxRatesByCode = await PurchaseOrderMod.TaxRatesByCode.Query().GetEntityById(1);
+
+            PurchaseOrderView view = new PurchaseOrderView()
+            {
+                DocType = "STD",
+                PaymentTerms = "Net 30",
+                Amount = 286.11M,
+                AmountPaid = 0,
+                Remark = "PO Remark",
+                Gldate = DateTime.Parse("11/29/2019"),
+                AccountId = account.AccountId,
+                Location = account.Location,
+                BusUnit = account.BusUnit,
+                Subsidiary = account.Subsidiary,
+                SubSub = account.SubSub,
+                Account = account.Account,
+                AccountDescription = account.Description,
+                SupplierId = supplier.SupplierId,
+                CustomerId = contract?.CustomerId,
+                SupplierName = addressBook.Name,
+                ContractId = contract?.ContractId,
+                PoquoteId = poquote?.PoquoteId,
+                QuoteAmount = poquote?.QuoteAmount,
+                Description = "PO Description",
+                Ponumber = "PO-123",
+                TakenBy = "David Nishimoto",
+                ShippedToName = " shipped name",
+                ShippedToAddress1 = "shipped to address1",
+                ShippedToAddress2 = "shipped to address2",
+                ShippedToCity = "shipped city",
+                ShippedToState = "ID",
+                ShippedToZipcode = "83709",
+                BuyerId = buyer.BuyerId,
+                BuyerName = buyerAddressBook?.Name,
+                RequestedDate = DateTime.Parse("11/29/2019"),
+                PromisedDeliveredDate = DateTime.Parse("11/29/2019"),
+                Tax = 0M,
+                TransactionDate = DateTime.Parse("11/29/2019"),
+                TaxCode1 = taxRatesByCode.TaxCode,
+                TaxCode2 = "",
+                TaxRate = taxRatesByCode.TaxRate ?? 0,
+                PurchaseOrderNumber = (await PurchaseOrderMod.PurchaseOrder.Query().GetNextNumber()).NextNumberValue
+            };
+
+            PurchaseOrder purchaseOrder = await PurchaseOrderMod.PurchaseOrder.Query().MapToEntity(view);
+
+            PurchaseOrderMod.PurchaseOrder.AddPurchaseOrder(purchaseOrder).Apply();
+
+            Udc udcAccountReceivableType = await PurchaseOrderMod.Udc.Query().GetEntityById(66);
+            ChartOfAccount coaAccountReceivable = await PurchaseOrderMod.ChartOfAccount.Query().GetEntityById(4);
+            AccountReceivable accountReceivable = await PurchaseOrderMod.AccountReceivable.Query().MapEntityFromPurchaseOrder(purchaseOrder, udcAccountReceivableType, coaAccountReceivable);
+            PurchaseOrderMod.AccountReceivable.AddAccountReceivable(accountReceivable).Apply();
+
+
+        }
+        [Fact]
         public async Task TestOpenAccountReceivables()
         {
             AccountReceivableModule acctRecMod = new AccountReceivableModule();
